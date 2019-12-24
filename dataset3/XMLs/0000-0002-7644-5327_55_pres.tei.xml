@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Nash</forename><surname>Brouwer</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Kick Dive Left Right</orgName>
+								<address>
+									<addrLine>Left 1 , -1 -1 , 1 Right -1, 1 1</addrLine>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>Correlated Equilibrium What if agents observe correlated random variables? Consider again Battle of the Sexes. fixed point  Nash eq.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Solution Concepts Computational Formulations</head><p>Example Games h of the two players has a penny and independently chooses to display s or tails. The two players then compare their pennies. If they are the player 1 pockets both, and otherwise player 2 pockets them. The payoff hown in <ref type="figure">Figure 3</ref>.6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Heads Tails</head><p>Heads 1, −1 −1, 1 Tails −1, 1 1, −1 ular children's game of Rock, Paper, Scissors, also known as Rochamides a three-strategy generalization of the matching-pennies game. The trix of this zero-sum game is shown in <ref type="figure">Figure 3</ref>.7. In this game, each of ayers can choose either rock, paper, or scissors. If both players choose ction, there is no winner and the utilities are zero. Otherwise, each of the ns over one of the other actions and loses to the other remaining action.</p><p>Matching Pennies:</p><p>agents choose heads and tails; one agent wants to match and one wants to mismatch. Example Games h of the two players has a penny and independently chooses to display s or tails. The two players then compare their pennies. If they are the player 1 pockets both, and otherwise player 2 pockets them. The payoff hown in <ref type="figure">Figure 3</ref>.6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Heads Tails</head><p>Heads 1, −1 −1, 1 Tails −1, 1 1, −1 ular children's game of Rock, Paper, Scissors, also known as Rochamides a three-strategy generalization of the matching-pennies game. The trix of this zero-sum game is shown in <ref type="figure">Figure 3</ref>.7. In this game, each of ayers can choose either rock, paper, or scissors. If both players choose ction, there is no winner and the utilities are zero. Otherwise, each of the ns over one of the other actions and loses to the other remaining action. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2">Strategies in normal-form games</head><p>We have so far defined the actions available to each player in a game set of strategies, or his available choices. Certainly one kind of stra a single action and play it; we call such a strategy a pure strategy, pure strategy the notation we have already developed for actions to represent it. Th another, less obvious type of strategy; a player can choose to randomiz available actions according to some probability distribution; such a s Matching Pennies:</p><p>agents choose heads and tails; one agent wants to match and one wants to mismatch.</p><p>Battle of the Sexes:</p><p>husband likes ballet better than football wife likes football better than ballet both prefer to be together </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Mixed Strategies</head><p>In some games (e.g., matching pennies) any deterministic strategy can easily be exploited Idea: confuse the opponent by playing randomly Define a strategy s i for agent i as any probability distribution over the actions A i .</p><p>pure strategy: only one action is played with positive probability mixed strategy: more than one action is played with positive probability If you knew what everyone else was going to do, it would be easy to pick your own action Let s −i = s 1 , . . . , s i−1 , s i+1 , . . . , s n ; now s = (s −i , s i ) </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition (Best Response)</head><formula xml:id="formula_0">s * i ∈ BR(s −i ) iff ∀s i ∈ S i , u i (s * i , s −i ) ≥ u i (s i , s −i ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Nash Equilibrium</head><p>In general no agent knows what the others will do.</p><p>What strategy profiles are "sensible"?</p><p>Idea: look for stable strategy profiles.</p><p>Definition (Nash Equilibrium) s = s 1 , . . . , s n is a Nash equilibrium iff ∀i, s i ∈ BR(s −i ).</p><p>Theorem <ref type="bibr">(Nash, 1951)</ref> Every finite game has at least one Nash equilibrium. Why study equilibrium computation?</p><p>Because the concept of Nash equilibrium has proven important in many application areas.</p><p>While it has limitations, Nash equilibrium is one of the key models of what behavior will emerge in noncooperative, multiagent interactions It is widely applied in economics, management science, operations research and finance, often with great success recognized most prominently in Nash's Nobel prize Equilibrium and related concepts (e.g., ESS) are commonly used to study evolutionary biology and zoology It has also had substantial impact on government policy, and even on popular culture</p><p>For examples of the latter-and, to some extent, the former-Google "strangelove game theory" or "dark knight game theory" </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>More Solution Concepts</head><p>Solution concepts are rules that designate certain outcomes of a game as special or important</p><p>We've already seen Nash equilibrium: strategy profiles in which all agents simultaneously best respond Nash equilibrium has advantages: </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Pure-Strategy Nash Equilibrium</head><p>What if we don't believe that agents would play mixed strategies?</p><p>Definition (Pure-Strategy Nash Equilibrium) a = a 1 , . . . , a n is a Pure-Strategy Nash equilibrium iff ∀i, a i ∈ BR(a −i ).</p><p>This is just like Nash equilibrium, but it requires all agents to play pure strategies Pure-strategy Nash equilibria are (arguably) more compelling than Nash equilibria, but not guaranteed to exist In a two-player game, the maxmin strategy for player i is arg max s i min s −i u i (s 1 , s 2 ), and the maxmin value for player i is</p><formula xml:id="formula_1">max s i min s −i u i (s 1 , s 2 ).</formula><p>This is the most that agent i can guarantee himself, without making any assumptions about −i's behavior. In a two-player game, the maxmin strategy for player i is arg max s i min s −i u i (s 1 , s 2 ), and the maxmin value for player i is</p><formula xml:id="formula_2">max s i min s −i u i (s 1 , s 2 ).</formula><p>This is the most that agent i can guarantee himself, without making any assumptions about −i's behavior.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition (Minmax)</head><p>In a two-player game, the minmax strategy for player i against player −i is arg min</p><formula xml:id="formula_3">s i max s −i u −i (s i , s −i ), and player −i's minmax value is min s i max s −i u −i (s i , s −i ).</formula><p>This is the least that agent i can guarantee that −i will receive, ignoring his own payoffs. In two-player zero-sum games, the Nash equilibrium has more prescriptive force than in the general case.</p><p>Theorem <ref type="bibr">(Minimax theorem (von Neumann, 1928))</ref> In any finite, two-player, zero-sum game, in any Nash equilibrium each player receives a payoff that is equal to both his maxmin value and his minmax value. In two-player zero-sum games, the Nash equilibrium has more prescriptive force than in the general case.</p><p>Theorem <ref type="bibr">(Minimax theorem (von Neumann, 1928))</ref> In any finite, two-player, zero-sum game, in any Nash equilibrium each player receives a payoff that is equal to both his maxmin value and his minmax value.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Consequences:</head><p>Intuitively, the best outcome seems a 50-50 split between (F, F ) and (B, B). But there's no way to achieve this, so either someone loses out <ref type="bibr">(unfair)</ref>  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Correlated Equilibrium</head><p>What if agents observe correlated random variables? Consider again Battle of the Sexes.</p><p>Intuitively, the best outcome seems a 50-50 split between (F, F ) and (B, B). But there's no way to achieve this, so either someone loses out (unfair) or both players often miscoordinate Another classic example: traffic game go wait go −100, −100 10, 0 B 0, 10 −10, −10 What is the natural solution here? A traffic light: fair randomizing devices that tell one of the agents to go and the other to wait. the negative payoff outcomes are completely avoided fairness is achieved the sum of social welfare exceeds that of any Nash equilibrium </p><formula xml:id="formula_4">Given an n-agent game G = (N, A, u), a correlated equilibrium is a tuple (v, π, σ), where v is a tuple of random variables v = (v 1 , . . . , v n ) with respective domains D = (D 1 , . . . , D n ), π is a joint distribution over v, σ = (σ 1 , . . . , σ n ) is a vector of mappings σ i : D i → A i ,</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>and for each agent i and every mapping</head><formula xml:id="formula_5">σ i : D i → A i it is the case that d∈D π(d)u i (σ i (d i ), σ −i (d −i )) ≥ d∈D π(d)u i σ i (d i ), σ −i (d −i ) .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem</head><p>For every Nash equilibrium σ * there exists a corresponding correlated equilibrium σ. Thus, correlated equilibria always exist. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>-Equilibrium</head><p>What if agents aren't perfect best responders?</p><p>Definition ( -Nash, additive version)</p><p>Fix &gt; 0. A strategy profile s is an -Nash equilibrium (in the additive sense) if, for all agents i and for all strategies</p><formula xml:id="formula_6">s i = s i , u i (s i , s −i ) ≥ u i (s i , s −i ) − .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition ( -Nash, relative version)</head><p>Fix &gt; 0. A strategy profile s is an -Nash equilibrium (in the relative sense) if, for all agents i and for all strategies </p><formula xml:id="formula_7">s i = s i , u i (s i , s −i ) ≥ (1 − )u i (s i , s −i ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>-Equilibrium</head><p>Advantages of these solution concepts:</p><p>Every Nash equilibrium is surrounded by a region of -Nash equilibria for any &gt; 0.</p><p>Seems convincing that agents should be indifferent to sufficiently small gains Methods for the "exact" computation of Nash equilibria that rely on floating point actually find only -equilibria (in the additive sense), where is roughly 10 −16 . </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>-Equilibrium</head><p>Drawbacks of these solution concepts (both variants): -Nash equilibria are not necessarily close to any Nash equilibrium.</p><p>This undermines the sense in which -Nash equilibria can be understood as approximations of Nash equilibria.</p><p>-Nash equilibria can have payoffs arbitrarily lower than those of any Nash equilibrium -Nash equilibria can even involve dominated strategies.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2">Strategies in normal-form games</head><p>We have so far defined the actions available to each player in a game, but not yet his set of strategies, or his available choices. Certainly one kind of strategy is to select a single action and play it; we call such a strategy a pure strategy, and we will use ure strategy the notation we have already developed for actions to represent it. There is, however, another, less obvious type of strategy; a player can choose to randomize over the set of available actions according to some probability distribution; such a strategy is called a mixed strategy. Although it may not be immediately obvious why a player should </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2">Strategies in normal-form games</head><p>We have so far defined the actions available to each player in a game, but not yet his set of strategies, or his available choices. Certainly one kind of strategy is to select a single action and play it; we call such a strategy a pure strategy, and we will use ure strategy the notation we have already developed for actions to represent it. There is, however, another, less obvious type of strategy; a player can choose to randomize over the set of available actions according to some probability distribution; such a strategy is called a mixed strategy. Although it may not be immediately obvious why a player should ixed strategy introduce randomness into his choice of action, in fact in a multi-agent setting the role of mixed strategies is critical. We will return to this when we discuss solution concepts for games in the next section. We define a mixed strategy for a normal form game as follows. Let player 2 play B with p, F with 1 − p.</p><p>If player 1 best-responds with a mixed strategy, player 2 must make him indifferent between F and B  </p><formula xml:id="formula_8">u 1 (B) = u 1 (F ) 2p + 0(1 − p) = 0p + 1(1 − p) p = 1 3</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2">Strategies in normal-form games</head><p>We have so far defined the actions available to each player in a game, but not yet his set of strategies, or his available choices. Certainly one kind of strategy is to select a single action and play it; we call such a strategy a pure strategy, and we will use ure strategy the notation we have already developed for actions to represent it. There is, however, another, less obvious type of strategy; a player can choose to randomize over the set of available actions according to some probability distribution; such a strategy is called a mixed strategy. Although it may not be immediately obvious why a player should ixed strategy introduce randomness into his choice of action, in fact in a multi-agent setting the role of mixed strategies is critical. We will return to this when we discuss solution concepts for games in the next section. We define a mixed strategy for a normal form game as follows.</p><formula xml:id="formula_9">Definition 3.2.4 Let (N, (A 1 , . . . , A n ), O, µ, u) be a</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>normal form game, and for any</head><p>Likewise, player 1 must randomize to make player 2 indifferent. Let player 1 play B with q, F with 1 − q.</p><formula xml:id="formula_10">u 2 (B) = u 2 (F ) q + 0(1 − q) = 0q + 2(1 − q) q = 2 3</formula><p>Thus the strategies ( 2 3 , 1 3 ), ( 1 3 , 2 3 ) are a Nash equilibrium. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Computational Formulations</head><p>Now we'll look at the computational problems of identifying pure-strategy Nash equilibria correlated equilibria Nash equilibria of two-player, zero-sum games</p><p>In each case, we'll consider how the problem differs from that of computing NE of general-sum games (NASH)</p><p>Ultimately, we aim to illustrate why the NASH problem is so different from these other problems, and why its complexity was so tricky to characterize.    </p><formula xml:id="formula_11">a∈A|a i ∈a p(a)u i (a) ≥ a∈A|a i ∈a p(a)u i (a i , a −i ) ∀i ∈ N, ∀a i , a i ∈ A i p(a) ≥ 0 ∀a ∈ A a∈A p(a) =</formula><formula xml:id="formula_12">a∈A|a i ∈a p(a)u i (a) ≥ a∈A|a i ∈a p(a)u i (a i , a −i ) ∀i ∈ N, ∀a i , a i ∈ A i p(a) ≥ 0 ∀a ∈ A</formula><formula xml:id="formula_13">p(a)u i (a) ≥ a∈A|a i ∈a p(a)u i (a i , a −i ) ∀i ∈ N, ∀a i , a i ∈ A i p(a) ≥ 0 ∀a ∈ A a∈A p(a) = 1</formula><p>Why can't we compute NE like we did CE?</p><p>intuitively, correlated equilibrium has only a single randomization over outcomes, whereas in NE this is constructed as a product of independent probabilities.</p><p>To find NE, the first constraint would have to be nonlinear: </p><formula xml:id="formula_14">a∈A u i (a) j∈N p j (a j ) ≥ a∈A u i (a i , a −i ) j∈N \{i} p j (a j ) ∀i ∈ N, ∀a i ∈ A i .</formula><formula xml:id="formula_15">a 2 ∈A 2 u 1 (a 1 , a 2 ) · s a 2 2 ≤ U * 1 ∀a 1 ∈ A 1 a 2 ∈A 2 s a 2 2 = 1 s a 2 2 ≥ 0 ∀a 2 ∈ A 2</formula><p>First, identify the variables: U * 1 is the expected utility for player 1 s a2 2 is player 2's probability of playing action a 2 under his mixed strategy each u 1 (a 1 , a 2 ) is a constant. </p><note type="other">Overview Game Theory Refresher Solution Concepts Computational Formulations Computing Equilibria of Zero-Sum Games</note><p>Now let's interpret the LP:</p><p>Linear Program</p><formula xml:id="formula_16">minimize U * 1 subject to a 2 ∈A 2 u 1 (a 1 , a 2 ) · s a 2 2 ≤ U * 1 ∀a 1 ∈ A 1 a 2 ∈A 2 s a 2 2 = 1 s a 2 2 ≥ 0 ∀a 2 ∈ A 2</formula><p>s 2 is a valid probability distribution. </p><note type="other">Overview Game Theory Refresher Solution Concepts Computational Formulations Computing Equilibria of Zero-Sum Games</note><p>Now let's interpret the LP:</p><p>Linear Program</p><formula xml:id="formula_17">minimize U * 1 subject to a 2 ∈A 2 u 1 (a 1 , a 2 ) · s a 2 2 ≤ U * 1 ∀a 1 ∈ A 1 a 2 ∈A 2 s a 2 2 = 1 s a 2 2 ≥ 0 ∀a 2 ∈ A 2</formula><p>U * 1 is as small as possible. </p><note type="other">Overview Game Theory Refresher Solution Concepts Computational Formulations Computing Equilibria of Zero-Sum Games</note><p>Now let's interpret the LP:</p><p>Linear Program</p><formula xml:id="formula_18">minimize U * 1 subject to a 2 ∈A 2 u 1 (a 1 , a 2 ) · s a 2 2 ≤ U * 1 ∀a 1 ∈ A 1 a 2 ∈A 2 s a 2 2 = 1 s a 2 2 ≥ 0 ∀a 2 ∈ A 2</formula><p>Player 1's expected utility for playing each of his actions under player 2's mixed strategy is no more than U * 1 .</p><p>Because U * 1 is minimized, this constraint will be tight for some actions: the support of player 1's mixed strategy. </p><note type="other">Overview Game Theory Refresher Solution Concepts Computational Formulations Computing Equilibria of Zero-Sum Games Linear</note><formula xml:id="formula_19">Program minimize U * 1 subject to a 2 ∈A 2 u 1 (a 1 , a 2 ) · s a 2 2 ≤ U * 1 ∀a 1 ∈ A 1 a 2 ∈A 2 s a 2 2 = 1 s a 2 2 ≥ 0 ∀a 2 ∈ A 2</formula><p>This formulation gives us the minmax strategy for player 2.</p><p>To get the minmax strategy for player 1, we need to solve a second (analogous) LP. </p><note type="other">Overview Game Theory Refresher Solution Concepts Computational Formulations Computing Equilibria of Zero-Sum Games</note><p>We can reformulate the LP using slack variables, as follows:</p><p>Linear Program</p><formula xml:id="formula_20">minimize U * 1 subject to a 2 ∈A 2 u 1 (a 1 , a 2 ) · s a 2 2 + r a 1 1 = U * 1 ∀a 1 ∈ A 1 a 2 ∈A 2 s a 2 2 = 1 s a 2 2 ≥ 0 ∀a 2 ∈ A 2 r a 1 1 ≥ 0 ∀a 1 ∈ A 1</formula><p>All we've done is change the weak inequality into an equality by adding a nonnegative variable. </p><note type="other">Overview Game Theory Refresher Solution Concepts Computational Formulations Computing Nash Equilibria of General, Two-Player Games</note><p>We can generalize the previous LP to derive a formulation for computing a NE of a general-sum, two-player game.</p><p>Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_21">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>Note a strong resemblance to the previous LP with slack variables, but the absence of an objective function. </p><note type="other">Overview Game Theory Refresher Solution Concepts Computational Formulations</note><p>Computing Nash Equilibria of General, Two-Player Games Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_22">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>These are the same constraints as before. </p><note type="other">Overview Game Theory Refresher Solution Concepts Computational Formulations</note><p>Computing Nash Equilibria of General, Two-Player Games Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_23">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>Now we also add corresponding constraints for player 2. Computing Nash Equilibria of General, Two-Player Games Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_24">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>Standard constraints on probabilities and slack variables. Computing Nash Equilibria of General, Two-Player Games Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_25">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>With all of this, we'd have an LP, but the slack variables-and hence U * 1 and U * 2 -would be allowed to take unboundedly large values. Computing Nash Equilibria of General, Two-Player Games Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_26">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>Complementary slackness condition: whenever an action is in the support of a given player's mixed strategy then the corresponding slack variable must be zero (i.e., the constraint must be tight). Computing Nash Equilibria of General, Two-Player Games Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_27">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>Each slack variable can be viewed as the player's incentive to deviate from the corresponding action. Thus, in equilibrium, all strategies that are played with positive probability must yield the same expected payoff, while all strategies that lead to lower expected payoffs are not played. Computing Nash Equilibria of General, Two-Player Games Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_28">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>We are left with the requirement that each player plays a best response to the other player's mixed strategy: the definition of a Nash equilibrium. Computing Nash Equilibria of General, Two-Player Games Linear Complementarity Problem a2∈A2 u 1 (a 1 , a 2 ) · s a2 2 + r a1</p><formula xml:id="formula_29">1 = U * 1 ∀a 1 ∈ A 1 a1∈A1 u 2 (a 1 , a 2 ) · s a1 1 + r a2 2 = U * 2 ∀a 2 ∈ A 2 a1∈A1 s a1 1 = 1, a2∈A2 s a2 2 = 1 s a1 1 ≥ 0, s a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 ≥ 0, r a2 2 ≥ 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2 r a1 1 · s a1 1 = 0, r a2 2 · s a2 2 = 0 ∀a 1 ∈ A 1 , ∀a 2 ∈ A 2</formula><p>Unfortunately, this LCP formulation doesn't imply polynomial time complexity the way an LP formulation does.</p><p>However, it will be useful in what follows. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Complexity of NASH</head><p>We've seen how to compute:</p><p>Pure-strategy Nash equilibria</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Correlated equilibria</head><p>Equilibria of zero-sum, two-player games</p><p>In each case, we've seen evidence that the NASH problem is fundamentally different, even in its two-player variant. Now Costis will take over, and investigate this question in more detail... Overview -A brief history of the Nash Equilibrium.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Equilibrium Computation in Normal Form</head><p>-The complexity landscape between P and NP.</p><p>-The Complexity of the Nash Equilibrium.</p><p>The first computational thoughts 1891 Irving Fisher:</p><p>-Hydraulic apparatus for calculating the equilibrium of a related, market model.</p><p>-No existence proof for the general setting; but the machine would work for 3 traders and 3 commodities.</p><p>no efficient algorithm is known after 50+ years of research. proof also uses Brouwer"s fixed point theorem; intense effort for equilibrium algorithms: Kuhn "61, Mangasarian "64, Lemke-Howson "64, Rosenmüller "71, Wilson "71, Scarf "67, Eaves "72, Laan-Talman "79, and others…</p><p>Lemke-Howson: simplex-like, works with LCP formulation;</p><p>"Is it NP-complete to find a Nash equilibrium?" the Pavlovian reaction 1. probably not, since a solution is guaranteed to exist… 2. it is NP-complete to find a "tiny" bit more info than "just" a Nash equilibrium; e.g., the following are NP-complete:</p><p>-find a Nash equilibrium whose third bit is one, if any -find two Nash equilibria, if more than one exist what about a single equilibrium?</p><p>-in fact, NASH seems to lie below NP;</p><p>making Nash"s theorem constructive… NP NPcomplete P The Non-Constructive Step a directed graph with an unbalanced node (a node with indegree  outdegree) must have another.</p><p>an easy parity lemma: but, why is this non-constructive?</p><p>given a directed graph and an unbalanced node, isn't it trivial to find another unbalanced node? tri-chromatic triangle. In fact, an odd number of them. [Chen, Deng, Teng '06] : (n -α ) -NASH is also PPAD-complete.</p><p>[Chen, Deng '06]: ditto for 2-player games.</p><p>Given game and error , find an -Nash equilibrium of .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>NASH:</head><p>Above results hold for , where n is the #strategies. Computationally motivated compact representations -normal form game description can be very wasteful;</p><p>(if n players, s strategies, description size is n s n )</p><p>-it is possible that by further exploiting the structure of the game, the game can be described more efficiently;</p><p>-in this part of the tutorial, we investigate succinct gamerepresentations which allow certain large games to be compactly described and also make it possible to efficiently find an equilibrium Games of Polynomial Type -A first step towards a generalization: A game description is called of polynomial type, if -the number of players is polynomial in the description size;</p><p>-the number of actions available to each player is polynomial in the description size; e.g. 1: (polynomial type) normal-form games, rest of this session… e.g. 2: (non polynomial type) poker, traffic.</p><p>-The normal form representation lists explicitly everybody's name, action space, and payoffs;</p><p>-BUT no requirement to list every payoff explicitly;</p><p>The Expected Utility Problem -How hard is it to compute a player's expected payoff given the mixed strategies of the other players?</p><p>-A game description specifies the payoff of a player, given the other players' actions.</p><p>e.g. 1 (easy case) Normal form games e.g. 2 (hard case) Suppose every player has two strategies 0/1, and given everybody's strategy a circuit C i , computes player i's payoff.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Compactness pays off</head><p>If a game representation is of polynomial type and the expected utility problem can be solved by a polynomially long arithmetic circuit using +,-,*,/, max, min (i.e. a straight-line program), then finding a mixed Nash equilibrium is in PPAD.</p><p>Theorem <ref type="bibr">[Daskalakis,</ref><ref type="bibr">Fabrikant,</ref><ref type="bibr">Papadimitriou '06]</ref> If a game representation is of polynomial type and the expected utility problem can be solved by a polynomial-time algorithm, then finding a correlated equilibrium is in P.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Any Equilibrium Equilibrium</head><p>In fact <ref type="bibr">[…]</ref> Hence, PPAD to solve symmetric 2-player games Open: -Reduction from 3-player games to symmetric 3-player games -Complexity of symmetric 3-player games</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Multi-player symmetric games</head><p>If n is large, s is small, a symmetric equilibrium</p><formula xml:id="formula_30">x = (x 1 , x 2 , …, x s )</formula><p>can be found as follows: reasons for anonymous -succinctness: not nearly as wasteful as general normal form games n players, s strategies, all interact, n s description (rather than ns n ) -ubiquity: much richer than symmetric games think of your favorite large game -is it anonymous?</p><p>(the utility of a player depends on her strategy, and on how many other players play each of the s strategies) Remarks: -exact computation is not known to be PPAD-complete -if n is small and s is large (few players many strategies) then PPAD-complete sketch for 2 strategies there exists another set of Bernoulli"s Y i with expectations q i such that -a constant  independent of n q i "s are integer multiples of  total variation distance cheat sheet proof of structural result round some of the X i "s falling here to 0 and some of them to ε so that the total mean is preserved to within ε -if more than 1/ε 3 X i "s are left here, appeal to previous slide (Binomial appx) </p><formula xml:id="formula_31">Pr X i i   t        Pr Y i i   t       t  0 n   1 ( X i i  , Y i i  ) X i i  Y i i  Theorem</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 3 . 6 :</head><label>36</label><figDesc>Matching Pennies game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 . 6 :</head><label>36</label><figDesc>Matching Pennies game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 . 7</head><label>37</label><figDesc>Battle of the Sexes game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>these actions are called the support of the mixed strategy Let the set of all strategies for i be S i Let the set of all strategy profiles be S = S 1 × . . . × S n .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 3 . 7</head><label>37</label><figDesc>Battle of the Sexes game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 3 . 7</head><label>37</label><figDesc>into his choice of action, in fact in a multi-agent setting the role For Battle of the Sexes, let's look for an equilibrium where all actions are part of the support Battle of the Sexes game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Definition 3 .2. 4</head><label>34</label><figDesc>Let (N, (A , . . . , A ), O, µ, u) be a normal form game, and for any</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 3 Figure 3 . 7</head><label>337</label><figDesc>Battle of the Sexes game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head></head><label></label><figDesc>p(a); constants: u i (a)we could find the social-welfare maximizing CE by adding an</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Symmetric-</head><label></label><figDesc>Games: Each player p has -the same set of strategies S = {1,…, s} -the same payoff function u = u (σ ; n 1 , n 2 ,…,n s ) number of the other players choosing each strategy in S choice of p E.g. :-traffic (congestion) games, with same source destination pairs for each player Nash '51: Always exists an equilibrium in which every player uses the same mixed strategy Rock</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>-</head><label></label><figDesc>guess the support of x, 2 s possibilities -write down a set of polynomial equations an inequalities corresponding to the equilibrium conditions, for the guessed support -polynomial equations and inequalities of degree n in s variables can be solved approximately in time n s log(1/ε) how far with symmetric games?</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>•</head><label></label><figDesc>discretize [0,1] n into multiples of δ, and restrict search to the discrete space • pick best point in discrete space   • since 2 strategies per player, Nash eq. lies in [0,1] n sketch for 2 strategies (cont.) Basic Question: what grid size  is required for  -approximation? if function of  only  PTAS if function also of n  Theorem [D., Papadimitriou '07]: Given n ind. Bernoulli"s X i with expectations p i , i =1,…, n sketch for 2 strategies (cont.)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head></head><label></label><figDesc>[D., Papadimitriou '07]: Given n ind. Bernoulli"s X i with expectations p i , i =1,…, n another set of Bernoulli"s Y i with expectations q i such that -a constant  independent of n q i "s are integer multiples of  the Nash equilibrium the grid size regret if we replace the X i 's by the Y i 's proof of approximation result Law of Rare Events + CLT -rounding p i "s to the closest multiple of  gives total variation n -probabilistic rounding up or down quickly runs into problems -what works: Poisson approximation is only good for small values of p i "s. (LRE) proof of approximation result For intermediate values of p i "s, Normals are better. (CLT) Theorem [D., Papadimitriou '07]: Given n ind. Bernoulli"s X i with expectations p i , i =1,…, n another set of Bernoulli"s Y i with expectations q i such that -a constant  independent of n q i "s are integer multiples of the Nash equilibrium the grid size approximation if we replace the X i 's by the Y i 's in fact, an "oblivious" algorithm… set S  of all unordered collections of mixed strategies which are integer multiples of  2 Oblivious-ness Property: the set S  does not depend on the game we need to solve -sample an (anonymous) mixed profile from S  -look at the game only to determine if the sampled strategies can be assigned to players to get an εapproximate equilibrium (via a max-flow argument) There is an oblivious PTAS with running time -or, at most mix, and they choose mixed strategies which are integer multiples of Theorem [Daskalakis'08]: In every anonymous game there exists an ε-approximate Nash equilibrium in which the underlying structural result… -either all players who mix play the same mixed strategy Lemma: -The sum of m ≥ k 3 indicators X i with expectations in [1/k,1-1/k] is O(1/k)-close in total variation distance to a Binomial distribution with the same mean and variance the corresponding symmetry… … i.e. close to a sum of indicators with the same expectation [tightness of parameters by Berry-Esséen]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head></head><label></label><figDesc>How will heterogeneous users route their traffic in a network? How will advertisers bid in a sponsored search auction? Which job skills will students choose to pursue? Where in a city will businesses choose to locate? Getting Our Bearings: A Quick Game Theory Refresher</figDesc><table>Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 12 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Why study equilibrium computation? 
+
+...Because characterizing the complexity of equilibrium 
+computation helps us to see how reasonable it is as a way of 
+understanding games. 
+
+"If your laptop can't find the equilibrium, then neither can the 
+market." 
+
+-Kamal Jain 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 13 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Why study equilibrium computation? 
+
+...Because characterizing the complexity of equilibrium 
+computation helps us to see how reasonable it is as a way of 
+understanding games. 
+
+"If your laptop can't find the equilibrium, then neither can the 
+market." 
+
+-Kamal Jain 
+
+...Because we need practical algorithms for computing equilibrium. 
+
+"[Due to the non-existence of efficient algorithms for computing 
+equilibria], general equilibrium analysis has remained at a level of 
+abstraction and mathematical theoretizing far removed from its 
+ultimate purpose as a method for the evaluation of economic 
+policy." 
+
+-Herbert Scarf (in his 1973 monograph on "The Computation of 
+Economic Equilibria") 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 13 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Beyond 2 × 2 Games 
+
+When we use game theory to model real systems, we'd like to 
+consider games with more than two agents and two actions 
+Some examples of the kinds of questions we would like to be 
+able to answer: 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 14 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Beyond 2 × 2 Games 
+
+When we use game theory to model real systems, we'd like to 
+consider games with more than two agents and two actions 
+Some examples of the kinds of questions we would like to be 
+able to answer: 
+
+How will heterogeneous users route their traffic in a network? 
+How will advertisers bid in a sponsored search auction? 
+Which job skills will students choose to pursue? 
+Where in a city will businesses choose to locate? 
+
+Most GT work is analytic, not computational. What's holding 
+us back? 
+
+a lack of game representations that can model interesting 
+interactions in a reasonable amount of space 
+a lack of algorithms that can answer game-theoretic questions 
+about these games in a reasonable amount of time 
+
+In the past decade, substantial progress on both fronts 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 14 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Overview 
+
+1 Plan of this Tutorial 
+
+2 3 Solution Concepts 
+
+4 Computational Formulations 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 15 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+More Solution Concepts 
+
+Solution concepts are rules that designate certain outcomes of 
+a game as special or important 
+
+We've already seen Nash equilibrium: strategy profiles in 
+which all agents simultaneously best respond 
+Nash equilibrium has advantages: 
+
+stability: given correct beliefs, no agent would change strategy 
+existence in all games 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 16 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_16" validated="false"><head></head><label></label><figDesc>Equilibrium Computation in Normal Form GamesCostis Daskalakis &amp; Kevin Leyton-Brown, Slide 26</figDesc><table>Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Computing Mixed Nash Equilibria: Battle of the Sexes 
+
+Scissors 
+−1 
+1 
+0 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_17" validated="false"><head></head><label></label><figDesc>Equilibrium Computation in Normal Form Games Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 26 Computing Mixed Nash Equilibria: Battle of the Sexes Advantages of this approach: At least for a 2 × 2 game, this was computationally feasible in general, when checking non-full supports, it's a linear program, because we have to ensure that actions outside the support aren't better Equilibrium Computation in Normal Form Games Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 27 Computing Mixed Nash Equilibria: Battle of the Sexes Advantages of this approach: At least for a 2 × 2 game, this was computationally feasible in general, when checking non-full supports, it's a linear program, because we have to ensure that actions outside the support aren't better Disadvantages of this approach: We had to start by correctly guessing the support There are i∈N 2 |A i | supports that we'd have to check Equilibrium Computation in Normal Form Games Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 27</figDesc><table>Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Computing Mixed Nash Equilibria: Battle of the Sexes 
+
+Advantages of this approach: 
+At least for a 2 × 2 game, this was computationally feasible 
+
+in general, when checking non-full supports, it's a linear 
+program, because we have to ensure that actions outside the 
+support aren't better 
+
+Disadvantages of this approach: 
+
+We had to start by correctly guessing the support 
+
+There are i∈N 2 |A i | supports that we'd have to check 
+
+This method is going to have pretty awful worst-case performance 
+as games get much larger than 2 × 2. 1 
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_18" validated="false"><head></head><label></label><figDesc>Find a ∈ A such that ∀i, a i ∈ BR(a −i ).Find a ∈ A such that ∀i, a i ∈ BR(a −i ).Find a ∈ A such that ∀i, a i ∈ BR(a −i ).</figDesc><table>Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 28 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Computing Pure-Strategy Nash Equilibrium 
+
+Constraint Satisfaction Problem 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 29 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Computing Pure-Strategy Nash Equilibrium 
+
+Constraint Satisfaction Problem 
+
+This is an easy problem to solve: 
+
+note that the input size is O(n|A|) 
+checking whether a given a ∈ A involves a BR for player i 
+requires O(|A i |) time, which is O(|A|) 
+there are |A| strategy profiles to check 
+thus, we can solve the problem in O(|A| 2 ) time 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 29 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Computing Pure-Strategy Nash Equilibrium 
+
+Constraint Satisfaction Problem 
+
+This is an easy problem to solve: 
+
+note that the input size is O(n|A|) 
+checking whether a given a ∈ A involves a BR for player i 
+requires O(|A i |) time, which is O(|A|) 
+there are |A| strategy profiles to check 
+thus, we can solve the problem in O(|A| 2 ) time 
+
+However, we won't be able to find (general) Nash equilibria by 
+enumerating them 
+
+Thus, this result seems unlikely to carry over 
+straightforwardly... 
+
+Equilibrium Computation in Normal Form Games 
+Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 29 
+
+Tutorial Overview 
+
+Game Theory Refresher 
+Solution Concepts 
+Computational Formulations 
+
+Computing Correlated Equilibrium 
+
+Linear Feasibility Program 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_25" validated="false"><head></head><label></label><figDesc>Equilibrium Computation in Normal Form GamesCostis Daskalakis &amp; Kevin Leyton-Brown, Slide 32</figDesc><table>Tutorial </table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_41" validated="false"><head></head><label></label><figDesc>Theorem [Papadimitriou '05]Remark: Can be generalized to non polynomial-type games such as extensive-form games, congestion games; see[DFP '06].</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_42" validated="false"><head></head><label></label><figDesc>working assumption: n large, s small (o.w. PPAD-Complete) Nash equilibira of the simultaneous move game are robust with regards to the details of the game (order of moves, information transmission, opportunities to revise actions etc. [Kalai '05] )PTAS for anonymousIf the number of strategies s is a constant, there is a PTAS for mixed Nash equilibria.</figDesc><table>-robustness: 
+
+Theorem: 
+[with Pap. '07, '08] 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_43" validated="false"><head></head><label></label><figDesc>o.w. use Dask. Pap. "07 (exists rounding into multiples of ε 2 )There is an oblivious PTAS with running timeTheorem [Daskalakis, Papadimitriou '08]:" How many other graduates want the same jobs?</figDesc><table>similarly 
+
+0 
+ε 
+1-ε 
+1 
+0 
+ε 
+1-ε 
+ε 
+1 
+1-ε 
+
+Final Result… 
+
+Theorem [Daskalakis'08]: 
+
+PhD PhD 
+
+MSc MSc 
+
+BSc BSc 
+
+Dipl Dipl 
+
+Computer 
+Science 
+
+PhD PhD 
+
+MEng MEng 
+
+BEng BEng 
+
+Dipl Dipl 
+
+Electrical 
+Engineering 
+
+Mechanical 
+Engineering 
+
+PhD PhD 
+
+MEng MEng 
+
+BEng BEng 
+
+Dipl Dipl 
+
+High High 
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">Each player's maxmin value is equal to his minmax value.2 For both players, the set of maxmin strategies coincides with the set of minmax strategies.3 Any maxmin strategy profile (or, equivalently, minmax strategy profile) is a Nash equilibrium. Furthermore, these are all the Nash</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">Interesting caveat: in fact, if combined with the right heuristics, support enumeration can be a competitive approach for finding equilibria. See [Porter, Nudelman &amp; Shoham, 2004]. Equilibrium Computation in Normal Form Games Costis Daskalakis &amp; Kevin Leyton-Brown, Slide 27</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">" Employers will take workers who are overqualified, but only by one degree. " They will also interchange similar degrees, but only at the same level.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">" e.g., sequence form; algorithms for finding equilibria in huge extensive form games (motivated especially by poker); MAIDs, TAGGs</note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>And what about relative approximations?</head><p>Hot of the press [Daskalakis '09]:</p><p>Relative ε-NASH is PPAD-complete, even for constant ε's.</p><p>Challenges: 1. gadgets in <ref type="bibr">[DGP '05]</ref> do not work for constant ε's; we redo the construction introducing some kind of "gap amplification" gadget;</p><p>2. the high-stakes lawyer-game overwhelms the payoffs of the multiplayer game if we look at relative approximations with constant ε's… Recall, relative approximation: Payoff ≥ (1 -ε) OPT;</p><p>Result of Lipton-Markakis-Mehta does not hold anymore; " How many jobs prefer workers with this training, and how desirable are the jobs? " How many other jobs are willing to take such workers as a second choice, and how good are these jobs?</p><p>Analyzing the AGG Representation AGGs can represent any game.</p><p>Overall, AGGs are more compact than the normal form when the game exhibits either or both of the following properties: AGGFNs: Function Nodes " To exploit this structure, introduce function nodes:</p><p>" The "configuration" of a function node p is a (given) function of the configuration of its neighbors:</p><p>" Coffee-shop example: for each action node s, introduce:</p><p>" a function node with adjacent actions as neighbors " c[p' s ] = total number of shops in surrounding nodes " similarly, a function node with non-adjacent actions as neighbors 6 £ 5 Coffee Shop Problem: function nodes for the red node</p><p>The Coffee Shop Problem " Now the red node has only three incoming edges:</p><p>" itself, the blue function node and the orange function node " so, the action-graph now has in-degree three " Size of representation is now O(N 3 )</p><p>6 £ 5 Coffee Shop Problem: projected action graph at the red node</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Parallel Edges</head><p>Based on <ref type="bibr">[Thompson, Jiang &amp; LB, 2007]</ref>; inspired by <ref type="bibr">[Odlyzko, 1998]</ref> " Network with one source, one sink, two parallel edges " both edges offer identical speed " one is free, one costs $1 " latency is an additive function of the number of users on an edge " Two classes of users " 18 users pay $0.10/unit of delay " 2 users pay $1.00/unit of delay " Which edge should users choose? " Example scales to longer paths " not a congestion game because of player-specific utility " Without loss of compactness, AGGs can also encode:</p><p>" Symmetric games " Anonymous games (requires function nodes) " One other extension to AGGs: explicit additive structure " Enables compact encoding of still other game classes:</p><p>" Congestion games " Polymatrix games " Local-Effect games Conclusion: AGGs compactly encode all major compact classes of simultaneous-move games, and also many new games that are compact in none of these representations. In AGGFNs, players are no longer guaranteed to affect c independently • the computation is still polynomial when function nodes can be expressed using a commutative, associative operator Corollary: The problem of finding a Nash equilibrium of an AGG is in PPAD. The problem of finding a correlated equilibrium of an AGG is in P. If either of the latter conditions is relaxed without new restrictions being made, the problem becomes intractable.</p><p>Theorem (DSVV-09): It is PPAD{complete to compute a mixed Nash equilibrium in an AGG for which (1) the action graph is a tree and the number of distinct action sets is unconstrained, or (2) there are a constant number of distinct action sets and treewidth is unconstrained.</p><p>it is PPAD{complete to compute a mixed Nash equilibrium.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Computing with AGGs: Complexity</head><p>Computing Pure-Strategy Equilibrium <ref type="bibr">Theorem (Conitzer, personal communication, 2004;</ref><ref type="bibr">proven independently by Daskalakis et al., 2008)</ref>: The problem of determining existence of a pure Nash equilibrium in an AGG is NP-complete, even when the AGG is symmetric and has maximum in-degree of three.</p><p>Theorem <ref type="bibr">(Jiang &amp; LB, 2007)</ref>: For symmetric AGGs with bounded treewidth, existence of pure Nash equilibrium can be determined in polynomial time.</p><p>Generalizes earlier algorithms " finding pure equilibria in graphical games <ref type="bibr">[Gottlob, Greco, &amp; Scarcello 2003;</ref><ref type="bibr">Daskalakis &amp; Papadimitriou 2006]</ref> " finding pure equilibria in simple congestion games <ref type="bibr">[Ieong, McGrew, Nudelman, Shoham, &amp; Sun 2005]</ref>  " Goal: make it easier for other researchers to use AGGs " Equilibrium computation algorithms:</p><p>" Govindan-Wilson " Simplicial Subdivision " GAMUT " extended to support AGGs " Action Graph Game Editor:</p><p>" creates AGGs graphically " facilitates entry of utility fns " supports "player classes" " auto creates game generators " visualizes equilibria on the action graph Overall Conclusions " Equilibrium computation is a hot topic lately " by now, the general complexity picture is fairly clear " Compact representations are a fruitful area of study " necessary for modeling large-scale game-theoretic interactions " There's lots to do, both in theoretical and applied veins " theoretical: only scratched the surface of restricted subclasses of games, and corresponding algorithmic and complexity results " both: extend our existing representations to make them more useful " applied: now that we have practical techniques for representing and reasoning with large games, see what practical problems we can solve " We've focused on simultaneous-move, perfect-information games " the most fundamental, both representationally and computationally " to some extent, computational ideas carry over, both to incomplete information and to sequential moves " lots of interesting work on those problems that we haven't discussed</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

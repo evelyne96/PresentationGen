@@ -1,0 +1,691 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Revenue Optimization in the Generalized Second-Price Auction</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><forename type="middle">R M</forename><surname>Thompson</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Columbia KEVIN LEYTON-BROWN</orgName>
+								<orgName type="institution" key="instit1">University of British</orgName>
+								<orgName type="institution" key="instit2">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Revenue Optimization in the Generalized Second-Price Auction</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>J4 [Computer Applications]: Social and Behavioral Sciences - Economics</term>
+					<term>I211 [Distributed Artificial Intelligence]: Multiagent Systems General Terms: Economics, Experiments, Theory Additional Key Words and Phrases: Auctions</term>
+					<term>game theory</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We consider the optimization of revenue in advertising auctions based on the generalized second-price (GSP) paradigm, which has become a de facto standard. We examine several different GSP variants (including squashing and different types of reserve prices), and consider how to set their parameters optimally. One intriguing finding is that charging each advertiser the same per-click reserve price ("unweighted reserve prices") yields dramatically more revenue than the quality-weighted reserve prices that have become common practice. This result is robust, arising both from theoretical analysis and from two different kinds of computational experiments. We also identify a new GSP variant that is revenue optimal in restricted settings. Finally, we study how squashing and reserve prices interact, and how equilibrium selection affects the revenue of GSP when features such as reserves or squashing are applied.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Advertising on search result pages is a multi-billion dollar industry and the main source of revenue for major search engines. This ad space is sold by auction on a per-keyword basis. The underlying auction designs evolved in an ad hoc way, but all the major search engines have converged on the same design-the weighted generalized second-price auction (GSP; defined at the beginning of Section 2). Notably, this auction design is not incentive compatible-it is typically not in an advertiser's best interest to truthfully report her perclick willingness to pay. In contrast, incentive compatible designs have been proposed by the research community [e.g., <ref type="bibr" target="#b0">Aggarwal et al. 2006</ref>], but not adopted by any search engine.</p><p>Revenue optimization is typically framed as a question of finding the revenue-maximizing auction design. We instead ask "how can we optimize revenue within the basic GSP design?" Specifically, we consider a range of different GSP variants that have been used in practice. Each has adjustable parameters; we consider how these parameters should be set in order to optimize revenue.</p><p>Our most striking finding is that a new reserve price scheme used by major search engines ("quality-weighted reserves": low-quality advertisers must pay more per click) is not a good choice from a revenue perspective; the old scheme ("unweighted reserves": all advertisers have the same per-click reserve price) is substantially better. Indeed, this finding is not just striking, but also robust: we offer evidence for it across three different analysis methods and two different sets of assumptions about bidder valuations. We observed that richer GSP variants sometimes outperformed GSP with unweighted reserves, but these variants tended to incorporate (approximately) unweighted reserves. Three of our paper's other contributions also deserve mention here. First, we identify a new GSP variant that is provably revenue optimal in some restricted settings, and that achieves very good revenue in settings where it is not optimal. Second, we perform the first systematic investigation of the interaction between reserve prices and another revenue-optimization technique called "squashing". Interestingly, we find that squashing can substantially improve the performance of quality-weighted reserve prices, but this effect is almost entirely arises because squashing undoes the quality weighting. Third, we perform the first systematic investigation of how equilibrium selection interacts with revenue optimization techniques like reserve prices. Again, unweighted reserve prices prove to be superior, especially from the perspective of optimizing the revenue of worst-case equilibria.</p><p>This paper proceeds as follows. Section 2 describes the GSP variants and how they are used in practice, the model of advertiser preferences, and finally a review of related work. In Section 3 we perform a theoretical analysis of the problem of selling only a single position. The simplicity of this setting allows us to identify properties of the optimal auction, and to contrast them with the GSP variants. Section 4 covers our first computational analysis of auctions involving multiple ad positions. Here, we we used efficient game representations to enumerate the entire set of pure-strategy equilibria. Section 5 describes a further computational analysis, where we performed very large-scale experiments, focusing on a commonly studied restricted class of equilibria. Section 6 discusses some implications of our results and directions for future work.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">BACKGROUND</head><p>The weighted generalized second-price auction (which we hereafter call "vanilla GSP") works as follows. Each advertiser i is assigned a quality score q i ∈ (0, 1] by the search engine. We assume that this quality score is equal to the probability that the advertiser's ad would be clicked on if it were shown in the top position. Each advertiser submits a bid b i that specifies the maximum per-click price that she would be willing to pay. Ads are shown ordered by b i q i from highest to lowest. When a user clicks on an ad, the advertiser pays the minimum amount she could have bid while maintaining her position in the ordering.</p><p>Three simple variants of vanilla GSP have been proposed-and used in practice-to improve revenue.</p><p>(1) Squashing changes vanilla GSP by changing how bidders are ranked, according to a real-valued parameter s: bidders are ranked by b i q s i . When s = 1, squashing GSP is identical to regular GSP. When s = 0, squashing GSP throws away all quality information and ranks advertisers by their bids, promoting lower-quality advertisers and forcing higher-quality advertisers to pay more to retain the same position. Intermediate values of s ∈ (0, 1) smoothly interpolate between these two extremes <ref type="bibr" target="#b14">[Lahaie and Pennock 2007]</ref>.</p><p>(2) An unweighted reserve price (UWR) specifies a minimum per-click price r that every advertiser must bid (and pay) in order for her ad to be shown. <ref type="bibr">1</ref> We call this per-click reserve price "unweighted" because it is constant across all the advertisers, regardless of their qualities. (3) A quality-weighted reserve price (QWR) also specifies a minimum price that advertisers must pay, but now this price is increased for higher-quality bidders. Specifically, each advertiser i must pay at least r/q i per click.</p><p>Squashing and both kinds of reserve prices have been used in practice (and in combination). Google initially used a UWR of $0.05 across all keywords <ref type="bibr" target="#b24">[Varian 2007</ref>], but switched to QWR in 2005 [Google's "Inside AdWords" blog 2006]. Yahoo! also had a UWR ($0.10), but in a well-documented field experiment switched to QWR while both tailoring reserve prices to specific keywords and dramatically them overall <ref type="bibr" target="#b18">[Ostrovsky and Schwarz 2009]</ref>. Yahoo! researchers have publicly confirmed that the auctions use squashing <ref type="bibr" target="#b16">[Metz 2010</ref>]. However, since search engines withhold many auction details (e.g., the methods used to calculate quality scores and minimum bids), it is impossible to be certain of current practice.</p><p>Finally, we consider three richer GSP variants. The first two, UWR+Sq and QWR+Sq, combine squashing with the two reserve price variants. The third-which to our knowledge has not previously been discussed in the literature, and which we dub anchoring-imposes unweighted reserve prices, but ranks advertisers based only on the portion of bids that exceeds the reserve price, multiplied by the quality score: (b i − r)q i . Anchoring is interesting because (as we show in Section 3) it is the optimal auction for some very simple settings; we also found that it performed well in settings where it was not provably optimal.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Model</head><p>We focus on one of the most widely used models of advertiser preferences, due to <ref type="bibr" target="#b24">Varian [2007]</ref>. 2 In this model, a setting is specified by a 4-tuple N, v, q, α : N is the set of agents (numbered 1, . . . , n); v i specifies agent i's value for a single click; q i specifies agent i's quality score, which is equal to the probability that i's ad would receive a click if shown in the top position (q i &gt; 0); and α j is the probability that an agent with quality of 1.0 will receive a click in position j. Observe that α 1 = 1.0; we further assume that α is decreasing, meaning that higher positions get more clicks. Thus, if agent i's ad is shown in position j with a price of p per click, then her expected payoff is α j q i (v i − p).</p><p>As in most literature on GSP [e.g., <ref type="bibr" target="#b5">Edelman et al. 2007;</ref><ref type="bibr" target="#b24">Varian 2007]</ref>), we assume that the setting is common knowledge to all the advertisers. This assumption is motivated by the fact that in practice, advertisers can learn a great deal about each other through repeated interactions. We assume that the search engine is able to directly observe and condition on the number of bidders and their quality scores. As is common in the literature on revenue optimization (going back to <ref type="bibr" target="#b17">Myerson [1981]</ref> and continuing in work related to GSP <ref type="bibr" target="#b18">[Ostrovsky and Schwarz 2009;</ref><ref type="bibr" target="#b21">Sun et al. 2011</ref>]), we further assume that details of the setting (v, q, α) are drawn from a distribution which is known to the auctioneer. Thus while the search engine is unable to choose a reserve price conditional on the advertisers' valuations, it can base this decision on the distribution from which these values are drawn. We further assume that the auctioneer can observe and condition on the number of agents, and on each agent's quality score. To understand this last assumption, note that the search engine directly observes every click on an ad. Thus, even if q i begins as private information, it is impossible for an advertiser to misreport this value. This assumption is a key distinction between our work and previous work on revenue optimization (most notably, <ref type="bibr" target="#b21">Sun et al. [2011]</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Related Work</head><p>Revenue has been a major consideration since the earliest equilibrium analysis of vanilla GSP. <ref type="bibr" target="#b24">Varian [2007]</ref> and <ref type="bibr" target="#b5">Edelman et al. [2007]</ref> each analyzed a specific equilibrium refinement, under which they found that GSP was at least as good at generating revenue as VCG. Subsequent research has shown that VCG (and therefore GSP) achieves revenue close to that of the optimal auction <ref type="bibr" target="#b4">[Dughmi et al. 2009</ref>]-though in practice, this could mean that search engines leave billions of dollars on the table. Other work has looked into general Nash equilibria (without the refinements mentioned earlier) and found that GSP has many equilibria, ranging from some much worse than VCG <ref type="bibr" target="#b23">[Thompson and Leyton-Brown 2009</ref>] to others that are significantly better <ref type="bibr" target="#b23">[Thompson and Leyton-Brown 2009;</ref><ref type="bibr" target="#b15">Lucier et al. 2012]</ref>. <ref type="bibr" target="#b14">Lahaie and Pennock [2007]</ref> first introduced the concept of squashing. While squashing behaves similarly to the virtual values of Myerson, in that it tends to promote weak bidders, they proved that no squashing scheme (or indeed any other manipulation of quality scores) can yield an optimal auction. (Our <ref type="figure" target="#fig_0">Figure 1</ref> gives some visual intuition as to why this is true.) They also performed substantial simulation experiments, demonstrating the effectiveness of squashing as a means of sacrificing efficiency for revenue. Recently-and departing from the model we consider in our own work-it has been shown that squashing can improve efficiency when quality scores are noisy <ref type="bibr" target="#b13">[Lahaie and McAfee 2011]</ref>.</p><p>Reserve prices have been used in GSP auctions for years, but our theoretical understanding of their effects is still relatively limited. Since weighted GSP has the same outcome as VCG in many analyses (e.g., <ref type="bibr" target="#b0">Aggarwal et al. [2006]</ref> and the Bayesian analyses of <ref type="bibr" target="#b24">Varian [2007]</ref> and <ref type="bibr" target="#b8">Gomes and Sweeney [2011]</ref>), one could infer that weighted GSP with a weighted reserve would have the same outcome as VCG with an unweighted reserve, which often corresponds to the optimal auction of <ref type="bibr" target="#b17">Myerson [1981]</ref>. <ref type="bibr" target="#b18">Ostrovsky and Schwarz [2009]</ref> showed that GSP with weighted reserves is not quite equivalent to the optimal auction in the case of asymmetric bidders. Recently, <ref type="bibr" target="#b21">Sun et al. [2011]</ref> showed that GSP with weighted reserves is optimal when the quality score is part of the advertisers' private information. However, the question of how to optimize revenue in the arguably more realistic case where quality scores are known to the auctioneer remains open. Despite the fact that squashing and reserve prices have been used together in practice, we are aware of no studies of how they interact. Further, little is known about how equilibrium selection affects the revenue of GSP with reserves or squashing.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">FIRST ANALYSIS: SINGLE-SLOT AUCTIONS WITH KNOWN QUALITY SCORES</head><p>For our first analysis of the problem of revenue optimization in GSP, we consider an extremely restricted case-selling a single slot to advertisers with independent, identically distributed per-click valuations, but known quality scores. We restrict ourselves to a single slot because it allows us to rely directly upon Myerson's characterization to identify the optimal auction. Observe that our use of Varian's model in this setting is less restrictive than it might appear: richer models such as cascade [e.g., <ref type="bibr" target="#b7">Ghosh and Mahdian 2008;</ref><ref type="bibr" target="#b12">Kempe and Mahdian 2008]</ref> and position preferences [e.g., <ref type="bibr" target="#b2">Blumrosen et al. 2008;</ref><ref type="bibr" target="#b1">Benisch et al. 2008</ref>] all collapse to Varian's model in the single-slot case.</p><p>First, we consider the problem of which kind of reserve prices are optimal.</p><p>Proposition 3.1. The optimal auction uses the same per-click reserve price for all bidders in any one-position setting for which all agents' per-click valuations (v) are independently drawn from a common, regular distribution g.</p><p>Proof. First, observe that although per-click valuations are identically distributed in this setting, agents' per-impression valuations (denoted V) are not. If an agent i's per-click valuation is v i , then her per-impression valuation (given q i ) is q i v i = V i . Because the auctioneer is effectively selling impressions, it is the latter value that matters. Let f i and F i denote the probability density function and cummulative distribution function of V i As was shown by <ref type="bibr" target="#b17">Myerson [1981]</ref>, when f is regular the optimal auction allocates by virtual values ψ:</p><formula xml:id="formula_0">ψ i (V i ) = V i − 1 − F i (V i ) f i (V i ) .</formula><p>(1) For any per-click valuation distribution g, we can identify the per-impression valuation distribution for an agent with quality <ref type="formula">(1)</ref> gives</p><formula xml:id="formula_1">q i : f (q i v i ) = g(v i )/q i and F (g i v i ) = G(v i ). Substituting these into</formula><formula xml:id="formula_2">ψ i (q i v i ) = q i v i − 1 − G i (v i ) g i (v i )/q i = q i v i − 1 − G i (v i ) g i (v i ) .<label>(2)</label></formula><p>The value v i that makes this expression equal to zero is independent of q i , and so the optimal per-click reserve is independent of q i .</p><p>Next, we consider a simple value distribution: the uniform one. Because this case has such a simple functional form, it is easy to identify the optimal auction for such bidders. In fact, the optimal auction for the uniform distribution is precisely the anchoring rule described earlier.</p><p>Proposition 3.2. The anchoring GSP auction is optimal in any one-position setting for which (1) all the agents' per-click valuations (v) are independently drawn from a uniform distribution on [0, v] (hereafter U (0, v)), and (2) each agent i's quality score q i is known to the auctioneer.</p><p>Proof. For valuations from U (0, x), f (v) = 1/x and F (v) = v/x. Note that for every agent i, x corresponds to i's maximum possible per-impression valuation q i v. Substituting these into Equation <ref type="formula">(1)</ref> gives</p><formula xml:id="formula_3">ψ i (q i v i ) = q i v i − 1 − q i v i /(q i v) 1/(q i v) = q i (2v i − v).<label>(3)</label></formula><p>Thus, the optimal per-click reserve price r * i occurs at ψ i (q i r i ) = 0, r i = v/2 in this case. In the optimal auction, advertisers are ranked by ψ(q</p><formula xml:id="formula_4">i v i ) = q i (2v i − v) ∝ q i (v i − r * i )</formula><p>, and so the anchoring auction is optimal.</p><p>However, not all value distributions give rise to optimal auctions with simple (e.g., linear) forms. Consider the log-normal distribution, which some researchers have argued is a good model of real-world bidder valuations <ref type="bibr" target="#b14">[Lahaie and Pennock 2007;</ref><ref type="bibr" target="#b18">Ostrovsky and Schwarz 2009]</ref>. The optimal auction for log-normal distributions (of course) uses unweighted reserve prices, and behaves similarly to anchoring when bids are close to the reserve. However, far from the reserves, the optimal auction's allocation more closely resembles vanilla GSP. (See <ref type="figure" target="#fig_0">Figure 1</ref> for a visualization of the optimal auction for uniform valuations and <ref type="figure" target="#fig_3">Figure 4</ref> for a visualization of the optimal auction for log-normal valuations.)</p><p>The uniform distribution also makes it easy to calculate the optimal auction's expected revenue. We considered the case of two bidders, one with high quality (q 1 = 1) and one with lower quality (q 2 = 1/2), and calculated the optimal parameter settings for each of the wins are yellow.) Left: the efficient (VCG) auction; middle: the revenue-optimal auction; right: the optimal squashing auction. Note that squashing changes the slope of the dividing line, while the optimal auction transposes it without changing the slope. (Specifically, the optimal auction "anchors" the dividing line to the point where every agent bids his reserve price.) This provides intuition for the result by <ref type="bibr" target="#b14">Lahaie and Pennock [2007]</ref> that no combination of squashing and reserve prices can implement the optimal auction. GSP variants defined above (see <ref type="table" target="#tab_0">Table I</ref>). 3 While anchoring (of course) generated the most revenue, other mechanisms could also be configured to achieve very nearly optimal revenues: reserves and squashing used together were ∼ 99% optimal, and UWR was ∼ 98% optimal. Squashing and QWR were far behind (at ∼ 79% ∼ 83% respectively). We can gain insight into the GSP variants' similarities and differences by visualizing their allocation functions, for the same setting with two bidders with uniformly distributed valuations and different quality scores (see <ref type="figure" target="#fig_0">Figures 1-3)</ref>. In each case, the x and y axes correspond to the per-click valuations of agents 1 and 2 respectively. The green region, yellow region and white region respectively indicate joint values for which agent 1 wins, agent 2 wins, and neither agent wins. The dashed line indicates the dividing line of the efficient allocation, with agent 1 winning below the line and agent 2 winning above it.</p><p>In summary, this section considered single-slot auctions with i.i.d. per-click values, and obtained the following main findings:</p><p>(1) the optimal auction uses unweighted reserve prices;</p><p>(2) when values are uniform, anchoring GSP is optimal;</p><p>(3) in a very restricted uniform setting, the richer mechanisms (anchoring, QWR+sq, and UWR+sq) achieve approximately equal revenue when optimized, and are slightly better than UWR which is better than QWR and squashing.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">SECOND ANALYSIS: ALL PURE NASH EQUILIBRIA</head><p>As mentioned earlier, it is widely known that GSP has multiple Nash equilibria that can yield substantially different revenue and social welfare. For our second analysis, we investigated how equilibrium selection affects GSP and the six GSP variants by directly calculating their pure strategy Nash equilibria. To do this, we leverage the action-graph game (AGG) representation <ref type="bibr" target="#b10">[Jiang et al. 2011</ref>]. Using an appropriate encoding, it is possible to efficiently encode GSP games as polynomial-sized, computationally usable AGGs [Thompson and  <ref type="figure">Fig. 2</ref>. Left: the optimal UWR auction; right: the optimal QWR auction. Note that the optimal unweighted reserve is higher than the reserve used by the optimal auction (0.588 rather than 0.5), and that agent 2 only wins when agent 1 does not meet his reserve, because 1's quality is much higher. Also, note the compromise involved in quality-weighted reserve prices: because the reserve prices must correspond to a point on the efficient dividing line, obtaining a reasonable reserve for agent 1 (relative to the optimal auction) results in a much-too-high reserve for agent 2. Because of this compromise, QWR generates ∼ 13% less revenue than UWR. Note that whenever agent 1 exceeds his reserve price in UWR, he wins regardless of agent 2's bid.</p><p>For multi-slot UWR auctions, this can have an unexpected side effect: it can be impossible for a high-quality advertiser to win the second position. Leyton-Brown 2009]. Further, using support enumeration, it is possible to enumerate all 4 the pure strategy Nash equilibria of an AGG <ref type="bibr" target="#b19">[Porter et al. 2008;</ref><ref type="bibr" target="#b22">Thompson et al. 2011]</ref>.</p><p>For this set of experiments we used a uniform distribution 5 over settings: drawing each agent's valuation from U (0, 25), each agent's quality score from U (0, 1), and α k+1 from U (0, α k ). We generated 100 5-bidder, 5-slot settings. (Observe that our use of reserves implies 4 As is common in worst-case analysis of equilibria of auctions, [e.g., Roughgarden and Tardos 2012; Caragiannis, Kaklamanis, Kanellopoulos, Kyropoulou, Lucier, Paes Leme, and Tardos <ref type="bibr">Caragiannis et al.]</ref> we assume that bidders are conservative, i.e., no bidder ever follows the weakly dominated strategy of bidding more than his valuation. Without this assumption, many implausible equilibria are possible, e.g., even single-good Vickrey auctions have equilibria that are unboundedly far from efficient, and unboundedly far from the revenue of truthful bidding. <ref type="bibr">5</ref> We could not get meaningful results for log-normal distributions. In a log-normal distribution, a large fraction of the expected revenue is contributed by a small fraction of instances involving bidders with exceptionally high quality scores and valuations. Thus, accurate expected-revenue estimates require many more samples than we could practically generate.  that not all ads will be shown for every realization of bidder values.) Every auction has a minimum bid of 1 bid increment per click, with ties broken randomly and prices rounded up to the next whole increment. We used grid search to explore the space of possible parameter settings: We varied reserve prices between 0.1 and 1 in steps of 0.1 (this range only affects low quality advertisers and only in QWR), and between 1 and 25 in steps of 2. We varied squashing power between 0 and 1 in steps of 0.2. As with our previous two-bidder, one-slot analysis, we used grid search to explore the space of possible reserve prices and squashing factors. Specifically, we computed all pure-strategy Nash equilibria of every one of our 100 perfect-information auction settings, and every discretized setting of each GSP variant's parameter(s). For each variant we identified the parameter settings that maximized: (i) the revenue of the worst-case equilibrium, averaged across settings; and (ii) the revenue of the best-case equilibrium, again averaged across settings.</p><p>Broadly, we found that every reserve price scheme dramatically improved worst-case revenue, though UWR was particularly effective. Squashing did not help appreciably with the revenue of worst-case equilibria (see <ref type="figure" target="#fig_4">Figure 5</ref>). Comparing the mechanisms <ref type="table" target="#tab_0">(Table II)</ref>, we found that UWR and UWR+Sq were among the best and were dramatically better than any other mechanism in worst-case equilibria. Also, we noticed that optimizing for worst-case equilibria consistently yielded higher reserve prices than optimizing for best-case equilibria.</p><p>In summary, this setting enumerated the equilibria of perfect-information, 5-slot, 5-bidder ad auction settings with independent, uniform valuations, and found that:</p><p>(1) There is a huge gap between best-and worst-case equilibria (over 2.5× for vanilla GSP).</p><p>Squashing does not help to close this gap, but reserve prices do.</p><p>(2) The optimal reserve price is much higher (for any GSP variant) when optimizing worst-case revenue than when optimizing best-case revenue. (3) When considering best-case equilibria, the revenue ranking remains roughly the same as in our simple 2-bidder, 1-slot analysis (Anchoring QWR+sq UWR+sq &gt; UWR &gt; Squashing &gt; QWR). When considering the worst-case equilibria, the revenue ranking changes slightly (UWR UWR+sq &gt; Anchoring QWR+sq &gt; QWR &gt; Squashing).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">THIRD ANALYSIS: EQUILIBRIUM REFINEMENT</head><p>For our third analysis, we again considered multiple-slot settings. In this case we solved the equilibrium selection problem by considering the perfect-information Nash equilibrium in which each agent's expected payment is equal to what she would pay in a dominant-strategy truthful mechanism with the same allocation function as the corresponding GSP variant. This refinement has been used extensively in the analysis of vanilla GSP, where it is the unique Nash equilibrium equivalent to VCG's truthful equilibrium (i.e., one that chooses the same outcome and charges the same expected payments). When applied to vanilla GSP, this equilibrium has a number of desirable properties:</p><p>-It is guaranteed to exist (provided that bids are continuous) and is computable in polynomial time <ref type="bibr" target="#b0">[Aggarwal et al. 2006</ref>]. -The outcome is a competitive, symmetric and envy-free equilibrium <ref type="bibr" target="#b24">[Varian 2007;</ref><ref type="bibr" target="#b5">Edelman et al. 2007</ref>] -The equilibrium is impersonation-proof <ref type="bibr" target="#b11">[Kash and Parkes 2010]</ref>.</p><p>-It does not violate the non-contradiction criterion (i.e., we should not be interested in equilibria of the perfect-information game that generate more expected revenue than the optimal auction) <ref type="bibr" target="#b6">[Edelman and Schwarz 2010]</ref>.</p><p>This equilibrium refinement can also be applied to other GSP variants <ref type="bibr" target="#b14">(Lahaie and Pennock [2007]</ref> used it to analyze squashing, and <ref type="bibr" target="#b6">Edelman and Schwarz [2010]</ref> used it to analyze reserve prices). This equilibrium is guaranteed to exist for all of our GSP variants because they are all monotonic (i.e., increasing an agent's bid weakly increases his position and therefore his expected number of clicks). Although we focus on this equilibrium for mainly economic reasons, this choice also has computational advantages. Specifically, it is possible to compute the payments very quickly using the algorithm of <ref type="bibr" target="#b0">Aggarwal et al. [2006]</ref> (see <ref type="figure">Figure 6</ref>).</p><p>For the experiments presented in this section, we considered two distributions:</p><p>-Uniform, where each agent's valuation is drawn from U (0, 25), each agent's quality score is drawn from U (0, 1), and α k+1 is drawn from U (0, α k ) (as in Section 4); -Log-normal, where each agent's valuation and quality are drawn from log-normal distributions, and valuation and quality are positively correlated using a Gaussian copula <ref type="bibr" target="#b17">[Nelsen 2006</ref>]. The exact parameters were provided to us by Sébastien Lahaie of Yahoo! Research, who derived it from confidential bidder data. Although we cannot disclose them, we can say that the distribution is a refinement of the distribution studied in <ref type="bibr" target="#b14">Lahaie and Pennock [2007]</ref>.</p><p>From the uniform distribution, we sampled 1000 5-bidder, 5-slot settings; for the log-normal distribution we sampled 10000 5-bidder, 5-slot settings. 6 To explore auction parameters, we used a simple grid search. We varied reserve prices between 0 and 30 in steps of 2, between 30 and 100 in steps of 10, between 100 to 1000 in steps of 100, and from 1000 to 10000 in  <ref type="figure">. 6</ref>. It is easy to compute incentive compatible pricing for a position auction. For every marginal increase in click probability that an agent gains by moving up a position, she must pay that probability times the minimum she must bid to be shown that position. Thus, her payment must be equal to the shaded area.  <ref type="figure">Fig. 7</ref>. The optimal squashing power is zero or close to it. Squashing offers modest revenue gains given a uniform value distribution (left) and substantial gains given a log-normal value distribution (right). steps of 1000. We varied squashing power between 0 and 1 in steps of 0.25. Our objective was expected revenue averaged across all samples.</p><p>We began by investigating the optimal parameter settings for each mechanism. For squashing, the optimal squashing power was 0 for log-normal distributions (as was also observed in previous work <ref type="bibr" target="#b14">[Lahaie and Pennock 2007]</ref>), but greater than zero for uniform distributions, where squashing was also somewhat less effective (see <ref type="figure">Figure 7</ref>). UWR and anchoring had similar optimal reserve prices, which were dramatically different from QWR's optimal reserve (see <ref type="figure">Figure 8</ref>). Adding squashing to UWR produced some improvements and had little effect on the optimal reserve price (see <ref type="figure">Figure 9</ref>). QWR greatly benefited from squashing, but the optimal reserve price was extremely sensitive to the squashing parameter (see <ref type="figure" target="#fig_0">Figure 10)</ref>.</p><p>We then compared GSP variants (summarized in <ref type="table" target="#tab_0">Table III</ref>). We found that among simple variants UWR was clearly superior to both squashing and QWR. The richer variantsanchoring, QWR+Sq and UWR+Sq-all performed comparably well (within ∼ 2% of each other), though QWR+Sq was consistently the worst.</p><p>Interestingly, QWR+Sq was only competitive with the other top mechanisms when squashing power was set close to zero. Observe that squashing has two effects when added to QWR: it changes the ranking among bidders who exceed their reserve prices, but it also changes the reserve prices. As squashing power gets closer to zero, reserve prices tend towards    <ref type="figure" target="#fig_0">Fig. 10</ref>. Adding squashing to QWR provides dramatic improvements. However, the higher the squashing power, the less the reserve prices are actually weighted by quality. In the case of a log-normal value distribution, the optimal parameter setting (s = 0.0) removes quality scores entirely and is thus equivalent to UWR. Note that different values of squashing power lead to dramatically different optimal reserve prices. . When squashing is only applied to reserve prices, it can dramatically increase QWR's revenue. However, there has to be a lot of squashing (i.e., s close to 0), and the optimal reserve price is very dependent on the squashing power. In fact, for both distributions, the optimal parameters set s = 0, in which case the mechanism is identical to UWR.</p><p>UWR. We hypothesized that QWR+Sq was only performing as well as it did because of this second effect. To tease apart these two properties, we tested them in isolation. Specifically, we tested (1) a GSP variant in which reserve prices were weighted by squashed quality but ranking among reserve-exceeding bidders was performed according to their true quality scores, and (2) a GSP variant in which reserve prices were weighted by true quality scores but rankings were done using squashed quality scores. These experiments confirmed our hypothesis: the first variant ( <ref type="figure" target="#fig_0">Figure 11</ref>)-which uses squashing to make the mechanism behave more like UWR-was much more effective at increasing revenue than the second ( <ref type="figure" target="#fig_0">Figure 12</ref>).</p><p>Next, we investigated the effect of varying the number of bidders. Broadly, we found that the ranking among auctions remained consistent (see <ref type="figure" target="#fig_0">Figure 13</ref>). The optimal reserve price tended to increase with the number of bidders, particularly in the case of UWR. We found this especially interesting because a heuristic often described in the literature is to take When squashing is only applied to ranking, but not to the reserve prices, the marginal gains from squashing over QWR (with the optimal reserve) are very small.  <ref type="figure" target="#fig_0">Fig. 13</ref>. As the number of agents varies, the relative ranking of GSP variants remains mostly unchanged. The one notable exception to this is squashing and QWR, their ranking can be reversed depending on the distribution and number of bidders.</p><p>Myerson's optimal reserve prices and add them to GSP [e.g., <ref type="bibr" target="#b18">Ostrovsky and Schwarz 2009]</ref>. Our results show that Myerson's finding that the optimal reserve price does not vary with the number of bidders is only a property of the optimal auction, not of other auctions such as these GSP variants.</p><p>In summary, this section considered the equilibria of multi-slot ad auctions which are revenue-equivalent to the truthful equilibria of corresponding dominant-strategy mechanisms with the same allocation rules, and considered both uniform and log-normal valuations. Our main conclusions were that:</p><p>(1) As in the previous analyses, the mechanisms best able to optimize revenue were Anchoring, QWR+sq, UWR+sq and UWR; either squashing or QWR took fifth place with the other in sixth. Within these groups, the exact ranking depended on the distribution and the number of bidders.</p><p>(2) QWR+sq only performed as well as it did when squashing was configured to make its reserve prices behave like UWR. When squashing is applied to the allocation in QWR, but not to the reserve prices, very little revenue improvement was possible.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">CONCLUSIONS AND FUTURE WORK</head><p>We have explored the optimization of revenue in position auction variants based on the generalized second-price framework. Considering single-shot auctions in which bidders have both uniform and log-normal valuations in the most widely-studied valuation model, we observed via three different forms of analysis that the highest revenues were produced by mechanisms that (directly or effectively) use unweighted per-click reserve prices. We also introduced anchoring, a novel GSP variant that uses unweighted reserve prices; anchoring is provably optimal in very simple settings and experimentally very effective in others. We found that any kind of reserve price (including anchoring) dramatically improved worst-caseequilibrium revenue, while vanilla GSP and squashing were very sensitive to equilibrium selection. However, we found that squashing could provide extra benefits when used in conjunction with UWR or QWR. Our rather robust conclusion that UWR achieves higher revenues than QWR raises the question of why Google and Yahoo! both made the transition from unweighted to qualityweighted reserves. One likely explanation is that search engines do not aim to optimize their short-term revenue, but instead optimize long-term revenue via other short term objectives such as efficiency, user satisfaction, revenue under a constraint that ads are costly to show, etc. Other possibilities are that search engines are motivated by other business considerations entirely, 7 that they have simply acted in error, or that our findings expose a flaw in the standard model of position auctions. Finally, it is possible that the premise of our question is wrong: perhaps search engines do not in fact use QWR, but instead use some other (secret) approach to setting reserves.</p><p>We believe that the most pressing open problem stemming from our work is to attempt to resolve these questions by examining richer models that allow short-term revenue to be contrasted with longer-term revenue. Considering short-term revenue, we conjecture that in the field experiment of <ref type="bibr" target="#b18">Ostrovsky and Schwarz [2009]</ref>, where Yahoo! increased revenue by increasing reserve prices and simultaneously switching to QWR, the revenue increases would have been even greater if Yahoo! had retained optimized reserve prices but maintained UWR. Considering longer-term revenue, consider a richer model in which quality and click probability are determined by the advertiser's choice of ad text, rather than being exogenous. In equilibrium, this choice must be a best response to the rules of the auction and the choices of the other agents. For example, consider the problem of an advertiser who has two choices of ad text. One choice will yield 1000 clicks per hour, leading to 11 sales per hour. The other choice yields 10 clicks per hour, but every click produces a sale. With weighted reserve prices (and no squashing) the advertiser will always choose the first text, since it produces more sales per hour for the same price. With appropriate quality-weighted reserve prices (or squashing), the advertiser would chose the second, which generates nearly as many sales, and requires him to pay the reserve price far less often. It is not immediately clear which text the search engine should prefer: the first satisfies more users, but also wastes the time of many users who click through but do not buy.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Allocation functions visualized (regions in which agent 1 wins are dark green; regions where agent 2</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3 .</head><label>3</label><figDesc>Left: the UWR+Sq auction; right: the QWR+Sq auction. Both have reserves that are much closer to the reserves of the optimal auction (and both are within ∼ 1% of revenue-optimal), but both use substantial squashing (0.2 and 0.3 respectively, where squashing of 0 indicates completely disregarding quality scores).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4 .</head><label>4</label><figDesc>The optimal auction for log-normal valuations (µ = 0 and σ = 0.25) and plotting valuations up to the 99.9 th % quantile. This auction resembles anchoring (shown with the solid black line) when values are below or near the reserve price. As values get further from the reserve, the allocation tends towards the efficient auction.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 5 .Fig</head><label>5</label><figDesc>Depending on parameter settings, revenue can vary dramatically between worst-and best-case equilibria. Squashing has almost no effect on worst-case equilibrium, while any reserve price scheme can substantially improve it.(Top left: squashing; top right: anchoring; middle left: UWR; middle right: QWR; bottom left: UWR+sq (s = 0.2); bottom right: QWR+sq (</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 8 .Fig. 9 .</head><label>89</label><figDesc>All three reserve-based variants (anchoring, QRW and UWR) provide substantial revenue gains. Anchoring is slightly better than UWR, and both are substantially better than QWR. (left: uniform; right: log-normal) Adding squashing to UWR provides modest marginal improvements (compared to the optimal unweighted reserve price with no squashing) and does not substantially affect the optimal reserve price.(left:  uniform; right: log-normal)    </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head></head><label></label><figDesc>Fig. 10. Adding squashing to QWR provides dramatic improvements. However, the higher the squashing power, the less the reserve prices are actually weighted by quality. In the case of a log-normal value distribution, the optimal parameter setting (s = 0.0) removes quality scores entirely and is thus equivalent to UWR. Note that different values of squashing power lead to dramatically different optimal reserve prices. (left: uniform; right: log-normal)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head></head><label></label><figDesc>Fig. 12. When squashing is only applied to ranking, but not to the reserve prices, the marginal gains from squashing over QWR (with the optimal reserve) are very small.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>Table I .</head><label>I</label><figDesc></figDesc><table>Comparing GSP variants for two bidders with 
+q 1 = 1, q 2 = 1/2, and v1, v2 ∼ U(0, 1). 
+
+Auction 
+Revenue 
+Parameter(s) 
+
+VCG/GSP 
+0.208 
+-
+Squashing 
+0.255 
+s = 0.19 
+QWR 
+0.279 
+r = 0.375 
+UWR 
+0.316 
+r = 0.549 
+QWR+Sq 
+0.321 
+r = 0.472, s = 0.24 
+UWR+Sq 
+0.322 
+r = 0.505, s = 0.32 
+Anchoring 
+0.323 
+r = 0.5 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head>Table II .</head><label>II</label><figDesc>Comparing the various auction variants given their optimal parameter settings (Left: Worst-case equilibrium; Right: Best-case equilibrium) Bold indicates variants that are significantly better than all other variants, but not significantly different from each other (based on p ≤ 0.05 with Bonferroni correction).</figDesc><table>Auction 
+Revenue 
+Parameter(s) 
+
+Vanilla GSP 
+3.814 
+-
+Squashing 
+4.247 
+s = 0.4 
+QWR 
+9.369 
+r = 9.0 
+Anchoring 
+10.212 
+r = 13.0 
+QWR+Sq 
+10.217 
+r = 15.0, s = 0.2 
+UWR 
+11.024 
+r = 15.0 
+UWR+Sq 
+11.032 
+r = 15.0, s = 0.6 
+
+Auction 
+Revenue 
+Parameter(s) 
+
+Vanilla GSP 
+9.911 
+-
+QWR 
+10.820 
+r = 5.0 
+Squashing 
+11.534 
+s = 0.2 
+UWR 
+11.686 
+r = 11.0 
+Anchoring 
+12.464 
+r = 11.0 
+QWR+Sq 
+12.627 
+r = 7.0, s = 0.2 
+UWR+Sq 
+12.745 
+r = 9.0, s = 0.2 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head>Table III .</head><label>III</label><figDesc>Comparing the various auction variants given their optimal parameter settings. Note that in this analysis, vanilla GSP is equivalent to VCG. (Uniform distribution to the left and log-normal distribution to the right) Bold indicates variants that are significantly better than all other variants, but not significantly different from each other. (p ≤ 0.05 with Bonferroni correction.)</figDesc><table>Auction 
+Revenue 
+Parameter(s) 
+
+Vanilla GSP 
+7.737 
+-
+Squashing 
+9.123 
+s = 0.25 
+QWR 
+10.598 
+r = 8.0 
+UWR 
+12.026 
+r = 14.0 
+QWR+Sq 
+12.046 
+r = 12.0, s = 0.25 
+UWR+Sq 
+12.220 
+r = 12.0, s = 0.25 
+Anchoring 
+12.279 
+r = 12.0 
+
+Auction 
+Revenue 
+Parameter(s) 
+
+Vanilla GSP 
+20.454 
+-
+QWR 
+48.071 
+r = 400.</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">Note: we assume that advertisers who do not bid above their minimum bid do not affect the outcome in any way. Particularly, this means that an advertiser who bids below her minimum bid does not affect the prices that other agents must pay.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2">A wide range of richer models have been proposed in the literature, e.g., allowing consideration of externalities [e.g.,<ref type="bibr" target="#b7">Ghosh and Mahdian 2008;</ref><ref type="bibr" target="#b12">Kempe and Mahdian 2008]</ref>; richer advertiser preferences [e.g.,<ref type="bibr" target="#b2">Blumrosen et al. 2008;</ref><ref type="bibr" target="#b1">Benisch et al. 2008]</ref>; and uncertainty [e.g.,<ref type="bibr" target="#b8">Gomes and Sweeney 2011]</ref>. Investigating the optimization of GSP revenue under such models is an important direction for future work.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">Because of the simplicity of the model, we could calculate the expected revenues numerically (to 10 −5 accuracy). To find the optimal parameter settings, we used grid search with increments of 0.001 for r and increments of 0.01 for s.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6">A substantial fraction of the expected revenue in log-normal settings comes from rare, high valuation bidders. Thus, the expected revenue had much higher variance than in the uniform case; we thus needed many more samples to reduce noise and obtain statistically significant results.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7"><ref type="bibr" target="#b18">Ostrovsky and Schwarz [2009]</ref> report that they were explicitly instructed to use weighted reserve prices in their experiments because these are more consistent with an otherwise weighted auction and are perceived to be more fair by bidders.</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Truthful auctions for pricing search keywords</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Aggarwal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Goel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Motwani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM Conference on Electronic Commerce (EC)</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">The cost of inexpressiveness in advertisement auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Benisch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Sadeh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Sandholm</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Ad Auctions</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Position auctions and non-uniform conversion rates</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Blumrosen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hartline</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Nong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Ad Auctions</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">On the efficiency of equilibria in generalized second price auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Caragiannis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Kaklamanis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Kanellopoulos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kyropoulou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Lucier</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Paes Leme</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Tardos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Theory</title>
+		<imprint>
+			<publisher>JET</publisher>
+		</imprint>
+	</monogr>
+	<note>Invited to the</note>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Revenue submodularity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Dughmi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Roughgarden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Sundararajan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM Conference on Electronic Commerce (EC)</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Internet advertising and the generalized second price auction: Selling billions of dollars worth of keywords</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Edelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Ostrovsky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schwarz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="page" from="242" to="259" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Optimal auction design and equilibrium selection in sponsored search auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Edelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schwarz</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010" />
+			<publisher>HBS Working Paper</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Externalities in online advertising</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Ghosh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Mahdian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">WWW: International World Wide Web Conference</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Bayes-Nash equilibria of the generalized second-price auction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">D</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Sweeney</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+	<note>Working paper</note>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<monogr>
+		<title level="m" type="main">Google&apos;s &quot;Inside AdWords&quot; blog. 2006. A common AdWords misconception explained</title>
+		<ptr target="http://adwords.blogspot.ca/2006/01/common-adwords-misconception-explained.html" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Action-graph games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">A R</forename><surname>Bhat</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">GEB: Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="141" to="173" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Impersonation strategies in auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">A</forename><surname>Kash</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">C</forename><surname>Parkes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Internet and Network Economics (WINE)</title>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A cascade model for externalities in sponsored search</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Kempe</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Mahdian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Internet and Network Economics (WINE)</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Efficient ranking in sponsored search</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Lahaie</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Mcafee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Internet and Network Economics (WINE)</title>
+		<imprint>
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Revenue analysis of a family of ranking rules for keyword auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Lahaie</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">M</forename><surname>Pennock</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM Conference on Electronic Commerce (EC)</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">On revenue in the generalized second price auction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Lucier</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Paes Leme</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Tardos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">WWW</title>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Yahoo! &quot;handicaps&quot; its search ad auctions. Does Google &quot;squash</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Metz</surname></persName>
+		</author>
+		<ptr target="http://www.theregister.co.uk/2010/09/16/yahoodoessquashing/" />
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">An Introduction to Copulas</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Myerson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">B</forename><surname>Nelsen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematics of Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<date type="published" when="1981" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+	<note>Optimal auction design</note>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Reserve prices in internet advertising auctions: A field experiment</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Ostrovsky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schwarz</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+	<note type="report_type">Working Paper</note>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Simple search methods for finding a Nash equilibrium</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Porter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">GEB: Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="642" to="662" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Do externalities degrade GSP&apos;s efficiency?</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Roughgarden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Tardos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Ad Auctions</title>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Optimal reserve prices in weighted GSP auctions: Theory and experimental methodology</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Deng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Ad Auctions</title>
+		<imprint>
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Computing Nash equilibria of action-graph games via support enumeration</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">R M</forename><surname>Thompson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Internet and Network Economics (WINE)</title>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="338" to="350" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Computational analysis of perfectinformation position auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">R M</forename><surname>Thompson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM Conference on Electronic Commerce (EC)</title>
+		<imprint>
+			<date type="published" when="2009" />
+			<biblScope unit="page" from="51" to="60" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Position auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Varian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Industrial Organization</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="1163" to="1178" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

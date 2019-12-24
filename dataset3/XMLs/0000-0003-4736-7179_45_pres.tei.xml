@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Adaptive XML Tree Mining on Evolving Data Streams</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2009-09-08">2009 Bled, september 8th, 2009</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Bifet</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">Laboratory for Relational Algorithmics, Complexity and Learning LARCA Departament de Llenguatges i Sistemes Informàtics Universitat Politècnica de Catalunya ECML-PKDD</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">Laboratory for Relational Algorithmics, Complexity and Learning LARCA Departament de Llenguatges i Sistemes Informàtics Universitat Politècnica de Catalunya ECML-PKDD</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Adaptive XML Tree Mining on Evolving Data Streams</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2009-09-08">2009 Bled, september 8th, 2009</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>XML Trees</head><p>&lt;?xml version= " 1 . 0 " ?&gt; &lt;?xml−s t y l e s h e e t t y p e = " t e x t / x s l " h r e f = " movie1 . x s l " ?&gt; &lt; f i l m l i b r a r y &gt; &lt;name&gt; C l a s s i c F i l m s &lt; / name&gt; &lt;movie&gt; &lt; t i t l e &gt;The B i c y c l e T h i e f &lt; / t i t l e &gt; &lt;genre&gt; S o c i a l Drama&lt; / genre&gt; &lt;language&gt; I t a l i a n &lt; / language&gt; &lt;year &gt;1948&lt; / year &gt; &lt; l e n g t h &gt;90 Min . &lt; / l e n g t h &gt; &lt; f i l m t y p e &gt;BW&lt; / f i l m t y p e &gt; &lt; c r e d i t s &gt; &lt; d i r e c t o r &gt; V i t t o r i o de Sica &lt; / d i r e c t o r &gt; &lt; s t o r y &gt;Gennarino B a r t o l i n i &lt; / s t o r y &gt; &lt;cinematography&gt; C a r l o M o n t u o r i &lt; / cinematography&gt; &lt; / c r e d i t s &gt; &lt; / movie&gt; &lt; / f i l m l i b r a r y &gt;</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Issues Pattern Classification</head><p>Mapping patterns → features Frequent patterns, closed patterns, generators, . . .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data stream classification</head><p>Highly sublinear memory (in #items seen) Low processing time per item Tolerate distribution &amp; concept change</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our Work</head><p>To our knowledge, first tree pattern classifier in data streams Builds features by mining frequent closed subtrees or maximal subtrees Miner is interesting in itself / competititve with state-of-the art Uses recently proposed ensemble methods for classification Implementation over the MOA framework</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Tree (Pattern) Mining</head><p>Task occurs in chemistry, computer vision, text retrieval bioinformatics, Web analysis, XML queries, . . . all trees whose support is no less than min_support  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition</head><p>We define the following Galois connection pair:</p><formula xml:id="formula_0">For finite A ⊆ D σ (A) is the set of subtrees of the A trees in T σ (A) = {t ∈ T ∀ t ∈ A (t t )} For finite B ⊂ T τ D (B) is the set of supertrees of the B trees in D τ D (B) = {t ∈ D ∀ t ∈ B (t t )}</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Closure Operator</head><p>The composition C D = σ • τ D is a closure operator</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Characterizing closed trees</head><p>A tree t is closed (no supertree with same support) in </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Miner is interesting in itself</head><p>Can also be used for static databases For small number of labels: slightly faster than CMTreeMiner significantly less memory than CMTreeMiner (CMTreeMiner keeps all dataset in memory) T8M synthetic dataset [Zaki02]: 100 labels, mother tree size 10,000, DBsize 8M</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Maximal Trees</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Maximal Trees</head><p>A tree is maximal if no supertree of t is frequent All maximal trees are closed Non-maximal closed patterns can be derived from maximal ones </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>XML Tree Framework on evolving data streams</head><p>Two components:</p><p>An XML closed frequent tree miner A Data stream classifier algorithm, which we will feed with tuples to be classified online.</p><p>Attributes in these tuples represent the occurrence of the current closed trees in the originating tree, although the classifier algorithm need not be aware of this.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Experiments: Synthetic datasets</head><p>Zaki's tree dataset generator 2 mother trees, 2 classes, depth and fanout 10 </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>A transaction supports a tree if the tree is a subtree of the transaction Support of a tree is the number of transactions that support it Given a dataset of trees and value min_support, find Frequent Tree mining (FT):</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>Closed Frequent Tree mining (CT):+ no super-tree with the same support</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>D1 and D2 be two datasets of patterns. A pattern t is closed for D1 ∪ D2 if and only if Theorem Let D be a pattern dataset. A pattern t is closed for D if and only if the intersection of all its closed superpatterns is t. Incremental Algorithm Computing the lattice of frequent trees Construct empty lattice L; Repeat Collect batch of B trees; Build closed tree lattice for B, L 2 ; L := merge(L,L 2 ) (using addition rule) Memory &amp; time depend on lattice size (number of closed trees) not on DB size! Efficient ops. using the representation for trees by [Balcázar-Bifet-Lozano] Incremental Algorithm Computing the lattice of frequent trees Construct empty lattice L; Repeat Collect batch of B trees; Build closed tree lattice for B, L 2 ; L := merge(L,L 2 ) (using addition rule) Memory &amp; time depend on lattice size (number of closed trees) not on DB size! Efficient ops. using the representation for trees by [Balcázar-Bifet-Lozano] Dealing with time changes Keep a window on recent stream elements Actually, just its lattice of closed sets! Keep track of number of closed trees in lattice, N Use some change detector on N When change is detected: Drop stale part of the window Update lattice to reflect this deletion, using deletion rule Alternatively, sliding window of some fixed size</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>Figure: A dataset example</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>Previous Work [</head><label>Work</label><figDesc>Zaki-Agrawal] Classifier from frequent sets + Bayesian rules [Kudo et al.] Classifier from "significant" frequent trees + boosting [Collins et al.,Kashima et al.] SVM's, tree kernels; feature space = frequent trees CMTreeMiner [Chi et al.], [Termier et al.] Dryade: Closed frequent tree miners without computing all frequent trees [Li et al 06] Frequent subtree miner for XML data streams [Bifet-G 08] Frequent closed pattern miner in data streams, unlabelled trees Closure Operator on Trees D: the finite input dataset of trees T : the (infinite) set of all trees</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>1M samples, node labels change every 250,000 treesExperiments: Real dataset LOGML files [Zaki 02] describing 3 weeks of user sessions logs, each as XML file classes = .edu vs. non-.edu visitors Maximal Closed # Trees Att. Acc. Mem. Att. Acc. Mem. Conclusions A tree / XML tree stream classifier system Frequent closed / maximal trees as features Frequent closed tree miner based on closure operators That reacts quickly to distribution / label changes Maximal trees may suffice More experiments for better understanding of behavior Especially, comparison with CMTreeMiner Deletion of obsolete attributes Use generators instead of closed / maximal XML mining in data streams when #labels is large</figDesc><table>Bagging 
+Time 
+Acc. Mem. 
+
+AdaTreeMiner 161.61 80.06 4.93 
+IncTreeMiner 
+212.75 65.73 
+4.4 
+CSLOG12 
+15483 84 79.64 
+1.2 
+228 78.12 2.54 
+CSLOG23 
+15037 88 79.81 1.21 243 78.77 2.75 
+CSLOG31 
+15702 86 79.94 1.25 243 77.60 2.73 
+CSLOG123 23111 84 80.02 
+1.7 
+228 78.91 4.18 
+Future Work 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">t is a closed pattern for D1, or t is a closed pattern for D2, or t is a subpattern of a closed pattern in D1 and of a closed pattern in D2 and C D 1 ∪D 2 ({t}) = {t}.</note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Moa (another native NZ bird) is not only flightless, like the Weka, but also extinct.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>with and without Naïve Bayes classifiers at the leaves.</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

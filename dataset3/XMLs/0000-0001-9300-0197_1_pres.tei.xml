@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">AUTOMATIC TEXT SUMMARIZATION</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sütő</forename><surname>Evelyne</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Babeş-Bolyai University</orgName>
+								<address>
+									<addrLine>Computer Science</addrLine>
+									<settlement>Cluj-Napoca</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">AUTOMATIC TEXT SUMMARIZATION</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>INTRODUCTION INTRODUCTION</head><p>• Purpose: Present a the different approaches and problems of summarization • Extractive summaries</p><p>• Abstractive summaries</p><p>• Why summary generation is important?</p><p>• How can we evaluate summarization systems</p><p>• Conclusions</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>EXTRACTIVE SUMMARIZATION</head><p>In extractive summarization we are mainly focused on calculating the importance of each sentence in our document, while still considering the grammatical correctness of the overall summary while choosing the most important sentences to represent the overall meaning of the text. • Frequency based <ref type="bibr" target="#b7">[Luhn, 1958]</ref> Extraction based on:</p><p>• Word frequency • Relative position of words in a sentence</p><p>• Cue, Key, Title and Location <ref type="bibr" target="#b3">[Edmundson, 1969]</ref> Where:</p><p>• Cue word (derived from a dictionary) is considered to introduce important information • Key words are used to consist of topic based words • Title assumption words in title must descriptive of subject • Location relies on certain characteristics of document structures, e.g topic sentences appear very early in sections w 1 * C + w 2 * K + w 3 * T + w 4 * L A more sophisticated measure for frequencies could be the tf-idf measure. The tf*idf weights of words are good indicators of importance, and they are easy and fast to compute. <ref type="bibr" target="#b12">[Nenkova and McKeown, 2012</ref>]</p><formula xml:id="formula_0">tf * idf = c(t) * log D d(t)</formula><p>Where c(t) is the term frequency in the corpus, D is the number of documents and d(t) is number of document t occurred in.</p><p>Can be easily used as input for a Naive Bayes classifier.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>6</head><p>TEXT CONNECTIVITY <ref type="bibr">TEXT CONNECTIVITY Lexical chains [Barzilay and Elhadad, 1999]</ref> • Intuition, for using lexical chains rather than frequency • Challenge in this area is to find a scoring system to select the most significant chain</p><p>• After selecting the strongest chains, for each chain choose the sentence that contains the first appearance of a representative member of the chain in the text Score(Chain) = Length(Chain) * Homogeneity • Graph based system</p><p>• A graph that approximates the discourse relations across sentences based on discourse cues, deverbal nouns, co-reference.</p><p>• Nodes are sentences, and each edge represents a pairwise ordering constraint necessary for a coherent summary.</p><p>• Using this graph we can estimate how coherent our extracted text is • The edges model: deverbal nouns, co-reference, lexical chains, cue words</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>GRAPHED BASED METHODS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>GRAPH BASED METHODS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TextRank [Mihalcea and Tarau, 2004]</head><p>A graph-based ranking algorithm is a way of deciding on the importance ofa vertex within a graph, by taking into account global information recursively computed fromthe entire graph, rather than relying only on local vertex-specific information.</p><p>• Importance is computed recursively from the entire graph • Graph-based ranking model is based voting or recommendation</p><p>• Each link equals a vote, the more vote an edge has the bigger its importance</p><formula xml:id="formula_1">S(V i ) = (1 − d) + d * ∑ j∈In(V i ) 1 |Out(V j )| S(V j )</formula><p>Where:</p><p>• In(V) = set of vertices pointing to V</p><p>• Out(V) = set of vertices to which V points to • d = damping factor, probability of jumping from a given vertex to another random vertex, usually set to 0.85</p><p>The values of the vertices are assigned randomly at first and the algorithm runs until convergence is achieved.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ABSTRATIVE SUMMARIZATION ABSTRACTIVE SUMMARIZATION</head><p>Abstractive summaries try to present a shorter version of the text input, based on deeper understanding of the conecpts being represented and it may contain newly added sentences,phrases as well to improve the generated abstract Encoder decoder summary generation <ref type="bibr" target="#b10">[Nallapati et al., 2016]</ref> • Challenge: sequence lengths for the input and output is very different • Summarization is not simple mapping because we need concentrate the main ideas of the text with some loss • Solution for rare words using a switching generator-pointer <ref type="figure">Figure 4</ref>: Image source: <ref type="bibr" target="#b10">[Nallapati et al., 2016]</ref> Currently the ROUGE (Recall-Oriented Understudy for Gisty Evaluation) <ref type="bibr" target="#b5">[Lin, 2004]</ref> metrics are the standard ROUGE-N is an n-gram recall between a candidate summary and a set ofreference summaries</p><formula xml:id="formula_2">ROUGE − N = ∑ S∈{Reference summary} ∑ n−gram∈S Count match (n − gram) ∑ S∈{Reference summary} ∑ n−gram∈S Count(n − gram) R LCS = LCS(X, Y) m P LCS = LCS(X, Y) n ROUGE − L = (1 + b 2 )R LCS P LCS R LCS + b 2 P LCS</formula><p>Given two sequences X and Y, the longest common subsequence (LCS) of X and Y ( X of length m and Y of length n) is a common subsequence with maximum length CONCLUSION • Summary generation problem is a very complex one.</p><p>• Endless approaches have been researched such as graph based methods, statistical computational methods, text connectivity, deep learning.</p><p>• People are looking for new approaches continously.</p><p>• For example researchers are beginning to use different reinforcement learning methods for sentence selection and even multi agent systems.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Summary in a nutshell Image source: https://blog.fastforwardlabs.com/2016/04/21/ summarization-as-a-gateway-to-computable-language.html</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :Figure 3 :</head><label>23</label><figDesc>Image source: https://www.summarizebot.com/ Image source: https://medium.com/botsupply/generative-model-chatbots/</figDesc></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">automatic text summarization</title>
+		<imprint>
+			<biblScope unit="page" from="111" to="121" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Christensen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Soderland</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Etzioni</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Towards coherent multi-document summarization</title>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2013 conference of the North American chapter of the association for computational linguistics: Human language technologies</title>
+		<meeting>the 2013 conference of the North American chapter of the association for computational linguistics: Human language technologies</meeting>
+		<imprint>
+			<biblScope unit="page" from="1163" to="1173" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">P</forename><surname>Edmundson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1969" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">New methods in automatic extracting</title>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM (JACM)</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="264" to="285" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C.-Y</forename><surname>Lin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Rouge: A package for automatic evaluation of summaries. Text Summarization Branches Out</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">P</forename><surname>Luhn</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1958" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The automatic creation of literature abstracts</title>
+	</analytic>
+	<monogr>
+		<title level="m">Textrank: Bringing order into text</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="159" to="165" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<monogr>
+				<title level="m">Proceedings of the 2004 conference on empirical methods in natural language processing</title>
+		<meeting>the 2004 conference on empirical methods in natural language processing</meeting>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Nallapati</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gulcehre</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Xiang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Abstractive text summarization using sequence-to-sequence rnns and beyond</title>
+		<idno type="arXiv">arXiv:1602.06023</idno>
+		<imprint/>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Nenkova</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Mckeown</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A survey of text summarization techniques</title>
+	</analytic>
+	<monogr>
+		<title level="m">Mining text data</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<biblScope unit="page" from="43" to="76" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Improved Modeling of Cross-Decoder Phone Co-occurrences in SVM-based Phonotactic Language Recognition</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikel</forename><surname>Penagarikano</surname></persName>
+							<email>mikel.penagarikano@ehu.es</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amparo</forename><surname>Varona</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Luis</forename><surname>Javier Rodríguez-Fuentes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Germán</forename><surname>Bordel</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Improved Modeling of Cross-Decoder Phone Co-occurrences in SVM-based Phonotactic Language Recognition</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Most common approaches to phonotactic language recognition deal with several independent phone decodings. These decodings are processed and scored in a fully uncoupled way, their time alignment (and the information that may be extracted from it) being completely lost. Recently, a new approach to phonotactic language recognition has been presented [1], which takes into account time alignment information, by considering crossdecoder phone co-occurrences at the frame level, under two language modeling paradigms: smoothed n-grams and Support Vector Machines (SVM). Experiments on the NIST LRE2007 database demonstrated that using phone co-occurrence statistics could improve the performance of baseline phonotactic recognizers. In this paper, two variants of the cross-decoder phone co-occurrence SVM-based approach are proposed, by considering: (1) n-grams (up to 3-grams) of phone co-occurrences; and (2) co-occurrences of phone n-grams (up to 3-grams). To evaluate these approaches, a choice of open software (Brno University of Technology phone decoders, LIB-LINEAR and FoCal) was used, and experiments were carried out on the NIST LRE2007 database. Unlike those presented in [1], the two approaches presented in this paper outperformed the baseline phonotactic system, yielding around 16% relative improvement in terms of EER. The best fused system attained a 1,88% EER (a 30% improvement with regard to the baseline system), which supports the use of cross-decoder dependencies for language modeling.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Phonotactic language recognizers exploit the ability of phone decoders to convert a speech utterance into a sequence of phones containing acoustic, phonetic and phonological information. Models for target languages are built by decoding hundreds or even thousands of training utterances and using the phone-sequence (or phone-This work has been supported by the Government of the Basque Country, under program SAIOTEK (project S-PE09UN47), and the Spanish MICINN, under Plan Nacional de I+D+i (project TIN2009-07446, partially financed by FEDER funds). lattice) statistics (typically, counts of n-grams) in different ways. Since training data feature a wide range of speakers and diverse linguistic contents, being language the common factor, it is expected that phone statistics reflect language-specific characteristics.</p><p>The most common phonotactic approaches are the so called PPRLM (Parallel Phone Recognizers followed by Language Models) <ref type="bibr" target="#b1">[2]</ref>, referred to as Phone-LM in this paper, and Phone-SVM (Support Vector Machines applied on counts of phone n-grams) <ref type="bibr" target="#b2">[3]</ref>. In both cases, N phone decoders are applied to the input utterance, yielding N phone decodings (or lattices). The output of the phone decoder i (i ∈ [1, N ]) is scored for each target language j (j ∈ [1, L]), by applying the model λ(i, j) (estimated using the outputs of the phone decoder i for the training database, taking j as the target language). Scores for the subsystem i are calibrated, typically by means of a Gaussian backend. Sometimes, a t-norm <ref type="bibr" target="#b3">[4]</ref> is applied before calibration. Finally, N × L calibrated scores are fused applying linear logistic regression, to get L final scores for which a minimum expected cost Bayes decision is taken, according to application-dependent language priors and costs (see <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b5">6]</ref> for details). <ref type="figure">Figure 1</ref> shows the structure of a typical phonotactic language recognizer. <ref type="figure">Figure 1</ref>: A phonotactic language recognition system. However, the above described structure defines N independent data processing channels, and no crossdecoder dependencies are exploited for language modeling, information being fused only at the score level. The idea of using phonetic information in the cross-stream (cross-decoder) dimension was first applied for speaker recognition in the Johns Hopkins University (JHU) 2002 Workshop <ref type="bibr" target="#b6">[7]</ref>, where two decoupled time and crossstream dimensions were modelled separately and integrated at the score level. Some years later, cross-stream dependencies were also used via multi-string alignments in a language recognition application <ref type="bibr" target="#b7">[8]</ref>.</p><p>Recently, a simple approach has been proposed which takes into account cross-decoder phone co-occurrences at the frame level <ref type="bibr" target="#b0">[1]</ref>. In that approach, phone segmentation is extracted as side information from 1-best phone decodings, and allows us to consider the co-occurrence of N phone labels (one per decoder) at each frame. This way, a frame-synchronous sequence of multi-phone labels can be defined and used for modeling purposes, following either the Phone-LM or the Phone-SVM approaches. The simplest case consists of considering just two decoders A and B (out of N ) and using sequences of two-phone labels, which can be processed and modelled exactly the same way as single-phone sequences (see <ref type="figure" target="#fig_0">Figure 2</ref>).</p><p>In fact, N (N − 1)/2 of such 2-decoder subsystems can be defined and fused at the score level to get a full 2-phone co-occurrence system. This configuration can be easily generalized to k-decoder subsystems (k = 3, 4, . . . , N ). As for n-grams, the number of possible kphone co-occurrences increases exponentially with k, so in this work only 2-phone and 3-phone co-occurrences will be considered. In experiments on the NIST LRE2007 database, using Brno University of Technology (BUT) decoders for Czech, Hungarian and Russian <ref type="bibr" target="#b8">[9]</ref>, it was shown that fusing baseline phonotactic systems with systems based on cross-decoder phone co-occurrences led to improved performance in all the cases (see <ref type="bibr" target="#b0">[1]</ref> for details). However, systems based on cross-decoder phone co-occurrences did not outperform the baseline phonotactic systems. On the other hand, systems using 2-phone co-occurrences yielded better performance than those using 3-phone co-occurrences. When using 2-phone co-occurrences, the Phone-LM approach outperformed Phone-SVM, probably due to the fact that only unigram statistics were used in Phone-SVM, whereas up to 4-grams were considered in Phone-LM.</p><p>The work presented in this paper focuses on exploring different ways of exploiting the information contained in 2-phone and 3-phone co-occurrence sequences in SVMbased phonotactic language recognition. Two variants of the approach presented in <ref type="bibr" target="#b0">[1]</ref> are proposed. In the first one, SVM vectors consist of counts of up to 3-grams (instead of just unigrams) of 2-phone and 3-phone cooccurrences. The second one does not consider n-grams of phone co-occurrences, but co-occurrences of phone n-grams (up to 3-grams). These approaches have been evaluated using open software (BUT phone decoders, LI-BLINEAR and FoCal) and a relevant database (NIST LRE2007).</p><p>The rest of the paper is organized as follows. The baseline phonotactic system used in this work is described in Section 2. Approaches based on cross-decoder phone co-occurrences are described in Section 3. The experimental setup is briefly described in Section 4. Results of language recognition experiments on the NIST LRE2007 database (pooled for all the target languages) are presented and discussed in Section 5. Finally, conclusions and potential lines for future work are outlined in Section 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Baseline SVM-based Phonotactic Language Recognizer</head><p>The TRAPS/NN phone decoders developed by the Brno University of Technology (BUT) for Czech (CZ), Hungarian (HU) and Russian (RU) <ref type="bibr" target="#b8">[9]</ref> are the core elements of all the systems developed in this work. BUT decoders have been previously used by other groups (besides BUT <ref type="bibr" target="#b9">[10]</ref>, the MIT Lincoln Laboratory <ref type="bibr" target="#b10">[11]</ref>) as the core elements of their phonotactic language recognizers, with high-accuracy results. Non phonetic units appearing in the decodings (int, pau and spk) are mapped to silence (sil). After this, output dimensions for BUT decoders are 43 (CZ), 59 (HU) and 49 (RU), respectively. Before doing phone tokenization, an energy-based voice activity detector is applied to split and remove non-speech segments from the signals. Since each BUT decoder runs an acoustic front-end, it can be seen as a black box which takes a speech signal as input and gives the 1-best phone decoding as output. Regarding channel compensation, noise reduction, etc. all the systems presented in this paper rely on the acoustic front-end embedded in BUT decoders. In the baseline system, phone sequences are modelled by means of Support Vector Machines (SVM). SVM vectors consist of counts of phone n-grams (up to trigrams), weighted as proposed in <ref type="bibr" target="#b11">[12]</ref>. A Crammer and Singer solver for multiclass SVMs with linear kernels has been applied, by means of LIBLINEAR <ref type="bibr" target="#b12">[13]</ref> (much faster than libSVM <ref type="bibr" target="#b13">[14]</ref> when using linear kernels), which has been modified by adding some lines of code to compute regression values.</p><p>Finally, the baseline system is built by fusing the scores of three calibrated SVM-based phonotactic subsystems, for Czech, Hungarian and Russian decoders. The FoCal toolkit is used for calibration and fusion <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b5">6]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Improved Modeling of Cross-Decoder Phone Co-occurrences</head><p>In the following paragraphs, we describe two approaches that make use of cross-decoder co-occurrences to model target languages in SVM-based phonotactic language recognition. The first approach uses n-grams of crossdecoder phone co-occurrences; the second one, counts of cross-decoder co-occurrences of phone n-grams.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Approach 1: n-grams of phone co-occurrences</head><p>Let us consider an input sequence of feature vectors X = (X 1 , . . . , X T ), T being the length of X, and assume that N phone decoders are available. The 1best phone segmentations produced by such decoders are given by:</p><formula xml:id="formula_0">S (d) (X) = {s (d) 1 , . . . , s (d) T }, d ∈ [1, N ], s (d) t</formula><p>being the phone label produced by decoder d at frame t. A cross-decoder time-synchronous (frame level) kphone co-occurrence is defined by the k-tuple c π (t) = (s</p><formula xml:id="formula_1">(d1) t , s (d2) t , . . . , s (d k ) t ), π = (d 1 , d 2 , . . . , d k )</formula><p>being a choice of k decoders, with k ∈ [2, N ]. A sequence of 3-phone co-occurrences (corresponding to 3 decoders) is depicted in <ref type="figure" target="#fig_3">Figure 3</ref>. Note that a sequence of k-phone cooccurrences C π = (c π (1), c π (2), . . . , c π (T )) includes information from both time and cross-stream dimensions.</p><p>We make the assumption that sequences of k-phone co-occurrences are somehow language-specific. So, a language recognition system could be built by counting such events for a training database and estimating SVMbased language models, which should be able to discriminate target languages from each other. There can be defined N !/k!(N − k)! of such systems, which could be applied on an independent way and their scores fused to get a full cross-decoder phone co-occurrence language recognition system. To keep computational costs reasonably low, in this work frame-level phone co-occurrences are considered only for k = 2 and k = 3 decoders.</p><p>In this work, we aimed to model cross-decoder segmental (phone-level) dependencies, not cross-decoder frame-level dependencies. The use of frame-level phone labels was motivated just by the need to synchronize phone decodings with each other. A sort of segmental representation can be recovered by reducing each sequence of repeated co-occurrences to a single label. However, when analyzing frame-level sequences, two types of segments can be identified: (1) stationary segments, corresponding to relatively long portions of speech for which decoders keep the same labels; and (2) transitional segments, appearing at phone borders, resulting from the fact that each decoder detects phone transitions at different points (see an example in <ref type="figure" target="#fig_3">Figure 3</ref>). We hypothesize that phone co-occurrences corresponding to transitional segments reflect random variations in the way each decoder determines phone boundaries and may distort language models. So, before reducing long sequences (stationary segments), short sequences (transitional segments) are filtered out. In this work, this is done by replacing the co-occurrence label at each frame by the mode computed on a window of size 7 around it (applied iteratively until convergence) which roughly makes sequences of length shorter than 3 to be absorbed by the surrounding sequences (see an example in <ref type="figure" target="#fig_3">Figure 3</ref>).</p><p>The resulting sequences of phone co-occurrences are then used to compute n-grams, which can be applied either to estimate SVM parameters or to score an input signal with regard to SVM-based language models. In <ref type="bibr" target="#b0">[1]</ref>, a complete representation of phone co-occurrences was used, so that SVM vectors comprised between 2000 and 3000 unigrams for 2-decoder configurations and more than 124000 unigrams for a 3-decoder configuration. Under such a complete representation, including bigrams and trigrams of phone co-occurrences in SVM vectors was prohibitive. In this work, a sparse representation is used instead, which involves only the n-grams seen more than 30 times in training data. This way, the representation is bounded above by the amount of data used to compute the statistics. In practice, the size of SVM vectors defined this way (including up to trigrams) is always less than 10000.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Approach 2: co-occurrences of phone n-grams</head><p>The second approach consists of considering crossdecoder co-occurrences of phone n-grams, generalizing the first approach, which is limited to phone unigrams. This generalization involves an important change when counting co-occurrences at frame level: for any given decoder, up to n n-grams can overlap at each frame t, which means that up to n k phone n-grams can co-occur at the same frame for a choice of k decoders. So, a procedure must be designed for distributing co-occurrence counts at frame level. This procedure will allow us to circumvent the issue of lack of synchronization among decoders at phone borders. In this work, we consider only cross-decoder co-occurrences of n-grams with the same n. Though possible, mixed co-occurrences (unigrams with bigrams, bigrams with trigrams, etc.) are not considered.</p><p>Let us consider an input sequence of feature vectors X = (X 1 , . . . , X T ) and a choice of k decoders π = (d 1 , . . . , d k ). Let Γ       Let c π n (t, ν) = (w d1 n (t, i 1 ), . . . , w d k n (t, i k )) be a cooccurrence of k phone n-grams, for a choice of n-grams ν = (i 1 , . . . , i k ), with 1 ≤ i j ≤ |Γ In this approach, each decoder d j ∈ π makes its own contribution to the count of a given co-occurrence of phone n-grams at a given frame. The key concepts are: (1) each phone n-gram is counted once for each decoder, so its count is distributed among all the frames it spans; and (2) the contribution corresponding to a given phone n-gram at a given frame for a given decoder is distributed among all the combinations of phone n-grams at that frame for the remaining decoders. Taking into account these principles, we get the following expression:</p><formula xml:id="formula_2">count(c π n (t, ν), d j ) = 1 f (dj ) n (t, i j ) · k l=1 l =j |Γ (d l ) n (t)|<label>(1)</label></formula><p>The count for c π n (t, ν) is computed as the average contribution over all the decoders:</p><formula xml:id="formula_3">count(c π n (t, ν)) = 1 k k j=1 count(c π n (t, ν), d j )<label>(2)</label></formula><p>Finally, the count corresponding to a given cooccurrence of phone n-grams b π n = (v</p><formula xml:id="formula_4">(d1) n , . . . , v (d k ) n )</formula><p>is computed by adding the counts for all the frames in the sequence where it appears:</p><formula xml:id="formula_5">count(b π n ) = T t=1 ∀ν</formula><p>δ(b π n , c π n (t, ν)) · count(c π n (t, ν)) (3)</p><p>In practice, counts are computed in two passes. The first pass computes and stores |Γ  n (t, i) for each decoder d and each frame t. Starting from the previously stored values, the second pass accumulates the counts of phone n-grams on a frame-by-frame basis, applying equation 2 for each combination ν of phone ngrams appearing at frame t.</p><p>In this work, we consider cross-decoder cooccurrences of unigrams, bigrams and trigrams for each combination of k = 2 and k = 3 decoders (out of N = 3). An example for k = 2 decoders (π = (1, 2)) including up to bigrams, is shown in <ref type="figure" target="#fig_14">Figure 4</ref>. Let us consider the shaded frame (t = 15) in <ref type="figure" target="#fig_14">Figure 4</ref>. The sets of n-grams appearing at that frame are:</p><formula xml:id="formula_6">Γ (1) 1 (15) = {c} Γ<label>(1)</label></formula><p>2 (15) = {ac, cb} Γ    (1) each n-gram is counted once for each decoder, so its count is distributed among all the frames it spans; (2) the contribution corresponding to a given n-gram at a given frame for a given decoder is distributed among all the combinations of n-grams appearing at that frame for the remaining decoders; and (3) the count corresponding to a given n-gram at a given frame is computed as the average contribution over all decoders.</p><p>Starting from these values and according to equation 2, the counts of co-occurrences of phone n-grams are computed as follows:</p><formula xml:id="formula_7">count(c_y) = 1 2 · 1 8 · 1 + 1 13 · 1 count(ac_xy) = 1 2 · 1 17 · 2 + 1 19 · 2 count(ac_yz) = 1 2 · 1 17 · 2 + 1 18 · 2 count(cb_xy) = 1 2 · 1 15 · 2 + 1 19 · 2 count(cb_yz) = 1 2 · 1 15 · 2 + 1 18 · 2</formula><p>For estimating the SVMs corresponding to target languages, counts computed this way are accumulated for a training database, SVM vectors being built with the M highest counts (M = 100000 in this work). Note that counts of co-occurrences of unigrams, bigrams and trigrams are put together in a single representation, which, as for the approach 1, includes information from both time (phone n-grams) and cross-stream (co-occurrence) dimensions.</p><p>For scoring purposes, given an input sample X, we first obtain 1-best decodings and segmentations, then count phone n-gram co-occurrences and use them to build an M -dimensional vector. Finally, this vector is scored with regard to SVMs. Note that counts of co-occurrences of phone n-grams not appearing among those with the M highest counts in the training database are not used for scoring.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Experimental Setup</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Training, development and test corpora</head><p>Training and development data were limited to those distributed by NIST to all LRE2007 participants: (1) the Call-Friend Corpus; (2) the OHSU Corpus provided by NIST for LRE05; and (3) the development corpus provided by NIST for LRE07. For development purposes, 10 conversations per language were randomly selected, the remaining conversations being used for training. Each development conversation was further split in segments containing 30 seconds of speech. Evaluation was carried out on the LRE07 evaluation corpus, specifically on the 30-second, closed-set condition (primary evaluation task for the LRE07).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Evaluation measures</head><p>Most authors compare the performance of language recognition systems either globally (but not numerically) by means of Detection Error Tradeoff (DET) plots, or numerically (but not globally, and not at the optimal operation point) by means of Equal Error Rates (EER). In this work, systems will be also compared in terms of the so called C LLR <ref type="bibr" target="#b14">[15]</ref>, which is used as an alternative performance measure in NIST evaluations. We internally consider C LLR as the most relevant performance indicator, for two reasons: (1) C LLR allows us to evaluate system performance globally by means of a single numerical value, which is somehow related to the area below the DET curve, provided that scores can be interpreted as log-likelihood ratios; and (2) C LLR does not depend on application costs; instead, it depends on the calibration of scores, an important feature of detection systems. <ref type="table" target="#tab_0">Table 1</ref> shows EER and C LLR performance in language recognition experiments on the LRE2007 database using the baseline phonotactic system and the cross-decoder co-occurrence approaches proposed in this work. First of all, note that we call systems either to those that, for a given approach, are obtained by fusing subsystems working on subsets of one or two decoders, or to those working on the whole set of three decoders. For the sake of completeness (to allow complete analyses), the performance of subsystems is also shown in <ref type="table" target="#tab_0">Table 1</ref>, and rows corresponding to fused systems are shaded. Both approaches outperformed the baseline system when using combinations of k = 2 decoders. Approach 2 (2,24% EER, C LLR = 0,3223) was slightly better than Approach 1 (2,27% EER, C LLR = 0,3393), the relative improvement they provide being around 16% (with regard to baseline 2,69% EER). Note that the difference between Approach 1 and Approach 2 is relatively higher in terms of C LLR than in terms of EER. This reflects the difference between their DET curves (see <ref type="figure">Figures 5 and  6)</ref>, which is not so noticeable at the EER line.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Results</head><p>Regarding subsystems, note that 2-decoder subsystems performed consistently better than 1-decoder subsystems, being HU-RU the combination that yielded best results. Moreover, 2-decoder subsystems based on Approach 2 performed remarkably better than 2-decoder subsystems based on Approach 1. However, those differences were not so noticeable after fusion. This may indicate that subsystems based on Approach 2 were quite redundant, or in other words, that they shared a great amount of information. This would explain why fusion did not recover for them so much information as for subsystems based on Approach 1.</p><p>A somehow unexpected result was that under 3decoder configurations both approaches showed a poor performance compared to the baseline system (see <ref type="figure">Figures 5 and 6</ref>). We knew that robustness issues could arise from the huge amount of co-occurrences that are theoretically possible when dealing with k ≥ 3 decoders. In Approach 1, the number of transitional segments may explode as the number of decoders increases, thus producing noisy sequences of phone co-occurrences. We tried to avoid short segments by means of a mode filter, but taking into account system performance (4,34% EER, worse than those of CZ-HU and HU-RU subsystems), it revealed insufficient. In Approach 2, a huge number of cross-decoder phone n-gram combinations could appear, specially in the case of 3-grams. To get reliable estimations of counts of co-occurrences of n-grams, a huge database would be required. This was not the case, so we limited the SVM vector to the 100000 highest counts. This way, robustness issues may be overcome but a new issue could arise: lack of coverage. Again, attending to system performance (3,90% EER, worse than those of 2-decoder subsystems for the Approach 2), we conclude that n-gram co-occurrences cannot be suitably covered with the 100000 highest counts. A lesson learned is that co-occurrence information can be effectively extracted in 2-decoder configurations (less sensitive to robustness and coverage issues) and recovered by means of fusion. Despite this, we will keep on searching for an exit to the combinatorial dead end intrinsic to cross-decoder approaches, and future work will be partly devoted to that task. <ref type="table">Table 2</ref>: Performance (EER and C LLR ) of various fused systems, involving the baseline system and systems based on Approach 1 (A1) and Approach 2 (A2).</p><p>Fused Systems EER C LLR A1 (k=2) + A1 (k=3) 2,21% 0,3388 A2 (k=2) + A2 (k=3) 2,28% 0,3280 Baseline + A1 (k=2) 1,92% 0,3054 Baseline + A2 (k=2) 1,88% 0,3064 Baseline + A1 (k=3) 2,38% 0,3472 Baseline + A2 (k=3) 2,15% 0,3582 Baseline + A1 (k=2) + A1 (k=3) 2,02% 0,3056 Baseline + A2 (k=2) + A2 (k=3) 1,90% 0,3158 <ref type="table">Table 2</ref> show the EER and C LLR performance of various system fusions. Systems based on 3-decoder co-occurrences did not significantly improve the performance of systems based on 2-decoder co-occurrences. This only means that they basically model the same cross-decoder information and do not complement each other well. This argument is supported by the fact that when fused with the baseline phonotactic system, systems based on 3-decoder co-occurrences provided remarkable improvements, leading to 2,38% EER (11,52% LRE2007 eval (30s, closed) Approach 1 (k=3) Baseline Approach 1 (k=2) Baseline + Approach 1 (k=2) <ref type="figure">Figure 5</ref>: Pooled DET curves for the baseline phonotactic language recognition system, two systems based on Approach 1 (n-grams of cross-decoder phone cooccurrences, for k = 2 and k = 3 decoders) and the fused system Baseline + Approach 1 (k = 2).</p><p>relative improvement) and 2,15% EER (20,07% relative improvement) for approaches 1 and 2, respectively.</p><p>The best performance was achieved when fusing the baseline system with systems based on 2-decoder cooccurrences, which led to 1,92% EER (28,62% relative improvement) and 1,88% EER (30,11% relative improvement) for approaches 1 and 2, respectively (shaded rows in <ref type="table">Table 2</ref>). There is, however, an important difference between approaches 1 and 2, which regards how crossstream and time dimensions are processed. The first approach concentrates on cross-decoder dimension and then considers the time dimension, but phone sequence modeling is somehow lost in the way. The second approach runs the opposite route: it can be seen as a phonotactic system (whose factory equipment includes phone sequence modeling) enhanced with additional n-gram cooccurrence modeling. This explains why the second approach provided the best performance among single systems (specially in terms of C LLR ), its DET curve being close to that of the optimal fusion (see <ref type="figure">Figure 6</ref>). However, the baseline system provides phone sequence information not present in the first approach, so they complement each other well, and explains why the second approach did not significantly outperform the first approach when fused with the baseline system. Finally, adding systems based on 3-decoder co-occurrences did not improve performance (two last rows in <ref type="table">Table 2</ref>); instead, it led to worse performance, which may be due either to a mismatch between development and evaluation datasets, or LRE2007 eval (30s, closed) Approach 2 (k=3) Baseline Approach 2 (k=2) Baseline + Approach 2 (k=2) <ref type="figure">Figure 6</ref>: Pooled DET curves for the baseline phonotactic language recognition system, two systems based on Approach 2 (cross-decoder co-occurrences of phone ngrams, for k = 2 and k = 3 decoders) and the fused system Baseline + Approach 2 (k = 2).</p><p>more probably to overfitting in the estimation of fusion parameters. For an easier comparison of system performances, EER and C LLR graphs are shown in <ref type="figure" target="#fig_17">Figure 7</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusions and Future Work</head><p>Two approaches aiming to use cross-decoder phone cooccurrence information (for combinations of k = 2 and k = 3 decoders) in SVM-based phonotactic language recognition have been proposed and evaluated. The proposed approaches rely on the assumption that crossdecoder co-occurrence information is somehow specific to each target language. The proposed approaches do not involve hard computations; they represent just a means to extract more information from existing decodings. Systems based on 2-decoder co-occurrences outperformed the baseline system in language recognition experiments on the LRE2007 database. The system based on counts of 2-decoder co-occurrences of phone n-grams yielded the best performance among all single systems, with 2,24% EER (16,73% relative improvement with regard to baseline 2,69% EER), and C LLR = 0,3223 (19,04% relative improvement with regard to baseline C LLR = 0,3981). However, when using 3-decoder configurations, both approaches showed a poor performance compared to the baseline system. This may reveal robustness issues related to: (1) significant differences in phone border detection (Approach 1) which make transitional segments to be dominant, thus producing noisy  sequences of phone co-occurrences; and (2) a huge number of phone n-gram combinations (Approach 2), whose statistics cannot be robustly estimated or that cannot be suitably covered with the 100000 highest counts. When considering fusions, combining the baseline system with a system based on 2-decoder co-occurrences provided best results, with no significant differences between approaches 1 and 2. The best fused system (Baseline + Approach 2 (k = 2)) yielded 1,88% EER and C LLR = 0,3064 (meaning 30% and 23% relative improvements, respectively).</p><p>We are currently working on various co-occurrence selection schemes, with the aim to reduce the size of SVM vectors while keeping or even improving performance. Future work will focus on increasing the robustness of phonotactic approaches that integrate time and cross-stream dependencies, specially when using k ≥ 3 decoders.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2 :</head><label>2</label><figDesc>A 2-decoder phone co-occurrence language recognition subsystem.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>n</head><label></label><figDesc>(t) be the set of n-grams overlapping at frame t in decoder d. Let w</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 3 :</head><label>3</label><figDesc>Approach 1 (3-decoder configuration): (1) phone co-occurrence labels are built by concatenating phone labels on a frame-by-frame basis; (2) to handle transitional segments, a mode filter is iteratively applied (until convergence) on a sliding window of 7 frames centered on the analyzed frame; and (3) repeated labels are reduced to a single label.be one of such n-grams and f</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>n</head><label></label><figDesc>(t, i) the number of frames it spans, with i ∈ [1, |Γ</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>n</head><label></label><figDesc>(t)| = n for all t except for a number of frames at the borders of X, where 1 ≤ |Γ</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>n</head><label></label><figDesc>(t)|, for j ∈ [1, k]. See Figure 4 and the related examples below to better understand these definitions.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head></head><label></label><figDesc>15) = {xy, yz} and the number of frames they span:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Figure 4 :</head><label>4</label><figDesc>Approach 2 (2-decoder configuration, up to bigrams):</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 7 :</head><label>7</label><figDesc>EER and C LLR graphs of some of the language recognition systems evaluated in this work.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="true"><head>Table 1 :</head><label>1</label><figDesc>Performance (EER and C LLR ) of the baseline phonotactic system and systems based on the crossdecoder co-occurrence approaches proposed in this work.</figDesc><table>EER 
+C LLR 
+CZ 
+5,67% 0,8259 
+HU 
+5,10% 0,7434 
+Baseline 
+RU 
+5,64% 0,8016 
+Fusion 
+2,69% 0,3981 
+CZ-HU 
+4,07% 0,5661 
+CZ-RU 
+4,53% 0,6526 
+Approach 1 (k=2) HU-RU 
+3,79% 0,5109 
+Fusion 
+2,27% 0,3393 
+Approach 1 (k=3) CZ-HU-RU 4,34% 0,6500 
+CZ-HU 
+3,32% 0,4506 
+CZ-RU 
+3,58% 0,5276 
+Approach 2 (k=2) HU-RU 
+2,75% 0,4140 
+Fusion 
+2,24% 0,3223 
+Approach 2 (k=3) CZ-HU-RU 3,90% 0,5724 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Using crossdecoder phone coocurrences in phonotactic language recognition</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikel</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amparo</forename><surname>Varona</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Luis</forename><forename type="middle">Javier</forename><surname>Rodriguez-Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">German</forename><surname>Bordel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 35th IEEE International Conference on Acoustics, Speech and Signal Processing</title>
+		<meeting>the 35th IEEE International Conference on Acoustics, Speech and Signal Processing<address><addrLine>Dallas, Texas (USA)</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Comparison of four approaches to automatic language identification of telephone speech</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">A</forename><surname>Zissman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Speech and Audio Processing</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="31" to="44" />
+			<date type="published" when="1996-01" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Support vector machines for speaker and language recognition</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">M</forename><surname>Campbell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">P</forename><surname>Campbell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A</forename><surname>Reynolds</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Singer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">A</forename><surname>Torres-Carrasquillo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computer Speech and Language</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">2-3</biblScope>
+			<biblScope unit="page" from="210" to="229" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Score normalization for text-independent speaker verification systems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Auckenthaler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Carey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Lloyd-Thomas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Digital Signal Processing</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">1-3</biblScope>
+			<biblScope unit="page" from="42" to="54" />
+			<date type="published" when="2000-01" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">On calibration of language recognition scores</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A</forename><surname>Van Leeuwen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Odyssey -The Speaker and Language Recognition Workshop</title>
+		<meeting>Odyssey -The Speaker and Language Recognition Workshop</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="1" to="8" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Fusion of heterogeneous speaker recognition systems in the STBU submission for the NIST speaker recognition evaluation 2006</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Cernocky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Glembek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Grezl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Karafiat</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Van Leeuwen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Matejka</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Schwarz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Strasheim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Audio, Speech, and Language Processing</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="2072" to="2084" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Combining cross-stream and time dimensions in phonetic speaker recognition</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Navratil</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A</forename><surname>Reynolds</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">P</forename><surname>Campbell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">D</forename><surname>Andrews</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">S</forename><surname>Abramson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ICASSP</title>
+		<imprint>
+			<biblScope unit="volume">IV</biblScope>
+			<biblScope unit="page" from="800" to="803" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Discriminative classifiers for language recognition</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Christopher</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Izhak</forename><surname>Shafran</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jean-Luc</forename><surname>Gauvain</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICASSP</title>
+		<meeting>ICASSP</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="213" to="216" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Phoneme recognition based on long temporal context</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Petr</forename><surname>Schwarz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Faculty of Information Technology BUT</title>
+		<meeting><address><addrLine>Brno, CZ</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+	<note>Ph.D. thesis</note>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">BUT system description for NIST LRE 2007</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Matejka</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Glembek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Schwarz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Hubeika</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Fapso</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Mikolov</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Plchot</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. 2007 NIST Language Recognition Evaluation Workshop</title>
+		<meeting>2007 NIST Language Recognition Evaluation Workshop</meeting>
+		<imprint>
+			<publisher>US</publisher>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="1" to="5" />
+		</imprint>
+		<respStmt>
+			<orgName>National Institute of Standards and Technology</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+		<title level="m" type="main">The MITLL NIST LRE 2007 language recognition system</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">A</forename><surname>Torres-Carrasquillo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Singer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">M</forename><surname>Campbell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Gleason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Mccree</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A</forename><surname>Reynolds</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Richardson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">E</forename><surname>Sturim</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="page" from="719" to="722" />
+		</imprint>
+	</monogr>
+	<note>Interspeech</note>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Language recognition with discriminative keyword selection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Richardson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Campbell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ICASSP</title>
+		<imprint>
+			<biblScope unit="page" from="4145" to="4148" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">LIBLINEAR: A library for large linear classification</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kai-Wei</forename><surname>Rong-En Fan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Cho-Jui</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Xiang-Rui</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Chih-Jen</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Lin</surname></persName>
+		</author>
+		<ptr target="http://www.csie.ntu.edu.tw/cjlin/liblinear" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="1871" to="1874" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<monogr>
+		<title level="m" type="main">LIBSVM: a library for support vector machines</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">C</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">J</forename><surname>Lin</surname></persName>
+		</author>
+		<ptr target="http://www.csie.ntu.edu.tw/∼cjlin/libsvm" />
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Applicationindependent evaluation of speaker detection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Niko</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Johan</forename><forename type="middle">A</forename><surname>Du Preez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computer Speech &amp; Language</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">2-3</biblScope>
+			<biblScope unit="page" from="230" to="275" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

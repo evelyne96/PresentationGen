@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A Portfolio Approach to Algorithm Selection</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eugene</forename><surname>Nudelman</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Galen</forename><surname>Andrew</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jim</forename><surname>Mcfadden</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yoav</forename><surname>Shoham</surname></persName>
+							<email>shoham@cs.stanford.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A Portfolio Approach to Algorithm Selection</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Although some algorithms are better than others on average, there is rarely a best algorithm for a given problem. Instead, it is often the case that different algorithms perform well on different problem instances. Not surprisingly, this phenomenon is most pronounced among algorithms for solving N P-Hard problems, because runtimes for these algorithms are often highly variable from instance to instance. When algorithms exhibit high runtime variance, one is faced with the problem of deciding which algorithm to use; in 1976 Rice dubbed this the "algorithm selection problem" <ref type="bibr" target="#b7">[8]</ref>. In the nearly three decades that have followed, the issue of algorithm selection has failed to receive widespread attention, though of course some excellent work does exist. By far, the most common approach to algorithm selection has been to measure different algorithms' performance on a given problem distribution, and then to use only the algorithm having the lowest average runtime. This "winner-take-all" approach has driven recent advances in algorithm design and refinement, but has resulted in the neglect of many algorithms that, while uncompetitive on average, may offer excellent performance on particular problem instances. Our consideration of the algorithm selection literature, and our dissatisfaction with the winner-take-all approach, has led us to ask the following two questions. First, what general techniques can we use to perform per-instance (rather than per-distribution) algorithm selection? Second, once we have rejected the notion of winner-take-all algorithm evaluation, how ought novel algorithms to be evaluated? We offer the following answers:</p><p>1. Algorithms with high average running times can be combined to form an algorithm portfolio with low average running time when the algorithms' easy inputs are sufficiently uncorrelated. 2. New algorithm design should focus on problems on which the current algorithm portfolio performs poorly.</p><p>Readers familiar with the boosting paradigm in machine learning <ref type="bibr" target="#b8">[9]</ref> will recognize that boosting uses similar ideas: combining weak classifiers into a much stronger ensemble by iteratively training new classifiers on data on which the ensemble performs poorly.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Algorithm Portfolios</head><p>In our previous work <ref type="bibr" target="#b5">[6]</ref> we demonstrated that statistical regression can be used to learn surprisingly accurate algorithmspecific models of the empirical hardness of given distributions of problem instances. In short, the method proposed in that work is: Use domain knowledge to select features of problem instances that might be indicative of runtime. 2. Generate a set of problem instances from the given distribution, and collect runtime data for the algorithm on each instance. 3. Use regression to learn a real-valued function of the features that predicts runtime. Given this existing technique for predicting runtime, we now propose building portfolios of multiple algorithms as follows:</p><p>1. Train a model for each algorithm, as described above.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Given an instance:</head><p>(a) Compute feature values (b) Predict each algorithm's running time (c) Run the algorithm predicted to be fastest</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">WDP Case Study: Past Work</head><p>Our case study is based on the data collected in our previous work <ref type="bibr" target="#b5">[6]</ref>. In that work we have constructed models for predicting the running time of the CPLEX solver on the winner determination problem (WDP), which is an N P-Complete combinatorial optimization problem formally equivalent to weighted set-packing. We have also created models for two other WDP algorithms: GL (Gonen-Lehmann) <ref type="bibr" target="#b2">[3]</ref>, a simple branch-and-bound algorithm with CPLEX's LP solver as its heuristic, and CASS <ref type="bibr" target="#b0">[1]</ref>, a more complex branch-and-bound algorithm with a non-LP heuristic. The data set consists of 4500 instances of a fixed size (256 goods and 1000 nondominated bids), sampled uniformly from CATS <ref type="bibr" target="#b6">[7]</ref> instance generator. Since our methodology relies on machine learning, we split the data into training, validation, and test sets. We report our portfolio runtimes only on the test set that was never used to train or evaluate models. Runtime data was collected on 550 MHz Pentium Xeons, running Linux 2.2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">WDP Case Study: Portfolios</head><p>We now describe new results. <ref type="figure" target="#fig_0">Fig. 1</ref> compares the average runtimes of our three algorithms to that of the portfolio. Note that CPLEX would be chosen under winner-take-all algorithm selection. The "optimal" bar shows the performance of an ideal portfolio where algorithm selection is performed perfectly and with no overhead. The portfolio bar shows the time taken to compute features (light portion) and the time taken to run the selected algorithm (dark portion). Despite the fact that CASS and GL are much slower than CPLEX on average, the portfolio outperforms CPLEX by more than a factor of 3. Further, neglecting the cost of computing features, our portfolio's selections take only 5% longer to run than the optimal selections. <ref type="figure">Figs. 2 and 3</ref> show the frequency with which each algorithm is selected in the ideal portfolio and in our portfolio. They illustrate the quality of our algorithm selection and the relative value of the three algorithms. While our portfolio does not always make the right choice, most of the mistakes occur when algorithms have very similar running times. These mistakes are not very costly, which explains why our portfolio's choices have a running time so close to optimal. These results show that our portfolio methodology can work very well even with a small number of algorithms, and even when one algorithm has superior average performance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Focused Algorithm Design</head><p>Once it has been decided to select algorithms from a portfolio on a per-instance basis, it is necessary to reexamine the way we design and evaluate algorithms. Since the purpose of designing new algorithms is to reduce the time that it will take to solve problems, designers should aim to produce new algorithms that complement an existing portfolio given a distribution D reflecting problems that will be encountered in practice. The instances with the greatest potential for improvement will be hard for the portfolio, common in D, or both. The full version of this paper describes a technique for using rejection sampling to automatically generate such instances. In <ref type="figure">Figures 4 and 5</ref> we show how our techniques are able to automatically skew two of the easiest CATS instance distributions towards harder regions. In fact, for these two distributions we generated instances that were (respectively) 100 and 50 times harder than anything we had previously seen! Moreover, the average runtime for the new distributions was greater than the observed maximum running time on the original distribution. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Conclusions</head><p>Learned runtime models may be used to create algorithm portfolios that outperform their constituent algorithms. These models can also be used to induce harder benchmark distributions for use in the development and evaluation of new algorithms. Our case study on combinatorial auctions demonstrates that a portfolio composed of CPLEX and two olderand generally much slower-algorithms outperforms CPLEX alone by about a factor of 3. In the full version of this paper we describe our methodology in more detail, and also:</p><p>• Show how to reduce the time spent computing features without substantially degrading portfolio performance; • Demonstrate ways of using response variable transformations to focus portfolios on metrics other than average running time; • Explain how to induce distributions with characteristics other than hardness (e.g. realism); • Compare our approach to previous work that executes algorithms in parallel <ref type="bibr" target="#b1">[2]</ref>; uses classification instead of regression <ref type="bibr" target="#b3">[4]</ref>; or considers the problem as an MDP <ref type="bibr" target="#b4">[5]</ref>.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Algorithm</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>Figure 4: Matching</figDesc></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Taming the computational complexity of combinatorial auctions: Optimal and approximate approaches</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Fujishima</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IJCAI</title>
+		<imprint>
+			<date type="published" when="1999" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Algorithm portfolios. Artificial Intelligence</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="volume">126</biblScope>
+			<biblScope unit="page" from="43" to="62" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Linear programming helps solving large multi-unit combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gonen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Lehmann</surname></persName>
+		</author>
+		<idno>TR-2001-8</idno>
+		<imprint>
+			<date type="published" when="2001-04" />
+		</imprint>
+		<respStmt>
+			<orgName>Leibniz Center for Research in Computer Science</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A Bayesian approach to tackling hard computational problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Horvitz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Ruan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kautz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Chickering</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Algorithm selection using reinforcement learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Lagoudakis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Littman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICML</title>
+		<imprint>
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Learning the empirical hardness of optimization problems: The case of combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Towards a universal test suite for combinatorial auction algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Pearson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM EC</title>
+		<imprint>
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">The algorithm selection problem</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">R</forename><surname>Rice</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Computers</title>
+		<imprint>
+			<date type="published" when="1976" />
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="65" to="118" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The strength of weak learnability</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Schapire</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine Learning</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="197" to="227" />
+			<date type="published" when="1990" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

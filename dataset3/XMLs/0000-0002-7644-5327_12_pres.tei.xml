@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">An Experimental Investigation of Model-Based Parameter Optimization: SPO and Beyond Motivation for Parameter Optimization</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+							<email>hutter@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<email>hoos@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><forename type="middle">P</forename><surname>Murphy</surname></persName>
+							<email>murphyk@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">An Experimental Investigation of Model-Based Parameter Optimization: SPO and Beyond Motivation for Parameter Optimization</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>First step of SMBO</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>-</head><label></label><figDesc>Noise: SKO vs SPO Method I (used in SKO) [Huang, Allen, Notz &amp; Zeng, '06.] -Fit standard GP assuming Gaussian observation noise -Can only fit the mean of the responses Method II (used in SPO) [Bartz-Beielstein, Preuss, Lasarczyk, '05-'09] -Compute statistic of empirical distribution of responses at each design point -Fit noise-free GP to that Evolutionary strategy for global optimization -State-of-the-art (see BBOB workshop this GECCO) -Parameters: population size, number of parents, learning rate, damping parameter CMA-ES [Hansen et al., '95-'09] -Evolutionary strategy for global optimization -State-of-the-art (see BBOB workshop this GECCO) -Parameters: population size, number of parents, learning rate, damping parameter Tuning objective -Solution cost: best function value found in budget -Here: Sphere function -Minimize mean solution cost across many runs Experiment: SPO vs SKO for Tuning CMA-ES CMA-ES [Hansen et al., '95-'09] -Evolutionary strategy for global optimization -State-of-the-art (see BBOB workshop this GECCO) -Parameters: population size, number of parents, learning rate, damping parameter Tuning objective -Solution cost: best function value found in budget -Here: Sphere function -Minimize mean solution cost across many runs</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>Note: In newer experiments, SKO with log models was competitive Substantially improves robustness → new SPO variant: SPO +</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>Iteratively perform runs for single most promising θ new Compare against current incumbent θ inc Once θ new has as many runs as θ inc : make it new θ incMaintain invariant: θ inc has the most runs of all Substantially improves robustness → new SPO variant: SPO + min. search steps for single problem instance Results known for CALIBRA &amp; ParamILS [Hutter et al, AAAI'07] min. search steps for single problem instance Results known for CALIBRA &amp; ParamILS [Hutter et al, AAAI'07]With budget of 20000 runs of SAPS</figDesc><table>17 
+
+Components of SPO: choosing the incumbent 
+parameter setting in presence of noise 
+
+Simple fix 
+
+500 
+600 
+700 
+800 
+900 1000 
+
+10 
+
+−3 
+
+10 
+
+−2 
+
+10 
+
+−1 
+
+10 
+
+0 
+
+number of algorithm runs k 
+
+performance p 
+
+k 
+
+SPO 0.3 
+SPO 0.4 
+SPO+ 
+
+Tuning CMA-ES on Griewangk 
+
+500 
+600 
+700 
+800 
+900 
+1000 
+
+10 
+
+1 
+
+10 
+
+2 
+
+10 
+
+3 
+
+number of algorithm runs k 
+
+performance p 
+
+k 
+
+SPO 0.3 
+SPO 0.4 
+SPO+ 
+for tuning SAPS 
+
+SAPS 
+
+Stochastic local search algorithm for SAT 
+4 continuous parameters 
+Here: 10 
+
+3 
+
+10 
+
+4 
+
+0.5 
+
+1 
+
+1.5 
+
+2 
+
+2.5 
+
+3 
+x 10 
+
+4 
+
+number of algorithm runs k 
+
+performance p 
+
+k 
+
+SPO 0.3 
+SPO 0.4 
+SPO+ 
+
+Comparison to SPO variants, 
+with varying budget 
+
+19 
+
+Comparison to State of the Art 
+for tuning SAPS 
+
+SAPS 
+
+Stochastic local search algorithm for SAT 
+4 continuous parameters 
+Here: 10 
+
+3 
+
+10 
+
+4 
+
+0.5 
+
+1 
+
+1.5 
+
+2 
+
+2.5 
+
+3 
+x 10 
+
+4 
+
+number of algorithm runs k 
+
+performance p 
+
+k 
+
+SPO 0.3 
+SPO 0.4 
+SPO+ 
+
+Comparison to SPO variants, 
+with varying budget 
+
+Procedure 
+SAPS median run-time/10 3 
+SAPS default 
+85.5 
+CALIBRA(100) 
+10.7 ± 1.1 
+BasicILS(100) 
+10.9 ± 0.6 
+FocusedILS 
+10.6 ± 0.5 
+SPO 0.3 
+18.3 ± 13.7 
+SPO 0.4 
+10.4 ± 0.7 
+SPO + 
+10.0 ± 0.4 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+				<title level="m">Sequential Model-Based Optimization (SMBO): Introduction 2. Comparing Two SMBO Methods: SPO vs SKO 3. Components of SPO: Model</title>
+		<imprint/>
+	</monogr>
+	<note>Quality 4. Components of SPO: Sequential Experimental Design 5. Conclusions and Future Work</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

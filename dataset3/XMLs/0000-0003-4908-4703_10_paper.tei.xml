@@ -1,0 +1,1103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Clustered planarity testing revisited</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2015">2015</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Radoslav</forename><surname>Fulek</surname></persName>
+							<email>radoslav.fulek@gmail.com</email>
+							<affiliation key="aff0">
+								<orgName type="institution">IST Austria</orgName>
+								<address>
+									<settlement>Klosterneuburg</settlement>
+									<country key="AT">Austria</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Kynčl</surname></persName>
+							<email>kyncl@kam.mff.cuni.cz</email>
+							<affiliation key="aff1">
+								<orgName type="department" key="dep1">Department of Applied Mathematics and Institute for Theoretical Computer Science</orgName>
+								<orgName type="department" key="dep2">Faculty of Mathematics and Physics</orgName>
+								<orgName type="department" key="dep3">Chair of Discrete Optimization,École Polytechnique Fédérale de Lausanne</orgName>
+								<orgName type="laboratory">Czech Republic; Chair of Combinatorial Geometry, Ecole Polytechnique Fédérale de Lausanne</orgName>
+								<address>
+									<addrLine>Charles Uni-versity</addrLine>
+									<settlement>Prague, Lausanne</settlement>
+									<country>Switzerland., Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Igor</forename><surname>Malinović</surname></persName>
+							<email>igor.malinovic@epfl.ch</email>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Dömötör</forename><surname>Pálvölgyi</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Institute of Mathematics</orgName>
+								<orgName type="institution">Eötvös University</orgName>
+								<address>
+									<settlement>Budapest</settlement>
+									<country key="HU">Hungary</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Clustered planarity testing revisited</title>
+					</analytic>
+					<monogr>
+						<title level="j" type="main">the electronic journal of combinatorics</title>
+						<imprint>
+							<biblScope unit="volume">22</biblScope>
+							<biblScope unit="issue">4</biblScope>
+							<date type="published" when="2015">2015</date>
+						</imprint>
+					</monogr>
+					<note type="submission">Submitted: Jan 29, 2015; Accepted: Oct 19, 2015; Published: Nov 13, 2015</note>
+					<note>1</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Mathematics Subject Classifications: 05C10</term>
+					<term>68R10</term>
+					<term>15A06</term>
+					<term>05B35 Keywords: graph planarity</term>
+					<term>clustered planarity</term>
+					<term>Hanani-Tutte theorem</term>
+					<term>matroid intersection algorithm</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Hanani-Tutte theorem is a classical result proved for the first time in the 1930s that characterizes planar graphs as graphs that admit a drawing in the plane in which every pair of edges not sharing a vertex cross an even number of times. We generalize this result to clustered graphs with two disjoint clusters, and show that a straightforward extension to flat clustered graphs with three or more disjoint clusters is not possible. For general clustered graphs we show a variant of the Hanani-Tutte theorem in the case when each cluster induces a connected subgraph.</p><p>Di Battista and Frati proved that clustered planarity of embedded clustered graphs whose every face is incident to at most five vertices can be tested in polynomial time. We give a new and short proof of this result, using the matroid intersection algorithm.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Investigation of graph planarity can be traced back to the 1930s and developments accomplished at that time by <ref type="bibr">Hanani</ref>  <ref type="bibr" target="#b22">[22]</ref>, <ref type="bibr">Kuratowski</ref>  <ref type="bibr" target="#b27">[27]</ref>, Whitney <ref type="bibr" target="#b40">[39]</ref> and others. Forty years later, with the advent of computing, a linear-time algorithm for graph planarity was discovered <ref type="bibr" target="#b24">[24]</ref>. Nowadays, a polynomial-time algorithm for testing whether a graph admits a crossing-free drawing in the plane could almost be considered a folklore result.</p><p>Nevertheless, many variants of planarity are still only poorly understood. As a consequence of this state of affairs, the corresponding decision problem for these variants has neither been shown to be polynomial nor NP-hard. Clustered planarity is one of the most prominent <ref type="bibr" target="#b5">[6]</ref> of such planarity notions. Roughly speaking, an instance of this problem is a graph whose vertices are partitioned into clusters. The question is whether the graph can be drawn in the plane so that the vertices in the same cluster belong to the same simple closed region and no edge crosses the boundary of a particular region more than once. The aim of the present work is to offer novel perspectives on clustered planarity, which seem to be worth pursuing in order to improve our understanding of the problem.</p><p>More precisely, a clustered graph is a pair (G, T ) where G = (V, E) is a graph and T is a rooted tree whose set of leaves is the set of vertices of G. The non-leaf vertices of T represent the clusters. Let C(T ) be the set of non-leaf vertices of T . For each ν ∈ C(T ), let T ν denote the subtree of T rooted at ν. The cluster V (ν) is the set of leaves of T ν . A clustered graph (G, T ) is flat if all non-root clusters are children of the root cluster; that is, if every root-leaf path in T has at most three vertices. When discussing flat clustered graphs, which is basically everywhere except Sections 1, 2 and 5, by "cluster" we will refer only to the non-root clusters.</p><p>A drawing of G is a representation of G in the plane where every vertex is represented by a unique point and every edge e = uv is represented by a simple arc joining the two points that represent u and v. If it leads to no confusion, we do not distinguish between a vertex or an edge and its representation in the drawing and we use the words "vertex" and "edge" in both contexts. We assume that in a drawing no edge passes through a vertex, no two edges touch and every pair of edges cross in finitely many points. We assume that the above properties of a drawing of G are maintained during any continuous deformation of the drawing of G except for intermediate one-time events when two edges touch in a single point or an edge passes through a vertex.</p><p>A drawing of a graph is an embedding if no two edges cross. A clustered graph (G, T ) is clustered planar (or briefly c-planar ) if G has an embedding in the plane such that (i) for every ν ∈ C(T ), there is a topological disc ∆(ν) containing all the leaves of T ν and no other vertices of G,  (iv) for every ν ∈ C(T ), every edge of G intersects the boundary of the disc ∆(ν) at most once.</p><p>A clustered drawing (or embedding) of a clustered graph (G, T ) is a drawing (or embedding, respectively) of G satisfying (i)-(iv). See <ref type="figure" target="#fig_0">Figures 1 and 2</ref> for an illustration. We will be using the word "cluster" for both the topological disc ∆(ν) and the subset of vertices V (ν).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.1">A brief history of clustered planarity.</head><p>The notion of clustered planarity was introduced by Feng, Cohen and Eades <ref type="bibr" target="#b11">[12,</ref><ref type="bibr" target="#b13">13]</ref> under the name c-planarity. A similar problem, hierarchical planarity, was considered already by Lengauer <ref type="bibr" target="#b30">[29]</ref>. Since then an efficient algorithm for c-planarity testing or embedding has been discovered only in some special cases. The general problem whether the c-planarity of a clustered graph (G, T ) can be tested in polynomial time is wide open, already when we restrict ourselves to three pairwise disjoint clusters and the case when the combinatorial embedding of G is a part of the input! A clustered graph (G, T ) is c-connected if every cluster of (G, T ) induces a connected subgraph. See <ref type="figure" target="#fig_0">Figure 12</ref>. In order to test a c-connected clustered graph (G, T ) for cplanarity, it is enough to test whether there exists an embedding of G such that for every ν ∈ C(T ), all vertices of V (G) \ V (ν) are drawn in the outer face of the subgraph induced by V (ν) <ref type="bibr" target="#b13">[13,</ref><ref type="bibr">Theorem 1]</ref>. Cortese et al. <ref type="bibr" target="#b6">[7]</ref> gave a structural characterization of c-planarity for c-connected clustered graphs and provided a linear-time algorithm. <ref type="bibr">Gutwenger et</ref> al. <ref type="bibr" target="#b20">[20]</ref> constructed a polynomial algorithm for a more general case of almost connected clustered graphs, which can be also used for the case of flat clustered graphs with two clusters forming a partition of the vertex set. Biedl <ref type="bibr" target="#b2">[3]</ref> gave the first polynomial-time algorithm for c-planarity with two clusters, including the case of straight-line or y-monotone drawings. An alternative approach to the case of two clusters was given by Hong and Nagamochi <ref type="bibr" target="#b23">[23]</ref>. On the other hand, only very little is known in the case of three clusters, where the only clustered graphs for which a polynomial algorithm for c-planarity is known are clustered cycles <ref type="bibr" target="#b7">[8]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.2">Hanani-Tutte theorem.</head><p>The Hanani-Tutte theorem <ref type="bibr" target="#b22">[22,</ref><ref type="bibr" target="#b39">38]</ref> is a classical result that provides an algebraic characterization of planarity with interesting theoretical and algorithmic consequences; see Section 2. The (strong) Hanani-Tutte theorem says that a graph is planar if it can be drawn in the plane so that no pair of independent edges crosses an odd number of times. Moreover, its variant known as the weak Hanani-Tutte theorem <ref type="bibr" target="#b3">[4,</ref><ref type="bibr" target="#b32">31,</ref><ref type="bibr" target="#b35">34]</ref> states that if G has a drawing D where every pair of edges cross an even number of times, then G has an embedding that preserves the cyclic order of edges at vertices in D. Note that the weak variant does not directly follow from the strong Hanani-Tutte theorem. For sub-cubic graphs, the weak variant implies the strong variant. Other variants of the Hanani-Tutte theorem were proved for surfaces of higher genus <ref type="bibr" target="#b34">[33,</ref><ref type="bibr" target="#b36">35]</ref>, x-monotone drawings <ref type="bibr" target="#b18">[18,</ref><ref type="bibr" target="#b33">32]</ref>, partially embedded planar graphs, and several special cases of simultaneously embedded planar graphs <ref type="bibr" target="#b38">[37]</ref>. See <ref type="bibr" target="#b37">[36]</ref> for a recent survey on applications of the Hanani-Tutte theorem and related results.</p><p>We prove a variant of the (strong) Hanani-Tutte theorem for flat clustered graphs with two clusters forming a partition of the vertex set. Similarly to other variants of the Hanani-Tutte theorem, as a byproduct of our result, we immediately obtain a polynomialtime algorithm for testing c-planarity in this special case. The algorithm essentially consists of solving a linear system of equations over Z 2 . The running time of the algorithm is in O(|V (G)| 2ω ), where O(n ω ) is the complexity of multiplication of two square n × n matrices; see Section 2. The best current algorithms for matrix multiplication give ω &lt; 2.3729 <ref type="bibr" target="#b19">[19,</ref><ref type="bibr" target="#b42">41]</ref>. Since our linear system is sparse, it is also possible to use Wiedemann's randomized algorithm <ref type="bibr" target="#b41">[40]</ref>, with expected running time O(n 4 log n 2 ) in our case.</p><p>Although the worst-case running time of our algorithm is not competitive, we believe this does not make our results less interesting, since the purpose of our direction of research lies more in theoretical foundations than in its immediate consequences. Moreover, the worst-case running time analysis often gives an unfair perspective on the performance of algebraic algorithms, such as the simplex method.</p><p>We remark that there exist more efficient algorithms for planarity testing using the Hanani-Tutte theorem such as those in <ref type="bibr" target="#b14">[14,</ref><ref type="bibr" target="#b15">15]</ref>, which run in linear time; see also <ref type="bibr" target="#b37">[36,</ref><ref type="bibr">Section 1.4.1]</ref>. Moreover, in the case of x-monotone drawings a computational study <ref type="bibr" target="#b4">[5]</ref> showed that the Hanani-Tutte approach <ref type="bibr" target="#b18">[18]</ref> performs really well in practice. This should come as no surprise, since Hanani-Tutte theory seems to provide solid theoretical founthe electronic journal of combinatorics 22(4) (2015), #P4.24 dations for graph planarity that bring together its combinatorial, algebraic, and computational aspects <ref type="bibr" target="#b38">[37]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.3">Notation.</head><p>In this paper we assume that G = (V, E) is a graph, and we state all our theorems for graphs. However, in some of our proofs we also use multigraphs, that is, generalized graphs that can have multiple edges and multiple loops. Most of the notions defined for graphs extend naturally to multigraphs, and thus we use them without generalizing them explicitly. We use a shorthand notation</p><formula xml:id="formula_0">G − v for (V \ {v}, E \ {vw| vw ∈ E}), and G ∪ E for (V, E ∪ E ).</formula><p>The rotation at a vertex v is the clockwise cyclic order of the end pieces of edges incident to v. The rotation system of a graph is the set of rotations at all its vertices. We say that two embeddings of a graph are the same if they have the same rotation system up to switching the orientations of all the rotations simultaneously. We say that two edges in a graph are independent if they do not share a vertex. An edge in a drawing is even if it crosses every other edge an even number of times. A drawing of a graph is even if all edges are even. A drawing of a graph is independently even if every pair of independent edges in the drawing cross an even number of times.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.4">Hanani-Tutte theorem for clustered graphs.</head><p>A clustered graph (G, T ) is two-clustered if the root of T has exactly two children, A and B, and every vertex of G is a child of either A or B in T . In other words, A and B are the only non-root clusters and they form a partition of the vertex set of G. Obviously, two-clustered graphs form a subclass of flat clustered graphs. We extend both the weak and the strong variant of the Hanani-Tutte theorem to two-clustered graphs. Theorem 1. If a two-clustered graph (G, T ) admits an even clustered drawing D in the plane then (G, T ) is c-planar. Moreover, (G, T ) has a clustered embedding with the same rotation system as D.</p><p>Theorem 1 has been recently generalized by the first author to the case of strip planarity <ref type="bibr" target="#b16">[16]</ref>.</p><p>Theorem 2. If a two-clustered graph (G, T ) admits an independently even clustered drawing in the plane then (G, T ) is c-planar.</p><p>We also prove a strong Hanani-Tutte theorem for c-connected clustered graphs.</p><p>Theorem 3. If a c-connected clustered graph (G, T ) admits an independently even clustered drawing in the plane then (G, T ) is c-planar.</p><p>On the other hand, we exhibit examples of clustered graphs with more than two disjoint clusters that are not c-planar, but admit an even clustered drawing. This shows that a straightforward extension of Theorem 1 and Theorem 2 to flat clustered graphs with more than two clusters is not possible. Theorem 4. For every k 3 there exists a flat clustered cycle with k clusters that is not c-planar but admits an even clustered drawing in the plane.</p><p>Gutwenger, Mutzel and Schaefer <ref type="bibr" target="#b21">[21]</ref> recently showed that by using the reduction from <ref type="bibr" target="#b38">[37]</ref> our counterexamples can be turned into counterexamples for [37, Conjecture 1.2] 1 and for a variant of the Hanani-Tutte theorem for two simultaneously embedded planar graphs [37, Conjecture 6.20].</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.5">Embedded clustered graphs with small faces.</head><p>A pair (D(G), T ) is an embedded clustered graph if (G, T ) is a clustered graph and D(G) is an embedding of G in the plane, not necessarily a clustered embedding. The embedded clustered graph (D(G), T ) is c-planar if it can be extended to a clustered embedding of (G, T ) by choosing a topological disc for each cluster.</p><p>We give an alternative polynomial-time algorithm for deciding c-planarity of embedded flat clustered graphs with small faces, reproving a result of Di Battista and Frati <ref type="bibr" target="#b9">[10]</ref>. Our algorithm is based on the matroid intersection theorem. Its running time is O(|V (G)| 3.5 ) by <ref type="bibr" target="#b8">[9]</ref>, so it does not outperform the linear algorithm from <ref type="bibr" target="#b9">[10]</ref>. Similarly as for our other results, we see its purpose more in mathematical foundations than in giving an efficient algorithm. We find it quite surprising that by using completely different techniques we obtained an algorithm for exactly the same case. Our approach is very similar to a technique used by Katz, Rutter and Woeginger <ref type="bibr" target="#b26">[26]</ref> for deciding the global connectivity of switch graphs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 5. [10]</head><p>Let D(G) be an embedding of a graph G in the plane such that all its faces are incident to at most five vertices. Let (G, T ) be a flat clustered graph. The problem whether (G, T ) admits a c-planar embedding in which G keeps its embedding D(G) can be solved in polynomial time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.6">Organization.</head><p>The rest of the paper is organized as follows. In Section 2 we describe an algorithm for c-planarity testing based on Theorem 2. In Section 3 we prove Theorem 1. In Section 4 we prove Theorem 2. In Section 5 we prove Theorem 3. In Section 6 we provide a family of counterexamples to the variant of the Hanani-Tutte theorem for clustered graphs with three clusters, and discuss properties that every such counterexample, whose underlying abstract graph is a cycle, must satisfy. In Section 7 we prove Theorem 5. We conclude with some remarks in Section 8. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Algorithm</head><p>Let (G, T ) be a clustered graph for which the corresponding variant of the strong Hanani-Tutte theorem holds, that is, the existence of an independently even clustered drawing of (G, T ) implies that (G, T ) is c-planar.</p><p>Our algorithm for c-planarity testing is an adaptation of the algorithm for planarity testing from <ref type="bibr" target="#b37">[36,</ref><ref type="bibr">Section 1.4.2]</ref>. The algorithm starts with an arbitrary clustered drawing D of (G, T ). Such a drawing always exists: for example, we can traverse the tree T using depth-first search and place the vertices of G on a circle in the order encountered during the search. Then we draw every edge as a straight-line segment. Since every cluster consists of consecutive vertices on the circle, the topological discs representing the clusters can be drawn easily. The algorithm tests whether the edges of the initial drawing D can be continuously deformed to form an independently even clustered drawing D 0 of (G, T ). This is done by constructing and solving a system of linear equations over Z 2 . By the corresponding variant of the strong Hanani-Tutte theorem, the existence of such a drawing D 0 is equivalent to the c-planarity of (G, T ). Now we describe the algorithm in more details. We start with the original algorithm for planarity testing and then show how to modify it for c-planarity testing.</p><p>During a "generic" continuous deformation from D to some other drawing D , the parity of the number of crossings between a pair of independent edges is affected only when an edge e passes over a vertex v that is not incident to e, in which case we change the parity of the number of crossings of e with all the edges incident to v; see <ref type="figure" target="#fig_3">Figure 3</ref>. We call such an event an edge-vertex switch. Note that every edge-vertex switch can be performed independently of others, for any initial drawing: we can always deform a given edge e to pass close to the given vertex v, while introducing new crossings with every edge "far from v" only in pairs; that is, after every event when e touches another edge, a pair of new crossings is created. For our purpose the deformation from D to D can be represented by the set of edge-vertex switches that were performed an odd number of times during the deformation. An edge-vertex switch of an edge e with a vertex v is denoted by the ordered pair (e, v).</p><p>A drawing of (G, T ) can then be represented as a vector v ∈ Z an edge of G and v a vertex of G such that v / ∈ e. Performing an edge-vertex switch (e, v) corresponds to adding the vector w (e,v) ∈ Z M 2 whose only components equal to 1 are those indexed by pairs {e, f } where f is incident to v. The set of all drawings of G that can be obtained from D by edge-vertex switches then corresponds to an affine subspace v + W , where W is the subspace generated by the set {w <ref type="bibr">(e,v)</ref> ; v / ∈ e}. The algorithm tests whether 0 ∈ v + W , which is equivalent to the solvability of a system of linear equations over Z 2 .</p><p>The difference between the original algorithm for planarity testing and our version for c-planarity testing is the following. To keep the drawing of (G, T ) clustered after every deformation, for every edge e = v 1 v 2 , we allow only those edge-vertex switches (e, v) such that v is a child of some vertex of the shortest path between v 1 and v 2 in T . Such vertices v are precisely those that are not separated from e by cluster boundaries.</p><p>We also include edge-cluster switches (e, C) where C is a child of some vertex of the shortest path between v 1 and v 2 in T . An edge-cluster switch (e, C) moves e over the whole topological disc representing C; see <ref type="figure" target="#fig_5">Figure 4</ref>. Combinatorially, this is equivalent to performing all the edge-vertex switches (e, v), v ∈ C, simultaneously. The corresponding vector w (e,C) is the sum of all w (e,v) for v ∈ C. Therefore, the set of allowed switches generates a subspace W c of W . Since every allowed switch can be performed in every clustered drawing, every vector from W c can be realized by some continuous deformation. Moreover, every clustered drawing of (G, T ) can be obtained from any other clustered drawing of (G, T ) by a homeomorphism of the plane and by a sequence of finitely many continuous deformations of the edges, where each of the deformations can be represented by a subset of allowed switches. Indeed, by <ref type="bibr" target="#b37">[36,</ref><ref type="bibr">Theorem 1.18]</ref> or by the discussion of the original algorithm in previous paragraphs, the vectors v and v corresponding to two clustered drawings D and D of (G, T ) differ by a vector w ∈ W . We claim that w ∈ W c . Suppose that D and D have the same vertices. Let e be an edge of G, let e 0 be the curve representing e in D, and let e 1 be the curve representing e in D . Let γ be the closed curve obtained by joining e 0 and e 1 . Let S be the set of vertices of G "inside" γ; see Subsection 4.1 part 2) for the definition. For every cluster C that e cannot cross, all the vertices of C belong to the same connected region of R 2 \ γ; in particular, they are all "inside" or all "outside" γ. For every cluster C whose vertices are "inside" γ, we perform the switch (e, C) and perform the corresponding deformation on the curve e 0 . Let e 1/2 be the resulting curve. The closed curve obtained by joining e 1/2 and e 1 has all the vertices of G "outside". Therefore, if we now deform e 1/2 to e 1 arbitrarily, every vertex will be crossed an even number of times, so no changes in the parity of crossings between independent edges will occur.</p><p>Our algorithm then tests whether 0 ∈ v + W c . Before running the algorithm, we first remove any loops and parallel edges and check whether |E(G )| &lt; 3|V (G )| for the resulting graph G . Then we run our algorithm on (G , T ). This means solving a system of algorithm for testing clustered planarity, based on a reduction to simultaneous planarity. It is not hard to show that their algorithm is equivalent to ours, in the sense that both algorithms accept the same instances of clustered graphs.</p><formula xml:id="formula_1">O(|E(G )||V (G )|) = O(|V (G)| 2 ) linear equa- tions in O(|E(G )| 2 ) = O(|V (G)| 2 ) variables. This can be performed in O(|V (G)| 2ω ) O(|V (G)| 4.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Weak Hanani-Tutte for two-clustered graphs</head><p>First, we prove a stronger version of a special case of Theorem 1 in which G is a bipartite multigraph with the two parts corresponding to the two clusters. We note that a bipartite multigraph has no loops, but it can have multiple edges. In this stronger version, which is an easy consequence of the weak Hanani-Tutte theorem, we assume only the existence of an arbitrary even drawing of G that does not have to be a clustered drawing.</p><p>Lemma 6. Let (G, T ) be a two-clustered bipartite multigraph in which the two non-root clusters induce independent sets. If G admits an even drawing then (G, T ) is c-planar. Moreover, there exists a clustered embedding of (G, T ) with the same rotation system as in the given even drawing of G.</p><p>Proof. We assume that G = (V, E) is connected, since we can draw each connected component separately. Let A and B be the two clusters of (G, T ) forming a partition of V (G). By the weak Hanani-Tutte theorem <ref type="bibr" target="#b3">[4,</ref><ref type="bibr" target="#b35">34]</ref> we obtain an embedding D of G with the same rotation system as in the initial even drawing of G.</p><p>It remains to show that we can draw the discs representing the clusters. This follows from a much stronger geometric result by Biedl, Kaufmann and Mutzel [2, Corollary 1]. We need only a weaker, topological, version, which has a very short proof. For each face f of D, we may draw without crossings a set E f of edges inside f joining one chosen vertex in A incident to f to all other vertices in A incident to f . Since the dual graph of topological disc ∆ B containing all vertices of B, by drawing its boundary partially along the boundary of ∆ A and partially along the boundary of the outer face of D.</p><formula xml:id="formula_2">G in D is connected, the multigraph (A, f E f ) is connected as well. Let E be a subset of f E f such that T A = (A, E ) is a spanning tree of A. A small neighborhood of T A is</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Proof of Theorem 1</head><p>The proof is inspired by the proof of the weak Hanani-Tutte theorem from <ref type="bibr" target="#b35">[34]</ref>. Let A and B be the two clusters of (G, T ) forming a partition of V (G). We assume that G is connected, since we can embed each component separately. We start with an even clustered drawing of (G, T ). We proceed by induction on the number of vertices.</p><p>First, we discuss the inductive step. If we have an edge e between two vertices u, v in the same part (either A or B), we contract e by pulling v along e towards u while dragging all the other edges incident to v along e as well. See <ref type="figure">Figure 6</ref>. We keep all resulting loops and multiple edges. If some edge crosses itself during the dragging, we eliminate the self-crossing by a local redrawing. The resulting drawing is still a clustered drawing. This operation keeps the drawing even and it also preserves the rotation at each vertex. Then we apply the induction hypothesis and decontract the edge e. This can be done without introducing new crossings, since the rotation system has been preserved during the induction.</p><p>In the base step, G is a multigraph consisting of a bipartite multigraph H with parts A and B and possible additional loops at some vertices. We can embed H by Lemma 6. It remains to embed the loops. Note that after the contractions, no loop crosses the boundary of a cluster. Each loop l divides the rotation at its corresponding vertex v(l) into two intervals. One of these intervals contains no end piece of an edge connecting A with B, otherwise l would cross some edge of H an odd number of times. Call such an interval a good interval in the rotation at v(l). Observe that there are no two loops l 1 and l 2 with v(l 1 ) = v(l 2 ) = v whose end-pieces have the order l 1 , l 2 , l 1 , l 2 in the rotation at v, as otherwise the two loops would cross an odd number of times. Hence, at each vertex the good intervals of every pair of loops are either nested or disjoint.</p><p>We use induction on the number of loops to draw all the loops at a given vertex v without crossings and without changing the rotation at v. For the inductive step, we remove a loop l whose good interval in the rotation at v is inclusion minimal. Such an interval contains only the two end-pieces of l, since there exist no edges between a pair of vertices in A or B. By induction hypothesis, we can embed the rest of the loops without changing the rotation at v. Finally, we can draw l in a close neighborhood of v within the face determined by the original rotation at v. This concludes our discussion of the base step of the induction and the proof of the theorem.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Strong Hanani-Tutte for two-clustered graphs</head><p>In this section we prove Theorem 2. Let (G, T ) be a two-clustered graph. Let A and B be the two clusters of (G, T ) forming a partition of</p><formula xml:id="formula_3">V (G). For a subset V ⊆ V (G), let G[V ] denote the subgraph of G induced by V .</formula><p>The following lemma gives a characterization of c-planarity for two-clustered graphs, similar to the one for c-connected clustered graphs [13, Theorem 1]. The embedding D 1 still satisfies the assumptions of the lemma, since adding an edge between two components creates no cycle.</p><p>Next we contract each component of</p><formula xml:id="formula_4">G 1 [A] ∪ G 1 [B]</formula><p>in D 1 to a point, while keeping all the loops and multiple edges, and preserving the rotations of the vertices. Let D 2 be the resulting embedding and (G 2 , T 2 ) the corresponding two-clustered multigraph. The connectedness of G 2 and the assumption of the lemma imply that the interior of every loop in D 2 is empty of vertices. We remove all the loops, and apply Lemma 6 to the resulting two-clustered multigraph (G 3 , T 3 ). We obtain topological discs ∆ A and ∆ B certifying the c-planarity of (G 3 , T 3 ). Finally, we reintroduce the loops and decontract the components of G 1 [A] and G 1 [B] inside the discs ∆ A and ∆ B , respectively. Finally, we delete the edges connecting the components of G. By the assumption of Theorem 2 and the strong Hanani-Tutte theorem, G has an embedding. However, in this embedding, G[B] does not have to be contained in a single face of G[A] and vice-versa. Hence, we cannot guarantee that a clustered embedding of (G, T ) exists so easily.</p><p>For an induced subgraph H of G, the boundary of H is the set of vertices in H that have a neighbor in G − H. We say that an embedding D(H) of H is exposed if all vertices on the boundary of H are incident to the outer face of D(H).</p><p>The following lemma is an easy consequence of the strong Hanani-Tutte theorem. It helps us to find an exposed embedding of each connected component X of G We get an independently even drawing of X from D by contracting ∆ B to a point and removing the vertices in A \ X and all parallel edges. By the strong Hanani-Tutte theorem we obtain an embedding of X . By changing this embedding so that v gets to the outer face and then removing v with all incident edges, we obtain an exposed embedding of X.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Proof of Theorem 2</head><p>The proof is inspired by the proof of the strong Hanani-Tutte theorem from <ref type="bibr" target="#b35">[34]</ref>. Its outline is as follows. First we obtain a subgraph G of G containing the boundary of each component of G[A] and G[B] and such that each of G [A] and G [B] is a cactus forest, that is, a graph where every two cycles are edge-disjoint. Equivalently, a cactus forest is a graph with no subdivision of K 4 − e. A connected component of a cactus forest is called a cactus. Then we apply the strong Hanani-Tutte theorem to a graph which is constructed from G by splitting vertices common to at least two cycles in G [A] and G [B], and turning all cycles in G [A] and G [B] into wheels. The wheels guarantee that everything that has been removed from G in order to obtain G can be inserted back. Finally we draw the clusters using Lemma 6. Now we describe the proof in detail. Let X 1 , . . . , X k be the connected components of G[A] ∪ G[B]. By Lemma 8 we find an exposed embedding D(X i ) of each X i . Let X i denote the subgraph of X i obtained by deleting from X i all the vertices and edges not incident to the outer face of D(X i ). Observe that X i is a cactus.  <ref type="figure">B)</ref>. That is, G is a subgraph of G that consists of all the cacti X i and all edges between the two clusters. Let D denote the drawing of G obtained from the initial independently even clustered drawing of G by deleting the edges and vertices of G not belonging to G . Thus, D is an independently even clustered drawing of G .</p><formula xml:id="formula_5">Let G = ( k i=1 X i ) ∪ E(A,</formula><p>In what follows we process the cycles of G [A] and G [B] one by one. We will be modifying G and also the drawing D . We will maintain the property that every processed cycle is vertex-disjoint with all other cycles in G [A] and G [B], and every edge of every processed cycle is even in D . Initially, the property is met as no cycle is processed. Let C denote an unprocessed cycle in G [A]. For cycles in G [B], the procedure is analogous. We proceed in several steps.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">1) Correcting the rotations.</head><p>For every vertex v of C, we redraw the edges incident to v in a small neighborhood of v, and change the rotation at v, as follows <ref type="bibr" target="#b35">[34]</ref>. If the two edges e, f of C incident to v cross an odd number of times, we redraw one of them, say, f , so that they cross evenly. Next, we redraw every other edge incident to v so that it crosses both e and f evenly; see <ref type="figure" target="#fig_8">Figure 7</ref>. After we perform these modifications at every vertex of C, all the edges of C are even. However, some pairs of edges incident to a vertex of C may cross oddly; see <ref type="figure" target="#fig_8">Figure 7</ref> d). Moreover, no processed cycles have been affected since they are vertex-disjoint with C.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">2) Cleaning the "inside".</head><p>We two-color the connected components of R 2 \ C so that two regions sharing a nontrivial part of their boundary receive opposite colors. The existence of such a coloring is a well- known fact; for example, one can color the points of R 2 \ C using the parity of the winding number of C. We say that a point not lying on C is "outside" of C if it is contained in the region with the same color as the unbounded region. Otherwise, such a point is "inside" of C.</p><p>A C-bridge in G is a "topological" connected component of G − E(C); that is, a connected component K of G − C together with all the edges connecting K with C, or a chord of C in G . We say that a C-bridge L is outer if all edges of L incident to C attach to the vertices of C from "outside". Similarly, we say that a C-bridge L is inner if all edges of L incident to C attach to the vertices of C from "inside". Since all the edges of C are even, every C-bridge is either outer or inner. A C-bridge is trivial if it attaches only to one vertex of C; otherwise it is nontrivial. Since C is edge-disjoint with all cycles in G [A], every nontrivial C-bridge contains a vertex of B. Since D is a clustered drawing of G , all vertices of G [B] lie "outside" of C, and so every nontrivial C-bridge is outer. Therefore, every inner C-bridge is trivial. We redraw every inner C-bridge L as follows. Let v be the vertex of C to which L is attached. We select a small region in the neighborhood of v "outside" of C, and draw L in this region by continuously deforming the original drawing of L, so that L crosses no edge outside L; see <ref type="figure" target="#fig_12">Figure 8</ref>. After this step, nothing is attached to C from "inside".</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4">3) Vertex splitting.</head><p>Let v be a vertex of C belonging to at least one other cycle in G [A]. Let x and y be the two neighbors of v in C. By the previous step, the edges xv and yv are consecutive in the rotation at v. We split the vertex v by replacing it with two new vertices v and v connected by an edge, and draw them very close to v. We replace the edges xv and yv by edges xv and yv , respectively. For every neighbor u of v that is not on C, we replace the edge uv by an edge uv . See <ref type="figure">Figure 9</ref>. Clearly, this vertex-splitting introduces no pair of independent edges crossing oddly. Moreover, after all the splittings, C is vertex-disjoint with all cycles in G [A]. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.5">4) Attaching the wheels.</head><p>Now we fill the cycle C with a wheel. More precisely, we add a vertex v C into A and place it very close to an arbitrary vertex of C "inside" of C. We connect v C with all the vertices of C by edges that closely follow the closed curve representing C either from the left or from the right, and attach to their endpoints on C from "inside"; see <ref type="figure" target="#fig_0">Figure 10</ref>. We allow portions of these new edges to lie "outside" of C only near self-crossings of C.</p><p>In particular, in the neighborhoods of vertices of C, the new edges are always "inside" of C. Since no C-bridge is inner, all the new edges are even.</p><p>Let G denote the graph obtained after processing all the cycles of G [A] and G [B]. Now we apply the strong Hanani-Tutte theorem to G . We further modify the resulting embedding in several steps so that in the end, the only vertices and edges of G not incident to the outer face of G [A] or G [B] are the vertices v C that form the centers of the wheels, and their incident edges. First, suppose that some of the wheels are embedded so that their central vertex v C is in the outer face of the wheel. Then the outer face is a triangle, say v C uw. We can then redraw the edge uw along the path uv C w, without crossings, so that v C gets inside the wheel. We fix all the wheels in this way. Next, if some of the wheels contains another part of G in some of its inner faces, we flip the whole part over an edge of the wheel to its outer face, without crossings. See <ref type="figure" target="#fig_0">Figure 11</ref>. After finitely many flips, all the inner faces of the wheels will be empty.</p><p>After </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Strong Hanani-Tutte for c-connected clustered graphs</head><p>Here we prove Theorem 3, using the ideas from the proof of Theorem 2. Let (G, T ) be a c-connected clustered graph with an independently even clustered drawing. Our goal is to find a c-planar embedding of (G, T ); see <ref type="figure" target="#fig_0">Figure 12</ref>. We proceed by induction on the number of clusters of (G, T ). If the root cluster is the only cluster in (G, T ), the theorem follows directly from the strong Hanani-Tutte theorem applied to G. For the inductive step, we assume that (G, T ) has at least one non-root cluster.</p><p>A minimal cluster is a cluster that contains no other cluster of (G, T ). Let V (µ) be a minimal cluster of (G, T ). Let (G, T ) be a clustered graph obtained from (G, T ) by removing µ from T and attaching all its children to its parent. Note that (G, T ) is still c-connected. with an independently even clustered drawing. Now we apply the induction hypothesis and obtain a clustered embedding of (G , T ). Again, we modify this embedding so that all vertices of V (G )−V (µ) are in the outer face of G [V (µ)]. Then we remove the wheels, contract the new edges and insert back the removed parts of G[V (µ)]. Finally we draw a topological disc ∆(µ) around the closure of the union of all interior faces of G[V (µ)]. Since G[V (µ)] is connected, this last step is straightforward and results in a clustered embedding of (G, T ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Counterexample on three clusters</head><p>In this section we construct a family of even clustered drawings of flat clustered cycles on three and more clusters that are not clustered planar. These examples imply that a straightforward generalization of the Hanani-Tutte theorem to graphs with three or more clusters is not possible.</p><p>Before giving the construction, we prove that there are no other "minimal" counterexamples to the Hanani-Tutte theorem for flat clustered cycles with three clusters, and more generally, flat clustered cycles whose clusters form a cycle structure. A reader interested only in the counterexample can immediately proceed to Subsection 6.2 or directly to the study of <ref type="figure" target="#fig_0">Figure 16</ref>.</p><p>Let k 3. We say that a flat clustered graph (G, T ) with k clusters is cyclic-clustered if there is a cyclic ordering of its clusters (V 1 , V 2 , . . . , V k ) such that for i = j, G has an edge between V i and V j if and only if |i − j| ∈ {1, k − 1}; that is, if V i and V j are consecutive in the cyclic ordering. In this section we assume that (G, T ) is a cyclic-clustered graph with k clusters. Clustered drawings of cyclic-clustered graphs with no edge-crossings outside the clusters have a simple structure.</p><p>Observation 9. Let D be a clustered drawing of a cyclic-clustered graph (G, T ) with k clusters on the sphere such that the edges do not cross outside the topological discs ∆ i representing the clusters V i . Then we can draw disjoint simple curves α 1 , β 1 , α 2 , β 2 , . . . , α k , β k such that both α i and β i connect the boundaries of ∆ i and ∆ i+1 , do not intersect other discs ∆ j , and the bounded region bounded by α i , β i and portions of the boundaries of ∆ i and ∆ i+1 contains all portions of the edges between V i and V i+1 that are outside of ∆ i and ∆ i+1 (the indices are taken modulo k).</p><p>Proof. The observation is obvious when there is exactly one edge between every pair of consecutive clusters. The general case follows easily by induction on the number of the inter-cluster edges.</p><p>We note that if (G, T ) has only three clusters, then the conclusion of Observation 9 holds even if (G, T ) is not cyclic-clustered, that is, if there is a pair of clusters with no edge between them.</p><p>First we show that it is enough to consider clustered drawings in which the clusters are drawn as cones bounded by a pair of rays emanating from the origin. We call such drawings radial.  <ref type="figure" target="#fig_0">Figure 13</ref>: Eliminating crossings outside clusters in a cyclic-clustered graph.</p><formula xml:id="formula_6">V i V i+1 V i V i+1</formula><p>We call two clustered drawings of (G, T ) equivalent if for every pair of independent edges e and f , the number of their crossings has the same parity in both drawings. We call a clustered drawing weakly even if every pair of edges between two disjoint pairs of clusters cross an even number of times. Clearly, every independently even drawing is also weakly even.</p><p>Lemma 10. Given a weakly even clustered drawing D of a cyclic-clustered graph (G, T ), there exists a radial clustered drawing of (G, T ) equivalent to D.</p><p>Proof. Here we refer to the topological discs representing the clusters simply by "clusters", and denote them also by V i .</p><p>If all the crossings in D are inside clusters, we can easily obtain a radial drawing of (G, T ) equivalent to D as follows. By Observation 9, we can flip some edges so that the outer face intersects all the clusters. Then the complement of the union of the discs ∆ i and the curves α i and β i from Observation 9 in the plane contains exactly one bounded and one unbounded component touching all the clusters. Therefore, we can continuously deform the plane and then expand the clusters to take the shape of the cones.</p><p>Suppose that there are crossings outside clusters in D. We show how to obtain an equivalent drawing that has all crossings inside clusters, in two phases.</p><p>In the first phase, we eliminate all crossings outside clusters as follows. We continuously deform every edge of G between two consecutive clusters V i and V i+1 (the indices are taken modulo k) into a narrow corridor between V i and V i+1 , keeping the interiors of V i and V i+1 fixed except for a small neighborhood of their boundaries. See <ref type="figure" target="#fig_0">Figure 13</ref>. Inside the corridor between V i and V i+1 , we want the portions of the edges to be noncrossing, but their order may be arbitrary. We may represent this deformation by the set S(D, D ) of edge-cluster switches (see Section 2 for the definition) that were performed an odd number of times. Now we again use the fact that between every two consecutive clusters of the cyclic sequence (V 1 , V 2 , . . . , V k ), there is at least one edge of G. an edge-cluster switch of e with every cluster disjoint with e. We call such an edge switched.</p><p>In the second phase, we further transform D into a drawing D by deforming the edges only inside the clusters. For every switched edge e, we perform edge-vertex switches of e with all vertices in the two clusters incident to e, except for the endpoints of e. Since performing an edge-vertex switch of e with every vertex of G not incident to e has no effect on the parity of the number of crossings of e with independent edges, the new drawing D is equivalent to D.</p><p>In the rest of this section we assume that G is a cycle C n = v 1 v 2 . . . v n . For technical reasons, we define v n+1 as v 1 . For j ∈ [n], let ϕ(v j ) denote the index of the cluster</p><formula xml:id="formula_7">containing v j , that is, v j ∈ V ϕ(v j ) . For every edge v i v i+1 of C n we define sign(v i v i+1 ) ∈ {−1, 0, 1}, as an element of Z, so that sign(v i v i+1 ) ≡ ϕ(v i+1 ) − ϕ(v i ) (mod k).</formula><p>Note that the sign is well defined since (G, T ) = (C n , T ) is cyclic-clustered and k 3. We then define the winding number of (C n , T ) as 1 k n i=1 sign(v i v i+1 ). Note that in a radial clustered drawing of (C n , T ) where the clusters V 1 , V 2 , . . . V n are drawn in a counter-clockwise order, our definition of the winding number of (C n , T ) coincides with the standard winding number of the curve representing C n with respect to the origin.</p><p>We will show that if (C n , T ) is a counterexample to the variant of the Hanani-Tutte theorem for flat cyclic-clustered graphs with k clusters, then the winding number of (C n , T ) is odd.</p><p>We say that</p><formula xml:id="formula_8">(C n , T ) is monotone if sign(v 1 v 2 ) = sign(v 2 v 3 ) = · · · = sign(v n v 1 ) = 0.</formula><p>In the following two lemmas we show how to reduce any even radial clustered drawing of (C n , T ) to an even radial clustered drawing of a monotone cyclic-clustered cycle (C n , T ), for some n n, that has the same winding number as (C n , T ). We extend the notion of edge contraction to flat clustered cycles as follows. If (G, T ) is a clustered cycle and e = uv is an edge of G with both vertices u, v in the same cluster C, then (G, T )/e is the clustered multigraph obtained by contracting e and keeping the vertex replacing u and v in the cluster C. The clustering of the rest of the vertices is left unchanged. If P = uwv is a path of length 2 in G such that u and v are in the same cluster C, then (G, T )/P is the clustered multigraph obtained by contracting the edges uw and wv and keeping the vertex replacing u and v in the cluster C. Obviously, if G = C n , then the contraction of an edge yields a cycle of length n − 1. Similarly, the contraction of a path of length 2 yields a cycle of length n − 2.</p><p>Lemma 11. Let D be an even radial clustered drawing of (C n , T ). Let e be an edge in C n with both endpoints in the same cluster V i . Then (C n , T )/e has an even radial clustered drawing.</p><p>Proof. Since the edge e is completely contained inside the disc representing the cluster V i , we can contract the curve representing e in D towards one of its endpoints, dragging the edges incident to the other endpoint along. Since e was even, this does not change the parity of the number of crossings between the edges of G.  <ref type="figure" target="#fig_0">Figure 14</ref>: Illustration for the proof of Lemma 12. From left to right: the successive stages of the redrawing operation eliminating paths P 1 , P 2 and P 3 . The edge f cannot be present in the drawing, since it would violate its evenness.</p><formula xml:id="formula_9">V b V a V b V a V b V a P 1 P 3 P 2 P 1 P 3 P 2 w f w f w f</formula><p>Lemma 12. Let D be an even radial clustered drawing of (C n , T ). Let V a and V b be two adjacent clusters. Let P 1 , . . . , P m be all the paths of length 2 in C n whose middle vertices belong to V a and whose end vertices belong to V b . Then (C n , T ) = (. . . ((C n , T )/P 1 )/ . . . )/P m has an even radial clustered drawing.</p><p>Proof. Refer to <ref type="figure" target="#fig_0">Figure 14</ref>. By Lemma 11, we assume that no edge of C n has both vertices in the same cluster. At the end we can recover the contracted edges by decontractions.</p><p>The proof proceeds by the following surgery performed on D. First we cut the paths P i at the ray r separating the clusters V a and V b , by removing a small neighborhood of the curves near r. Second, we reconnect the severed ends of every P i on both sides of r, by new curves drawn close to r. This operation splits every P i into two components. One of the components is a curve connecting the former end vertices of P i , the other component is a closed curve containing the middle vertex of P i . By removing the middle vertex of P i , we replace each P i by a single edge e i , still represented as the union of both components of P i . Third, we remove the closed curve of every e i . Finally, we contract the remaining component of each e i towards one of the end vertices, as in <ref type="bibr">Lemma 11.</ref> We claim that the resulting drawing is even. It is easy to see that during the first and the second phase, the parity of the number of crossings between each pair of edges was preserved, if we consider the edge e i instead of each path P i , and count the crossings on all components of every edge together. Now we show that the closed component of each e i crosses every other edge an even number of times. This is clearly true for every edge e j other than e i , since only the closed component of e j can cross the closed component of e i . Suppose that the closed component of e i crosses some other edge f an odd number of times. Then f intersects the region containing V a , and so f has one endpoint, w, in V a . Since the other endpoint of f is not in V a , the vertex w lies "inside" the closed component of e i (in the same sense as defined in Section 4). If some of the two edges incident to w had the other endpoint outside V b , it would cross e i , and thus P i , an odd number of times. Therefore, both edges incident to w are incident to both clusters V a and V b . But every such pair was replaced by a single edge during the surgery; so there is no such f .  <ref type="figure" target="#fig_0">Figure 15</ref>: Illustration for the proof of Theorem 13. The two pairs of vertices u, v, and u + , v + are in clusters V i and V i+1 , respectively. The "inside" of the curves γ(u) and γ(u + ) consists of the shaded regions. Thus, we have u &lt; i v and u + &lt; i+1 v + .</p><formula xml:id="formula_10">u v u + V i+1 V i v +</formula><p>Theorem 13. Let (C n , T ) be a cyclic-clustered cycle that is not c-planar but has an even clustered drawing. Then the winding number of (C n , T ) is odd and different from 1 and −1.</p><p>Proof. Let k 3 be the number of clusters of (C n , T ). By Lemmas 10, 11 and 12, we may assume that (C n , T ) is monotone and that it has an even radial clustered drawing. In particular, the absolute value of the winding number of (C n , T ) is equal to n/k. Cortese et al. <ref type="bibr" target="#b7">[8]</ref> proved that a cyclic-clustered cycle is c-planar if and only if its winding number is −1, 0 or 1. This implies that n 2k if (C n , T ) is not c-planar.</p><p>For every i ∈ [k], we define a relation &lt; i on V i as follows. Refer to <ref type="figure" target="#fig_0">Figure 15</ref>. Let u ∈ V i , and let uu − and uu + denote the two edges incident to u so that u − ∈ V i−1 and u + ∈ V i+1 (the indices are taken modulo k). Let (uu − ) i and (uu + ) i denote the parts of uu − and uu + , respectively, contained inside the cone representing V i . Let r(uu − ) and r(uu + ) denote the endpoint of (uu − ) i and (uu + ) i , respectively, different from u. That is, r(uu − ) and r(uu + ) are on the boundary of the cone representing V i . Let γ(u) denote the closed curve obtained by concatenating (uu − ) i , (uu + ) i , and the two line segments connecting r(uu − ) and r(uu + ), respectively, with the origin. We say that vertices u, v ∈ V i are in the relation u &lt; i v if v is "outside" (in the same sense as defined in Section 4) of the curve γ(u).</p><p>Let v + be the neighbor of v in V i+1 , and let v − be the other neighbor of v. The relations &lt; i and &lt; i+1 satisfy the following properties.</p><p>(1) the relation &lt; i is antisymmetric, that is, For part <ref type="bibr" target="#b1">(2)</ref>, let u ++ be the neighbor of u + other than u. The claim follows from the fact that vv + crosses each of the curves (uu − ) i , uu + and (u + u ++ ) i+1 evenly.</p><formula xml:id="formula_11">(u &lt; i v) ⇒ ¬(v &lt; i u), (2) u &lt; i v if and only if u + &lt; i+1 v + .</formula><p>Recall that C n = v 1 v 2 . . . v n . Let i = ϕ(v n ) and suppose without loss of generality that i + 1 = ϕ(v 1 ). Suppose that n/k is even. Then both v n and v n/2 are in V i . By (2), we have v n &lt; i v n/2 ⇔ v 1 &lt; i+1 v n/2+1 ⇔ · · · ⇔ v n/2 &lt; i v n , but this contradicts (1). Therefore, n/k is odd.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Remark.</head><p>We will see next that the relations &lt; i are not necessarily transitive. In fact, it is not hard to see that in every counterexample to the variant of the Hanani-Tutte theorem for cyclic-clustered cycles, no relation &lt; i is transitive.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Proof of Theorem 4</head><p>For simplicity of the description, we draw the graph on a cylinder, represented by a rectangle with the left and right side identified.</p><p>Let r 3 be an odd integer and let k 3. Our counterexample is a drawing of a monotone cyclic-clustered cycle with kr vertices and k clusters. The corresponding curve consists of kr + 1 periods of an appropriately scaled graph of the sinus function winding r times around the cylinder, where the vertices mark the beginning of kr of the periods. We can describe the curve representing the cycle analytically as a height function f (α) = sin kr+1 r α on a vertical cylinder (whose axis is the z-axis) taking the angle as the parameter. The vertices of the cycle are at points i 2r kr+1 π, 0 , where i = 0, . . . , kr − 1, and the clusters are separated by vertical lines at angles 2ri+1 kr+1 π, for i = 0, . . . k − 1; see <ref type="figure" target="#fig_0">Figure 16</ref>. By the result of Cortese et al. <ref type="bibr" target="#b7">[8]</ref>, the cyclic-clustered cycle is not c-planar when r &gt; 1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Small faces</head><p>In this section we reprove a result of Di Battista and Frati <ref type="bibr" target="#b9">[10]</ref> that c-planarity can be decided in polynomial time for embedded flat clustered graphs whose every face is incident the electronic journal of combinatorics 22(4) (2015), #P4.24 to at most five vertices. In our proof, we reduce the problem to computing the largest size of a common independent set of two matroids. This can be done in polynomial time by the matroid intersection theorem <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b29">28]</ref>. See e.g. <ref type="bibr" target="#b31">[30]</ref> for further references.</p><p>In this section, we will use a shorthand notation (G, T ) instead of (D(G), T ) for an embedded clustered graph. Let (G, T ) be an embedded flat clustered graph where G = (V, E).</p><p>Since contracting an edge with both endpoints in the same cluster does not affect c-planarity, we will assume that (G, T ) is an embedded clustered multigraph where every cluster induces an independent set. If (G, T ) is c-planar and contains a loop at v, then the whole interior of the loop must belong to the same cluster as v. Hence, either there is a vertex of another cluster inside the loop, in which case (G, T ) is not c-planar, or we may remove the loop and everything from its interior without affecting the c-planarity. The test and the transformation can be easily done in polynomial time. We will thus also assume that (G, T ) has no loops.</p><p>A saturator of (G, T ) is a subset S of V 2 \ E such that every cluster of (G ∪ S, T ) is connected and the edges of S can be added to (G, T ) without crossings.</p><p>Let S be a minimal saturator of (G, T ). Then each cluster in (G ∪ S, T ) induces a spanning tree of the cluster, and so the boundary of each cluster can be drawn easily. We have thus the following simple fact. In order to model our problem by matroids we need to avoid two noncrossing saturating edges in one face coming from two different clusters, which might happen if the boundary of the face is not a simple cycle. To this end, we modify the multigraph further by a sequential merging of some pairs of vertices. Assuming that u and v are non-adjacent vertices incident to a common face f , merging of u and v in f consists in embedding a new edge uv inside f and then contracting it.</p><p>Lemma 15. Let (G, T ) be an embedded flat clustered multigraph all of whose faces are incident to at most five vertices. Suppose that G has no loops and that every cluster of (G, T ) induces an independent set. Then there is an embedded flat clustered multigraph (G , T ) obtained from (G, T ) by merging vertices such that 1) (G, T ) is c-planar if and only if (G , T ) is c-planar, and 2) if (G , T ) is c-planar then (G , T ) has a saturator S whose edges can be embedded so that each face of G contains at most one edge of S.</p><p>Moreover, finding G and verifying conditions 1) and 2) can be performed in linear time.</p><p>A saturating pair of a face f is a pair of vertices incident to f and belonging to the same cluster. Thus, a cluster with k vertices incident to f has k 2 saturating pairs in f . A saturating edge of f is a simple curve embedded in f and connecting the vertices of some saturating pair of f . Proof of Lemma 15. Clearly, once we find that (G, T ) is not c-planar we can choose G = G.</p><p>A face of (G, T ) is bad if it admits two noncrossing saturating edges, even from the same cluster. If no face of (G, T ) is bad, then the choice G = G satisfies both conditions of the lemma.</p><p>Assume that (G, T ) has at least one bad face f . We show that at least two vertices of f can be merged so that the resulting embedded clustered multigraph is c-planar if and only if (G, T ) is c-planar. The lemma then follows by induction on the number of vertices.</p><p>Suppose that f has only two saturating pairs, {u, v} and {x, y}. In this case, u and v belong to a different cluster than x and y. Since f is bad, the pairs {u, v} and {x, y} can be joined by saturating edges e(u, v) and e(x, y), respectively, embedded in f without crossings. Hence, we can merge u with v along e(u, v) while preserving the c-planarity.</p><p>If f has more than two saturating pairs, there is a cluster C that has at least three vertices incident to f . Let C(f ) be the set of these vertices. If all other clusters have at most one vertex incident to f , all saturating pairs of f have vertices in C(f ). In this case, we can merge any pair of vertices of C(f ) while preserving the c-planarity.</p><p>In the remaining case, f is incident to exactly five vertices, exactly three of them, u, v and w, are in C, and the remaining two, x and y, are in another cluster D. In this case, f has four saturating pairs: {u, v}, {u, w}, {v, w} and {x, y}. If x and y are in different components of the boundary of f , then it is possible to embed saturating edges for all the four saturating pairs without crossings. We may thus merge x with y without affecting the c-planarity. For the rest of the proof we assume that x and y are in the same component of the boundary of f . In this case, every saturating edge e joining x with y separates the face f into two components. At least one of the components is incident to at least two vertices of C(f ), and so at least one saturating edge of the cluster C can be embedded in f while avoiding crossings with e. If at least two saturating edges of C can be embedded in f while avoiding crossings with e, we may merge x with y along e without affecting c-planarity. Therefore, we also assume for the rest of the proof that for every saturating edge e joining x with y in f , exactly one saturating pair of C can be joined by a saturating edge embedded in f without crossings with e. This implies that for every minimal saturator of (G, T ), at most two saturating pairs in total can be simultaneously joined by saturating edges embedded in f without crossings.</p><p>If for some of the saturating pairs of C in f , say, {u, v}, no saturating edge embedded in f joining x with y separates u and v, we can merge u with v without affecting cplanarity. We may thus assume that every pair of vertices in C(f ) can be separated by some saturating edge joining x with y.</p><p>The boundary of f , denoted by ∂f , is a bipartite cactus forest with partitions C(f ) = {u, v, w} and D(f ) = {x, y}. We call every connected component of R 2 \ ∂f other than f an enclave. Each enclave is bounded by a simple cycle, of length 2 or 4. Suppose that each enclave is bounded by a 2-cycle. Since each of the 2-cycles contains only one vertex of C, every saturating edge joining two vertices of C(f ) has to be embedded in f , and moreover, every minimal saturator of (G, T ) contains exactly two of the saturating pairs {u, v}, {u, w}, {v, w}, forming a spanning tree of the triangle uvw. Similarly, every minimal saturator of (G, T ) contains the pair {x, y}, and the saturating edge joining x with y must be embedded in f . By our assumptions, two of the three saturating edges in f will cross, so in this case (G, T ) is not c-planar.</p><p>We are left with the case when one enclave is bounded by a 4-cycle, say, uxvy. Clearly, there is at most one other enclave and it is bounded by a 2-cycle. In total, there are three possibilities for the subgraph ∂f ; see <ref type="figure" target="#fig_0">Figure 17</ref>. Every saturator of (G, T ) has to contain at least one of the two saturating pairs {u, w}, {v, w}, and the corresponding saturating edge must be embedded in f . Moreover, if there is a saturator containing {x, y} and {v, w} and no other saturating pair of f , then replacing {v, w} with {u, w} we also get a saturator, since saturating edges joining the pairs {x, y} and {u, w} can be simultaneously embedded in f without crossings. Therefore, we can merge u and w while preserving cplanarity. This finishes the proof of the lemma.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.1">Proof of Theorem 5</head><p>We start with the embedded multigraph (G , T ) obtained in Lemma 15. By Observation 14 and Lemma 15, it is enough to decide whether (G , T ) has a minimal saturator.</p><p>In order to test the existence of a saturator we define two matroids for which we will use the matroid intersection algorithm. The ground set of each matroid is a set E of saturating edges of (G , T ) defined as the disjoint union f E f , over all faces of G , where E f is a set containing one saturating edge for each saturating pair of f . By the proof of <ref type="bibr">Lemma 15</ref>, no face f is bad, so every set E f has at most two saturating edges. Moreover, if |E f | = 2, then the two saturating edges in E f cross and belong to different clusters.</p><p>The first matroid, M 1 , is the direct sum of graphic matroids constructed for each cluster as follows. Denote the clusters of (G , T ) by C i , i = 1, . . . , k. Let G i be the multigraph induced by C i in G = (V, E ). If G i is not connected, (G , T ) has no saturator. We thus further assume that G i is connected. The ground set of the graphic matroid M (G i ) is the edge set of G i . Since G i is connected, the rank of M (G i ) is the number of vertices of G i minus one. Since the matroids M (G i ), i = 1, . . . , k, are pairwise disjoint, their direct sum, M 1 , is also a matroid and its rank is the sum of the ranks of the matroids M (G i ).  The second matroid, M 2 , is a partition matroid defined as follows. A subset of E is independent in M 2 if it has at most one edge in every face of G .</p><p>Let M be the intersection of M 1 and M 2 . If M has an independent set of size equal to the rank of M 1 , then (G , T ) has a saturator that has at most one edge inside each face. Thus, (G , T ) is c-planar by Observation 14, and that in turn implies by Lemma 15 that (G, T ) is c-planar as well. On the other hand, if (G, T ), and hence (G , T ), is c-planar, then (G , T ) has a minimal saturator S that has at most one edge inside each face by Lemma 15. Thus, S witnesses the fact that M has an independent set of size equal to the rank of M 1 . Hence, (G , T ) is c-planar if and only if M has an independent set of size equal to the rank of M 1 , and this can be tested by the matroid intersection algorithm.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">Concluding remarks</head><p>Let G T be the simple graph obtained from (G, T ) by contracting the clusters and deleting the loops and multiple edges. By the construction in Section 6 we cannot hope for a fully general variant of the Hanani-Tutte theorem for (G, T ) when G T contains a cycle.</p><p>A simple modification of the construction provides a counterexample also for the case when G T is a tree with at least one vertex of degree greater than 2; see <ref type="figure" target="#fig_0">Figure 18</ref>. This disproves our conjecture from the conference version of this paper <ref type="bibr" target="#b17">[17]</ref>.</p><p>Therefore, the only open case for flat clustered graphs is the case when G T is a collection of paths. We conjecture that the strong Hanani-Tutte theorem holds in this case.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conjecture 1.</head><p>If G T is a path and (G, T ) admits an independently even clustered drawing then (G, T ) is c-planar.</p><p>A variant of Conjecture 1 for non-flat two-level clustered graphs in which the clusters on the bottom level form a path and one additional cluster contains all interior clusters of the path would provide a polynomial-time algorithm for c-planarity testing for strip clustered graphs, which is an open problem stated in <ref type="bibr" target="#b0">[1]</ref>.</p><p>the electronic journal of combinatorics 22(4) (2015), #P4.24</p><p>Our proof from Section 7 fails if the graph has hexagonal faces. We wonder if this difficulty can be overcome or rather could lead to NP-hardness.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>(Figure 1 :</head><label>1</label><figDesc>ii) if µ ∈ T ν , then ∆(µ) ⊆ ∆(ν), (iii) if µ 1 and µ 2 are children of ν in T , then ∆(µ 1 ) and ∆(µ 2 ) are internally disjoint, and the electronic journal of combinatorics 22(4) (2015), #P4.24 A clustered embedding of a clustered graph (G, T ) and its tree T .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>A clustered graph with one non-root cluster, which is not c-planar.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 3 :</head><label>3</label><figDesc>A continuous deformation of e resulting in an edge-vertex switch (e, v).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>M 2</head><label>2</label><figDesc>, where M is the number of unordered pairs of independent edges. The component of v corresponding to a pair {e, f } is 1 if e and f cross an odd number of times and 0 otherwise. Let e be the electronic journal of combinatorics 22(4) (2015), #P4.24</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 4 :</head><label>4</label><figDesc>746 ) time using the algorithm by Ibarra, Moran and Hui [25]. Gutwenger, Mutzel and Schaefer [21] independently proposed a different algebraic the electronic journal of combinatorics 22(4) (2015), #P4.Left: an edge-vertex switch (e, v) and an edge-cluster switch (e, C). Right: the shortest path between v 1 and v 2 in T . The four light gray vertices in the middle cannot participate in a switch with e individually.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 5 :Figure 6 :</head><label>56</label><figDesc>an open topological disc ∆ A containing all vertices of A, and the boundary of ∆ A crosses every edge of G at most once; see Figure 5. In the complement of ∆ A we can easily find a the electronic journal of combinatorics 22(4) (2015), #P4.24 Left: Drawing the disc ∆ A . The edges of E are dashed, while the edges of f E f \ E are dotted. Right: Drawing the disc ∆ B . Pulling v towards u. The evenness of the drawing is preserved.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head></head><label></label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Lemma 7 .</head><label>7</label><figDesc>An embedding of a two-clustered graph (G, T ) is a clustered embedding if and only if G[B] is contained in the outer face of G[A] and G[A] is contained in the outer face of G[B]. Proof. The "only if" part is trivial. Let D be an embedding of G in which G[B] is contained in the outer face of G[A] and vice-versa. First we extend D to an embedding D 1 of a connected two-clustered graph (G 1 , T ) by adding the minimum necessary number of edges between the components of D. (If G is connected, then G 1 = G and D 1 = D.)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head></head><label></label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head></head><label></label><figDesc>[A] ∪ G[B]. Later in the proof of Theorem 2 this allows us to remove non-essential parts of each such component X and concentrate only on a subgraph G of G in which both G[A] and G[B] are outerplanar.Lemma 8. Suppose that (G, T ) admits an independently even clustered drawing. Then every connected component of G[A] ∪ G[B] admits an exposed embedding. Proof. Let D be an independently even clustered drawing of (G, T ). Let ∆ A and ∆ B be the two topological discs representing the clusters A and B, respectively. Let X be a component of G[A]. (For components of G[B] the proof is analogous.) Let ∂X be the boundary of X. For Y ⊆ A, let E(Y, B) be the set of edges connecting a vertex in Y with a vertex in B. Observe that E(X, B) = E(∂X, B). We replace B by a single vertex v and connect it to all vertices of ∂X. We obtain a graph X = (V (X) ∪ {v}, E(X) ∪ {uv; u ∈ ∂X}.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 7 :</head><label>7</label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> Making e and f even by changing the drawing locally around v.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 8 :</head><label>8</label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.Transforming inner C-bridges into outer C-bridges. Every nontrivial C-bridge contains a vertex in B.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 9 :Figure 10 :</head><label>910</label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.24 Splitting a vertex v common to several cycles in G [A]. Attaching a wheel to C.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Figure 11 :Figure 12 :</head><label>1112</label><figDesc>the modifications, G [A] is drawn in the outer face of G [B] and vice-versa. In the resulting embedding we delete all the vertices v C and contract the edges between the pairs of vertices v , v that were obtained by vertex-splits. Thus, we obtain an embedding of G in which for every component X i of G [A]∪G [B], all vertices of G − X i are drawn in the outer face of X i . Now we insert the removed parts of G back to G , by copying the corresponding parts of the embeddings D(X Fixing the wheels and flipping everything else to the outer face of G [A]. The circle represents a vertex in B. A c-planar embedding of a c-connected clustered graph (G, T ) and the corresponding tree T . in the beginning of the proof. This is possible since we are placing the removed parts of X i inside faces bounded by simple cycles of X i . Hence, we obtain an embedding of G in which for every component X of G[A] ∪ G[B], all vertices of G − X are drawn in the outer face of X. Thus, Lemma 7 applies and that concludes the proof.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head></head><label></label><figDesc>Starting from (G, T ), we process the connected subgraph G[V (µ)] analogously as the components of G[A] in the proof of Theorem 2, where we substitute A = V (µ) and B = V (G)−V (µ). By modifying (G, T ) we obtain a c-connected clustered graph (G , T ) the electronic journal of combinatorics 22(4) (2015), #P4.24</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head></head><label></label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head></head><label></label><figDesc>Since no two edges cross outside clusters in D , both drawings D and D are weakly even. Hence, if S(D, D ) contains an edge-cluster switch (e, V i ) with a cluster V i that is disjoint with e, then S(D, D ) contains the electronic journal of combinatorics 22(4) (2015), #P4.24</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head></head><label></label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head></head><label></label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_20"><head>For part ( 1 )Figure 16 :</head><label>116</label><figDesc>, we observe that (vv − ) i and (uu + ) i cross an even number of times. Suppose that u &lt; i v. Then (vv − ) i and (uu − ) i cross an odd number of times if and only if r(vv − ) is on γ(u); equivalently, r(vv − ) is closer to the origin than r(uu − ). If also v &lt; i u, then (vv − ) i and (uu − ) i cross an odd number of times if and only if r(uu − ) is closer to the origin than r(vv − ); a contradiction. the electronic journal of combinatorics 22(4) (2015), #P4.A counterexample to the variant of the Hanani-Tutte theorem with parameters k = 3 and r = 3; the underlying graph is thus a cycle on 9 vertices. The vertices are labeled by positive integers in the order of their appearance along the cycle.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_21"><head></head><label></label><figDesc>Observation 14 ([13]). An embedded flat clustered graph (G, T ) is c-planar if and only if (G, T ) has a saturator.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_22"><head></head><label></label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_23"><head>Figure 17 :</head><label>17</label><figDesc>Three cases of a bad face f whose boundary contains a 4-cycle. Saturating edges joining the pairs {x, y} and {u, w} are drawn in the third case. The vertices u and w can be merged without affecting the c-planarity.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_24"><head></head><label></label><figDesc>the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_25"><head>Figure 18 :</head><label>18</label><figDesc>A counterexample with G T = K 1,3 .</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">For a graph G drawn in the plane the conjecture claims that by redrawing G we can eliminate crossings in a subgraph H of G consisting of independently even edges without introducing new pairs of non-adjacent edges crossing an odd number of times.the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">the electronic journal of combinatorics 22(4) (2015), #P4.<ref type="bibr" target="#b24">24</ref> </note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>We are grateful to the anonymous referee and to the numerous anonymous reviewers of early versions for many valuable comments.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Angelini</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Da Lozzo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">Di</forename><surname>Battista</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Frati</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Strip planarity testing, Graph Drawing</title>
+		<editor>S. Wismath and A. Wolff</editor>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2013" />
+			<biblScope unit="volume">8242</biblScope>
+			<biblScope unit="page" from="37" to="48" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Drawing planar partitions II: HH-drawings, Graph-theoretic concepts in computer science</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Biedl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kaufmann</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">1517</biblScope>
+			<biblScope unit="page" from="124" to="136" />
+			<date type="published" when="1998" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Drawing planar partitions III: Two constrained embedding problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">C</forename><surname>Biedl</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1998" />
+		</imprint>
+		<respStmt>
+			<orgName>RUTCOR, Rutgers University</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Tech. rep</note>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Bounds for generalized thrackles</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Cairns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Nikolayevsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Comput. Geom</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="191" to="206" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Upward planarity testing: A computational study, Graph Drawing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Chimani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Zeranski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<editor>S. Wismath and A. Wolff</editor>
+		<imprint>
+			<biblScope unit="volume">8242</biblScope>
+			<biblScope unit="page" from="13" to="24" />
+			<date type="published" when="2013" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Clustered planarity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">F</forename><surname>Cortese</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">Di</forename><surname>Battista</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Twentyfirst annual symposium on Computational Geometry (proc. SoCG 05)</title>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="30" to="32" />
+		</imprint>
+	</monogr>
+	<note>invited lecture</note>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">C-planarity of c-connected clustered graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">F</forename><surname>Cortese</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">Di</forename><surname>Battista</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Frati</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Patrignani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Pizzonia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Algorithms Appl</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="225" to="262" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Clustering cycles into cycles of clusters</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">F</forename><surname>Cortese</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">Di</forename><surname>Battista</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Patrignani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Pizzonia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Algorithms Appl</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="391" to="413" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Improved bounds for matroid partition and intersection algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">H</forename><surname>Cunningham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM J. Comput</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="948" to="957" />
+			<date type="published" when="1986" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Efficient c-planarity testing for embedded flat clustered graphs with small faces</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Di</forename><surname>Battista</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Frati</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Algorithms Appl</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="349" to="378" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Submodular functions, matroids, and certain polyhedra, Combinatorial optimization-Eureka, you shrink!</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Edmonds</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">2570</biblScope>
+			<biblScope unit="page" from="11" to="26" />
+			<date type="published" when="2003" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">How to draw a planar clustered graph, Computing and Combinatorics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q.-W</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">F</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Eades</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<editor>D.-Z. Du and M. Li</editor>
+		<imprint>
+			<biblScope unit="volume">959</biblScope>
+			<biblScope unit="page" from="21" to="30" />
+			<date type="published" when="1995" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title/>
+		<idno>#P4.24</idno>
+	</analytic>
+	<monogr>
+		<title level="j">the electronic journal of combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Planarity for clustered graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q.-W</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">F</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Eades</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<editor>P. Spirakis</editor>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="213" to="226" />
+			<date type="published" when="1995" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+	<note>Algorithms -ESA</note>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Trémaux trees and planarity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>De Fraysseix</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">O</forename><surname>De Mendez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Rosenstiehl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Internat. J. Found. Comput. Sci</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1017" to="1029" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">A characterization of planar graphs by Trémaux orders</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>De Fraysseix</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Rosenstiehl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Combinatorica</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="127" to="135" />
+			<date type="published" when="1985" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Towards the Hanani-Tutte theorem for clustered graphs, Graph-Theoretic Concepts in Computer Science</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Fulek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 40th International Workshop on Graph-Theoretic Concepts in Computer Science (WG 2014)</title>
+		<meeting>the 40th International Workshop on Graph-Theoretic Concepts in Computer Science (WG 2014)</meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2014" />
+			<biblScope unit="volume">8747</biblScope>
+			<biblScope unit="page" from="176" to="188" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Clustered planarity testing revisited</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Fulek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kynčl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Malinović</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Pálvölgyi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 22nd International Symposium on Graph Drawing (Graph Drawing 2014)</title>
+		<meeting>the 22nd International Symposium on Graph Drawing (Graph Drawing 2014)<address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2014" />
+			<biblScope unit="volume">8871</biblScope>
+			<biblScope unit="page" from="428" to="439" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Hanani-Tutte, monotone drawings and level-planarity, Thirty Essays on Geometric Graph Theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Fulek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Pelsmajer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+		<editor>J. Pach</editor>
+		<imprint>
+			<date type="published" when="2013" />
+			<publisher>Springer</publisher>
+			<biblScope unit="page" from="263" to="287" />
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Powers of tensors and fast matrix multiplication</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><forename type="middle">L</forename><surname>Gall</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/2608628.2608664</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 39th International Symposium on Symbolic and Algebraic Computation (ISSAC &apos;14)</title>
+		<meeting>the 39th International Symposium on Symbolic and Algebraic Computation (ISSAC &apos;14)</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2014" />
+			<biblScope unit="page" from="296" to="303" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Advances in c-planarity testing of clustered graphs, Graph Drawing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gutwenger</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Jünger</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Leipert</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Percan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Weiskircher</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<editor>M. Goodrich and S. Kobourov</editor>
+		<imprint>
+			<biblScope unit="volume">2528</biblScope>
+			<biblScope unit="page" from="220" to="236" />
+			<date type="published" when="2002" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Practical experience with Hanani-Tutte for testing c-planarity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gutwenger</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the Sixteenth Workshop on Algorithm Engineering and Experiments</title>
+		<imprint>
+			<biblScope unit="page" from="86" to="97" />
+			<date type="published" when="2014" />
+			<publisher>ALENEX</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Hanani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Über wesentlich unplättbare Kurven im drei-dimensionalen Raume</title>
+		<imprint>
+			<date type="published" when="1934" />
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="135" to="142" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Two-page book embedding and clustered graph planarity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Hong</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Nagamochi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Dept. of Applied Mathematics and Physics</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+		<respStmt>
+			<orgName>University of Kyoto</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Tech. rep</note>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Efficient planarity testing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hopcroft</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Tarjan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Assoc. Comput. Mach</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="549" to="568" />
+			<date type="published" when="1974" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A generalization of the fast LUP matrix decomposition algorithm and applications</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><forename type="middle">H</forename><surname>Ibarra</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Moran</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Hui</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Algorithms</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="45" to="56" />
+			<date type="published" when="1982" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">An algorithmic study of switch graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Katz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Rutter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Woeginger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Acta Inform</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="295" to="312" />
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Sur le problème des courbes gauches en topologie</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Kuratowski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Fundam. Math</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="271" to="283" />
+			<date type="published" when="1930" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+		<title/>
+		<idno>#P4.24</idno>
+	</analytic>
+	<monogr>
+		<title level="j">the electronic journal of combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Matroid intersection algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><forename type="middle">L</forename><surname>Lawler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Math. Programming</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="31" to="56" />
+			<date type="published" when="1975" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Hierarchical planarity testing algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Lengauer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Assoc. Comput. Mach</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="474" to="509" />
+			<date type="published" when="1989" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Oxley</surname></persName>
+		</author>
+		<idno>978-0-19-960339-8</idno>
+		<title level="m">of Oxford Graduate Texts in Mathematics</title>
+		<meeting><address><addrLine>Oxford</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="2011" />
+			<biblScope unit="volume">21</biblScope>
+		</imprint>
+	</monogr>
+	<note>Matroid theory. second ed.</note>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Which crossing number is it anyway?</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combin. Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="225" to="246" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Monotone drawings of planar graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1101.0967</idno>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Theory</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="39" to="47" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+	<note>updated version</note>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Strong Hanani-Tutte on the projective plane</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Pelsmajer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Stasi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM J. Discrete Math</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1317" to="1323" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Removing even crossings</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Pelsmajer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combin. Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="489" to="500" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Removing even crossings on surfaces</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Pelsmajer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European J. Combin</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1704" to="1717" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b37">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Hanani-Tutte and related results, Geometry-intuitive, discrete, and convex</title>
+		<imprint>
+			<publisher>Bolyai Soc. Math. Stud</publisher>
+			<date type="published" when="2013" />
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="259" to="299" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Toward a theory of planarity: Hanani-Tutte and planarity variants</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Algorithms Appl</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="367" to="440" />
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Toward a theory of crossing numbers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">T</forename><surname>Tutte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combinatorial Theory</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="45" to="53" />
+			<date type="published" when="1970" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Non-separable and planar graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Whitney</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trans. Amer. Math. Soc</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="339" to="362" />
+			<date type="published" when="1932" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Solving sparse linear equations over finite fields</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">H</forename><surname>Wiedemann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Inform. Theory</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="54" to="62" />
+			<date type="published" when="1986" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Multiplying matrices faster than Coppersmith-Winograd</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><forename type="middle">V</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Forty-fourth Annual ACM Symposium on Theory of Computing, STOC &apos;12</title>
+		<meeting>the Forty-fourth Annual ACM Symposium on Theory of Computing, STOC &apos;12<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2012" />
+			<biblScope unit="page" from="887" to="898" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b43">
+	<analytic>
+		<title/>
+		<idno>#P4.24</idno>
+	</analytic>
+	<monogr>
+		<title level="j">the electronic journal of combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

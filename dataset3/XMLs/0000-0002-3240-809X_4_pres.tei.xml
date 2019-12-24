@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Low Complexity Global Motion Estimation Techniques for Image Stabilization</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Felix</forename><surname>Albu</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Corneliu</forename><surname>Florea</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Adrian</forename><surname>Zamfir</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alexandru</forename><surname>Drambarean</surname></persName>
+						</author>
+						<title level="a" type="main">Low Complexity Global Motion Estimation Techniques for Image Stabilization</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction <ref type="formula">(3)</ref> • The most popular technique is the block matching algorithm -Image frames are divided in non-overlapping rectangular blocks -The best match to the current block of pixels is searched within a certain search area in the previous frame • An alternative to FS is the phase correlation (PC) method -Is based on the phase shift theorem and an IFFT is applied to the phase shift. The translation motion in the image pair is found from the delta function offset -It is an expensive, but robust solution </p><formula xml:id="formula_0">( ) ( ) ∑ = ⎥ ⎦ ⎤ ⎢ ⎣ ⎡ − + − = N i i FS i i FS i v v h h N E 1 2 2 1</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Experiments and Results</head><p>• The accuracy of the proposed methods can be improved by applying them on different parts of the frames and use the median values. It also increase robustness to independently moving objects from one frame to another • Sub-sampling with a specified factor (up to three) is possible for the SP and BI methods. The accuracy of the motion estimation can be recovered by interpolating the computed vectors with the same factor</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>The Integral Projection method • One simpler alternative to FS is the Integral Projection (IP) method -A pair of one-dimensional vectors is computed by summing the elements on one direction on a pair of consecutive frames -The projection vectors are correlated in order to find the best offset corresponding to the matched frames</figDesc><table>• The next step is the low pass filtering 
+-We used the jitter calculation proposed in [1] 
+
+-Where A[n] is the accumulated jitter for frame 
+n, v[n] is the computed motion estimate for 
+frame n, and a is a dampening factor. 
+• The last step is the image shift using the 
+maximum buffer area of the image sensor 
+
+[ ] [ ] [ ] 
+
+n 
+av 
+n 
+aA 
+n 
+A 
++ 
+− 
+= 
+1 
+Method 
+PC 
+IP 
+SP 
+BI 
+
+E for 
+burst 
+pictures 
+
+0.1556 
+0.1860 
+0.1664 
+0.1951 
+
+E for low 
+quality 
+movie 
+
+0.1681 
+0.2661 
+0.2088 
+0.3243 
+
+Error Values for Global Motion Vectors computed by different methods 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions</head><p>• The Sign Projection and Binary Incrementation are proposed for global motion estimation • They achieve similar performance with more complicate methods but at lower cost • They can be seen as a combination of the integral projection and bit transform methods, therefore can have an efficient hardware or software implementations • The improvement of the performance for small block sizes is under investigation</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">In-camera, all-digital video stabilization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Deever</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">proc. ICIS&apos;06</title>
+		<meeting>ICIS&apos;06<address><addrLine>Rochester, New York</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2006-05" />
+			<biblScope unit="page" from="190" to="193" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">The phase correlation image alignment method</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">D</forename><surname>Kuglin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Hines</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. Int. Conf. Cybernetics and Society</title>
+		<meeting>Int. Conf. Cybernetics and Society<address><addrLine>Bucharest, Romania</addrLine></address></meeting>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="1975-09" />
+			<biblScope unit="page" from="163" to="165" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Efficient Block Motion Estimation Using Integral Projections</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Sauer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Schwartz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Circuits, Systems for video Tech</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="513" to="518" />
+			<date type="published" when="1996-10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Realtime digital hardware pitch detector</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">J</forename><surname>Dubnowski</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Schafer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">R</forename><surname>Rabiner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Acoustics, Speech, and Signal Processing</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="2" to="8" />
+			<date type="published" when="1976" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Lowcomplexity block-based motion estimation via one-bit transforms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Natarajan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Bhaskaran</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Konstantinides</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Circuit Syst. Video Technol</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="702" to="706" />
+			<date type="published" when="1997-08" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Lightweight LCP Construction for Next-Generation Sequencing Datasets</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date>Ljubljana, 10-12 September 2012 WABI 2012</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Bauer</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">Computational Biology Group</orgName>
+								<orgName type="institution">Illumina Cambridge Ltd</orgName>
+								<address>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">J</forename><surname>Cox</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">Computational Biology Group</orgName>
+								<orgName type="institution">Illumina Cambridge Ltd</orgName>
+								<address>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Rosone</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Dipartimento di Matematica e Informatica</orgName>
+								<orgName type="institution">University of Palermo</orgName>
+								<address>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Sciortino</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Dipartimento di Matematica e Informatica</orgName>
+								<orgName type="institution">University of Palermo</orgName>
+								<address>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Lightweight LCP Construction for Next-Generation Sequencing Datasets</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published">Ljubljana, 10-12 September 2012 WABI 2012</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:44+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Let v a sequence on an alphabet of σ letters of length k. <ref type="bibr">SA[i]</ref>: The starting position of the ith smallest suffix of v. <ref type="bibr">BWT[i]</ref>: The symbol that (circularly) precedes the first symbol of the suffix. LCP <ref type="bibr">[i]</ref>: The length of longest common prefix with preceding suffix in the list of sorted suffix. Example 0 1 2 3 4 5 6 7 8 9 10 11 12</p><formula xml:id="formula_0">13 v= G C A C T G T A C C A A C $ SA LCP BW T Sorted Suffixes of v 0 13 0 C $ 1 10 0 C AAC$ 2 11 1 A AC$ 3 7 2 T ACCAAC$ 4 2 2 C ACT GT ACCAAC$ 5 12 0 A C$ 6 9 1 C CAAC$ 7 1 2 G CACT GT ACCAAC$ 8 8 1 A CCAAC$ 9 3 1 A CT GT ACCAAC$ 10 0 0 $ GCACT GT ACCAAC$ 11 5 1 T GT ACCAAC$ 12 6 0 G T ACCAAC$ 13 4 1 C T GT ACCAAC$</formula><p>Let v a sequence on an alphabet of σ letters of length k. For instance, the suffix ACCAAC$ is the 6-suffix of v and the symbol T in the BWT precedes such suffix.</p><p>Definition j-suffix of v is the last j non-$ symbols of that string and 0-suffix of v is $.</p><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to first symbol of "associated" suffix.</p><p>Let v a sequence on an alphabet of σ letters of length k. For instance, the suffix ACCAAC$ is the 6-suffix of v and the symbol T in the BWT precedes such suffix.</p><p>Definition j-suffix of v is the last j non-$ symbols of that string and 0-suffix of v is $.</p><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to first symbol of "associated" suffix.</p><p>Let v a sequence on an alphabet of σ letters of length k. For instance, the suffix ACCAAC$ is the 6-suffix of v and the symbol T in the BWT precedes such suffix.</p><p>Definition j-suffix of v is the last j non-$ symbols of that string and 0-suffix of v is $.</p><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to first symbol of "associated" suffix.</p><p>Let S = {S 1 , S 2 , . . . , S m } be a collection of strings on an alphabet of σ letters. The sum of lengths of S i is N . </p><formula xml:id="formula_1">Example 0 1 2 3 4 5 6 S 1 G C C A A C $ 1 S 2 G A G C T C $ 2 S 3 T C G C T T $ 3 GSA LCP BW T Sorted Suffixes of S (6, 1) 0 C $ 1 $-segment (6, 2) 0 C $ 2 (6, 3) 0 T $ 3 (3, 1) 0 C AAC$ 1 A-segment (4, 1) 1 A AC$ 1 (1, 2) 1 G AGCT C$ 2 (5, 1) 0 A C$ 1 C-segment (5, 2) 1 T C$ 2 (2, 1) 1 C CAAC$ 1 (1, 1) 1 G CCAAC$ 1 (1, 3) 1 T CGCT T $ 3 (3, 2) 1 G CT C$ 2 (3, 3) 2 G CT T $ 3 (0, 2) 0 $ 2 GAGCT C$ 2 G-segment (0, 1) 1 $ 1 GCCAAC$ 1 (2, 2) 2 A GCT C$ 2 (2, 3) 3 C GCT T $ 3 (5, 3) 0 T T $ 3 T-segment (4, 2) 1 C T C$ 2 (0, 3) 2 $ 3 T CGCT T $ 3 (4, 3) 1 C T T $ 3</formula><p>For instance, the suffixes CAAC$ 1 , GCT C$ 2 ,GCT T $ 3 are the 4-suffixes of S.</p><p>In general, j-suffix of S i ∈ S is the last j non-$ symbols of that string and 0-suffix of S i is $ i .</p><p>Let S = {S 1 , S 2 , . . . , S m } be a collection of strings on an alphabet of σ letters. The sum of lengths of S i is N . </p><formula xml:id="formula_2">Example 0 1 2 3 4 5 6 S 1 G C C A A C $ 1 S 2 G A G C T C $ 2 S 3 T C G C T T $ 3 GSA LCP BW T Sorted Suffixes of S (6, 1) 0 C $ 1 $-segment (6, 2) 0 C $ 2 (6, 3) 0 T $ 3 (3, 1) 0 C AAC$ 1 A-segment (4, 1) 1 A AC$ 1 (1, 2) 1 G AGCT C$ 2 (5, 1) 0 A C$ 1 C-segment (5, 2) 1 T C$ 2 (2, 1) 1 C CAAC$ 1 (1, 1) 1 G CCAAC$ 1 (1, 3) 1 T CGCT T $ 3 (3, 2) 1 G CT C$ 2 (3, 3) 2 G CT T $ 3 (0, 2) 0 $ 2 GAGCT C$ 2 G-segment (0, 1) 1 $ 1 GCCAAC$ 1 (2, 2) 2 A GCT C$ 2 (2, 3) 3 C GCT T $ 3 (5, 3) 0 T T $ 3 T-segment (4, 2) 1 C T C$ 2 (0, 3) 2 $ 3 T CGCT T $ 3 (4, 3) 1 C T T $ 3</formula><p>For instance, the suffixes CAAC$ 1 , GCT C$ 2 ,GCT T $ 3 are the 4-suffixes of S.</p><p>In general, j-suffix of S i ∈ S is the last j non-$ symbols of that string and 0-suffix of S i is $ i .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A massive collection of sequences</head><p>Input: A massive collection S of m strings on an alphabet of σ letters. Output:</p><p>The LCP array of S (mainly) working in external memory.</p><p>Usual algorithms do not fit to handle collections of sequences. So they concatenate sequences of S in order to obtain a single sequence. These algorithms compute the LCP from Suffix Array <ref type="bibr">(Kasai et. al. 2001</ref><ref type="bibr">, Kärkkäinen et. al. 2009</ref>, and so on). But: (often) need to hold SA in RAM (Simpson and Durbin estimate 700Gbytes RAM for SA of 60 Gbases of data). compute the LCP acting directly on the BWT of the string and does not need its suffix array <ref type="bibr">(Beller et. al. 2011)</ref>. But: they mainly work in internal memory.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our idea</head><p>Our algorithm computes the LCP of the collection S of sequences mostly in external memory, storing some tables in internal memory:</p><p>without concatenating the strings belonging to S.</p><p>without pre-computing either the BWT or the (G)SA.</p><p>It computes the LCP and the BWT at the same time.</p><p>Building upon the method (called BCR ) of BWT computation (in external memory) introduced in Bauer et al., our algorithm adds some lightweight data structures and allows the LCP and BWT of a collection of strings to be computed simultaneously. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our idea</head><p>Our algorithm computes the LCP of the collection S of sequences mostly in external memory, storing some tables in internal memory:</p><p>without concatenating the strings belonging to S.</p><p>without pre-computing either the BWT or the (G)SA.</p><p>It computes the LCP and the BWT at the same time.</p><p>Building upon the method (called BCR ) of BWT computation (in external memory) introduced in Bauer et al., our algorithm adds some lightweight data structures and allows the LCP and BWT of a collection of strings to be computed simultaneously. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our idea</head><p>Our algorithm computes the LCP of the collection S of sequences mostly in external memory, storing some tables in internal memory:</p><p>without concatenating the strings belonging to S.</p><p>without pre-computing either the BWT or the (G)SA.</p><p>It computes the LCP and the BWT at the same time.</p><p>Building upon the method (called BCR ) of BWT computation (in external memory) introduced in Bauer et al., our algorithm adds some lightweight data structures and allows the LCP and BWT of a collection of strings to be computed simultaneously. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our idea</head><p>Our algorithm computes the LCP of the collection S of sequences mostly in external memory, storing some tables in internal memory:</p><p>without concatenating the strings belonging to S.</p><p>without pre-computing either the BWT or the (G)SA.</p><p>It computes the LCP and the BWT at the same time.</p><p>Building upon the method (called BCR ) of BWT computation (in external memory) introduced in Bauer et al., our algorithm adds some lightweight data structures and allows the LCP and BWT of a collection of strings to be computed simultaneously. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our idea</head><p>Our algorithm computes the LCP of the collection S of sequences mostly in external memory, storing some tables in internal memory:</p><p>without concatenating the strings belonging to S.</p><p>without pre-computing either the BWT or the (G)SA.</p><p>It computes the LCP and the BWT at the same time.</p><p>Building upon the method (called BCR ) of BWT computation (in external memory) introduced in Bauer et al., our algorithm adds some lightweight data structures and allows the LCP and BWT of a collection of strings to be computed simultaneously. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our algorithm extLCP</head><p>Let S = {S 1 , S 2 , . . . , S m } be a collection of strings.</p><p>Definition j-suffix of S i ∈ S is the last j non-$ symbols of that string and 0-suffix of S i ∈ S is $ i .</p><p>Our algorithm works incrementally via K iterations, where K is the maximal length of the strings in S. At each of the iterations j = 1, 2, . . . , K − 1, the algorithm considers all the j-suffixes of S and computes a partial BWT string bwt j (S) by inserting the symbols preceding the j-suffixes of S at their correct positions into bwt j−1 (S) a partial LCP array lcp j (S) by inserting the LCP-values of j-suffixes of S and updating the LCP-values of suffixes already inserted.</p><p>Each iteration j simulates the insertion of the j-suffixes in the suffix array. This insertion does not affect the relative ordering of symbols inserted during previous iterations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our algorithm extLCP</head><p>Let S = {S 1 , S 2 , . . . , S m } be a collection of strings.</p><p>Definition j-suffix of S i ∈ S is the last j non-$ symbols of that string and</p><formula xml:id="formula_3">0-suffix of S i ∈ S is $ i .</formula><p>Our algorithm works incrementally via K iterations, where K is the maximal length of the strings in S. At each of the iterations j = 1, 2, . . . , K − 1, the algorithm considers all the j-suffixes of S and computes a partial BWT string bwt j (S) by inserting the symbols preceding the j-suffixes of S at their correct positions into bwt j−1 (S) a partial LCP array lcp j (S) by inserting the LCP-values of j-suffixes of S and updating the LCP-values of suffixes already inserted.</p><p>Each iteration j simulates the insertion of the j-suffixes in the suffix array. This insertion does not affect the relative ordering of symbols inserted during previous iterations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our algorithm extLCP</head><p>Let S = {S 1 , S 2 , . . . , S m } be a collection of strings.</p><p>Definition j-suffix of S i ∈ S is the last j non-$ symbols of that string and</p><formula xml:id="formula_4">0-suffix of S i ∈ S is $ i .</formula><p>Our algorithm works incrementally via K iterations, where K is the maximal length of the strings in S. At each of the iterations j = 1, 2, . . . , K − 1, the algorithm considers all the j-suffixes of S and computes a partial BWT string bwt j (S) by inserting the symbols preceding the j-suffixes of S at their correct positions into bwt j−1 (S) a partial LCP array lcp j (S) by inserting the LCP-values of j-suffixes of S and updating the LCP-values of suffixes already inserted.</p><p>Each iteration j simulates the insertion of the j-suffixes in the suffix array. This insertion does not affect the relative ordering of symbols inserted during previous iterations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our algorithm extLCP</head><p>Let S = {S 1 , S 2 , . . . , S m } be a collection of strings.</p><p>Definition j-suffix of S i ∈ S is the last j non-$ symbols of that string and</p><formula xml:id="formula_5">0-suffix of S i ∈ S is $ i .</formula><p>Our algorithm works incrementally via K iterations, where K is the maximal length of the strings in S. At each of the iterations j = 1, 2, . . . , K − 1, the algorithm considers all the j-suffixes of S and computes a partial BWT string bwt j (S) by inserting the symbols preceding the j-suffixes of S at their correct positions into bwt j−1 (S) a partial LCP array lcp j (S) by inserting the LCP-values of j-suffixes of S and updating the LCP-values of suffixes already inserted.</p><p>Each iteration j simulates the insertion of the j-suffixes in the suffix array. This insertion does not affect the relative ordering of symbols inserted during previous iterations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our algorithm extLCP</head><p>Let S = {S 1 , S 2 , . . . , S m } be a collection of strings.</p><p>Definition j-suffix of S i ∈ S is the last j non-$ symbols of that string and</p><formula xml:id="formula_6">0-suffix of S i ∈ S is $ i .</formula><p>Our algorithm works incrementally via K iterations, where K is the maximal length of the strings in S. At each of the iterations j = 1, 2, . . . , K − 1, the algorithm considers all the j-suffixes of S and computes a partial BWT string bwt j (S) by inserting the symbols preceding the j-suffixes of S at their correct positions into bwt j−1 (S) a partial LCP array lcp j (S) by inserting the LCP-values of j-suffixes of S and updating the LCP-values of suffixes already inserted.</p><p>Each iteration j simulates the insertion of the j-suffixes in the suffix array. This insertion does not affect the relative ordering of symbols inserted during previous iterations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_7">S 1 $ 1 S 2 $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_8">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j. Example Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT</formula><p>C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_9">S 1 C $ 1 S 2 C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_10">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j. Example Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT</formula><p>C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_11">S 1 A C $ 1 S 2 T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_12">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j. Example Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT</formula><p>C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_13">S 1 A A C $ 1 S 2 C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_14">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j. Example Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT</formula><p>C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_15">S 1 C A A C $ 1 S 2 G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_16">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j. Example Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT</formula><p>C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_17">S 1 C C A A C $ 1 S 2 A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_18">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j. Example Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT</formula><p>C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_19">S 1 A C C A A C $ 1 S 2 A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_20">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_21">S 1 T A C C A A C $ 1 S 2 A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_22">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_23">S 1 G T A C C A A C $ 1 S 2 G A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_24">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_25">S 1 T G T A C C A A C $ 1 S 2 A G A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_26">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_27">S 1 C T G T A C C A A C $ 1 S 2 C A G A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_28">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters.</p><p>0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_29">S 1 A C T G T A C C A A C $ 1 S 2 A C A G A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_30">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_31">S 1 C A C T G T A C C A A C $ 1 S 2 A A C A G A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_32">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_33">S 1 A C A C T G T A C C A A C $ 1 S 2 G A A C A G A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_34">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_35">S 1 A C A C T G T A C C A A C $ 1 S 2 G A A C A G A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_36">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_37">S 1 A C A C T G T A C C A A C $ 1 S 2 G A A C A G A A A G C T C $ 2</formula><p>At step j, we insert the symbols circularly preceding the j-suffixes into the partial BWT and insert/update the LCP-values in the partial LCP.</p><p>We do not need to keep the entire collection in internal memory. It is enough to keep the symbols that we have to insert at the iteration j (red symbols).</p><p>We assume that $ 1 = $ 2 = $ and $ &lt; A &lt; C &lt; G &lt; T and the longest common prefix between two end-markers is 0.</p><formula xml:id="formula_38">S i [|S i |] = S j [|S j |] = $, and we define S i [|S i |] &lt; S j [|S j |], if i &lt; j.</formula><p>Example: Iteration 0 Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_39">S 1 $ 1 S 2 $ 2</formula><p>We assume that the first element of LCP array is 0. Recall that lcp($ 1 , $ 2 ) = 0. We obtain:</p><formula xml:id="formula_40">L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2</formula><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to the first symbol of associated suffix: bwt 0 (S) = B 0 ($) and lcp 0 (S) = L 0 ($).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 0</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_41">S 1 C $ 1 S 2 C $ 2</formula><p>We assume that the first element of LCP array is 0. Recall that lcp($ 1 , $ 2 ) = 0. We obtain:</p><formula xml:id="formula_42">L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2</formula><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to the first symbol of associated suffix: bwt 0 (S) = B 0 ($) and lcp 0 (S) = L 0 ($).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 0</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_43">S 1 C $ 1 S 2 C $ 2</formula><p>We assume that the first element of LCP array is 0. Recall that lcp($ 1 , $ 2 ) = 0. We obtain:</p><formula xml:id="formula_44">L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2</formula><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to the first symbol of associated suffix: bwt 0 (S) = B 0 ($) and lcp 0 (S) = L 0 ($).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 0</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_45">S 1 C $ 1 S 2 C $ 2</formula><p>We assume that the first element of LCP array is 0. Recall that lcp($ 1 , $ 2 ) = 0. We obtain:</p><formula xml:id="formula_46">L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2</formula><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to the first symbol of associated suffix: bwt 0 (S) = B 0 ($) and lcp 0 (S) = L 0 ($).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 0</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_47">S 1 C $ 1 S 2 C $ 2</formula><p>We assume that the first element of LCP array is 0. Recall that lcp($ 1 , $ 2 ) = 0. We obtain:</p><formula xml:id="formula_48">L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2</formula><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to the first symbol of associated suffix: bwt 0 (S) = B 0 ($) and lcp 0 (S) = L 0 ($).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 0</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_49">S 1 C $ 1 S 2 C $ 2</formula><p>We assume that the first element of LCP array is 0. Recall that lcp($ 1 , $ 2 ) = 0. We obtain:</p><formula xml:id="formula_50">L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2</formula><p>Helpful to think of BWT and LCP as being in σ + 1 "segments" labelled according to the first symbol of associated suffix: bwt 0 (S) = B 0 ($) and lcp 0 (S) = L 0 ($).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 1</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_51">S 1 C $ 1 S 2 C $ 2 L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2 L 1 (C) B 1 (C) 0 A 1 T Sorted Suffixes C$ 1 C$ 2</formula><p>We recall that bwt 1 (S) = B 1 ($)B 1 (A) · · · B 1 (T ) and lcp 1 (S) = L 1 ($)L 1 (A) · · · L 1 (T ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 1</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_52">S 1 C $ 1 S 2 C $ 2 L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2 L 1 (C) B 1 (C) 0 A 1 T Sorted Suffixes C$ 1 C$ 2</formula><p>We recall that bwt 1 (S) = B 1 ($)B 1 (A) · · · B 1 (T ) and lcp 1 (S) = L 1 ($)L 1 (A) · · · L 1 (T ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 1</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_53">S 1 A C $ 1 S 2 T C $ 2 L 0 ($) B 0 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2 L 1 (C) B 1 (C) 0 A 1 T Sorted Suffixes C$ 1 C$ 2</formula><p>We recall that bwt 1 (S) = B 1 ($)B 1 (A) · · · B 1 (T ) and lcp 1 (S) = L 1 ($)L 1 (A) · · · L 1 (T ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 1</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_54">S 1 A C $ 1 S 2 T C $ 2 L 1 ($) B 1 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2 L 1 (C) B 1 (C) 0 A 1 T Sorted Suffixes C$ 1 C$ 2</formula><p>We recall that bwt 1 (S) = B 1 ($)B 1 (A) · · · B 1 (T ) and lcp 1 (S) = L 1 ($)L 1 (A) · · · L 1 (T ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example: Iteration 1</head><p>Let S = {S 1 , S 2 } = {ACACT GT ACCAAC, GAACAGAAAGCT C} be a collection of m = 2 strings of length k = 13 on an alphabet of σ = 4 letters. 0 1 2 3 4 5 6 7 8 9 10 11 12 13</p><formula xml:id="formula_55">S 1 A A C $ 1 S 2 C T C $ 2 L 1 ($) B 1 ($) 0 C 0 C Sorted Suffixes $ 1 $ 2 L 1 (C) B 1 (C) 0 A 1 T Sorted Suffixes C$ 1 C$ 2</formula><p>We recall that bwt 1 (S) = B 1 ($)B 1 (A) · · · B 1 (T ) and lcp 1 (S) = L 1 ($)L 1 (A) · · · L 1 (T ).</p><p>Example: Looking in detail at iteration 13</p><formula xml:id="formula_56">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1 L 13 ($) B 13 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 13 (A) B 13 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 3 G AACAGAAAGCT C$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 13 (C) B 13 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 2 G CACT GT ACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 13 (G) B 13 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 13 (T ) B 13 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula><p>Example: Looking in detail at iteration 13</p><formula xml:id="formula_57">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1 L 13 ($) B 13 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 13 (A) B 13 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 3 G AACAGAAAGCT C$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 13 (C) B 13 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 2 G CACT GT ACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 13 (G) B 13 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 13 (T ) B 13 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula><p>Example: Looking in detail at iteration 13</p><formula xml:id="formula_58">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 min = 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1 L 13 ($) B 13 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 13 (A) B 13 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 3 G AACAGAAAGCT C$ 2 2 A AAGCT C$ 2 1 A AC$ 1 → 1+1=2 $ 1 ACACTGTACCAAC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 13 (C) B 13 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 2 G CACT GT ACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 13 (G) B 13 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 13 (T ) B 13 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula><p>Example: Looking in detail at iteration 13</p><formula xml:id="formula_59">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 min = 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 min = 2 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1 L 13 ($) B 13 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 13 (A) B 13 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 3 G AACAGAAAGCT C$ 2 2 A AAGCT C$ 2 1 A AC$ 1 → 1+1=2 $ 1 ACACTGTACCAAC$ 1 2+1=3 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 13 (C) B 13 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 2 G CACT GT ACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 13 (G) B 13 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 13 (T ) B 13 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula><p>Example: Looking in detail at iteration 13</p><formula xml:id="formula_60">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 min = 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 min = 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 min = 2 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1 L 13 ($) B 13 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 13 (A) B 13 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 3 G AACAGAAAGCT C$ 2 2 A AAGCT C$ 2 1 A AC$ 1 → 1+1=2 $ 1 ACACTGTACCAAC$ 1 2+1=3 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 13 (C) B 13 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 2 G CACT GT ACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 13 (G) B 13 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 → 2+1=3 $ 2 GAACAGAAAGCTC$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 13 (T ) B 13 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula><p>Example: Looking in detail at iteration 13</p><formula xml:id="formula_61">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 min = 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 min = 0 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 min = 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 min = 2 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1 L 13 ($) B 13 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 13 (A) B 13 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 3 G AACAGAAAGCT C$ 2 2 A AAGCT C$ 2 1 A AC$ 1 → 1+1=2 $ 1 ACACTGTACCAAC$ 1 2+1=3 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 13 (C) B 13 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 2 G CACT GT ACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 13 (G) B 13 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 → 2+1=3 $ 2 GAACAGAAAGCTC$ 2 0+1=1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 13 (T ) B 13 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula><p>When are the minimum values computed?</p><p>We can compute the minimum values useful for the iteration j while we are inserting the new elements in the partial BWT and in the partial LCP in a sequential way during the iteration j − 1.</p><p>In the example, while we build B (12) and L (12) segments, we can compute the minimum values useful for the computation of LCP-values corresponding to 13-suffixes.</p><p>We can compute minimum values at the same time for all j-suffixes.</p><formula xml:id="formula_62">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula><p>When are the minimum values computed?</p><p>We can compute the minimum values useful for the iteration j while we are inserting the new elements in the partial BWT and in the partial LCP in a sequential way during the iteration j − 1.</p><p>In the example, while we build B (12) and L (12) segments, we can compute the minimum values useful for the computation of LCP-values corresponding to 13-suffixes.</p><p>We can compute minimum values at the same time for all j-suffixes.</p><formula xml:id="formula_63">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 min = 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 min = 0 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 min = 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 min = 2 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula><p>When are the minimum values computed?</p><p>We can compute the minimum values useful for the iteration j while we are inserting the new elements in the partial BWT and in the partial LCP in a sequential way during the iteration j − 1.</p><p>In the example, while we build B (12) and L (12) segments, we can compute the minimum values useful for the computation of LCP-values corresponding to 13-suffixes.</p><p>We can compute minimum values at the same time for all j-suffixes.</p><formula xml:id="formula_64">L 12 ($) B 12 ($) Sorted Suffixes 0 C $ 1 0 C $ 2 L 12 (A) B 12 (A) Sorted Suffixes 0 G AAAGCT C$ 2 min = 2 2 C AAC$ 1 → 3 G AACAGAAAGCTC$ 2 2 A AAGCT C$ 2 1 A AC$ 1 2 A ACAGAAAGCT C$ 2 min = 0 2 T ACCAAC$ 1 2 C ACT GT ACCAAC$ 1 1 C AGAAAGCT C$ 2 2 A AGCT C$ 2 L 12 (C) B 12 (C) Sorted Suffixes 0 A C$ 1 min = 1 1 T C$ 2 1 C CAAC$ 1 → 2 A CACTGTACCAAC$ 1 min = 2 2 A CAGAAAGCT C$ 2 1 A CCAAC$ 1 1 G CT C$ 2 2 A CT GT ACCAAC$ 1 L 12 (G) B 12 (G) Sorted Suffixes 0 A GAAAGCT C$ 2 1 A GCT C$ 2 1 T GT ACCAAC$ 1 L 12 (T ) B 12 (T ) Sorted Suffixes 0 G T ACCAAC$ 1 1 C T C$ 2 1 C T GT ACCAAC$ 1</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions Advantages</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Advantages</head><p>The BWT and the LCP are split and kept in σ files. Sequentially reading. Each iteration j &gt; 0 can be divided into two consecutive phases: First phase: we read only the segments B j−1 in order to find the positions where we must insert the elements associated with the j-suffixes. Second phase: we read the segments B j−1 and L j−1 in sequential way for the construction of new segments B j and L j and compute the minimum LCP-values for the next iteration. Inserting/updating simultaneously of m symbols in the partial BWT and 2m values in the partial LCP and computing simultaneously the 2m minimum LCP-values for the next iteration.</p><p>Moreover, at any iteration j, we can stop the running and by adding the elements corresponding to the end-markers we can obtain the BWT and LCP of the collection of the j-suffixes of S.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Experiments</head><p>Notice that an entirely like-for-like comparison between our implementation and the existing implementation requires the concatenation of the strings of the collection, but</p><p>The use of many millions of different end markers could be not practicable.</p><p>The use of the same end marker could lead to values in the LCP array that may exceed the lengths of the strings.</p><p>However, preliminary comparisons have shown that our algorithm uses less internal memory than these algorithms.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Experiments</head><p>Notice that an entirely like-for-like comparison between our implementation and the existing implementation requires the concatenation of the strings of the collection, but</p><p>The use of many millions of different end markers could be not practicable.</p><p>The use of the same end marker could lead to values in the LCP array that may exceed the lengths of the strings.</p><p>However, preliminary comparisons have shown that our algorithm uses less internal memory than these algorithms.</p><p>In particular bwt based laca2 1 computes the LCP of a single string and needs the pre-computed BWT of the string. In order to adapt this algorithm for a collection, we have computed the BWT of a collection by using BCR . Such output needs slight modifications because, in general, the BWT of a collection does not coincide with the BWT of a single string. Result BCR requires about 5 hours of wallclock time taking only 4Gb of RAM + LCP (computed by bwt based laca2) requires 18Gb of RAM to create the LCP in about 2 hours. Our new method extLCP needs 4.7Gb of RAM to create both BWT and LCP in just under 18 hours.</p><p>Attempting to use bwt based laca2 to compute the LCP of 800 million of sequences 100 bases long exceeds our available RAM on the 64Gb RAM machine. All reads are 100 bases long. wall clock time (the amount of time that elapsed from the start to the completion of the instance) is given as microseconds per input base. memory denotes the maximal amount of memory (in gigabytes) used during execution. The efficiency column states the CPU efficiency values, i.e. the proportion of time for which the CPU was occupied and not waiting for I/O operations to finish, as taken from the output of the /usr/bin/time command.</p><p>The extLCP algorithm: uses O(mk 2 log σ) disk I/O and O((m + σ 2 ) log(mk)) bits of memory. takes O(k(m + sort(m)) CPU time, where sort(m) is the time taken to sort m integers.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>SA[i]: The starting position of the ith smallest suffix of v. BWT[i]: The symbol that (circularly) precedes the first symbol of the suffix. LCP[i]: The length of longest common prefix with preceding suffix in the list</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>further details on building of the BWT in external memory: M. J. Bauer, A. J. Cox, G. R., Lightweight algorithms for constructing and inverting the BWT of string collections, Theoretical Computer Science, Available online 10 February 2012.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>further details on building of the BWT in external memory: M. J. Bauer, A. J. Cox, G. R., Lightweight algorithms for constructing and inverting the BWT of string collections, Theoretical Computer Science, Available online 10 February 2012.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>further details on building of the BWT in external memory: M. J. Bauer, A. J. Cox, G. R., Lightweight algorithms for constructing and inverting the BWT of string collections, Theoretical Computer Science, Available online 10 February 2012.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head></head><label></label><figDesc>further details on building of the BWT in external memory: M. J. Bauer, A. J. Cox, G. R., Lightweight algorithms for constructing and inverting the BWT of string collections, Theoretical Computer Science, Available online 10 February 2012.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head></head><label></label><figDesc>further details on building of the BWT in external memory: M. J. Bauer, A. J. Cox, G. R., Lightweight algorithms for constructing and inverting the BWT of string collections, Theoretical Computer Science, Available online 10 February 2012.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>SA[i]: The starting position of the ith smallest suffix of v. BWT[i]: The symbol that (circularly) precedes the first symbol of the suffix. LCP[i]: The length of longest common prefix with preceding suffix in the list of sorted</figDesc><table>suffix. 
+Example 
+
+0 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+10 
+11 
+12 
+13 
+v= 
+G 
+C 
+A 
+C 
+T 
+G 
+T 
+A 
+C 
+C 
+A 
+A 
+C 
+$ 
+
+SA 
+LCP 
+BW T 
+Sorted Suffixes of v 
+0 
+13 
+0 
+C 
+$ 
+1 
+10 
+0 
+C 
+AAC$ 
+2 
+11 
+1 
+A 
+AC$ 
+3 
+7 
+2 
+T 
+ACCAAC$ 
+4 
+2 
+2 
+C 
+ACT GT ACCAAC$ 
+5 
+12 
+0 
+A 
+C$ 
+6 
+9 
+1 
+C 
+CAAC$ 
+7 
+1 
+2 
+G 
+CACT GT ACCAAC$ 
+8 
+8 
+1 
+A 
+CCAAC$ 
+9 
+3 
+1 
+A 
+CT GT ACCAAC$ 
+10 
+0 
+0 
+$ 
+GCACT GT ACCAAC$ 
+11 
+5 
+1 
+T 
+GT ACCAAC$ 
+12 
+6 
+0 
+G 
+T ACCAAC$ 
+13 
+4 
+1 
+C 
+T GT ACCAAC$ 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>SA[i]: The starting position of the ith smallest suffix of v. BWT[i]: The symbol that (circularly) precedes the first symbol of the suffix. LCP[i]: The length of longest common prefix with preceding suffix in the list of sorted</figDesc><table>suffix. 
+Example 
+
+0 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+10 
+11 
+12 
+13 
+v= 
+G 
+C 
+A 
+C 
+T 
+G 
+T 
+A 
+C 
+C 
+A 
+A 
+C 
+$ 
+
+SA 
+LCP 
+BW T 
+Sorted Suffixes of v 
+0 
+13 
+0 
+C 
+$ 
+1 
+10 
+0 
+C 
+AAC$ 
+2 
+11 
+1 
+A 
+AC$ 
+3 
+7 
+2 
+T 
+ACCAAC$ 
+4 
+2 
+2 
+C 
+ACT GT ACCAAC$ 
+5 
+12 
+0 
+A 
+C$ 
+6 
+9 
+1 
+C 
+CAAC$ 
+7 
+1 
+2 
+G 
+CACT GT ACCAAC$ 
+8 
+8 
+1 
+A 
+CCAAC$ 
+9 
+3 
+1 
+A 
+CT GT ACCAAC$ 
+10 
+0 
+0 
+$ 
+GCACT GT ACCAAC$ 
+11 
+5 
+1 
+T 
+GT ACCAAC$ 
+12 
+6 
+0 
+G 
+T ACCAAC$ 
+13 
+4 
+1 
+C 
+T GT ACCAAC$ 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>GSA[i]: The i-th smallest suffix of the strings in S. If GSA[i]=(t,h), then it corresponds to the suffix starting at the position t of the string S h . BWT[i]: The symbol that (circularly) precedes the first symbol of the suffix of S h . LCP[i]: The length of longest common prefix with preceding suffix in the sorted list of the suffixes of S.</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>GSA[i]: The i-th smallest suffix of the strings in S. If GSA[i]=(t,h), then it corresponds to the suffix starting at the position t of the string S h . BWT[i]: The symbol that (circularly) precedes the first symbol of the suffix of S h . LCP[i]: The length of longest common prefix with preceding suffix in the sorted list of the suffixes of S.</figDesc><table></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">T. Beller, S. Gog, E. Ohlebusch, and T. Schnattinger. Computing the longest common prefix array based on the Burrows-Wheeler transform. Journal of Discrete Algorithms. To appear.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">Many thanks for your attention!</note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Ongoing works</head><p>Ongoing work:</p><p>Further optimizations for the construction, for instance by using the parallelization or by using different strategies for I/O operations. Integrate the construction of LCP in the BEETL software library. BEETL for construction/querying of BWT of large string collections can be downloaded from http://beetl.github.com/BEETL Bioinformatics applications based on BWT and LCP and by using extLCP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Ongoing works</head><p>Ongoing work:</p><p>Further optimizations for the construction, for instance by using the parallelization or by using different strategies for I/O operations. Integrate the construction of LCP in the BEETL software library. BEETL for construction/querying of BWT of large string collections can be downloaded from http://beetl.github.com/BEETL Bioinformatics applications based on BWT and LCP and by using extLCP.</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

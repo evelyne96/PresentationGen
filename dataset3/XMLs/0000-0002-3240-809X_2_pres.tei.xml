@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A PROPORTIONATE AFFINE PROJECTION ALGORITHM USING FAST RECURSIVE FILTERING AND DICHOTOMOUS COORDINATE DESCENT ITERATIONS</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Felix</forename><surname>Albu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Valahia University of Targoviste</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A PROPORTIONATE AFFINE PROJECTION ALGORITHM USING FAST RECURSIVE FILTERING AND DICHOTOMOUS COORDINATE DESCENT ITERATIONS</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Outline</head><p>Motivation and objectives Development of the algorithm Simulation results</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Motivation and objectives</head><p>The proportionate affine projection algorithm (PAPA) has a good convergence speed and low computational complexity. It is well known that it has superior performance to APA.</p><p>Recently, two proportionate-type APA called MIPAPA was developed, taking into account the "history" of the proportionate factors.</p><p>It was shown that they have better performance than IPAPA Objectives:</p><p> To obtain an efficient PAPA  To validate its performance and compare it with other algorithms  To identify the strengths and weaknesses of the algorithm</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Development of the algorithm</head><p>The far-end signal goes through the echo path h, providing the echo signal. The echo signal is added with the near-end signal (which can contain both the background noise and the near-end speech), resulting the microphone signal. The adaptive filter aims to produce at its output an estimate of the echo, while the error signal should contain an estimate of the near-end signal.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>APA</head><p>(1)</p><formula xml:id="formula_0">(2) (3)       1 T n n n   y X h       n n n   e d y             1ˆ1 T p n n n n n n            h h X I X X e IPAPA (1)<label>(2)</label></formula><p>(3)</p><formula xml:id="formula_1">(4) (5)       1 T n n n   y X h       n n n   e d y         1 0ˆ1 1 1 1 22 1 l l L i i h n g n L h n                     n n n  P G X             1ˆ1 T p n n n n n n            h h P I X P e FMIPAPA<label>(1)</label></formula><p>(2)</p><p>(4) </p><formula xml:id="formula_3">(5)         ' ' 1 1 1 n n n n         P g x P           ' 1 1 2 1 1 n n n n p n p             P g x g x                     0 1 1ˆ1 1 2 = 1 2 ... 2 = 1 1 ...</formula><formula xml:id="formula_4">                       y X h x h x h              1 ' 1 1 T T n n n n n n n       y X h z X P ε                       0 2ˆˆ2 = 2 ... 1 2 2 1 ... 1 T T T T T T p n n n n n n p n n n y n y n                        z X h x h x h x h FMIPAPA-DCD (1)<label>(2)</label></formula><p>(3)</p><p>Solve using the DCD method (8)</p><formula xml:id="formula_6">(9)        ˆ1 ' n n n n     h h P ε       n n n  S ε e       ' T p n n n    S I X P         ' ' 1 1 1 n n n n         P g x P       n n n   e d y         1 n n n n    y z F ε       ' 1 T n n n   F X P           0 2 2 1 ... 1 T T p n n n y n y n            z x h     1 0, 1 0,     ε h     1 , ' 1     x 0 P 0</formula><p>FMIPAPA-DCD has been proposed for echo cancellation. It is improved version of IPAPA algorithm with reduced numerical complexity. A fast recursive filtering procedure is used. It exploits the time-shifting property of The influence of the number of DCD iterations on algorithm performance is investigated. As expected, if more DCD iterations are performed, better performances are obtained 8 DCD iterations only slightly alter the properties of the original algorithm   ' n P</p></div>		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The dichotomous coordinate descent algorithm (DCD) </p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Proportionate normalized least-mean-squares adaptation in echo cancellers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">L</forename><surname>Duttweiler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Speech Audio Process</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="508" to="518" />
+			<date type="published" when="2000-09" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Proportionate adaptive algorithms for network echo cancellation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Doroslovački</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Signal Process</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1794" to="1803" />
+			<date type="published" when="2006-05" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">An improved PNLMS algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Benesty</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">L</forename><surname>Gay</surname></persName>
+		</author>
+		<idno>II-1881-II-1884</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. IEEE ICASSP</title>
+		<meeting>IEEE ICASSP</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">An adaptive filtering algorithm using an orthogonal projection to an affine subspace and its properties</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Ozeki</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Umeda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electron. Commun. Jpn</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="19" to="27" />
+			<date type="published" when="1984-05" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Fast block exact Gauss-Seidel pseudo affine projection algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">K</forename><surname>Albu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Kwan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronics Letters</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page">22</biblScope>
+			<date type="published" when="2004-10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Coordinate descent iterations in fast affine projection algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Zakharov</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Albu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">; Y</forename><surname>Zakharov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Signal Processing Letters</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="557" to="560" />
+			<date type="published" when="2005-05" />
+		</imprint>
+	</monogr>
+	<note>IEEE Signal Processing Letters</note>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A low complexity proportionate affine projection algorithm for echo cancellation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Albu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Paleologu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Benesty</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Ciochina</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. EUSIPCO</title>
+		<meeting>EUSIPCO<address><addrLine>Aalborg, Denmark</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2010-08" />
+			<biblScope unit="page" from="6" to="10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">COMBINED STATISTICAL MODEL OF BONE SHAPE AND MECHANICAL PROPERTIES FOR BONE MODELING</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Bonaretti</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Helgason</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Seiler</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Reyes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Büchler</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">COMBINED STATISTICAL MODEL OF BONE SHAPE AND MECHANICAL PROPERTIES FOR BONE MODELING</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">ABSTRACT</head><p>Current design process for orthopedic implants relies on limited knowledge about shape and mechanical properties of the bones of interest. Nowadays implant design is based on reduced information deriving from literature (e.g. bone angles and lengths) and does not take into account differences among populations (ethnicity, height, gender ...). For these reasons we propose a method to model bone shape variations for different populations. The proposed model is based on recent advances in image processing to create compact mathematical representations of bone anatomy. About 140 CT images were collected. These images were segmented and registered to find the anatomical correspondences among them. Based on this registration, a statistical shape model was built to compute the average bone, variations of bone shape across the population and to generate new bone instances. The finite element method was then used to calculate the mechanical performance of the generated instances. The developed model was used to compare bone stiffness between male and female populations. Results showed no significant difference between male and female bone stiffness. This was affected by the fact that all instance had the same dimensions and the same mechanical properties. The combination of statistical shape model and finite element calculation has the potential to become a powerful tool to assess orthopedic procedures and implant design.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">INTRODUCTION</head><p>Nowadays numerical studies that aim at understanding the mechanical bone behavior are mostly performed on few bone samples <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2]</ref>. This is mainly due to two factors: First, in many cases the dimension of the dataset available for the study is small. Second, the pipeline that allows going from the CT image to the FEM software usually involves a lot of manual work. Moreover many of these studies are more interested in understanding the influence of the boundary conditions on bone behavior <ref type="bibr" target="#b2">[3]</ref>, than in analyzing the effect of bone characteristics <ref type="bibr" target="#b3">[4]</ref>. Statistical Shape Models were conceived as a tool to extract features from images and describe their variability <ref type="bibr" target="#b4">[5]</ref>. These tools allow the calculation of the average shape and its variation using a compact representation. Moreover, with these techniques it is possible to create new instances with known variation from the mean shape. The objective of the present study was to create a method that could satisfy three main requirements: (a) given a dataset, to describe its variability in terms of shape (b) to develop tool to create new instances that represent the original bone population and (c) to create a pipeline from the newly generated instances to the FEM simulation that is fast and automatic. The feasibility of the proposed method has been tested in the comparison of the bone mechanical stiffness between male and female femurs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">MATERIALS AND METHODS</head><p>For this study CT images of left femur were used. 57 images were collected for Caucasian males and 80 for Caucasian females. All the images were taken with the same CT scanner. A semiautomatic pipeline was developed. It was implemented using the ITK and VTK libraries and integrates open-source and commercial programs. The pipeline is composed of three main components: an image processing section to create a statistical shape model of the bones and to describe shape variability, a mechanical simulation section to calculate the stiffness of the bone instances and a data analysis module.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Image processing</head><p>The collected images were segmented using Amira 5.2 (Mercury Computer Systems Inc. USA) to extract the femurs. All the femurs were registered to a reference one, i.e. they were aligned and their corresponding features extracted. The reference bone was selected as the bone of the dataset that had the average oriented bounding box. As oriented bounding box we considered the minimum enclosing box that contains the volume of interest. All the bone oriented bounding boxes were centered and aligned to the reference one. The alignment was necessary since there are differences in image coordinate systems due to different patient positions during CT acquisition. All the oriented bounding boxes were scaled to the reference one in order to initialize the following step. Anatomical correspondences were calculated to establish which anatomical point on each image (moving image) corresponds to the same anatomical point in the reference image. Correspondences are stored as Deformation Vector Field. Deformation fields can be described as images where each voxel contains a 3D vector that represents the displacement from the moving image to the reference one. We used the Log-Domain Diffeomorphic non-rigid registration based on the Demons algorithm <ref type="bibr" target="#b5">[6]</ref>. Correspondences are defined and stored in Velocity Fields that can be considered as generators of the Deformation Vector Fields. Velocity Fields are smooth and invertible which implies that they allow to easily describe both the correspondent features between the moving images and the reference image, but also the inverse transformation. Moreover, differently from the Deformation Vector Field, Velocity Fields lie in an Euclidean space and therefore linear operations are allowed on them. These characteristics are fundamental to generate new instances with the Statistical Shape Model <ref type="figure" target="#fig_0">(Fig. 1</ref>). The anatomical correspondence between bones is the input for the creation of the bone model for each gender. We choose the Statistical Shape Model <ref type="bibr" target="#b4">[5]</ref> since it allowed us to describe the bone dataset in terms of shape variations. The model is based on the Principal Component Analysis (PCA), linear multivariate statistic method which can be formulated as an eigen decomposition problem. It allowed us to calculate the average Velocity Field and its variations. The average Velocity Field was calculated as following:</p><formula xml:id="formula_0">∑ = = n i i v n v 1 1 (1)</formula><p>where v is the average Velocity Field, n is the number of images and i v are the Velocity Fields related to the images. Variations were computed from the covariance matrix S :</p><formula xml:id="formula_1">T i n i i v v v v n S ) ( ) ( 1 1 1 + − − = ∑ = (2).</formula><p>Using the Singular Value Decomposition, the covariance matrix was decomposed into eigenvectors i φ and corresponding eigenvalues (or modes) i λ . Each eigenvector represents a direction of variation from the average, while each eigenvalue represents the amount of variation along the correspondent direction. Given the average Velocity Field and its variations, it was possible to create new instances from the model. For each instance, the Velocity Field v was calculated as the sum of the average Velocity Field and its weighed variations:</p><formula xml:id="formula_2">∑ = + = m j j j b v v 1 φ (3)</formula><p>where m is the number of chosen modes and j b is the weight for each mode. The number m was selected depending on the percentage of variation to take into account. The weights i b were randomly chosen within the interval [</p><formula xml:id="formula_3">i i i b λ λ 3 3 + ≤ ≤ −</formula><p>] that represents the 99.7% of data variability. From the Velocity Field, the Deformation Vector Field was generated and applied to the reference image. The new obtained instance was thus a bone with the intensity of the reference warped into the newly calculated shape.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Mechanical simulation</head><p>To create the FE mesh, the bone surface was defined from the virtual CT images using VTK filters. The bone surface mesh was extracted using the Marching Cubes algorithm <ref type="bibr" target="#b6">[7]</ref>. The mesh was calculated as a very dense isosurface that needed to be simplified and smoothed. Simplification was performed collapsing edges and therefore decreasing the number of nodes. Smoothing was done by repositioning node coordinates using Laplacian smoothing. While rearranging mesh geometry, in some cases we faced loss of topology or nodal connections. All the mesh topologies were therefore reconstructed using MRFSurface <ref type="bibr" target="#b7">[8]</ref>. From the surface meshes the 10-node-tetrahedral meshes were created with the open source software NetGen <ref type="bibr" target="#b8">[9]</ref>. These tools were integrated in the pipeline in order to make it automatic. The assignment of the material properties to the mesh was done following the method proposed by Schileo and Helgason <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b10">11]</ref>. A calculated Young's modulus value was assigned to each node, depending on the image intensity of the bone in that position. For each node, the CT image grey level was extracted. Grey levels represent the density of the mineral component of the bone detected by the CT scanner. The CT bone intensity was then converted in ash density in order to have the exact mineral density of the bone. The ash density was further converted into apparent density, which corresponds to the bone density in wet conditions. Finally the apparent density was used to calculate the Young's modulus using Morgan's relationship <ref type="bibr" target="#b11">[12]</ref> (4) In order to compare the bone stiffness, the same boundary conditions were assigned to all the virtual bones <ref type="figure" target="#fig_1">(Fig. 2)</ref>. 800N force was applied at the femur head in the direction of the intercondylar fossa. The force corresponds to the patient body weight. The force application point and direction were defined on the reference image and then propagated to all the instances using the DVFs. The nodes of the distal part of the femur were encastered on a 2cm region from the bone distal extremity <ref type="figure" target="#fig_1">(Figure 2</ref>). The stiffness was calculated using the commercial package Ansys 12. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Data analysis</head><p>Stiffness values were analyzed calculating their average and standard deviation. Student t-test was run to test statistical significance between the different groups.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">RESULTS</head><p>40 instances were created for each gender. The first 4 eigenmodes were used to generate these new instances. These modes described the 83% of variation for the males and the 77% for the females. Stiffness calculated from these sample was smaller for males (277±44 N/mm) than for females (295±44 N/mm). However, no statistical difference was found between the two groups <ref type="figure" target="#fig_2">(Fig. 3)</ref>. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">DISCUSSION</head><p>This study was performed in order to propose a method that allows computing biomechanical simulations on a large dataset. The method was used to perform a preliminary study on bone stiffness. We compared the stiffness between male and female femurs from virtual CT images created from a Statistical Shape Model. Results showed that there is no significant difference between the two populations. Some issues should be taken into account in the interpretation of this result. First, the CT images that were part of our dataset were not calibrated, since they were acquired for a previous study. We solved this issue using only images coming from the same CT scanner. This limits the drawback of the missing calibration. If we consider that the machine keep its characteristics over the scanning period, the relative mechanical properties between the bone is also kept constant and should not affect the results of the comparison study presented here. Another important limitation of the present work is that the bone shape analysis did not consider bone dimensions. This results from scaling of the bone bounding boxes to the size of the reference bone before performing the non-rigid registration. Finally, all the instances have the intensity of the reference bone and therefore the same mechanical properties, but distributed in different shapes. The drawbacks of the current method can be solved by a refined image processing step.</p><p>In future, we aim to apply this method to the creation of a larger dataset and to compute the mechanical behavior on a larger number of instances. Moreover we will include different physiological and pathological situation to perform evaluations on risk of fracture and implant design.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Registration of two femurs. (a) The fixed femur (yellow) and the moving femur (red) lie in two different coordinate systems. (b) Rigid registration: the moving femur is translated and rotated to the fixed femur reference system. (c) Non-rigid registration: correspondences, represented by the black arrows, are defined from the moving image to the fixed one.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 .</head><label>2</label><figDesc>Femur load and boundary conditions for the FE simulation</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3 .</head><label>3</label><figDesc>Box plot of the stiffness obtained for male (left) and female (right) groups Male Female</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">Institute for Surgical Technology and Biomechanics, University of Bern, Switzerland</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Automated 3-dimensional finite element modeling of bone -a new method</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Keyak</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Meagher</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Skinner</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Mote</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Biomed. Eng</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="389" to="397" />
+			<date type="published" when="1990" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Subject-specific finite element models can accurately predict strain levels in long bones</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Malandrino</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Cristofolini</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Biomech</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="2982" to="2989" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Physiologically based boundary conditions in finite element modeling</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">D</forename><surname>Speirs</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">O</forename><surname>Heller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">N</forename><surname>Duda</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">R</forename><surname>Taylor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Biomech</title>
+		<imprint>
+			<biblScope unit="page" from="2318" to="2323" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Use of a statistical model of the whole femur in a large scale, multi-model study of femoral neck fracture risk</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Bryan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">B</forename><surname>Nair</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">V</forename><surname>Hajnal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">L G</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">J</forename><surname>Hawkes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biomedical Engineering Series</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="2171" to="2176" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+	<note>Medical Image Registration</note>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Active shape models -their training and application</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">F</forename><surname>Cootes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">J</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">H</forename><surname>Cooper</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Graham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Vis. Image Und</title>
+		<imprint>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="38" to="59" />
+			<date type="published" when="1995" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Symmetric log-domain diffeomorphic registration: a demons-based approach</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Vercauteren</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Pennec</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Perchant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Ayache</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Med. Image Comput. Comput. Assist. Interv</title>
+		<imprint>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="754" to="61" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+	<note>Pt 1</note>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Marching cubes: a high resolution 3D surface construction algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">E</forename><surname>Lorensen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="middle">E</forename><surname>Cline H</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Gr</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="163" to="169" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">R</forename><surname>Paulsen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">A</forename><surname>Baerentzen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Larsen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Markov Random Field Surface Reconstruction</title>
+		<imprint>
+			<date type="published" when="2009" />
+			<biblScope unit="page">99</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">NETGEN An advancing front 2D/3D-mesh generator based on abstract rules</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Schöberl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Visual Sci</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="41" to="52" />
+			<date type="published" when="1997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">An accurate estimation of bone density improves the accuracy of subject-specific finite element methods</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ara</forename><forename type="middle">E</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Malandrino</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Schotkamp</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Baleani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Biomech</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="2483" to="2491" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Mathematical relationship between bone density and mechanical properties: a literature review</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Helgason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Perilli</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Brynjólfsson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Clin. Biomech</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="135" to="146" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Trabecular bone modulusdensity relationships depend on anatomic site</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Morgan</forename><surname>Morgan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><forename type="middle">F</forename><surname>Bayraktar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Keaveny</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">M</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Biomech</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="897" to="904" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

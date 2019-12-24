@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Introduction Design issues Recording setup Creating the database Database evaluation Conclusions and future work KALAKA-2 A TV Broadcast Speech Database for the Recognition of Iberian Languages in Clean and Noisy Environments</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2012-05-23">May 23, 2012</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Luis</forename><forename type="middle">J</forename><surname>Rodríguez-Fuentes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group Basque Country Barrio Sarriena s/n</orgName>
+								<orgName type="institution">University</orgName>
+								<address>
+									<postCode>48940, 2012</postCode>
+									<settlement>Leioa, LREC, Istanbul</settlement>
+									<country>Spain, Turkey</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikel</forename><surname>Penagarikano</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group Basque Country Barrio Sarriena s/n</orgName>
+								<orgName type="institution">University</orgName>
+								<address>
+									<postCode>48940, 2012</postCode>
+									<settlement>Leioa, LREC, Istanbul</settlement>
+									<country>Spain, Turkey</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amparo</forename><surname>Varona</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group Basque Country Barrio Sarriena s/n</orgName>
+								<orgName type="institution">University</orgName>
+								<address>
+									<postCode>48940, 2012</postCode>
+									<settlement>Leioa, LREC, Istanbul</settlement>
+									<country>Spain, Turkey</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mireia</forename><surname>Diez</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group Basque Country Barrio Sarriena s/n</orgName>
+								<orgName type="institution">University</orgName>
+								<address>
+									<postCode>48940, 2012</postCode>
+									<settlement>Leioa, LREC, Istanbul</settlement>
+									<country>Spain, Turkey</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Germán</forename><surname>Bordel</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group Basque Country Barrio Sarriena s/n</orgName>
+								<orgName type="institution">University</orgName>
+								<address>
+									<postCode>48940, 2012</postCode>
+									<settlement>Leioa, LREC, Istanbul</settlement>
+									<country>Spain, Turkey</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Introduction Design issues Recording setup Creating the database Database evaluation Conclusions and future work KALAKA-2 A TV Broadcast Speech Database for the Recognition of Iberian Languages in Clean and Noisy Environments</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2012-05-23">May 23, 2012</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Selection of speech segments (I)</head><p>Task: to extract speech segments from the recorded materials, by listening and looking at audio signals.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Criteria:</head><p>Multiple speakers allowed Single (nominal) language Clean/Noisy classification relaxed: mostly clean and mostly noisy segments Discarded: (1) narrow-band (telephone-channel) speech and (2) fragments with multiple languages (even in the background) Exception: two or more OOS languages may appear in the same segment Introduction Design issues Recording setup Creating the database Database evaluation Conclusions and future work Classification of recordings Selection of speech segments Automatic extraction of 30-, 10-and 3-second segments</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Selection of speech segments (II) -Training dataset</head><p>No further processing was applied to segments posted to training.</p><p>Training data ONLY for target languages.</p><p>More than 10 hours of clean speech and more than 2 hours of noisy speech per target language.</p><p>Distribution of training segments per target language in KALAKA-2, for clean and noisy speech: number of segments (#) and total duration (T , in minutes). The Albayzin 2010 LRE: conditions Task: deciding by computational means whether or not a target language was spoken in a test utterance. Trial = speech segment + target language Required system output: hard decision + likelihood score Performance measured by presenting a set of trials and comparing system decisions with the ground truth. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>based exclusively on KALAKA-2... ...except for the phone decoders.Same system submitted to NIST 2011 LRE (with very competitive performance). Discriminative fusion of two acoustic and three phonotactic subsystems:LE-GMM and generative iVectors Phone-Lattice-SVM using BUT decoders for Czech, Hungarian and RussianTwo sets of models, estimated on the training dataset, using: clean speech segments (for the clean-speech condition) the whole training dataset (for the noisy-speech condition)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>TV channels and recorded time (in minutes) for each language in KALAKA-2</figDesc><table>Introduction 
+Design issues 
+Recording setup 
+Creating the database 
+Database evaluation 
+Conclusions and future work 
+
+Recording setup (II) 
+
+Language 
+TV Channels 
+Recorded time 
+Basque 
+ETB1, ETBSat 
+1996 
+Catalan 
+TVCi 
+1842 
+
+English 
+DWTV, BBCWorld, 
+CNN, Bloomberg 
+2705 
+
+Galician 
+TVG 
+2240 
+Portuguese 
+RTPi 
+2608 
+
+Spanish 
+
+TVE1, La 2, 
+La Sexta, Cuatro, Tele5, 
+Antena3, ETB2, TV Canaria 
+Sat, AndalucíaTV, 
+TeleMadrid, ExtremaduraTV, 
+CNNPlus 
+
+2090 
+
+Arabic 
+Al Jazeera 
+497 
+French 
+TV5Monde Europe 
+499 
+German 
+DWTV 
+431 
+Romanian 
+PROTV 
+552 
+Introduction 
+Design issues 
+Recording setup 
+Creating the database 
+Database evaluation 
+Conclusions and future work 
+
+Classification of recordings 
+Selection of speech segments 
+Automatic extraction of 30-, 10-and 3-second segments 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Automatic extraction of 30-, 10-and 3-second segments (II) Distribution of segments per language (the same for each nominal duration) in the development and evaluation datasets of KALAKA-2.</figDesc><table>Clean speech 
+Noisy speech 
+# 
+T (minutes) 
+# 
+T (minutes) 
+Basque 
+406 
+644 
+112 
+135 
+Catalan 
+341 
+687 
+107 
+131 
+English 
+249 
+731 
+136 
+152 
+Galician 
+464 
+644 
+125 
+134 
+Portuguese 387 
+665 
+160 
+197 
+Spanish 
+342 
+625 
+133 
+222 
+Introduction 
+Design issues 
+Recording setup 
+Creating the database 
+Database evaluation 
+Conclusions and future work 
+
+Classification of recordings 
+Selection of speech segments 
+Automatic extraction of 30-, 10-and 3-second segments 
+
+Devel 
+Eval 
+clean noisy clean noisy 
+Basque 
+146 
+29 
+130 
+74 
+Catalan 
+120 
+47 
+149 
+55 
+Target 
+English 
+133 
+60 
+135 
+69 
+languages Galician 
+137 
+60 
+121 
+83 
+Portuguese 
+164 
+77 
+146 
+58 
+Spanish 
+136 
+83 
+125 
+79 
+Arabic 
+100 
+25 
+115 
+22 
+OOS 
+French 
+120 
+32 
+70 
+34 
+languages German 
+108 
+73 
+13 
+32 
+Romanian 
+0 
+0 
+111 
+43 
+Introduction 
+Design issues 
+Recording setup 
+Creating the database 
+Database evaluation 
+Conclusions and future work 
+
+The Albayzin 2010 LRE 
+System development and evaluation based on KALAKA-2 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

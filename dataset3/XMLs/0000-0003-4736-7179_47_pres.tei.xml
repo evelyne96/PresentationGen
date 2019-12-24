@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">New ensemble methods for evolving data streams</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2009">2009</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory" key="lab1">Laboratory for Relational Algorithmics, Complexity and Learning</orgName>
+								<orgName type="laboratory" key="lab2">LARCA UPC-Barcelona Tech</orgName>
+								<orgName type="institution">Catalonia University of Waikato</orgName>
+								<address>
+									<settlement>Hamilton</settlement>
+									<country key="NZ">New Zealand</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Holmes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory" key="lab1">Laboratory for Relational Algorithmics, Complexity and Learning</orgName>
+								<orgName type="laboratory" key="lab2">LARCA UPC-Barcelona Tech</orgName>
+								<orgName type="institution">Catalonia University of Waikato</orgName>
+								<address>
+									<settlement>Hamilton</settlement>
+									<country key="NZ">New Zealand</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Pfahringer</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory" key="lab1">Laboratory for Relational Algorithmics, Complexity and Learning</orgName>
+								<orgName type="laboratory" key="lab2">LARCA UPC-Barcelona Tech</orgName>
+								<orgName type="institution">Catalonia University of Waikato</orgName>
+								<address>
+									<settlement>Hamilton</settlement>
+									<country key="NZ">New Zealand</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Kirkby</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory" key="lab1">Laboratory for Relational Algorithmics, Complexity and Learning</orgName>
+								<orgName type="laboratory" key="lab2">LARCA UPC-Barcelona Tech</orgName>
+								<orgName type="institution">Catalonia University of Waikato</orgName>
+								<address>
+									<settlement>Hamilton</settlement>
+									<country key="NZ">New Zealand</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory" key="lab1">Laboratory for Relational Algorithmics, Complexity and Learning</orgName>
+								<orgName type="laboratory" key="lab2">LARCA UPC-Barcelona Tech</orgName>
+								<orgName type="institution">Catalonia University of Waikato</orgName>
+								<address>
+									<settlement>Hamilton</settlement>
+									<country key="NZ">New Zealand</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">New ensemble methods for evolving data streams</title>
+					</analytic>
+					<monogr>
+						<title level="m">15th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</title>
+						<imprint>
+							<date type="published" when="2009">2009</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>{M}assive {O}nline {A}nalysis is a framework for online learning from data streams.</p><p>It is closely related to WEKA It includes a collection of offline and online as well as tools for evaluation: boosting and bagging Hoeffding Trees with and without Naïve Bayes classifiers at the leaves.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">/ 25</head><p>Waikato Environment for Knowledge Analysis Collection of state-of-the-art machine learning algorithms and data processing tools implemented in Java Released under the GPL Support for the whole process of experimental data mining </p><formula xml:id="formula_0">t f (t) f (t) α α t 0 W 0.5 1 Definition</formula><p>Given two data streams a, b, we define c = a ⊕ W t 0 b as the data stream built joining the two data streams a and b Adaptive-Size Hoeffding Tree bagging: each tree has a maximum size after one node splits, it deletes some nodes to reduce its size if the size of the tree is higher than the maximum value ADWIN bagging:</p><formula xml:id="formula_1">Pr[c(t) = b(t)] = 1/(1 + e −4(t−t 0 )/W ). Pr[c(t) = a(t)] = 1 − Pr[c(t) = b(t)] t f (t) f (t) α α t 0 W 0.5 1 Example (((a ⊕ W 0 t 0 b) ⊕ W 1 t 1 c) ⊕ W 2 t 2 d) . . . (((SEA 9 ⊕ W t 0 SEA 8 ) ⊕ W 2t 0 SEA 7 ) ⊕ W 3t 0 SEA 9.5 )<label>CovPokElec</label></formula><p>When a change is detected, the worst classifier is removed and a new classifier is added.</p><formula xml:id="formula_2">T 1 T 2 T 3 T 4</formula><p>Ensemble of trees of different size smaller trees adapt more quickly to changes,  Extend MOA to more data mining and learning methods.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure:Figure :</head><label>:</label><figDesc>Kappa-Error diagrams for ASHT bagging (left) and bagging (right) on dataset RandomRBF with drift, Accuracy and size on dataset LED with three concept drifts.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Preparation of input dataStatistical evaluation of learning schemes Visualization of input data and the result of learning Used for education, research and applications Complements "Data Mining" by Witten &amp; Frank New Evolving Data Stream Extensions New Stream Generators New UNION of Streams New Evolving Data Stream Generators Random RBF with Drift LED with Drift</figDesc><table>1 
+
+Process an example at a time, 
+and inspect it only once (at 
+most) 
+
+2 
+
+Use a limited amount of 
+memory 
+
+3 
+
+Work in a limited amount of 
+time 
+
+4 
+
+Be ready to predict at any 
+point 
+Evaluation procedures for Data 
+Streams 
+
+Holdout 
+
+Interleaved Test-Then-Train 
+
+Environments 
+
+Sensor Network: 100Kb 
+
+Handheld Computer: 32 Mb 
+
+Server: 400 Mb 
+
+9 / 25 
+Data Sources 
+
+Random Tree Generator 
+
+Random RBF Generator 
+
+LED Generator 
+
+Waveform Generator 
+
+Function Generator 
+
+9 / 25 
+
+Experimental setting 
+
+Classifiers 
+
+Naive Bayes 
+
+Decision stumps 
+
+Hoeffding Tree 
+
+Hoeffding Option Tree 
+
+Bagging and Boosting 
+
+Prediction strategies 
+
+Majority class 
+
+Naive Bayes Leaves 
+
+Adaptive Hybrid 
+
+9 / 25 
+void resetLearningImpl () 
+
+void trainOnInstanceImpl (Instance inst) 
+
+double[] getVotesForInstance (Instance i) 
+
+void getModelDescription (StringBuilder 
+out, int indent) 
+
+11 / 25 
+
+Outline 
+
+1 MOA: Massive Online Analysis 
+
+2 Concept Drift Framework 
+
+3 New Ensemble Methods 
+
+4 Empirical evaluation 
+
+12 / 25 
+New Classifiers 
+
+13 / 25 
+Waveform with Drift 
+
+Hyperplane 
+
+SEA Generator 
+
+STAGGER Generator 
+
+13 / 25 
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>Summary http://www.cs.waikato.ac.nz/∼abifet/MOA/ Conclusions Extension of MOA to evolving data streams MOA is easy to use and extend New ensemble bagging methods: Adaptive-Size Hoeffding Tree bagging ADWIN bagging</figDesc><table>SEA 
+W = 50 
+Time 
+Acc. Mem. 
+NaiveBayes 
+5.32 83.87 
+0.00 
+HT 
+6.96 84.89 
+0.34 
+HT DDM 
+8.30 88.27 
+0.17 
+HT EDDM 
+8.56 87.97 
+0.18 
+HOT5 
+11.46 84.92 
+0.38 
+HOT50 
+22.54 85.20 
+0.84 
+AdaHOT5 
+11.46 84.94 
+0.38 
+AdaHOT50 
+22.70 85.35 
+0.86 
+Bag10 HT 
+31.06 85.45 
+3.38 
+BagADWIN 10 HT 54.51 88.58 
+1.90 
+Bag10 ASHT W+R 33.20 88.89 
+0.84 
+Bag5 ASHT W+R 
+19.78 88.55 
+0.01 
+OzaBoost 
+39.40 86.28 
+4.03 
+OCBoost 
+59.12 87.21 
+2.41 
+SEA 
+W = 50000 
+Time 
+Acc. Mem. 
+NaiveBayes 
+5.52 83.87 
+0.00 
+HT 
+7.20 84.87 
+0.33 
+HT DDM 
+7.88 88.07 
+0.16 
+HT EDDM 
+8.52 87.64 
+0.06 
+HOT5 
+12.46 84.91 
+0.37 
+HOT50 
+22.78 85.18 
+0.83 
+AdaHOT5 
+12.48 84.94 
+0.38 
+AdaHOT50 
+22.80 85.30 
+0.84 
+Bag10 HT 
+30.88 85.34 
+3.36 
+BagADWIN 10 HT 53.15 88.53 
+0.88 
+Bag10 ASHT W+R 33.56 88.30 
+0.84 
+Bag5 ASHT W+R 
+20.00 87.99 
+0.05 
+OzaBoost 
+39.97 86.17 
+4.00 
+OCBoost 
+60.33 86.97 
+2.44 
+Future Work 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5">/ 25</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6">/ 25</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7">/ 25</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7">/ 25</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7">/ 25</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8">/ 25</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">Regular Hoeffding tree containing additional option nodes that allow several tests to be applied, leading to multiple Hoeffding trees as separate paths.10 / 25</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="20">/ 25</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">MOA: Massive Online Analysis</note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Moa (another native NZ bird) is not only flightless, like the Weka, but also extinct.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An adaptive sliding window whose size is recomputed online according to the rate of change observed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ADWIN has rigorous guarantees (theorems)</head><p>On ratio of false positives and negatives On the relation of the size of the current window and change rates</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ADWIN Bagging</head><p>When a change is detected, the worst classifier is removed and a new classifier is added.</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Time-Bounded Sequential Parameter Optimization</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+							<email>hutter@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<email>hoos@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><forename type="middle">P</forename><surname>Murphy</surname></persName>
+							<email>murphyk@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Time-Bounded Sequential Parameter Optimization</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Both methods with same LHD Both methods with same LHD  Saps-SWGCP-med 49.95 ± 0.00 0.18 ± 0.03 1 · 10 −10 Saps-SWGCP-q075 50 ± 0 0.24 ± 0.04 1 · 10 −10 Saps-SWGCP-q095 50 ± 0 0.25 ± 0.05 1 · 10 −10 16 Experimental validation: results Both methods with same LHD  Saps-QWH [·10 3 ] 10.7 ± 0.76 10.1 ± 0.58 9.88 ± 0.41 6 · 10 −3 0.14 Saps-SWGCP-med 49.95 ± 0.00 0.18 ± 0.03 0.17 ± 0.02 1 · 10 −10 0.37 Saps-SWGCP-q075 50 ± 0 0.24 ± 0.04 0.22 ± 0.03 1 · 10 −10 0.08 Saps-SWGCP-q095 50 ± 0 0.25 ± 0.05 0.28 ± 0.10 1 · 10 −10 0.89 Use models to gain scientific insights -Importance of each parameter -Interaction of parameters -Interaction of parameters and instances features Per-instance approaches -Build joint model of instance features and parameters -Given a new unseen instance: + Compute instance features (fast) + Use parameter setting predicted to be best for those features</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SAPS-QWH instance</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>-</head><label></label><figDesc>standard GP assuming Gaussian observation noise Model II (used in SPO, SPO + , and TB-SPO) -Compute empirical mean of responses at each param. setting -Fit noise-free GP to those means standard GP assuming Gaussian observation noise Model II (used in SPO, SPO + , and TB-SPO) -Compute empirical mean of responses at each param. setting -Fit noise-free GP to those means -But assumes empirical means are perfect (even when based on just 1 run!) standard GP assuming Gaussian observation noise Model II (used in SPO, SPO + , and TB-SPO)-Compute empirical mean of responses at each param. setting -Fit noise-free GP to those means -But assumes empirical means are perfect (even when based on just 1 run!) -Cheaper (here 11 means vs 110 raw data points) promising the model judges a parameter setting to be -true performance of that parameter setting (evaluated offline) promising the model judges a parameter setting to be -true performance of that parameter setting (evaluated offline) Optimization of MIP solvers [to be submitted to CP-AI-OR]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Compare one configuration θ at a time to the incumbent θ inc -Use mechanism from SPO + : -Incrementally perform runs for θ until either + Empirical performance for θ worse than for θ inc drop θ + Performed as many runs for θ as for θ inc θ becomes new θ incStop once time bound is reachedWhich Setting to Perform How Many Runs forHeuristic MechanismCompare one configuration θ at a time to the incumbent θ inc -Use mechanism from SPO + : -Incrementally perform runs for θ until either + Empirical performance for θ worse than for θ inc drop θ + Performed as many runs for θ as for θ inc θ becomes new θ incStop once time bound is reached Performed as many runs for θ as for θ inc θ becomes new θ incStop once time bound is reached Performed as many runs for θ as for θ inc θ becomes new θ incStop once time bound is reached</figDesc><table>8 
+
+Sequential Model-Based Optimization 
+(SMBO) 
+
+Blackbox function optimization; function = algo. performance 
+0. Run algorithm with initial parameter settings 
+1. Fit a model to the data 
+2. Use model to pick promising parameter setting 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+. 
+Function evaluations 
+EI (scaled) 
+
+8 
+
+Sequential Model-Based Optimization 
+(SMBO) 
+
+Blackbox function optimization; function = algo. performance 
+0. Run algorithm with initial parameter settings 
+1. Fit a model to the data 
+2. Use model to pick promising parameter setting 
+3. Perform an algorithm run with that parameter setting 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+8 
+
+Sequential Model-Based Optimization 
+(SMBO) 
+
+Blackbox function optimization; function = algo. performance 
+0. Run algorithm with initial parameter settings 
+1. Fit a model to the data 
+2. Use model to pick promising parameter setting 
+3. Perform an algorithm run with that parameter setting 
+Repeat 1-3 until time is up 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+First step 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+Second step 
+
+8 
+
+Computational Overhead due to Models: 
+Example 
+
+Example times 
+0. Run algorithm with initial parameter settings 
+1. Fit a model to the data 
+2. Use model to pick promising parameter setting 
+3. Perform an algorithm run with that parameter setting 
+Repeat 1-3 until time is up 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+First step 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+Second step 
+
+9 
+
+Computational Overhead due to Models: 
+Example 
+
+Example times 
+0. Run algorithm with initial parameter settings 1000s 
+1. Fit a model to the data 
+2. Use model to pick promising parameter setting 
+3. Perform an algorithm run with that parameter setting 
+Repeat 1-3 until time is up 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+First step 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+Second step 
+
+9 
+
+Computational Overhead due to Models: 
+Example 
+
+Example times 
+0. Run algorithm with initial parameter settings 1000s 
+1. Fit a model to the data 50s 
+2. Use model to pick promising parameter setting 
+3. Perform an algorithm run with that parameter setting 
+Repeat 1-3 until time is up 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+First step 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+Second step 
+
+9 
+
+Computational Overhead due to Models: 
+Example 
+
+Example times 
+0. Run algorithm with initial parameter settings 1000s 
+1. Fit a model to the data 50s 
+2. Use model to pick promising parameter setting 20s 
+3. Perform an algorithm run with that parameter setting 
+Repeat 1-3 until time is up 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+First step 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+Second step 
+
+9 
+
+Computational Overhead due to Models: 
+Example 
+
+Example times 
+0. Run algorithm with initial parameter settings 1000s 
+1. Fit a model to the data 50s 
+2. Use model to pick promising parameter setting 20s 
+3. Perform an algorithm run with that parameter setting 10s 
+Repeat 1-3 until time is up 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+
+First step 
+
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+−5 
+
+0 
+
+5 
+
+10 
+
+15 
+
+20 
+
+25 
+
+30 
+
+parameter x 
+
+response y 
+
+DACE mean prediction 
+DACE mean +/− 2*stddev 
+True function 
+Function evaluations 
+EI (scaled) 
+14 
+
+Algorithms 
+
+TB-SPO 
+
+-Get ordered list of promising parameter settings using model 
+-Interleave random settings: 2nd, 4th, etc 
+
+14 
+
+Which Setting to Perform How Many Runs for 
+
+Heuristic Mechanism 
+
+Compare one configuration θ at a time to the incumbent θ inc 
+
+-Use mechanism from SPO + : 
+-Incrementally perform runs for θ until either 
+
++ Empirical performance for θ worse than for θ inc 
+drop θ 
++ Algorithms 
+
+TB-SPO 
+
+-Get ordered list of promising parameter settings using model 
+-Interleave random settings: 2nd, 4th, etc 
+-Compare one param. setting at a time to incumbent 
+-Nice side effect: additional runs on good random settings 
+
+14 
+
+Which Setting to Perform How Many Runs for 
+
+Heuristic Mechanism 
+
+Compare one configuration θ at a time to the incumbent θ inc 
+
+-Use mechanism from SPO + : 
+-Incrementally perform runs for θ until either 
+
++ Empirical performance for θ worse than for θ inc 
+drop θ 
++ Algorithms 
+
+TB-SPO 
+
+-Get ordered list of promising parameter settings using model 
+-Interleave random settings: 2nd, 4th, etc 
+-Compare one param. setting at a time to incumbent 
+-Nice side effect: additional runs on good random settings 
+
+"Strawman" algorithm: TB-Random 
+
+-Only use random settings 
+-Compare one param. setting at a time to incumbent 
+
+14 
+
+Experimental validation: setup 
+
+Optimizing SLS algorithm SAPS 
+
+-Prominent SAT solver with 4 continuous parameters 
+-Previously used to evaluate parameter optimization approaches 
+
+15 
+
+Experimental validation: setup 
+
+Optimizing SLS algorithm SAPS 
+
+-Prominent SAT solver with 4 continuous parameters 
+-Previously used to evaluate parameter optimization approaches 
+
+Seven different SAT instances 
+
+-1 Quasigroups with holes (QWH) instance used previously 
+-3 instances from Quasigroup completion (QCP) 
+-3 instances from Graph colouring based on smallworld graphs 
+(SWGCP) 
+
+15 
+
+Experimental validation: results 
+
+SAPS-QWH instance 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>TB-SPO with empty LHD</figDesc><table>Scenario 
+SPO + 
+TB-SPO 
+pval1 
+
+Saps-QCP-med [·10 −2 ] 
+4.50 ± 0.31 
+4.32 ± 0.21 
+4 · 10 −3 
+Saps-QCP-q075 
+3.77 ± 9.72 
+0.19 ± 0.02 
+2 · 10 −6 
+Saps-QCP-q095 
+49.91 ± 0.00 2.20 ± 1.17 
+1 · 10 −10 
+
+Saps-QWH [·10 3 ] 
+10.7 ± 0.76 
+10.1 ± 0.58 
+6 · 10 −3 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>TB-SPO with empty LHD</figDesc><table>Scenario 
+SPO + 
+TB-SPO 
+TB-Random 
+pval1 
+pval2 
+
+Saps-QCP-med [·10 −2 ] 
+4.50 ± 0.31 
+4.32 ± 0.21 
+4.23 ± 0.15 
+4 · 10 −3 
+0.17 
+Saps-QCP-q075 
+3.77 ± 9.72 
+0.19 ± 0.02 
+0.19 ± 0.01 
+2 · 10 −6 
+0.78 
+Saps-QCP-q095 
+49.91 ± 0.00 2.20 ± 1.17 
+2.64 ± 1.24 
+1 · 10 −10 
+0.12 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

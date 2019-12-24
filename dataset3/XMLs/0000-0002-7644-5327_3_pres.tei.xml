@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Computing Pure Strategy Nash Equilibria in Compact Symmetric Games</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Christopher</forename><surname>Thomas</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ryan</forename></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><forename type="middle">Xin</forename><surname>Jiang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Computing Pure Strategy Nash Equilibria in Compact Symmetric Games</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>1 / 18</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>◮ Symmetric games: all players are identical and indistinguishable. ◮ Fixed number of actions m, varying number of players n. ◮ Utilities are integers. ◮ Define configuration:</p><formula xml:id="formula_0">x = (x a : a ∈ A)</formula><p>where x a is the number of players playing action a. ◮ Sufficient to specify utility function u a (x) for each action a and each configuration x. </p><formula xml:id="formula_1">x = (x a : a ∈ A)</formula><p>where x a is the number of players playing action a. ◮ Sufficient to specify utility function u a (x) for each action a and each configuration x.</p><p>◮ There are n+m−1 m−1 = Θ(n m−1 ) distinct configurations. ◮ In previous studies <ref type="bibr">[e.g. Brandt, Fischer &amp; Holzer, 2009;</ref><ref type="bibr">Roughgarden &amp; Papadimitriou, 2005]</ref>, utility values are given explicitly. <ref type="bibr">◮</ref> We focus on ◮ Symmetric games: all players are identical and indistinguishable. ◮ Fixed number of actions m, varying number of players n. ◮ Utilities are integers. ◮ Define configuration:</p><formula xml:id="formula_2">x = (x a : a ∈ A)</formula><p>where x a is the number of players playing action a. ◮ Sufficient to specify utility function u a (x) for each action a and each configuration x. </p><formula xml:id="formula_3">D = x ∈ Z m : a∈A xa = n, x ≥ 0 D x 3</formula><p>x 1</p><p>x 2 n n n ◮ Domain of utility functions: configurations</p><formula xml:id="formula_4">D = x ∈ Z m : a∈A xa = n, x ≥ 0 D 7 / 18</formula><p>◮ Domain of utility functions: configurations</p><formula xml:id="formula_5">D = x ∈ Z m : a∈A xa = n, x ≥ 0 ◮ Piecewise linear utilities: For each a ∈ A: D = P a,j ∈Pa (Pa,j ∩ Z m )</formula><p>Paj ◮ Domain of utility functions: configurations</p><formula xml:id="formula_6">D = x ∈ Z m : a∈A xa = n, x ≥ 0 ◮ Piecewise linear utilities: For each a ∈ A: D = P a,j ∈Pa (Pa,j ∩ Z m ) ◮ Over each cell Pa,j ∩ Z m there is an affine function fa,j (x) = αa,j · x + βa,j . faj (x)</formula><p>Paj ◮ Domain of utility functions: configurations</p><formula xml:id="formula_7">D = x ∈ Z m : a∈A xa = n, x ≥ 0 ◮ Piecewise linear utilities: For each a ∈ A: D = P a,j ∈Pa (Pa,j ∩ Z m ) ◮ Over each cell Pa,j ∩ Z m there is an affine function fa,j (x) = αa,j · x + βa,j .</formula><p>◮ Piecing them together:</p><formula xml:id="formula_8">ua(x) = fa,j (x) for x ∈ Pa,j ∩ Z m</formula><p>◮ Compact when number of pieces |Pa| is poly (log n). x 1</p><p>x 2 n n n ◮ Given S ⊆ Z n we represent the points as a generating function: g (S, w ) = a∈S w a 1 1 w a 2 2 · · · w an n ◮ Given S ⊆ Z n we represent the points as a generating function: g (S, w ) = a∈S w a 1 1 w a 2 2 · · · w an n ◮ w i are complex variables ◮ Point (2, −3) is encoded as monomial w 2 1 w −3 2 .</p><p>◮ Given S ⊆ Z n we represent the points as a generating function:</p><formula xml:id="formula_9">g (S, w ) = a∈S w a 1 1 w a 2 2 · · · w an n ◮ w i are complex variables ◮ Point (2, −3) is encoded as monomial w 2 1 w −3 2 . Example ◮ S = {0, 1, . . . , 1000}</formula><p>◮ Given S ⊆ Z n we represent the points as a generating function:</p><formula xml:id="formula_10">g (S, w ) = a∈S w a 1 1 w a 2 2 · · · w an n ◮ w i are complex variables ◮ Point (2, −3) is encoded as monomial w 2 1 w −3 2 . Example ◮ S = {0, 1, . . . , 1000}</formula><p>◮ g (S, w ) = 1 + w + w 2 + · · · + w 1000 ◮ Given S ⊆ Z n we represent the points as a generating function:</p><formula xml:id="formula_11">g (S, w ) = a∈S w a 1 1 w a 2 2 · · · w an n ◮ w i are complex variables ◮ Point (2, −3) is encoded as monomial w 2 1 w −3 2 . Example ◮ S = {0, 1, . . . , 1000} ◮ g (S, w ) = 1 + w + w 2 + · · · + w 1000 ◮ g (S, w ) = 1 1−w − w 1001 1−w Barvinok's result (1994) Theorem Let P be a rational convex polytope, i.e. P = {x ∈ R m : Ax ≤ b}.</formula><p>There is a polynomial time algorithm which computes a short rational generating function:</p><formula xml:id="formula_12">g (P ∩ Z m ; w ) = j∈J γ j w c j (1 − w d j1 )(1 − w d j2 ) . . . (1 − w d jm ) ,</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>of the lattice points inside P when the dimension m is fixed. The number of terms in the sum is polynomially bounded and</head><formula xml:id="formula_13">γ j ∈ {−1, 1}.</formula><p>Inequality representation:</p><formula xml:id="formula_14">{x : Ax ≤ b, x ∈ Z n } Data: A, b</formula><p>Lattice points: S Inequality representation:</p><formula xml:id="formula_15">{x : Ax ≤ b, x ∈ Z n } Data: A, b</formula><p>Lattice points: S Gen. Function Representation:</p><formula xml:id="formula_16">j∈J γ j w c j n k=1 (1 − w d jk )</formula><p>Data: c j , d jk ◮ Count the number of integer points in S in polynomial time.</p><p>[ <ref type="bibr">Barvinok, 1994]</ref> ◮ Count the number of integer points in S in polynomial time.</p><p>[ <ref type="bibr">Barvinok, 1994]</ref> Example ◮ S = {0, 1, . . . , 1000}</p><p>◮ Count the number of integer points in S in polynomial time.</p><p>[ <ref type="bibr">Barvinok, 1994]</ref> Example ◮ S = {0, 1, . . . , 1000} ◮ g (S, w ) = 1 + w + w 2 + · · · + w 1000 . Count: substitute w = 1, get g (S, 1) = 1001.</p><p>◮ Count the number of integer points in S in polynomial time.</p><p>[ <ref type="bibr">Barvinok, 1994]</ref> Example ◮ S = {0, 1, . . . , 1000} ◮ g (S, w ) = 1 + w + w 2 + · · · + w 1000 . Count: substitute w = 1, get g (S, 1) = 1001.</p><p>◮ g (S, w ) = 1 1−w − w 1001 1−w . Count: take limit as w → 1, get lim w →1 g (S, w ) = 1001.</p><p>◮ Count the number of integer points in S in polynomial time.</p><p>[ <ref type="bibr">Barvinok, 1994]</ref> Example ◮ S = {0, 1, . . . , 1000} ◮ g (S, w ) = 1 + w + w 2 + · · · + w 1000 . Count: substitute w = 1, get g (S, 1) = 1001.</p><p>◮ g (S, w ) = 1 1−w − w 1001 1−w . Count: take limit as w → 1, get lim w →1 g (S, w ) = 1001. </p><formula xml:id="formula_17">g (S 1 ∪ S 2 , w ) = g (S 1 , w ) + g (S 2 , w ) S 1 S 2 ◮ Want to encode N, the set of PSNE configurations x ∈ N ⇐⇒ ∀a ∈ A : (xa = 0) OR (∀a ′ ∈ A, ua(x) ≥ u a ′ (x+e a ′ −ea))</formula><p>◮ D is the set of configurations and candidate equilibria: x ∈ N ⇐⇒ ∀a ∈ A : (xa = 0) OR (∀a ′ ∈ A, ua(x) ≥ u a ′ (x+e a ′ −ea)) ◮ D is the set of configurations and candidate equilibria: x ∈ N ⇐⇒ ∀a ∈ A : (xa = 0) OR (∀a ′ ∈ A, ua(x) ≥ u a ′ (x+e a ′ −ea)) ◮ D is the set of configurations and candidate equilibria:</p><formula xml:id="formula_18">D = x ∈ Z m : a∈A x a = n, x ≥ 0</formula><formula xml:id="formula_19">D = x ∈ Z m : a∈A x a = n, x ≥ 0 ◮ D a,</formula><formula xml:id="formula_20">D = x ∈ Z m : a∈A x a = n, x ≥ 0</formula><p>◮ D a,a ′ those configurations where it is profitable for a player playing action a to deviate.</p><formula xml:id="formula_21">N = D \ a,a ′ ∈A D a,a ′ 0 1 0 1 0 1 00 11 N x1 x2 D a,a ′ = Pa,j ∈Pa P a ′ ,j ′ ∈P a ′    x ∈ D : x a ≥ 1, x ∈ P a,j , x ′ = x + e a ′ − e a ∈ P a ′ ,j ′ f a,j (x) ≤ f a ′ ,j ′ (x ′ ) − 1    D a,a ′ = Pa,j ∈Pa P a ′ ,j ′ ∈P a ′    x ∈ D : x a ≥ 1, x ∈ P a,j , x ′ = x + e a ′ − e a ∈ P a ′ ,j ′ f a,j (x) ≤ f a ′ ,j ′ (x ′ ) − 1    ◮</formula><p>Polynomial number of disjoint unions ◮ Once the pieces P a,j and P a ′ ,j ′ fixed, can formulate profitable deviation as a set of linear constraints x ∈ D : x a ≥ 1, x ∈ P a,j ,</p><formula xml:id="formula_22">D a,a ′ = Pa,j ∈Pa P a ′ ,j ′ ∈P a ′    x ∈ D : x a ≥ 1, x ∈ P a,j , x ′ = x + e a ′ − e a ∈ P a ′ ,j ′ f a,j (x) ≤ f a ′ ,j ′ (x ′ ) − 1    ◮</formula><formula xml:id="formula_23">x ′ = x + e a ′ − e a ∈ P a ′ ,j ′ f a,j (x) ≤ f a ′ ,j ′ (x ′ ) − 1    ◮</formula><p>Polynomial number of disjoint unions ◮ Once the pieces P a,j and P a ′ ,j ′ fixed, can formulate profitable deviation as a set of linear constraints ◮ x a ≥ 1: at least one player chose a ◮ x ′ = x + e a ′ − e a : result of deviating from a to a ′ D a,a ′ = D a,a ′ = D a,a ′ = ◮ Find a PSNE that approximately optimizes the sum of the utilities (FPTAS).</p><p>◮ Encode the PSNEs of a parameterized family of symmetric games with utility pieces:</p><p>f a,j (x, p) = α a,j · x + β a,j · p,</p><p>where p is a fixed dimensional integer vector of parameters inside a polytope.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion</head><p>◮ computing PSNE for symmetric games with fixed number of actions, focusing on compact representations of utility: poly (log n) bits ◮ circuit symmetric games: NP-complete when at least 3 actions ◮ symmetric games with piecewise-linear utility: polynomial-time algorithms ◮ encode set of PSNE as a rational generating function Thanks!</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>◮◮</head><label></label><figDesc>There Symmetric games: all players are identical and indistinguishable. ◮ Fixed number of actions m, varying number of players n. ◮ Utilities are integers. ◮ Define configuration:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>◮</head><label></label><figDesc>Enumerate the elements of S: There exists a polynomial-delay enumeration algorithm which outputs the elements of S.[De  Loera et al. 2007]   </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>◮</head><label></label><figDesc>Want to encode N, the set of PSNE configurations</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>◮</head><label></label><figDesc>a ′ those configurations where it is profitable for a player playing action a to deviate. Want to encode N, the set of PSNE configurations</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Compute PSNE in poly time by enumerating configurations ◮ We focus on compact representations of u a : those requiring only poly (log n) bits. while preserving PSNE, thus need only O(log n) bits. while preserving PSNE, thus need only O(log n) bits. while preserving PSNE, thus need only O(log n) bits. ◮ To check if x is in N, the set of of PSNE configurations, only need to check for each pair of actions a and a ′ , whether there is a profitable deviation from playing a to playing a ′ . ◮ Checking whether x ∈ N is in P (thus computing PSNE in NP)if the utility functions can be evaluated in poly time.</figDesc><table>◮ There are n+m−1 
+
+m−1 
+
+= Θ(n m−1 ) distinct configurations. 
+◮ In previous studies [e.g. Brandt, Fischer &amp; Holzer, 2009; 
+Roughgarden &amp; Papadimitriou, 2005], utility values are given 
+explicitly. 
+◮ ◮ Sanity check: 
+
+◮ Specifying input: need only m log n bits. 
+◮ Specifying output: can map utilities to 1, 2, . . . , n+m−1 
+
+m−1 
+
+◮ We focus on compact representations of u a : those requiring 
+only poly (log n) bits. 
+
+◮ Sanity check: 
+
+◮ Specifying input: need only m log n bits. 
+◮ Specifying output: can map utilities to 1, 2, . . . , n+m−1 
+
+m−1 
+
+◮ Computing PSNE: with such a compact representation, is it 
+even in NP? 
+◮ We focus on compact representations of u a : those requiring 
+only poly (log n) bits. 
+
+◮ Sanity check: 
+
+◮ Specifying input: need only m log n bits. 
+◮ Specifying output: can map utilities to 1, 2, . . . , n+m−1 
+
+m−1 
+
+◮ Computing PSNE: with such a compact representation, is it 
+even in NP? 
+
+◮ How hard can it get? 
+◮ Represent each u a by a Boolean circuit 
+
+◮ general method for representing utility functions; complexity 
+for other circuit-based models studied in e.g. [Schoenebeck &amp; 
+Vadhan, 2006] 
+
+◮ Compact when number of gates is poly (log n) 
+◮ How hard can it get? 
+◮ Represent each u a by a Boolean circuit 
+
+◮ general method for representing utility functions; complexity 
+for other circuit-based models studied in e.g. [Schoenebeck &amp; 
+Vadhan, 2006] 
+
+◮ Compact when number of gates is poly (log n) 
+
+Theorem (Circuit symmetric games) 
+
+◮ When utilities are represented by Boolean circuits, and m ≥ 3, 
+deciding if a PSNE exists is NP-complete. 
+
+◮ When m = 2, there exists at least one PSNE and a sample 
+PSNE can be found in poly time. 
+
+◮ existence of PSNE for the m = 2 case was proved by [Cheng, Reeves, 
+Vorobeychik &amp; Wellman 2004]; also follows from the fact that such a 
+game is a potential game. 
+◮ We can do better by considering a natural subclass: 
+piecewise-linear functions. 
+
+Theorem (Informal version) 
+
+When utilities are expressed as piecewise-linear functions, there 
+exist polynomial time algorithms to decide if a PSNE exists and 
+find a sample equilibrium. 
+◮ Domain of utility functions: 
+configurations 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Consider a symmetric game with PWL utilities given by the following input:◮ Encode the set of PSNE by a rational generating function. Leverage theory from encoding sets of polytopal lattice points.◮ Encode the set of PSNE by a rational generating function. Leverage theory from encoding sets of polytopal lattice points.</figDesc><table>ua(x) 
+◮ the binary encoding of the number n of 
+players; 
+
+◮ for each a ∈ A, the utility function ua(x) 
+represented as the binary encoding of the 
+inequality description of each Paj and 
+affine functions faj . 
+
+ua(x) 
+Consider a symmetric game with PWL utilities 
+given by the following input: 
+
+◮ the binary encoding of the number n of 
+players; 
+
+◮ for each a ∈ A, the utility function ua(x) 
+represented as the binary encoding of the 
+inequality description of each Paj and 
+affine functions faj . 
+
+Then, when the number of actions m is fixed, 
+and even when the number of pieces are 
+poly (log n), there exists 
+
+1. a polynomial-time algorithm to compute 
+the number of PSNE 
+
+2. a polynomial-time algorithm to find a 
+sample PSNE 
+
+3. a polynomial-space, polynomial-delay 
+enumeration algorithm to enumerate all 
+PSNE. 
+
+ua(x) 
+◮ ◮ previously applied in combinatorics, optimization, compiler 
+design [e.g. De Loera et al. 2007] 
+◮ ◮ previously applied in combinatorics, optimization, compiler 
+design [e.g. De Loera et al. 2007] 
+
+D 
+
+x 3 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>Polynomial number of disjoint unions ◮ Once the pieces P a,j and P a ′ ,j ′ fixed, can formulate profitable deviation as a set of linear constraints ◮ x a ≥ 1: at least one player chose a D a,a ′ = Pa,j ∈Pa P a ′ ,j ′ ∈P a ′</figDesc><table> 
+ 
+
+ 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">/ 18</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">◮ We focus on compact representations of u a : those requiring only poly (log n) bits.4 / 18</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4">/ 18</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5">/ 18</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">◮ We can do better by considering a natural subclass:piecewise-linear functions.6 / 18</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6">/ 18</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="12">/ 18</note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Once the pieces P a,j and P a ′ ,j ′ fixed, can formulate profitable deviation as a set of linear constraints</p><p>◮ Therefore N can be expressed as a short rational generating function</p><p>Polynomial number of disjoint unions ◮ Once the pieces P a,j and P a ′ ,j ′ fixed, can formulate profitable deviation as a set of linear constraints ◮ x a ≥ 1: at least one player chose a ◮ x ′ = x + e a ′ − e a : result of deviating from a to a ′ ◮ f a,j (x) ≤ f a ′ ,j ′ (x ′ ) − 1: since utilities are integers, equivalent to f a,j (x) &lt; f a ′ ,j ′ (x ′ ) ◮ Therefore N can be expressed as a short rational generating function ◮ Can check existence of PSNE via counting operation; find a sample PSNE via enumeration operation. utilities (FPTAS).</p><p>◮ Encode the PSNEs of a parameterized family of symmetric games with utility pieces:</p><p>where p is a fixed dimensional integer vector of parameters inside a polytope.</p><p>◮ Answer questions about PSNEs of the family of games without solving each game ◮ e.g. finding parameter p that optimizes some objective.</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

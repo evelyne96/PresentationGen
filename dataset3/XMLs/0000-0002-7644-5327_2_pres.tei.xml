@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Introduction Density modelling Survey site optimisation Image classification Modeling and Monitoring Crop Disease in Developing Countries</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">John</forename><surname>Quinn</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">Makerere University</orgName>
+								<address>
+									<country key="UG">Uganda</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ernest</forename><surname>Mwebaze</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Introduction Density modelling Survey site optimisation Image classification Modeling and Monitoring Crop Disease in Developing Countries</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>1 / 31</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Density modelling Survey site optimisation Image classification Density modelling problem</p><p>In a crop disease survey, each plant is assigned a disease level y i ∈ {d 1 , ..., d D }.</p><p>The observed data is of the form D = {x i , y i |i = 1, . . . , N} where x i ∈ R 2 is a spatial location.</p><p>We would like to infer P(y * |x * , D).</p><p>Can then calculate things like incidence, the proportion of infected plants: P(y * &gt; d 1 |x * ).</p><p>We should deal with the observations y i as ordinal categories, d 1 &lt; d 2 &lt; · · · &lt; d D , and not code them as numbers: we do not have a principled way of mapping these categories to the real line, for example.</p><p>If possible, we should deal with observations in continuous space, rather than losing information through aggregation. It is more important to assess whether an area is diseased or not, than to accurately guess the specific severity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Density modelling Survey site optimisation Image classification Survey utility</p><p>Our utility function, for guessingŷ given truth y is</p><formula xml:id="formula_0">u y (ŷ ) = −OptimismFactor (y ,ŷ ) · (Error (y ,ŷ ) + DiseasePenalty (y ,ŷ ))</formula><p>where Error (y ,ŷ ) = |y −ŷ | D − 1 ;</p><p>DiseasePenalty (y ,ŷ ) = α y = 1 XORŷ = 1 0 otherwise;</p><p>OptimismFactor (y ,ŷ ) = β y &gt;ŷ 1 otherwise. Gaussian process ordinal regression</p><p>We can use GP regression with ordinal observed data to model density in continuous space.</p><p>First, define a hidden function of the location f (x i ), and specify a covariance between the function at different positions:</p><formula xml:id="formula_1">K (x i , x j ) = exp − κ 2 x i,1 − x j,1 2 + x i,2 − x j,2 2</formula><p>Then relate the observations with this hidden function with a likelihood term: p(y i |f (x i )).</p><p>We then integrate out f (x i ) to obtain a distribution across ordinal categories at each location.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Density modelling Survey site optimisation Image classification GPOR inference example  In the usual active learning setting, this is straightforward: go to the places where the estimate is most uncertain.</p><formula xml:id="formula_2">(b) x = B d1 d2 d3 d4 d5 y 0.0 0.3 0.6 0.9 P (y|x, D) (c) x = C Introduction</formula><p>We have an online variation of this problem: surveyors are on a road circuit (represented as a 1D manifold R), and we keep moving in the same direction.</p><p>Hence we will often prefer to sample a nearby point before sampling a distant point, even if the latter is expected to be more informative.</p><p>Currently, the survey plan is to sample at roughly equal intervals along R. Beyond the smallest number of survey locations (sampling too sparse for adaptive method to be effective), and high number of locations (in which every location is thoroughly sampled) the mean utility ratio L Adaptive L Regular is significantly below 1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Density modelling</head><p>Survey site optimisation Image classification Image-based classification of disease One of the constraints on crop disease surveying currently is the scarcity of experts.</p><p>When mobile data collection replaces paper-based surveying, camera-phones can be used to collect image data.</p><p>If we can use these images to perform a diagnosis of disease automatically, then agricultural extension workers with basic training can carry out the survey. We extract two types of features from these images: hue histograms, and SIFT descriptors.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Density modelling Survey site optimisation Image classification</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Classification</head><p>We classify using k-NN, where our distance is defined as an average of distances between the two types of features.</p><p>For hue histograms, the KL divergence is given by</p><formula xml:id="formula_3">D KL (h 1 , h 2 ) = ∑ i h 1,i log h 1,i h 2,i .</formula><p>For SIFT features, we calculate a mean µ and covariance Σ for each image. The KL divergence for multivariate Gaussian distributions is We compared the utiliy in our simulations with "expert" and "automated" labellings (in the latter, a random 8% of labels are wrong), where different quantities of data are available to the automated system. The automated scheme has equivalent utility when at least 70% extra data is obtained.</p><formula xml:id="formula_4">D KL (µ 1 , Σ 1 , µ 2 , Σ 2 ) = 1 2 trace Σ 1 Σ −1 2 + Σ 2 Σ −1 1 − 2I+ Σ −1 1 + Σ −1 2 (µ 1 − µ 2 ) (µ 1 − µ 2 ) .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Density modelling</head><p>Survey site optimisation Image classification</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Summary</head><p>We have introduced a density model, survey optimisation method, and image-based disease classification method.</p><p>These techniques can bring significant savings in both survey cost and time.</p><p>This also increases in the amount of data which can be collected: extension workers can be issued with phones and provide data year round.</p><p>We are planning national survey of cassava disease in Uganda this year.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Small errors are better than big errors.</figDesc><table>Introduction 
+
+Density modelling 
+Survey site optimisation 
+Image classification 
+
+Survey utility 
+
+Our goal is to come up with accurate estimates of the areas we 
+have not sampled directly. We have three principles, elicited 
+from our collaborators: 
+
+1 
+
+2 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>Comparison of GPOR with aggregationA comparison of the utility of GPOR and aggregate density models at different levels of aggregation (an n × n grid):</figDesc><table>Density modelling 
+Survey site optimisation 
+Image classification 
+
+2 
+4 
+6 
+8 
+10 
+
+n 
+
+0.0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1.0 
+
+U GPOR 
+U Agg 
+
+A loss ratio of less than 1 means that the GP model 
+outperformed the aggregation model. 
+Introduction 
+
+Density modelling 
+Survey site optimisation 
+Image classification 
+
+Survey site optimization 
+
+Given real time updates using mobile phones as data 
+collection tools (more about this later), we can dynamically 
+change the survey plan according to which regions are 
+most interesting. 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5" validated="false"><head></head><label></label><figDesc>Best classifier: AUC=0.961, error rate=0.078.</figDesc><table>Introduction 
+
+Density modelling 
+Survey site optimisation 
+Image classification 
+
+Utility comparison 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">Being wrongly optimistic-under-predicting the incidence of disease-is about twice as bad as being wrongly pessimistic.</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">extraction and classification implemented on $100 Android phone: 60,000 of these phones were sold in Kenya this year: significant potential for crowdsourcing</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

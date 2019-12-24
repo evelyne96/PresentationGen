@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Towards Feasible PAC-Learning of Probabilistic Deterministic Finite Automata</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2008-09-08">ICGI&apos;08, september 2008</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jorge</forename><surname>Castro</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Departament LSI Univ. Politècnica de Catalunya</orgName>
+								<orgName type="laboratory">LARCA Research Group</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Departament LSI Univ. Politècnica de Catalunya</orgName>
+								<orgName type="laboratory">LARCA Research Group</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Towards Feasible PAC-Learning of Probabilistic Deterministic Finite Automata</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2008-09-08">ICGI&apos;08, september 2008</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Learning PDFA Many algorithms to learn PDFA, either heuristically or provably in the limit [Clark-Thollard 04] An algorithm that provably learns in a PAC-like framework from polynomial-size samples Followup papers, slightly different frameworks: </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Distinguishability</head><p>For a state q, D q = distribution on strings generated starting at q </p><formula xml:id="formula_0">L ∞ -distinguishability L ∞ -dist(q, q ) = max x∈Σ |D q (x) − D q (x)| L ∞ -dist(M) = min q,q L ∞ -dist(q, q ) J.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Distinguishability</head><p>For a state q, D q = distribution on strings generated starting at q</p><formula xml:id="formula_1">L ∞ -distinguishability L ∞ -dist(q, q ) = max x∈Σ |D q (x) − D q (x)| L ∞ -dist(M) = min q,q L ∞ -dist(q, q )</formula><p>1. input |Σ|, n, δ, , µ, L // Assumption: // target is µ ≥ distinguishability, n ≥ #states, L ≥expected length 2. compute m = poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L) 3. ask for sample S of size m 4. work on S, using again n, , µ, L 5. produce pdfa Theorem PAC-learning w.r.t. KL-divergence occurs 1. input |Σ|, n, δ, , µ, L // Assumption: // target is µ ≥ distinguishability, n ≥ #states, L ≥expected length 2. compute m = poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L) 3. ask for sample S of size m 4. work on S, using again n, , µ, L 5. produce pdfa </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Our contributionA variation of the Clark-Thollard algorithm for learning PDFA that has formal guarantees of performance: PAC-learning w.r.t. KL-divergence does not require unknown parameters as input Potentially much more efficient:Finer notion of state distinguishability More efficient test to decide state merging/splitting Adapts to complexity of target: faster on simpler problems Extends to cyclic PDFA considering parameter L = bound on expected length of generated strings. Provably PAC-learns w.r.t. Kullback-Leibler divergence It provably PAC-learns with sample size But Requires full sample up-front: Always worst-case sample size Polynomial is huge: for n = 3, = δ = µ = 0.1 → m &gt; 10 24 Parameters n, L, µ are user-entered -upper bounds, guesswork</figDesc><table>Introduction 
+
+Promising results on simple dynamical systems, and on a large 
+weblog dataset 
+Previous Results 
+
+PAC-learning PDFA this way may be impossible [Kearns et al 95] 
+
+[Ron et al 96] Learning becomes possible by 
+
+considering acyclic PDFA 
+introducing a distinguishability parameter µ 
+= bound on how similar two states can be 
+
+[Clark-Thollard 04] 
+
+poly (|Σ|, n, ln 
+1 
+δ 
+, 
+1 , 
+1 
+µ 
+, L) 
+
+J. Castro, R. Gavaldà (UPC) 
+PAC-Learning PDFA 
+ICGI'08, september 2008 
+7 / 22 
+
+Definitions &amp; previous results 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>If |S| ≥ poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L), then PAC-learning w.r.t. KL-divergence occurs(n =#target states, µ = prefL ∞ -dist(target), L =expected-length(target))If |S| ≥ poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L), then PAC-learning w.r.t. KL-divergence occurs (n =#target states, µ = prefL ∞ -dist(target), L =expected-length(target))</figDesc><table>Theorem 
+PAC-learning w.r.t. KL-divergence occurs 
+
+J. Castro, R. Gavaldà (UPC) 
+PAC-Learning PDFA 
+ICGI'08, september 2008 
+11 / 22 
+1. input |Σ|, δ, available sample S 
+2. work on S 
+3. produce pdfa 
+
+Theorem 
+
+J. Castro, R. Gavaldà (UPC) 
+PAC-Learning PDFA 
+ICGI'08, september 2008 
+12 / 22 
+1. input |Σ|, δ, available sample S 
+2. work on S 
+3. produce pdfa 
+
+Theorem 
+
+J. Castro, R. Gavaldà (UPC) 
+PAC-Learning PDFA 
+ICGI'08, september 2008 
+12 / 22 
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">Definitions &amp; previous results</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">define initial safe state, labelled with empty string 3. define candidate states out of initial state</title>
+		<imprint/>
+	</monogr>
+	<note>input |Σ|, δ, available sample 2.. one per letter 4. while there are candidate states left do 5. process the whole sample, growing sets B (s,σ</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">choose candidate state (s, σ) with largest set B (s,σ)</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">(s, σ) is distinct from all existing states</title>
+		<editor>// w.h.p.</editor>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">// some test failed: (s, σ) similar to an existing safe state s 8. identify (merge) (s, σ) with s</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

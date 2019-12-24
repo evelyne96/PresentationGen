@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">An Algebraic Perspective on Boolean Function Learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2010-04-05">April 5th, 2010</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Thérien</surname></persName>
+						</author>
+						<title level="a" type="main">An Algebraic Perspective on Boolean Function Learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2010-04-05">April 5th, 2010</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In order to systematize existing results, we propose to analyze the learnability of boolean functions computed by an algebraically defined model, programs over monoids. The expressiveness of the model, hence its learning complexity, depends on the algebraic structure of the chosen monoid. We identify three classes of monoids that can be identified, respectively, from Membership queries alone, Equivalence queries alone, and both types of queries. The algorithms for the first class are new to our knowledge, while for the other two are combinations or particular cases of known algorithms. Learnability of these three classes captures many previous learning results. Moreover, by using nontrivial taxonomies of monoids, we can argue that using the same techniques to learn larger classes of boolean functions seems to require proving new circuit lower bounds or proving learnability of DNF formulas.</p><p>This work was presented at ALT'2009. This version includes some proofs omitted in the ALT'2009 proceedings.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>In his foundational paper <ref type="bibr" target="#b33">[Val84]</ref>, Valiant introduced the (nowadays called) PAC-learning model, and showed that conjunctions of literals, monotone DNF formulas, and k-DNF formulas were learnable in the PAC model. Shortly after, Angluin proposed the (nowadays called) Exact learning from queries model, proved that Deterministic Finite Automata are learnable in this model <ref type="bibr" target="#b2">[Ang87]</ref>, and showed how to recast Valiant's three learning results in the exact model <ref type="bibr" target="#b3">[Ang88]</ref>.</p><p>Valiant's and Angluin's initial successes were followed by a flurry of PACor Exact learning results, many of them concerning (as in Valiant's paper) the learnability of Boolean functions, others investigating learnability in larger domains. For the case of Boolean functions, however, progress both in the pure (distribution-free, polynomial-time) PAC model or in the exact learning model has slowed down considerably in the last decade.</p><p>Certainly, one reason for this slowdown is the admission that these two models do not capture realistically many Machine Learning scenarios. So a lot of the effort has shifted to investigating variations of the original models that accommodate these features (noise tolerance, agnostic learning, attribute efficiency, distribution specific learning, subexponential time, . . . ), and important advances have been made here.</p><p>But another undeniable reason of the slowdown is the fact that it is difficult to find new learnable classes, either by extending current techniques to larger classes or by finding totally different techniques. Many existing techniques seem to be blocked by the frustrating problem of learning DNF, or by our lack of knowledge of basic questions on boolean circuit complexity, such as the power of modular or threshold circuits.</p><p>In this paper, we use algebraic tools for organizing many existing results on Boolean function learning, and pointing out possible limitations of existing techniques. We adopt the program over a monoid as computing model of Boolean functions <ref type="bibr" target="#b4">[Bar89,</ref><ref type="bibr" target="#b10">BST90]</ref>. We use existing, and very subtle, taxonomies of finite monoids to classify many existing results on Boolean function learning, both in the Exact and PAC learning models, into three distinct algorithmic paradigms.</p><p>The rationale beyond the approach is that the algebraic complexity of a monoid is related to the computational complexity of the Boolean functions it can compute, hence to their learning complexity. Furthermore, the existing taxonomies of monoids may help in detecting corners of learnability that have escaped attention so far because of lack of context, and also in indicating barriers for a particular learning technique. We provide some examples of both types of indications. Similar insights have led in the past to, e.g., the complete classification of the communication complexity of boolean functions and regular languages [TT05, CKK + 07].</p><p>More precisely, we present three classes of monoids that are learnable in three different Exact learning settings:</p><p>Strategy 1: Groups for which lower bounds are known in the program model, all of which are solvable. Boolean functions computed over these groups can be identified from polynomially many Membership queries and, in some cases, in polynomial or quasipolynomial time. Membership learning in polynomial time is impossible for any monoid which is not a solvable group.</p><p>Strategy 2: Monoids built as wreath products of DA monoids and pgroups. These monoids compute boolean functions computed by decision lists whose nodes contain MOD p gates fed by NC 0 functions of the inputs. These are learnable from Equivalence queries alone, hence also PAC-learnable, using variants of the algorithms for learning decision lists and intersection-closed classes. The result can be extended to MOD m gates (for nonprime m) with restrictions on their accepting sets. All monoids in this class are nonuniversal (cannot compute all boolean functions), in fact the largest class known to contain only nonuniversal monoids. We argue that proving learnability of the most reasonable extensions of this class (either in the PAC or the Equivalence-query model) requires either new circuit lower bounds or learning DNF.</p><p>Strategy 3: Monoids in the variety named LG p m Com. Programs over these monoids are simulated by polynomially larger Multiplicity Automata (in the sequel, MA) over the field F p , and thus are learnable from Membership and Equivalence queries. Not all MA can be translated to programs over such monoids; but all classes of Boolean functions that, to our knowledge, were shown to be learnable via the MA algorithm (except the full class of MA itself) are in fact captured by this class of monoids. We conjecture that this is the largest class of monoids that can be polynomially simulated by MA, hence it defines the limit of what can be learned via the MA algorithm in our algebraic setting.</p><p>These three classes subsume a good number of the classes of Boolean functions that have been proved learnable in the literature, and we will detail them when presenting each of the strategies. Additionally, with the algebraic interpretation we can examine more systematically the possible extensions these results, at least within our framework. By examining natural extensions of our three classes of monoids, we can argue that any substantial extension of two of our three monoid classes provably requires solving two notoriously hard problems: either proving learnability of DNF formulas or proving new lower bounds for classes of solvable groups. This may be an indication that substantial advance on the learnability of circuit-based classes similar to the ones we capture in our framework may require new techniques.</p><p>Admittedly, there is no reason why every class of boolean functions interesting from the learning point of view should be equivalent to programs computed over a class of monoids, and certainly our classification leaves out many important classes. Among them are classes explicitly defined in terms of threshold gates, or by read-k restrictions on the variables, or by monotonicity conditions. This is somehow unavoidable in our setting, since threshold gates have no natural analogue on finite monoids, and because multiple reads and variable negation are free in the program model. Similarly, the full classes of MA and DFA cannot be captured in our framework, since for example the notion of automata size is critically sensitive to the order in which the inputs are read, while in the program model variables can always be renamed with no increase in size.</p><p>Our taxonomy is somehow complementary to that involving threshold functions, as in <ref type="bibr" target="#b19">[HS07,</ref><ref type="bibr" target="#b27">She08]</ref>. Some classes of Boolean functions are captured by both that approach and ours, while each one contains classes not captured by the other.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Background</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Boolean functions</head><p>We build circuits typically using AND, OR, and MOD gates. We sometimes use and, or to denote AND and OR gates of bounded fan-in, where the bound will be clear from the context. We use the generalized model of MOD m gates that come equipped with an accepting set A ⊆ [m] 1 indicated as superindex: A MOD A m gate outputs is 1 iff the sum of its inputs mod m is in A. We simply write MOD m gates to mean MOD A m gates with arbitrary A's. For each k, NC 0 k is the set of boolean functions depending each on at most k variables. We often compose classes of boolean functions. For two classes of boolean functions C and D, C • D denotes functions in C with inputs replaced with functions in D.</p><p>The class of functions DL is that computed by decision lists where each node contains one variable. Therefore, e.g., DL • NC 0 k are decision lists whose 1 [m] denotes the set {0 · · · − 1} throughout the paper.</p><p>nodes contain boolean functions depending on at most k variables. We will use the computation model called Multiplicity Automata, MA for short. The following is one of several equivalent definitions; see e.g. [BV96, BBB + 00] for more details. A multiplicity automaton over an alphabet Σ and a field F is a nondeterministic finite automaton over Σ where we associate an element of F to each transition. The value of the automaton on an input x ∈ Σ is the sum over all accepting paths of the products of the elements along the path, where sum and product are over the field. Alternatively, an MA with s states can be defined by associating an s × s matrix over F to each letter in Σ. The value of the automaton on x 1 . . . x n is the product of the matrices associated to letters x 1 , . . . x n , pre-and post-multiplied by two fixed row and column vectors.</p><p>We will at some point use the notion of rank of a binary tree, which is a useful combinatorial notion when discussing decision tree complexity <ref type="bibr" target="#b16">[EH89,</ref><ref type="bibr" target="#b9">Blu92]</ref>. Intuitively, it is the depth of the largest complete tree that can be embedded in the tree:</p><p>Definition 1 [EH89] The rank of a binary tree is defined as follows:</p><p>• The rank of a leaf is 0.</p><p>• If the two children of a tree T have ranks r L and r R , then the rank of T is r L + 1 if r L = r R , and is max{r L , r R } if r L = r R .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Learning Theory</head><p>We assume some familiarity with Valiant's PAC model and especially Angluin's model of Exact learning via queries. In the latter, a class of boolean functions C is agreed between Teacher and Learner. The Teacher fixes a target function f ∈ C on n variables in an adversarial way, and discloses n to the Learner, an algorithm. The Learner's goal is to identify f precisely.</p><p>To do so, it can ask Membership and Equivalence queries. A Membership query is a string x ∈ {0, 1} n , and the answer from the Teacher must be f (x). An Equivalence query is the representation of a function g, and the answer from the Teacher must be either 'Yes' if f = g, or a counterexample</p><p>x such that f (x) = g(x). The Learner succeeds if it eventually produces the representation of a function equal to f . To measure the resources used by the Learner, we assume that associated to C there is a notion of "function size"; typically C is defined by a set of representations of functions, and the size of f is the size of the shortest representation of f in C. This can be made formal through the notion of "representation class" that we omit here. The resources used by the Learner are measured as a function of n, the arity of the target function f , and the size of f in C, which we normally denote with s.</p><p>There are two variants of learning that we will mention: we say that the Learner "polynomially identifies C" if it identifies every f ∈ C using a polynomial (in the sense above) number of queries, and any amount of computation time. We say that it "polynomially learns C" if it does so using polynomial time. Thus, polynomial learning implies polynomial identification. Another kind of distinction arises considering the class of functions that the Learner can use as their final guesses for f and as intermediate hypothesis in the form of Equivalence queries. In proper learning, only (representations of) functions in C can be used; if a larger class can be used, learning is called improper. In this paper, we will in general allow improper learning.</p><p>We will use repeatedly the well-known Composition Theorem (see e.g. <ref type="bibr" target="#b21">[KLPV87]</ref>) which states that if a class C (with minor syntactical requirements) is learnable in polynomial time then C • NC 0 k is also learnable in polynomial time for every fixed k. The result is valid for both the Equivalencequery model and the PAC model, but the proof fails in the presence of Membership queries.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Monoids and Programs</head><p>Recall that a monoid is a set equipped with a binary operation that is associative and has an identity. All the monoids in this paper are finite; some of our statements about monoids might be different or fail for infinite monoids.</p><p>A group is a monoid where each element has an inverse. A monoid is aperiodic if there is some number t such that a t+1 = a t for every element a. Only the one-element monoid is both a group and aperiodic. A theorem by Krohn and Rhodes states that every monoid can be built from groups and aperiodic monoids by repeatedly applying the so-called wreath product. The wreath product of monoids A and B is denoted with A B.</p><p>A program over a monoid M is a pair (P, A), where A ⊆ M is the accepting set and P is an ordered list of instructions. An instruction is a triple (i, a, b) whose semantics is as follows: read (boolean) variable x i ; if x i = 0, emit element a ∈ M , and emit element b ∈ M if x i = 1. A list of instructions P defines a sequence of elements in M on every assignment a to the variables.</p><p>We denote with P (a) the product in M of this sequence of elements. If P (a) ∈ A we say that the program accepts a, and that it rejects a otherwise; alternatively, we say that the program evaluates to 1 (resp. 0) on a.</p><p>Each program on n variables thus computes a boolean function from A monoid M is said to divide a monoid N if M is a homomorphic image of a submonoid in N . A set of monoids closed under direct product and division (i.e., taking submonoids and homomorphic images) is called a variety (technically, a pseudovariety since we are dealing with finite monoids). The following varieties will appear in this paper:</p><p>• Com: All commutative monoids.</p><p>• Ab: All Abelian groups. Recall that every finite Abelian group is a direct product of a number of groups of the form Z p α i for different primes p i .</p><p>• G p : All p-groups, that is, groups of cardinality a power of the prime p.</p><p>• G nil : Nilpotent groups. For the purposes of this paper, a group is nilpotent iff it is the direct product of a number of groups, each of which is a p i -group for possibly different p i 's. All Abelian groups are nilpotent. For interpretation, it was shown in <ref type="bibr" target="#b24">[PT88]</ref> that programs over nilpotent groups are equivalent in power to polynomials of constant degree over a ring of the form (Z m ) k .</p><p>• G: The variety of all groups.</p><p>• DA: A variety of aperiodic monoids to be defined in Section 4.2. For interpretation, it was shown in <ref type="bibr" target="#b17">[GT03]</ref> that programs over monoids in DA are equivalent in power to decision trees of bounded rank. For a set of monoids M, we say for brevity "programs over M are learnable" or even "M is learnable" to mean "for every fixed M ∈ M, B(M ) is learnable", that is, there may be a different algorithm for each M ∈ M, with a different running time. In other words, each algorithm works for a fixed M that it "knows". Models where a single algorithm must work for a whole class of monoids are possible, but we do not pursue them in this paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Learning Programs over Monoids: Generalities</head><p>The following easy result is useful to compare the learning complexity of different monoids:</p><p>Fact 2 If M divides N and B(N ) is learnable (in any of the learning models in this paper), then B(M ) is also learnable.</p><p>In contrast, we do not know whether learnability is preserved under direct product (which is to say, by taking fixed-size boolean combinations of classes of the form B(M )): if it was, many of the open problems in this paper would be resolved, but have no general argument or counterexample.</p><p>A fact we will often use to tranfer learning results between monoid territory and circuit territory is the following, implicitly proved and used in <ref type="bibr" target="#b11">[BT88]</ref>. This is in fact true whenever G is a monoid that can implement a "reset operation", which for groups in particular can be implemented by taking product |G| times.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Learning from Small-Weight Assignments</head><p>The small-weight strategy applies to function classes with the following property.</p><p>Definition 4 For an assignment a ∈ {0, 1} n , the weight of a defined as the number of 1s it contains, and denoted w(a). A representation class C is k-narrowing if every two different functions f, g ∈ C of the same arity differ on some assignment of weight at most k. (k may actually be a function of some other parameters, such as the arity of f and g or their size in C).</p><p>The following is essentially proved in <ref type="bibr" target="#b18">[GTT06]</ref>.</p><p>Theorem 5 If C is k-narrowing, then C can be identified with n O(k) Membership queries (and possibly unbounded time).</p><p>The algorithm witnessing this is simple: ask all assignments in {0, 1} n of weight at most k, of which there are at most n O(k) . Then find any function f ∈ C consistent with all answers. By the narrowing property, that f must be equivalent to the target.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Groups with Lower Bounds</head><p>It was shown in <ref type="bibr" target="#b4">[Bar89]</ref> and <ref type="bibr" target="#b18">[GTT06]</ref>, respectively, that nonsolvable groups and nongroups can compute any conjunction of variables and their negations by a polynomial-size program. Any class of functions with this property is not n-narrowing, and by a standard adversary argument, it requires 2 n Membership queries to be identified. Therefore we have:</p><formula xml:id="formula_0">Fact 6 If M is not a group, or if M is a nonsolvable group, then B(M )</formula><p>cannot be identified with a subexponential number of Membership queries.</p><p>Therefore, Membership learnability of classes of the form B(M ) is restricted, at most, to solvable groups. There are two maximal subclasses of solvable groups for which lower bounds on their computational power are known, and in both cases the lower bound is essentially a narrowing property. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">For every group</head><formula xml:id="formula_1">G ∈ G p Ab there is a constant c such that B(M )</formula><p>is (c log s)-narrowing <ref type="bibr" target="#b10">[BST90]</ref>. Therefore, programs over G of length s can be identified from n O(log s) Membership queries.</p><p>The next two theorems give specific, time-efficient versions of this strategy for Abelian groups and G p Ab groups. These are, to our knowledge, new learning algorithms.</p><p>Theorem 8 For every Abelian group G, B(G) is learnable from Membership queries in time n c , for a constant c = c(G).</p><p>Theorem 9 For every G ∈ G p Ab with p prime, B(G) is learnable from Membership queries in n c log s time, for a constant c = c(G).</p><p>(Recall that s stands for the length of the shortest program computing the target function). Proofs are given in the Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Interpretation in Circuit Terms</head><p>Let us now interpret these results in circuit terms. It is easy to see that programs over a fixed Abelian group are polynomially equivalent to a boolean combination of some fixed number of MOD m gates, for some m. Also, it is shown in <ref type="bibr" target="#b10">[BST90]</ref> that programs over a fixed group in G p Ab are polynomially equivalent to MOD p • MOD m circuits. Such circuits were shown in <ref type="bibr" target="#b6">[BBTV97]</ref> to be polynomial-time learnable from Membership and Equivalence queries in polynomial time, by showing that they have small Multiplicity automata -a generalization of their construction is used in Section 5. Theorem 9 shows that Membership queries suffice, if quasipolynomial time is allowed:</p><p>Corollary 11 For every prime p and every m, the class of functions computed by MOD p • MOD m circuits of size s are learnable from Membership queries in time n O(log s) .</p><p>As an example, the 6-element permutation group on 3 points, S 3 , can be described as a wreath product Z 3 Z 2 . Intuitively each permutation can be described by a rotation and a flip, which interact when permutations are composed so direct product does not suffice. Programs over S 3 are polynomially equivalent to MOD 3 • MOD 2 circuits, and our result claims that they are learnable from n c log s Membership queries for some c.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Open Questions on Groups and Related Work</head><p>While programs over nilpotent groups can be identified from polynomially many Membership queries, we have not resolved whether a time-efficient algorithm exists, even in the far more powerful PAC+Membership model. In other words, we know that the values of such a program on all small-weight assignments are sufficient to identify it uniquely, but can these values be used to efficiently predict the value of the program on an arbitrary assignment?</p><p>In circuit terms, by results of <ref type="bibr" target="#b24">[PT88]</ref>, such programs can be shown to be polynomially equivalent to fixed-size boolean combinations of MOD m • NC 0 circuits or, equivalent, of polynomials of constant degree over Z m . We are not even aware of algorithms learning a single MOD A m • NC 0 circuit for arbitrary sets A. When m is prime, one can use Fermat's little theorem to make sure that the MOD m gate receives only inputs summing to either 0 or 1, at the expense of increasing the arity of the NC 0 part. Then, one can set up a set of linear equations where the unknowns are the coefficients of the target polynomial and each small-weight assignment provides an equation with constant term either 0 or 1. The solution of this system must be equivalent to the target function.</p><p>For solvable groups that beither nilpotent nor in G p Ab, the situation is even worse in the sense that we do not have lower bounds on their computational power, i.e., we cannot show that they are weaker than NC 1 . Observe that any learning result would establish a separation with NC 1 , conditioned to the cryptographic assumptions under which NC 1 is nonlearnable. In another direction, while lower bounds do exist for MOD p • MOD m circuits, we do not have them for MOD p • MOD m • NC 0 ; linear lower bounds for some particular cases were given in <ref type="bibr" target="#b14">[CGPT06]</ref>.</p><p>Let us note that programs over Abelian groups (equivalently, boolean combinations of MOD m gates) are particular cases of the multi-symmetric concepts studied in <ref type="bibr" target="#b7">[BCJ93]</ref>. Multi-symmetric concepts are there shown to be learnable from Membership and Equivalence queries, while we showed that for these particular cases Membership queries suffice. XOR's of k-terms and depth-k decision trees are special cases of MOD m • NC 0 previously noticed to be learnable from Membership queries alone <ref type="bibr">[BK]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Learning intersection-closed classes</head><p>In this section we observe that classes of the form DL • MOD A m • NC 0 are learnable from Equivalence queries (for some particular combinations of m and accepting sets A). The algorithm is actually the combination of two well-known algorithms (plus the composition theorem to deal with NC 0 ).</p><p>1) The algorithm for learning submodules of a module in <ref type="bibr" target="#b20">[HSW90]</ref> (though probably known before); 2) the algorithm in the companion paper extending it to nested differences of intersection-closed classes, also in <ref type="bibr" target="#b20">[HSW90]</ref>.</p><p>It had been shown in <ref type="bibr" target="#b6">[BBTV97]</ref> that decision lists whose nodes contain polynomials of constant degree over F 2 are learnable from Equivalence queries, essentially by the same algorithm. This result extends to other fields F p , the main point being that the accepting set plays no role in the case p = 2, but one must deal with it for other primes p.</p><p>We furthermore show that the classes above have natural algebraic interpretation, and use this interpretation that they may be very close to a stopping barrier for a certain kind of learning. is learnable from Equivalence queries. We can furthermore assume that the MOD m gates receive only variables (not constants) as inputs, since we can replace any constant 1 input with a dummy variables and appeal to the composition theorem again.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">The Learning Algorithm</head><p>Following <ref type="bibr" target="#b20">[HSW90]</ref>, for a class C, let nd(C) be the set of nested differences of concepts in C, i.e., of functions of the form f 1 − (f 2 − (f 3 − (. . . ))) with each f i ∈ C (we are here identifying the function f with the set of inputs on which f is 1). Also, let not(C) the set of negations of functions in C. Our algorithm is based on the observation that, for every class C containing the constant functions, DL • C = nd(not(C)). To see this, consider a function in DL • C. By inserting dummy nodes, we can assume w.l.o.g. that the list computing it starts with a node emitting 0 and that nodes emitting 0 and 1 alternate. Let the list be of the form L = (f, 0), (g, 1), L where f, g ∈ C and L denotes the rest of the list (and the function it computes). Observe then that the function computed by L is equivalent to the nested difference not(f ) − (not(g) − L ) and proceed inductively.</p><p>So we have to show that nd(C) is learnable, for C the class of MOD {0} m functions whose inputs are variables only. Every MOD {0} m function is the restriction to inputs in {0, 1} n of the set of solutions of a homogeneous equation over Z m , therefore a submodule of Z n m . The set of all submodules of Z n m is closed under intersection (the intersection of two submodules is a submodule), and therefore we are trying to learn nested differences of submodules of Z n m . Thus, we can apply the algorithm for learning nested differences, and learn the class with a number of queries equal to the maximum size of a set of linearly independent tuples in Z n m , which is known to be at most n log m. The hypothesis class is thus nested differences of submodules, where each submodule is defined as the span of a set of of previous counterexamples in {0, 1} n . Determining whether another vector belongs to the span of a given set of vectors amounts to solving systems of linear equations over Z n m , which can be done in polynomial time, and therefore the hypothesis class is polynomial-time evaluatable.</p><p>Note that in Theorem 12 the running time does not depend on the length of the decision list that is being learned. In fact, as a byproduct of this proof one can see that the length of these decision lists can be limited to a polynomial of m and n k without actually restricting the class of functions being computed. Intuitively, this is because there can be only as many linearly independent such MOD gates, and a node whose answer is determined by the previous ones in the decision list can be removed. Thus, for constant m and k, this class can compute at most 2 n O(1) n-ary boolean functions and is not universal.</p><p>Also, note that we claim this result for MOD m gates having all but 0 as accepting elements. In the special case that m is a prime p, we can deal with arbitrary accepting sets:</p><p>Lemma 13 For every prime p and every k,</p><formula xml:id="formula_2">DL • and k • MOD p • NC 0 k is included in DL • MOD [p]−{0} p • NC 0 (p−1)k 2 .</formula><p>(Observe that, in the above, each usage of MOD without a superscript allows for a different accepting set.) To prove Lemma 13, we show first that</p><formula xml:id="formula_3">every function in MOD A p is included in MOD [p]−{0} p • NC 0 p−1 .</formula><p>Indeed, by a now standard use of Fermat's little theorem, one can see that</p><formula xml:id="formula_4">MOD A p (x 1 , . . . , x n ) = a ∈A ( n i=1 x i − a) p−1 ,</formula><p>and distributing in the right-hand side, one obtains a 0/1-valued, degree-</p><formula xml:id="formula_5">(p−1) polynomial, computable in MOD [p]−{0} p •NC 0 p−1 .</formula><p>The and, equivalently the product, of k such polynomials is a polynomial of degree (p − 1)k, and the lemma follows. As a corollary of Theorem 12 and Lemma 13, we have:</p><p>Corollary 14 For every prime p and every k, DL • and k • MOD p • NC 0 k is learnable from Equivalence queries in time n c , where c = c(p, k).</p><p>If we ignore the issue of proper learning and polynomials in the running time, this subsumes at least the following known results:</p><p>• k-decision lists (which are DL • NC 0 ) <ref type="bibr" target="#b25">[Riv87]</ref>. k-decision lists in turn subsumed k-CNF and k-DNF, and rank-k decision trees. • Polynomials of constant degree over finite fields, restricted to boolean functions. When the field has prime cardinality p, these are equivalent to MOD p • NC 0 .</p><p>• Decision lists having polynomials of bounded degree over F 2 at the nodes <ref type="bibr" target="#b6">[BBTV97]</ref>.</p><p>• Strict width-2 branching programs <ref type="bibr" target="#b6">[BBTV97]</ref>. This is because it is easy to show that these are polynomially simulated by DL • MOD 2 • NC 0 .</p><p>These are virtually all known results on learning Boolean functions in the pure PAC model (no Membership queries) that do not involve threshold gates or read-restrictions, neither of which can be captured in our algebraic setting. Observe that each of them contains at most 2 n O(1) functions, hence is not universal. In the next section we remark that the class of monoids we have identified is in fact the largest known to contain only nonuniversal monoids, so it is no chance that it unifies these previous results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Interpretation in Algebraic Terms</head><p>Classes closely related to those in the previous section have clear precise algebraic interpretations. They involve the class DA of monoids, of which we give here an operational definition. Formal definitions can be found e.g. in <ref type="bibr" target="#b26">[Sch76,</ref><ref type="bibr" target="#b17">GT03,</ref><ref type="bibr" target="#b29">Tes03,</ref><ref type="bibr" target="#b30">TT04]</ref>.</p><p>Let M be a monoid in DA. Then the product of elements m 1 , . . . , m n in M can be determined by knowing the truth or falsehood of a fixed number of boolean conditions of the form "m 1 . . . m n , as a string over M , admits a factorization of the form L 0 a 1 L 1 a 2 . . . a k L k ", where 1) the a i are elements of M , 2) each L i is a language such that x ∈ L i can be determined solely by the set of letters appearing in x, and 3) the expression L 0 a 1 L 1 a 2 . . . a k L k is unambiguous, i.e., every string has at most one factorization in it.</p><p>As mentioned already in the introduction, it was shown in [GT03] that programs over monoids in DA are equivalent in power to decision trees in bounded rank <ref type="bibr" target="#b16">[EH89]</ref>, where the required rank of the decision trees is related to the parameter k in its definition in the particular DA monoid. In particular, programs over a fixed DA monoid can be simulated both by CNF and DNF formulas of size n O(1) and by decision lists with bounded-length terms at the nodes, and can be learned in the PAC and Equivalence-query models <ref type="bibr" target="#b16">[EH89,</ref><ref type="bibr" target="#b25">Riv87,</ref><ref type="bibr" target="#b28">Sim95]</ref>.</p><p>We then have the following characterization:</p><formula xml:id="formula_6">Theorem 15 1. B(DA G nil ) = m,k DL • MOD m • NC 0 k = m,k DL • MOD {0} m • NC 0 k . 2. B(DA G p ) = k DL • MOD p • NC 0 k = k DL • MOD {0} p • NC 0 k = k DL • MOD [p]−{0} p • NC 0 k .</formula><p>Proof. We prove part (1) by a series of claims: . This is a statement in circuit terms of the result in <ref type="bibr" target="#b24">[PT88]</ref> mentioned in the introduction, that nilpotent groups are equivalent in power to polynomials of constant degree over rings of the form (Z m ) k . Intuitively, the or ranges over the accepting subset of (Z m ) k , and the and checks every component of Z m .</p><p>Claim e. DL • OR • C = DL • C. This is because a check for f 1 ∨ · · · ∨ f s inside a node in a decision list can be simulated by s consecutive nodes, each checking some f i .</p><p>From claims a to e, we have that for every M ∈ DA G nil there is some k such that</p><formula xml:id="formula_7">B(M ) ⊆ DT k • or k • and k • MOD [0] m • and k ⊆ DL • and k • MOD [0] m • and k .</formula><p>Together with the following Claim f, this shows that for some K</p><formula xml:id="formula_8">B(M ) ⊆ DL • MOD [0] m • K .</formula><p>Claim f. For every k and p there is some</p><formula xml:id="formula_9">K = K(k, m) with and k • MOD [0] m ⊆ MOD [0] m • and K . Proof of Claim f. Let m = p α 1 1 · · · · · p α for distinct primes p i . Take a function f = f 1 ∧ · · · ∧ f k , where each f i ∈ MOD [0]</formula><p>m . Since a number is 0 modulo m if and only for all i it is 0 modulo p α i i , and MOD m functions are by definition 0/1-valued, we have for every i</p><formula xml:id="formula_10">f = k i=1 j=1 f ij where each f ij is in MOD p α i i [0]</formula><p>. Crucially, Beigel and Tarui <ref type="bibr" target="#b12">[BT94]</ref> showed that for every prime p and every α, and some r, every MOD p α [0] gate is equivalent to a degree-r, 0/1-valued polynomial over F p . That is, there are degree-r polynomials P ij over Z such that f ij = 1 if and only if P ij = 0 mod p j . Define now P j = k i=1 P ij , which is a degree kr polynomial. We have f = 1 if and only if, for every j, P j = 0 mod p j , i.e., p α j −1 j P j = 0 mod p α j j . By the Chinese Remainder Theorem, there is a polynomial P over Z of degree kr such that p α j −1 j P j = P mod p For part (2), use once more the Fermat trick to show that when p is prime, all accepting sets for MOD p functions except for the empty set and [p] have the same power, modulo NC 0 functions at the input. This way, one has Claim g for every nontrivial accepting set, not only [0].</p><p>From this theorem and Lemma 13, it follows that we can learn programs over DA G p monoids from Equivalence queries, yet we do not know how to learn (to our knowledge) programs over DA G nil in any model. This algebraic interpretation lets us explore this gap in learnability and, in particular, the limitation of the learning paradigm in the previous subsection.</p><p>Since every p-group is nilpotent and it can be shown that DA G nil monoids can only have nilpotent subgroups, we have</p><formula xml:id="formula_11">DA G p ⊆ DA G nil ⊆ DA G ∩ M nil ,</formula><p>where M nil is the class of monoids having only nilpotent subgroups. Yet, there is an important difference in what we know about DA G p and DA G nil . Following <ref type="bibr" target="#b29">[Tes03,</ref><ref type="bibr" target="#b30">TT04]</ref>, a monoid M is said to have the Polynomial Length Property (or PLP) if every program over M , regardless of its length, is equivalent to another one whose length is polynomial in n. Clearly, every monoid in PLP is nonuniversal, and the converse is conjectured in <ref type="bibr" target="#b29">[Tes03,</ref><ref type="bibr" target="#b30">TT04]</ref>. More specifically, the following was shown in <ref type="bibr" target="#b29">[Tes03,</ref><ref type="bibr" target="#b30">TT04]</ref>.</p><p>• Every monoid not in DA G ∩ M nil is universal.</p><p>• Every monoid in DA G p has the PLP, hence is not universal.</p><p>The question of either PLP or universality is thus open for DA G nil , sitting between DA G p and DA G ∩ M nil , so resolving its learnability may require new insights besides the intersection-closure/submodule-learning algorithm. Note that, contrary to one could think, DA G nil is not equal to DA G ∩ M nil : there are monoids that, in this context, can be built by using unsolvable groups and later using homomorphisms to leave only nilpotent groups that cannot be obtained starting from nilpotent groups alone. Current techniques seem insufficient (and may remain unable forever) to analyze even these traces of unsolvability.</p><p>Are there other extensions of DA G p that we could investigate from the learning point? The "obvious" is trying to extend the DA or G p parts separately. For the DA part, it is known <ref type="bibr" target="#b26">[Sch76,</ref><ref type="bibr" target="#b29">Tes03]</ref> that every aperiodic monoid not in DA necessarily is divided by one of two well-identified monoids, named U and BA 2 . Monoid U is the syntactic monoid of the language {a, b} aa{a, b} , and programs over U are equivalent in power, up to polynomials, to DNF formulas. Therefore, by Fact 2, extending DA in this direction implies learning at least DNF. Monoid BA 2 is the syntactic monoid of (ab) , and interestingly, although it is aperiodic, programs over it can be simulated (essentially) by OR gates fed by parity gates. In fact it in DA G p for every p, so we know it is learnable.</p><p>If we try to extend on the group part, we have already mentioned that the two classes of groups beyond G p for which we have lower bounds are G nil and G p Ab. We have already discussed the problems concerning DA G nil . For G p Ab, they correspond to MOD p • MOD m circuits, and we showed them to be learnable from Membership queries alone in the previous section. With Equivalence queries, however, learning MOD p •MOD m would also imply learning MOD p • MOD m • NC 0 and, as discussed in the previous section, this seems difficult because we cannot even prove now that these circuits cannot do NC 1 . In particular, even learning programs over S 3 (i.e. MOD 3 • MOD 2 circuits) from Equivalence queries alone seems unresolved now.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Learning as Multiplicity Automata</head><p>The learning algorithm for multiplicity automata [BV96, BBB + 00] elegantly unified many previous results and also implied learnability of several new classes. It has remained one of the "maximal" learning algorithms for boolean functions, in the sense that no later result has superseded it.</p><p>Theorem 16 [BV96, BBB + 00] Let F be any finite field. Functions Σ → F represented as Multiplicity Automata over a fixed finite field are learnable from Evaluation and Equivalence queries in time polynomial in the size of the MA and |Σ|.</p><p>We can use Multiplicity Automata to compute boolean functions as follows: We take Σ = {0, 1}, and some accepting subset A ⊆ F , and the function evaluates to 1 on an input if the MA outputs an element in A, and 0 otherwise. However, as basically argued in <ref type="bibr" target="#b6">[BBTV97]</ref> we can use Fermat's little theorem to turn an MA into one that always outputs either 0 or 1 (as field elements) with only polynomial blowup, and therefore we can omit the accepting subset.</p><p>In this section we identify a class of monoids that can be simulated by MA's, but not the other way round. Yet, it can simulate most classes of boolean functions whose learnability was proved via the MA-learning algorithm.</p><p>Note that it will be impossible to find a class of submonoids that, in our setting, is precisely equivalent (up to polynomial blowup) to the whole class of MA. This is true for the simple reason that the complexity of a function measured as "shortest program length" cannot grow under renaming of input variables: it suffices to change the variable names in the instructions of the program. MA, on the other hand, read their input in the fixed order x 1 , . . . , x n , so renaming the input variables in a function can force an exponential growth in MA size. Consider as an example the function n i=1 (x 2i−1 = x 2i ): clearly, it is computed by the MA of size O(n) that simply checks equality of appropriate pairs of adjacent letters in its input string. However, its permutation n i=1 (x i = x 2n−i+1 ) is the palindrome function, whose MA size is roughly 2 n over any field.</p><p>Our characterization uses the notion of Mal'tsev product of two monoids A and B, denoted A m B. We do not define the algebraic operation formally. We use instead the following property, specific to our case <ref type="bibr" target="#b34">[Wei87]</ref>: Let M be a monoid in LG p m Com, i.e., the Mal'tsev product of a monoid in G p by one in Com. Then, the product in M of a string of elements m 1 . . . m n can be determined from the truth of a fixed number of logical conditions of the following form: There are elements a 1 , . . . , a k in M and commutative languages L 0 , . . . , L k over M such that the number of factorizations of m 1 . . . m n of the form L 0 a 1 L 1 a 2 L 2 . . . L k−1 a k L k , taken modulo p, is is some given value p &lt; p.</p><p>Contrived as it seems, the class LG p m Com is a natural borderline in representation theory. Recent and deep work by Margolis et al <ref type="bibr" target="#b1">[AMV05,</ref><ref type="bibr" target="#b0">AMSV09]</ref> shows that semigroups in LG p m Com are exactly those that can be embedded into a semigroup of upper-triangular matrices over a field of characteristic p (and any size).</p><p>The main result in this section is:</p><p>Theorem 17 Let M be a monoid in LG p m Com. Suppose that M is defined as above by the a boolean combination of at most conditions of length at most k using commutative languages whose monoid has size C. Then every program of length s over M is equivalent to an MA over F p of size (s + C) c , where c = c(p, , k).</p><p>Corollary 18 Programs over monoids in LG p m Com are polynomially simulated by MAs over F p that are direct sums of constant-width MA's.</p><p>Proof. (of Theorem 17) (Sketch). Fix a program (P, A) over M of length s. Let m 1 , . . . m s be the sequence of elements in M produced by the instructions on P for a given input x 1 . . . x n . The value of P for an input, hence whether it belongs to A, can be determined from the truth or falsehood of conditions as described above, each one given by a tuple of letters a 1 , . . . , a k and commutative languages L 0 , . . . , L k . For each such condition, we build an MA to check it as follows: The MA is the direct sum of s k MA's, one for each of the positions where the a 0 . . . a k witnessing a factorization could appear. Each MA concurrently checks that each of the chosen positions contains the right a i (when the input variable producing the corresponding element m j is available) and concurrently checks whether the subword w i between a i and a i+1 is in the language L i . Crucially, since L i is in Com, membership of w i in L i can be computed by a fixedwidth automaton, regardless of the order in which the variables producing w i are read. The automaton produces 0 if this check fails for some i, and 1 otherwise. It can be checked that the resulting automaton for each choice has size polynomial in s.</p><p>For each condition L 0 a 1 L 1 . . . a k L k , counting the number of factorizations mod p amounts to taking the sum of the MA built for all possible guesses and adding them over F p .</p><p>To conclude the proof, take all MA's resulting from the previous construction and raise them to the p-th power. That increases their size by a power of p, and by Fermat's little theorem they become 0/1-valued. The boolean combination of several conditions can be then expressed by (a fixed number) of sums and products in F p , with polynomial blowup.</p><p>We next note that several classes that were shown to be learnable by showing they were polynomially simulated by MA.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 19</head><p>The following classes of boolean functions are polynomially simulated by programs over LG p m Com, hence are learnable from Membership and Equivalence queries as MA:</p><p>• Polynomials over F p (when viewed as computing boolean functions)</p><p>• Unambiguous DNF functions; these include decision trees k-term DNF for constant k.</p><p>• constant-degree, depth-three, ΣΠΣ arithmetic circuits <ref type="bibr" target="#b22">[KS06]</ref>, when restricted to boolean functions.</p><p>An interesting case is that of O(log n)-term DNF. It was observed in <ref type="bibr" target="#b23">[Kus97]</ref> c log n-term DNF can be rewritten into DFA of size roughly n c , hence learned from Membership and Equivalence queries by Angluin's algorithm <ref type="bibr" target="#b2">[Ang87]</ref>. It is probably false that c log n-term DNF can be simulated by programs over a fixed monoid in LG p m Com. However, we note that for every c and n, we note that for every c and n, c log n-term DNF is simulated by a monoid of size n c that is easily computed from c and n and commutative, hence in LG p m Com. Indeed, let M c,n be the monoid consisting of all bit vectors of length c log n, with bitwise-OR as monoid operation. Then a program over M c,n simulates a c log n-term DNF by reading x 1 , . . . x n in sequence and upon reading each x i emitting the vector that has 0 in the positions corresponding to terms proved to be false by the value of x i that is read. Then, a given DNF is true on an assignment if the product in M c,n of all vectors emitted in this way is not the all-0 vector. Thus, although O(log n)-term DNF is not strictly speaking captured by our framework, it is by a very uniform extension of it.</p><p>Finally, we conjecture that LG p m Com is the largest class of monoids that are polynomially simulated by MA, hence, the largest class we can expect to learn from MA within our algebraic framework:</p><p>Conjecture 20 If a monoid M is not in LG p m Com, then programs over M are not polynomially simulated by MA's over F p .</p><p>The proof of this conjecture should be within reach given the characterization given in <ref type="bibr" target="#b32">[TT06]</ref> of the monoids that are not in LG p m Com: this happens iff the monoid is divided by either the monoids U or BA 2 described before, or by a so-called T q monoid or by a monoid whose commutator subgroup is not a p-group. It would thus suffice to show that programs over these four kinds of monoids cannot always be polynomially simulated by MA over F p .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusions and Future Work</head><p>We have explained within three algorithmic paradigms a large fraction of known learning results on boolean functions that do not use threshold gates, restrictions on reads, or monotonicity conditions. Algebraic interpretations, in terms of programs over monoids, of each of the three paradigms sheds some light on the their limitations.</p><p>This approach could be taken as a framework to systematize results in other learning models, such as learning in the presence of noise, attributeefficient learning, or learning classes defined using monotonicity (by using existing notions of "monotone programs over monoids"). Now fix an Abelian group G, of cardinality g for short. Let (P, A) denote the target program, computing a boolean function f . We first note that we can assume w.l.o.g. that P is a list of instructions of the form (1, e, α 1 )(2, e, α 2 ) . . . (n, e, α n ), where e is the identity of G. This is because we can first reorder instructions according to the variable they read, merge instructions reading the same variable, factor out the product α of the constants emitted by each instruction upon reading 0 values, then assume that that α is the identity by multiplying the accepting set by α −1 . So learning the target function amounts to learning the sequence of constants α 1 , . . . α n and the set A ⊆ G.</p><p>Second, note that (P, A) induces an equivalence relation ∼ on the set [n] by setting i ∼ j iff α i = α j .</p><p>The algorithm first asks for the value of f on all assignments of weight at most g 2 +1, of which there are about n g 2 +1 . Let S + be that set of assignments, and S the subset of S + formed by assignments of weight at most g 2 . The algorithm then computes another equivalence relation ≈ in the following way: for every i, and a ∈ S, b ∈ {0, 1}, let a[i := b] be the assignment obtained by setting x i = b in a; we extend the notation to a[i := b; j := c] and so on with the obvious meaning. Then i ≈ j iff either i = j or for every a ∈ S we have f (a[i := 1; j := 0]) = f (a[i := 0; j := 1]); in words, whether setting x i and resetting x j , or the other way round, never makes a difference with respect to Membership in small weight assignments. This relation can be computed in polynomial time from the answers to S + .</p><p>Clearly, ≈ is reflexive and symmetric. To see that it is transitive, assume i ≈ j and j ≈ k, for distinct i, j, k. Take any assignment a ∈ S, and say that x j = 0 in S. and a similar argument holds when x j = 1. Therefore i ≈ k. Note also that if α i = α j , setting either x i or x j must have the same effect on the value of P on any assignment, and therefore i ∼ j implies i ≈ j, which in turn means | ≈ | ≤ | ∼ | ≤ g.</p><p>Having computed ≈, then the algorithm exhaustively runs through all functions f : | ≈ | → g and sets B ⊆ G standing for the guesses of coefficients for each equivalence class and accepting sets. There are g g · 2 g such guesses.</p><p>For each of them, f , the algorithm builds a program <ref type="figure">(P f , B)</ref>, where in P f the value of α i is set to f (r) for each i in the r-th equivalence class of ≈. The algorithm outputs any pair (P f , B) such that the function computed by (P f , B) equals f (a) on every a ∈ S, i.e., agrees with the target on all of S. At least one such (P f , B) exists: namely, the target program (P, A) which is of the form P f by the fact that ∼ refines ≈. And by Lemma 21, any such pair (P f , B) output by the program must agree with (P, A) not only on S but on all of {0, 1} n .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B: Proof of Theorem 9</head><p>We will use the following machinery from <ref type="bibr" target="#b10">[BST90]</ref> to analyze the computing power of groups in G p Ab, based on Fourier analysis on finite fields. Let F be a finite field of order at least 3. As is well known, F * is a cyclic group under the field multiplication. Fix a generator g of this group. For the purposes of this paper, a linear form on boolean variables x 1 . . . x n is an expression of the form g α 1 x 1 · · · · g αnxn = g i α i x i . Observe that a linear form is never 0, no matter the value of x 1 , . . . , x n ; this is a crucial difference between polynomials and sums of linear forms that largely explains the lower bound and, intuitively, makes learnability much easier.</p><p>The following result in <ref type="bibr" target="#b10">[BST90]</ref> translates programs over G p Ab to sums of linear characters over appropriate finite fields.</p><p>Fact 22 <ref type="bibr" target="#b10">[BST90]</ref> Let G be a monoid in G p Ab. Then there is a finite field F such that programs over G are polynomially simulated by sums of linear forms over F . That is, for every program over G on n variables and length s there is a sum of at most poly(n, s) linear forms equivalent to it; i.e., this sum evaluates to 0 on an assignment a if the program rejects a, and to 1 if the program accepts a.</p><p>In fact, a converse form of this result also holds, but we will not need it in this paper. Together with the following result it essentially provides the the lower bound 7, part (2).</p><p>Fact 23 <ref type="bibr" target="#b10">[BST90]</ref> For a fixed finite field F , any two sums of s linear characters are either equivalent or differ on an assignment of weight at most c log s, for a constant c = c(F ).</p><p>We now prove the learning result. Fix a group G ∈ G p Ab assume the target is computed by a program over G, and c be the constant given by Fact 23 for G. W.l.o.g., we will assume it is computed as a sum of at most s linear forms over a field F , where s is polynomially larger than the program's length. For brevity, we will from now on call sums of linear characters "polynomials", since they can be viewed as polynomials in the derived variables g x i ; hence s is the number of terms in the target polynomial.</p><p>The learning algorithm is as follows:</p><p>1. Read n and s;</p><p>2. Let W be the set of strings of length at most n and weight at most c log(s 2 n);</p><p>3. Ask Membership queries f (x · y) for every pair of strings x, y ∈ W with |x · y| = n;</p><p>4. Build (as described below) an MA over F out of the answers, and output it;</p><p>To describe how the MA is built, we need some terminology. The Hankel matrix of function f is the matrix whose rows and columns are indexed by {0, 1} and such that H[x, y] = f (xy). For this to make sense, we define f to evaluate to 0 on all bit vectors whose length is not n For every string x, row(x) and col(x) denote the row and column of H indexed by x. Equivalently, row(x) (resp., col(x)) is the function mapping each y to row(x)(y) = f (x · y) (resp., col(x)(y) = f (y · x)). For a subset S ⊆ {0, 1} , we denote by row S (x) and col S (x) the restriction of the functions above to arguments in S (equivalently, the subvector of row(x) / col(x) indexed by strings in S).</p><p>The MA is built as follows. Intuitively, we use some strings in W to stand for states of the MA. The states are naturally grouped in n + 1 "levels" = 0 . . . n, corresponding to their distance from the initial state, but also to the lengths of the strings labelling the states.</p><p>1. For every = 0 . . . n, choose a maximal set S = {s 1 , . . . , s r } of strings in W of length such that the r vectors row W (s i ) are linearly independent in F . That is, S forms a basis for the set of vectors { row W (x) | x ∈ W, |x| = }. Note that r 0 = 1 and that s 0 1 = .</p><p>2. For = 0 . . . n, choose a minimal set E = {e 1 , . . . , e r } of strings in W of length n − such that the submatrix H[S , E ] has full rank r . Note that indeed we must have |E | = |S | = r , and that we have |s i e j | = n for every i, j.</p><p>3. For every s i and every a ∈ {0, 1}, express row E +1 (s i ·a) as a linear combination of the row E +1 (s +1 j ), with coefficients µ ,i,a,j . This is always possible because H[S , E ] has full rank.</p><p>4. The MA has a state named s j for every = 0 . . . n and j = 1 . . . r .</p><p>The label of the transition from state s i to state s +1 j with letter a is the coefficient µ ,i,a,j .</p><p>5. The initial state of the MA is s 0 1 = . The final states are those s n j ∈ S n such that f (s n j ) = 1.</p><p>Note that all the steps above can be carried out in time polynomial in |W | from the answers of the queries of the algorithm. The running time of the algorithm is thus polynomial in |W |, which is n O(log(s 2 n)) . We make the following claims:</p><p>Claim n =0 r ≤ n · s. Thus, for every , r ≤ n · s. Proof. This is because if f is computed by an s-term polynomial as described above, it is computed by an MA of size at most n · s. By the known result that the size of the smallest MA for a function is the rank of its Hankel matrix, there are at most ns linearly independent rows row(x) in H.</p><p>The following claim is the one where we exploit that the target is a sum of linear characters, rather than an arbitrary MA:</p><p>Claim For every y ∈ W having length n − , col(y) is a linear combination of the set of vectors col(e j ). In fact, the coefficients of this linear combination are exactly those expressing col S (x) as a linear combination of the r vectors col S (e j ).</p><p>Proof. To give the coefficients a name, let β y,j be such that col S (y) = r j=1 β y,j col S (e j ). Now observe that the function col S (y) is computed by a polynomial of size at most s, namely, the one obtained by setting the last n − arguments of P as in y. The same happens with each col S (e j ) function, and therefore the right hand side of the equation above is itself computed by a polynomial of size s · r ≤ s 2 n. Suppose that these two polynomials differ on any argument whatsoever. Then, since they have both size ≤ s 2 · n, by Fact 2 they must disagree on some argument in W . But if they disagree on some x ∈ W , then x witnesses that col W (y) is linearly independent of the set of vectors col W (e j ), because the unique coefficients that make the vectors equal on S fail on x. This contradicts the fact that H[S , E ] has rank r .</p><p>By the same proof we can show a similar claim for every x ∈ W of length and vectors row(s j ). But, using Claim 6, we can in fact extend the claim to every x, not necessary in W . The proof is similar to an analogous claim in the learning algorithm for MA, and omitted in this version.</p><p>Claim For every x ∈ {0, 1} of length |x| = , row(x) is a linear combination of the set of vectors row(s j ). In fact, the coefficients of this linear combination are exactly those expressing row E (x) as a linear combination of the r vectors row E (e j ). Proof. For any x of length and y of length n − , let us again give names to the coefficients: α and β are the sets of coefficients such that row E (x) = r j=1 α x,j row E (s j )</p><p>(1) col S (y) = r k=1 β y,k col S (e k )</p><p>Note that the α's and β's exist and are unique since H[S , E ] has full rank.</p><p>To prove the claim, fix x and assume that row(x) = r j=1 α x,j row(s j )</p><p>As in the proof of Claim 6, both left-hand side and right-hand side are functions computed by polynomials of size ≤ s 2 n, so if they differ anywhere they must differ on some y ∈ W . That is, for some y ∈ W we have f (xy) = row(x)(y) = r j=1 α x,j row(s j )(y)</p><p>On the other hand, by Claim 6 we have f (xy) = col(y)(x) = r k=1 β y,k col(e k )(x)</p><p>We now show that this cannot be the case by showing that the right-hand sides of equations <ref type="formula" target="#formula_13">(3)</ref> and <ref type="formula" target="#formula_14">(4)</ref>  which proves our claim.</p><p>Finally, using Claim 6 we can show that the MA produced by the algorithm is correct. Again, the proof is similar to the one for the MA learning algorithm and omitted in this version.</p><p>Claim The MA produced by the algorithm computes exactly f .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof.</head><p>We show how to compute f (x) given the coefficients µ ,i,a,j computed by the algorithm. For simplicity, we rename the states with a single subindex (instead of by a pair ( , i)), so the coefficients become µ i,a,j (and it will happen that µ i,a,j = 0 for sure whenever |s j | = |s i | + 1.)</p><p>Note that computing f (x) is equivalent to computing row( )(x). We show inductively how to compute row(s i )(z) for every suffix z of x every state s i , by induction on |z|.</p><p>For |z| = 0, we have row(s i )(z) = row(s i )( ) = f (s i ) which was a membership query we asked (this is the reason why s i is a final state in the MA iff f (s i ) = 1).</p><p>For z = az , and using Claim 6, we have row(s i )(z) = row(s i )(az ) = row(s i a)(z ) = = j µ i,a,j row(s j ) (z ) = j µ i,a,j (row(s j )(z )) and we can now compute row(s i )(z) because inductively we have computed row(s j )(z ) for suffix z and every s j .</p><p>Finally, we have f (x) = row( )(x) where = s 0 1 is the initial state. So the computation takes time polynomial in n and s.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>{0, 1} n to {0, 1}. For a monoid M , B(M ) is the set of boolean functions recognized by programs over M . If M is a set of monoids, B(M) is M ∈M B(M ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>monoid M defines a set of boolean functions B(M ) with an associated notion of function size, namely the length of the shortest program over M . The general question we ask is thus "given M and a learning model, is B(M ) polynomial-time learnable in that learning model?". Polynomiality (or other bounds) is on the number of variables and size in M of the target function, denoted with s as already mentioned.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fact 3</head><label>3</label><figDesc>For every monoid M and group G, B(M G) = B(M ) • B(G).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fact 7 1 .</head><label>1</label><figDesc>For every nilpotent group M there is a constant k such that B(M ) is k-narrowing [PT88]. Therefore B(M ) can be identified from n O(k) Membership queries (and possibly unbounded time).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head></head><label></label><figDesc>Corollary 10 For every m, boolean combinations of s MOD m gates are learnable from Membership queries in time n c , for c = c(m, s).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Theorem 12</head><label>12</label><figDesc>For every m and k the class DL•MOD [m]−{0} m •NC 0 k is learnable from Equivalence queries in time polynomial in m, 2 2 k , and n k . Proof. By the composition theorem, it suffices to show that DL•MOD [m]−{0} m</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>•</head><label></label><figDesc>Systems of equations over Z m (which are a subclass of DL•MOD [m]−{0} m ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head></head><label></label><figDesc>Claim a. B(DA G nil ) = B(DA) • B(G nil ), by Fact 3. Claim b. For every monoid M in DA there is some k such that B(M ) ⊆ DT kwhere DT k is the class of functions computed by rank-k decision trees. Viceversa, for every k there is some M k ∈ DA such that DT k ⊆ B(M k ). This was shown in<ref type="bibr" target="#b17">[GT03]</ref>. Claim c. For every k we have DT k ⊆ DL • and k . This was observed by Blum<ref type="bibr" target="#b9">[Blu92]</ref>.Claim d. For every nilpotent group G there are m and k such that B(G) ⊆ or m k •and k •MOD [0] m •and k . Vice-versa, for every c and m there is some nilpotent group G such that or c •and c •MOD [0] m •and c ⊆ B(G)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head></head><label></label><figDesc>every j. We thus have f = 1 if and only if P = 0 mod m, which means that f is in MOD [0] m • and kr . (end proof of Claim f ) The converse inclusion in part (1) of the theorem is that m,k DL • MOD m • NC 0 k ⊆ B(DA G nil ). It follows from the claims above with only one additional observation converse to Claim c: Claim g. For every k, DL • and k = DT 1 • and k .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head></head><label></label><figDesc>Then we have f (a[i := 1; k := 0]) = f (a[k := 0][i := 1; j := 0]) = f (a[k := 0][i := 0; j := 1]) = f (a[i := 0][k := 0; j := 1]) = f (a[i := 0][k := 1; j := 0]) = f (a[i := 0; k := 1])</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head></head><label></label><figDesc>are in fact equal, which contradicts the fact that they are respectively different from and equal to f (xy). Indeed, r j=1 α x,j row(s j )(y) = (by def. of row and col) r j=1 α x,j col(y)(s j ) = (because s j ∈ S ) r j=1 α x,j col S (y)(s j ) = (by def. of β, ,k col S (e k )(s j ) = (rearranging the sum) ,j col S (e k )(s j ) = (by def. of col and row and because e k ∈ E and s j ∈ S ) ,j row E (s j )(e k ) = (by def. of α, equation (1)) r k=1 β y,k row E (x)(e k ) = (because e k ∈ E ) r k=1 β y,k row(x)(e k ) = (by def. of row and col) r j=1 β y,k col(e j )(x).</figDesc></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendices</head><p>Appendix A: Proof of Theorem 8</p><p>We use the following lemma, showing that Abelian groups have the narrowing property. The proof is a very simple case of the proof in <ref type="bibr" target="#b24">[PT88]</ref> for all nilpotent groups, and is omitted in this version.</p><p>Lemma 21 Let f and g be two functions computed by programs over an Abelian group G. Then either f and g are identical, or they differ on an assignment of weight at most |G| 2 .</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Representation theory of finite semigroups, semigroup radicals and formal language theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jorge</forename><surname>Almeida</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Stuart</forename><forename type="middle">W</forename><surname>Margolis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Benjamin</forename><surname>Steinberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikhail</forename><forename type="middle">V</forename><surname>Volkov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trans. Amer. Math. Soc</title>
+		<imprint>
+			<biblScope unit="volume">3612</biblScope>
+			<biblScope unit="page" from="1429" to="1461" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">The pseudovariety of semigroups of triangular matrices over a finite field. RAIRO -Theoretical Informatics and Applications</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jorge</forename><surname>Almeida</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Stuart</forename><forename type="middle">W</forename><surname>Margolis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikhail</forename><forename type="middle">V</forename><surname>Volkov</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="31" to="48" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Learning regular sets from queries and counterexamples</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Angluin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information and Computation</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="87" to="106" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Queries and concept learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Angluin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="1988" />
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="319" to="342" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Bounded-width polynomial-size branching programs recognize exactly those languages in NC 1</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A</forename><surname>Barrington</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computer and System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="150" to="164" />
+			<date type="published" when="1989" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Learning functions represented as multiplicity automata</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">]</forename><forename type="middle">A</forename><surname>Bbb + 00</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Beimel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">H</forename><surname>Bergadano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Bshouty</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Kushilevitz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Varricchio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="506" to="530" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">On learning branching programs and small depth circuits</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Bergadano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">H</forename><surname>Bshouty</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Tamon</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Varricchio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. 3rd European Conference on Computational Learning Theory (EuroCOLT&apos;97)</title>
+		<meeting>3rd European Conference on Computational Learning Theory (EuroCOLT&apos;97)</meeting>
+		<imprint>
+			<publisher>Springer-Verlag LNCS</publisher>
+			<date type="published" when="1997" />
+			<biblScope unit="volume">1208</biblScope>
+			<biblScope unit="page" from="150" to="161" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">On learning embedded symmetric concepts</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Avrim</forename><surname>Blum</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Prasad</forename><surname>Chalasani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jeffrey</forename><forename type="middle">C</forename><surname>Jackson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">COLT</title>
+		<imprint>
+			<date type="published" when="1993" />
+			<biblScope unit="page" from="337" to="346" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Learning from membership queries / online learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Nader</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eyal</forename><surname>Bhshouty</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Kushilevitz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Course notes in N. Bshouty&apos;s homepage</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Rank-r decision trees are a subclass of r-decision lists</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Avrim</forename><surname>Blum</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information Processing Letters</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="183" to="185" />
+			<date type="published" when="1992" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Non-uniform automata over groups. Information and Computation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A</forename><surname>Barrington</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Straubing</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Thérien</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1990" />
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="page" from="109" to="132" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Finite monoids and the fine structure of NC 1</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A</forename><surname>Barrington</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="941" to="952" />
+			<date type="published" when="1988" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Richard</forename><surname>Beigel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jun</forename><surname>Tarui</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">On ACC. Computational Complexity</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="350" to="366" />
+			<date type="published" when="1994" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Learning behaviors of automata from multiplicity and equivalence queries</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Bergadano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Varricchio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Computing</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="1268" to="1280" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Lower bounds for circuits with mod m gates</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Arkadev</forename><surname>Chattopadhyay</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Navin</forename><surname>Goyal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pavel</forename><surname>Pudlák</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">FOCS</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="709" to="718" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Languages with bounded multiparty communication complexity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Andreas</forename><surname>Ckk + 07] Arkadev Chattopadhyay</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Michal</forename><surname>Krebs</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mario</forename><surname>Koucký</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pascal</forename><surname>Szegedy</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Tesson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">STACS</title>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="500" to="511" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Learning decision trees from random examples</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Andrzej</forename><surname>Ehrenfeucht</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><surname>Haussler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information and Computation</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="231" to="246" />
+			<date type="published" when="1989" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Algebraic characterizations of small classes of boolean functions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">STACS</title>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="331" to="342" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Learning expressions and programs over monoids</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pascal</forename><surname>Tesson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Inf. Comput</title>
+		<imprint>
+			<biblScope unit="volume">204</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="177" to="209" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">On pac learning algorithms for rich boolean function classes</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lisa</forename><surname>Hellerstein</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Rocco</forename><forename type="middle">A</forename><surname>Servedio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theor. Comput. Sci</title>
+		<imprint>
+			<biblScope unit="volume">384</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="66" to="76" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Learning nested differences of intersection-closed concept classes</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><forename type="middle">P</forename><surname>Helmbold</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Robert</forename><forename type="middle">H</forename><surname>Sloan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Manfred</forename><forename type="middle">K</forename><surname>Warmuth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="1990" />
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="165" to="196" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">On the learnability of boolean formulae</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Michael</forename><forename type="middle">J</forename><surname>Kearns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ming</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Leonard</forename><surname>Pitt</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Leslie</forename><forename type="middle">G</forename><surname>Valiant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">STOC</title>
+		<imprint>
+			<date type="published" when="1987" />
+			<biblScope unit="page" from="285" to="295" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Learning restricted models of arithmetic circuits</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Adam</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amir</forename><surname>Klivans</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Shpilka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theory of Computing</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="185" to="206" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A simple algorithm for learning o(logn)-term dnf</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eyal</forename><surname>Kushilevitz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Inf. Process. Lett</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="289" to="292" />
+			<date type="published" when="1997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Sur les langages reconnus par des groupes nilpotents. Compte-rendus de l&apos;Académie des Sciences de Paris</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Péladeau</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Colloquium on Computational Complexity</title>
+		<imprint>
+			<biblScope unit="page" from="93" to="95" />
+			<date type="published" when="1988" />
+			<publisher>ECCC</publisher>
+		</imprint>
+	</monogr>
+	<note>Translation to English as ECCC-TR01-040</note>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Learning decision lists</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ronald</forename><forename type="middle">L</forename><surname>Rivest</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="1987" />
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="229" to="246" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Sur le produit de concaténation non ambigu</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">P</forename><surname>Schützenberger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Semigroup Forum</title>
+		<imprint>
+			<date type="published" when="1976" />
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="47" to="75" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Communication lower bounds using dual polynomials</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alexander</forename><forename type="middle">A</forename><surname>Sherstov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bulletin of the EATCS</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="59" to="93" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Learning decision lists and trees with equivalence-queries</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hans-Ulrich</forename><surname>Simon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EuroCOLT</title>
+		<imprint>
+			<date type="published" when="1995" />
+			<biblScope unit="page" from="322" to="336" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<monogr>
+		<title level="m" type="main">Computational Complexity Questions Related to Finite Monoids and Semigroups</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pascal</forename><surname>Tesson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+		</imprint>
+		<respStmt>
+			<orgName>School of Computer Science, McGill University</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">PhD thesis</note>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pascal</forename><surname>Tesson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Monoids and computations. Intl. Journal of Algebra and Computation</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">5-6</biblScope>
+			<biblScope unit="page" from="801" to="816" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Complete classifications for the communication complexity of regular languages</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pascal</forename><surname>Tesson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theory Comput. Syst</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="135" to="159" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Bridges between algebraic automata theory and complexity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pascal</forename><surname>Tesson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Thérien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bull. of the EATCS</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="37" to="64" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A theory of the learnable</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">G</forename><surname>Valiant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Communications of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="1134" to="1142" />
+			<date type="published" when="1984" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Closure of varieties of languages under products with counter</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pascal</forename><surname>Weil</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. of Comp. Syst. Sci</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="229" to="246" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

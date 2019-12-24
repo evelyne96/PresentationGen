@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Empirically Evaluating Multiagent Reinforcement Learning Algorithms Empirically Evaluating Multiagent Reinforcement Learning Algorithms</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Asher</surname></persName>
+						</author>
+						<title level="a" type="main">Empirically Evaluating Multiagent Reinforcement Learning Algorithms Empirically Evaluating Multiagent Reinforcement Learning Algorithms</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>1/26</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A Platform for MARL: Details • Games from GAMUT software <ref type="bibr" target="#b8">[Nudelman et al., 2004]</ref> • Game properties solved by Gambit <ref type="bibr" target="#b6">[McKelvey et al., 2004]</ref> A Platform for MARL: Metrics</p><p>• Reward-based Metrics <ref type="formula">(7)</ref> eg. Reward, regret, incentive to deviate, # wins</p><p>• Nash Convergence-based Metrics <ref type="formula">(2)</ref>  • Fictitious play obtains highest avg. mean and median reward in 10x10 set.</p><p>• GIGA-WoLF achieves lower avg regret, sometimes negative.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>⇒ Designed with this goal in mind</head><p>Results: Nash Convergence-based</p><p>• No relationship between obtaining reward &amp; converging to a NE.</p><p>• Algorithms often converge, but often fail to converge. Results: Nash Convergence-based</p><p>• Algorithms converge more often exactly in self play than non-self play. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>•</head><label></label><figDesc>Open, reusable platform • Now available on the web • Object-oriented Matlab • All interaction through GUIs • Currently 12 algorithms (including ones described earlier)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>•</head><label></label><figDesc>Algorithms often converge "close" (&lt; 0.005) to a NE.⇒ 2x2: algorithms &gt; 70%; 10x10: Fictitious play &gt; 50%Fictitious playminimax−Q−IDR Q−learning GIGA−WoLF minimax−</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>•</head><label></label><figDesc>Platform proved to be extremely useful for this research Experiment ran for 2 CPU years on the cluster Survived several cluster outages • In analysis phase: GUI speeded up selection of interesting parameters Meant we probably ran more iterations of analysis • Configuration files made available for reproducibility</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>: eg .</head><label>eg</label><figDesc>Joint ℓ 1 distance to closest equilibrium • Estimating opponent's strategy (4): ℓ 1 distance between estimate and actual Visualisation • View 4D table (algorithms, games, iterations, runs) • User controlled in a step-by-step process • Can visualise specific subset of data cells in table and aggregate over the rest • eg: Average reward achieved by each agent overall; Box plot of a metric results for each algorithm pairing; Average distance to a NE in each game Empirical Test • Six Algorithms: GIGA-WoLF, GSA, Minimax-Q, Minimax-Q-IDR, Q-learning, Fictitious Play • Seven metrics • 1200 10x10 instances from 12 game generators • 1200 2x2 instances from TwoByTwo game generator • 100k iterations, 90k settle, 10k record • Kolmogorov-Smirnov Z test used to test statistical similarity</figDesc><table>High-level Observations 
+
+• 9 High-level observations, including: 
+
+1. No algorithm dominates 
+
+2. Different generators are required for accurate per-
+formance 
+
+3. No relationship between algorithm performance and 
+the number of actions in the game 
+
+4. Large experiments are easier to run on our platform 
+Results: Reward-based 
+
+• No algorithm obtains highest avg. reward in either 2x2 
+or 10x10 sets of generators. 
+
+⇒ Average reward is opponent dependent 
+• Q-learning achieves highest mean and median reward 
+in 2x2 set. 
+
+⇒ Averaged over all opponents, games 
+
+−1 
+−0.8 
+−0.6 
+−0.4 
+−0.2 
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+
+Fictitious play 
+
+GIGA−WoLF 
+
+GSA 
+
+minimax−Q 
+
+minimax−Q−IDR 
+
+Q−learning 
+
+Reward obtained (larger is better) 
+• Fictitious play obtains highest avg. mean and median 
+reward in 10x10 set. 
+
+−1 
+−0.8 
+−0.6 
+−0.4 
+−0.2 
+0 
+0.2 
+0.4 
+0.6 
+0.8 
+1 
+
+Fictitious play 
+
+GIGA−WoLF 
+
+GSA 
+
+minimax−Q 
+
+minimax−Q−IDR 
+
+Q−learning 
+
+Reward obtained (larger is better) 
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">24 game generators, 100 instances, 10k iterations = 504 million cells in the 4D data table</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Convergence of Gradient Dynamics with a Variable Learning Rate</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Bowling</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Veloso</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICML 18</title>
+		<imprint>
+			<date type="published" when="2001-07-01" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Convergence and no-regret in multiagent learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Bowling</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NIPS 17</title>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Iterative Solution of Games by Ficticious Play</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Activity Analysis of Production and Allocation</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1951" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">The Dynamics of Reinforcement Learning in Cooperative Multiagent Systems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Claus</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Boutilier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI 4</title>
+		<imprint>
+			<date type="published" when="1997-07-28" />
+			<biblScope unit="page" from="746" to="752" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Markov Games as a Framework for Multi-agent Reinforcement Learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Littman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICML 11</title>
+		<imprint>
+			<date type="published" when="1994" />
+			<biblScope unit="page" from="157" to="163" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Gambit: Software Tools for Game Theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">D</forename><surname>Mckelvey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">M</forename><surname>Mclennan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">L</forename><surname>Turocy</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+	<note>Version 0.97.0.6. http://econweb.tamu.edu/gambit</note>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Inverted Autonomous Helicopter Flight via Reinforcement Learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">Y</forename><surname>Ng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Coates</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Diel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Ganapathi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Schulte</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Tse</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Berger</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Liang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Int. Symposium on Experimental Robototics</title>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Run the GAMUT: A Comprehensive Approach to Evaluating Game-Theoretic Algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Wortman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAMAS 3</title>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Nash Convergence of Gradient Dynamics in General-Sum Games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kearns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Mansour</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI 16</title>
+		<imprint>
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Introduction to Stochastic Search and Optimization: Estimation, Simulation and Control</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">C</forename><surname>Spall</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Hoboken, New Jersey</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Reinforcement Learning, An Introduction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">S</forename><surname>Sutton</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">G</forename><surname>Barto</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999" />
+			<publisher>The MIT Press</publisher>
+			<pubPlace>Cambridge, Massachusetts</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Q-Learning: Technical Note</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">H</forename><surname>Watkins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Dayan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="1992" />
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="279" to="292" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

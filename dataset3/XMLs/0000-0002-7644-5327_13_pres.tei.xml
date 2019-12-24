@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Temporal Action-Graph Games: A New Representation for Dynamic Games Charles River Analytics</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><forename type="middle">Xin</forename><surname>Jiang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Avi</forename><surname>Pfeffer</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Temporal Action-Graph Games: A New Representation for Dynamic Games Charles River Analytics</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Game Theory In One Slide  • A game:</head><p>an interaction between two or more self-interested agents each agent independently chooses a strategy each agent derives utility from the resulting strategy profile </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>AGGs</head><p>• played on a set of action nodes • each agent chooses an action node from a subset of action nodes • for each action node, an action count is tallied  • d-separates "past" from "future"</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>•--</head><label></label><figDesc>utility dependence expressed by the action graph utility of an agent depends only on • action chosen by the agent • action counts on the neighbors of the chosen action (configuration) • representation is compact when action graph has small inarrive cars choose lanes simultaneously utility depends on number of cars choosing same lane • context-specific independence (CSI): different independencies under diff context (player's own action) • anonymity: utility depends on the numbers of agents taking certain actions, not their identities 20 cars arrive in 4 waves of 5 cars each in each wave, cars choose lanes simultaneously driver can observe number of cars in each lane utility depends on number of cars choosing same lane, either before him or at the same time • Extending AGGs to multiple time steps: -Action counts accumulate over time -Need to be able to specify agents' observations -Model uncertainty using chance variables N: set of players -T: duration set of actions set of chance variables set of decisions set of utility functions TAGGs • A decision D -Action set: a subset of -Observation set O[D]: of actions, decisions and chance vars -Set of payoff times pt(D) • Utility function -One for each action at each time step -Set of parents -Utility depends only on its parents' instantiation at time -Evaluated at payoff times of decisions Strategies • A behavior strategy at decision D is a mapping from an instantiation of O[D] at time t(D)-1 to a distribution over its action set. • A behavior strategy for player i is a tuple consisting of a behavior strategy for each of her decisions • Behavior strategy profile: tuple of behavior strategies for all players Induced Bayes Net • Induced BN of a TAGG given a strategy profile -Formally describes how the TAGG is played out -Decisions, chance variables and utilities correspond to random variables in the BN -Action counts are time-dependent: we have a separate action count variable for each action at each time step -Decision-payoff variable as utility of decision D received at payoff time -Expected utility of a player is the sum of the expected values of her decisions' decision-payoff variables. -Can similarly define induced MAID of a TAGG Induced BN / MAID: tollbooth example</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>• Strategies :</head><label>Strategies</label><figDesc>simultaneous-move games: choosing from a set of actions dynamic games: choosing actions at multiple points in time; conditioned on observations can randomize over actions • Reasoning about games:-Often involves computation of solution concepts e.g. Nash equilibrium</figDesc><table>Representations of Games 
+
+no utility 
+structure 
+
+Simultaneous-
+move 
+
+normal form 
+
+Temporal 
+
+extensive 
+form 
+
+Representations of Games 
+
+no utility 
+structure 
+
+strict utility 
+independence 
+
+Simultaneous-
+move 
+
+normal form 
+
+Graphical Games 
+
+[Kearns, Littman &amp; 
+Singh 2001] 
+
+Temporal 
+
+extensive 
+form 
+
+Multi-agent influence 
+diagrams 
+(MAIDs) [Koller &amp; Milch 
+
+2001] 
+
+Representations of Games 
+
+no utility 
+structure 
+
+strict utility 
+independence 
+
+context-specific 
+indep., anonymity 
+
+Simultaneous-
+move 
+
+normal form 
+
+Graphical Games 
+
+[Kearns, Littman &amp; 
+Singh 2001] 
+
+Action-Graph 
+
+Games (AGGs) 
+
+[Bhat &amp; Leyton-Brown 
+2004] 
+[Jiang &amp; Leyton-Brown 
+2006] 
+
+Temporal 
+
+extensive 
+form 
+
+Multi-agent influence 
+diagrams 
+(MAIDs) [Koller &amp; Milch 
+
+2001] 
+
+Representations of Games 
+
+no utility 
+structure 
+
+strict utility 
+independence 
+
+context-specific 
+indep., anonymity 
+
+Simultaneous-
+move 
+
+normal form 
+
+Graphical Games 
+
+[Kearns, Littman &amp; 
+Singh 2001] 
+
+Action-Graph 
+
+Games (AGGs) 
+
+[Bhat &amp; Leyton-Brown 
+2004] 
+[Jiang &amp; Leyton-Brown 
+2006] 
+
+Temporal 
+
+extensive 
+form 
+
+Multi-agent influence 
+diagrams 
+(MAIDs) [Koller &amp; Milch 
+
+2001] 
+
+Temporal 
+Action-Graph 
+Games 
+(TAGGs) 
+• AGGs 
+
+• TAGGs 
+
+• Computation 
+
+• Experiments 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>TAGGs and MAIDs• Any TAGG is utility-equivalent to its induced MAID -An essential step in many game-theoretic computations• Can be cast as inference problem on the induced BN: compute expected values of -Can apply standard BN inference algorithm -TAGGs have additional structure; can be exploited to speedup computation Exploiting anonymity • Induced BN has large in-degrees for action-count variables -Their CPDs are counting functions with causal independence structure [Heckerman&amp;Breese 1996] -Can reduce in-degree by transforming the BN Exploiting Temporal Structure • A network satisfies the Markov property if parents of variables at time t are at t or t-1. Parts of the transformed BN (action counts) satisfy MP -Can transform it to one satisfying MP by duplicating variables • Adapt the interface algorithm for Dynamic BNs interface: set of variables in time t that have children in time t+1</figDesc><table>-However, induced MAID (and BN) has large in-
+degree; exponentially larger representation size 
+
+• For the other direction, any MAID can be 
+efficiently encoded as a TAGG with same 
+space complexity 
+• AGGs 
+
+• TAGGs 
+
+• Computation 
+
+• Experiments 
+
+Computing Expected Utility 
+
+• Computing expected utility of a player, given a 
+behavior strategy profile 
+
+• Create nodes representing 
+intermediate counts 
+
+-</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

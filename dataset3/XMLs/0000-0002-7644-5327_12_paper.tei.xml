@@ -1,0 +1,801 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">An Experimental Investigation of Model-Based Parameter Optimisation: SPO and Beyond</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+							<email>hutter@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>201-2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<email>hoos@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>201-2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>201-2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><forename type="middle">P</forename><surname>Murphy</surname></persName>
+							<email>murphyk@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>201-2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">An Experimental Investigation of Model-Based Parameter Optimisation: SPO and Beyond</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>I28 [Artificial Intelligence]: Problem Solving, Control Meth- ods, and Search-Heuristic methods</term>
+					<term>G3 [Probability and Statis- tics]: Experimental design</term>
+					<term>G16 [Numerical Analysis]: Opti- mization-Global optimization General Terms Algorithms, Design, Experimentation, Performance Keywords Parameter Tuning, Noisy Optimization, Sequential Experimental Design, Gaussian Processes, Active Learning</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This work experimentally investigates model-based approaches for optimising the performance of parameterised randomised algorithms. We restrict our attention to procedures based on Gaussian process models, the most widely-studied family of models for this problem. We evaluated two approaches from the literature, and found that sequential parameter optimisation (SPO) [4] offered the most robust performance. We then investigated key design decisions within the SPO paradigm, characterising the performance consequences of each. Based on these findings, we propose a new version of SPO, dubbed SPO + , which extends SPO with a novel intensification procedure and log-transformed response values. Finally, in a domain for which performance results for other (model-free) parameter optimisation approaches are available, we demonstrate that SPO + achieves state-of-the-art performance.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Many high-performance algorithms-and in particular, many heuristic solvers for computationally challenging problems-expose a set of parameters that allow end users to adapt the algorithm to a specific target application. Optimising parameter settings is thus an important task in the context of developing, evaluating and applying such algorithms. Recently, a substantial amount of research has aimed at defining effective, automated procedures for parameter optimisation (also called algorithm configuration or parameter Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. To copy otherwise, to republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. GECCO'09, <ref type="bibr">July 8-12, 2009</ref>, Montréal Québec, Canada. Copyright 2009 ACM 978-1-60558-325-9/09/07 ...$5.00. tuning). More formally, given a parameterised target algorithm A, a set (or distribution) of problem instances I and a performance metric c, the goal is to find parameter settings of A that optimise c on I. The performance metric c is often based on the runtime required to solve a problem instance or, in the case of optimisation problems, on the solution quality achieved within a given time budget.</p><p>Several variations of this problem have been investigated in the literature. First, these formulations vary in the number and type of target algorithm parameters allowed. Much existing work deals with relatively small numbers of numerical (often continuous) parameters (see, e.g., <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b0">1]</ref>); some relatively recent approaches permit both larger numbers of parameters and categorical domains (see, e.g., <ref type="bibr" target="#b16">[17,</ref><ref type="bibr" target="#b8">9,</ref><ref type="bibr" target="#b15">16]</ref>). Second, approaches differ in whether or not explicit models (so-called response surfaces) are used to describe the dependence of target algorithm performance on parameter settings.</p><p>There has been a substantial amount of work on both model-free and model-based approaches. Some notable model-free approaches include F-Race by Birattari et al. <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b2">3]</ref>, the CALIBRA procedure by Adenso-Diaz &amp; Laguna <ref type="bibr" target="#b0">[1]</ref>, and ParamILS by Hutter et al. <ref type="bibr" target="#b16">[17]</ref>. State-of-the-art model-based approaches use Gaussian stochastic processes (also known as 'kriging models') to fit a response surface model. These models minimise the mean squared error between predicted and actual responses, using a non-parametric function to represent the mean. Combining such a predictive model with sequential decisions about the most promising next design point (based on a so-called expected improvement criterion) gives rise to a popular and widely studied approach in the statistics literature, which is known under the acronym DACE (Design and Analysis of Computer Experiments <ref type="bibr" target="#b20">[21]</ref>). An influential contribution in this field was the Efficient Global Optimisation (EGO) procedure by Jones et al. <ref type="bibr" target="#b18">[19]</ref>, which addressed the optimisation of deterministic black-box functions. Two independent lines of work extended EGO to noisy functions: the sequential kriging optimisation (SKO) algorithm by Huang et al. <ref type="bibr" target="#b14">[15]</ref>, and the sequential parameter optimisation (SPO) procedure by Bartz-Beielstein <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b3">4]</ref>.</p><p>In our study of model-based optimisation of randomised target algorithms, we maintain this focus on Gaussian process (GP) models. We also limit ourselves to the simple case of only one problem instance (which may be chosen as representative of a set or distribution of similar instances). We make this restriction because, while still retaining significant practical relevance and focusing on core conceptual issues, it allows us to avoid the problem of performance variation across a set or distribution of problem instances. (The management of such variation is an interesting and important topic of study; indeed, we have already begun to investigate it in our ongoing work. We note that this problem can be addressed by the algorithm of Williams et al. <ref type="bibr" target="#b24">[25]</ref>, though only in the case of deterministic target algorithms.)</p><p>We thoroughly investigate the two fundamental components of any model-based optimisation approach in this setting: the choices taken in building the predictive model, and the sequential procedure that uses this model to find performance-optimising parameter settings of the target algorithm. First, in Section 2, we describe our experimental setup, with a special focus on the two target algorithms we consider, CMA-ES <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b12">13]</ref> and SAPS <ref type="bibr" target="#b17">[18]</ref>. In Section 3, we compare the two model-based optimisation procedures SKO and SPO. Overall, we found that SPO produced more robust results than SKO in terms of the final target algorithm performance achieved. Consequently, we focused the remainder of our study on the mechanisms that underly SPO.</p><p>In Section 4, we investigate the effectiveness of various methods for determining the set of parameter settings used for building the initial parameter response model. Here we found that using more complex initial designs did not consistently lead to improvements over more naïve methods. More importantly, we also found that parameter response models built from log-transformed performance measurements tended to be substantially more accurate than those built from raw data (as used by SPO <ref type="bibr" target="#b3">[4]</ref>). In Section 5, we turn to the sequential experimental design procedure. We introduce a simple variation in SPO's intensification mechanism which led to significant and substantial performance improvements. Next, we consider two previous expected improvement criteria for selecting the next parameter setting to evaluate, and derive a new expected improvement criterion specifically for optimisation based on predictive models trained on logarithmic data. This theoretical improvement, however, did not lead to consistent improvements in algorithm performance. Finally, we demonstrate that our novel variant of SPO, which we dub SPO + , achieved an improvement over the best previously-known results on the SAPS parameter optimisation benchmark.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">TARGET ALGORITHMS AND EXPERI-MENTAL SETUP</head><p>The target algorithms we used in our study of model-based parameter optimisation procedures are CMA-ES and SAPS. CMA-ES is a prominent gradient-free global optimisation algorithm for continuous functions <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b12">13]</ref> which is based on an evolutionary strategy that uses a covariance matrix adaptation scheme. We used the Matlab implementation CMA-ES 2.54, 1 which is integrated into the SPO toolbox version 0.4 and was used as an example application for parameter optimisation in the SPO manual <ref type="bibr" target="#b5">[6]</ref>. CMA-ES has two obvious parameters: the number of parents, N , and a factor ν ≥ 1 relating the number of parents to the population size. (The population size is defined as N × ν + 0.5 .) Furthermore, Bartz-Beielstein et al. <ref type="bibr" target="#b5">[6]</ref> modified CMA-ES's interface to expose two additional parameters: the "learning rate for the cumulation for the step size control", cσ or cs, and the damping parameter, dσ or damps (for details, see <ref type="bibr" target="#b11">[12]</ref>). We used exactly the same region of interest (see <ref type="table">Table 1</ref>) considered in Bartz-Beielstein et al.'s SPO example based on CMA-ES <ref type="bibr" target="#b5">[6]</ref>.</p><p>For each run of CMA-ES, we allowed a limited number of function evaluations and used the resulting solution quality (i.e., the minimal function value found) as the response variable to be optimised. We considered four canonical 10-dimensional test functions with a global minimum function value of zero that have previously been used for the evaluation of CMA-ES: the Sphere function (used in the SPO example mentioned above) and the Ackley, Griewank, and Rastrigin functions (as used by Hansen &amp; Kern <ref type="bibr" target="#b12">[13]</ref>). For the http://www.lri.fr/~hansen/cmaes_inmatlab.html). first three functions, we optimised mean solution quality reached by CMA-ES within 1 000 function evaluations, while for the more challenging Rastrigin function we set a limit of 10 000 function evaluations.</p><p>The second target algorithm we considered was SAPS <ref type="bibr" target="#b17">[18]</ref>, a high-performance dynamic local search algorithm for the propositional satisfiability problem. We used the standard UBCSAT implementation <ref type="bibr" target="#b23">[24]</ref> of SAPS and defined the region of interest (see <ref type="table">Table 1</ref>) closely following Hutter et al.'s earlier parameter optimisation study using SAPS <ref type="bibr" target="#b16">[17]</ref>, with the difference that we did not discretise parameter values. (Hutter et al. did so because the parameter optimisation procedure used by them required it.) For SAPS, our goal was to minimise the median run-time (measured in local search steps) for solving the "quasigroups with holes" (QWH) SAT instance used in <ref type="bibr" target="#b16">[17]</ref>. This instance belongs to a family of distributions that has received considerable interest in the SAT community. We chose this particular instance to facilitate direct comparison of the performance achieved by the parameter optimisation procedures considered here and in <ref type="bibr" target="#b16">[17]</ref>; of course, we cannot draw general conclusions about optimising SAPS from studying a single instance.</p><p>To evaluate the quality Q(θ) of a proposed parameter setting θ in an offline evaluation stage of the algorithm, we always performed additional test runs of the target algorithm with setting θ. In particular, for the CMA-ES test cases, we computed Q(θ) as the mean solution quality achieved by CMA-ES using θ across 100 test runs. For the higher-variance SAPS domain, we computed Q(θ) as the median runtime achieved by SAPS with setting θ across 1 000 test runs. We measure the performance p k of a parameter optimisation run after k runs of the target algorithm as the performance Q(θ) of the parameter setting θ the method would output if terminated at that point. The final performance of a parameter optimisation run is the performance at the end of the run. In order to measure the performance of a parameter optimisation method, we performed 25 runs of the method with different random seeds, and report mean and standard deviation of the final performance across these 25 repetitions. We also performed paired signed rank tests for differences in final performance (we chose a paired test because, using identical random seeds, the ith repetition of every parameter optimisation method used the same initial design and response values). For the experiments in Section 5.3 this pairing did not apply, so there we used the (unpaired) Mann-Whitney U test.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">SEQUENTIAL MODEL-BASED OPTIMI-SATION METHODS: SKO VS SPO</head><p>As discussed in the introduction, the two most influential existing methods for model-based optimisation of noisy functions (such as the performance of a randomised algorithm) are the SKO algorithm of Huang et al. <ref type="bibr" target="#b14">[15]</ref> and the SPO framework of Bartz-Beielstein et al. <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b3">4]</ref>. We unify both through the general framework presented as Algorithm 1. Both methods first generate an initial Latin hypercube design (LHD) and evaluate the respective parameterisations of the target algorithm. (For a D-dimensional parameter optimisation task, SKO performs an additional run for the D parameter settings with the lowest response in this LHD; in SPO's initial design, r repeats are performed for each point, where r is a parameter we fixed to its default value of 2 in this study.) Both methods then iterate through the following steps: fit a Gaussian process model M to predict the response for all parameter settings; select an incumbent parameter setting (to be returned upon termination); based on the predictive model M and an expected improvement criterion, select one or more new parameter settings and evaluate them.</p><p>The two methods differ in their implementation of these steps. Before fitting its Gaussian process model, SPO computes empirical estimates of the user-defined performance metric (e.g., mean solution quality) at each previously-observed parameter setting; it then fits a noise-free Gaussian process model to this data. Since this model is noise-free, it perfectly predicts on its training data and the incumbent selected in line 8 of Algorithm 1 is thus the previously-observed parameter setting with the best empirical performance metric. In order to select which parameter setting should be investigated next, SPO evaluates the E[I 2 ] expected improvement criterion <ref type="bibr" target="#b22">[23]</ref> (which we discuss in Section 5.2) at 10 000 randomly selected parameter settings and picks the m ones with highest expected improvement (in this paper, we use the default m = 1). Because the true performance at the incumbent may differ from the current empirical estimate, SPO implements an intensification strategy that over time increases the number of runs to be performed at each parameter setting as well as on the incumbent. We discuss intensification strategies in greater detail in Section 5.1.</p><p>In contrast, SKO is based on a noisy Gaussian process model and makes the assumption that observation noise is normally distributed. In order to select the next parameter setting to be evaluated, it maximises an augmented expected improvement criterion (that is biased away from parameter settings for which predictive variance is low <ref type="bibr" target="#b14">[15]</ref>), using the Nelder-Mead simplex method. SKO selects the incumbent parameter setting as the previously observed setting with minimal predicted mean minus one standard deviation. No explicit intensification strategy is used; instead, intensification is achieved indirectly through the one-standard-deviation performance penalty.</p><p>We empirically compared both approaches "out of the box" on the CMA-ES test cases, based on the same initial design (the one used by SKO) and the original, untransformed data. In this comparison, SPO's performance turned out to be more robust: while for some repetitions, the incumbent parameter settings selected by SKO changed very frequently, SPO's incumbents remained quite stable. <ref type="figure" target="#fig_0">Figure 1</ref> illustrates the differences between the two approaches for CMA-ES on the Sphere function. Here, the LHD already contained very good parameter settings, and the challenge was mostly to select the best of these and stick with it. From the figure, we observe that SPO largely succeeded in doing this, while SKO did not reliably select good parameter settings. On the other test functions, SKO also tended to be more sensitive. Multiple explanations could be offered for this behaviour. We hypothesise that in some runs a non-negligible noise component in SKO's Gaussian process model misled the algorithm when selecting the incumbent parameter setting: unlike in the noise-free case, the model was not bound to selecting the parameter setting with best empirical performance as the incumbent. SKO's lack of an explicit intensification mechanism provides another possible explanation.</p><p>In light of these findings, we decided to focus the remainder of this study on various aspects of the SPO framework. In future work it could be interesting to experiment with intensification mechanisms in the SKO framework and to compare SKO with SPO under transformations of the response variable. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">MODEL QUALITY</head><p>It is not obvious that a model-based parameter optimisation procedure needs models that accurately predict target algorithm performance across all parameter settings-including very bad ones. Nevertheless, all things being equal, overall-accurate models are generally helpful to such methods, and are furthermore essential to more general tasks such as performance robustness analysis. In this section we investigate the effect of two key model-design choices on the accuracy of the GP models used by SPO.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Choosing the Initial Design</head><p>In the overall approach described in Algorithm 1, an initial parameter response model is determined by constructing a Gaussian process model based on the target algorithm's performance on a given set of parameter settings (the initial design). This initial model is then subsequently updated based on runs of the target algorithm on additional parameter settings. The decision about which additional parameter settings to select is based on the current model.</p><p>It is reasonable to expect that the quality of the final model (and the performance-optimising parameter setting determined from it)   <ref type="table">Table 3</ref>: Comparison of different methods for choosing the parameter settings in the initial design for models based on logtransformed data. Bold face indicates the best value for each scenario and metric. The poor RMSE values for CMA-ES-griewank are due a number of parameter settings predicted to be much better than they really are; for the models based on non-log data in <ref type="table" target="#tab_2">Table 2</ref>, such settings are predicted to be &lt; 0 and do not take part in computing RMSE.</p><p>would depend on the quality of the initial model. Therefore, we studied the overall accuracy of the initial parameter response models constructed based on various initial designs. The effect of the number of parameter settings in the initial design, d, as well as the number of repetitions for each parameter setting, r, has already been studied before <ref type="bibr" target="#b6">[7]</ref>, and we thus fixed them in this study: we used the SPO default of r = 2 and chose d = 250, such that when methods were allowed 1 000 runs of the target algorithm, half of them were chosen with the initial design (m(1) = d × r = 500).</p><p>Here, we study the effect of the method for choosing which 250 parameter settings to include in the initial design, considering four methods: (1) a uniform random sample from the region of interest;</p><p>(2) a random Latin hypercube design (LHD); (3) the LHD used in SPO; and (4) a more complex LHD based on iterated distributed hypercube sampling (IHS) <ref type="bibr" target="#b7">[8]</ref>.</p><p>The parameter response models obtained using these initialisation strategies are evaluated by metrics that measure how closely model predictions at previously unseen parameter settings match the true performance achieved using these settings. We consid-ered three metrics to evaluate mean predictions µ1:n and predictive variances σ 2 1:n given true values y1:n. Root mean squared error (RMSE) is defined as The results of this analysis for our five test cases are summarised in <ref type="table" target="#tab_2">Table 2</ref>. <ref type="bibr" target="#b1">2</ref> This table shows that for the original untransformed data, there was very little variation in predictive quality due to the <ref type="bibr" target="#b1">2</ref> We report RMSE and CC after a log transformation of predictions and true values in order to yield comparable values to the models based on log-transformed data (otherwise, RMSEs would sometimes be on the order of 10 8 ). These values for RMSE and CC are only based on the parameter settings for which the model prediction was positive.    procedure used for constructing the initial design. Note that this does not contradict results from the literature; for example, <ref type="bibr" target="#b21">[22]</ref> states on page 149: "It has not been demonstrated that LHDs are superior to any designs other than simple random sampling (and they are only superior to simple random sampling in some cases)."</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Transforming Performance Data</head><p>The second issue we investigated was whether more accurate models could be obtained by using log-transformed performance data for building and updating the model. This is motivated by the fact that our main interest is in minimising positive functions with spreads of several orders of magnitude which arise in the optimisation of runtimes. Indeed, we have used log transformations for predicting runtimes of algorithms in different contexts before (see., e.g., <ref type="bibr" target="#b19">[20]</ref>). All of the test functions we consider for CMA-ES are also positive functions; in general, non-positive functions can be transformed to positive functions by subtracting a lower bound. In the context of model-based optimisation, log transformations were previously advocated by Jones et al. <ref type="bibr" target="#b18">[19]</ref>. The problem they studied was slightly different in that the functions considered were noisefree. We adapt their approach by first computing performance metrics (such as median run-time) and then fitting a Gaussian process model to the log-transformed metrics. Note that this is different from fitting a Gaussian process model to the log-transformed noisy data as done by Williams et al. <ref type="bibr" target="#b24">[25]</ref> and Huang et al. <ref type="bibr" target="#b14">[15]</ref>. The performance metric that is implicitly optimised under this latter approach is geometric mean performance, which is a poor choice in situations where performance variations change considerably depending on the parameter setting. In contrast, when first computing performance metrics and then applying a transformation, any performance metric can be optimised, and we do not need to assume a Gaussian noise model.</p><p>As can be seen from the results reported in <ref type="table">Table 3</ref>, the use of log-transformed performance data tended to result in much better model accuracy than the use of raw performance data. First, note that model fits on non-logarithmic data often yielded negative predictions of runtime and solution quality, whereas the true response was known to be positive. Especially the log likelihood of the data under the predictive model dramatically improved for all test cases. In some cases, we also see drastic improvements in the other measures: for example, for CMA-ES-sphere, the correlation coefficient improved from about 0.3 to above 0.9, and root mean squared error decreased from about 2.3 to below 0.9. <ref type="figure" target="#fig_5">Figure 2</ref> visualises the predictions and predictive uncertainty of these two models. Furthermore, for the case of log-transformed data the effect of using different initial designs was larger than for the untransformed data: the IHS and Random LHDs tended to perform better than pure random sampling or the SPO LHD. Overall, our results suggest that much more accurate Gaussian process models may be constructed through the use of log transformed rather than raw performance data, and that the initial design plays a less important role.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">SEQUENTIAL EXPERIMENTAL DESIGN</head><p>Having studied the initial design, we now turn our attention to the sequential search for performance-optimising parameters. Since log transformations consistently led to improved performance and random LHDs yielded comparable performance to more complex designs, we fixed these two design dimensions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Intensification Mechanism</head><p>In order to achieve good results when optimising parameters based on a noisy performance metric (such as runtime or solution quality achieved by a randomised algorithm), it is important to perform a sufficient number of runs for the parameter settings considered. However, runs of a given target algorithm on interesting problem instances are typically computationally expensive, such that there is a delicate tradeoff between the number of algorithm runs performed on each parameter setting and the number of parameter settings considered in the course of the optimisation process.</p><p>Realising the importance of this tradeoff, SPO implements a mechanism to gradually increase the number of runs to be performed for each parameter setting during the parameter optimisation process. In particular, SPO increases the number of runs to be performed for each subsequent parameter setting whenever the incumbent θ * selected in an iteration has already been the incumbent in some previous iteration. The original version 0.3 of SPO <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b6">7]</ref> doubles the number of runs for subsequent function evaluations whenever this happens. A newer version of SPO (0.4) only increments the number of runs by one each time <ref type="bibr" target="#b5">[6]</ref>. Both versions perform additional runs for the current incumbent, θ * , to make sure it gets as many function evaluations as new parameter settings.</p><p>While these intensification mechanisms work in most cases, we have encountered runs of SPO in high-noise scenarios in which there is a large number of parameter settings with a few runs and   <ref type="table">Table 4</ref>: Comparison of different intensification mechanisms for optimising CMA-ES performance on a number of instances. We report mean ± standard deviation of performance p1000 (mean solution quality achieved by CMA-ES in 100 test runs using the parameter settings the method chose after 1000 algorithm runs) across 25 repetitions of each method, and p-values (see Sec. 2).</p><p>"lucky" function evaluations, making them likely to become incumbents. In those runs, in almost every iteration a new incumbent was picked, because the previous incumbent had been found to be poor after performing additional runs on it. This situation continued throughout the entire parameter optimisation trajectory, leading to a final choice of parameter settings that had only been evaluated using very few ("lucky") runs and performed poorly in independent test runs. This observation motivated us to introduce a different intensification mechanism that guarantees an increasing confidence in the performance of the parameter settings we select as incumbents. In particular, inspired by the mechanism used in FocusedILS <ref type="bibr" target="#b16">[17]</ref>, we maintain the invariant that we never choose an incumbent unless it is the parameter setting with the most function evaluations. Promising parameter settings receive additional function evaluations until they either cease to appear promising or receive enough function evaluations to become the new incumbent.</p><p>In detail, our new intensification mechanism works as follows. In the first iteration, the incumbent is chosen exactly as in SPO, because all parameter settings have the same number of function evaluations. From then on, in each iteration we select a number of parameter settings and evaluate them as compared to the incumbent, θ * . Denote the number of runs with a parameter setting θ executed so far as N (θ) and their empirical performance asĉ(θ). For each selected setting θ, we iteratively perform runs until either N (θ) ≥ N ( θ * ) orĉ(θ) &gt;ĉ( θ * ). <ref type="bibr" target="#b2">3</ref> In the first case, if θ has reached as many runs as the incumbent, θ * , andĉ(θ) ≤ĉ( θ * ), then θ becomes the new incumbent. On the other hand, onceĉ(θ) becomes larger thanĉ( θ * ), we reject θ as (probably) inferior and perform as many additional runs for θ * as were just performed for evaluating θ; this mechanism ensures that we use a comparable number of runs for intensification and for exploration of new parameter settings.</p><p>Note that the rejection is very aggressive and frequently occurs after a single run, long before a statistical test could conclude that θ is worse than θ * .</p><p>The parameter settings we evaluate against θ * at each iteration include one new parameter setting selected based on an expected improvement criterion (here E[I 2 ], see Section 5.2). They also include p previously evaluated parameter settings θ1:p, where for each of these, a previously evaluated setting θ is selected with probability proportional to 1/ĉ(θ) and repetitions are not allowed (p is an algorithm parameter and in this work always set to 5).</p><p>This mechanism guarantees that there will always be a positive probability of re-evaluating a potentially optimal parameter setting; it allows us to be aggressive in rejecting new candidates, since we can always get back to the most promising ones. Note that if the other SPO variants (0.3 and 0.4) discover the optimal parameter setting but observe one or more very "unlucky" runs on it, there is a high chance that they will never recover: once a parameter setting has been evaluated, the noise-free Gaussian process model attributes zero uncertainty to it, such that no expected improvement criterion will pick it again in later iterations.</p><p>We denote as SPO + the variant of SPO that uses a random LHD, log-transformed data (for positive functions only; otherwise untransformed data), expected improvement criterion E[I 2 ] and our new intensification criterion. We compared SPO 0.3, SPO 0.4, and SPO + (all based on a random LHD and log-transformed data) for our CMA-ES test cases and summarise the results in <ref type="table">Table 4</ref>. For the Ackley function, SPO 0.4 performed best on average, but only insignificantly better than SPO + ; for the Sphere function, SPO + did insignificantly better than the other SPO variants. For the other two functions, SPO + performed significantly and substantially better than either SPO 0.3 or SPO 0.4, finding parameter settings that led to CMA-ES performance orders of magnitude better than those obtained from SPO 0.3.</p><p>More importantly, as can be seen in <ref type="figure" target="#fig_6">Figure 3</ref>, over the course of the optimisation process, SPO + showed much less variation in the quality of the incumbent parameter setting than the other SPO variants. This is the case even for the Ackley function, where SPO + did not perform best on average at the very end of its trajectory, and can also be seen on the Griewank and Rastrigin functions, where SPO + clearly produced the best results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Expected Improvement Criterion</head><p>In sequential model-based optimisation, parameter settings to be investigated are selected based on an expected improvement criterion (EIC). This aims to address the exploration/exploitation tradeoff faced in learning about new, unknown parts of the parameter space, and intensifying the search locally in the best known region. We briefly summarise two common versions of the EIC, and then describe a novel variation, which we investigated.</p><p>The classic expected improvement criterion used by Jones et al. <ref type="bibr" target="#b18">[19]</ref> is defined as follows. Given a deterministic function f , and the minimal value fmin seen so far, the improvement at a new design site θ is defined as</p><formula xml:id="formula_0">I(θ) := max{0, fmin − f (θ)}.<label>(1)</label></formula><p>Of course, this quantity cannot be computed, since f (θ) is unknown. We therefore compute the expected improvement, E[I(θ)].</p><p>To do so, we require a probabilistic model of f , in our case the Gaussian process model. Let µ θ := E[f (θ)] be the mean, and σ 2 θ be the variance predicted by our model, and define u := f min −µ θ σ θ . Then one can show that E[I(θ)] has the following closed-form expression:</p><formula xml:id="formula_1">E[I(θ)] = σ θ · [u · Φ(u) + ϕ(u)],<label>(2)</label></formula><p>where ϕ and Φ denote the probability density function and cumulative distribution function of a standard normal distribution, respectively. A generalised expected improvement criterion was introduced by Schonlau et al. <ref type="bibr" target="#b22">[23]</ref>, who considered the quantity</p><formula xml:id="formula_2">I g (θ) := max{0, [fmin − f (θ)] g }<label>(3)</label></formula><p>for g ∈ {0, 1, 2, 3, . . .}, with larger g encouraging a more global search. The value g = 1 corresponds to the classic EIC. SPO uses g = 2, which takes into account the uncertainty in our estimate of I(θ) since E[I 2 (θ)] = (E[I(θ)]) 2 + Var(I(θ)) and can be computed by the closed form formula</p><formula xml:id="formula_3">E[I 2 (θ)] = σ 2 θ · [(u 2 + 1) · Φ(u) + u · ϕ(u)].<label>(4)</label></formula><p>One issue that seems to have been overlooked in previous work is the interaction of log transformations of the data with the EIC. When we use a log transformation, we do so in order to increase predictive accuracy, yet our loss function cares about the untransformed data (e.g., actual runtimes). Hence we should optimise the criterion I exp (θ) := max{0, fmin − e f (θ) }.</p><p>Let v := ln(f min )−µ θ σ θ . Then one can show that</p><formula xml:id="formula_5">E[I exp (θ)] = fminΦ(v) − e 1 2 σ 2 θ +µ θ · Φ(v − σ θ ). (6)</formula><p>In <ref type="table" target="#tab_6">Table 5</ref>, we experimentally compare SPO + with these three EI criteria on the CMA-ES test cases, based on a random LHD and log-transformed data. In one case, E[I 2 ] yielded the best results, and in three test cases our new criterion E[I exp ] performed best. However, the overall impact of changing the expected improvement criterion was small and only two of the 12 pairwise differences were statistically significant.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Final Evaluation</head><p>In Sections 5.1 and 5.2, we fixed the design choices of using log transformations and initial designs based on random LHDs. Now, we revisit these choices: using our new SPO + intensification criterion and expected improvement criterion E[I 2 ], we studied how Procedure SAPS median run-time [search steps] SAPS default from <ref type="bibr" target="#b17">[18]</ref> 85.5 × 10 3 CALIBRA(100) from <ref type="bibr" target="#b16">[17]</ref> 10.7 × 10 3 ± 1.1 × 10 3 BasicILS(100) from <ref type="bibr" target="#b16">[17]</ref> 10.9 × 10 3 ± 0.6 × 10 3 FocusedILS from <ref type="bibr" target="#b16">[17]</ref> 10.6 × 10 3 ± 0.5 × 10 3 SPO 0. <ref type="bibr" target="#b2">3</ref> 18.3 × 10 3 ± 13.7 × 10 3 SPO 0. <ref type="bibr" target="#b3">4</ref> 10.4 × 10 3 ± 0.7 × 10 3 SPO + 10.0 × 10 3 ± 0.4 × 10 3   <ref type="figure">Figure 4</ref>: Comparison of SPO variants (all based on a random LHD and log-transformed data) for minimising SAPS median runtime on instance QWH. We plot the performance p k of each method (median search steps SAPS required on instance QWH in 1000 test runs using the parameter settings the method chose after k algorithm runs), as a function of the number of algorithm runs, k, it was allowed to perform; these values are averaged across 25 runs of each method.</p><p>much the final performance of SPO + changed when not using a log transform and when using different methods to create the initial design. Unsurprisingly, no initial design led to significantly better final performance than any of the others. The result for the log transform was more surprising: although we saw in Section 4 that the log transform consistently improved predictive model performance, based on a Mann-Whitney U test it only turned out to significantly improve final parameter optimisation performance for CMA-ES-sphere. As a final experiment, we compared the performance of SPO 0.3, 0.4, and SPO + (all based on random LHDs and using logtransformed data) to the parameter optimisation methods studied by Hutter et al. <ref type="bibr" target="#b16">[17]</ref>. We summarise the results in <ref type="table" target="#tab_4">Table 6</ref>. While SPO 0.3 performed worse than those methods, SPO 0.4 performed comparably, and SPO + outperformed all methods with the exception of SPO 0.4 significantly. <ref type="figure">Figure 4</ref> illustrates the difference between SPO 0.3, SPO 0.4, and SPO + for this SAPS benchmark. Similar to what we observed for CMA-ES <ref type="figure" target="#fig_6">(Figure 3</ref>), SPO 0.3 and SPO 0.4 changed their incumbents very frequently, with SPO 0.4 showing more robust behaviour than SPO 0.3, and SPO + in turn much more robust behaviour than SPO 0.4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Sphere</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Ackley</head><p>Griewank Rastrigin E[I] from <ref type="bibr" target="#b18">[19]</ref> 8.60 × 10  We report mean ± standard deviation of performance p1000 (mean solution quality CMA-ES achieved in 100 test runs using the parameter settings the method chose after 1 000 algorithm runs) of SPO 0.3, SPO 0.4, and SPO + , across 25 repetitions of each method, and p-values as discussed in Section 2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">CONCLUSIONS AND FUTURE WORK</head><p>In this work, we experimentally investigated model-based approaches for optimising the performance of parameterised, randomised algorithms. We restricted our attention to procedures based on Gaussian process models, the most widely-studied family of models for this problem. We evaluated two approaches from the literature, and found that sequential parameter optimisation (SPO) <ref type="bibr" target="#b3">[4]</ref> offered more robust performance than the sequential kriging optimisation (SKO) approach <ref type="bibr" target="#b14">[15]</ref>. We then investigated key design decisions within the SPO paradigm, namely the initial design, whether to fit models to raw or log-transformed data, the expected improvement criterion, and the intensification criterion. Out of these four, the log-transformation and the intensification criterion substantially affected performance. Based on our findings, we proposed a new version of SPO, dubbed SPO + , which yielded substantially better performance than SPO for optimising the solution quality of CMA-ES <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b12">13]</ref> on a number of test functions, as well as the run-time of SAPS <ref type="bibr" target="#b17">[18]</ref> on a SAT instance. In this latter domain, for which performance results for other (model-free) parameter optimisation approaches are available, we demonstrated that SPO + achieved state-of-the-art performance.</p><p>In the future, we plan to extend our work to deal with optimisation of runtime across a set of instances, along the lines of the approach of Williams et al. <ref type="bibr" target="#b24">[25]</ref>. We also plan to compare other types of models, such as random forests <ref type="bibr" target="#b9">[10]</ref>, to the Gaussian process approach. Finally, we plan to develop methods for the sequential optimisation of categorical variables.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Comparison of SKO and two variants of SPO (discussed in Section 5.1) for optimising CMA-ES on the Sphere function. We plot the performance p k of each method (mean solution quality CMA-ES achieved in 100 test runs on the Sphere function using the method's chosen parameter settings) as a function of the number of algorithm runs, k, it was allowed to perform; these values are averaged across 25 runs of each method.Algorithm 1: General Schema for Sequential Model-Based Optimisation. θi:j denotes a vector (θi, θi+1, . . . , θj); function SelectNewParameterSettings's output is a vector of variable length (i.e., m(i) can be different in every iteration).Input : Target algorithm A, parameter domains D Output: Incumbent parameter setting θ * θ 1:m(1) ← ChooseInitialDesign(= n, . . . , n + m(i) − 1 do<ref type="bibr" target="#b3">4</ref> Execute A with param. setting θj, store response in yj</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>n i=1 (yi − µi) 2 ; Pearson's correlation coefficient (CC) as ( n i=1 (µi·yi)−n·μ·ȳ)/((n−1)·sµ·sy), wherē x and sx denote sample mean and standard deviation of x; and loglikelihood (LL) as n i=1 ϕ( y i −µ i σ i ),where ϕ denotes the probability density function of a standard normal distribution. Intuitively, LL is the log probability of observing the true values yi under the predicted distributions N (µi, σ 2 i ). For CC and LL, higher values are better, while for RMSE lower values are better.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>data on log-log scale; only means are plotted.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head></head><label></label><figDesc>Log-transformed data on log-log scale.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 2 :</head><label>2</label><figDesc>Performance of noise-free Gaussian process models for CMA-ES-sphere based on an initial design using a random LHD; in (a) and (c) we plot mean ± one standard deviation of the prediction. Metrics: (a) RMSE=2.289, CC=0.329, LL=-8.274, 22/250 points predicted below zero; (c) RMSE=0.858, CC=0.927, LL=-1.407. For better visual comparison to (c), (b) shows exactly the same mean predictions as (a), but on a loglog scale, for the 228 data points predicted above zero.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 3 :</head><label>3</label><figDesc>Performance p k (mean solution quality CMA-ES achieved in 100 test runs using the method's chosen parameter settings) of SPO 0.3, SPO 0.4, and SPO + , as a function of the number of target algorithm runs, k, the method is allowed. We plot means of p k across 25 repetitions of each parameter optimisation procedure.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="true"><head>Table 2 :</head><label>2</label><figDesc>Comparison of different methods for choosing the parameter settings in the initial design for models based on original untransformed data. In addition to RMSE, CC, and LL, we report the number of predictions (out of 250) below zero (note that the true values are known to be greater than zero). In each case means and standard deviations are determined from 25 repetitions with different LHDs and training responses (but identical test data). Bold face indicates the best value for each scenario and metric.</figDesc><table>Test case 
+Metric Random Sample 
+Random LHD 
+SPO LHD 
+IHS LHD 
+RMSE 
+0.88 ± 0.11 
+0.84 ± 0.10 
+0.88 ± 0.11 
+0.82 ± 0.08 
+CMA-ES-sphere 
+CC 
+0.91 ± 0.02 
+0.91 ± 0.02 
+0.90 ± 0.02 
+0.92 ± 0.02 
+LL 
+−1.52 ± 0.56 
+−1.42 ± 0.31 −1.77 ± 0.95 −1.46 ± 0.30 
+RMSE 
+0.38 ± 0.02 
+0.37 ± 0.02 
+0.37 ± 0.02 
+0.37 ± 0.01 
+CMA-ES-ackley 
+CC 
+0.22 ± 0.12 
+0.25 ± 0.13 
+0.25 ± 0.13 
+0.21 ± 0.12 
+LL 
+−1.40 ± 1.65 
+−1.28 ± 0.79 −1.34 ± 0.97 −1.32 ± 1.21 
+RMSE 
+4.33 ± 0.53 
+4.35 ± 0.41 
+4.43 ± 0.61 
+4.78 ± 0.55 
+CMA-ES-griewank 
+CC 
+0.40 ± 0.10 
+0.40 ± 0.11 
+0.42 ± 0.08 
+0.47 ± 0.06 
+LL 
+−3.06 ± 0.17 
+−3.08 ± 0.25 −3.13 ± 0.33 −3.30 ± 0.26 
+RMSE 
+0.73 ± 0.09 
+0.74 ± 0.08 
+0.78 ± 0.13 
+0.72 ± 0.10 
+CMA-ES-rastrigin 
+CC 
+0.56 ± 0.19 
+0.57 ± 0.13 
+0.53 ± 0.11 
+0.58 ± 0.18 
+LL 
+−1.38 ± 0.54 
+−1.37 ± 0.45 −1.48 ± 0.78 −1.41 ± 0.47 
+RMSE 
+0.42 ± 0.04 
+0.41 ± 0.05 
+0.42 ± 0.04 
+0.41 ± 0.04 
+SAPS-QWH-cont-al 
+CC 
+0.56 ± 0.16 
+0.58 ± 0.16 
+0.59 ± 0.10 
+0.61 ± 0.09 
+LL 
+−0.55 ± 0.11 
+−0.52 ± 0.11 −0.54 ± 0.11 −0.56 ± 0.15 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head>Table 6 :</head><label>6</label><figDesc>Comparison of final performance of various parameter optimisation procedures for optimising SAPS on instance QWH. We report mean ± standard deviation of performance p20000 (median search steps SAPS required on instance QWH in 1000 test runs using the parameter settings the method chose after 20 000 algorithm runs), across 25 repetitions of each method. Based on a Mann-Whitney U test, SPO +</figDesc><table>performed significantly better than CALIBRA, BasicILS, Fo-
+cusedILS, and SPO 0.3 with p-values 0.015, 0.0002, 0.0009, 
+and 4×10 −9 , respectively; the p-value for a comparison against 
+SPO 0.4 was 0.06. 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5" validated="false"><head></head><label></label><figDesc>E[I 2 ] from [23] 5.56 × 10 −7 ± 5.15 × 10 −7 8.48 ± 2.61 2.66 × 10 −4 ± 2.53 × 10 −4 2.62 ± 0.51 E[Iexp] (new) 8.01 × 10 −7 ± 12.90 × 10 −7 8.30 ± 2.65 2.48 × 10 −4 ± 2.51 × 10 −4 2.56 ± 0.66 p-value E[I] vs E[I 2 ] value E[I 2 ] vs E[Iexp]</figDesc><table>−7 ± 1.03 × 10 −7 
+8.36 ± 2.65 
+3.51 × 10 −4 ± 3.06 × 10 −4 
+2.66 ± 0.57 
+0.29 
+0.55 
+0.016 
+0.90 
+p-value E[I] vs E[Iexp] 
+0.63 
+0.25 
+0.11 
+0.030 
+p-0.54 
+0.32 
+0.77 
+0.38 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" validated="false"><head>Table 5 :</head><label>5</label><figDesc>Comparison of different expected improvement criteria for optimising CMA-ES performance on a number of functions.</figDesc><table></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">The newest CMA-ES version, 3.0, differs mostly in the interface and in supporting "separable" CMA (see the change log at</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">In order to reduce the overhead arising from performing many algorithm runs one at a time, we batch runs, starting with a single new run for each θ and doubling the number of new runs iteratively up to a maximum of N ( θ * ) − N (θ).</note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Acknowledgements. We thank Thomas Bartz-Beielstein for providing the SPO source code and an interface to the CMA-ES algorithm online, and Theodore Allen for making the original SKO code available to us.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Fine-tuning of algorithms using fractional experimental design and local search</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Adenso-Diaz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Laguna</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="114" />
+			<date type="published" when="2006-02" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Finding optimal algorithmic parameters using the mesh adaptive direct search algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Audet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Orban</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Optimization</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="642" to="664" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Improvement strategies for the f-race algorithm: Sampling design and iterative refinement</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Balaprakash</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Birattari</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Stützle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">4th International Workshop on Hybrid Metaheuristics (MH&apos;07)</title>
+		<editor>T. Bartz-Beielstein, M. J. Blesa Aguilera, C. Blum, B. Naujoks, A. Roli, G. Rudolph, and M. Sampels</editor>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="108" to="122" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Experimental Research in Evolutionary Computation: The New Experimentalism</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Bartz-Beielstein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006" />
+			<publisher>Springer Verlag</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Sequential parameter optimization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Bartz-Beielstein</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Lasarczyk</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Preuss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of CEC-05</title>
+		<editor>B. McKay et al</editor>
+		<meeting>of CEC-05</meeting>
+		<imprint>
+			<publisher>IEEE Press</publisher>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="773" to="780" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Sequential parameter optimization toolbox. Manual version 0</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Bartz-Beielstein</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Lasarczyk</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Preuss</surname></persName>
+		</author>
+		<ptr target="http://www.gm.fh-koeln.de/imperia/md/content/personen/lehrende/bartz_beielstein_thomas/spotdoc.pdf" />
+		<imprint>
+			<date type="published" when="2008-09" />
+			<biblScope unit="volume">5</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Considerations of budget allocation for sequential parameter optimization (SPO)</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Bartz-Beielstein</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Preuss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of EMAA-06</title>
+		<editor>L. Paquete et al.</editor>
+		<meeting>of EMAA-06</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="35" to="40" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Improved distributed hypercube sampling</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Beachkofski</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Grandhi</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1274" />
+			<publisher>American Institute of Aeronautics and Astronautics</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">A racing algorithm for configuring metaheuristics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Birattari</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Stützle</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Paquete</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Varrentrapp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of GECCO-02</title>
+		<meeting>of GECCO-02</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="11" to="18" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Random forests</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="5" to="32" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Using experimental design to find effective parameter settings for heuristics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">P</forename><surname>Coy</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">L</forename><surname>Golden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">C</forename><surname>Runger</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><forename type="middle">A</forename><surname>Wasil</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Heuristics</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="77" to="97" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">The CMA evolution strategy: a comparing review</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Hansen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Towards a new evolutionary computation. Advances on estimation of distribution algorithms</title>
+		<editor>J.A. Lozano, P. Larranaga, I. Inza, and E. Bengoetxea</editor>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="75" to="102" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Evaluating the CMA evolution strategy on multimodal test functions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Hansen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Kern</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">LNCS</title>
+		<editor>X. Yao et al.</editor>
+		<imprint>
+			<biblScope unit="volume">3242</biblScope>
+			<biblScope unit="page" from="282" to="291" />
+			<date type="published" when="2004" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+	<note>Parallel Problem Solving from Nature PPSN VIII</note>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Adapting arbitrary normal mutation distributions in evolution strategies: the covariance matrix adaptation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Hansen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Ostermeier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of CEC-96</title>
+		<meeting>of CEC-96</meeting>
+		<imprint>
+			<publisher>Morgan Kaufmann</publisher>
+			<date type="published" when="1996" />
+			<biblScope unit="page" from="312" to="317" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Global optimization of stochastic black-box systems via sequential kriging meta-models</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">T</forename><surname>Allen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">I</forename><surname>Notz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Zeng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Global Optimization</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="441" to="466" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+		<title level="m" type="main">ParamILS: An automatic algorithm configuration framework</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Stützle</surname></persName>
+		</author>
+		<idno>TR-2009-01</idno>
+		<imprint>
+			<date type="published" when="2009-01" />
+		</imprint>
+		<respStmt>
+			<orgName>University of British Columbia</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Automatic algorithm configuration based on local search</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Stützle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of AAAI-07</title>
+		<meeting>of AAAI-07</meeting>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="1152" to="1157" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Scaling and probabilistic smoothing: Efficient dynamic local search for SAT</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A D</forename><surname>Tompkins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of CP-02</title>
+		<meeting>of CP-02</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="233" to="248" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Efficient global optimization of expensive black box functions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">R</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schonlau</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">J</forename><surname>Welch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Global Optimization</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="455" to="492" />
+			<date type="published" when="1998" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Learning the empirical hardness of optimization problems: The case of combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of CP-02</title>
+		<meeting>of CP-02</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Design and analysis of computer experiments</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Sacks</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">J</forename><surname>Welch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">J</forename><surname>Welch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">P</forename><surname>Wynn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="409" to="423" />
+			<date type="published" when="1989-11" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<monogr>
+		<title level="m" type="main">The Design and Analysis of Computer Experiments</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">J</forename><surname>Santner</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">J</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">I</forename><surname>Notz</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+			<publisher>Springer Verlag</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Global versus local search in constrained optimization of computer models</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schonlau</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">J</forename><surname>Welch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">R</forename><surname>Jones</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">New Developments and Applications in Experimental Design</title>
+		<editor>N. Flournoy, W.F. Rosenberger, and W.K. Wong</editor>
+		<meeting><address><addrLine>Hayward, California</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1998" />
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="11" to="25" />
+		</imprint>
+		<respStmt>
+			<orgName>Institute of Mathematical Statistics</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Ubcsat: An implementation and experimentation environment for SLS algorithms for SAT &amp; MAX-SAT</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A D</forename><surname>Tompkins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of SAT-04</title>
+		<meeting>of SAT-04</meeting>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Sequential design of computer experiments to minimize integrated response functions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">J</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">J</forename><surname>Santner</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">I</forename><surname>Notz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="1133" to="1152" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

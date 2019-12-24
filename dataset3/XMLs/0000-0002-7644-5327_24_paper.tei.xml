@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Revenue Monotonicity in Combinatorial Auctions</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Baharak</forename><surname>Rastegari</surname></persName>
+							<email>baharak@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>B.C</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anne</forename><surname>Condon</surname></persName>
+							<email>condon@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>B.C</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>B.C</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Revenue Monotonicity in Combinatorial Auctions</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Intuitively, one might expect that a seller's revenue from an auction weakly increases as the number of bidders grows, as this increases competition. However, it is known that for combinatorial auctions that use the VCG mechanism, a seller can sometimes increase revenue by dropping bidders. In this paper we investigate the extent to which this problem can occur under other dominant-strategy combinatorial auction mechanisms. Our main result is that such failures of "revenue monotonicity" are not limited to mechanisms that achieve efficient allocations. Instead, they can occur under any dominant-strategy direct mechanism that sets prices using critical values, and that always chooses an allocation that cannot be augmented to make some bidder better off, while making none worse off.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Combinatorial auctions have received considerable attention in AI, as they constitute a broad and flexible framework for resource allocation among self-interested agents with complex valuations <ref type="bibr" target="#b5">(Cramton, Shoham, &amp; Steinberg 2006)</ref>. One important property for an auction mechanism is that it is a dominant strategy for selfish bidders to truthfully reveal their private information to the mechanism. Therefore, there is quite a lot of work in the literature concerning the design of truthful mechanisms for combinatorial auctions <ref type="bibr" target="#b18">(Vickrey 1961;</ref><ref type="bibr" target="#b4">Clarke 1971;</ref><ref type="bibr" target="#b7">Groves 1973;</ref><ref type="bibr">Mu'alem &amp; Nisan 2002;</ref><ref type="bibr" target="#b15">Nisan &amp; Ronen 2000;</ref><ref type="bibr" target="#b9">Lehmann, O'Callaghan, &amp; Shoham 2002;</ref><ref type="bibr" target="#b2">Bartal, Gonen, &amp; Nisan 2003)</ref>. <ref type="bibr" target="#b21">Yokoo et al. (2006;</ref><ref type="bibr" target="#b17">2001;</ref> studied the design of truthful mechanisms even if bidders are capable of submitting multiple bids using pseudonyms.</p><p>Another important class of properties concerns an auction's revenue. <ref type="bibr" target="#b5">Goldberg &amp; Hartline (2003)</ref> studied the design of an auction that achieves a constant fraction of the optimal revenue even on worst case inputs in the unlimited supply (digital good) setting, and <ref type="bibr" target="#b17">Ronen (2001)</ref> looked at the design of a multi-unit auction that is polytime and approximately optimal on expectation. <ref type="bibr" target="#b0">Aggrawal &amp; Hartline (2006)</ref> considered the design of auctions that obtain a constant fraction of the optimal profit with application to sponsored search, and <ref type="bibr" target="#b3">Blum &amp; Hartline (2005)</ref> applied similar ideas to an online setting where bidders arrive sequen-Copyright c 2007, American Association for Artificial Intelligence (www.aaai.org). All rights reserved. tially. <ref type="bibr" target="#b13">Monderer &amp; Tennenholtz (2005)</ref> gave an upper bound on the expected revenue from multi-object auctions with risk-averse bidders, and showed that under some additional assumptions VCG is asymptotically optimal as the number of bidders grows. <ref type="bibr" target="#b10">Likhodedov and Sandholm (2005a;</ref><ref type="bibr" target="#b11">2005b)</ref> gave algorithmic methods for finding approximately optimal combinatorial auctions from the (VCG-like) family of affine-maximizers.</p><p>The VCG mechanism <ref type="bibr" target="#b18">(Vickrey 1961;</ref><ref type="bibr" target="#b4">Clarke 1971;</ref><ref type="bibr" target="#b7">Groves 1973)</ref> has gained substantial attention because it offers dominant strategies to the bidders, allocates goods efficiently when bidders follow their dominant strategies, and under reasonable assumptions can also guarantee other desirable properties such as individual rationality and weak budget balance. However, despite these strong arguments in its favor, VCG also has some serious drawbacks (see, e.g., <ref type="bibr" target="#b1">Ausubel &amp; Milgrom (2006)</ref>). To name a few, bidders must reveal all their private information; VCG exhibits counter-intuitive or undesirable behavior when bidders collude, submit pseudonymous bids, or drop out; and in some cases VCG has poor revenue properties.</p><p>In this paper we will consider the last of these drawbacks-that a seller's revenue can go down when bidders are added to an auction, contrary to the intuition that having more bidders should increase competition. Following an example due to <ref type="bibr" target="#b1">Ausubel &amp; Milgrom (2006)</ref>, consider an auction with three bidders and two goods for sale. Suppose that bidder 2 wants both goods for the price of $2 billion whereas bidder 1 and bidder 3 are willing to pay $2 billion for the first and the second good respectively. The VCG mechanism awards the goods to bidders 1 and 3 for the price of zero, yielding the seller zero revenue. However, in the absence of either bidder 1 or bidder 3, the revenue of the auction would be $2 billion.</p><p>We say that an auction mechanism is revenue monotonic if the seller's revenue is guaranteed to weakly decrease as bidders are dropped. (We will give a formal definition later.) We have just seen that VCG does not have this property. In this paper we investigate the extent to which other dominant strategy truthful combinatorial auction mechanisms satisfy revenue monotonicity. Our main result states roughly that any such mechanism, under some traditional assumptions and the further assumption of maximality-that the mechanism always chooses an allocation that cannot be augmented to make some bidder better off, while making none worse off -is not revenue monotonic.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Preliminaries</head><p>Let N = {1, 2, . . . , n} be the universal set of n biddersall the potential bidders who exist in the world. Let G be a set of m goods for sale. The valuation of a bidder i ∈ N is v i : 2 G → R + , a function mapping subsets of goods to the nonnegative reals. Let v = (v 1 , . . . , v n ) denote the vector of all bidders' valuations. We assume free disposal (v i (s) ≥ v i (s ) : ∀s ⊇ s ) and normalization (v i (∅) = 0). Throughout, all vectors are n-dimensional; since some potential bidders may not participate, we use the symbol ∅ in the vector as a placeholder for (e.g., the valuation of) each non-participating bidder. If u is an n-dimensional vector, then u −i always denotes (u 1 , . . . , u i−1 , ∅, u i+1 , . . . , u n ).</p><p>When revealing her valuation, a bidder may not tell the truth. We denote the declared valuation of a participating bidder i as v i . We let v be the vector whose ith entry is v i if bidder i participates, and is ∅ (a special placeholder symbol) if bidder i does not participate. Note that if bidder j does not participate, then v = v −j . We do the same with the vector of true valuations.</p><p>Definition 1 (CA Mechanism) A direct Combinatorial Auction (CA) mechanism M with reserve prices (CA mechanism) is a tuple (A, P, r, G, N) where • r : 2 G → R + is a mapping from each s ⊆ G to a nonnegative real number, called the reserve price, such that r(s) ≥ r(s ), ∀s ⊆ s, and r(∅) = 0. • A, the allocation scheme, maps each v to an allocation vector (a 1 ( v), . . . , a n ( v)) of goods, where</p><formula xml:id="formula_0">∪ i a i ( v) ⊆ G, a i ( v) ∩ a j ( v) = ∅ if i = j, and a i ( v) = ∅ if v i = ∅.</formula><p>• P , the payment scheme, maps each v to a vector (p 1 ( v), . . . , p n ( v)), where p i ( v) is the payment from bidder i to the auctioneer such that</p><formula xml:id="formula_1">p i ( v) = 0 if v i = ∅. Also, for all i ∈ N, p i ( v) ≥ r(a i ( v)).</formula><p>We refer to a i and p i as bidder i's allocation and payment functions. Whenever v can be understood from the context, we refer to a i ( v) and p i ( v) by a i and p i , respectively. If v i (a i ) &gt; 0, we say that bidder i "wins".</p><p>Reserve prices ensure that bundles will not be sold below a certain price, and are set by the auctioneer independently of the bidders' valuations. Of course, we can recover an auction without reserve prices as a special case where the reserve price for each bundle is 0.</p><p>Defining a universal set of potential bidders N may seem unusual. We do so for two reasons. First, because we intend to study mechanisms' performance as bidders are dropped or added, we must ensure that mechanisms are defined for subsets of the set of bidders. Second, to make our results as strong as possible, we allow CA mechanisms to perform differently based on which bidders participate. Thus, e.g., v contains information about which potential bidders are present and which are absent. Of course, mechanisms also have the freedom to ignore the bidders' identities, as most widely-studied mechanisms do.</p><p>We now define a restricted class of valuations.</p><p>Definition 2 (Single-minded bidder, following <ref type="bibr" target="#b9">Lehmann et al. (2002)</ref>) Bidder i is single-minded if there exists a set</p><formula xml:id="formula_2">b i ⊆ G of goods such that v i (s) = v i &gt; 0 if s ⊇ b i and v i (s) = 0 otherwise.</formula><p>We call b i , v i the true type for single-minded bidder i. The type b i , v i can be inferred from the valuation function v i , and vice versa, and so we use b i , v i and v i interchangeably when it is clear that the bidders are single-minded. Let b = (b 1 , . . . , b n ) and v = (v 1 , . . . , v n ). Extending the notation used above to the single-minded case, b, v denotes a vector of types for each bidder, b i , v i denotes the declared type of a participating bidder i and b, v denotes a vector consisting of declared types for each participating bidder and ∅ symbols for each non-participating bidder. Observe that we do not assume that the mechanism knows a singleminded bidder's desired bundle. Definition 3 (DS truthful) A CA mechanism M is dominant strategy (DS) truthful (or truthful) if and only if for any fixed set of participating bidders, for any participating bidder i, it is a best response for i to declare her true valuation regardless of the declarations of the other participating bidders.</p><p>Participation says that bidders who do not win should pay nothing to the auctioneer. Unlike the property of individual rationality (IR), participation does not constrain payments for bidders who win. IR is therefore a stronger condition than participation but is implied (in mechanisms for singleminded bidders) when participation and criticality (defined below) are both assumed. Definition 4 (Participation) CA mechanism M satisfies participation if and only if p i = 0 for any bidder i for whom v i (a i ) = 0 (i.e. who does not win).</p><p>Intuitively, criticality says that any single-minded bidder i (with declared desired bundle b i ) wins if her bid on b i is greater than a critical value that depends only on the other bidders' declarations and not on her own, and loses if her bid is less. Furthermore, she has to make a payment equal to that critical value if she wins. Definition 5 (Criticality, following <ref type="bibr" target="#b9">Lehmann et al. (2002)</ref>) CA mechanism M satisfies criticality if and only if: given that participating bidders declare single-minded types, and given any participating bidder i and the declarations (or placeholders) for all the other bidders, b −i and v −i , for all s ⊆ G there exists some finite critical value cv s,</p><formula xml:id="formula_3">i ( b −i , v −i ), such that when i's declared type is b i , v i then • if v i &gt; cv b bi,i ( b −i , v −i ) then a i ⊇ b i and p i = cv b bi,i ( b −i , v −i ) (i.e. i wins at least b i and pays exactly cv b bi,i ( b −i , v −i )), and • if v i &lt; cv b bi,i ( b −i , v −i ) then a i ⊇ b i (i.e., i loses).</formula><p>Note that the definition does not specify whether bidder i wins or loses in the case when</p><formula xml:id="formula_4">v i = cv b bi,i ( b −i , v −i ).</formula><p>Also, the definition requires that the mechanism produces the same critical values for a bidder, given the same declarations for all the other bidders. For notational simplicity, whenever b is understood implicitly we drop it and write</p><formula xml:id="formula_5">cv i ( v −i ) instead of cv b bi,i ( b −i , v −i ).</formula><p>The revenue of an auction mechanism is the sum over all the payments made by the bidders to the auctioneer. Informally, an auction mechanism is revenue monotonic if, when a bidder drops out, the auctioneer never collects more money as a result.</p><p>Definition 6 (Revenue Monotonicity (RM)) CA mechanism M is revenue monotonic (RM) if and only if for all v in the equilibrium of the mechanism and for all bidders j,</p><formula xml:id="formula_6">i∈N p i ( v) ≥ i∈N\{j} p i ( v −j ).</formula><p>Maximality states that a mechanism chooses an allocation that cannot be augmented to make some bidder better off, while making none worse off. Maximality corresponds to the game-theoretic notion of strong Pareto efficiency (see e.g., <ref type="bibr" target="#b16">Osborne &amp; Rubinstein;</ref><ref type="bibr">Myerson (1994;</ref><ref type="bibr" target="#b14">1997)</ref>): the mechanism chooses some allocation that cannot be modified in a way that makes all agents at least as happy as before and some agent strictly happier. This is a much less restrictive condition than the standard mechanism design notion of Pareto efficiency (see e.g., Mas-Colell, D.Whinston, &amp; R. <ref type="bibr">Green (1995)</ref>): that the mechanism selects an allocation that maximizes the sum of the agents' utilities. (Note that every Pareto efficient allocation is maximal, but not vice versa.) To avoid confusion, we have defined the term "maximality", and will use "efficiency" only in the latter sense. Finally, observe that Definition 7 does not require bidders to be single-minded; rather, it only describes how the mechanism would behave if bidders expressed single-minded types.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>RM Failure Example</head><p>Ultimately, our goal in this paper will be to investigate whether broad families of mechanisms satisfy revenue monotonicity. Our example in the introduction already showed that VCG does not satisfy this property. Before moving on to our theoretical results, we show that another widely-studied mechanism also fails RM, even though it does not have an efficient allocation rule. <ref type="bibr" target="#b9">Lehmann, O'Callaghan, &amp; Shoham (2002)</ref> introduced an approximately efficient DS truthful direct CA mechanism for single-minded bidders; we call this mechanism LOS. Like VCG, LOS satisfies participation, maximality and criticality. Let ppg i = v i /|b i |, bidder i's declared price per good. LOS ranks bids in a list L in decreasing order of ppg, and then greedily allocates bids starting from the top of L. Thus, each bidder i's bid b i is granted if it does not conflict with any previously allocated bids. If i's bid is allocated she is made to pay |b i | * v inext /|b inext | where inext is the first bidder following i in L whose bid was denied but would have been allocated if i's bid were not present. Bidder i pays zero if she does not win or if there is no bidder inext. This mechanism can accommodate reserve prices by including them as bids placed by the seller.</p><p>Consider three bidders {1, 2, 3} and two goods {g 1 , g 2 }.</p><p>Let the true type of bidder 1, 2 and 3 be {g 1 }, v 1 , {g 1 , g 2 }, v 2 and {g 2 }, v 3 , respectively. Now consider the following conditions on the bidders' valuations:</p><formula xml:id="formula_7">(1) v 1 &gt; v 3 &gt; v 2 /2; (2) v 2 &gt; 0; (3) v 1 &gt; v 2 &gt; v 3 ; (4) v 2 &lt; 2v 3 .</formula><p>It is possible to assign values to the v i 's in a way that satisfies all conditions: e.g., v 1 = 5, v 2 = 4 and v 3 = 3.</p><p>We will now demonstrate that the auctioneer's revenue under LOS can be increased by dropping a bidder, any time that the bidders and their valuations are as described above. From condition 1, ppg 1 &gt; ppg 3 &gt; ppg 2 and therefore bidders 1 and 3 win. Each pays zero, so the total revenue is zero. To see this, note that the next bidder in the list after bidder 1 whose bid conflicts with b 1 is bidder 2. However, bidder 2 would not win even if bidder 1 were not present, since b 2 also conflicts with b 3 . Therefore bidder 1 pays zero. The same is true for bidder 3, and thus she also pays zero. Therefore the total revenue is zero. By dropping bidder 1, bidder 3 wins and would be made to pay ppg 2 = v 2 /2. Since v 2 &gt; 0 (condition 2) bidder 3 would pay more than zero in this case and so revenue monotonicity fails.</p><p>It turns out that under conditions 3 and 4, the auctioneer would also gain revenue by dropping either bidder 1 or 3 under VCG. We leave this to the reader to verify; the argument is essentially the one given in the introduction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Impossibility Theorem</head><p>In what follows we investigate whether there exists any DS truthful mechanism that satisfies participation, criticality and maximality and is revenue monotonic. We first prove a useful lemma that roughly describes conditions under which an increase in one single-minded bidder's declared value for a bundle weakly decreases another single-minded bidder's critical value. Lemma 8 Let M be a A mechanism that satisfies criticality and maximality. Let b, v be an arbitrary vector of declared single-minded types for all participating bidders and placeholders (∅) for non-participating bidders. Suppose that for two participating bidders i and k, (1) b i ∩ b k = ∅ and (2)</p><formula xml:id="formula_8">∀j ∈ N \ {i, k}, b i ∩ b j = ∅ and b k ∩ b j = ∅. For all v * k satisfying v k &gt; v * k &gt; r( b k ), cv i ( v −i ) ≤ cv i ( v −i ),<label>(1)</label></formula><p>where v * is obtained from v by replacing v k by v * k . Remark. In words, this lemma states that an increase (from any value greater than r(b k )) in the declared value of bidder k can only cause bidder i's critical value to stay the same or to decrease, assuming that the declared bundles of i and k do not overlap, the declared bundles of all other bidders overlap with both i and k's declared bundles, and other bidders' declarations are fixed. The claim is illustrated in <ref type="figure">Figure 1</ref>. Proof Assume for contradiction that Inequality <ref type="formula" target="#formula_8">(1)</ref>  </p><formula xml:id="formula_9">i ( v −i ) &gt; cv i ( v * −i ) is unaffected by the value of v i . Let v i take an arbitrary value satisfying cv i ( v −i ) &gt; v i &gt; cv i ( v * −i ).</formula><p>We begin by identifying some conditions under which bidder k wins in Part 1, and then use this result to derive our contradiction in Part 2.</p><formula xml:id="formula_10">Part 1: Since v i &gt; cv i ( v * −i ), if bidder k had bid b k , v * k</formula><p>then bidder i would have won (by criticality). By assumptions (1) and (2) above, bidder k is the only bidder whose bundle does not overlap with b i ; thus by maximality and the fact that v * k &gt; r( b k ), bidder k would also win. By</p><formula xml:id="formula_11">criticality cv k ( v * −k ) ≤ v * k and since v * −k = v −k therefore cv k ( v −k ) ≤ v * k . Part 2: Since cv k ( v −k ) ≤ v * k , by the construction of v * k we also have v k &gt; cv k ( v −k )</formula><p>, and so bidder k wins (by criticality). By assumptions <ref type="formula" target="#formula_8">(1)</ref> and <ref type="formula" target="#formula_14">(2)</ref> in the statement of the lemma, bidder i is the only bidder whose bundle does not overlap with b k . It follows from our definitions of a CA mechanism and of criticality that cv i ( v −i ) ≥ r( b i ). Therefore, by construction, v i &gt; r( b i ) and so bidder i wins (by maximality). Therefore, cv i ( v −i ) ≤ v i (by criticality), giving us our contradiction. 2</p><p>We can now prove our main theorem.</p><p>Theorem 9 Let M be a DS truthful direct CA mechanism that satisfies participation, criticality, and maximality, and for which |G| ≥ 2 and N ≥ 3. Then M is not revenue monotonic.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark.</head><p>A high-level illustration of our argument is given in <ref type="figure" target="#fig_1">Figure 2</ref>. Also note that, according to the revelation prin- Proof Let G = {g 1 , g 2 } and let the set of participating bidders be {1, 2, 3}. For notational simplicity we assume that N = {1, 2, 3}, to avoid long vectors with many ∅ entries; the following argument extends directly to N of any size and any given three bidders. It also extends directly to larger sets of goods (we can just construct valuations where the bidders only value the first two goods as they do here). Since M is DS truthful, assume that bidders bid truthfully. Let bidders 1, 2 and 3 value the bundles b 1 = {g 1 }, b 2 = {g 1 , g 2 } and b 3 = {g 2 } respectively (single-minded preferences). Define v * 1 = r(b 1 ) + ε and v *</p><formula xml:id="formula_12">3 = r(b 3 ) + ε ,</formula><p>for some ε &gt; 0. Pick an arbitrary value for v 2 such that v 2 &gt; cv 2 (∅,</p><formula xml:id="formula_13">∅, v * 1 + v * 3 + ε) for some ε &gt; 0. Then pick v 1 and v 3 such that v 1 &gt; max{cv 1 (∅, v 2 , v * 3 ), cv 1 (∅, v 2 , ∅), v * 1 }, and v 3 &gt; max{cv 3 (v * 1 , v 2 , ∅), cv 3 (∅, v 2 , ∅), v * 3 }.</formula><p>From the construction of the v i 's we have that v 1 &gt; v * 1 and v 3 &gt; v * 3 . Then, from Lemma 8 we have</p><formula xml:id="formula_14">cv 1 (∅, v 2 , v 3 ) ≤ cv 1 (∅, v 2 , v * 3 ), and<label>(2)</label></formula><formula xml:id="formula_15">cv 3 (v 1 , v 2 , ∅) ≤ cv 3 (v * 1 , v 2 , ∅).<label>(3)</label></formula><p>In Part 1 we determine the auction's revenue when bidders declare the constructed valuations; in Part 2 we show that the revenue increases when bidder 1 (or, symmetrically, bidder 3) is dropped.</p><p>Part 1: Since v 1 &gt; cv 1 (∅, v 2 , v * 3 ) (by construction), by the same argument as in Part 1 of Lemma 8 we can conclude that cv 3 (v 1 , v 2 , ∅) ≤ v * 3 (see (1) in <ref type="figure">Figure 3</ref>). Symmetrically, from v 3 &gt; cv 3 (v * 1 , v 2 , ∅) we can also conclude that</p><formula xml:id="formula_16">cv 1 (∅, v 2 , v 3 ) ≤ v * 1 . From v 1 &gt; cv 1 (∅, v 2 , v *</formula><p>3 ) and by using Inequality <ref type="formula" target="#formula_14">(2)</ref>, we can conclude that v 1 &gt; cv 1 (∅, v 2 , v 3 ) and therefore, by criticality, bidder 1 wins (see (2) in <ref type="figure">Figure 3)</ref>. By construction bidder 3 places the only other bid that does not conflict with b 1 , and v 3 &gt; r(b 3 ). Then by maximality, bidder 3 also wins (see (3) in <ref type="figure">Figure 3</ref>). By participation, since bidder 2 loses she must pay zero. Therefore the revenue of the auction, by criticality, is R =</p><formula xml:id="formula_17">cv 1 (∅, v 2 , v 3 ) + cv 3 (v 1 , v 2 , ∅) ≤ v * 1 + v * 3</formula><p>. Part 2: If bidder 1 is not present, then only bidders 2 and 3 compete. Since b 2 and b 3 both include good g 2 , at most one of the bidders can win. By construction, v 2 &gt; cv 2 (∅, ∅, v * 1 + v * 3 + ε). Thus if bidder 3 were to bid b 3 , v * 1 + v * 3 + ε then bidder 2 would win (by criticality) and so bidder 3 would lose. This tells us (again by critical- <ref type="figure" target="#fig_2">Figure 4</ref>).</p><formula xml:id="formula_18">ity) that cv 3 (∅, v 2 , ∅) ≥ v * 1 + v * 3 + ε (see (4) in</formula><p>Since v 3 &gt; cv 3 (∅, v 2 , ∅), by criticality, bidder 3 wins (see (5) in <ref type="figure" target="#fig_2">Figure 4</ref>) and pays at least v * 1 + v * 3 + ε (see <ref type="formula">(6)</ref> in <ref type="figure" target="#fig_2">Figure 4)</ref>. The revenue of this auction is R −1 = cv 3 (∅, v 2 , ∅), since again by participation bidder 2 pays zero. Therefore,</p><formula xml:id="formula_19">R −1 = cv 3 (∅, v 2 , ∅) ≥ v * 1 + v * 3 + ε &gt; v * 1 + v * 3 ≥ R. Therefore M is not revenue monotonic. 2</formula><p>We could also have obtained the same impossibility results as in Theorem 9 if we had defined revenue monotonicity over the set of goods instead of over the set of bidders. However, one might consider this result less surprising, as it may seem intuitive that adding goods to an auction could reduce the level of competition between the bidders.</p><p>Corollary 10 Let M be a DS truthful CA mechanism that satisfies participation, criticality, and maximality, and for which |G| ≥ 3 and N ≥ 3. Then M is not "revenue monotonic on the set of goods": dropping a good may increase the revenue.</p><p>Proof The claim follows directly from the proof of Theorem 9 with the following modifications: (i) add an extra good g 3 to bidder 1's bundle b 1 , and (ii) instead of dropping bidder 1 in Part 2, drop g 3 -this means that bidder 1's valuation for all available bundles will be 0. 2</p><p>One might have imagined that maximality would increase the revenue of auction mechanisms by not "leaving money on the table," augmenting allocations to award available goods to the bidders who value them. Instead, we have shown above that any DS truthful combinatorial auction mechanism that satisfies maximality-along with some other, very standard conditions-can sometimes collect no more than reserve prices despite competition between bidders. Specifically, given the constructed valuations, bidder 2's losing bid has no effect on the prices paid by winning bidders 1 and 3, who also offer each other no competition, as they bid on separate bundles. Thus bidders 1 and 3 each pay an amount arbitrarily close to a reserve price. On the other hand, when bidder 1 (or good g 3 ) is dropped then bidders 2 and 3 do compete. Although bidder 3 still wins, she pays more than before and, given the constructed valuations, more than the sum of the reserve prices for b 1 and b 3 .</p><p>Observe that, given the constructed valuations, the mechanism can gain arbitrarily higher revenue in the two-bidder case than in the three-bidder case, since ε and ε can be set to be arbitrarily large and arbitrarily small, respectively. In the three-bidder case the mechanism may generate almost the lowest possible revenue (the sum of the reserve prices) as ε can set to be close to zero. Note also that although we have defined the maximality and criticality properties by describing a mechanism's behavior given single-minded bids, our main theorem covers any mechanism under which singleminded bidders could participate, and for which maximality and criticality are guaranteed for such bidders.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Pseudonymous Bidding</head><p>Pseudonymous (false-name) bidding has been studied extensively, e.g. <ref type="bibr" target="#b21">(Yokoo 2006;</ref><ref type="bibr" target="#b19">Yokoo, Sakurai, &amp; Matsubara 2001;</ref>. This work is concerned with auctions in which a bidder may submit multiple bids using pseudonyms. An auction mechanism is said to be pseudonymous-bid-proof if truth-telling without using false-name bids is a dominant strategy for each bidder. <ref type="bibr" target="#b19">Yokoo et al. (2001)</ref> proved that there does not exist any combinatorial auction mechanism that is pseudonymous-bid-proof and efficient. Observe that this is a somewhat narrow result, as only Groves mechanisms (e.g., VCG) are both DS truthful and efficient <ref type="bibr" target="#b6">(Green &amp; Laffont 1977)</ref>.</p><p>There is a connection between pseudonymous-bidproofness and revenue monotonicity. From the seller's perspective, pseudonymous bidding is the same as having more bidders in the auction. If an auction is not revenue monotonic, more bidders can mean less revenue. Our results are therefore relevant to research on pseudonymous bidding. Note that, for technical reasons we would not be able to use the same form of the set up for false-name bidding. (E.g. we have assumed that mechanisms know bidders' identities.) If we make appropriate changes, then we can prove the following corollary which generalizes <ref type="bibr" target="#b19">Yokoo, Sakurai, &amp; Matsubara's (2001)</ref> result by replacing their requirement of efficiency by the weaker criterion of maximality. Note that, all efficient mechanisms are maximal, but others, e.g., the LOS mechanism <ref type="bibr" target="#b9">(Lehmann, O'Callaghan, &amp; Shoham 2002)</ref>, are inefficient but still maximal.</p><p>Corollary 11 Let M be a DS truthful CA mechanism which satisfies participation, criticality, and maximality, and for which |G| ≥ 2 and |N| ≥ 3. Then M is not pseudonymousbid-proof.</p><p>Proof Given the valuations constructed in the proof of Theorem 9, bidder 3 gains by pseudonymously bidding also as bidder 1, and so truthfulness is not a dominant strategy for bidder 3. 2</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Mechanisms that Satisfy RM</head><p>We have shown that there is no RM and DS truthful mechanism that satisfies participation, criticality and maximality. What DS truthful CA mechanisms are revenue monotonic? We do not have a complete characterization, but we can give some examples.</p><p>Fixed-price mechanisms. A mechanism is RM and DS truthful if it charges bidders a fixed-price and uses some arbitrary allocation scheme that awards each good to a bidder who bids at or above the fixed price. This is the mechanism used by supermarkets. In a CA setting, a possible allocation scheme is to randomly decide whether a bid at or above the reserve price should be granted or denied; another is to have bidders listed in a fixed order and to sell each good to the first bidder who bids at or above the fixed price. Both of these mechanisms are clearly revenue monotonic since dropping a bidder cannot increase revenue; however, they both fail criticality.</p><p>Set protocol (see e.g. <ref type="bibr" target="#b21">(Yokoo 2006;</ref><ref type="bibr" target="#b8">Holzman et al. 2004)</ref>). The set protocol is a simple mechanism that offers all goods as one indivisible bundle and uses the second price sealed-bid auction to determine the winner and payment. The critical value for each bidder i is the highest bid among the rest of the bidders. The set protocol is DS truthful and satisfies participation and criticality. It is also revenue monotonic since dropping a bidder can not cause the second-price bid to increase. Note, however, that the set protocol does not satisfy maximality; because the winning bidder may be given goods that she does not value, even if there exists another bidder who values them and bids above the reserve price.</p><p>Leveled Division Set (LDS) protocol <ref type="bibr" target="#b21">(Yokoo 2006)</ref>. The LDS protocol can be seen as an extension to the set protocol that allows goods to be sold to more than one bidder. The mechanism determines a leveled set where each level is consist of a set of possible ways for dividing goods among different bidders, under some conditions. The LDS protocol then utilizes pre-defined reserve prices and chooses a level, according to the declared valuations, within which it uses VCG to determine the winners and payments. The LDS protocol is DS truthful and RM. However, for the same reason as the set protocol, LDS does not satisfy maximality.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions and Future Work</head><p>In this work, we investigated whether there is any DS truthful mechanism that does not exclude single-minded bidders and satisfies participation, criticality and maximality and is revenue monotonic. We showed that no such mechanism exists; as corollaries, we were able to show similar results concerning pseudonymous-bid-proof mechanisms and mechanisms that yield weakly decreasing revenue when goods are dropped. In future work, we are interested in investigating the probability that such RM failures would occur in practical auctions. In a similar vein, it is also interesting to look for an auction which is optimal with respect to the above properties: in other words, what DS truthful mechanism has all the properties except RM and has the minimum probability to violate revenue monotonicity? Finally, we aim to understand sufficient conditions that are reasonable for both bidders and sellers under which DS truthful mechanisms are guaranteed to be revenue monotonic.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Definition 7 (</head><label>7</label><figDesc>Maximality) CA mechanism M satisfies maximality if and only if, for all declarations v = b, v in which participating bidders declare single-minded values, the following holds. Let N = {i ∈ N | a i ( v) ⊇ b i } denote the set of winning bidders under the declaration v and let A = {∪ b i |i ∈ N } denote the minimum set of allocated items that yields the same set of winning bidders. Then there does not exist any bidder i ∈ N and any bundle s ⊆ G \ A for which s = b i and v i &gt; r(s).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>does not hold and thus that cv i ( v −i ) &gt; cv i ( v * −i ). Since the critical value for bidder i does not depend on her valuation, A high-level illustration of Theorem 9: Given{g 1 }, v 1 , {g 1 , g 2 }, v 2 and {g 3 }, v 3 -v i 's as con-structed in the proof of the theorem-(a) bundle {g 1 } and bundle {g 2 } win and the associated bidders (bidders 1 and 3) pay more than the reserve price, (b) bundle {g 2 } wins and the associated bidder (bidder 3) pays more than the sum of payments in part (a) our assumption that cv</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 4 :</head><label>4</label><figDesc>Illustration of the proof of Theorem 9: Part 2 ciple truthfulness is not a restrictive condition.</figDesc></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Aggrawal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">D</forename><surname>Hartline</surname></persName>
+		</author>
+		<title level="m">Knapsack auctions. SODA&apos;07</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="1083" to="1092" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">The lovely but lonely Vickrey auction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">M</forename><surname>Ausubel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Milgrom</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Combinatorial Auctions</title>
+		<editor>Cramton, P.</editor>
+		<editor>Shoham, Y.</editor>
+		<editor>and Steinberg, R.</editor>
+		<meeting><address><addrLine>Cambridge, Massachusetts</addrLine></address></meeting>
+		<imprint>
+			<publisher>MIT Press</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="17" to="40" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Incentive compatible multi unit combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Bartal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gonen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Nisan</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="72" to="87" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Near-optimal online auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Blum</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">D</forename><surname>Hartline</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SODA&apos;05</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="1156" to="1163" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Multipart pricing of public goods</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Clarke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Public Choice</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="17" to="33" />
+			<date type="published" when="1971" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Envy-free auctions for digital goods</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Cramton</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Steinberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Goldberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">D</forename><surname>Hartline</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+			<publisher>MIT Press</publisher>
+			<biblScope unit="page" from="29" to="35" />
+			<pubPlace>Cambridge, Massachusetts</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Combinatorial Auctions</note>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Characterization of satisfactory mechanisms for the revelation of preferences for public goods</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Green</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Laffont</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="427" to="438" />
+			<date type="published" when="1977" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Incentives in teams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Groves</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="617" to="631" />
+			<date type="published" when="1973" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Bundling equilibrium in combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Holzman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Kfir-Dahav</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Monderer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Tennenholtz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="104" to="123" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Truth revelation in approximately efficient combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Lehmann</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">I</forename><surname>O&amp;apos;callaghan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Approximating revenue-maximizing combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Likhodedov</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Sandholm</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="267" to="274" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Methods for boosting revenue in combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Likhodedov</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Sandholm</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="232" to="237" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Microeconomic Theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">D</forename><surname>Mas-Colell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Whinston</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Green</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995" />
+			<publisher>Oxford University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Truthful approximation mechanisms for restricted combinatorial auctions: extended abstract</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Monderer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">; A</forename><surname>Tennenholtz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Nisan</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="379" to="384" />
+		</imprint>
+	</monogr>
+	<note>Asymptotically optimal multi-object auctions</note>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Game Theory: Analysis of Conflict</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">B</forename><surname>Myerson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997" />
+			<publisher>Harvard University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Computationally feasible VCG mechanisms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Nisan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ronen</forename></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="242" to="252" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<monogr>
+		<title level="m" type="main">A Course in Game Theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Osborne</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Rubinstein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994" />
+			<publisher>The MIT Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<monogr>
+		<title level="m" type="main">On approximating optimal auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Ronen</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="11" to="17" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Counterspeculations, auctions, and competitive sealed tenders</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Vickrey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Finance</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="8" to="37" />
+			<date type="published" when="1961" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Robust combinatorial auction protocol against false-name bids</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Yokoo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Sakurai</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Matsubara</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Artificial Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">130</biblScope>
+			<biblScope unit="page" from="167" to="181" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">The effect of false-name bids in combinatorial auctions: New fraud in internet auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Yokoo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Sakurai</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Matsubara</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="174" to="188" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Pseudonymous bidding in combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Yokoo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Combinatorial Auctions</title>
+		<editor>Cramton, P.</editor>
+		<editor>Shoham, Y.</editor>
+		<editor>and Steinberg, R.</editor>
+		<meeting><address><addrLine>Cambridge, Massachusetts</addrLine></address></meeting>
+		<imprint>
+			<publisher>MIT Press</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Algorithm Portfolios through Empirical Hardness Models Case Studies on Combinatorial Auction Winner Determination and Satisfiability The Algorithm Selection Problem</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eugene</forename><surname>Nudelman</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">James</forename><surname>Mcfadden</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Galen</forename><surname>Andrew</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yoav</forename><surname>Shoham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Algorithm Portfolios through Empirical Hardness Models Case Studies on Combinatorial Auction Winner Determination and Satisfiability The Algorithm Selection Problem</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>We&apos;d like to acknowledge assistance from Ryan Porter, Carla Gomes and Bart Selman, and support from the Cornell Intelligent Information Systems Institute, a Stanford Graduate Fellowship and DARPA (F30602-00-2-0598).</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What is the best algorithm for a given problem?</p><p>worst-/average-case measure doesn't tell the whole story ideally, select algorithm on a per-instance basis [Rice]    • Our approach:</p><p>-Identify:</p><p>• a target distribution of problem instances, D • a set of algorithms, where each algorithm has a significant probability of outperforming the others on instances drawn from D • polytime-computable features of problem instances -Learn per-algorithm empirical hardness models -Use the models to construct an algorithm portfolio by choosing the algorithm with the best predicted runtime Combinatorial Auction Winner Determination • Equivalent to weighted set packing • Input: n goods, m bids • Objective: find revenue-maximizing non-conflicting allocation WDP: Runtime Variation • Complete algorithms: -CPLEX [ILOG Inc.] -CASS [Leyton-Brown et.al], -GL [Gonen and Lehman] • Gathered runtime data using various distributions randomly sampled generator's parameters for each instance • Even holding problem size constant, runtimes vary by many orders of magnitude across and within distributions -1 0 1 2 3 4 5 M a t c h i n g P a t h s S c h e d u l i n g L 6 L 2 R e g i o n s L 4 A r b i t r a r y L 7 L 3 0% 20% 40% 60% 80% 100% CPLEX Running Time log10(s e c) Dis tributio n 500 ins tance s in e ach WDP: Features 1. Linear Programming -L 1 , L 2 , L ∞ norms of integer slack vector 2. Price stdev(prices) stdev(avg price per good) stdev(average price per sqrt(good))</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Bid-Good graph</head><p>node degree stats (max, min, avg, stdev)    4. Bid graph node degree stats edge density clustering coefficient (CC), stdev avg min path length (AMPL) ratio of CC to AMPL eccentricity stats (max, min, avg, stdev)    </p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The Algorithm Selection Problem</head><p>• What is the best algorithm for a given problem?</p><p>worst-/average-case measure doesn't tell the whole story ideally, select algorithm on a per-instance basis <ref type="bibr">[Rice]</ref> • Our approach:</p><p>-Identify:</p><p>• a target distribution of problem instances, D • a set of algorithms, where each algorithm has a significant probability of outperforming the others on instances drawn from D • polytime-computable features of problem instances -Learn per-algorithm empirical hardness models -Use the models to construct an algorithm portfolio by choosing the algorithm with the best predicted runtime   training set preprocessed to exclude instances that were solved by all solvers, or by none of them terrible RMSE on test set enough predictive power to discriminate well • On the training set, SATzilla's choice takes on average 92 seconds longer to run than the optimal choice gives SATzilla an edge over its subsolvers, especially on harder instances</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>WDP: Empirical Hardness Models• Quadratic regression can be used to learn very accurate models</figDesc><table>Combinatorial Auction Winner Determination 
+
+• Equivalent to weighted set packing 
+• Input: n goods, m bids 
+• Objective: find revenue-maximizing non-conflicting 
+allocation 
+
+WDP: Runtime Variation 
+
+• Complete algorithms: 
+
+-CPLEX [ILOG Inc.] 
+-CASS [Leyton-Brown et.al], 
+-GL [Gonen and Lehman] 
+
+• Gathered runtime data using 
+various distributions 
+
+-randomly sampled generator's 
+parameters for each instance 
+
+• Even holding problem size 
+constant, runtimes vary by 
+many orders of magnitude 
+across and within distributions 
+
+-1 0 
+1 
+2 
+3 
+4 
+5 
+
+M 
+a t c h i n g 
+P a t h s 
+S c h e d u l i n g 
+L 6 
+L 2 
+R e g i o n s 
+L 4 
+A r b i t r a r y 
+L 7 
+L 3 
+
+0% 
+
+20% 
+
+40% 
+
+60% 
+
+80% 
+
+100% 
+
+CPLEX 
+Running 
+Time 
+log10(s e c) 
+
+Dis tributio n 
+500 ins tance s 
+in e ach 
+1. Linear Programming 
+
+-L 1 , L 2 , L ∞ norms of integer slack vector 
+
+2. Price 
+
+-stdev(prices) 
+-stdev(avg price per good) 
+-stdev(average price per sqrt(good)) 
+
+3. Bid-Good graph 
+
+-node degree stats (max, min, avg, stdev)   4. Bid graph 
+
+-node degree stats 
+-edge density 
+-clustering coefficient (CC), stdev 
+-avg min path length (AMPL) 
+-ratio of CC to AMPL 
+-eccentricity stats (max, min, avg, stdev)   Bid 
+
+Bid 
+
+Bid 
+
+Bid 
+
+Good 
+
+Good 
+
+Good 
+
+Bid 
+
+Bid 
+
+Bid 
+
+Bid 
+Bid 
+
+-predicting log 10 of CPLEX runtime 
+
+-Root mean squared error: 0.216 (test data) 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>-average depth to contradiction, estimate log-num-nodes in search tree SATzilla: Models and Portfolio• Learned linear regression models for each algorithm trained on more than 20000 instances • included 2002 competition instances • highly skewed towards random instances</figDesc><table>SATZilla: A Portfolio for SAT 
+
+• Algorithms in the portfolio: 
+
+-2clseq [Bacchus] 
+Limmat [Biere] 
+-OKsolver [Kullmann] 
+relsat [Bayardo] 
+-Satz-Rand [Kautz, Li] 
+SATO [Zhang] 
+-zChaff [Zhang] 
+Jerusat [Nadel] 
+
+• Satzilla2 (Hors-Concours) added: 
+
+-eqsatz [Li] 
+HeerHugo [Groote] 
+-AutoWalkSat [Patterson, Kautz] (preprocessing) 
+
+• Developed in just over two weeks! 
+
+SATzilla: Features 
+
+Var 
+
+Var 
+
+Var 
+
+Clause 
+
+Clause 
+
+1. Problem Size: #vars, #clauses, 
+#vars/#clauses 
+
+-rest of features are normalized by these 
+
+2. Graphs: 
+
+• Variable-Clause (VCG, bipartite) 
+• Variable (VG, edge whenever two 
+variables occur in the same clause) 
+• Clause (CG, edge whenever two clauses 
+share a variable with opposite sign) 
+
+-compute stats=(max, min, stdev, mean, 
+entropy) over node degrees 
+
+-for VCG, both for vars and clauses 
+
+-# of unary, binary, ternary clauses 
+-stats of the CG clustering coefficients 
+
+Var 
+
+Var 
+
+Var 
+
+Var 
+Var 
+
+Clause 
+Clause 
+
+Clause 
+Clause 
+3. Stats of #positive/#negative literals in each clause 
+4. Stats of #positive/#negative occurrences for each var 
+5. Horn clauses 
+
+-total #horn clauses 
+-stats of #horn occurrences for each var 
+
+6. LP relaxation features 
+
+-objective value 
+-stats of integer slacks 
+-#vars set to an integer 
+
+7. Probing features 
+
+• DPLL probing features (to depth 256) 
+
+-#unit props after reaching depths 1, 4, 16, 64, 256 
+
+• Local search probing (100 probes, each probe runs to plateau/max) 
+
+-stats of climb height (in #clauses) 
+-stats of #steps taken 
+-stats of fraction of satisfied clauses 
+-stats of break counts/#vars 
+
+• Search space size probing (5000 random search paths with unit-prop) 
+
+k1 
+
+Slide 10 
+
+k1 
+# pos/# neg: should be abs(0.5 -#pos / (#pos + #neg)) so that flipping all pos and neg doesn't change the stat 
+
+kevinlb, 1/1/2004 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SATzilla: SAT-2003 Competition</head><p>• 2 nd in Random instances track • 3 rd in Handmade track; 2 nd in Handmade track, SAT only • Only solver with good performance in more than one track • Success measured in #series solved, not #benchmarks solved -Satzilla 2 solved more random instances than kcnfs SATzilla: Areas for Improvement • Construct better models as we continue to study and analyze SAT data, our model accuracy is increasing</p><p>• Spend more development time to eliminate bugs -LP features timed out on many industrial benchmarks</p><p>• instead of using a fallback solver (zChaff), SATzilla picked one essentially at random, but most don't do well on industrial some "random" instances were solved but didn't count!</p><p>• Relsat was chosen, and actually solved them, but it had an output bug</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions</head><p>• WDP models: very mature, high accuracy algorithms: one is dominant, limiting the size of possible gains from a portfolio approach</p><p>• SAT models: more of a proof of concept, much room for improvement. However, discrimination accuracy is much better than prediction accuracy. algorithms: many are strong and correlation is fairly low, making this an excellent domain for future study</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions</head><p>Overall, our techniques provide a quick and relatively automatic blueprint for building algorithm portfolios, suitable when there are:</p><p>two or more algorithms with relatively uncorrelated runtimes a set of good features lots of data</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

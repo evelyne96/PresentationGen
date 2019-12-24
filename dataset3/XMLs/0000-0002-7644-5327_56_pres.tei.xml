@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Local-Effect Games Moshe Tennenholtz Technion</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Stanford</forename><forename type="middle">→</forename><surname>Ubc</surname></persName>
+						</author>
+						<title level="a" type="main">Local-Effect Games Moshe Tennenholtz Technion</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Computation-Friendly Game Representations</head><p>• In practice, interesting games are large; computing equilibrium is hard</p><formula xml:id="formula_0">• CS agenda -compact representation -tractable computation</formula><p>• Independence some agents have no (direct) effect on each other's payoffs <ref type="bibr">[La Mura, 2000]</ref>, <ref type="bibr">[Kearns, Littman, Singh, 2001]</ref>, <ref type="bibr">[Vickrey &amp; Koller, 2002]</ref>, <ref type="bibr">[Oritz &amp; Kearns, 2003]</ref>, <ref type="bibr">[Blum, Shelton, Koller, 2003]</ref> • Symmetry and Anonymity all agents have the same utility function agents affect each other in the same way <ref type="bibr">[Roughgarden &amp; Tardos, 2001]</ref>, <ref type="bibr">[Kearns &amp; Mansour, 2002]</ref>, <ref type="bibr">[Rosenthal, 1973]</ref>  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Congestion and Potential Games</head><p>• Congestion games <ref type="bibr">[Rosenthal, 1973]</ref> set of resources R, actions A, each action a ∈ A is a subset of R</p><p>• agent i's action choices come from A i ⊆ A -D(r) is the number of agents who chose actions a | r ∈ a -F r (·) are arbitrary functions for each r ∈ R agent i's utility:</p><p>especially interesting: always have pure strategy Nash equilibria</p><p>• Potential games <ref type="bibr">[Monderer &amp; Shapley, 1996]</ref> let X and Y be tuples of agents' action choices, differing only in the choice of agent i there exists a function P where P(X) -P(Y) = u i (X)u i (Y) equivalent to congestion games Local-Effect Games • Sometimes, an agent is made to pay more because another agent chooses a different but related action location problem: ice cream vendors on the beach role formation game: choose skill in which to specialize</p><p>• Express relationships between actions with a local-effect graph a node for every action a, labeled with a node function F a,a (·) a directed edge from action a to action a' if a affects a ', labeled F a,a' (·)</p><p>• neigh(a) is the set of actions that locally affect agents who choose action a • Our Setting:</p><p>symmetry: every agent has same action choices and utility function anonymity: every agent affects other agents in the same way node and edge functions strictly monotonic connections bidirectional (but functions can differ on directed edges) local effects additive</p><p>• Utility:</p><formula xml:id="formula_1">F a,a F b,b F c,c F e,e F d,d F a,b F b,c F c,d F d,e F b,a F c,b F d,c F e,d</formula><p>Overview 1. LEGs are a new game representation compact: symmetry, anonymity, additivity, context-specific independence between actions are LEGs different from (unsimplified) congestion and potential games?</p><p>• we characterize the intersection between the classes of games 2. What about finding equilibria?</p><p>-Computational experiments</p><p>• myopic best-response dynamics -Theoreticalcases where:</p><p>• LEGs can be reduced to potential games • no reduction to potential games, but PSNE still exist </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Potential Games</head><p>• Three other lemmas:</p><p>subgraphs of three nodes with other connectivities graphs having fewer than three nodes • First sum: congestion game cost function (summing over agents)</p><p>we know every congestion game has a potential function since PFs are additive, we can use this function to explain node functions if we can find another term to capture the effect of edge functions</p><p>• Global utility change due to local effects when agent deviates from D to D' is:</p><p>from linearity &amp; bidirectionality, aggregate utility change imposed on all other agents is the same as the utility change imposed on self Uniform Local Effect Games A B C • The graph is a clique the only node that does not locally affect an agent is the node corresponding to her action • Consider P(D) -P(D'), where D, D' differ for only one agent:</p><p>the only terms that do not cancel out from the second summation are the local effect from the original action and the new action</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>functions: marginal cost to agents in A when one additional agent chooses B does not depend on total number of agents choosing B Proof by construction of a potential function: node, edge functions) Assume the existence of a potential function P.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>• LEGs not equivalent to potential/congestion games we characterized exactly which LEGs are potential games • Many LEGs have pure-strategy Nash equilibria three subclasses shown theoretically however, PSNE do not always exist • Even when LEGs cannot be proven to have PSNE, equilibria can often be found experimentally using myopic best-response dynamics http://robotics.stanford.edu/˜kevinlb google://"Kevin Leyton-Brown"Thanks for your attention!</figDesc><table>• Using Theorem 1, Theorem 2 and our four lemmas, we prove: 
+
+A 
+
+C 
+
+B 
+
+arbitrary graph 
+arbitrary graph 
+
+Other Cases 
+
+• We can find pure strategy Nash equilibria even in cases 
+where no potential function exists 
+
+• Theorem 4 When 
+
+-node effect functions dominate edge effect functions 
+-edge effect functions are sublinear 
+
+then there exists a PSNE in which agents choose nodes 
+that constitute an independent set 
+
+• There are LEGs for which no PSNE exists 
+
+-verified by exhaustive enumeration of pure strategies 
+
+Conclusions 
+
+• Local-Effect Games offer a novel compact representation 
+
+-exploiting symmetry, anonymity, additivity and 
+context-specific independence in utility functions 
+-very natural graphical representation 
+
+Bidirectional Local Effect Games 
+
+A 
+B 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

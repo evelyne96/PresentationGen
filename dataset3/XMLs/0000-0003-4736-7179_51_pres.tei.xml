@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Kalman Filters and Adaptive Windows for Learning in Data Streams</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Bifet</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya DS&apos;06</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya DS&apos;06</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Kalman Filters and Adaptive Windows for Learning in Data Streams</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Data Streams Introduction Problem Given an input sequence x 1 , x 2 , . . . , x t , . . . we want to output at instant t a prediction x t+1 minimizing prediction error: The ADWIN Algorithm The ADWIN Algorithm We classify the new instance:</p><formula xml:id="formula_0">Algorithm ADWIN [BG06] Example W = 101010110111111 W 0 = 10101011 W 1 = 0111111 ADWIN: ADAPTIVE WINDOWING ALGORITHM 1 Initialize Window W 2 for each t &gt; 0 3 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 7 Outputμ W A.</formula><formula xml:id="formula_1">Algorithm ADWIN [BG06] Example W = 101010110111111 |μ W 0 −μ W 1 | ≥ c : CHANGE DETECTED! W 0 = 101010110 W 1 = 111111 ADWIN: ADAPTIVE WINDOWING ALGORITHM 1 Initialize Window W 2 for each t &gt; 0 3 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 7 Outputμ W A.</formula><p>ν NB = arg max ν∈{yes,no} P(ν j )P(sunny |ν j )P(cool|ν j )P(high|ν j )P(true|ν j )</p><p>Conditional probabilities can be estimated directly as frequencies:</p><p>P(a i |ν j ) = number of instances with attribute a i and class ν j total number of training instances with class ν j Create one estimator for each frequence that needs estimation </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>No estimator ever does much better than K-ADWIN K-ADWIN does much better than every other estimators in at least one context.</p><p>Tracking problem K-ADWIN and ADWIN automatically do about as well as the Kalman filter with the best set of fixed covariance parameters.</p><p>Naïve Bayes and k -means: K-ADWIN does somewhat better than ADWIN and far better than any memoryless Kalman filter.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4repeat Drop elements from the tail of W 5until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 then with probability 1 − δ ADWIN shrinks W to W 1 , or shorter.uses O( 1 log W ) memory words the processing time per example is O(log W ) (amortized) and O(log 2 W ) (worst-case).</figDesc><table>Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+11 / 29 
+
+The ADWIN Algorithm 
+
+Algorithm ADWIN [BG06] 
+
+Example 
+
+W = 101010110111111 Drop elements from the tail of W 
+W 0 = 101010110 W 1 = 111111 
+
+ADWIN: ADAPTIVE WINDOWING ALGORITHM 
+1 Initialize Window W 
+2 for each t &gt; 0 
+3 
+7 
+Outputμ W 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+11 / 29 
+
+The ADWIN Algorithm 
+
+Algorithm ADWIN [BG06] 
+
+Example 
+
+W = 01010110111111 Drop elements from the tail of W 
+W 0 = 101010110 W 1 = 111111 
+
+ADWIN: ADAPTIVE WINDOWING ALGORITHM 
+1 Initialize Window W 
+2 for each t &gt; 0 
+3 
+7 
+Outputμ W 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+11 / 29 
+
+The ADWIN Algorithm 
+
+Window Management Models 
+
+W = 101010110111111 
+
+Equal &amp; fixed size subwindows 
+
+1010 1011011 1111 
+
+D. Kifer, S. Ben-David, and J. 
+Gehrke. Detecting change in data 
+streams. 2004 
+
+Total window against subwindow 
+
+10101011011 1111 
+
+J. Gama, P. Medas, G. Castillo, 
+and P. Rodrigues. Learning with 
+drift detection. 2004 
+
+ADWIN: All Adjacent subwindows 
+
+1 01010110111111 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+12 / 29 
+
+The ADWIN Algorithm 
+
+Window Management Models 
+
+W = 101010110111111 
+
+Equal &amp; fixed size subwindows 
+
+1010 1011011 1111 
+
+D. Kifer, S. Ben-David, and J. 
+Gehrke. Detecting change in data 
+streams. 2004 
+
+Total window against subwindow 
+
+10101011011 1111 
+
+J. Gama, P. Medas, G. Castillo, 
+and P. Rodrigues. Learning with 
+drift detection. 2004 
+
+ADWIN: All Adjacent subwindows 
+
+10 1010110111111 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+12 / 29 
+
+The ADWIN Algorithm 
+
+Window Management Models 
+
+W = 101010110111111 
+
+Equal &amp; fixed size subwindows 
+
+1010 1011011 1111 
+
+D. Kifer, S. Ben-David, and J. 
+Gehrke. Detecting change in data 
+streams. 2004 
+
+Total window against subwindow 
+
+10101011011 1111 
+
+J. Gama, P. Medas, G. Castillo, 
+and P. Rodrigues. Learning with 
+drift detection. 2004 
+
+ADWIN: All Adjacent subwindows 
+
+101 010110111111 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+12 / 29 
+
+The ADWIN Algorithm 
+
+Window Management Models 
+
+W = 101010110111111 
+
+Equal &amp; fixed size subwindows 
+
+1010 1011011 1111 
+
+D. Kifer, S. Ben-David, and J. 
+Gehrke. Detecting change in data 
+streams. 2004 
+
+Total window against subwindow 
+
+10101011011 1111 
+
+J. Gama, P. Medas, G. Castillo, 
+and P. Rodrigues. Learning with 
+drift detection. 2004 
+
+ADWIN: All Adjacent subwindows 
+
+1010 10110111111 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+12 / 29 
+
+The ADWIN Algorithm 
+
+Window Management Models 
+
+W = 101010110111111 
+
+Equal &amp; fixed size subwindows 
+
+1010 1011011 1111 
+
+D. Kifer, S. Ben-David, and J. 
+Gehrke. Detecting change in data 
+streams. 2004 
+
+Total window against subwindow 
+
+10101011011 1111 
+
+J. Gama, P. Medas, G. Castillo, 
+and P. Rodrigues. Learning with 
+drift detection. 2004 
+
+ADWIN: All Adjacent subwindows 
+
+10101 0110111111 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+12 / 29 
+
+The ADWIN Algorithm 
+
+Window Management Models 
+
+W = 101010110111111 
+
+Equal &amp; fixed size subwindows 
+
+1010 1011011 1111 
+
+D. Kifer, S. Ben-David, and J. 
+Gehrke. Detecting change in data 
+streams. 2004 
+
+Total window against subwindow 
+
+10101011011 1111 
+
+J. Gama, P. Medas, G. Castillo, 
+and P. Rodrigues. Learning with 
+drift detection. 2004 
+
+ADWIN: All Adjacent subwindows 
+
+101010 110111111 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+12 / 29 
+
+The ADWIN Algorithm 
+
+Window Management Models 
+
+W = 101010110111111 
+
+Equal &amp; fixed size subwindows 
+
+1010 1011011 1111 
+
+D. Kifer, S. Ben-David, and J. 
+Gehrke. Detecting change in data 
+streams. 2004 
+
+Total window against subwindow 
+
+10101011011 1111 
+
+J. Gama, P. Medas, G. Castillo, 
+and P. Rodrigues. Learning with 
+drift detection. 2004 
+
+ADWIN: All Adjacent subwindows 
+
+1010101 10111111 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona Algorithm ADWIN [BG06] 
+
+Theorem 
+At every time step we have: 
+
+1 
+
+(Few false positives guarantee) If µ t remains constant within W , 
+the probability that ADWIN shrinks the window at this step is at 
+most δ. 
+
+2 
+
+(Few false negatives guarantee) If for any partition W in two parts 
+W 0 W 1 (where W 1 contains the most recent items) we have 
+|µ W 0 − µ W 1 | &gt; , and if 
+
+≥ 4 · 
+3 max{µ W 0 , µ W 1 } 
+min{n 0 , n 1 } 
+ln 
+4n 
+δ 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+14 / 29 
+
+The ADWIN Algorithm 
+
+Data Streams Algorithm ADWIN2 [BG06] 
+
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
+
+the processing time per example is O(log W ) (amortized) and 
+O(log 2 W ) (worst-case). 
+
+Sliding Window Model 
+
+1010101 101 11 1 1 
+
+Content: 
+4 
+2 
+2 1 1 
+
+Capacity: 
+7 
+3 
+2 1 1 
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
+
+the processing time per example is O(log W ) (amortized) and 
+O(log 2 W ) (worst-case). 
+
+Insert new Item 
+
+1010101 101 11 1 1 
+
+Content: 
+4 
+2 
+2 1 1 
+
+Capacity: 
+7 
+3 
+2 1 1 
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
+
+the processing time per example is O(log W ) (amortized) and 
+O(log 2 W ) (worst-case). 
+
+Insert new Item 
+
+1010101 101 11 1 1 1 
+
+Content: 
+4 
+2 
+2 1 1 1 
+
+Capacity: 
+7 
+3 
+2 1 1 1 
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
+
+the processing time per example is O(log W ) (amortized) and 
+O(log 2 W ) (worst-case). 
+
+Compressing Buckets 
+
+1010101 101 11 1 1 1 
+
+Content: 
+4 
+2 
+2 1 1 1 
+
+Capacity: 
+7 
+3 
+2 1 1 1 
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
+
+the processing time per example is O(log W ) (amortized) and 
+O(log 2 W ) (worst-case). 
+
+Compressing Buckets 
+
+1010101 101 11 11 1 
+
+Content: 
+4 
+2 
+2 2 1 
+
+Capacity: 
+7 
+3 
+2 2 1 
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
+
+the processing time per example is O(log W ) (amortized) and 
+O(log 2 W ) (worst-case). 
+
+Compressing Buckets 
+
+1010101 101 11 11 1 
+
+Content: 
+4 
+2 
+2 2 1 
+
+Capacity: 
+7 
+3 
+2 2 1 
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
+
+the processing time per example is O(log W ) (amortized) and 
+O(log 2 W ) (worst-case). 
+
+Compressing Buckets 
+
+1010101 10111 11 1 
+
+Content: 
+4 
+4 
+2 1 
+
+Capacity: 
+7 
+5 
+2 1 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+18 / 29 
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
+
+the processing time per example is O(log W ) (amortized) and 
+O(log 2 W ) (worst-case). 
+
+Detecting Change: Delete last Bucket 
+
+1010101 10111 11 1 
+
+Content: 
+4 
+4 
+2 1 
+
+Capacity: 
+7 
+5 
+2 1 
+ADWIN2 using a Data Stream Sliding Window Model, 
+can provide the exact counts of 1's in O(1) time per point. 
+
+tries O(log W ) cutpoints 
+
+Detecting Change: Delete last Bucket 
+
+10111 11 1 
+
+Content: 
+4 
+2 1 
+
+Capacity: 
+5 
+2 1 
+Data set that 
+describes the 
+weather 
+conditions for 
+playing some 
+game. 
+
+Example 
+
+outlook temp. humidity windy play 
+sunny 
+hot 
+high 
+false 
+no 
+sunny 
+hot 
+high 
+true 
+no 
+overcast 
+hot 
+high 
+false 
+yes 
+rainy 
+mild 
+high 
+false 
+yes 
+rainy 
+cool 
+normal 
+false 
+yes 
+rainy 
+cool 
+normal 
+true 
+no 
+overcast 
+cool 
+normal 
+true 
+yes 
+
+Assume we have to classify the following new instance: 
+outlook temp. humidity windy play 
+sunny 
+cool 
+high 
+true 
+? 
+
+A. Bifet, R. Gavaldà (UPC) 
+Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
+24 / 29 
+
+Experimental Validation of K-ADWIN 
+
+Naïve Bayes 
+
+Assume we have to classify the following new instance: 
+outlook temp. humidity windy play 
+sunny 
+cool 
+high 
+true 
+? 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>39% Kalman Q = .25, R = .25 Kalman Q = .25, R = .25</figDesc><table>Naïve Bayes Predictor 
+
+Width %Static %Dynamic % Dynamic/Static 
+
+ADWIN 
+83,36% 
+80,30% 
+96,33% 
+Kalman Q = 1, R = 1000 
+83,22% 
+71,13% 
+85,48% 
+Kalman Q = 1, R = 1 
+83,21% 
+56,91% 
+68,83,26% 
+56,91% 
+68,35% 
+Adaptive Kalman 
+83,24% 
+76,21% 
+91,56% 
+CUSUM Kalman 
+83,30% 
+50,65% 
+60,81% 
+K-ADWIN 
+83,24% 
+81,39% 
+97,77% 
+Fixed-sized Window 
+32 
+83,28% 
+67,64% 
+81,22% 
+Fixed-sized Window 
+128 
+83,30% 
+75,40% 
+90,52% 
+Fixed-sized Window 
+512 
+83,28% 
+80,47% 
+96,62% 
+Fixed-sized Window 
+2048 83,24% 
+82,19% 
+98,73% 
+k -means Clustering 
+
+σ = 0.15 
+Width Static Dynamic 
+
+ADWIN 
+9,72 
+21,54 
+Kalman Q = 1, R = 1000 
+9,72 
+19,72 
+Kalman Q = 1, R = 100 
+9,71 
+17,60 
+9,71 
+22,63 
+Adaptive Kalman 
+9,72 
+18,98 
+CUSUM Kalman 
+9,72 
+18,29 
+K-ADWIN 
+9,72 
+17,30 
+Fixed-sized Window 
+32 
+9,72 
+25,70 
+Fixed-sized Window 
+128 
+9,72 
+36,42 
+Fixed-sized Window 
+512 
+9,72 
+38,75 
+Fixed-sized Window 
+2048 
+9,72 
+39,64 
+Fixed-sized Window 
+8192 
+9,72 
+43,39 
+Fixed-sized Window 
+32768 9,72 
+53,82 
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">/ 29</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

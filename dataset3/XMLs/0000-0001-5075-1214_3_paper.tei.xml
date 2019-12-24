@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Lightweight LCP Construction for Next-Generation Sequencing Datasets</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2013-05-01">1 May 2013</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Markus</forename><forename type="middle">J</forename><surname>Bauer</surname></persName>
+							<email>mbauer@illumina.com</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Illumina Cambridge Ltd</orgName>
+								<address>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anthony</forename><forename type="middle">J</forename><surname>Cox</surname></persName>
+							<email>acox@illumina.com</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Illumina Cambridge Ltd</orgName>
+								<address>
+									<country key="GB">United Kingdom</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanna</forename><surname>Rosone</surname></persName>
+							<email>giovanna@math.unipa.it</email>
+							<affiliation key="aff1">
+								<orgName type="department">Dipartimento di Matematica e Informatica</orgName>
+								<orgName type="institution">University of Palermo</orgName>
+								<address>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Marinella</forename><surname>Sciortino</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Dipartimento di Matematica e Informatica</orgName>
+								<orgName type="institution">University of Palermo</orgName>
+								<address>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Lightweight LCP Construction for Next-Generation Sequencing Datasets</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2013-05-01">1 May 2013</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The advent of "next-generation" DNA sequencing (NGS) technologies has meant that collections of hundreds of millions of DNA sequences are now commonplace in bioinformatics. Knowing the longest common prefix array (LCP) of such a collection would facilitate the rapid computation of maximal exact matches, shortest unique substrings and shortest absent words. CPU-efficient algorithms for computing the LCP of a string have been described in the literature, but require the presence in RAM of large data structures. This prevents such methods from being feasible for NGS datasets. In this paper we propose the first lightweight method that simultaneously computes, via sequential scans, the LCP and BWT of very large collections of sequences. Computational results on collections as large as 800 million 100-mers demonstrate that our algorithm scales to the vast sequence collections encountered in human whole genome sequencing experiments.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>The longest common prefix array (LCP) of a string contains the lengths of the longest common prefixes of the suffixes pointed to by adjacent elements of the suffix array (SA) of the string <ref type="bibr" target="#b14">[15]</ref>. The most immediate utility of the LCP is to speed up suffix array algorithms and to simulate the more powerful, but more resource consuming, suffix tree. When combined with the suffix array or the Burrows-Wheeler transform (BWT) of a string the LCP facilitates, among other things, the rapid search for maximal exact matches, shortest unique substrings and shortest absent words <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b9">10,</ref><ref type="bibr" target="#b0">1]</ref>. Existing algorithms for computing the LCP require data structures of size proportional to the input data to be held in RAM, which has made it impractical to compute the LCP of massive datasets such as the collections of hundreds of millions of reads produced by so-called Next-Generation Sequencing (NGS) technologies.</p><p>In this context, the aim of our paper is designing an algorithm for the computation of the LCP of large collections of strings which works on an external memory system, by performing disk data accesses only via sequential scans, and is lightweight in the sense that its working space requirement is very low.</p><p>Computing the LCP of a collection of strings has been considered in the literature <ref type="bibr" target="#b16">[17]</ref>. Defining N and K as respectively the sum of the lengths of all strings and the length of the longest string in the collection, the described approach requires O(N log K) time, but the O(N log N ) bits of internal memory needed to store the collection and its SA in internal memory prevents the method from scaling to massive data.</p><p>One can note that several algorithms to compute the LCP of a single string in semi-external memory (see for instance <ref type="bibr" target="#b10">[11]</ref>) or directly via BWT (see <ref type="bibr" target="#b4">[5]</ref>) could be adapted to solve the problem of computing the LCP of a collection of strings. It could be sufficient to concatenate all the members of the collection into a single string and use distinct end marker symbols as separators. However, assigning a different end marker to each string is not feasible when the collection is very large, but the alternative of terminating each member with the same symbol could lead to LCP values that exceed the lengths of the strings and that depend on the order in which the strings are concatenated. In our approach, we compute the LCP of the collection directly from the strings, without needing to concatenate them and without requiring precomputed auxiliary information such as the SA or BWT of the collection.</p><p>In fact, building upon the method of BWT computation introduced in [2], our algorithm adds some lightweight data structures and allows the LCP and BWT of a collection of m strings to be computed simultaneously in O((m+σ 2 ) log(N )) bits of memory, with a worst-case time complexity of O(K(m + sort(m))), where sort(m) is the time taken to sort m integers, σ is the size of the alphabet, N is the sum of the lengths of all strings and K is the length of the longest string.</p><p>The low memory requirement enables our algorithm to scale to the size of dataset encountered in human whole genome sequencing datasets: in our experiments, we compute the BWT and LCP of collections as large as 800 millions 100-mers.</p><p>Section 2 gives preliminaries that we will use throughout the paper, whereas Section 3 describes the sequential computation of the LCP. We present details on the efficient implementation of the algorithm and computational results on real data in Sections 4 and 5, respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Preliminaries</head><p>Let Σ = {c 1 , c 2 , . . . , c σ } be a finite ordered alphabet with c 1 &lt; c 2 &lt; . . . &lt; c σ , where &lt; denotes the standard lexicographic order. We append to a finite string w ∈ Σ * an end marker symbol $ that satisfies $ &lt; c 1 . We denote its characters by w[0], w <ref type="bibr" target="#b0">[1]</ref>, . . . , w[k], where k + 1 is the length of w, denoted by |w|. Note that, for i &lt; k, w[i] ∈ Σ and w[k] = $. A substring of a string w is written as w[i, j] = w[i] · · · w[j], with a substring w[0, j] being called a prefix, while a substring w[i, k] is referred to as a suffix.</p><p>The suffix array of a string w is an array SA containing the permutation of the integers 0 . . . |w| − 1 that arranges the starting positions of the suffixes of w into lexicographical order. There exist some natural extensions of the suffix array to a collection of sequences (see <ref type="bibr" target="#b16">[17]</ref>). We denote by S the collection of m strings {w 0 , w 1 , . . . , w m−1 }. We append to each sequence w i an end marker symbol $ i smaller than c 1 , and $ i &lt; $ j if i &lt; j. Let us denote by N the sum of the lengths of all strings in S.</p><p>Let us denote by S (Pos,Seq) the suffix starting at the position Pos of the string w Seq . We define the generalized suffix array GSA of the collection S as the array of N pairs (Pos, Seq), sorted by the lexicographic order of their corresponding suffixes S (Pos,Seq) . In particular, GSA[i] = (t, j) is the pair corresponding to the i-th smallest suffix of the strings in S.</p><p>The longest common prefix array (denoted by LCP) of a collection S of strings is an array storing the length of the longest common prefixes between two consecutive suffixes of S in the lexicographic order. For every j = 1, . . . , N − 1, if GSA[j − 1] = (p 1 , p 2 ) and GSA[j] = (q 1 , q 2 ), LCP [j] is the length of the longest common prefix of suffixes starting at positions p 1 and q 1 of the words w p2 and w q2 , respectively. We set LCP [0] = 0.</p><p>Note that the generalization of the suffix array to a collection S of strings is related to an extension of the notion of the Burrows-Wheeler transform to a collection of strings that is a reversible transformation introduced in <ref type="bibr" target="#b11">[12]</ref> (see also <ref type="bibr" target="#b12">[13]</ref>). Actually, in its original definition, such a transformation produces a string that is a permutation of the characters of all strings in S but it does not make use of any end marker.</p><p>In this paper we suppose that a different end marker is appended to each string of S. Let us denote by BW T (S) the Burrows-Wheeler transform of the collection S and its output is produced according to the generalized suffix array of S. In particular, if</p><formula xml:id="formula_0">GSA[i] = (t, j) then BW T [i] = w j [(t − 1)mod|w j |].</formula><p>Note that the output of BW T (S) differs, for at least m symbols, from BW T applied to the string obtained by concatenating all strings in S. External memory methods for computing BW T (S) are given in <ref type="bibr" target="#b1">[2]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">LCP computation of a collection of strings via BWT</head><p>The main goal of this section is to describe the strategy to compute the LCP of a massive collection of strings via sequential scans of the disk data. In particular, the main theorem of the section enables the simultaneous computation of both LCP and BWT of a collection S of m strings {w 0 , w 1 , . . . , w m−1 }. We suppose that the last symbol of each sequence w i is the end marker $ i . Our method scans all the strings from right to left and both LCP and BWT are incrementally built by simulating, step by step, the insertion of all suffixes having the same length in the generalized suffix array.</p><p>We refer to the suffix starting at the position |w i | − j − 1 of a string w i as its j-suffix. With the end marker $ i included, the j-suffix is of length j + 1; the 0-suffix contains $ i alone. Let us denote by S j the collection of the j-suffixes of all the strings of S.</p><p>Let us denote by K the maximal length of the strings in S and by lcp j (S) the longest common prefix array of the collection S j . It is easy to see that when j = K, lcp j (S) coincides with the LCP of S. Since all m end-markers are distinct, the longest common prefix of any pair of the 0-suffixes is 0, so the first m positions into lcp j (S) are 0 for any j ≥ 0.</p><p>Note that lcp j (S) can be considered to be the concatenation of σ + 1 arrays L j (0), L j (1), . . . , L j (σ) where, for h = 1, . . . , σ, the array L j (h) is the LCP of the suffixes of S j that start with c h ∈ Σ, while L j (0) (corresponding to the 0-suffixes) is an array of m zeroes. It is easy to see that lcp 0 (S) = L 0 (0) and that L 0 (h) is empty for h &gt; 0. For sake of simplicity, each segment is indexed starting from 1. We note that,</p><formula xml:id="formula_1">for each 0 &lt; h ≤ σ, L j (h)[1] = 0 and L j (h)[i] ≥ 1 for i &gt; 1.</formula><p>Similarly, we define the string bwt j (S) as the Burrows-Wheeler transform of the collection of the j-suffixes of S. This can be partitioned in an analogous way into segments B j (0), B j (1), . . . , B j (σ), where the symbols in B j (0) are the characters preceding the lexicographically sorted 0-suffixes of S j and the symbols in B j (h), with h ≥ 1, are the characters preceding the lexicographically sorted suffixes of S j starting with c h ∈ Σ. Moreover, bwt 0 (S) = B 0 (0) and the segments B 0 (h) are empty for h &gt; 0.</p><p>In this section we show that, for each j &gt; 0, lcp j (S) can be sequentially constructed by using bwt j−1 (S) and lcp j−1 (S) (in previous work <ref type="bibr" target="#b1">[2]</ref>, three of the present authors showed how bwt j (S) may be computed from bwt j−1 (S)). Note that bwt 0 (S) and lcp 0 (S) are defined above.</p><p>Given the segments B j (h) and L j (h), h = 0, . . . , σ, for the symbol x occurring at position r of B j (h) we define the (j, h)-LCP Current Interval of x in r (denoted by LCI h j (x, r)) as the range (d 1 , r] in L j (h), where d 1 is the greatest position smaller than r of the symbol x in B j (h), if such a position exists. If such a position does not exist, we define LCI h j (x, r) = L j (h)[r]. Analogously, we define for the symbol x the (j, h)-LCP Successive Interval of x in r (denoted by LSI h j (x, r)) as the range (r, d 2 ] in L j (h), where d 2 is the smallest position greater than r of the symbol x in B j (h), if it exists. If such a position does not exist we define LSI h j (x, r) = L j (h)[r]. In our notation, a range is delimited by a square bracket if the correspondent endpoint is included, whereas the parenthesis means that the endpoint of the range is excluded.</p><p>Actually, it is easy to verify that d 1 = select(rank(x, r) − 1, x) and d 2 = select(rank(x, r) + 1, x), where rank(x, r) counts the number of x's until position r and select(p, x) finds the position of the p-th occurrence of x in a segment B j .</p><p>The following theorem shows how to compute the segments L j (h), with j &gt; 0, by using L j−1 (h) and B j−1 (h) for any h &gt; 0. We denote by Suf j (0) the lexicographically sorted 0-suffixes and by Suf j (h), for h &gt; 0, the lexicographically sorted t-suffixes of S j , with t ≤ j starting with c h ∈ Σ. Theorem 1. Let I = {r 0 &lt; r 1 &lt; . . . &lt; r q−1 } be the set of the positions in Suf j (z) of the j-suffixes starting with the letter c z . For each position r p ∈ I</p><formula xml:id="formula_2">(0 ≤ p &lt; q), L j (z)[r p ] =    0 if r p = 1 1 if r p &gt; 1 and LCI v j−1 (c z , t) = L j−1 (v)[t] min LCI v j−1 (c z , t) + 1 otherwise where c v is the first character of the (j − 1)-suffix of w i , and t is the position in B j−1 (v) of symbol c z preceding the (j − 1)-suffix of w i .</formula><p>For each position (r p + 1) / ∈ I (where r p ∈ I and 0 ≤ p &lt; q), then</p><formula xml:id="formula_3">L j (z)[r p + 1] = 1 if LSI v j−1 (c z , t) = L j−1 (v)[t] min LSI v j−1 (c z , t) + 1 otherwise For each position s, where 1 ≤ s &lt; r p (for p = 0), r p−1 &lt; s &lt; r p (for 0 &lt; p &lt; q − 1), s &gt; r p (for p = q − 1) then L j (z)[s] = L j (z)[s − p]</formula><p>For lack of space, the proof of the theorem is omitted and we defer it in the full paper.</p><p>A consequence of the theorem is that the segments B j and L j can be constructed sequentially and stored in external files. This fact will be used in the next section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Lightweight implementation via sequential scans</head><p>Based on the strategy described in the previous section, here we propose an algorithm (named extLCP) that simultaneously computes the BWT and LCP of a set of strings S. Memory use is minimized by reading data sequentially from files held in external memory: only a small proportion of the symbols of S need to be held in RAM and we do not need to keep the generalized suffix array of S. Obviously, the generalized suffix array can be a side output of our implementation.</p><p>Our method extends previous work <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b2">3]</ref> on computing the BWT of a collection of strings and we follow the notation therein.</p><p>Although our algorithm is not restricted to collections of strings of uniform length, for sake of simplicity our description supposes that S comprises m strings of length k and we assume that j = 0, 1, . . . , k and i = 0, 1, . . . , m − 1. We simulate m distinct end-markers by using a single end-marker $ = c 0 and setting w s [k] &lt; w t [k] if and only if s &lt; t, so that if two strings w s and w t share the j-suffix, then w s [k − j, k] &lt; w t [k − j, k] if and only if s &lt; t. Moreover, we assume that the values of lcp j (S) do not exceed j and the first m positions into lcp j (S) are 0 for any j ≥ 0.</p><p>The main part of the algorithm consists of k consecutive iterations. At iteration j, we consider all the j-suffixes of S and simulate their insertion in the GSA.</p><p>In other words, for each i, we have to find the position of the suffix w i [k − j, k] according to the lexicographic order of all the suffixes of S of length at most j, then insert the new symbol circularly preceding the j-suffix of w i into B j (z), where c z = w i [k − j], for some z = 1, . . . , σ, and update the values in L j (z). Consequently, both bwt j (S) and lcp j (S) are updated accordingly. Note that, at each iteration j, both the segments B j and L j , initially empty, are stored in different external files that replace the files used in the previous iteration.</p><p>In order to compute bwt j (S) and lcp j (S), the algorithm needs to hold six arrays of m integers in internal memory. Four of these (P j , Q j , N j and U j ) are useful to compute the BWT (see <ref type="bibr" target="#b1">[2]</ref>), a further two (C j and S j ) are needed to compute and update the values of the longest common prefixes. we will give a description of all these arrays but, for brevity, we will focus on the computation of C j and S j .</p><p>Each of the arrays P j , Q j , N j and U j contains m elements, as detailed in the following. At the end of iteration j, if w i [k − j, k] is the q-th j-suffix then: The arrays C j and S j each contain m integers useful to compute lcp j (S) for j &gt; 0. In particular, C j [q] stores the value in LCP between the j-suffix w i [k−j, k] and the previous suffix in the GSA with respect to the lexicographic order of all the suffixes of S of length at most j, whereas S j [q] contains the value in LCP between the j-suffix and the next suffix in GSA (if it exists). Such values will be computed at the iteration j − 1 according to Theorem 1. We observe that C j and S j contain exactly one integer for each sequence in the collection and they use O(m log k) bits of workspace.</p><formula xml:id="formula_4">-N j [q]</formula><p>At the iteration j = 0, the algorithm initializes the segments B 0 and L 0 as described in previous section, i.e. For I/O efficiency, each iteration j &gt; 0 can be divided into two consecutive phases: during the first one we read only the segments B j−1 in order to find the arrays P j , Q j N j and U j . In phase 2, the segments B j−1 and L j−1 are read once sequentially both for the construction of new segments B j and L j and for the computation of the arrays C j+1 and S j+1 , as they will be used in the next iteration. In the following we describe both the phases of the generic iteration j &gt; 0. <ref type="figure" target="#fig_2">Figure 1</ref> illustrates the execution of the algorithm for a simple collection at the iterations 12 and 13.</p><p>In the first phase the arrays P j , Q j and N j are computed. In particular, if w i [k − j − 1] (or the end marker $ for the last step) is the new symbol to be inserted, its position r is obtained by computing the number of occurrences of</p><formula xml:id="formula_5">c z = w i [k − j] in B j−1 (0), . . . , B j−1 (v − 1) and in B j−1 (v)[1, t], where c v = w i [k − (j − 1)]</formula><p>and t is the position of c z in B j−1 (v). Hence, the index z is stored into Q j at some position q, the computed position r (where storing the new symbol) is added to the array P j [q] and i is added to N j [q]. Note that in order to find the positions, a table of O(σ 2 log(mk)) bits of memory is used. Finally we sort Q j , P j , N j , C j , S j where the first and the second keys of the sorting are the values in Q j and P j respectively.</p><p>Here we focus on the second phase in which the computation of the segments L j is performed by using the arrays C j and S j constructed during the previous step. Note that the sorting of the arrays allows us to open and sequentially read the pair files (B j−1 (h) and L j−1 (h) for h = 0, . . . , σ) at most once.</p><p>For all symbols in U j that we have to insert in the segment B j (h), the crucial point is to compute C j+1 by using LCI h j and S j+1 by using LSI h j while the new files are being constructed, instead of using auxiliary data structures to compute rank and select. For each index z, we consider all the elements in Q j equal to z. Because of the sorting, such elements are consecutive. Let 0 ≤ l, l ′ ≤ m − 1 be their first and the last positions, respectively. Hence for each l ≤ p ≤ l ′ , we have Q j [p] = z and P j [l] &lt; . . . &lt; P j [l ′ ]. In order to apply Theorem 1, we need to compute LCI h j and LSI h j of each new symbol in its new position. Since each B j (h) and L j (h) are constructed sequentially, we do not know a priori the opening positions LCI h j and the closing positions LSI h j that are used to compute C j+1 and S j+1 . However we can observe that when we write a symbol x into B j (h), its occurrence could be the opening or closing positions of some LCI h j and LSI h j of x, if x is a new symbol. Such considerations are outlined in detail in the following.</p><p>For each symbol α that we insert at position s in B j (z), with 1 ≤ s &lt; P j [l], it is easy to see that B j (z)[s] = B j−1 (z)[s] and L j (z)[s] = L j−1 (z)[s]. Moreover, the position of α could be the opening position of LCI z j (α, y), if α is the new symbol that will be inserted at some next position y.</p><p>For each new symbol β that we insert at position P j [q] in B j (z) (l ≤ q ≤ l ′ ), we have β = U j [N j [q]] and, by Theorem 1, it follows that</p><formula xml:id="formula_6">L j (z)[P j [q]] = 0 if P j [q] = 1 or L j (z)[P j [q]] = C j [q] otherwise. Moreover: -The position P j [q] surely is the closing position of LCI z j (β, P j [q]). If the position P j [q] is the first occurrence of β in B j (z), then LCI z j (β, P j [q]) = L j (z)[P j [q]]</formula><p>and we set C j+1 [q] = L j (z)[P j [q]] + 1 according to Theorem 1. Otherwise, we set C j+1 [q] = min(LCI z j (β, P j [q])) + 1, whose computation has been started when the interval was opened.</p><p>-The position P j [q] could be the opening position of LCI z j (β, y), if β will be inserted, as new symbol, at some next position y.</p><p>-The position P j [q] could be the closing position of LSI z j (β, y), where y represents, eventually, the largest position l ≤ f &lt; q, where β has been inserted. In this case, we set S j+1 [f ] = min(LSI z j (β, P j [q])) + 1 in according with Theorem 1. -The position P j [q] surely is the opening position of LSI z j (β, P j [q]). We observe that if the position P j [q] is the last occurrence of β in B j (z) (we will discover this at the end of the file), it means that LSI z j (β, P j [q]) = L j (z)[P j [q]], i.e. S j+1 [q] = 1.</p><formula xml:id="formula_7">P j [f ], with P j [f ] &lt; P j [q], for L12(0) B12(0) Sorted Suffixes 0 C $0 0 C $1 L12(1) B12(1) Sorted Suffixes 0 G AAAGCT C$1 LCI12(G, 3) 2 C AAC$0 → 3 G AACAGAAAGCTC$1 2 A AAGCT C$1 1 A AC$0 2 A ACAGAAAGCT C$1 2 T ACCAAC$0 2 C ACT GT ACCAAC$0 1 C AGAAAGCT C$1 2 A AGCT C$1 L12(2) B12(2) Sorted Suffixes 0 A C$0 LCI12(A, 4) 1 T C$1 1 C CAAC$0 → 2 A CACTGTACCAAC$0 LSI12(A, 4) 2 A CAGAAAGCT C$1 1 A CCAAC$0 1 G CT C$1 2 A CT GT ACCAAC$0 L12(3) B12(3) Sorted Suffixes 0 A GAAAGCT C$1 1 A GCT C$1 1 T GT ACCAAC$0 L12(4) B12(4) Sorted Suffixes 0 G T ACCAAC$0 1 C T C$1 1 C T GT ACCAAC$0 L13(0) B13(0) Sorted Suffixes 0 C $0 0 C $1 L13(1) B13(1) Sorted Suffixes 0 G AAAGCT C$1 2 C AAC$0 3 G AACAGAAAGCT C$1 2 A AAGCT C$1 1 A AC$0 → 2 $0 ACACTGTACCAAC$0 3 A ACAGAAAGCT C$1 2 T ACCAAC$0 2 C ACT GT ACCAAC$0 1 C AGAAAGCT C$1 2 A AGCT C$1 L13(2) B13(2) Sorted Suffixes 0 A C$0 1 T C$1 1 C CAAC$0 2 G CACT GT ACCAAC$0 2 A CAGAAAGCT C$1 1 A CCAAC$0 1 G CT C$1 2 A CT GT ACCAAC$0 L13(3) B13(3) Sorted Suffixes 0 A GAAAGCT C$1 → 3 $1 GAACAGAAAGCTC$1 1 A GCT C$1 1 T GT ACCAAC$0 L13(4) B13(4) Sorted Suffixes 0 G T ACCAAC$0 1 C T C$1 1 C T GT ACCAAC$0</formula><p>For each symbol α that we insert at position (P j [q] + 1), with P j [q] + 1 = When B j (z) is entirely built, the closing position of some LSI z j (α, y) could remain not found. This means that the last occurrence of α appears at position y. Note that y must be equal to some P j [f ], l ≤ f ≤ l ′ . In this case, we set S j+1 [f ] = 1 according to Theorem 1.</p><formula xml:id="formula_8">P j [q + 1], B j (z)[P j [q] + 1] = B j−1 (z)[P j [q − p]] (</formula><p>It is easy to verify that we can run these steps in a sequential way. Moreover, one can deduce that, while the same segment is considered, for each symbol α ∈ Σ at most one LCI h j (α, t) for some t, and at most one LSI h j (α, r) for some r ≤ t, will have not their closing position. For this reason we use two arrays minLCI and minLSI of σ integers that store, for each symbol α in Σ, the minimum among the values of LCP in the possible corresponding LCI or LSI without closing position, respectively.</p><p>From the size of the data structures and from the above description of the phases of the extLCP algorithm, we can state the following theorem.  To assess the performance of our algorithm on real data, we used a publicly available collection of human genome sequences from the Sequence Read Archive <ref type="bibr" target="#b7">[8]</ref> at ftp://ftp.sra.ebi.ac.uk/vol1/ERA015/ERA015743/srf/ and created subsets containing 43, 85, 100, 200 and 800 million reads, each read being 100 bases in length. We developed extLCP, an implementation of the algorithm described in Section 4, which is available upon request from the authors. Our primary goal was to analyze the additional overhead in runtime and memory consumption of simultaneously computing both BWT and LCP via extLCP compared with the cost of using BCR ( <ref type="bibr" target="#b1">[2]</ref>) to compute the BWT alone. <ref type="table">Table 1</ref> shows the results for the instances that we created. We do see increase in runtime since extLCP writes the values of LCP after that the symbols in BWT are written, so it effectively increases the I/O operations. So, a time optimization could be obtained if we read/write at the same time both the elements in BWT and LCP by using two different disks. All tests except the 800 million read instance were done on the same machine, having 16Gb of memory and two quadcore Intel Xeon E5450 3.0GHz processors. Although the LCP of a collection of 700 million 100-mers was successfully computed on the same machine using 15Gb of RAM, the collection of 800 million reads needed slightly more than 16Gb so was processed on a machine with 64Gb of RAM and four quad-core Intel Xeon E7330 2.4GHz processors. On both machines, only a single core was used for the computation. Moreover, to examine the behaviour of our algorithm on reads longer than 100bp, we created a set of 50 million 200bp long reads based on the 100 million 100bp instance. It turns out that, although the sheer data volume is the same, extLCP uses 1.2Gb and takes 10.3 microseconds per input base.</p><p>Our algorithm represents the first lightweight method that simultaneously computes, via sequential scans, the LCP and BWT of a vast collection of sequences. Recall that the problem of the LCP computation of a collection of strings has been faced in <ref type="bibr" target="#b16">[17]</ref>, but such a strategy works in internal memory. Recently, however, some lightweight approaches for the LCP computation of a single string were described in the literature. Some of them use of the suffix array of the string <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b6">7,</ref><ref type="bibr" target="#b14">15,</ref><ref type="bibr" target="#b8">9]</ref>, but the space needed to hold this in RAM is prohibitive for NGS datasets. However, in <ref type="bibr" target="#b4">[5]</ref>, the authors give an algorithm for the construction of the LCP of a string that acts directly on the BWT of the string and does not need its suffix array. A memory-optimized version of this algorithm <ref type="bibr" target="#b3">[4]</ref> (called bwt based laca2) needs to hold the BWT of the string in internal memory plus a further 1.5n bytes, where n is the length of the input string.</p><p>Notice that an entirely like-for-like comparison between our implementation and the above existing implementation for BWT and LCP computation of a string would imply the concatenation of the strings of the collection by different end markers. However, for our knowledge, the existing implementations do not support the many millions of distinct end markers our test collections would require.</p><p>An alternative is to concatenate each of strings with the same end marker. This leads to values in the LCP that may possibly exhibit the undesirable prop- erties of exceeding the lengths of the strings and depending on the order in which the strings are concatenated, but does allow the BWT of the resulting string to be computed in external memory by using the algorithm bwte proposed in <ref type="bibr" target="#b5">[6]</ref>. The combined BWT/LCP computation provided by extLCP has a faster runtime than bwte. In particular, for the 0085M instance, bwte uses 14Gb of memory and needs 3.84 microseconds per input base vs extLCP that uses 2Gb of memory and 3.81 microseconds per input base.</p><p>We have also used BCR by suitable preprocessing steps, to simulate the computation of the BWT of the concatenated strings. We compared BCR, extLCP and bwt based laca2 on the 0200M instance. Since the memory consumption of bwt based laca2 exceeded 16Gb on this dataset, we ran the tests on a machine of identical CPU to the 16Gb machine, but with 64Gb RAM.</p><p>With BCR, the BWT was created in under 5 hours of wallclock time taking only 4Gb of RAM, while bwt based laca2 required 18Gb of RAM to create the LCP in about 1 hour 45 minutes. Our new method extLCP needed 4.7Gb of RAM to create both BWT and LCP in just under 18 hours. Attempting to use bwt based laca2 to compute the LCP of the 0800M instance exceeded the available RAM on the 64Gb RAM machine.</p><p>The experimental results show that our algorithm is a competitive tool for the lightweight simultaneous computation of LCP and BWT on the string collections produced by NGS technologies. Actually, the LCP and BWT are two of the three data structures needed to build a compressed suffix tree (CST) <ref type="bibr" target="#b15">[16]</ref> of a string. The strategy proposed in this paper could enable the lightweight construction of CSTs of strings collections for comparing, indexing and assembling vast datasets of sequences when memory is the main bottleneck.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>contains the index i. It uses O(m log m) bits of workspace. -Q j [q] stores the index z where c z = w i [k − j], i.e. the first symbol of the j-suffix. It uses O(m log σ) bits of workspace. -P j [q] contains the position in B j (z) of the symbol circularly preceding the j-suffix w i [k − j, k], such a symbol is w i [k − j − 1] and it is stored at the position N j [q] of U j . So, it needs O(m log(mk)) bits of workspace. -U j stores the new characters to be inserted, one for each sequence in S, so it uses O(m log σ) bits of workspace.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>B 0 (0) = w 0 [k − 1]w 1 [k − 1] · · · w m−1 [k − 1]and for each q = 0, . . . , m−1, we set L 0 (0)[q] = 0. Consequently, for q = 0, . . . , m−1, the arrays are initialized by setting N 0 [q] = q, P 0 [q] = q + 1, Q 0 [q] = 0, C 1 [q] = 1 and S 1 [q] = 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 1 .</head><label>1</label><figDesc>Iteration 12 (on the left) and iteration 13 (on the right) on the collection S = {ACACT GT ACCAAC, GAACAGAAAGCT C}. We append different end-marker to each string ($0 and $1, respectively) to make the explanation more immediate but the same situation would occur using the same symbol. The first two columns represent the partial LCP and the partial BWT after the iterations. The positions of the new symbols corresponding to the 13-suffixes (shown in bold on the right) are computed from the positions of the 12-suffixes (in bold on the left), which were retained in the array P after the iteration 12. The new values in LCP (shown in bold on the right) are computed during the iteration 12 and are contained in C12. The updated values in LCP (shown in bold and underlined on the right) are computed during the iteration 12 and are contained in S12.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>where p is the number of the new symbols already inserted) and, by Theorem 1, L j (z)[P j [q] + 1] = S j [q]. For each symbol α that we insert at position s in B j (z), with P j [q] &lt; s &lt; P j [q+1] (l &lt; q ≤ l ′ ), we have B j (z)[s] = B j (z)[s−p] and, by Theorem 1, L j (z)[s] = L j−1 (z)[s−p], where p is the number of the new symbols already inserted. Moreover: -The position s could be the opening position of LCI z j (α, y), if α will be inserted, as new symbol, at some next position y. -The position s could be the closing position of LSI z j (α, P j [f ]), if α has been inserted, as new symbol, at some previous position P j [f ], with P j [f ] &lt; P j [q], for l ≤ f &lt; q. In this case, we set S j+1 [f ] = min(LSI z j (α, P j [f ])) + 1 according to Theorem 1. For each symbol α that we insert at the position s in B j (z), where s &gt; P j [l ′ ], we have B j (z)[s] = B j (z)[s − (l ′ − l + 1)] and, by Theorem 1, L j (z)[s] = L j−1 (z)[s − (l ′ − l + 1)]. Moreover, the position of α could be the closing position of LSI z j (α, P j [f ]), if α has been inserted as a new symbol at some position P j [f ], for l ≤ f ≤ l ′ . In this case, we set S j+1 [f ] = min(LSI z j (α, P j [f ])) + 1 in according with Theorem 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Theorem 2 .</head><label>2</label><figDesc>Given a collection S of m strings of length k over an alphabet of size σ, the extLCP algorithm computes BWT and LCP of S by using O(mk 2 log σ) disk I/O and O((m + σ 2 ) log(mk)) bits of memory in O(k(m + sort(m)) CPU time, where sort(m) is the time taken to sort m integers.The following corollary describes the performance of the method when the collection contains strings of different length.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Corollary 1 .</head><label>1</label><figDesc>Given a collection S of m strings over an alphabet of size σ, the LCP and BWT of S are computed simultaneously in O((m + σ 2 ) log(N )) bits of memory, with a worst-case time complexity of O(K(m + sort(m))), where sort(m) is the time taken to sort m integers, N is the sum of the lengths of all strings and K is the length of the longest string.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Table 1. The input string collections were generated on an Illumina GAIIx sequencer, all reads are 100 bases long. Size is the input size in gigabytes, wall clock time-the amount of time that elapsed from the start to the completion of the instance-is given as microseconds per input base, and memory denotes the maximal amount of memory (in gigabytes) used during execution. The efficiency column states the CPU efficiency values, i.e. the proportion of time for which the CPU was occupied and not waiting for I/O operations to finish, as taken from the output of the /usr/bin/time command.</figDesc><table>instance size program 
+
+wall clock 
+efficiency 
+memory 
+0043M 
+4.00 BCR 
+0.99 
+0.84 
+0.57 
+4.00 extLCP 
+3.29 
+0.98 
+1.00 
+0085M 
+8.00 BCR 
+1.01 
+0.83 
+1.10 
+8.00 extLCP 
+3.81 
+0.87 
+2.00 
+0100M 
+9.31 BCR 
+1.05 
+0.81 
+1.35 
+9.31 extLCP 
+4.03 
+0.83 
+2.30 
+0200M 
+18.62 BCR 
+1.63 
+0.58 
+4.00 
+18.62 extLCP 
+4.28 
+0.79 
+4.70 
+0800M 
+74.51 BCR 
+3.23 
+0.43 
+10.40 
+74.51 extLCP 
+6.68 
+0.67 
+18.00 
+
+</table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our current prototype can be further optimized in terms of memory by performing the sorting step in external memory. Further saving of the working space could be obtained if we embody our strategy in BCRext or BCRext++ (see <ref type="bibr" target="#b2">[3]</ref>). These methods, although slower than BCR, need to store only a constant and (for the DNA alphabet) negligibly small number of integers in RAM regardless of the size of the input data.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Replacing suffix trees with enhanced suffix arrays</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">I</forename><surname>Abouelhoda</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Kurtz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Ohlebusch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Discrete Algorithms</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="53" to="86" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Lightweight BWT construction for very large string collections</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Bauer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">J</forename><surname>Cox</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Rosone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CPM</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2011" />
+			<biblScope unit="volume">6661</biblScope>
+			<biblScope unit="page" from="219" to="231" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Lightweight algorithms for constructing and inverting the bwt of string collections</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Bauer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">J</forename><surname>Cox</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Rosone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theor. Comput. Sci</title>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+	<note>in press</note>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Computing the longest common prefix array based on the Burrows-Wheeler transform</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Beller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Gog</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Ohlebusch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Schnattinger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Discrete Algorithms</title>
+		<imprint/>
+	</monogr>
+	<note>To appear</note>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Computing the longest common prefix array based on the Burrows-Wheeler transform</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Beller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Gog</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Ohlebusch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Schnattinger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SPIRE</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2011" />
+			<biblScope unit="volume">7024</biblScope>
+			<biblScope unit="page" from="197" to="208" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Lightweight data indexing and compression in external memory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Ferragina</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Gagie</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Manzini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">LATIN</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010" />
+			<biblScope unit="volume">6034</biblScope>
+			<biblScope unit="page" from="697" to="710" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Inducing the LCP-Array</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Fischer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">WADS</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2011" />
+			<biblScope unit="volume">6844</biblScope>
+			<biblScope unit="page" from="374" to="385" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title/>
+	</analytic>
+	<monogr>
+		<title level="j">National Center for Biotechnology Information. Sequence Read Archive</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Fast and Lightweight LCP-Array Construction Algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Gog</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Ohlebusch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ALENEX</title>
+		<imprint>
+			<publisher>SIAM</publisher>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="25" to="34" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Efficient computation of absent words in genomic sequences</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Herold</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Kurtz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Giegerich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">167</biblScope>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Permuted longest-common-prefix array</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kärkkäinen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Manzini</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">J</forename><surname>Puglisi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CPM</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2009" />
+			<biblScope unit="volume">5577</biblScope>
+			<biblScope unit="page" from="181" to="192" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">An extension of the Burrows-Wheeler Transform</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Mantaci</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Restivo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Rosone</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Sciortino</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theor. Comput. Sci</title>
+		<imprint>
+			<biblScope unit="volume">387</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="298" to="312" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A new combinatorial approach to sequence comparison</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Mantaci</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Restivo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Rosone</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Sciortino</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theory Comput. Syst</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="411" to="429" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Computing matching statistics and maximal exact matches on compressed full-text indexes</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Ohlebusch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Gog</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Kügel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SPIRE</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010" />
+			<biblScope unit="volume">6393</biblScope>
+			<biblScope unit="page" from="347" to="358" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Space-time tradeoffs for longest-common-prefix array computation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Puglisi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Turpin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ISAAC</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2008" />
+			<biblScope unit="volume">5369</biblScope>
+			<biblScope unit="page" from="124" to="135" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Compressed suffix trees with full functionality</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Sadakane</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theor. Comp. Sys</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="589" to="607" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Suffix arrays for multiple strings: A method for on-line multiple string searches</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Shi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ASIAN, volume 1179 of LNCS</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1996" />
+			<biblScope unit="page" from="11" to="22" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

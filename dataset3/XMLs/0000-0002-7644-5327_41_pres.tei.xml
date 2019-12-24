@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Resource Allocation in Competitive Multiagent Systems</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+						</author>
+						<title level="a" type="main">Resource Allocation in Competitive Multiagent Systems</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What's known about WDP Equivalent to weighted set packing, NP-Complete</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Approximation</head><p>best guarantee is within factor of economic mechanisms can depend on optimal solution 2. Polynomial special cases very few (ring; tree; totally unimodular matrices) allowing unrestricted bidding is the whole point <ref type="bibr" target="#b3">3</ref>. Complete heuristic search -CASS <ref type="bibr">[Fujishima, Leyton-Brown, Shoham, 1999]</ref> -CABOB <ref type="bibr">[Sandholm, 1999;</ref><ref type="bibr">Sandholm, Suri, Gilpen, Levine, 2001]</ref> -GL <ref type="bibr">[Gonen &amp; Lehmann, 2001]</ref> -CPLEX <ref type="bibr">[ILOG Inc., 1987</ref><ref type="bibr">-2003</ref> Where do we stand?</p><p>• Best solutions (e.g., CPLEX):</p><p>often blindingly fast but sometimes very slow • Problem I: Are we testing on the right data?</p><p>-Legacy <ref type="bibr">[Sandholm, 1999]</ref>; <ref type="bibr">[Fujishima, Leyton-Brown, Shoham, 1999]</ref> -CATS <ref type="bibr">[Leyton-Brown, Pearson, Shoham, 2000]</ref> • Problem II: How can we understand why performance varies so drastically?</p><p>use machine learning to predict running time <ref type="bibr">[Leyton-Brown, Nudelman, Shoham, 2002]</ref> Empirical Hardness Models • Our goal: emulate success in understanding the hardness of (e.g.) satisfiability instances, but:</p><p>we have an optimization problem and a very high dimensional one</p><p>• If we are nonetheless successful, we will be able to:</p><p>go get coffee while the algorithm is running build algorithm portfolios tune distributions for hardness in general, gain insight into the sources of hardness      The mechanism designer has two goals:</p><p>1. maximize expected revenue 2. balance load caused by the agents' selection of slots Expressed in tradeoff function z</p><p>Optimality: A mechanism-equilibrium pair is optimal if it maximizes z, as compared to all other equilibria in other mechanisms (constant n, participation rational) ε-optimality: z -z opt is bounded by nε Theorem 1: The optimal mechanism-equilibrium pair has a weak equilibrium (complete indifference).</p><p>[same v] • Congestion games (slightly simplified) <ref type="bibr">[Rosenthal, 1973]</ref> each agent i selects an action a -D(a) is the number of agents who choose action a -F a (·) are arbitrary functions for each a agent i pays • An agent can be made to pay more because another agent chooses a different but related action location problem: ice cream vendors on the beach</p><p>• neigh(a) is the set of actions that locally affect agents who choose action a • F a,a' (·) is the cost due to the local effect from action a to action a' • Agent i pays </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>-</head><label></label><figDesc>32-machine cluster of 550 MHz Xeons, Linux 2.12 collecting data took approximately 3 years of CPU time! running times varied from 0.01 sec to 22 hours (CPLEX capped)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>••</head><label></label><figDesc>We want our test distribution to generate problems in proportion to the time our portfolio spends on them -D: original distribution of instances -H f : model of portfolio runtime (h f : normalized) • Goal: generate instances from D · h f -D is a distribution over the parameters of an instance generator h f depends on features of generated instance Use</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>-</head><label></label><figDesc>slot is preferred by all agents • Agent a i 's valuation for slot s is v i (s). Two cases: 1. all agents have the same v 2. mechanism designer knows bounds: v l and v u • d(s) is the number of agents who choose slot s • Give agents incentive to balance load, but make small computational demands on the network resource waive the usage fee for slot s with probability p(s) q: expected number of free slots Mechanism Evaluation, Optimality</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Integer slack L1 norm BGG min good degree * Clustering Coefficient Clustering deviation * Integer slack L1 norm BGG min good degree * BGG max bid degree Clustering coefficient * Average min path length [Leyton-Brown, Nudelman, Andrew, McFadden, Shoham, 2003] Boosting (machine learning technique): 1. Combine uncorrelated weak classifiers into aggregate 2. Train new classifiers on instances that are hard for the aggregate Algorithm Design with Hardness Models: 1. Hardness models can be used to select an algorithm to run on a per-instance basis 2. Use portfolio hardness model as a PDF, to induce a new test distribution for design of new algorithms</figDesc><table>Absolute Error 
+
+Linear -RMSE 0.436 
+
+Quadratic -RMSE 0.216 
+
+Learning 
+
+• Linear regression 
+
+-ignores interactions 
+between variables 
+
+• Consider 2 nd degree 
+polynomials 
+
+-variables: pairwise 
+products of original 
+features 
+-total of 325 
+
+• We tried various 
+other non-linear 
+approaches; none 
+worked better. 
+
+(test set) 
+
+Understanding Models: RMSE vs. Subset Size 
+
+0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1 
+
+1.2 
+
+0 
+10 
+20 
+30 
+40 
+50 
+60 
+
+RMSE of the complete model 
+
+RMSE of the linear model 
+
+Cost of Omission (subset size 6) 
+
+0 
+20 
+40 
+60 
+80 
+100 
+
+BG edge density * 
+Integer slack L1 norm 
+
+Portfolio Results 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>Things you need to know from Game Theory • Network resource: use is divided into t timeslots • Each slot has a fixed usage cost m • n agents will use the network resource for one slot each</figDesc><table>Topics 
+
+problems 
+come from 
+GT/Econ 
+
+bidding 
+clubs 
+
+local-effect 
+games 
+
+load balancing 
+in networks 
+
+combinatorial auction 
+winner determination: 
+algorithms; testing 
+
+empirical hardness 
+models; portfolios 
+
+problems 
+come from 
+CS 
+applied 
+theoretical 
+
+Focused Loading 
+
+• Many users demand network 
+resources at a focal time 
+• Example: long distance phone 
+
+-want to talk as early as 
+possible, minimize cost 
+-max utility when rates drop: 
+network demand spikes 
+
+• Computer networks: load can be 
+even more focused 
+
+-sudden onset: TicketMaster 
+server as tickets go on sale 
+-deadline: IRS server just before 
+taxes are due 
+
+• Idea: provide incentives for users 
+to defocus their own loads 
+
+1.5% 
+
+2.0% 
+
+2.5% 
+
+3.0% 
+
+3.5% 
+
+4.0% 
+
+4.5% 
+
+5.0% 
+
+5.5% 
+
+6.0% 
+
+8 
+9 
+10 
+11 
+12 
+13 
+14 
+15 
+16 
+17 
+18 
+
+Ho ur 
+Pe rc e nta g e o f 0 0 -2 4 C a lls 
+
+Rates drop from 
+Peak to Shoulder 
+
+Quarterly Trunk Calls on Weekdays in 
+the United Kingdom, December 1975 
+
+[Mitchell, 1978] 
+
+[Leyton-Brown, Porter, Prabhakar, Venkataraman, Shoham, 2001; 2003] 
+
+• Game: 
+
+-players/agents 
+-actions 
+-strategies 
+-payoffs 
+
+• Equilibrium 
+
+-stable strategies 
+-weak/strict 
+-mixed/pure 
+
+• Mechanism design 
+
+Our Model 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>symmetries[Roughgarden &amp; Tardos, 2001],[Kearns &amp; Mansour, 2002]    </figDesc><table>Theorem 2: No strict, optimal equilibrium exists 
+
+"Collective Reward" 
+
+1. The mechanism signals agents with slot numbers 
+
+-c(s): the number of agents given signal s 
+
+2. Each agent chooses a slot 
+3. The mechanism computes p, and determines which 
+slots will be made (retroactively) free 
+
+Lemma 1: Assigning each agent the signal that greedily 
+improves z gives rise to optimal d 
+
+Lemma 2: Strict equilibrium ϕ: a i chooses slot c(i) 
+Theorem 3: (CR, ϕ) is ε-optimal 
+
+[same v] 
+
+Theorem 4: (CR, ϕ) is k-optimal, 
+
+[different v] 
+
+Topics 
+
+problems 
+come from 
+GT/Econ 
+
+bidding 
+clubs 
+
+local-effect 
+games 
+
+load balancing 
+in networks 
+
+combinatorial auction 
+winner determination: 
+algorithms; testing 
+
+empirical hardness 
+models; portfolios 
+
+problems 
+come from 
+CS 
+applied 
+theoretical 
+
+Computation-Friendly Game Representations 
+
+• In practice, interesting games are large; 
+computing equilibrium is hard 
+
+• CS agenda: compact representation, tractable computation 
+
+-independencies/modularity [La Mura, 2000], [Kearns, Littman, Singh, 2001], 
+
+[Vickrey &amp; Koller, 2002] 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0" />			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eugene</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">; Galen Andrew; Jim</forename><surname>Mcfadden</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+	<note>Yoav Shoham</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ryan</forename><surname>Porter</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Balaji Prabhakar; Yoav Shoham</title>
+		<imprint/>
+	</monogr>
+	<note>Shobha Venkataraman</note>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Moshe Tennenholtz • to other coauthors of work in my thesis: -Navin A.R. Bhat, Yuzo Fujishima, Mark Pearson • to members of the multiagent group, past &amp; present • to many friends who offered help and support • to my family and my girlfriend</title>
+		<imprint>
+			<publisher>Judith</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

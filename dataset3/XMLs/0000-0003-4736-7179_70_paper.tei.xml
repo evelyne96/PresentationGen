@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Power-aware Multi-DataCenter Management using Machine Learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Josep</forename><forename type="middle">Ll</forename><surname>Berral</surname></persName>
+							<email>berral@ac.upc.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya and Barcelona Supercomputing Center</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<email>gavalda@lsi.upc.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya and Barcelona Supercomputing Center</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jordi</forename><surname>Torres</surname></persName>
+							<email>torres@ac.upc.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya and Barcelona Supercomputing Center</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Power-aware Multi-DataCenter Management using Machine Learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The cloud relies upon multi-datacenter (multi-DC) infrastructures distributed along the world, where people and enterprises pay for resources to offer their web-services to worldwide clients. Intelligent management is required to automate and manage these infrastructures, as the amount of resources and data to manage exceeds the capacities of human operators. Also, it must take into account the cost of running the resources (energy) and the quality of service towards web-services and clients. (De-)consolidation and priming proximity to clients become two main strategies to allocate resources and properly place these web-services in the multi-DC network. Here we present a mathematical model to describe the scheduling problem given web-services and hosts across a multi-DC system, enhancing the decision makers with models for the system behavior obtained using machine learning. After running the system on real DC infrastructures we see that the model drives web-services to the best locations given quality of service, energy consumption, and client proximity, also (de-)consolidating according to the resources required for each web-service given its load.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I. INTRODUCTION</head><p>The current leading paradigm of distributed computing, known as Cloud Computing, has become crucial for the externalization of IT resources for business, organizations and people. The possibility of offering "everything as a service" (platform, infrastructure and services), allows companies to move their IT needs to external hosting, reducing costs as they pay only for resources they use. E.g. AmazonWS <ref type="bibr" target="#b1">[2]</ref> offers virtualized resources to run web-services, with total transparent view of the infrastructure to their customers. Naturally, providers want in turn to optimize the use of the resources they have deployed with their own metrics. Because of the volume, heterogeneity, and complexity to be managed, this has become today a hard optimization problem. It is even harder for a typically provider who owns a multi-DC system, usually distributed through the world, and must balance response times, data and task location, and energy consumption.</p><p>Any management policy starts by identifying the factors to be optimized, in our case revenues and costs. Revenues come from servicing the clients of the hosted web-services with reasonable Quality of Service (QoS), and costs are mainly operational costs for the infrastructure (e.g. energy consumption). Energy-related costs (powering machines and disks, cooling, . . . ) have become nowadays a major cost factor for IT. These costs are reflected in electricity consumption, which grows linearly or more with the capacity of the datacenter, and also with environmental impact <ref type="bibr" target="#b15">[16]</ref>, social and government pressure, and public image. Consolidation is a common strategy used to save power: set the maximum number of services in the least viable amount of hosting machines, so the number of on-line machines and resources is minimized. Virtualization technology has made consolidation easier, as web-services are boxed in Virtual Machines (VMs) running in mutual isolation in the same Physical Machine (PM), and migrated when necessary.</p><p>Management at short time scales is today typically automated, as human operators cannot cope with the size of the resources to be managed and the speed at which decisions must be made. Autonomic computing methods typically work by using (or building) some model of the system, collecting information about the current state, and then combining model and observations to make online decisions. In this paper we follow a line of work in which machine learning and data mining methods are used to build the model. The idea is to automate and improve the process even more, by building models with a level of detail that the datacenter designer cannot reach, or by keeping the model updated as hardware, software, and demands change over time.</p><p>Unlike previous work, we consider management at the "cloud" or multi-DC scenario level, that is, joint optimization across a set of cooperating DataCenters (DCs), each one with its own resources and receiving requests to host virtualized web-services. DCs are interconnected to migrate VMs among them and transport client traffic between VMs and clients. They must keep the client-VM communication transparent to clients, so that clients do not have to know the internals of the VM hosting system. VM placement must provide each VM with the resources to satisfy the load allocated to it, provide proximity to the client if possible (to minimize network latency, hence response time), and minimize overall energy consumption, which may vary among geographically distant DCs and over time. Additionally, it must also be sensitive the latencies and bandwidth use incurred when VMs are migrated within or among DCs.</p><p>Here we model multi-DC system management, to schedule virtualized web-services within DCs and across DC networks, using energy consumption, resource allocation and QoS as decisive factors, as a mathematical optimization problem. We use machine learning / data mining techniques for predicting the effect of VM placement moves before actually performing them, without relying on expert knowledge or requiring human supervision in real time. In particular, such techniques let us map low-level, input metrics (such as allocated CPU, memory, or bandwidth of a tentative placement) to high-level, output metrics (such as response times or energy consumption). We previously studied these techniques for local DC management successfully <ref type="bibr" target="#b5">[6]</ref>, <ref type="bibr" target="#b7">[8]</ref>, <ref type="bibr" target="#b9">[10]</ref>, and here we scale to multi-DC systems taking into account new relevant factors like serviceclient proximity, migration overheads, energy costs at different locations, and modularity between inter-DC relations and information. The main contribution of this paper is thus the hierarchical extension of those techniques to the multi-DC scenario.</p><p>To test the approach we build, using machine learning (ML), predictive models of CPU, memory, bandwidth, response times and Service Level Agreement (SLA) fulfillment from a real system and workloads; we compare a previously studied method based on the Best-Fit algorithm for scheduling <ref type="bibr" target="#b7">[8]</ref>, with and without using the predictive models, to test each prediction and the benefits of using learned models; and finally we study the performance of our formulation in terms energy, latencies, and QoS factors on a real DC environment using the OpenNebula <ref type="bibr" target="#b18">[19]</ref> virtualization platform.</p><p>This work is organized as follows: Section II presents previous work in this area. Section III explains the multi-DC business model. Section IV describes the mathematical model, the algorithms to be used and the methodology and study of learning and prediction of components and QoS. Section V shows the experiments performed to study the approach. Finally, Section VI summarizes conclusions and future work. A list of acronyms is given at the end.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II. RELATED WORK</head><p>Previous works on DC management use machine learning techniques to predict behaviors and select policies to be applied. Works like <ref type="bibr" target="#b22">[23]</ref>, <ref type="bibr" target="#b20">[21]</ref>, <ref type="bibr" target="#b19">[20]</ref>, <ref type="bibr" target="#b14">[15]</ref>, focused on energyaware management, use Reinforcement Learning (RL) algorithms to decide resource allocation policies, including consolidation techniques. Other works like <ref type="bibr" target="#b23">[24]</ref> use RL for predicting levels of quality of service on datacenter given a policy, or works like <ref type="bibr" target="#b3">[4]</ref> use fuzzy logic to predict resource usage and make decisions. As far as we know, current approaches are oriented towards learning the consequences of using policies that depend on states of the multi-DC environment. Here we focus on learning resource models and environment models through machine learning, to supply decision makers with information that is unknown or uncertain.</p><p>Most of the current works on modeling the cloud discuss specific systems or model more general systems "by hand", which is expensive in expert time. In the framework MUSE <ref type="bibr" target="#b8">[9]</ref> we find a mathematical model for autonomic automatically scheduling jobs to resources in datacenters, in order to optimize an economic objective function. In previous works, and in this one, we share their idea of a mathematical program to match resources, workloads and jobs. In <ref type="bibr" target="#b5">[6]</ref>, we considered the optimization of a single datacenter, considering only one basic resource: CPU usage; later in <ref type="bibr" target="#b7">[8]</ref> we introduced machine learning techniques to model the simultaneous usage of several resources (CPU, memory, and I/O) and their relation to higher-level metrics such as response time and quality of service, to be used as oracles driving the decision maker. Here, we focus now in distributed DC systems where the global manager does not have full information of intra-DC level metrics that the local DC managers has; the approach is thus hierarchical or modular. Furthermore, we study the approach on an architecture where resource are more limited, thus there is more competition: In previous works we used HPC architectures, while in this one we use energy-aware architectures.</p><p>Load distribution among datacenter networks is also an important aspect to be dealt with. Virtualization technology allows an easy management and migration of jobs among hosting machines and DCs <ref type="bibr" target="#b17">[18]</ref>, and orchestrating this management on DCs and multi-DC networks is currently a challenging topic (see <ref type="bibr" target="#b11">[12]</ref>, <ref type="bibr" target="#b4">[5]</ref>). In <ref type="bibr" target="#b24">[25]</ref>, migration strategies for virtualized jobs and hotspots are discussed within the Sandpipe framework. Other works focus explicitly on balancing load by following renewable energies, like <ref type="bibr" target="#b16">[17]</ref> and <ref type="bibr" target="#b10">[11]</ref>, where optimization focuses on moving load to where renewable energy is available at each moment. Here we apply virtualization on our system to migrate the load across a worldwide distributed multi-DC network, balancing DC-user proximity vs. migration costs vs. energy consumption; a 'follow the sun/wind" policy could also be introduced easily into the energy cost computation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>III. MANAGING MULTI-DCS A. Business Model for Multi-DCs</head><p>Companies offering computational power or web hosting (e.g. Amazon <ref type="bibr" target="#b1">[2]</ref>) base their business on offering customers resources from their multi-DC system for running web-services (often virtualized). Customers pay the provider according to a Service Level Agreement (SLA), generally focused on Quality of Service (QoS) objects toward the web-service clients. Usually this QoS depends on the amount of resources (CPU, Memory, IO...) granted to each VM (hence to the web-service), but these resources have a cost in running them (energy, maintenance, cooling, . . . ). The provider goal is to ensure the agreed QoS for the VMs, while minimizing the costs by reducing the resource usage. The business infrastructure is shown on <ref type="figure" target="#fig_0">Figure 1</ref>. RT is affected by the time to process a client request and dispatch it, also the proximity of the service to the client. The time to process and dispatch is affected by the resources dedicated to the VM and the load towards the web-service (number of requests competing for it) at that same time. A VM receiving insufficient resources will be slower to reply to user requests, but over-granting resources past a certain point will not necessarily speed-up the replies. Proximity to the client depends on the localization of the client requesting the webservice, the placement of the required VM holding the webservice, and the connection between the DC with the client. Here we consider that client requests going to non-local DCs can pass through our inter-DC network, while the client is connected through his/her local DC <ref type="bibr" target="#b0">[1]</ref>.</p><p>Finally, thanks to VM migration, web-services can be moved using a "follow the X" strategy. On green energy aware systems, VMs follow the sun, or the solar and wind production, minimizing the usage of "brown" energy. Other systems, like ours, use a "follow the load" policy, moving VMs close to their clients to provide good response times, unless local host overload or a locally high cost of energy forces otherwise. As mentioned, it would be easy to add to our policy a preference for locally available renewable energy over brown energy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Collecting Information</head><p>In cloud-like architectures oriented to multi-DC infrastructures, middleware are in charge of managing VMs and PMs in an autonomic way, following policies and techniques based in the "Monitor, Analyze, Plan, Execute" schema <ref type="bibr" target="#b8">[9]</ref>. We rely on such middlewares both for collecting high-and low-level data (monitoring), and for managing VMs and PM resources (executing). <ref type="figure" target="#fig_1">Figure 2</ref> shows the typical multi-DC middleware infrastructure. This software controls each VM resource sharing by monitoring PM resources and adjusting VM placements and quotas, a decision maker reads all monitored information and makes decisions based on its given policies and functions to be optimized, also a gateway agent redirecting traffic and monitoring the RTs (and so QoS) for each web-service. When we are scheduling a VM in a given DC we are interested in each VM requirements and each PM resource availabilities, also to be aware of current loads to each VM and resulting RTs. We can monitor the load to each VM by measuring the number of requests, the average response time per request and the average bytes per request, also how much CPU, Memory and Bandwidth is used in each PM, and how those are being shared among the VMs. Using machine learning methods we want to 1) anticipate the VM requirements given an expected incoming load, 2) reduce overhead of PM monitors, when observations can be replaced by estimations, and 3) predict an expected RT and QoS given tentative placements, making better scheduling decisions to maximize QoS.</p><p>Handling all this information becomes difficult the larger, more distributed, and loaded the system becomes. For this reason multi-DC systems management tend to decentralize, allowing each DC to administer their PMs and VMs, transferring VMs across DCs only when required. Here we propose allowing each DC to deal with its VMs and resources (as shown on <ref type="bibr" target="#b7">[8]</ref>), bringing to the global scheduler information about the offered or tentative host where each VM may be placed for each DC. This modularity lets the global scheduling to drive the multi-DC by load sources, energy costs, and also predicting QoS using the provided host information for such DC; and after locating the VM into a DC, the local DC will decide if it reallocates properly the VM inside it or (de-)consolidates intra-DC.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C. Service Level Agreements</head><p>Quality of Service as perceived by the client is a highly complex issue, involving technological and psychological factors. Response Time, the amount of time required by our DCs to reply to a request, is a typical object in Service Level Agreements (SLA), the contracts where providers and customers agree on a common notion of QoS. Here we make the simplifying assumption that SLA fulfillment is strictly a function of RT; further factors such as up-time rate could be added to our methodology, as long as they are measurable from monitored data. To be specific, here we measure the RT on the datacenter domain and network, not at the client side since he may use unpredictable thinking time and may have a slow machine or connection at their end.</p><p>A common "RT to QoS function" in SLAs is to set a threshold α and a desired response time RT 0 , and set SLA fulfillment level to</p><formula xml:id="formula_0">SLA(RT ) =      1 if RT ≤ RT0, 1 − RT −RT 0 (α−1)·RT 0 if RT0 ≤ RT ≤ α · RT0, 0 if RT &gt; α · RT0</formula><p>that is, the SLA is fully satisfied up to response time RT 0 , totally violated if it exceeds α · RT 0 , and degrades linearly in between. We use this function for simplicity in our experiments, but this is a nonessential choice.  </p><formula xml:id="formula_1">1) ∀i ∈ VM : h∈PM Schedule[h, i] = 1 2) ∀h ∈ PM : i∈VM GivenResources[i] · Schedule[h, i] ≤ Resources[h] 3) ∀h ∈ PM : P ower[h] = fP ower ( i∈Schedule[h, ] GivenResources[i]) 4.1) ∀i ∈ VM : M igr[i] = h∈PM (Schedule[h, i] ⊕ pastSched[h, i]) 1 4.2) ∀i ∈ VM : M igl[i] = h 1 ,h 2 ∈PM 2 Schedule[h1, i] · pastSched[h2, i] · LatencyHH[h1, h2] 5.1) ∀i ∈ VM : ReqRes[i] = f RequiredResources (V Mi, Load[i, ]) 5.2) ∀i ∈ VM : GivenRes[i] = fOccupation(RequiredResources[i], Schedule[i, h]) 6.1) ∀i ∈ VM : RTprocess[i] = fRT (Load[i, ], RequiredResources[i], GivenResources[i]) 6.2) ∀ i, l ∈ VM, L : RTtransport[i, l] = h∈PM LatencyHL[h, l] · Schedule[h, i] 6.3) ∀ i, l ∈ VM, L : RT [i, l] = RTprocess[i] + RTtransport[i, l] 7) ∀i ∈ VM : SLA[i] = fSLA(RT [i, ], RT0i, αi)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>IV. MODELING THE SYSTEM</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Mathematical Approach</head><p>The mathematical model shown in <ref type="figure" target="#fig_2">Figure 3</ref> represents the constraints in our system and the metric to be maximized. Desired output (solution): The schedule, containing which PM must hold each VM. Objective Function: Maximize the sum of:</p><p>• income from customers for executed VMs. The f revenue () is agreed between provider and customer depending on the SLA. • minus the penalties for SLA violation when migrating.</p><p>The f penalty () is also agreed between provider and customer about how migrations must be penalized. • minus the energy costs, as the sum of energy consumed by all on-line machines. The f energycost () is agreed between resource provider and energy provider. Such functions are defined by the provider after setting such SLAs and negotiating the price per watt-hour. The function reflects the trade-off we have been discussing so far: one would like to have as many machines turned on as possible in order to run as many customer jobs as possible without violating any SLA, but at the same time to do this with as few machines as possible to reduce power costs. The unknowns of the program describe which tasks are allocated to each PM, and how resources of each PM machine are split up among the tasks allocated to it. Constraints in the program link these variables with the high level values (degree of SLA fulfillment, power consumption). The point of our methodology is that the functions linking the former to the latter are, in many cases, learned via ML rather than decided when writing up the program. Problem Parameters: Host (PM) Resources: CPU, Memory, and Bandwidth characteristics per PM; Job Load: Amount of load (number of requests, average bytes per request, average CPU process time per request, etc) for each different topological load source; the Previous Schedule; Latencies: latency between each load source and each PM (PMs in the same DC will have the same values), also latency between any two hosts; Image Size: size of VM images, to calculate the time required for migrating a VM; Baseline Response Time (RT 0 ) and Tolerance Margin (α): The two parameters in the SLA describing its fulfillment according to the resulting RT. Problem Constraints: 1) We assure a VM involved in this scheduling round is finally placed in one and only host. 2) The resources granted to the set of jobs allocated in one host must not exceed the amount of resources the host has available. 3) For each host we set the power consumed by all its granted resources. 4) For each job we set whether it is being migrated or not, and its latency between origin and destination. 5) Resources required and granted to a job given its tentative placement. 6) Response Time (production RT) given the load, required and granted resources, also the transport RT for each location. 7) SLA fulfillment for each job, from the RT obtained, the basic RT and tolerance margins agreed with the customer. This function can be used over each request or over the average RT (weighting the different load sources).</p><p>Power consumption in multi-core computers depends nonlinearly on the number of active cores and CPU usage. E.g. in a Intel Atom 4-Core machine (the ones used in our experiments), power consumption when one core is active is 29.1 watts. It grows to only 30.4, 31.3, and 31.8 watts when 2, 3, and 4 cores are active, respectively. This implies that two such machines using one core each consume much more energy than a single machine executing the same work on two (or even four) cores if we shut down the second machine. This explains the potential for power saving by consolidation. Further, usually in DCs, for each 2 watts consumed by the machine, an extra watt is required for cooling, another reason to reduce energy consumption.</p><p>To calculate a migration penalty, we take a perhaps pessimistic approach and assume that while migrating a VM (freezing the VM, transporting the image, and restoring it) the VM fails to respond entirely, so its SLA fulfillment is 0. Finally, to determine required and given resources, we can get information from the monitors, or use the ML predictors to be explained in the next subsection. Also to determine the RT and SLA, in a reactive system we can try to obtain it statistically from the previous executions, while we are doing it proactively using our learned models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Adaptive Models</head><p>When making decisions we often find that the required information 1) is not available, 2) is highly uncertain, 3) cannot be read because of privacy issues, or 4) obtaining it interferes too much with the system. Examples of this occur when reading from both PMs and VMs, and information coming from VMs is extremely delicate to handle and interpret. Observed resource usage can be altered by the observation window, the span of time between samples, or the stress of its hosting PM. Overheads of virtualization also add noise to the resource observation, independently of the load received by each VM. Opening the VM to read information from its internal system log could be against customer privacy agreements. Furthermore monitors can also add overhead to the PM, altering VM's performance; e.g. during experiments we occasionally observed monitors peaking up to 50% of an Atom CPU thread.</p><p>The advantage of ML over explicit expert modeling is when systems are complex enough that no human expert can explore all relevant possibilities, when no experts exist, or when system changes over time so models must be rebuilt periodically or reactive to changes. In today's systems, this occurs continuously due to e.g. automatic software updates.</p><p>Here we build predictive models for all elements that could be considered relevant for deciding VM placement. From load characteristic of each web-service and its clients (Requests per Time Unit, average Bytes per Request, average Computing Time per Request in no-stress context), we learn and predict the resources that the VM will use to serve its requests (CPU, memory, I/O network traffic, and energy). As reported in previous work <ref type="bibr" target="#b7">[8]</ref>, the memory used by a PM memory can be safely assumed to be the sum of the memory allocated to its VM's, and PM network I/O is the sum of the I/O of its VM's. But total CPU used by a PM typically exceeds the sum of CPU power used by its VM's, due to management overhead; we thus learn the function describing the amount of PM CPU used as a function of the number of VM's and their metrics. We add to these predicted values information on the current load arriving to each VM and information from the gateway element (sizes of the queues of pending requests for these VMs, which represent additional immediate load). This information suffices to predict, by an another previously trained predictive model, response time and/or SLA fulfillment level. We then have all the elements (processed jobs, SLA fulfillment, and energy costs) to compute the profit generated by this particular PM.</p><p>Also in previous work <ref type="bibr" target="#b7">[8]</ref> we determined that resource usage and response time, in this setting, can be modeled reasonably well by piecewise linear function, which explains that a regression trees (decision trees with linear regressions at the leaves) work well as predictive models. We used in particular the M5P regression tree method in the WEKA package. One exception is the prediction of SLA for each VM, where we used the k-Nearest Neighbor technique, which works by comparing the current situation with those seen before and choosing the most similar one(s). See <ref type="bibr" target="#b13">[14]</ref> for more details on these algorithms. <ref type="table" target="#tab_2">Table I</ref> shows, for each predicted element, the ML method used for prediction, the correlation between the real and predicted values when validating the model, the mean absolute error and error standard deviation, the number of instances for training and validating the model, and the range (min,max) of the data. Our hypothesis is that predicting these data with such low error will help the decision maker to manage better the datacenter than not having it. A choice we had was whether to predict the RT and compute the SLA fulfillment value or try to predict the SLA fulfillment value directly. We noted here that better results are obtained if SLA is predicted directly, possibly because it has a bounded range so it is less sensitive to outliers.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C. Scheduling Algorithms</head><p>Let us discuss the methods used for solving the mathematical program above. In general, the functions mentioned in the program need not be linear, but it is not difficult to find reasonable piecewise linear approximations. One could then use a Mixed Integer Linear Program (MILP) solver, but as seen in our previous work <ref type="bibr" target="#b5">[6]</ref>, even decent out-of-the-box solvers (e.g. GUROBI <ref type="bibr" target="#b12">[13]</ref>) required several minutes to schedule 10 jobs among 40 candidate hosts. The problem aggravates when as we want to use more complex functions (e.g., k-NN for SLA) and become Now, by having more complex functions <ref type="bibr">(</ref>  If starting from scratch, the running time is proportional to the product of number of VM's times number of PM's. We considered a number of points to reduce it. One is that we do not include in the scheduling process VMs and PMs that are already performing well in a consolidated way, which is probably the large majority if the result of the previous scheduling round was good. Also, the method only considers for scheduling across DC's those virtual machines that could improve its QoS if moved across DCs (namely, because all PM's in their current DC already have a very high load). Thus, each DC only provides to the global scheduler a set of available physical machines and a set of VM's that may benefit if scheduled somewhere else. We thus have a twolayer approach: a number of intra-DC scheduling problems, solved starting from a possibly quite good previous schedule, and one global inter-DC problem, with a narrow interface to the intra-DC problems. In our experiments, this approach largely reduces solving cost, compared to the theoretical worstcase. Additional optimizations include considering only once identical empty host machines and not considering almost full hosts that cannot accommodate additional VM's.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>V. EXPERIMENTS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Environment Description</head><p>We have performed the experiments on low-energy consumption machines (Intel Atom 4 Core), where resource management is critical in order to accept as much load as possible without degrading QoS. PMs run the Oracle VirtualBox virtualization platform, and each VM runs a web-service software stack (Apache, PHP, MySQL). The workload used corresponds to the Li-BCN Workload <ref type="bibr" target="#b6">[7]</ref>, a workbench and collection of traces from different real hosted web-sites offering from file hosting to image-gallery services; the workload was properly scaled to create heavy load for each experiment. Here we use client-service transactional benchmarks, but other kind of webservices based on message-passing could also be of interest.</p><p>Our scenario, as a case of use, is composed of four DCs in different continents (e.g. Brisbane, Australia; Bangaluru, India; Barcelona, Spain; Boston, Massachusetts), connected by highspeed network (network energy costs are not considered in this work; we keep this as future work). For each DC there is an amount of clients accessing the the services according to their local workload. Note that we performed the experiments in our local DC, but introducing network latencies and delays between machines and clients corresponding to the four different simulated geographical locations. This should suffice as a proof of concept for the model, learning components, and VM behaviors.</p><p>To price each element involved in the system, we established that providers behave as a cloud provider similar to Amazon EC2, where customers rent VMs in order to run their webservices (0.17 euro per VMh). For energy costs, we obtained the energy cost (euros per kWh) for the different places where we have a DC placed, so the cost of running a PM will depend on the DC where it is placed. Also, the migration costs depend on the latency and bandwidth between DC connections. We took as example the intercontinental network of the Verizon network company <ref type="bibr" target="#b2">[3]</ref> to obtain latencies between locations and assumed a fixed bandwidth of 10 Gbps.</p><p>The RT, as a QoS measure in our SLA, is measured from the arrival of a request to the exit of the reply for it through the Internet Service Provider (ISP). As SLA parameters, we set as RT 0 the values 0.1s, as experiments on our system showed that it is a reasonable response value obtained by the web service without stress, and the α parameter is set to 10 (SLA fulfillment is 0 if RT ≥ 10RT 0 ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Intra-DC Comparatives</head><p>The first set of experiments are to check the benefits of driving an intra-DC scheduling for VMs using the learned models. As seen in previous works <ref type="bibr" target="#b7">[8]</ref>, Best-Fit performs better among greedy classical ad-hoc and heuristics, and here we check it against the environment. We compare 1) the Best-Fit algorithm checking if a VM can fit in the PM given the resources it has used in the last 10 minutes, and optimizing just power and latency to clients; 2) the Best-Fit algorithm with resource overbooking (BF-OB), i.e. booking for a VM double the resources it requires, to account for unexpected load peaks; and 3) the ML-enhanced Best-Fit, which uses the predicted CPU, memory, and I/O required for each VM to decides if it fits in a PM. The goal is to see how much the learned models help Best-Fit to (de-)consolidate in a way that maintains high throughput and SLA without wasting energy.</p><p>We set up 4 PMs with OpenNebula and VirtualBox, holding a total of 5 VMs, a PM acting as gateway and DC manager, and 4 machines generating LiBCN10 scaled load towards the 5 VMs. <ref type="figure" target="#fig_3">Figure 4</ref> shows the results of running the workload for 24 hours, with a scheduling round every 10 minutes. The Best-Fit algorithm with ML enhancement (de-)consolidates constantly to adapt VMs to the load level, while Best-Fit without ML considers that given the monitored data it is not required to do so, and uses less CPUs and less PMs risking the SLA. So the ML approach learns to detect situations where SLA fulfillment may not be achieved (because of CPU competition, memory exhaustion and/or IO competition), hence migrating sufficient VMs to other machines with better contexts. The drawback of de-consolidating is higher energy use, but as long as SLA revenue pays for the energy and migration costs, Best-Fit with ML will usually choose to pay energy to maintain QoS.</p><p>Not reported here, for space reasons, is the fact that these ML-augmented versions can automatically adapt to changes in task execution prices, SLA penalties, and power price as shown on <ref type="bibr" target="#b5">[6]</ref>. Adapting the ad-hoc algorithms to these changes requires expert (human) intervention, and is simply unfeasible in the highly changing scenarios envisioned for the future, where virtual resources, SLA penalties, and power prices will interactively and constantly be in negotiation, for example by means of auctions and automatic agents.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C. Inter-DC Comparatives</head><p>After checking the learned consolidation Best-Fit strategy we study the inter-DC scenario, where VMs can be placed in one of several DCs, each one with different energy prices and different latencies among them and with clients. Issues with multi-DC systems are that often the best placement according to SLA requires paying more for energy, or migration penalties make better a different placement, consolidating and moving VMs differently to a single fixed factor, but as the combination of all the factors.</p><p>As a case of study, here we set one PM to represent a DC. As the intra-DC scheduler will arrange local PMs to a correct SLA fulfillment level, this PM will represent an on-line machine available to host a VM just entering the system or arriving from another DC. Each DC has an access point for clients (an ISP) machine collecting all the requests originating in the area where the DC is and sent to any VM in our system. Requests arriving to a DC but aimed to a VM on a another DC will be routed through our network, experiencing the latency between the the local DC and the remote DC. We apply our workload upon each VM from each ISP, but scaling each of the four workloads differently and simulating the effect of different time zones and load time patterns. <ref type="table" target="#tab_2">Table II</ref>   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Follow the Load and Consolidation</head><p>First of all we perform a "sanity check", looking at the movements of VM without adding SLA or Energy factors yet (the simple "follow the load" policy). That is, the driving function is SLA taking into account only the request latency. Given this, Best-Fit places each VM as close to its major load source as possible. <ref type="figure">Figure 5</ref> shows the movement of a single VM being driven only by this kind of SLA, without any resource competition or energy awareness. The VM follows the main source load to reduce the average latency to its globally distributed clients. After checking that "follow the load" occurs, we introduced the energy consumption factor. When the function to be optimized includes energy costs, the scheduler will consolidate more noticeably while also taking into account <ref type="bibr">Figure 5</ref>. VM placement following the Load for Inter-DC Scheduling client proximity and migration costs. In short, it will tend to consolidate either in the place closest to the load, or in the place where energy is cheapest, depending on the parameter values. Results are not reported.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Benefit of De-locating Load</head><p>Next, again for sanity check, we consider a somewhat artificial scenario with a single DC (in an averaged location for energy costs and latencies), where all VMs are held fixed receiving all the load, and compare it to another scenario where this DC can de-locate VMs (migrate VMs to other DCs temporarily) when it is overloaded. Despite having worse latencies and migration overheads when de-locating, SLA fulfillment increases from an average SLA of 0.8115/1 to an SLA of 0.8871/1 per VM doing this. This would translate, in the current experiment, to an average net benefit increase of 0.348 euro/VM in a day.</p><p>In this experiment, the migration to another DC incurs in a latency increase of 0.09 to 0.39 seconds, but happens at the time when the load was so severe on the VM that its response time had degraded to about these 0.09 seconds over the desired 0.1 seconds. We observe that for lower SLA increments it prefers to consolidate in the local DC. Obviously the de-location threshold will depend on the RT 0 values and inter-DC latencies, but it is clear that the method is able to decide when de-locating VMs is worth it or not.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Full Inter-DC Scheduling</head><p>Once checking latency and energy factors, and observing the de-location benefit from a DC point of view, we perform the complete scheduling of the multi-DC system. Results are given in <ref type="figure" target="#fig_4">Figure 6</ref>. We note the following facts: 1) When load is heavy, the scheduler distributes VMs across DCs, deconsolidating across DCs as the intra-DC scheduler does within each DC. With the range of parameters and prices tested, SLA fulfillment and the associated revenue is still the most important factor driving deconsolidation. This can be seen in particular in highest load moments, or when SLA is below 1. 2) When SLA is not compromised, energy consumption pushes for consolidation into the DC with cheapest energy (see the low load moments). 3) When a potential VM move does not bring any improvement in SLA or energy use, the VM either stays in its DC or is consolidated to the nearest DC in latency. Note that the workload generator produced a flash-crowd effect in the workload in minutes 70-90, for about 15 minutes, which clearly exceeds the capacity of the system. We kept this part of the workload in the test for realism. Again, deconsolidation effects are seen when load (number of requests) increases or requests become more expensive to answer. In these cases, the system improves SLA by deconsolidation, countering the migration penalization and also enforcing the reduction of service-client latencies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Benefit of Inter-DC Scheduling</head><p>We finally address experimentally the main question of the paper: is inter-DC optimization is better than intra-DC optimization? that is, does the ability to move VMs among DCs provide better solutions than keeping each VM within its DC only? Here we compare two scenarios: 1) The static global multi-DC network, where the VMs for each DC stay fixed without moving across DCs, where clients around the world can access every version but each web-service stays always in the same DC near its potential clients or customer selected DC; in other words, DCs do not cooperate by exchanging VM's, but just by redirecting the load they receive to its intended VM, local or located somewhere else. And 2) the dynamic multi-DC scenario we propose, where VMs may migrate among DCs to improve global benefit. The benefit of the dynamic approach is basically the capability of moving the VMs towards the place where the energy is cheaper and/or available, or else to a DC with lower load for increased QoS.</p><p>At this stage, we chose for realism to use actual electricity prices for the four locations we have considered, which are relatively similar. As energy costs rise and markets become more heterogeneous and competitive, one should anticipate larger variations of energy prices across the world, and the benefit of inter-DC optimization priming energy consumption should be more obvious. This is particularly so as renewable sources such as solar energy become more widespread, because of their hour-to-hour variability and its very low cost once the production infrastructure is in place. <ref type="figure" target="#fig_5">Figure 7</ref> shows the comparison among the static context and the dynamic, when wanting to consolidate VMs among DCs. The large savings in energy is largely due to our experimental limitation (one PM per DC), which leaves no room for intra-DC energy savings by consolidation. One can observe, though, that even in this restricted setting the algorithm manages to slightly improve global average SLA and revenue while reducing energy costs. Previous studies <ref type="bibr" target="#b9">[10]</ref> showed that consolidation can achieve a power consumption reduction of more than 30% without counting the energy saving on cooling overheads (which may cause around a 1.5 increase in power consumption). So while maintaining SLA stable, we are able to improve energy consumption in a 42% by consolidate/deconsolidate in an inter-DC way, and further improve benefit by a 2% a day, for VMs that can not be consolidated in their local DCs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Trade-Offs for QoS and Energy Costs</head><p>Finally, trade-offs between QoS and energy costs depend in the amount of load the VMs are receiving. <ref type="figure" target="#fig_6">Figure 8</ref> shows the relation of the three variables from the observations of the given scenario; "load" is represented by amount of requests per time unit, as the most significant attribute of the load. Given the amount of load, as we want to improve the SLA fulfillment we are forced to consume more energy. For each level of load he can infer a characteristic function SLA vs Energy. This plot would allow a manager to visualize how much energy needs to be used to achieve a desired level of QoS or, conversely, what level of QoS can be achieved under some energy budget. Optimizing the schedule and management of multi-DC systems requires balancing several factors, like economic revenues, Quality of Service and operational costs such as energy. This problem can be modeled as a mathematical problem, solved approximately using e.g. greedy algorithms, and can also be enhanced using machine learning models to resolve uncertain or unavailable information, which lets the system make decisions adaptively without much explicit expert modeling.</p><p>Taking advantage of virtualization technology, we presented a model to solve a multi-DC scheduling problem which balances and optimizes the economic factors above. Experiments showed that the ML models can provide the required information to consolidate/deconsolidate across DCs according to the amount and geographic origin of the load for each VM, the latencies among clients and DC's and among DC's, and the different energy prices at different locations.</p><p>A few issues for future study are 1) how we decide which VMs are excluded from inter-DC scheduling or which PMs are offered as host candidates for scheduling; this affecting directly to scalability of the method; and provide information about how many PMs/VMs we can manage per scheduling round; 2) The inclusion of more operational costs like networking costs and bandwidth management 3) The green energy into the scheme not only to reduce energy costs but also environmental impact of computation. 4) The use of online learning methods, able to retrain continuously on recent data, to make the system react quickly to changes in either application behavior, hardware or middleware changes, or workload characteristics. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Multi-DC business infrastructure A typical QoS measure on web sites is Response Time (RT).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Virtualization middleware schema</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Mathematical Model</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Results and Factors for Intra-DC Scheduling</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 6 .</head><label>6</label><figDesc>Results and Factors for Inter-DC Scheduling</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 7 .</head><label>7</label><figDesc>Comparative Static vs Dynamic Inter-DC for 5 VMs</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 8 .</head><label>8</label><figDesc>Relation of the SLA vs Energy vs Load VI. CONCLUSIONS</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head></head><label></label><figDesc>ACKNOWLEDGMENT This work has been supported by the Spanish Ministry of Science under contract TIN2011-27479-C04-03 and under FPI grant BES-2009-011987 (TIN2008-06582-C03-01), by EU PASCAL2 Network of Excellence, and by the Generalitat de Catalunya (SGR2009-1428).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Maximize: P rof it = i∈VM frevenue(SLA[i]) − i∈VM f penalty (M igr[i], M igl[i], ISize[i]) − h∈PM fenergycost(P ower[h]) Output: Schedule[P M, V M ], Integer Binary ; the Schedule Parameters: Resources[PM], resources CP U, M EM, BW D per host Load[VM, Locs], requests, bytes/req, ... per VM and source pastSched[PM, VM], previous schedule LatencyHL[PM, Locs], latency between hosts and sources LatencyHH[PM, PM], latency between two hosts ISize[VM], size for the image for current VM RT0i and αi, RT0 and α for VM i to fully satisfy its SLA Constraints:</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>SLA function becomes a K-NN method, visiting several times all examples × variables for each tentative</figDesc><table>ML Method 
+
+Correl. 
+Mean Abs Error 
+Err-StDev 
+Train/Val 
+Data Range 
+Predict VM CPU 
+M5P (M = 4) 
+0.854 
+4.41%CP U 
+4.03%CP U 
+959/648 
+[0, 400] %CP U 
+Predict VM MEM 
+Linear Reg. 
+0.994 
+26.85 MB 
+93.30 MB 
+959/1324 
+[256, 1024] MB 
+Predict VM IN 
+M5P (M = 2) 
+0.804 
+1.77 KB 
+4.01 KB 
+319/108 
+[0, 33] KB 
+Predict VM OUT 
+M5P (M = 2) 
+0.777 
+25.55 KB 
+22.06 KB 
+319/108 
+[0, 141] KB 
+
+Predict PM CPU 
+M5P (M = 4) 
+0.909 
+14.45%CP U 
+7.70%CP U 
+477/95 
+[25, 400] %CP U 
+
+Predict VM RT 
+M5P (M = 4) 
+0.865 
+0.234 s 
+1.279 s 
+1887/364 
+[0, 19.35] s 
+Predict VM SLA 
+K-NN (K = 4) 
+0.985 
+0.0611 
+0.0815 
+1887/364 
+[0.0, 1.0] 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head>Table I</head><label>I</label><figDesc>LEARNING DETAILS FOR EACH PREDICTED ELEMENT AND SELECTED METHOD. WE USED A 66%/34% TRAINING/TESTING DATASET</figDesc><table>SPLIT IN ALL CASES. 
+
+solution), exhaustive MILP methods become infeasible if we 
+want to get schedules at least once per hour. This made us 
+to look for heuristic algorithms that produce fast and good 
+approximations; as in [6], we used the classic Ordered Best-
+Fit method [22] for bin packing. In our terminology, it tries 
+to place each VM in order in the PM where it fits best 
+-see Algorithm 1. In the algorithm, the profit function 
+is the responsible of computing the SLA, energy, migration 
+and latency factors, computing the profit for each tentative 
+placement. 
+
+Algorithm 1 Descending Best-Fit algorithm 
+
+for each vm i: 
+get_data(i); 
+res_req[i] &lt;-get_required_resources(i); 
+for each host j: 
+res_avail[j] &lt;-get_total_resources(j); 
+order[] &lt;-order_by_demand(vms,res_quota[],desc); 
+for each vm v in order[]: 
+best_profit &lt;-0; 
+c_host &lt;-0; 
+for each host h: 
+profit &lt;-profit(v,h,res_req[v],res_avail[h]); 
+if (profit &gt; best_profit) : 
+best_profit &lt;-profit; 
+c_host &lt;-h; 
+assign_vm_to_host(c_host,v); 
+update_resources(res_avail[c_host],v); 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>shows the prices and latencies used.</figDesc><table>Euro/Wh 
+LatBRS 
+LatBNG 
+LatBCN 
+LatBST 
+Brisbane (BRS) 
+0.1314 Wh 
+0 
+265 
+390 
+255 
+Bangaluru (BNG) 
+0.1218 Wh 
+265 
+0 
+250 
+380 
+Barcelona (BCN) 
+0.1513 Wh 
+390 
+250 
+0 
+90 
+Boston (BST) 
+0.1120 Wh 
+255 
+380 
+90 
+0 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head>Table II PRICES</head><label>II</label><figDesc>AND LATENCIES USED IN THE EXPERIMENTS. LATENCIES ARE IN MS [10GBPS LINE])</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5" validated="false"><head></head><label></label><figDesc>Table III COMPARATIVE OF RESULTS FOR THE MULTI-DC PER 5 VMS</figDesc><table>Avg Euro/h 
+Avg Watt/h 
+Avg SLA 
+Static-Global 
+0.745 
+175.9 
+0.921 
+Dynamic 
+0.757 
+102.0 
+0.930 
+
+</table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ACRONYMS</head></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amazon</forename><surname>Directconnect</surname></persName>
+		</author>
+		<ptr target="http://www.amazon.com/DirectConnect/" />
+		<imprint>
+			<date type="published" when="2013-01" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amazon</forename><surname>Webservices</surname></persName>
+		</author>
+		<ptr target="http://aws.amazon.com/" />
+		<imprint>
+			<date type="published" when="2013-01" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Verizon</surname></persName>
+		</author>
+		<ptr target="http://www.verizonenterprise.com/about/network/latency" />
+		<imprint>
+			<date type="published" when="2013-01" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Predicting resource demand in dynamic utility computing environments</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Andrzejak</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Graupner</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Plantikow</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Intl. Conf. on Autonomic and Autonomous Systems (ICAS)</title>
+		<imprint>
+			<date type="published" when="2006-07" />
+			<biblScope unit="page">6</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A view of cloud computing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Armbrust</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Fox</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">D</forename><surname>Joseph</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Katz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Konwinski</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Patterson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Rabkin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Stoica</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Zaharia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Commun. ACM</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="50" to="58" />
+			<date type="published" when="2010-04" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Adaptive Scheduling on Power-Aware Managed Data-Centers using Machine Learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">12th IEEE International Conference on Grid Computing</title>
+		<imprint>
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Li-Bcn Workload</surname></persName>
+		</author>
+		<ptr target="http://www.lsi.upc.edu/dept/techreps/llistatdetallat.php?id=1099" />
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Empowering Automatic Data-Center Management with Machine Learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">28th ACM Symposium on Applied Computing (SAC)</title>
+		<imprint>
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Managing energy and server resources in hosting centers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">S</forename><surname>Chase</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">C</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">N</forename><surname>Thakar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">M</forename><surname>Vahdat</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">18th ACM Symposium on Operating System Principles (SOSP)</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Energyaware Scheduling in Virtualized Datacenters</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Í</forename><surname>Goiri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Julià</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Nou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Guitart</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 12th IEEE International Conference on Cluster Computing</title>
+		<meeting>the 12th IEEE International Conference on Cluster Computing<address><addrLine>Heraklion, Crete, Greece</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2010-09-20" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Greenhadoop: leveraging green energy in data-processing frameworks</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Goiri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Le</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">D</forename><surname>Nguyen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Guitart</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Bianchini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">7th ACM European Conf. on Computer Systems (EuroSys)</title>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Virtual machine hosting for networked clusters: Building the foundations for &apos;autonomic&apos; orchestration</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Grit</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Irwin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Yumerefendi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Chase</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conf. on Virtualization Technology in Distributed Computing (VTDC)</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title/>
+		<ptr target="http://www.gurobi.com/" />
+	</analytic>
+	<monogr>
+		<title level="j">GUROBI. Gurobi optimization</title>
+		<imprint>
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The WEKA data mining software: an update</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Frank</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Pfahringer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Reutemann</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">H</forename><surname>Witten</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIGKDD Explor. Newsl</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="10" to="18" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Optimal Sleep Patterns for Serving Delay-Tolerant Jobs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Kamitsos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Chiang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">1st Intl. Conf. on Energy-Efficient Computing and Networking (eEnergy)</title>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Estimating total power consumption by servers in the US and the world. Final report</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Koomey</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007-02-15" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Online algorithms for geographical load balancing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Wierman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">L</forename><surname>Andrew</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Intl. Green Computing Conference (IGCC)</title>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Dynamic resource management using virtual machine migrations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Mishra</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Das</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Kulkarni</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Sahoo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Communications Magazine</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="34" to="40" />
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Virtual infrastructure management in private and hybrid clouds</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Sotomayor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">S</forename><surname>Montero</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">M</forename><surname>Llorente</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Foster</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Internet Computing</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="14" to="22" />
+			<date type="published" when="2009-09" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Adaptive power management using reinforcement learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Tan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Qiu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Intl. Conf. on Computer-Aided Design (ICCAD)</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A hybrid reinforcement learning approach to autonomic resource allocation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tesauro</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">K</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Das</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">N</forename><surname>Bennani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">3rd Intl. Conf. on Autonomic Computing (ICAC)</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Approximation Algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><forename type="middle">V</forename><surname>Vazirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2001" />
+			<publisher>Springer-Verlag</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A reinforcement learning framework for dynamic resource allocation: First results</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Vengerov</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Iakovlev</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2nd Intl. Conf. on Autonomic Computing (ICAC)</title>
+		<imprint>
+			<date type="published" when="2005-06" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A middleware for autonomic QoS management based on learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Vienne</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J.-L</forename><surname>Sourrouille</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">5th Intl. Workshop on Software Engineering and Middleware (SEM)</title>
+		<imprint>
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Black-box and gray-box strategies for virtual machine migration</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Shenoy</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Venkataramani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Yousif</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">4th USENIX Conf. on Networked systems design &amp; implementation (NSDI)</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

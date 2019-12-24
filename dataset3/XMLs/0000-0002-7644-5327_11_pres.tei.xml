@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">SATenstein: Automatically Building Local Search SAT Solvers From Components</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ashiqur</forename><forename type="middle">R</forename><surname>Khudabukhsh</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lin</forename><surname>Xu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">SATenstein: Automatically Building Local Search SAT Solvers From Components</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Algorithm Design Approach</head><p>• Traditional approach -Hard-code various design choices -Iteratively conduct small experiments to improve the design • Our approach -Make all design options explicit, encoding them as parameters</p><p>• Results in a generalized, highly parameterized algorithm • Instantiation produces many different solvers -Given a distribution, set the parameters using an automatic algorithm configuration procedure • A highly parameterized, generalized SLS solver built on top of UBCSAT solver framework <ref type="bibr">[Tompkins &amp; Hoos, 2004]</ref> -3 categories of SLS algorithms</p><p>• WalkSAT, G 2 WSAT, dynamic local search algorithms -25 known algorithms -41 parameters -&gt; 2 × 10 11 possible instantiations</p><p>• For each distribution, configured using ParamILS <ref type="bibr">[Hutter et al., 2007</ref><ref type="bibr" target="#b1">[Hutter et al., -2009</ref> Related Work <ref type="bibr">et al., 1992]</ref> -WalkSAT <ref type="bibr">[Selman et al., 1994]</ref> -SAPS <ref type="bibr">[Hutter et al., 2002]</ref> -gNovelty + [Pham and <ref type="bibr">Gretton, 2007]</ref> • UBCSAT <ref type="bibr">[Tompkins &amp; Hoos, 2004]</ref> -SLS solver development framework</p><formula xml:id="formula_0">• SLS SAT solvers -GSAT [Selman</formula><p>• Genetic programming <ref type="bibr">[Fukunaga, 2002;</ref><ref type="bibr">2004]</ref> -Evolve variable selection mechanism for SLS solver </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>• Factor of 70 -1000 performance improvement over best challenger on QCP, HGEN, CBMC-SE • Factor of 1.4 -2 performance improvement over best challenger on SW-GCP, R3SAT and FAC • Improved the state-of-the-art across all the solvers on SW-GCP, QCP , HGEN and R3SAT • On CBMC-SE and FAC, reduced the gap between complete solvers and SLS solvers</p></div>		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>PAR comparison on QCP PAR comparison on CBMC(SE)</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SATenstein-LS vs Top 3 challengers on HGEN</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SATenstein-LS vs Top 3 challengers on CBMC-SE</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SATenstein-LS vs Oracle on CBMC-SE</head><p>• Oracle selects the challenger with minimum median runtime on a per-instance basis</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Hutter</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Iterated local search (ILS) based automated parameter tuning tool • Previously used to tune: -SPEAR, a highly parametric DPLL solver</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Hutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conclusion • SATenstein: A new approach for building highperformance algorithms</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+	<note>SLS algorithm for timetabling</note>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+				<title level="m">-A framework that flexibly combines components from high-performance algorithms -A powerful algorithm configuration tool • New state-of-the-art SAT solvers in 4 distributions • Substantial improvement on 3 distributions</title>
+		<meeting><address><addrLine>QCP, HGEN, CBMC-SE</addrLine></address></meeting>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">• Reduced gap between DPLL solvers and SLS solvers on CBMC-SE</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

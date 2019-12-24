@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">An Algebraic Perspective on Boolean Function Learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2009-10-05">october 5th 2009</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">LARCA research group</orgName>
+								<orgName type="institution">Univ. Politècnica de Catalunya Barcelona</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Denis</forename><surname>Thérien</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department" key="dep1">School of Computer Science</orgName>
+								<orgName type="department" key="dep2">ALT&apos;09</orgName>
+								<orgName type="institution">McGill University Montréal</orgName>
+								<address>
+									<settlement>Porto</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">An Algebraic Perspective on Boolean Function Learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2009-10-05">october 5th 2009</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An aperiodic (aka group-free) monoid is one that is divided by no nontrivial group</p><p>The direct product of A and B, A × B is defined by</p><formula xml:id="formula_0">(a 1 , b 1 ) · (a 2 , b 2 ) = (a 1 · a 2 , b 1 · b 2 ) A semidirect product of A and B is defined by choosing a function f : A × B → A and (a 1 , b 1 ) · (a 2 , b 2 ) = (a 1 · f (a 2 , b 1 ), b 1 · b 2 )</formula><p>The wreath product of A and B, denoted A B, generalizes semidirect product by accounting for all choices of f   </p><formula xml:id="formula_1">MOD A m (x 1 , . . . , x n ) = 1 iff ( n ∑ i=1 x i ) ∈ A<label>Decision</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Group Description</head><p>Abelian groups direct products cyclic groups G p or p-groups groups of cardinality p k</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Nilpotent groups direct products of p-groups</head><p>Solvable groups wreath product of cyclic groups Groupland Circuitland Abelian groups MOD m , degree 1 polynomials over Z m G p or p-groups MOD p k • NC 0 , MOD p • NC 0 , constant degree polynomials over F p Nilpotent groups MOD m • NC 0 , constant degree polynomials over Z m Solvable groups constant-depth, poly-size modular circuits DA monoids:</p><p>(stu) k t (stu) k = (stu) k for some k If G ∈ G p Abelian, any two programs of length s over G differ on some assignment of weight c G log s [BST89]</p><p>Learning strategy: 1 Ask Membership queries with all assignments of weight c G (or weight c G log s) 2 Build unique program consistent with the answers Part 2 is a purely computational problem</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>1 .</head><label>1</label><figDesc>Every finite semigroup M divides a wreath product of finite simple groups and copies of the flip-flop monoid * 2. Only finite simple groups are required if M is a group 3. Only flip-flop monoids are required if M is aperiodic * A particular 3-element aperiodic monoid Boolean functions Functions f : {0, 1} n → {0, 1} AND, OR, NOT, threshold gates Generalized MOD m gates</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>or Multiplicity Automata over rings M(x 1 , . . . , x n ) = sum over all paths consistent with x 1 . . . x n of product of labels in path An instruction over a monoid M is a triple (i, u, v ) Interpreted as "read x i and emit u if x i = 0, v if x i = 1" A program over M is a sequence of instructions L = (I 1 , . . . , I s ) plus an accepting set A ⊆ M P over M computes a boolean function B(P) B(M) is the set of boolean functions computed by programs over M If M 1 divides M 2 then B(M 1 ) ⊆ B(M 2 ) Direct product: B(M 1 × M 2 ) ≡ boolean combinations of B(M 1 ) and B(M 2 ) ≡ NC 0 • (B(M 1 ) ∪ B(M 2 )) Wreath product: For G a group, B(M G) = B(M) • B(G)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>over M requires 2 n Membership queries if M is not a group or M is a nonsolvable group Reason: Can compute singletons in polynomial size Two subclasses of solvable groups provably weaker than NC 1 : Nilpotent groups Equivalent to polynomials of constant degree over some Z m Includes Abelian groups and G p G p Abelian Equivalent to depth-2, MOD p -of-MOD m circuits If G nilpotent, any two programs of length s over G differ on some assignment of weight c G [PT88]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Introduction Programs over monoids . . . yet another representation of boolean functions!! yes, but gives context: detailed, deep taxonomies of monoids highlights a few unnoticed learnable classes suggests limits of current techniques Summary Membership queries: algorithm for MOD p • MOD m circuits Equivalence queries: decision lists over constant-degree polynomials over F p Membership + Equivalence: Maximal class of functions learnable as Multiplicity Automata Unifies many known results Does not capture: monotonicity, threshold circuits, read-k conditions, sensitivity to variable ordering Background: Algebra and circuits Semigroups A semigroup is set with a binary, associative operation A monoid is a semigroup with an identity A group is a monoid where each element has an inverse A monoid A divides a monoid B if A is a homomorphic image of a subsemigroup of B</figDesc><table></table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

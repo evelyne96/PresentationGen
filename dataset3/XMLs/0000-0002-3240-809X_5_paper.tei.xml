@@ -1,0 +1,499 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Analysis of the LNS Implementation of the Fast Affine Projection algorithms</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date>June 25-26</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Felix</forename><surname>Albu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Dept. of EE</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jiri</forename><surname>Kadlec</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Dept. of Signal Proc</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antonin</forename><surname>Hermanek</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Dept. of Signal Proc</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anthony</forename><surname>Fagan</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Dept. of EE</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Nick</forename><surname>Coleman</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">Dept. of EE UCD</orgName>
+								<orgName type="department" key="dep2">Dublin UTIA</orgName>
+								<orgName type="laboratory">CZECH REPUBLIC UNITED KINGDOM</orgName>
+								<orgName type="institution">PRAGUE Univ. of Newcastle</orgName>
+								<address>
+									<country key="IE">IRELAND</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Analysis of the LNS Implementation of the Fast Affine Projection algorithms</title>
+					</analytic>
+					<monogr>
+						<title level="m">_ISSC 2002, Cork</title>
+						<imprint>
+							<date type="published">June 25-26</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Conjugate Gradient</term>
+					<term>Fast Affine Projection</term>
+					<term>Logarithmic Number system __________________________________________________________________________________________</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>It has been shown that a 32-bit logarithmic arithmetic unit can operate faster than, and maintain the accuracy of, a 32-bit floating point unit. It uses the logarithmic number system (LNS), in which a real number is represented as a fixedpoint logarithm. In this paper we investigate the implementation of three fast affine projection (FAP) algorithms using LNS. We propose a simplified Conjugate Gradient FAP (SCGFAP) algorithm. We show that the 32-bit or 20-bit LNS implementation of the CGFAP and the SCGFAP algorithm are superior to those of the classical FAP algorithm.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>INTRODUCTION</head><p>The problem of unwanted echoes arises wherever the microphone picks up the unwanted signals such as the signals radiated by the loudspeakers or other reflections of the speech signal via different echo paths. The reverberation time is typically on the order of a few hundred milliseconds. Thus, the need for an adaptive echo-cancellation filter (ECF) with a long impulse response (hundreds of coefficients) is evident. It can be placed in parallel to the loudspeaker-enclosure-microphone system (LEM system) <ref type="bibr" target="#b1">[2]</ref>. The well-known normalised LMS (NLMS) algorithm has been widely used but it has slow asymptotic convergence. The affine projection algorithm (APA) <ref type="bibr" target="#b2">[3]</ref> can be considered as a generalisation of the NLMS algorithm. However, its fast version <ref type="bibr" target="#b3">[4]</ref>, when implemented with an embedded FRLS (Fast Recursive Least Squares) algorithm suffers from numerical instability <ref type="bibr" target="#b3">[4]</ref><ref type="bibr" target="#b4">[5]</ref>. Other difficulties associated are memory requirements and code overhead. Because of these disadvantages using an FRLS procedure instead of standard RLS procedure does not necessarily represent the most economical solution. An alternative approach for the FAP (Fast Affine Projection) algorithm has been proposed <ref type="bibr" target="#b5">[6]</ref>. This proposed algorithm has fewer equations and is attractive when the projection order is small. It is a fast version of APA and reduces its complexity to N N L 9 5 2 2 + + . Another form of the standard FAP that uses a sliding-window RLS type approach has been proposed in <ref type="bibr" target="#b6">[7]</ref><ref type="bibr" target="#b7">[8]</ref>. The complexity of the real version is</p><formula xml:id="formula_0">N N L 8 3 2 2 + +</formula><p>. This algorithm only uses 2 divisions per iteration instead of the 2N divisions per iteration proposed in <ref type="bibr" target="#b5">[6]</ref>. These alternative FAP algorithms lead to a more accurate estimation of the auto-correlation matrix inverse because a conventional RLS algorithm is used. All methods have no feedback incorporated. If the estimations deviate from the accurate value, the errors propagate to the next iterations, causing the adaptive filter to fail sometimes. A frequently proposed remedy is to re-start periodically a new inversion process. Even so, sometimes the numerical errors accumulate so fast that the re-starting period would have to be made very small. It's difficult to foresee the unhealthy signs of instability for the numerous internal variables (especially for the conventional FAP algorithm).</p><p>Therefore the complexity associated with this procedure is high. Another improved FAP algorithm using the conjugate gradient (CG) method to do the matrix inversion was proposed in <ref type="bibr" target="#b8">[9]</ref>. It was called CGFAP and it was proved that it is stable and easy to implement in comparison with other FAP algorithms. It uses a feedback scheme so that the numerical errors do not accumulate. CG is a non-linear programming method that iteratively seeks the minimum of a quadratic cost function <ref type="bibr" target="#b9">[10]</ref>. It has been verified on floating point and fixed-point DSP platforms including 16 and 24 bits ones <ref type="bibr" target="#b8">[9]</ref>. In this paper we study the behaviour of 20-bit or 32-bit LNS implementations of the classical FAP algorithm <ref type="bibr" target="#b3">[4]</ref>, the CGFAP algorithm <ref type="bibr" target="#b8">[9]</ref> and our proposed SCGFAP algorithm. This conjugate gradient FAP algorithm (CGFAP) is presented in the following lines <ref type="bibr" target="#b8">[9]</ref>:  </p><formula xml:id="formula_1">Initialisation ( ) ( ) ( ) ( ) ( ) δ α δ η / 1 1, , 1 , 0 1 , 0 1 , 0 1 b P s V = − = = − = − = − = − I R (1) Processing in sampling interval n ( ) ( ) ( ) ( ) ( ) ( ) L n L n n n n n T T − − − + − = ξ ξ ξ ξ 1 R R (2) ( ) ( ) ( ) b N P n n g − − = 1 R ; ( 3 ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) 1 1 1 1 1 − − − − − = n s n n s n s n n g n T T R R γ ; ( 4 ) ( ) ( ) ( ) ( ) n g n s n n s − − = 1 γ ; (5) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) n s n s n n s n s n g n P n P T T R − − = 1 ; (6) ( ) ( ) ( ) ( ) N n X N n V n V N − − + − = − 1 1 1 αη (7) ( ) ( ) ( ) ( ) ( ) n R n n X n V n y T T1 − + = η α ; (8) ( ) ( ) ( ) n y n d n e − = ; (9) ( ) ( ) n P n e = ε ; (10) ( ) ( ) ( ) n n n ε η η +       − = 1 0 (11)</formula><formula xml:id="formula_2">n N 1 − η is the lower-most element of ( ) n η , ( ) n</formula><p>x is the input signal and ( ) n d is the desired output signal. There is a wide acceptable range for the regularised factor that prevents the input autocorrelation matrix from becoming ill-conditioned.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II. REAL TIME REQUIREMENTS</head><p>The total computational cost for the CGFAP algorithm is</p><formula xml:id="formula_3">1 9 2 2 2 + + + N N L</formula><p>MACs and 1 division <ref type="bibr" target="#b8">[9]</ref>. As an iterative method, CG approaches ( ) n P with a delay and this tracking error isn't a problem since ( ) n R varies at a slower rate because N L &gt;&gt; as explained in <ref type="bibr" target="#b8">[9]</ref>. This delay allows us not to update ( ) n P every sample. The conjugate gradient method is summarised by equations 3-6.</p><p>Our simulations will show that we can update ( )  <ref type="figure">Fig.1</ref>). The CGFAP is inferior to SCGFAP and exceeds the performance of the classical FAP algorithm for 8 ≤ N .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Fig. 1 Real time requirements of 3 FAPs</head><p>Although the computational effort comes in bursts, other subsequent computations can be executed in parallel with the CG iterations if an FPGA <ref type="bibr" target="#b12">[14]</ref> or an advanced DSP is used. In this case the updating of the computation of the normalised residual echo vector may use previous values of ( ) n P . The divisions are very time consuming for most commercial DSPs <ref type="bibr" target="#b8">[9]</ref>. However this impediment is avoided by using an LNS processor or an FPGA based on LNS. Contemporary microprocessors perform real arithmetic using the floating-point system. Although this method has served well over the past decades, it suffers from a number of disadvantages which render it unsuitable for very high-speed computation and which inhibit its more widespread use, for example in application-specific integrated circuits or smaller microprocessor devices. Floating-point circuits are large, complex and much slower than fixed-point units; they require separate circuitry for the add/ subtract, multiply, divide, and square-root operations; and all floating-point operations are liable to a maximum half-bit rounding error. As an alternative to floating-point, the logarithmic number system offers the potential to perform real multiplication, division and square-root at fixed-point speed, and in the case of multiplication and division, with no rounding error at all. These advantages are, however, offset by the problem of performing logarithmic addition and subtraction. Hitherto, this has been slower or less accurate than floating-point, or has required very cumbersome hardware.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Fig.2 IEEE standard single precision floating point representation and the 32-bit LNS format</head><p>The 32-bit floating-point representation consists of a sign, 8-bit biassed exponent, and 23-bit mantissa. The LNS format is similar in structure (see <ref type="figure">Fig.2</ref>). The 'S' bit again indicates the sign of the real value represented, with the remaining bits forming a 31-bit fixed point word in which the size of the value is encoded as its base-2 logarithm in 2's complement format. Since it is not possible to represent the real value zero in the logarithmic domain, the 'spare' (most negative) code in the 2's complement fixed point part is used for this purpose, which is convenient since smaller real values are represented by more negative log-domain values. The LNS format can be thought of as a floating-point format with a fixed-point exponent and zero-length mantissa. The chosen format compares favourably against its floating-point counterpart, having greater range and slightly smaller representation error. A 20bit LNS format is similar. It maintains the same range as the 32-bit, but has precision reduced to 11 fractional bits. This is comparable to the 16-bit formats used on commercial DSP devices. The 20-bit version requires just 10,920 bits of lookup tables. The 32-bit LNS implementation uses 321,536 bits of lookup tables. <ref type="table" target="#tab_0">Table 1</ref> presents the LNS arithmetic operations. We employ a solution developed by the HSLA project team <ref type="bibr" target="#b0">[1]</ref>, which yields a drastic reduction in the size of the look-up tables required compared to those needed for conventional linear interpolation of both functions.</p><p>x + y ADD Lz = Lx + log(1+2^(Ly-Lx)), Sz depends on sizes of x,y</p><p>x -y SUB Lz = Lx + log(1-2^(Ly-Lx)), Sz depends on sizes of x,y </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>III. SIMULATIONS</head><p>In these simulations the excitation signal is amplitude normalised speech, sampled at 8 kHz, the echo path has the length L, the projection number is N, and the additive noise is 30 dB below the echo. The convergence of the algorithm was compared by using the squared norm of the difference between the LEM model and the adaptive filter (in dB) <ref type="bibr" target="#b1">[2]</ref>. The parameter µ for all the FAP and NLMS algorithms was set to 1. The CGFAP algorithm performs only one division per sample. This division is not performed and zero is assigned if the denominator is not positive or lower than a specified threshold. This threshold was fixed to <ref type="bibr" target="#b9">10</ref> 10 − in our simulations. The echo path represents a room impulse response and is taken form <ref type="bibr" target="#b1">[2]</ref>. The projection order is N=10. If k=5 the 32-bit FLOAT implementation of classical FAP algorithm (without the restarting procedure) is unstable after about 2200 iterations <ref type="figure">(Fig.5</ref>). <ref type="figure">Fig. 6</ref> shows an example of unstable 20-bit LNS FAP implementation (k=100 </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>IV. CONCLUSIONS</head><p>These simulations show that the 32-bit or 20-bit LNS implementation of SCGFAP and CGFAP are stable, unlike the those of the classical FAP algorithm without the restarting procedure. CGFAP require fewer operations and could provide a low-cost, efficient solution for different applications. SCGFAP can be only marginally complex than NLMS and is a good candidate for implementation in voice applications. The CGFAP 20-bit LNS implementations appear to offer a very attractive alternative to conventional arithmetic if the precision its not a major issue. Our future work will be focused in implementing the SCGFAP on FPGA and examining the potential of other iterative method such as SOR or Gauss-Seidel <ref type="bibr" target="#b10">[12,</ref><ref type="bibr" target="#b11">13]</ref>.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="true"><head>Table 1 .</head><label>1</label><figDesc>Conjugate gradient FAP algorithm</figDesc><table>Where b is a N vector with only one non-zero 
+element, which is unity at the top, I is an NxN 
+
+identity matrix, δ is a regularization factor that 
+
+prevents the input auto-correlation matrix 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head>n P</head><label>n</label><figDesc>every second up to forth sample without seriously affecting the output error. Therefore, the average number of MACs and divisions is p times smaller for Therefore, in this case, the increase is about 1 % for SGCFAP with p=4 in comparison with NLMS. However, this percentage will increase if L is lower or N is higher. Assuming that a division is equivalent with 25 MACs SCGFAP with p=2 needs the least amount of computation of the three algorithms as long as</figDesc><table>CG section ( 
+
+p 
+N 
+p 
+p 
+N 
+L 
+/ 
+2 
+1 
+) 
+/ 
+5 
+4 
+( 
+/ 
+2 
+2 
+
+2 
+
++ 
+− 
++ 
++ 
++ 
+
+MACs and 
+
+p 
+/ 
+1 divisions, where p depends on L or 
+
+N values, usually between 2 and 4). For example, 
+with L=1000 and N=5, an NLMS needs 2025 MACs 
+(25 for a division), the CGFAP needs 2121 MACs, 
+while the SCGFAP with p=2 needs 2070 MACs and 
+SCGFAP with p=4 needs about 2045 MACs. 
+15 
+≤ 
+N 
+
+and 
+
+26 
+≤ 
+N 
+
+if p=4 (see </table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>CGFAP initial convergence is better than that of the NLMS algorithm and it is stable (see Figs.<ref type="bibr" target="#b2">[3]</ref><ref type="bibr" target="#b3">[4]</ref>. They show that the LNS iterative FAP implementations have faster convergence rates than the NLMS algorithm. The classical FAP algorithm uses a sliding window fast RLS algorithm that it is difficult to implement, memory intensive and potentially numerically unstable. The regularization parameter used in the FAP algorithm uses the constant k that multiplies the average power of the input signal. This parameter plays an important role in the FAP's initial convergence and stability.</figDesc><table>Like in 
+other adaptive algorithm simulations [11], the 32-bit 
+FLOAT or LNS CGFAP implementations have 
+virtually identical performances (Figs. 3-4). Both 
+figures show some losses in performances due to a 
+lower finite precision of 20-bit versions in 
+comparison with their 32-bit versions. However, the 
+Fig. 3. The learning curves for 32-bit and 20-bit 
+implementations of CGFAP and NLMS algorithms 
+(32-bit FLOAT and 32-bit LNS curves almost co-
+incidental, L=1000, N=10) 
+
+Fig. 4 Convergence of 20-bit LNS CGFAP 
+implementation for different values of p 
+
+Fig. 5 Convergence of 32-bit LNS CGFAP 
+implementation versus 32-bit FLOAT FAP 
+implementation, Float is unstable after about 2200 
+iterations (L=256, N=10, k=5) 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head></head><label></label><figDesc>). Other examples, where the 32-bit or 20-bit FLOAT or LNS implementation of the Gay's basic FAP algorithm were unstable, always remained stable with the equivalent CGFAP or SGFAP algorithm implementations (p=2).</figDesc><table>Fig. 6 Convergence of 32-bit LNS FAP 
+implementation versus 20-bit FLOAT FAP 
+implementation, Float is unstable after about 1600 
+iterations (L=256, N=10, k=100) 
+
+</table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>V. ACKNOWLEDGEMENTS This work has been performed under the EU ESPRIT 33544 HSLA Long-term research project (http://napier.ncl.ac.uk/HSLA), coordinated by the University of Newcastle, UK <ref type="bibr" target="#b0">[1]</ref>.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">A 32-bit Logarithmic Arithmetic Unit and Its Performance Compared to Floating-Point&apos;, 14th Symposium on Computer Arithmetic</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">N</forename><surname>Coleman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><forename type="middle">I</forename><surname>Chester</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999-04" />
+			<pubPlace>Adelaide</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Acoustic echo control-An application of very high order adaptive filters</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Breining</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Dreitseitel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Hansler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Mader</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Nitsch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Pudeer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Scheirtler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Tilp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Signal Processing Magazine</title>
+		<imprint>
+			<biblScope unit="page" from="42" to="69" />
+			<date type="published" when="1999-07" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">An adaptive Filtering Algorithm Using an Orthogonal Projection to an Affine Subspace and its Properties</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Ozeki</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Umeda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronics and Communications in Japan</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<date type="published" when="1984" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">The Fast Affine Projection Algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Gay</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Tavathia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICASSP&apos;95 Proceedings</title>
+		<imprint>
+			<biblScope unit="page" from="3023" to="3026" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Acoustic Signal Processing for Telecommunication</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Gay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Benesty</title>
+		<imprint>
+			<date type="published" when="2000" />
+			<publisher>Kluwer Academic Publishers</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">An Adaptive Algorithm with Fast Convergence for Multi-input Sound Control&apos;, Active95</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Kaneda</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Tanaka</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kojima</surname></persName>
+		</author>
+		<imprint>
+			<biblScope unit="page" from="993" to="1004" />
+			<pubPlace>Newport Beach, California, USA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">On the use of a modified FAP algorithm in subbands for acoustic echo cancellation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><forename type="middle">G</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Champagne</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><forename type="middle">C</forename><surname>Ho</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. 7th IEEE DSP Workshop</title>
+		<meeting>7th IEEE DSP Workshop<address><addrLine>Loen, Norway</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1996" />
+			<biblScope unit="page" from="2570" to="2573" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">On the Fixed-Point Implementation of a Subband Acoustic Echo Canceler Based on a Modified FAP Algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Ghanassi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Champagne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Workshop on Acoustic Echo and Noise Control</title>
+		<imprint>
+			<biblScope unit="page" from="128" to="131" />
+			<date type="published" when="1999" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<monogr>
+		<title level="m" type="main">A stable fast affine projection adaptation algorithm suitable for low-cost processors</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Heping</forename><surname>Ding</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="360" to="363" />
+			<pubPlace>Turkey</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Arithmetic on the European Logarithmic Microprocessor</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">;</forename><forename type="middle">J N</forename><surname>David Luenberger</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Coleman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Chester</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Softley</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Kadlec</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Comput. Special Edition on Computer Arithmetic</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page">1152</biblScope>
+			<date type="published" when="1984-07" />
+			<publisher>Addison-Wesley</publisher>
+		</imprint>
+	</monogr>
+	<note>Linear and Non-linear Programming. and erratum</note>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Advanced Engineering mathematics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Erwin</forename><surname>Kreyszig</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993" />
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+	<note>7 th edition</note>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Templates for the solutions of linear systems: Building blocks for iterative methods</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Barrett</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Berry</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Chan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Demmel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Donato</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Dongarra</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Eijkhout</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Pozo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Romine</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Van Der</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Vorst</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994" />
+			<pubPlace>SIAM</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Implementation of (Normalised) RLS Lattice on Virtex</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Albu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kadlec</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Softley</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Matousek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Hermanek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Coleman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Fagan</surname></persName>
+		</author>
+		<idno>FPL2001</idno>
+		<imprint>
+			<biblScope unit="page" from="91" to="100" />
+			<pubPlace>Belfast, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

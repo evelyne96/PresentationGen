@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-robot systems</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-robot systems</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The aim of this paper is to present a general overview of the multi-robot systems from the field of multi-agent systems.</p><p>First we will present a general formulation of the multi-agent systems problems.Because multi-robot system problems vary from task to task, we will present at the start of each section a brief introduction to the setup for the task. After this we will present the experiments conducted and their results. First, we will present a method to teach a robotic hand to learn hand-eye coordination, where the grasping and sensing parts were separated and they had to work with each other. This is followed by a research where a method was introduced to efficiently explore an unknown territory with the help of multiple robots. Finally, we will see a research to use multi-robot systems for artistic pattern formations. Here, the robots are getting a pattern and they have to take up this formation collision free.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Intelligent robots rarely act in isolation in the real world and often seek to achieve their goals through interaction with other robots. Such interactions give rise to rich and complex behaviors for robots in multi-robot systems. Depending on the robots motivations, interactions could be directed towards achieving a shared goal in a collaborative setting, opposing another robot in a competitive setting, or be a mixture of these in a setting where robots collaborate in teams to compete against other teams. Learning useful representations of the policies of robots based on their interactions is a very challenging step towards the characterization of the robots behavior.</p><p>The goal of this thesis is to offer an introduction of the multi-robot systems in the world of multi-agent systems.</p><p>Because multi-robot problems vary from task to task, we will present at the start of each section a brief introduction to the setup for the task. After this we will present the experiments conducted and their results. First, we will present a method to teach a robotic hand to learn hand-eye coordination, where the grasping and sensing parts were separated and they had to work with each other. This is followed by a research where a method was introduced to efficiently explore an unknown territory with the help of multiple robots. Finally, we will see a research to use multi-robot systems for artistic pattern formations. Here, the robots are getting a pattern and they have to take up this formation collision free. the feedback controllers. But to achieve this they had to specify the features by hand and it required manual or automatic calibration to determine the precise geometric relationship between the camera and the robots end-effector.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.1">Theory</head><p>In <ref type="bibr" target="#b2">Levine et al. [2018]</ref> it is proposed a learning-based approach to learn hand-eye coordination. The approach is data-driven and it is goal centric: it learns to servo a robotic gripper with the help of training directly from image pixels to function the gripper motion. It continuously recalculates the motor commands, adjusts the the perturbation and the grasp from the input of the integrated sensors in order to maiximize the success rate. This method consists of two components:</p><p>-grasp success predicator: this is a deep convolutional neural network (CNN), which determines the likelihood of producing a successful grasp -continuous servoing mechanism: this uses also a CNN to update the motor commands by continuously updating the path to a successfull grasp</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.2">Experiments</head><p>The goal of the experiments was to answear two questions. First, that the continuous servoing how significantly improves the accuracy and success rate and second, how well the proposed model works compared with other approaches:</p><p>open-loop: this method observes the scene prior to the grasp, extracts image patches, chooses the patch with the highest probability of a successful grasp, and then uses camera calibration to move the gripper to that location. (it does not uses continuous calibration) random base-line method hand-engineered grasping system: it uses depth images and heuristic positioning of the fingers to make a grasp</p><p>Comparing the algorithms beforehand, the proposed method should work faster than the other, because it does not require knowledge of the camera to hand calibration or depth images. The experiments were evaluated with two protocols. In the first protocol, the objects were placed into a bin in front of the robot, and it was allowed to grasp objects for 100 attempts, placing any grasped object back into the bin after each attempt. Grasping with replacement tests the ability of the system to pick up objects in cluttered settings, but it also allows the robot to repeatedly pick up easy objects. To address this shortcoming of the replacement condition, they also tested each system without replacement 4 times and noted the success rates on the first 10, 20, and 30 grasp attempts.</p><p>In <ref type="figure" target="#fig_0">Figure 1</ref> we can see the failure rates for each tested method. We can clearly see, that the proposed methods success rate exceeds the other methods. In the case without the replacement, this method could empty the bin in 30 graspings. Compared to the handengineered method who struggled to perceive the depth of the objects, this method worked fine without hardware modification. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Collaborative Multi-Robot Exploration</head><p>The problem of exploring an environment belongs to the fundamental problems in mobile robotics. In order to construct a model of their environment mobile robots need the ability to efficiently explore it. The key question during exploration is where to move the robot in order to minimize the time needed to completely explore an environment. The use of multiple robots is often suggested to have several advantages over single robot systems. Cooperating robots have the potential to accomplish a single task faster than a single robot, also they can localize themselves more efficiently if they exchange information about their position whenever they sense each other. Finally, using several cheap robots introduces redundancy and therefore can be expected to be more fault-tolerant than having only one powerful and expensive robot.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.1">Ideea</head><p>In <ref type="bibr" target="#b1">Burgard et al. [2000]</ref> it is proposed a solution to a problem of collaborative exploration of an unknown environment by multiple robots. Without any coordination, a set of multiple robot would require the same amount of time to explore an environment as a single robot would. Therefore, the key thing in multirobot exploration is to choose different actions for the individual robots, so that they can simultaneously explore different areas of their environment.</p><p>In this paper it is presented a technique for coordinating a group of robots while they are exploring their environment, with an approach that uses a map which is built based on the data sensed by the individual robots. It uses this map to calculate the distances to the frontier, as a result, this method is faster in this regard than the other ones. In contradiction to previous approaches, we are using a utility of the unexplored positions so that if one robot approaches it the utility will be reduced. By trading off the utility and the travel cost we are getting an elegant way of collaborativness.</p><p>We are using occupancy grids to save the location of all robots and the explored area. The ideea behind it is to use a grid of equally spaced cells and to store in each cell the probability that this cell is occupied by an obstacle. Due to this probabilistic nature, occupancy grid maps built by different robots can easily be integrated if their relative positions are known.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Figure 2: Integration of two individual maps into a global map</head><p>The key question during the exploration of unknown environments is to guide the robots to target points so that the overall time needed to explore the complete environment is minimized. This approach uses the concept of frontier cells, which is a known, i.e. already explored cell which is an immediate neighbor of an unknown, i.e. unexplored cell. Our technique constructs a map of the environment and iteratively chooses target points for the individual robots based on the trade-off between the costs of reaching the target point and its utility. Since the environment is not known, it estimates the expected area which will be explored when a robot reaches its target position. It then reduces the utility of unexplored points close to the chosen target position and uses the reduced utility to compute goal positions for the remaining robots.</p><p>To determine the cost of reaching the current frontier cells, we compute the optimal path from the current position of the robot to all frontier cells based on a deterministic variant of value iteration. The minimum-cost path is computed using the following two steps:</p><p>1. Initialization: The grid cell that contains the robot location is initialized with 1, all others with ∞ 2. Update loop: updates the value of all grid cells by the value of their best neighbors, plus the cost of moving to it.</p><p>When this converges we will get in the cell the cumulative cost of reaching it.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.2">Experiments</head><p>The first experiment contains 2 robots and it presents the difference between the presented method and other ones, where robots are choosing always the closest wall and are sharing the same map. One robot has 2 laser sensors, while the other has only one. The size of the map is 15x8m 2 .</p><p>In <ref type="figure">Figure 3</ref> we can see the uncoordinated walk of the two robots. Each agents chooses the shortest way to a wall, so both are going through the corridor. After one enters the right room the other has to go back to take the other room. Compared to the <ref type="figure">Figure 4</ref> our method the robots are realizing that one will explore the corridor so the other can go into the room. After the one goes into the right room the exploration is done. With this setup our method finishes the exploration 10s+ faster than the counterpart. There was also a simulation to get preciser comparisons between the two approaches. The simulation environment was bigger and the starting points were always randomly selected. In a 2 robot system our approach was faster with 100s and in a 3 robot system with 200s.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Multi-Robot System for Artistic Pattern Formation</head><p>In the last decade robotic pattern formation and formation control has experienced a rise of attention along with the advances in multi-robot systems. The applications of pattern formation are broad, and include multi-robot navigation tasks for exploration, escorting and rescue missions, alignment of aerial vehicles, or cooperative control of mobile sensor networks to maintain surveillance or coverage.</p><p>The pattern formation task involves the assignment of robots to goal positions that define the final pattern, but also the control of the robots to actually establish the formation. Up until now the works were focusing on the positioning of the robots in a specified pattern and measures against the accuracy of the patterns achieved, as the main goal is the final robot formation, which often is the basis to accomplish another task.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1">Ideea</head><p>Alonso-Mora et al. <ref type="bibr">[2011]</ref> puts the focus on the pattern formation as such. The aim is to generate both visually convincing final formations by optimizing the robots goal positions, as well as simple and smooth robot motions at the transitions of patterns. Although visual appeal is not directly encoded in our method, the different algorithms of this work were selected with the clear aim for visual appeal.</p><p>The presented method first generates uniform sets of goal positions from input pattern templates by Voronoi partitioning. Thus an accurate representation of the final patterns is provided. Then the robots are driven towards the goal positions in an iterative process, by first performing a multi-robot goal assignment based on the Hungarian algorithm to coordinate the robots, which leads to short paths and fast convergence of the robots to the goal. Finally, the robots smoothly avoid collisions. This two last steps are repeated until convergence.</p><p>The solution here presented consists of two main steps, each one solving one of the aforementioned problems.</p><p>First, a set of n goal positions is computed. The goal positions represent the patterns and are independent of the initial positions of the robots. This initial computation is equivalent to a coverage method and can be computed offline if the pattern is known a priori.</p><p>Second, robots are driven towards the set of goals by a real-time controller. This iterative controller is subdivided into three parts: first the robots are optimally and uniquely assigned to goal positions, second each robot computes a preferred velocity towards its goal independently of the other robots, third each robot chooses a collision free velocity close to its preferred velocity, taking the current positions and velocities of its neighbors into account, and moves according to this computed velocity. Visual appeal in the trajectories is obtained thanks to the optimal goal assignment and reciprocal collision avoidance which avoids oscillations and produces smooth trajectories.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2">Experiments</head><p>The pattern formation and control methods presented in this paper are tested both in experiments with real robots and in simulation. For the experiments a representative set of patterns is chosen, which is composed of polygonal convex and non-convex patterns, line patterns, filled patterns and patterns with hole, and formations with multiple patterns at a time. The chosen patterns are a circle, two lines, a ring, a triangle and three stars. We show the representation of these patterns using four, seven and ten physical robots, and fifty simulated robots. We also show that trajectories present fast convergence, are smooth and exempt of undesired oscillations, thus they are visually pleasing. The results can be seen in <ref type="figure" target="#fig_2">Figure 5</ref>. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Conclusion</head><p>In this work, we presented the basics of multi-robot systems and also some methods to solve it. The general introduction part is followed by a section which contains some recent researches in this domain. This is followed by a section which contains recent researches in this domain. Because currently these systems does not have a specific way to solve these problems everybody seeks to be the first to find a general solution. For this reason there are numerous ongoing researches in this field. Our aim was to make a general introduction to the multi-agent system because with solving this problem we could automatize even more work in the fabrics and save human resources. First, we presented a more simple approach which is based on teaching a robotic hand learning hand-eye coordination, where the grasping and sensing parts were separated and they had to work with each other. This was followed by a research where a method was introduced to efficiently explore an unknown territory with the help of multiple robots. Finally, we saw a research to use multi-robot systems for artistic pattern formations. Here the robots are getting a pattern and they have to take up this formation collision free.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Failure rates for each tested method</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 :Figure 4 :</head><label>34</label><figDesc>Uncoordinated exploration by the two robots Coordinated exploration by the two robots</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 5 :</head><label>5</label><figDesc>Multi-robot pattern formation. Top row, left to right: seven robots starting from random positions transition to form sequentially a circle, two lines,a ring, a triangle and 3 stars. Intermediate and final frames are displayed. Middle row: Identical transformation with ten robots. Bottom row: Identical transformations with fifty simulated robots. The target patterns are displayed in the background at the bottom row.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Learning Hand-Eye Coordination for Robotic Grasping . . . . . . . . . . . . 1 2.1.1 Theory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2.1.2 Experiments . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 2.2 Collaborative Multi-Robot Exploration . . . . . . . . . . . . . . . . . . . . . 3 2.2.1 Ideea . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3 2.2.2 Experiments . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4 2.3 Multi-Robot System for Artistic Pattern Formation . . . . . . . . . . . . . . 5 2.3.1 Ideea . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6 2.3.2 Experiments . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6</figDesc><table>1 Introduction 
+1 
+
+2 Recent research results 
+1 
+2.1 3 Conclusion 
+7 
+
+Abstract 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2">Recent research results2.1 Learning Hand-Eye Coordination for Robotic GraspingIn contrast to humans and animals, robots does not have a fast feed-back loop while interacting with objects. For this reason the living beings can execute complex task, such as extracting an object from a collection without any advance planning. They rely just on they touch and vision. To mimic this behavior scientist seeked to incorporate complex sensors into</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Multi-robot system for artistic pattern formation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Javier</forename><surname>Alonso-Mora</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Andreas</forename><surname>Breitenmoser</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Martin</forename><surname>Rufli</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Roland</forename><surname>Siegwart</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Paul</forename><surname>Beardsley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2011 IEEE International Conference on Robotics and Automation</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="4512" to="4517" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Collaborative multi-robot exploration</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Wolfram</forename><surname>Burgard</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mark</forename><surname>Moors</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Dieter</forename><surname>Fox</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Reid</forename><surname>Simmons</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sebastian</forename><surname>Thrun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICRA</title>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="476" to="481" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Learning hand-eye coordination for robotic grasping with deep learning and large-scale data collection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sergey</forename><surname>Levine</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Peter</forename><surname>Pastor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alex</forename><surname>Krizhevsky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Julian</forename><surname>Ibarz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Deirdre</forename><surname>Quillen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The International Journal of Robotics Research</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">4-5</biblScope>
+			<biblScope unit="page" from="421" to="436" />
+			<date type="published" when="2018" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

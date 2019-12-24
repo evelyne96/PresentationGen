@@ -1,0 +1,807 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Automated Configuration of MIP solvers</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2010-06-16">CPAIOR 2010, June 16</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+							<email>hutter@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia Vancouver</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><surname>Hoos</surname></persName>
+							<email>hoos@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia Vancouver</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia Vancouver</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Automated Configuration of MIP solvers</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2010-06-16">CPAIOR 2010, June 16</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Split benchmarks 50:50 into training and test sets</head><p>Optimized parameters on the training set Reported performance on the test set Necessary to check for over-tuning Cplex on SUST instances (50x)    </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Configuration of MIP Solvers: Optimality Gap</head><p>Objective: minimal optimality gap within 10 seconds runtime Ran ParamILS for 5 hours on 10 machines Reduction factors of average optimality gap (on test inst.)</p><p>-Cplex 1.3x to 8.6x lpsolve 1x (no reduction) to 46x -Gurobi 1.1x to 2.2x </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>--</head><label></label><figDesc>Parameter setting ("configuration") of A optimizing m on Π First to handle this with many categorical parameters -E.g. 51/76 Cplex parameters are categorical -10 47 possible configurations Parameter setting ("configuration") of A optimizing m on Π First to handle this with many categorical parameters -E.g. 51/76 Cplex parameters are categorical -10 47 possible configurations algorithm configuration</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>and Gurobi default) Ran ParamILS for 2 days on 10 machines Mean speedup (on test instances) -Cplex 2x to 50x lpsolve 1x (no speedup)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>-</head><label></label><figDesc>and Gurobi default) Ran ParamILS for 2 days on 10 machines Mean speedup (on test instances) Cplex 2x to 50x lpsolve 1x (no speedup) to 150x -Gurobi 1.2x to 2</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head></head><label></label><figDesc>lpsolve on MIK instances (46x)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>This paper: application study for MIP solvers -SAT (tree &amp; local search), time-tabling, protein folding, ... -SAT (tree &amp; local search), time-tabling, protein folding, ... Commercial solvers: Cplex 12.1 &amp; Gurobi 2.0.1 Open-source solver: lpsolve 5.5 Commercial solvers: Cplex 12.1 &amp; Gurobi 2.0.1 Open-source solver: lpsolve 5.5Problems with some parameter configurations</figDesc><table>Use existing algorithm configuration tool (ParamILS) 
+
+Use different MIP solvers (Cplex, Gurobi, lpsolve) 
+
+Use six different MIP benchmark sets 
+
+Optimize different objectives (runtime to optimality/MIP gap) 
+Parameter Optimization Tools and 
+Applications 
+
+Composer [Gratch &amp; Dejong, '92; Gratch and Chien, '96] 
+
+-Spacecraft communication scheduling 
+
+Calibra [Diaz and Laguna, '06] 
+
+-Optimized various metaheuristics 
+
+F-Race [Birattari et al., '04-present] 
+
+-Iterated Local Search and Ant Colony Optimization 
+
+ParamILS [Hutter et al, '07-present] 
+
+Stop [Baz, Hunsaker, Brooks &amp; Gosavi, '07 (Tech report)] 
+
+[Baz, Hunsaker &amp; Prokopyev, Comput Optim Appl, '09] 
+
+-Optimized MIP solvers, including Cplex 
+-We only found this work ≈ 1 month ago 
+Parameter Optimization Tools and 
+Applications 
+
+Composer [Gratch &amp; Dejong, '92; Gratch and Chien, '96] 
+
+-Spacecraft communication scheduling 
+
+Calibra [Diaz and Laguna, '06] 
+
+-Optimized various metaheuristics 
+
+F-Race [Birattari et al., '04-present] 
+
+-Iterated Local Search and Ant Colony Optimization 
+
+ParamILS [Hutter et al, '07-present] 
+
+Stop [Baz, Hunsaker, Brooks &amp; Gosavi, '07 (Tech report)] 
+
+[Baz, Hunsaker &amp; Prokopyev, Comput Optim Appl, '09] 
+
+-Optimized MIP solvers, including Cplex 
+-We only found this work ≈ 1 month ago 
+-Main problem: only optimized performance for single instances 
+-Only used small subset of 10 Cplex parameters 
+Outline 
+
+1. Related work 
+
+2. Details about this study 
+The automated configuration tool: ParamILS 
+The MIP solvers: Cplex, Gurobi &amp; lpsolve 
+Experimental Setup 
+
+3. Results 
+
+4. Conclusions 
+Outline 
+
+1. Related work 
+
+2. Details about this study 
+The automated configuration tool: ParamILS 
+The MIP solvers: Cplex, Gurobi &amp; lpsolve 
+Experimental Setup 
+
+3. Results 
+
+4. Conclusions 
+Start with some parameter configuration 
+
+Modify a single parameter 
+if results on benchmark set improve then 
+keep new configuration 
+Start with some parameter configuration 
+repeat 
+Modify a single parameter 
+if results on benchmark set improve then 
+keep new configuration 
+
+until no more improvement possible (or "good enough") 
+Start with some parameter configuration 
+repeat 
+Modify a single parameter 
+if results on benchmark set improve then 
+keep new configuration 
+
+until no more improvement possible (or "good enough") 
+
+Manually-executed local search 
+Start with some parameter configuration 
+repeat 
+Modify a single parameter 
+if results on benchmark set improve then 
+keep new configuration 
+
+until no more improvement possible (or "good enough") 
+
+Manually-executed local search 
+
+ParamILS [Hutter et al., AAAI'07 &amp; '09]: 
+Iterated local search: biased random walk over local optima 
+How to evaluate each configuration? 
+
+BasicILS(N): perform fixed number of N runs to evaluate a 
+configuration θ 
+
+-Variance reduction: use same N instances &amp; seeds for each θ 
+Instantiations of ParamILS Framework 
+
+How to evaluate each configuration? 
+
+BasicILS(N): perform fixed number of N runs to evaluate a 
+configuration θ 
+
+-Variance reduction: use same N instances &amp; seeds for each θ 
+
+FocusedILS: choose N(θ) adaptively 
+
+-small N(θ) for poor configurations θ 
+-large N(θ) only for good θ 
+Instantiations of ParamILS Framework 
+
+How to evaluate each configuration? 
+
+BasicILS(N): perform fixed number of N runs to evaluate a 
+configuration θ 
+
+-Variance reduction: use same N instances &amp; seeds for each θ 
+
+FocusedILS: choose N(θ) adaptively 
+
+-small N(θ) for poor configurations θ 
+-large N(θ) only for good θ 
+-typically outperforms BasicILS 
+-used in this study 
+Outline 
+
+1. Related work 
+
+2. Details about this study 
+The automated configuration tool: ParamILS 
+The MIP solvers: Cplex, Gurobi &amp; lpsolve 
+Experimental Setup 
+
+3. Results 
+
+4. Conclusions 
+Commercial solvers: Cplex 12.1 &amp; Gurobi 2.0.1 
+Open-source solver: lpsolve 5.5 
+
+Algorithm 
+Parameter type 
+# params 
+# values 
+Total # configurations 
+Boolean 
+6 
+2 
+
+Cplex 
+
+Categorical 
+45 
+3-7 
+1.90 · 10 47 
+Integer 
+18 
+discretized: 5-7 
+Continuous 
+7 
+discretized: 5-8 
+Commercial solvers: Cplex 12.1 &amp; Gurobi 2.0.1 
+Open-source solver: lpsolve 5.5 
+
+Algorithm 
+Parameter type 
+# params 
+# values 
+Total # configurations 
+Boolean 
+6 
+2 
+
+Cplex 
+
+Categorical 
+45 
+3-7 
+1.90 · 10 47 
+Integer 
+18 
+discretized: 5-7 
+Continuous 
+7 
+discretized: 5-8 
+Boolean 
+4 
+2 
+
+Gurobi 
+
+Categorical 
+16 
+3-5 
+3.84 · 10 14 
+Integer 
+3 
+discretized: 5 
+Continuous 
+2 
+discretized: 5 
+Algorithm 
+Parameter type 
+# params 
+# values 
+Total # configurations 
+Boolean 
+6 
+2 
+
+Cplex 
+
+Categorical 
+45 
+3-7 
+1.90 · 10 47 
+Integer 
+18 
+discretized: 5-7 
+Continuous 
+7 
+discretized: 5-8 
+Boolean 
+4 
+2 
+
+Gurobi 
+
+Categorical 
+16 
+3-5 
+3.84 · 10 14 
+Integer 
+3 
+discretized: 5 
+Continuous 
+2 
+discretized: 5 
+
+lpsolve 
+
+Boolean 
+40 
+2 
+1.22 · 10 15 
+Categorical 
+7 
+3-8 
+Algorithm 
+Parameter type 
+# params 
+# values 
+Total # configurations 
+Boolean 
+6 
+2 
+
+Cplex 
+
+Categorical 
+45 
+3-7 
+1.90 · 10 47 
+Integer 
+18 
+discretized: 5-7 
+Continuous 
+7 
+discretized: 5-8 
+Boolean 
+4 
+2 
+
+Gurobi 
+
+Categorical 
+16 
+3-5 
+3.84 · 10 14 
+Integer 
+3 
+discretized: 5 
+Continuous 
+2 
+discretized: 5 
+
+lpsolve 
+
+Boolean 
+40 
+2 
+1.22 · 10 15 
+Categorical 
+7 
+3-8 
+
+Segmentation faults &amp; wrong results 
+Commercial solvers: Cplex 12.1 &amp; Gurobi 2.0.1 
+Open-source solver: lpsolve 5.5 
+
+Algorithm 
+Parameter type 
+# params 
+# values 
+Total # configurations 
+Boolean 
+6 
+2 
+
+Cplex 
+
+Categorical 
+45 
+3-7 
+1.90 · 10 47 
+Integer 
+18 
+discretized: 5-7 
+Continuous 
+7 
+discretized: 5-8 
+Boolean 
+4 
+2 
+
+Gurobi 
+
+Categorical 
+16 
+3-5 
+3.84 · 10 14 
+Integer 
+3 
+discretized: 5 
+Continuous 
+2 
+discretized: 5 
+
+lpsolve 
+
+Boolean 
+40 
+2 
+1.22 · 10 15 
+Categorical 
+7 
+3-8 
+
+Problems with some parameter configurations 
+
+Segmentation faults &amp; wrong results 
+Detect such runs online, give worst possible score 
+
+Local search avoids problematic parameter configurations 
+Commercial solvers: Cplex 12.1 &amp; Gurobi 2.0.1 
+Open-source solver: lpsolve 5.5 
+
+Algorithm 
+Parameter type 
+# params 
+# values 
+Total # configurations 
+Boolean 
+6 
+2 
+
+Cplex 
+
+Categorical 
+45 
+3-7 
+1.90 · 10 47 
+Integer 
+18 
+discretized: 5-7 
+Continuous 
+7 
+discretized: 5-8 
+Boolean 
+4 
+2 
+
+Gurobi 
+
+Categorical 
+16 
+3-5 
+3.84 · 10 14 
+Integer 
+3 
+discretized: 5 
+Continuous 
+2 
+discretized: 5 
+
+lpsolve 
+
+Boolean 
+40 
+2 
+1.22 · 10 15 
+Categorical 
+7 
+3-8 
+
+Problems with some parameter configurations 
+
+Segmentation faults &amp; wrong results 
+Detect such runs online, give worst possible score 
+
+Local search avoids problematic parameter configurations 
+
+Concise bug reports 
+helped to fix 2 bugs in Gurobi (!) 
+Outline 
+
+1. Related work 
+
+2. Details about this study 
+The automated configuration tool: ParamILS 
+The MIP solvers: Cplex, Gurobi &amp; lpsolve 
+Experimental Setup 
+
+3. Results 
+
+4. Conclusions 
+Domain 
+Type 
+#instances 
+Citation 
+Comp. sustainability (SUST) 
+MILP 
+2 000 
+[Gomes et al, '08] 
+Combinatorial auctions (WDP) MILP 
+2 000 
+[Leyton-Brown et al., '00] 
+Mixed integer knapsack (MIK) 
+MILP 
+120 
+[Atamtürk, '03] 
+and 3 more ... 
+Benchmark sets used 
+
+Domain 
+Type 
+#instances 
+Citation 
+Comp. sustainability (SUST) 
+MILP 
+2 000 
+[Gomes et al, '08] 
+Combinatorial auctions (WDP) MILP 
+2 000 
+[Leyton-Brown et al., '00] 
+Mixed integer knapsack (MIK) 
+MILP 
+120 
+[Atamtürk, '03] 
+and 3 more ... 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>+ Importance of each parameter + Interaction of parameters + Interaction of parameters and instance characteristicsFuture WorkModel-based techniques -Fit a model that predicts performance of a given configuration on a given instance -Use that model to quantify + Importance of each parameter + Interaction of parameters + Interaction of parameters and instance characteristics Per-instance approaches for heterogeneous benchmarks -Given a new unseen instance: + Compute instance characteristics (fast) + Use parameter config. predicted to be best for the instanceThanks to: Providers of instance benchmark sets -Louis-Martin Rousseau -Bistra Dilkina -Berkeley Computational Optimization Lab Commercial MIP solvers for free full academic license -IBM (Cplex) -Gurobi lpsolve developers for their solver Compute clusters Differences to STOP [Baz et al, '09] Baz et al optimized for single instances "In practice, users would typically be tuning for a family of related instances rather than for an individual instance" Generalization to sets of instances is nontrivial -Cannot afford to run all instances for each configuration FocusedILS adapts # runs per configuration Further differences Baz et al used older Cplex version (9.0) -defaults improved in newer Cplex versions Baz et al considered (only) 10 Cplex parameters -and also not all possible values for each parameter -in order to improve Stop's performance requires domain knowledge Configuration of MIP Solvers: Optimality Gap Objective: minimal optimality gap within 10 seconds runtime Ran ParamILS for 5 hours on 10 machines Reduction factors of average optimality gap (on test inst.) -Cplex 1.3x to 8.6x lpsolve 1x (no reduction) to 46x -Gurobi 1.1x to 2.2x Auto−config. [% MIP gap] Train Test Cplex on MIK instances (8.6x)</figDesc><table>Config. found by ParamILS [CPU s] 
+
+Train 
+Train−timeout 
+Test 
+Test−timeout 
+
+Gurobi on SUST instances (2.3x) 
+-Evaluates predefined good configurations, returns best one 
+-Required runtime varies (from &lt; 1h to weeks) 
+-Evaluates predefined good configurations, returns best one 
+-Required runtime varies (from &lt; 1h to weeks) 
+
+ParamILS: anytime algorithm 
+
+-At each time step, keeps track of its incumbent 
+Comparison to Cplex tuning tool 
+
+Cplex tuning tool 
+
+-Evaluates predefined good configurations, returns best one 
+-Required runtime varies (from &lt; 1h to weeks) 
+
+ParamILS: anytime algorithm 
+
+-At each time step, keeps track of its incumbent 
+
+10 
+
+4 
+
+10 
+
+5 
+
+10 
+
+6 
+
+2 
+
+4 
+
+6 
+
+8 
+
+Configuration budget [CPU s] 
+
+Performance [CPU s] 
+
+Default 
+CPLEX tuning tool 
+
+Cplex on MIK instances 
+Comparison to Cplex tuning tool 
+
+Cplex tuning tool 
+
+-Evaluates predefined good configurations, returns best one 
+-Required runtime varies (from &lt; 1h to weeks) 
+
+ParamILS: anytime algorithm 
+
+-At each time step, keeps track of its incumbent 
+
+10 
+
+4 
+
+10 
+
+5 
+
+10 
+
+6 
+
+2 
+
+4 
+
+6 
+
+8 
+
+Configuration budget [CPU s] 
+
+Performance [CPU s] 
+
+Default 
+CPLEX tuning tool 
+ParamILS 
+
+Cplex on MIK instances 
+Comparison to Cplex tuning tool 
+
+Cplex tuning tool 
+
+-Evaluates predefined good configurations, returns best one 
+-Required runtime varies (from &lt; 1h to weeks) 
+
+ParamILS: anytime algorithm 
+
+-At each time step, keeps track of its incumbent 
+
+10 
+
+4 
+
+10 
+
+5 
+
+10 
+
+6 
+
+2 
+
+4 
+
+6 
+
+8 
+
+Configuration budget [CPU s] 
+
+Performance [CPU s] 
+
+Default 
+CPLEX tuning tool 
+ParamILS 
+
+Cplex on MIK instances 
+
+10 
+
+4 
+
+10 
+
+5 
+
+10 
+
+6 
+
+10 
+
+1 
+
+10 
+
+2 
+
+10 
+
+3 
+
+Configuration budget [CPU s] 
+
+Performance [CPU s] 
+
+Default 
+CPLEX tuning tool 
+ParamILS 
+
+Cplex on SUST instances 
+Model-based techniques 
+
+-Fit a model that predicts performance of a given configuration 
+on a given instance 
+Future Work 
+
+Model-based techniques 
+
+-Fit a model that predicts performance of a given configuration 
+on a given instance 
+-Use that model to quantify 
+
+-Westgrid 
+-CFI-funded arrow cluster 
+
+Funding agencies 
+
+-Postdoc fellowship from CBIE 
+-MITACS 
+-NSERC 
+10 
+
+−2 
+
+10 
+
+−1 
+
+10 
+
+0 
+
+10 
+
+−2 
+
+10 
+
+−1 
+
+10 
+
+0 
+
+Default [% MIP gap] 
+
+28 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">-Incumbent solution provides bound -Can stop evaluation once bound is reached</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">-Incumbent solution provides bound -Can stop evaluation once bound is reached Results -Provably never hurts -Sometimes substantial speedups[Hutter et al., JAIR'09]   </note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">shelf tool (knows nothing about MIP or MIP solvers!) not enough -If you generate instances, please make more</title>
+		<ptr target="http://www.cs.ubc.ca/labs/beta/Projects/ParamILS/-off-the-" />
+	</analytic>
+	<monogr>
+		<title level="m">Configuration tool ParamILS available online</title>
+		<imprint>
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+	<note>shelf tool (knows nothing about MIP or MIP solvers!) not enough -If you generate instances. please make more (e.g., 2000)! CPU time (here: 10 × 2 days per domain</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

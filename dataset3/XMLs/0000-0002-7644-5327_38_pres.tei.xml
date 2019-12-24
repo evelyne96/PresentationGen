@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Introduction Models Model Comparisons Bayesian Analysis Beyond Equilibrium: Predicting Human Behavior in Normal-Form Games</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2012-09-10">OpLog Seminar, September 10, 2012</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Introduction Models Model Comparisons Bayesian Analysis Beyond Equilibrium: Predicting Human Behavior in Normal-Form Games</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2012-09-10">OpLog Seminar, September 10, 2012</date>
+						</imprint>
+					</monogr>
+					<note>Based on joint work with James R. Wright September 10, 2012: OpLog Kevin Leyton-Brown</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Models</head><p>Model . . .</p><note type="other">Comparisons Bayesian Analysis Example</note></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="100">100</head><p>Two players pick a number (2-100) simultaneously.</p><p>If they pick the same number, that is their payoff. If they pick different numbers: Two players pick a number (2-100) simultaneously.</p><p>If they pick the same number, that is their payoff. If they pick different numbers: . . .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">2</head><p>Two players pick a number (2-100) simultaneously.</p><p>If they pick the same number, that is their payoff. If they pick different numbers: Modifications to a game that don't change Nash equilibrium predictions at all can cause large changes in how human subjects play the game <ref type="bibr">[Goeree &amp; Holt 2001]</ref>.</p><p>In Traveler's Dilemma: When the penalty is large, people play much closer to Nash equilibrium. But the size of the penalty does not affect equilibrium.</p><p>Clearly Nash equilibrium is not the whole story.</p><p>Behavioral game theory proposes a number of models to better explain human behavior. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Scoring a model's performance</head><p>We randomly partition our data into different sets:</p><formula xml:id="formula_0">D = D train ∪ D test</formula><p>We choose parameter value(s) that maximize the likelihood of the training data:</p><formula xml:id="formula_1">#» θ * = arg max #» θ Pr(D train | M, #» θ ).</formula><p>a tricky non-convex optimization problem</p><p>We score the performance of a model by the likelihood of the test data:</p><formula xml:id="formula_2">Pr(D test | M, #» θ * ).</formula><p>To reduce variance, we repeat this process multiple times with different random partitions and average the results</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Models</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Model Comparisons Bayesian Analysis</head><p>BGT models: Iterative strategic reasoning Level-0 agents choose actions non-strategically.</p><p>In this work (and most others), uniformly at random Level-1 agents reason about level-0 agents.</p><p>Level-2 agents reason about level-1 agents. There's a probability distribution over levels.</p><p>Higher-level agents are "smarter"; scarcer</p><p>Predicting the distribution of play: weighted sum of the distributions for each level.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Models</head><p>Model Comparisons Bayesian Analysis</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>BGT model: Lk</head><p>Lk model <ref type="bibr">[Costa-Gomes et al. 2001</ref>] parameters: (α 1 , α 2 , 1 , 2 ) Each agent has one of 3 levels: level-0, level-1, or level-2.</p><formula xml:id="formula_3">Distribution of level [2, 1, 0] agents is [α 2 , α 1 , (1 − α 1 − α 2 )]</formula><p>Each level-k agent makes a "mistake" with prob k , or best responds to level-(k − 1) opponent with prob 1 − k .</p><p>Level-k agents believe all opponents are level-(k − 1). Level-k agents aren't aware that level-(k − 1) agents will make "mistakes". An agent of level m best responds to the truncated, true distribution of levels from 0 to m − 1.</p><formula xml:id="formula_4">IBR i,0 = A i , IBR i,k = BR i (IBR −i,k−1 ), π Lk i,0 (a i ) = |A i | −1 , π Lk i,k (a i ) =</formula><p>Poisson-CH: Levels are assumed to have a Poisson distribution with mean τ .</p><formula xml:id="formula_5">π P CH i,0 (a i ) = |A i | −1 , π P CH i,m (a i ) =    BR i π P CH i,0:m−1 −1 if a i ∈ BR i π P CH i,0:m−1 , 0 otherwise. π P CH i,0:m−1 = m−1 =0 π P CH i, Introduction</formula><note type="other">Models Model Comparisons Bayesian Analysis</note></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>BGT model: QLk</head><p>QLk model <ref type="bibr">[Stahl &amp; Wilson 1994]</ref> parameters:</p><formula xml:id="formula_6">(α 1 , α 2 , λ 1 , λ 2 , λ 1(2) ) Distribution of level [2, 1, 0] agents is [α 2 , α 1 , (1 − α 1 − α 2 )]</formula><p>Each agent quantally responds to next-lower level.</p><p>Each QLk agent level has its own precision (λ k ), and its own beliefs about lower-level agents' precisions (λ (k) ). All NEE significantly worse than best BGT model in most datasets. </p><formula xml:id="formula_7">π QLk i,0 (a i ) = |A i | −1 , π QLk i,1 = QBR i (π QLk −i,0 , λ 1 ), π QLk j,1(2) = QBR j (π QLk −j,0 , λ 1(2) ), π QLk i,2 = QBR i (π QLk −i,1(2) , λ 2 ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Posterior distributions</head><p>A posterior distribution gives the probability of each possible combination of parameter values, given the data, e.g.:</p><formula xml:id="formula_8">Pr(α 1 = 0.1, α 2 = 0.3, λ = 0.1 | D)</formula><p>Maximum likelihood only tells us the most likely parameter setting, given the data.</p><p>The posterior distribution over parameter settings describes the relative probability of all possible parameter settings.</p><p>Individual parameters can be analyzed by inspecting the marginal posterior distribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><note type="other">Models Model Comparisons Bayesian Analysis</note></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Warm-up: Poisson-CH</head><p>Regarding the single parameter (τ ) for the Poisson-CH model:</p><p>"Indeed, values of τ between 1 and 2 explain empirical results for nearly 100 games, suggesting that a τ value of 1.5 could give reliable predictions for many other games as well." λ 1(2) : Level-2 agents' belief about level-1 agents' precision.</p><p>π QLk i,0 (a i ) = |A i | −1 , π QLk i,1 = QBR i (π QLk −i,0 , λ 1 ), π QLk j,1(2) = QBR j (π QLk −j,0 , λ 1(2) ), π QLk i,2 = QBR i (π QLk −i,1(2) , λ 2 ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Models Model Comparisons Bayesian Analysis</head><p>Posterior distributions: QLk Recall... α 1 , α 2 : Best fits predict more level-2 agents than level-1. λ 1 , λ 2 : Level-2 agents have lower precision than level-1 agents. λ 1 , λ 1(2) : Level-2 agents' beliefs are very wrong.  Spike-Poisson QCH outperforms all other ah-QCH models except for ah-QCH5. Only three parameters, fewer even than ah-QCH3. BGT models typically predict human behavior better than Nash equilibrium-based model. QLk has best performance of the four.</p><p>Bayesian sensitivity analysis of parameters.</p><p>Parameters for QLk are counterintuitive, hard to identify. Using CH beliefs and a single precision for all agents yields more identifiable parameter values, superior predictive performance.</p><p>Even with fewer parameters!</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>α 1 :</head><label>1</label><figDesc>Our analysis gives 99% posterior probability that the best value of τ is 0.59 or less. Proportion of level-1 agents. α 2 : Proportion of level-2 agents. λ 1 : Precision of level-1 agents. λ 2 : Precision of level-2 agents.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>matches tabular L0 proportions very closely. To do so, forced to match most other proportions poorly.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>Modifications to a game that don't change Nash equilibrium predictions at all can cause large changes in how human subjects play the game[Goeree &amp; Holt 2001].</figDesc><table>Introduction 
+
+Models 
+Model Comparisons 
+Bayesian Analysis 
+
+Nash equilibrium and human subjects 
+
+Nash equilibrium often makes counterintuitive predictions. 
+
+In Traveler's Dilemma: The vast majority of human players 
+choose 97-100. The Nash equilibrium is 2. 
+
+Introduction 
+
+Models 
+Model Comparisons 
+Bayesian Analysis 
+
+Nash equilibrium and human subjects 
+
+Nash equilibrium often makes counterintuitive predictions. 
+
+In Traveler's Dilemma: The vast majority of human players 
+choose 97-100. The Nash equilibrium is 2. 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" validated="false"><head></head><label></label><figDesc>Average NEE virtually always worse than every BGT model (only exception: SW95).</figDesc><table>Introduction 
+
+Models 
+Model Comparisons 
+Bayesian Analysis 
+
+Model comparisons: Nash equilibrium vs. BGT 
+
+10 0 
+
+10 10 
+
+10 20 
+
+10 30 
+
+10 40 
+
+10 50 
+
+10 60 
+
+COMBO9 SW94 
+SW95 CGCB98 GH01 HSW01 CVH03 HS07 
+SH08 RPC09 
+Likelihood improvement over uniform distribution 
+
+NEE 
+Best BGT 
+Worst BGT 
+Introduction 
+
+Models 
+Model Comparisons 
+Bayesian Analysis 
+
+Model comparisons: Nash equilibrium vs. BGT 
+
+10 0 
+
+10 10 
+
+10 20 
+
+10 30 
+
+10 40 
+
+10 50 
+
+10 60 
+
+COMBO9 SW94 
+SW95 CGCB98 GH01 HSW01 CVH03 HS07 
+SH08 RPC09 
+Likelihood improvement over uniform distribution 
+
+NEE 
+Best BGT 
+Worst BGT 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_8" validated="false"><head></head><label></label><figDesc>Poisson QCH matches tabular L0 proportions very closely. To do so, forced to match most other proportions poorly. If L0 were treated specially, could Poisson match others? Likelihood improvement over u.a.r.</figDesc><table>Introduction 
+
+Models 
+Model Comparisons 
+Bayesian Analysis 
+
+Spike-Poisson performance 
+
+10 27 
+
+10 28 
+
+10 29 
+
+10 30 
+
+10 31 
+
+2 
+3 
+4 
+5 
+6 
+Number of parameters 
+
+Model performance 
+Efficient frontier 
+
+ah-QCHp 
+
+ah-QCH-sp 
+
+ah-QCH2 
+
+ah-QCH3 
+
+gi-QLk2 (QLk) 
+
+ah-QCH4 
+
+ah-QCH5 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_9" validated="false"><head></head><label></label><figDesc>Compared predictive performance of four BGT models.</figDesc><table>Introduction 
+
+Models 
+Model Comparisons 
+Bayesian Analysis 
+
+Thank you! 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">September 10, 2012: OpLog Kevin Leyton-Brown</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">α 1 , α 2 : Best fits predict more level-2 agents than level-1. 2 λ 1 , λ 2 : Level-2 agents have lower precision than level-1 agents. 3 λ 1 , λ 1(2) : Level-2 agents' beliefs are very wrong.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">gi-QLk2 ai-QLk2 gh-QLk2 ah-QLk2 gi-QCH2 ai-QCH2 gh-QCH2 ah-QCH2 gi-QLk3 ai-QLk3 ah-QLk3 gi-QCH3 ai-QCH3 ah-QLk4 ah-QLk5 ah-QLk6 ah-QLk7 ah-QCH6 ah-QCH7 ai-QLk4 ai-QCH4 gh-QCH3 gh-QLk3 ah-QCHp ah-QCH3 ah-QCH4 ah-QCH5</note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Distribution for λ is unimodal, with narrow confidence region Still more agents of type 2 than 1.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spike-Poisson QCH model parameters: <ref type="bibr">(τ, , λ)</ref> An ah-QCH model with precision λ.</p><p>Proportion distribution f is a mixture of Poisson distribution and a "spike" distribution of L0 agents:</p><p>otherwise.</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

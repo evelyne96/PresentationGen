@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Simple realizability of complete abstract topological graphs simplified *</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-10-27">27 Oct 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Kynčl</surname></persName>
+							<email>kyncl@kam.mff.cuni.cź</email>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Applied Mathematics and Institute for Theoretical Computer Science</orgName>
+								<orgName type="department" key="dep2">Faculty of Mathematics and Physics</orgName>
+								<orgName type="laboratory">Ecole Polytechnique Fédérale de Lausanne, Chair of Combinatorial Geometry, EPFL-SB-MATHGEOM-DCG</orgName>
+								<orgName type="institution">Charles University</orgName>
+								<address>
+									<addrLine>Malostranské nám. 25, Station 8</addrLine>
+									<postCode>118 00, CH-1015</postCode>
+									<settlement>Praha 1, Lausanne</settlement>
+									<country>Czech Republic;, Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Simple realizability of complete abstract topological graphs simplified *</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-10-27">27 Oct 2019</date>
+						</imprint>
+					</monogr>
+					<note>arXiv:1608.05867v2 [math.CO]</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An abstract topological graph (briefly an AT-graph) is a pair A = (G, X ) where G = (V, E) is a graph and X ⊆ E 2 is a set of pairs of its edges. The AT-graph A is simply realizable if G can be drawn in the plane so that each pair of edges from X crosses exactly once and no other pair crosses. We show that simply realizable complete AT-graphs are characterized by a finite set of forbidden AT-subgraphs, each with at most six vertices. This implies a straightforward polynomial algorithm for testing simple realizability of complete AT-graphs, which simplifies a previous algorithm by the author. We also show an analogous result for independent Z 2 -realizability, where only the parity of the number of crossings for each pair of independent edges is specified.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>A topological graph T = (V (T ), E(T )) is a drawing of a graph G in the plane such that the vertices of G are represented by a set V (T ) of distinct points and the edges of G are represented by a set E(T ) of simple curves connecting the corresponding pairs of points. We call the elements of V (T ) and E(T ) the vertices and the edges of T , respectively. The drawing has to satisfy the following general position conditions: (1) the edges pass through no vertices except their endpoints, (2) every pair of edges has only a finite number of intersection points, (3) every intersection point of two edges is either a common endpoint or a proper crossing ("touching" of the edges is not allowed), and (4) no three edges pass through the same crossing. A topological graph or a drawing is simple if every pair of edges has at most one common point, which is either a common endpoint or a crossing. Simple topological graphs appear naturally as crossing-minimal drawings: it is well known that if two edges in a topological graph have more than one common point, then there is a local redrawing that decreases the total number of crossings. A topological graph is complete if it is a drawing of a complete graph.</p><p>An abstract topological graph (briefly an AT-graph), a notion introduced by Kratochvíl, Lubiw and Nešetřil <ref type="bibr" target="#b14">[15]</ref>, is a pair (G, X ) where G is a graph and X ⊆ E(G) 2 is a set of pairs of its edges. Here we assume that X consists only of independent (that is, nonadjacent) pairs of edges. For a simple topological graph T that is a drawing of G, let X T be the set of pairs of edges having a common crossing. A simple topological graph T is a simple realization of (G, X ) if X T = X . We say that (G, X ) is simply realizable if (G, X ) has a simple realization.</p><p>An AT-graph (H, Y) is an AT-subgraph of an AT-graph (G, X ) if H is a subgraph of G and Y = X ∩ E(H) 2 . Clearly, a simple realization of (G, X ) restricted to the vertices and edges of H is a simple realization of (H, Y).</p><p>We are ready to state our main result.</p><p>Theorem 1. Every complete AT-graph that is not simply realizable has an AT-subgraph on at most six vertices that is not simply realizable.</p><p>We also show that AT-subgraphs with five vertices are not sufficient to characterize simple realizability.</p><p>Theorem 2. There is a complete AT-graph A with six vertices such that all its complete AT-subgraphs with five vertices are simply realizable, but A itself is not.</p><p>Theorems 1 and 2 are proved in Sections 4 and 3, respectively. Theorem 1 implies a straightforward polynomial algorithm for simple realizability of complete AT-graphs, running in time O(n 6 ) for graphs with n vertices. It is likely that this running time can be improved relatively easily. However, compared to the first polynomial algorithm for simple realizability of complete AT-graphs <ref type="bibr" target="#b17">[18]</ref>, the new algorithm may be more suitable for implementation and for practical applications, such as generating all simply realizable complete AT-graphs of given size or computing the crossing number of the complete graph <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b20">21]</ref>. On the other hand, the new algorithm does not directly provide the drawing itself, unlike the original algorithm <ref type="bibr" target="#b17">[18]</ref>. The explicit list of realizable AT-graphs on six vertices can be generated using the database of small simple complete topological graphs created byÁbrego et al. <ref type="bibr" target="#b0">[1]</ref>.</p><p>For general noncomplete graphs, no such finite characterization by forbidden AT-subgraphs is possible. Indeed, in the special case when X is empty, the problem of simple realizability is equivalent to planarity, and there are minimal nonplanar graphs of arbitrarily large girth; for example, subdivisions of K 5 . Moreover, simple realizability for general AT-graphs is NPcomplete, even when the underlying graph is a matching <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b15">16]</ref>. See <ref type="bibr" target="#b17">[18]</ref> for an overview of other similar realizability problems.</p><p>The proof of Theorem 1 is based on the polynomial algorithm for simple realizability of complete AT-graphs from <ref type="bibr" target="#b17">[18]</ref>. The main idea is very simple: every time the algorithm rejects the input, it is due to an obstruction of constant size.</p><p>Theorem 1 is an analogue of a similar characterization of simple monotone drawings of K n by forbidden 5-tuples, and pseudolinear drawings of K n by forbidden 4-tuples <ref type="bibr" target="#b3">[4]</ref>.</p><p>It is known that the set of pairs of crossing edges in a simple complete topological graph determines its rotation system, up to inversion <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b17">18]</ref>, and vice versa <ref type="bibr" target="#b16">[17,</ref><ref type="bibr" target="#b23">24]</ref>; see <ref type="bibr">Proposition 4</ref> for an extension of this correspondence and Section 2 for the definitions.Ábrego et al. <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2]</ref> independently verified that simple complete topological graphs with up to nine vertices can be characterized by forbidden rotation systems of five-vertex subgraphs. They conjectured that the same characterization is true for all simple complete topological graphs <ref type="bibr" target="#b1">[2]</ref>. This conjecture now follows by combining their result for six-vertex graphs with Theorem 1. This gives a finite characterization of realizable abstract rotation systems defined in <ref type="bibr" target="#b18">[19,</ref><ref type="bibr">Sect. 3.5]</ref>, where it was also stated that such a characterization was not likely <ref type="bibr">[19, p. 739</ref>]. The fact that only 5-tuples are sufficient for the characterization by rotation systems should perhaps not be too surprising, as rotation systems characterize simple drawings of K n more economically, using only O(n 2 log n) bits, whereas AT-graphs need Θ(n 4 ) bits.</p><p>Independent Z 2 -realizability A topological graph T is an independent Z 2 -realization of an AT-graph (G, X ) if X is the set of pairs of independent edges that cross an odd number of times in T . We say that (G, X ) is independently Z 2 -realizable if (G, X ) has an independent Z 2 -realization.</p><p>Clearly, every simple realization of an AT-graph is also its independent Z 2 -realization. The converse is not true, since every simple realization of K 4 has at most one crossing, but there are independently Z 2 -realizable AT-graphs (K 4 , X ) with |X | = 2 or |X | = 3. Thus, independent Z 2 -realizability is only a necessary condition for simple realizability. However, independent Z 2 -realizability of arbitrary AT-graphs can be tested in polynomial time since it is equivalent to the solvability of a system of linear equations over Z 2 ; see Section 5 for details.</p><p>Independent Z 2 -realizability has been usually considered only in the special case when X = ∅. In this case, for every graph G, the AT-graph (G, ∅) has an independent Z 2 -realization if and only if (G, ∅) has a simple realization, and this is equivalent to G being planar. This fact is known as the (strong) Hanani-Tutte theorem <ref type="bibr" target="#b7">[8,</ref><ref type="bibr" target="#b28">29]</ref>. A related concept, the independent odd crossing number of a graph G, iocr(G), measuring the minimum cardinality of X for which (G, X ) has an independent Z 2 -realization, has been introduced by Székely <ref type="bibr" target="#b27">[28]</ref>. The asymptotic value of iocr(K n ) is not known, and computing iocr(G) for a general graph G is NP-complete <ref type="bibr" target="#b21">[22]</ref>. See Schaefer's survey <ref type="bibr" target="#b25">[26]</ref> for more information.</p><p>We call an AT-graph (G, X ) even (or an even G) if |X | is even, and odd (or an odd G) if |X | is odd. The following theorem is an analogue of Theorem 1 for independent Z 2 -realizability.</p><p>Theorem 3. Every complete AT-graph that is not independently Z 2 -realizable has an ATsubgraph on at most six vertices that is not independently Z 2 -realizable. More precisely, a complete AT-graph is independently Z 2 -realizable if and only if it contains no even K 5 and no odd 2K 3 as an AT-subgraph.</p><p>Theorem 3 is proved in Section 5, where we also show that AT-subgraphs with five vertices are not sufficient to characterize independently Z 2 -realizable complete AT-graphs.</p><p>Theorem 3 again implies a straightforward algorithm for independent Z 2 -realizability of complete AT-graphs, running in time O(n 6 ) for graphs with n vertices. This is slightly better compared to the algebraic algorithm, which essentially consists of solving a system of Θ(n 4 ) equations with Θ(n 3 ) variables; see Section 5. The algorithms by Ibarra, Moran and Hui <ref type="bibr" target="#b10">[11]</ref> and Jeannerod <ref type="bibr" target="#b11">[12]</ref> solve such a system in time O(n 3ω+1 ), where O(n ω ) is the complexity of multiplication of two square n × n matrices. The best current algorithms for matrix multiplication give ω &lt; 2.3729 <ref type="bibr" target="#b19">[20,</ref><ref type="bibr" target="#b29">30]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Preliminaries</head><p>For a topological graph T and a subset U ⊆ V (T ), by T [U ] we denote the topological subgraph of T induced by U . Analogously, for an AT-graph A = (G, X ) and a subset U ⊆ V (G), by</p><formula xml:id="formula_0">A[U ] we denote the induced AT-subgraph (G[U ], X ∩ E(G[U ]) 2 )</formula><p>. A face of a topological graph T is a connected component of the set R 2 \ E(T ). Simple topological graphs G and H are weakly isomorphic if they are simple realizations of the same abstract topological graph. Topological graphs G and H are isomorphic if and only if there exists a homeomorphism of the sphere that transforms G into H.</p><p>The rotation of a vertex v in a topological graph is the clockwise cyclic order in which the edges incident with v leave the vertex v. The rotation system of a topological graph is the set of rotations of all its vertices. Similarly we define the rotation of a crossing x of edges uv and yz as the clockwise order in which the four parts xu, xv, xy and xz of the edges uv and yz leave the point x. Note that each crossing has exactly two possible rotations. We will represent the rotation of a vertex v as an ordered sequence of the other endpoints of the edges incident with v. Similarly, we will represent the rotation of a crossing x as an ordered sequence of the four endpoints of the edges incident with x.</p><p>The extended rotation system of a topological graph is the set of rotations of all its vertices and crossings.</p><p>Assuming that T and T ′ are drawings of the same abstract graph, we say that their rotation systems are inverse if for each vertex v ∈ V (T ), the rotation of v and the rotation of the corresponding vertex v ′ ∈ V (T ′ ) are inverse cyclic permutations. If T and T ′ are weakly isomorphic simple topological graphs, we say that their extended rotation systems are inverse if their rotation systems are inverse and, in addition, for every crossing x in T , the rotation of x and the rotation of the corresponding crossing x ′ in T ′ are inverse cyclic permutations. For example, if T ′ is a mirror image of T , then T and T ′ have inverse extended rotation systems.</p><p>Simple complete topological graphs have the following key property.</p><p>Proposition 4. <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b17">18]</ref> (1) If two simple complete topological graphs are weakly isomorphic, then their extended rotation systems are either the same or inverse.</p><p>(2) For every edge e of a simple complete topological graph T and for every pair of edges f, f ′ ∈ E(T ) that have a common endpoint and cross e, the AT-graph of T determines the order of crossings of e with the edges f, f ′ .</p><p>By inspecting simple drawings of K 4 , it can be shown that the converse of Proposition 4 also holds: the rotation system of a simple complete topological graph determines which pairs of edges cross <ref type="bibr" target="#b16">[17,</ref><ref type="bibr" target="#b23">24]</ref>.</p><p>We say that two cyclic permutations of sets A, B are compatible if they are restrictions of a common cyclic permutation of A ∪ B. Every complete AT-subgraph of A with five vertices is simply realizable; see <ref type="figure" target="#fig_0">Figure 1</ref>. Now we show that A is not simply realizable. Suppose that T is a simple realization of A. Without loss of generality, assume that the rotation of 5 in T [{1, 2, 3, 5}] is (1, 2, 3). By Proposition 4 and by the first drawing in <ref type="figure" target="#fig_0">Figure 1</ref>, the rotation of 5 in T [{1, 2, 3, 4, 5}] is <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b3">4)</ref>, since the inverse would not be compatible with <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b2">3)</ref>. Similarly, by the second drawing in <ref type="figure" target="#fig_0">Figure 1</ref> the rotation of 5 in T [{0, 2, 3, 4, 5}] is (2, 3, 0, 4), since the inverse would not be compatible with <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b3">4)</ref>. By the third drawing in <ref type="figure" target="#fig_0">Figure 1</ref>, the rotation of 5 in T [{0, 1, 3, 4, 5}] is (0, 1, 3, 4) or (0, 4, 3, 1), but neither of them is compatible with both (1, 2, 3, 4) and (2, 3, 0, 4); a contradiction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Proof of Theorem 1</head><p>Let A = (K n , X ) be a given complete abstract topological graph with vertex set [n] = {1, 2, . . . , n}. The algorithm from <ref type="bibr" target="#b17">[18]</ref> for deciding simple realizability of A has the following three main steps: computing the rotation system, determining the homotopy class of every edge with respect to the edges incident with one chosen vertex v, and computing the number of crossings of every pair of edges in a crossing-optimal drawing with the rotation system and homotopy class fixed from the previous steps. We follow the algorithm and analyze each step in detail.</p><p>Step 1: computing the extended rotation system This step is based on the proof of Proposition 4; see <ref type="bibr" target="#b17">[18,</ref><ref type="bibr">Proposition 3]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1a) Realizability of 5-tuples</head><p>For every 5-tuple Q of vertices of A, the algorithm tests whether A[Q] is simply realizable. If not, then the 5-tuple certifies that A is not simply realizable. If A[Q] is simply realizable, then by Proposition 4, the algorithm computes a rotation system R(Q) such that the rotation system of every simple realization of A[Q] is either R(Q) or the inverse of R(Q).  1b) Orienting 5-tuples</p><p>An orientation map Φ is a map assigning to every rotation system R(Q) with Q ∈ [n] 5 either R(Q) itself or its inverse (R(Q)) −1 .</p><p>The algorithm selects an orientation map Φ such that for every pair of 5-tuples Q, Q ′ ∈ [n] 5 having four common vertices and for each x ∈ Q ∩ Q ′ , the rotations of x in Φ(R(Q)) and Φ(R(Q ′ )) are compatible. If there is no such Φ, the AT-graph A is not simply realizable. We show that in this case there is a set S of six vertices of A that certifies this. Let Q 1 , Q 2 be two 5-tuples with four common elements, let R 1 be a rotation system on Q 1 and let R 2 be a rotation system on Q 2 . We say that R 1 and R 2 are compatible if for every x ∈ Q 1 ∩ Q 2 , the rotations of x in R 1 and R 2 are compatible.</p><p>Let G be the graph with vertex set [n] <ref type="bibr" target="#b4">5</ref> and edge set consisting of those pairs {Q, Q ′ } whose intersection has size 4. For every edge {Q, Q ′ } of G, at most one orientation of R(Q ′ ) is compatible with R(Q). If no orientation of R(Q ′ ) is compatible with R(Q), then the 6-tuple S = Q ∪ Q ′ certifies that A is not simply realizable. We may thus assume that for every edge {Q, Q ′ } of G, exactly one orientation of R(Q ′ ) is compatible with R(Q). Let E be the set of those edges {Q, Q ′ } of G such that R(Q) and R(Q ′ ) are not compatible.</p><p>Call a set W ⊆ [n] 5 orientable if there is an orientation map Φ such that for every pair of 5-tuples Q, Q ′ ∈ W with |Q ∩ Q ′ | = 4, the rotation systems Φ(R(Q)) and Φ(R(Q ′ )) are compatible.</p><formula xml:id="formula_1">Lemma 5. If [n] 5</formula><p>is not orientable, then there is a 6-tuple S ⊆ [n] such that S 5 is not orientable.</p><p>Proof. Clearly, <ref type="bibr">[n]</ref> 5 is not orientable if and only if G has a cycle with an odd number of edges from E. Call such a cycle a nonorientable cycle. We claim that if G has a nonorientable cycle, then G has a nonorientable triangle. Let C(G) be the cycle space of G. The parity of the number of edges of E in K ∈ C(G) is a linear form on C(G). Hence, to prove our claim, it is sufficient to show that C(G) is generated by triangles.</p><p>Suppose that K = F 1 F 2 . . . F k , with k ≥ 4, is a shortest cycle in G that is not a sum of triangles in C(G). Then K is an induced cycle in G, that is,</p><formula xml:id="formula_2">|F i ∩ F j | ≤ 3 if 2 ≤ |i − j| ≤ k − 2. Let z ∈ F 1 \ F 2 . Then z ∈ F k , otherwise |F k ∩ F 1 ∩ F 2 | = 4. Let i be the smallest index such that i ≥ 3 and z ∈ F i . We have i ≥ 4, otherwise |F 1 ∩ F 3 | = |(F 1 ∩ F 2 ∩ F 3 ) ∪ {z}| = 4. For every j ∈ {2, . . . , i − 2}, let F ′ j = (F j ∩ F j+1 ) ∪ {z}.</formula><p>Then K is the sum of the closed walk</p><formula xml:id="formula_3">K ′ = F 1 F ′ 2 . . . F ′ i−2 F i . . . F k and the triangles F 1 F 2 F ′ 2 , F i−1 F i F ′ i−2 , F j F j+1 F ′ j for j = 2, .</formula><p>. . , i−2, and F j+1 F ′ j F ′ j+1 for j = 2, . . . , i − 3; see <ref type="figure" target="#fig_2">Figure 2</ref>. Since the length of K ′ is k − 1, we have a contradiction with the choice of K.</p><p>Let Q 1 Q 2 Q 3 be a nonorientable triangle in G. The 5-tuples Q 1 , Q 2 , Q 3 have either three or four common elements. Suppose that</p><formula xml:id="formula_4">|Q 1 ∩ Q 2 ∩ Q 3 | = 4 and let {u, v, w, z} = Q 1 ∩ Q 2 ∩ Q 3 .</formula><p>Then we may orient the rotation systems R(Q 1 ), R(Q 2 ) and R(Q 3 ) as R 1 , R 2 and R 3 , respectively, so that the rotation of u in each R i is compatible with (v, w, z). This implies that the rotations of u in R 1 , R 2 and R 3 are pairwise compatible. Moreover, for i = j, the rotations of u in R i and (R j ) −1 are not compatible. By our assumption that the rotation system R(Q i ) is compatible with R(Q j ) or its inverse, the rotation systems R 1 , R 2 and R 3 are pairwise compatible, a contradiction. Hence, we have</p><formula xml:id="formula_5">|Q 1 ∩ Q 2 ∩ Q 3 | = 3, which implies that |Q 1 ∪ Q 2 ∪ Q 3 | = 6. Setting S = Q 1 ∪ Q 2 ∪ Q 3 , the set S 5 is not orientable. If [n]</formula><p>5 is orientable, there are exactly two possible solutions for the orientation map. We will assume that the rotation of 1 in Φ(R({1, 2, 3, 4, 5})) is compatible with <ref type="bibr" target="#b1">(2,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b3">4)</ref>, so that there is at most one solution Φ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1c) Computing the rotations of vertices</head><p>Having oriented the rotation system of every 5-tuple, the algorithm now computes the rotation of every x ∈ [n], as the cyclic permutation compatible with the rotation of x in every Φ(R(Q)) such that x ∈ Q ∈ [n] 5 . We show that this is always possible.</p><formula xml:id="formula_6">Lemma 6. Let k ≥ 4. For every F ∈ [k+1] k , let π F be a cyclic permutation of F such that for every pair F, F ′ ∈ [k+1] k , the cyclic permutations π F and π ′ F are compatible. Then there is a cyclic permutation π [k+1] of [k + 1] compatible with all the cyclic permutations π F with F ∈ [k+1] k .</formula><p>Proof. We may assume that π [k] = (1, 2, . . . , k).</p><formula xml:id="formula_7">For i ∈ [k], let F i = [k + 1] \ {i}. Since F i ∩ [k] = [k] \ {i}, the cyclic permutation π F i is compatible with (1, 2, . . . , i − i, i + 1, . . . , k).</formula><p>The only freedom is thus in the position of the element k+1. Since π F 1 and π F 3 are compatible and k ≥ 4, it is not possible that π F 1 = (k + 1, 2, 3, 4, . . . , k) and π F 3 = (1, 2, k + 1, 4, . . . , k) simultaneously. Hence, in at least one of the cyclic permutations π F 1 , π F 3 , the position of k + 1 is between two adjacent elements i, i + 1 of the cycle (1, 2, . . . , k) (counting mod k). From the compatibility condition, all the other permutations π j are now uniquely determined and they are all compatible with the cyclic permutation (1, 2, . . . , i, k + 1, i + 1, . . . , k).</p><formula xml:id="formula_8">Let x ∈ [n]. For every F ∈ [n]\{x} 4 , let π F be the rotation of x in Φ(R(F ∪ {x})). For every pair F, F ′ ∈ [n]\{x} 4</formula><p>with |F ∩ F ′ | = 3, the cyclic permutations π F and π F ′ are compatible. Let k ≥ 4 and suppose that for every F ∈ [n]\{x} k , we have a cyclic permutation π F of F such that for every pair F, F ′ ∈ [n]\{x} k with |F ∩F ′ | = k −1, the cyclic permutations π F and π F ′ are compatible. By Lemma 6, for every Q ∈ [n]\{x} k+1 there is a cyclic permutation</p><formula xml:id="formula_9">π Q compatible with every π F such that F ∈ Q k . Moreover, for every pair Q, Q ′ ∈ [n]\{x} k+1</formula><p>with |Q ∩ Q ′ | = k, the cyclic permutations π Q and π Q ′ are compatible since they are both compatible with π Q∩Q ′ . By induction, there is a cyclic permutation of [n] \ {x} that is compatible with every π F such that F ∈ [n]\{x} <ref type="bibr" target="#b3">4</ref> . This cyclic permutation is the rotation of x.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1d) Computing the rotations of crossings</head><p>For every pair of edges {{u, v}, {x, y}} ∈ X , the algorithm determines the rotation of their crossing from the rotations of the vertices u, v, x, y. This finishes the computation of the extended rotation system.</p><p>Step 2: determining the homotopy classes of the edges</p><p>Let v be a fixed vertex of A and let S(v) be a topological star consisting of v and all the edges incident with v, drawn in the plane so that the rotation of v agrees with the rotation computed in the previous step. For every edge e = xy of A not incident with v, the algorithm computes the order of crossings of e with the subset E v,e of edges of S(v) that e has to cross. By Proposition 4 (2), the five-vertex AT-subgraphs of A determine the relative order of crossings of e with every pair of edges of E v,e . Define a binary relation ≺ x,y on E v,e so that vu ≺ x,y vw if the crossing of e with vu is closer to x than the crossing of e with vw. If ≺ x,y is acyclic, it defines a total order of crossings of e with the edges of E v,e . If ≺ x,y has a cycle, then it also has an oriented triangle vu 1 , vu 2 , vu 3 . This means that the AT-subgraph of A induced by the six vertices v, u 1 , u 2 , u 3 , x, y is not simply realizable. We can thus assume that ≺ x,y is a strict total order.</p><p>We recall that the homotopy class of a curve ϕ in a surface Σ relative to the boundary of Σ is the set of all curves that can be obtained from ϕ by a homotopy (that is, a continuous deformation) within Σ, keeping the boundary of Σ fixed pointwise.</p><p>We define the homotopy class of e using the following combinatorial data: the rotation of v, the set E v,e , the total order ≺ x,y in which the edges of E v,e cross e, the rotations of these crossings, and the rotations of the vertices x and y. Consider the star S(v) drawn on the sphere. Cut circular holes around the points representing all the vertices except v, and let Σ be the resulting surface with boundary. Let x e and y e be fixed points on the boundaries of the two holes around x and y, respectively, so that the orders of these points corresponding to all the edges of A on the boundaries of the holes agree with the computed rotation system. Draw a curve ϕ e with endpoints x e and y e satisfying all the combinatorial data of e. Note that such a curve ϕ e always exists, but it may have to cross itself. It is also easy to see that any other curve ϕ ′ e drawn using the same combinatorial data is homotopic to ϕ e : slightly informally, this follows from the fact that the edges of S(v) together with the boundary components of Σ form a connected subset of Σ, so the closed curve formed by the portions of ϕ e and ϕ ′ e between two consecutive crosings with edges vu and vw of S(v), and by portions of the edges vu and vw, cannot split the set of boundary components of Σ in a nontrivial way, and hence the portion of ϕ ′ e can be continuously deformed onto the portion of ϕ e while keeping their endpoints on vu and vw. Now the homotopy class of e is defined as the homotopy class of ϕ e in Σ relative to the boundary of Σ, and this is well-defined by the observation just made.</p><p>Step 3: computing the minimum crossing numbers For every pair of edges e, f , let cr(e, f ) be the minimum possible number of crossings of two curves from the homotopy classes of e and f . Similarly, let cr(e) be the minimum possible number of self-crossings of a curve from the homotopy class of e. The numbers cr(e, f ) and cr(e) can be computed in polynomial time in any 2-dimensional surface with boundary <ref type="bibr" target="#b2">[3,</ref><ref type="bibr" target="#b26">27]</ref>. In our special case, the algorithm is relatively straightforward <ref type="bibr" target="#b17">[18]</ref>.</p><p>We use the key fact that from the homotopy class of every edge, it is possible to choose a representative such that the crossing numbers cr(e, f ) and cr(e) are all realized simultaneously <ref type="bibr" target="#b17">[18]</ref>. This is a consequence of the following facts.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 7.</head><p>[10] Let γ be a curve on an orientable surface S with endpoints on the boundary of S that has more self-intersections than required by its homotopy class. Then there is a singular 1-gon or a singular 2-gon bounded by parts of γ.  Lemma 8. [6, 10] Let C 1 and C 2 be two simple curves on a surface S such that the endpoints of C 1 and C 2 lie on the boundary of S. If C 1 and C 2 have more intersections than required by their homotopy classes, then there is an innermost embedded 2-gon between C 1 and C 2 , that is, two subarcs of C 1 and C 2 bounding a disc in S whose interior is disjoint from C 1 and C 2 .</p><formula xml:id="formula_10">w a w c w b v w a w c w b v w a w c w b v w a w c w b</formula><p>Whenever there is a singular 1-gon, a singular 2-gon, or an innermost embedded 2-gon in a system of curves on S, it is possible to eliminate the 1-gon or 2-gon by a homotopy of the corresponding curves, which decreases the total number of crossings.</p><p>For the rest of the proof, we fix a drawing D of A such that its rotation system is the same as the rotation system computed in Step 1, the edges of S(v) do not cross each other, every other edge is drawn as a curve in its homotopy class computed in Step 2, and under these conditions, the total number of crossings is the minimum possible. Then every edge f of S(v) crosses every other edge e at most once, and this happens exactly if {e, f } ∈ X . Moreover, for every pair of edges e 1 , e 2 not incident with v, the corresponding curves in D cross exactly cr(e 1 , e 2 ) times, and the curve representing e 1 has cr(e 1 ) self-crossings. Hence, A is simply realizable if and only if all the edges e 1 , e 2 not incident with v satisfy cr(e 1 ) = 0, cr(e 1 , e 2 ) ≤ 1, and cr(e 1 , e 2 ) = 1 ⇔ {e 1 , e 2 } ∈ X . Moreover, if A is simply realizable, then D is a simple realization of A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>3a) Characterization of the homotopy classes</head><p>Let w 1 , w 2 , . . . , w n−1 be the vertices of A adjacent to v and assume that the rotation of v is (w 1 , w 2 , . . . , w n−1 ). Let w a w b be an edge such that 1 ≤ a &lt; b ≤ n − 1. Since every ATsubgraph of A with four or five vertices is simply realizable, and the rotation of v in every such simple realization or its mirror image is compatible with (w 1 , w 2 , . . . , w n−1 ), we have the following conditions on the homotopy class of w a w b .  </p><formula xml:id="formula_11">Observation 9. Assume that {w a w b , vw c } ∈ X ; that is, vw c ∈ E v,waw b . If a &lt; c &lt; b, then the rotation of the crossing of w a w b with vw c is (w a , w c , w b , v). If c &lt; a or b &lt; c, then the rotation of the crossing is (w b , w c , w a , v). v w a w b w c w d v w a w b w c w d v w a w b w c w d x y</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof. Consider a simple realization of the complete AT-graph</head><formula xml:id="formula_12">A[{v, w a , w b , w c }] where the rotation of v is (w a , w c , w b )</formula><p>and v is incident with the outer face of the drawing; see <ref type="figure" target="#fig_4">Figure 3</ref>, left. The triangle vw a w b is then drawn as a simple closed curve, passing through the vertices v, w a , w b in clockwise order. The portion of the curve representing the edge vw c between v and the crossing with w a w b then lies inside the triangle vw a w b , and this forces the rotation of the crossing to be (w a , w c , w b , v). The case when the rotation of v is (w a , w b , w c ) is symmetric; see <ref type="figure" target="#fig_4">Figure 3</ref>, right.</p><p>Observation 9 implies that the homotopy class of the edge w a w b is determined by the total order ≺ wa,w b in which w a w b crosses the edges in E v,waw b . The next observation further restricts this total order.</p><formula xml:id="formula_13">Observation 10. Assume that vw c , vw d ∈ E v,waw b . If a &lt; c &lt; d &lt; b, then vw c ≺ wa,w b vw d . If (c, d, a, b) is compatible with (1, 2, . . . , n − 1) as cyclic permutations, then vw d ≺ wa,w b vw c .</formula><p>Proof. Consider a simple realization of the complete AT-graph A[{v, w a , w b , w c , w d }] where the rotation of v is (w a , w c , w d , w b ) and v is incident with the outer face of the drawing; see <ref type="figure" target="#fig_5">Figure 4</ref>, left. Let x be the crossing of the edges w a w b and vw c , and y the crossing of the edges w a w b and vw d . The rotation of v determines that the portion of the edge vw d between v and y lies inside the closed curve vxw b formed by portions of the edges vw c , w a w b and by the edge vw b . This means that on the edge w a w b , the crossing x is closer to w a than y. The case when the rotation of v is (w a , w b , w c , w d ) is symmetric; see <ref type="figure" target="#fig_5">Figure 4</ref>, right.</p><p>On the other hand, it is easy to see that every homotopy class satisfying Observations 9 and 10 has a representative that is a simple curve; see <ref type="figure" target="#fig_6">Figure 5</ref>. Therefore, cr(w a w b ) = 0. Let γ a,b be the simple curve representing the edge w a w b in D.</p><p>3b) The parity of the crossing numbers Observation 11. Let w a w b and w c w d be two independent edges. Then cr(</p><formula xml:id="formula_14">w a w b , w c w d ) is odd if and only if {w a w b , w c w d } ∈ X .</formula><p>Proof. Each of the triangles vw a w b and vw c w d is represented by a simple closed curve in D, so the total number of crossings of the two curves is even. The crossings include the vertex v if (w a , w c , w b , w d ), (w a , w d , w b , w c ), or the inverse of one of these two cyclic permutations is compatible with the rotation of v. The following pairs of edges may cross once in D: The parity of the number of crossings between γ a,b and γ a,c is thus equal to the parity of the number of crossings between w a w b and w a w c in T . Since w a w b and w a w c do not cross in T , the observation follows.</p><formula xml:id="formula_15">{w a w b , vw c }, {w a w b , vw d }, {w c w d ,</formula><p>Observations 11 and 12 imply that A is realizable if and only if every pair of edges in D crosses at most once.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>3c) Detecting crossings of adjacent edges</head><p>We show that adjacent edges do not cross in D, otherwise some AT-subgraph of A with five vertices is not simply realizable. Let w a w b and w a w c be two adjacent edges. By symmetry, we may assume that a &lt; b &lt; c. We will consider cyclic intervals <ref type="figure">(a, b), (b, c)</ref> and (c, a) = (c, n − 1] <ref type="figure" target="#fig_0">∪ [1, a)</ref>. We define the following subsets of E v,waw b and E v,wawc . For each of the three cyclic intervals (i, j),</p><formula xml:id="formula_16">let F b (i, j) = {vw k ∈ E v,waw b ; k ∈ (i, j)} and F c (i, j) = {vw k ∈ E v,wawc ; k ∈ (i, j)}.</formula><p>We will also write ≺ b as a shortcut for ≺ waw b and ≺ c as a shortcut for ≺ wawc . By symmetry, we have two general cases. I) w a w b does not cross vw c and w a w c does not cross vw b . In this case, the rotation of w a is compatible with (v, w c , w b ). We observe the following conditions.  <ref type="figure">Figure 6</ref>: Left: illustration to Observation 13. Right: illustration to Observation 14.</p><formula xml:id="formula_17">w a w b w c w d v w a w b w c w d</formula><formula xml:id="formula_18">Observation 13. We have F b (c, a) ⊆ F c (c, a) and F c (a, b) ⊆ F b (a, b).</formula><p>Proof. We prove the first inclusion, the second one follows by symmetry. Let d ∈ (c, a) such that w a w b crosses vw d . Let T be a simple realization of A[{v, w a , w b , w c , w d }]. Refer to <ref type="figure">Figure 6</ref>, left. The vertices w a and w c are separated by the simple closed curve formed by the edge vw b and portions of the edges w b w a and vw d . Since w a w c cannot cross w a w b in T , and by the assumption of case I) it does not cross vw b either, the edge w a w c is forced to cross vw d in T .</p><formula xml:id="formula_19">Observation 14. The sets F b (b, c) and F c (b, c) are disjoint. Proof. Let d ∈ (b, c) such that w a w b crosses vw d . Let T be a simple realization of A[{v, w a , w b , w c , w d }]</formula><p>such that v is incident with the outer face. Refer to <ref type="figure">Figure 6</ref>, right. Since w a w c is adjacent to vw a and w a w b , it cannot cross the triangle vw a w b , and so w a w c must be drawn outside the triangle vw a w b . Therefore, w a w c cannot cross vw d in T , otherwise it would have to cross vw d at least twice.</p><p>Observation 15. If vw d ∈ F b (b, c) and vw e ∈ F c (b, c), then d &lt; e.</p><p>Proof. Let d, e ∈ (b, c) such that vw d ∈ F b (b, c) and vw e ∈ F c (b, c). Observation 14 implies that d = e. We claim that if e &lt; d then A[{v, w a , w b , w c , w d , w e }] is not simply realizable. Suppose, for a contradiction, that T is a simple realization of A[{v, w a , w b , w c , w d , w e }] where v is incident with the outer face and the rotation of v is (w a , w b , w e , w d , w c ). See <ref type="figure" target="#fig_9">Figure 7</ref>, left. By Observation 14, the edges w a w b and vw e do not cross in T . The edge w a w d is drawn inside the triangle vw a w b and the edge vw e is drawn outside the triangle vw a w b , thus w a w d does not cross vw e . By Observation 14 the edges w a w c and vw d do not cross, and so the edge w a w d is drawn inside the triangle vw a w c . Within this triangle, a portion of the edge vw e separates w a from w d , and therefore w a w d and vw e are forced to cross; a contradiction.</p><formula xml:id="formula_20">Observation 16. Let vw d ∈ F b (a, b) ∩ F c (a, b) and vw e ∈ F b (c, a) ∩ F c (c, a). Then vw d ≺ b vw e ⇔ vw d ≺ c vw e .</formula><p>Proof. Suppose that vw d ≺ b vw e and vw e ≺ c vw d . We claim that A[{v, w a , w b , w c , w d , w e }] is not simply realizable. Suppose, for a contradiction, that T is a simple realization of A[{v, w a , w b , w c , w d , w e }] where v is incident with the outer face and the rotation of v is (w a , w d , w b , w c , w e ). See <ref type="figure" target="#fig_9">Figure 7</ref>, right. The edge w a w e must be drawn inside the triangle vw a w b in T . Since a portion of vw d separates w a from w e within this triangle, the edges w a w e and vw d cross. The edge w a w e is also drawn inside the triangle vw a w c . The edge vw d separates the  triangle vw a w c into two regions but does not separate w a from w e , and therefore w a w e and vw d cannot cross; a contradiction. Proof. We show the first part, the second part follows by symmetry. Observation 13 implies that vw d ∈ F b (a, b) and Observation 14 implies that vw e / ∈ F c (b, c). Suppose that vw e ≺ b vw d . We claim that A[{v, w a , w b , w c , w d , w e }] is not simply realizable. Suppose, for a contradiction, that T is a simple realization of A[{v, w a , w b , w c , w d , w e }] where v is incident with the outer face and the rotation of v is (w a , w d , w b , w e , w c ). See <ref type="figure" target="#fig_10">Figure 8</ref>, left. The edge w a w e is drawn inside the triangle vw a w b in T . The edge vw d separates the triangle vw a w b into two regions but does not separate w a from w e , thus w a w e and vw d do not cross. The edge w a w e is also drawn inside the triangle vw a w c . Within this triangle, the edge vw d separates w a from w e , and therefore w a w e and vw d cross; a contradiction.</p><formula xml:id="formula_21">v w a w b w c w d w e v w a w b w c w d w e</formula><formula xml:id="formula_22">v w a w b w c w d w e w a w b w c F b (a, b) F c (c, a) F b (b, c) F c (b, c) w i</formula><p>Assuming Observations 9 and 10, we show that Observations 13-17 imply that cr(w a w b , w a w c ) = 0. Refer to <ref type="figure" target="#fig_10">Figure 8</ref>, right. Start with drawing the edges w a w b and w a w c without crossing. Observations 14 and 16 imply that there is a total order ≺ on E v,waw b ∪ E v,wawc that is a common extension of ≺ b and ≺ c . Let vw i be the ≺-largest element of F b (c, a) ∪ F c (a, b). Observation 17 implies that all edges vw j from F b (b, c) ∪ F c (b, c) satisfy vw i ≺ vw j . Observation 13 implies that we can draw the edges vw j with vw j vw i like in the figure. Observations 14, 15 and 17, imply that we can draw the edges vw j with vw II) w a w b does not cross vw c and w a w c crosses vw b . In this case, the rotation of w a is compatible with (v, w b , w c ). Let x be the crossing of w a w c and vw b . For each of the three cyclic intervals (i, j) with endpoints a, b or c, let F wax (i, j) be the set of edges vw k such that the part w a x of w a w c crosses vw k and k ∈ (i, j). Similarly, let F xwc (i, j) be the set of edges vw k such that the part xw c of w a w c crosses vw k and k ∈ (i, j).</p><formula xml:id="formula_23">i ≺ vw j like in v w a w b w c w d x v w a w b w c w d x v w a w b w c w d x</formula><formula xml:id="formula_24">Clearly, F c (i, j) = F wax (i, j)∪ F xwc (i, j).</formula><p>We observe the following conditions.</p><formula xml:id="formula_25">Observation 18. We have F b (a, b) ⊆ F wax (a, b). Proof. Let d ∈ (a, b) such that w a w b crosses vw d . Let T be a simple realization of A[{v, w a , w b , w c , w d }]</formula><p>where v is incident with the outer face. See <ref type="figure" target="#fig_12">Figure 9</ref>, left. Since the curve w a x lies inside the triangle vw a w b and vw d separates w a from x within this triangle, the curve w a x is forced to cross vw d in T .</p><formula xml:id="formula_26">Observation 19. We have F wax (c, a) ⊆ F b (c, a).</formula><p>Proof. Let d ∈ (c, a) such that w a x crosses vw d . Let T be a simple realization of</p><formula xml:id="formula_27">A[{v, w a , w b , w c , w d }]</formula><p>where v is incident with the outer face. See <ref type="figure" target="#fig_12">Figure 9</ref>, middle. Since w a w b cannot cross the triangle vw a w c , and the edge vw d separates w a from w b outside the triangle, the edge w a w b is forced to cross vw d in T . Proof. First we show that d = e. Suppose that T is a simple realization of</p><formula xml:id="formula_28">A[{v, w a , w b , w c , w d }]</formula><p>where v is incident with the outer face. See <ref type="figure" target="#fig_12">Figure 9</ref>, right. Since w b is outside the triangle vw a w c , and the edge vw d separates the region outside the triangle into two regions but does not separate w a from w b , the edge w a w b cannot cross vw d . Therefore d = e. Suppose that (e, d, a) is compatible with (1, 2 . . . , n − 1). By the first part we may assume that vw d / ∈ F b (c, a) and vw e / ∈ F xwc (c, a). We claim that A[{v, w a , w b , w c , w d , w e }] is not simply realizable. Suppose, for a contradiction, that T is a simple realization of A[{v, w a , w b , w c , w d , w e }] where v is incident with the outer face and the rotation of v is (w a , w b , w c , w e , w d ). See <ref type="figure" target="#fig_0">Figure 10</ref>, left. Since w a w d is inside the triangle vw a w c in T and w e outside the triangle, the edges w a w d and vw e do not cross. The curve xw d must be drawn outside the <ref type="figure" target="#fig_0">Figure 10</ref>: Left: Illustration to Observation 20. The edge w a w b is forced to cross vw d and hence also w a w c . Right: Illustration to Observation 21.</p><formula xml:id="formula_29">v w a w b w c w d w e x v w a w b w c w d x</formula><p>triangle vw a w b . However, the edge vw e separates x from w d outside the triangle, thus w a w d and vw e are forced to cross; a contradiction.</p><formula xml:id="formula_30">Observation 21. We have F b (b, c) ⊆ F xwc (b, c). Proof. Let d ∈ (b, c) such that w a w b crosses vw d . Let T be a simple realization of A[{v, w a , w b , w c , w d }]</formula><p>where v is incident with the outer face. See <ref type="figure" target="#fig_0">Figure 10</ref>, right. The curve xw c must be drawn outside the triangle vw a w b in T . However, the edge vw d separates x from w c outside the triangle, thus xw c and vw d are forced to cross in T .</p><formula xml:id="formula_31">Observation 22. Let vw d ∈ F b (a, b) ∩ F wax (a, b) and vw e ∈ F b (c, a) ∩ F wax (c, a). Then vw d ≺ b vw e ⇔ vw d ≺ c vw e .</formula><p>Proof. Suppose, for a contradiction, that vw e ≺ b vw d and vw d ≺ c vw e . Let T be a simple realization of A[{v, w a , w b , w c , w d , w e }] where v is incident with the outer face. See <ref type="figure" target="#fig_0">Figure 11</ref>, left. The edge w a w e is drawn inside the triangle vw a w b in T . The edge vw d separates the triangle vw a w b into two regions but does not separate w a from w e , thus the edges w a w e and vw d do not cross. The edge w a w e is also drawn inside the triangle vw a w c . The edge vw d separates w a from w e within the triangle vw a w c , and hence w a w e and vw d are forced to cross; a contradiction.</p><p>Suppose, for a contradiction, that vw d ≺ b vw e and vw e ≺ c vw d . Let T be a simple</p><formula xml:id="formula_32">realization of A[{v, w a , w b , w c , w d , w e }]</formula><p>where v is incident with the outer face. See <ref type="figure" target="#fig_0">Figure 11</ref>, right. The edge w a w e is drawn inside the triangle vw a w b in T . The edge vw d separates w a from w e within the triangle vw a w b , and hence w a w e and vw d cross. The edge w a w e is also drawn inside the triangle vw a w c . The edge vw d separates the triangle vw a w c into two regions but does not separate w a from w e , thus the edges w a w e and vw d cannot cross; a contradiction. <ref type="figure">c)</ref> and vw e ∈ F xwc (c, a). Then vw d ≺ c vw e .</p><formula xml:id="formula_33">Observation 23. Let vw d ∈ F b (b, c) ∩ F xwc (b,</formula><p>Proof. Suppose, for a contradiction, that vw e ≺ c vw d . Let T be a simple realization of A[{v, w a , w b , w c , w d , w e }] where v is incident with the outer face. See <ref type="figure" target="#fig_0">Figure 12</ref>, left. The edge w a w d is drawn inside the triangle vw a w b in T and the edge vw e is drawn outside of the triangle vw a w b , thus the edges w a w d and vw e do not cross. The edge w a w d is also drawn outside the triangle vw a w c . Since the edge vw e separates w a from w d outside the triangle, the edges w a w d and vw e are forced to cross; a contradiction.  <ref type="figure" target="#fig_0">Figure 11</ref>: Assuming Observations 9 and 10, we show that Observations 18-23 imply that cr(w a w b , w a w c ) = 0. Refer to <ref type="figure" target="#fig_0">Figure 12</ref>, right. Start with drawing the edges w a w b and w a w c without crossing and so that w a w c crosses vw b from the left; that is, so that the rotation of the crossing x is (w a , w b , w c , v).</p><formula xml:id="formula_34">w a w b w c w d w e v w a w b w c w d w e x x</formula><formula xml:id="formula_35">Illustrations to Observation 22. v w a w b w c w d w e w a x w b w c F b (c, a) F wax (a, b) F xwc (c, a) F xwc (b, c) x w j</formula><p>Observation 22 implies that there is a total order ≺ ′ on F wax (a, b)∪F wax (c, a)∪E v,waw b that is a common extension of ≺ b and ≺ c . By Observation 10, all pairs of edges vw d , vw e ∈ F b (b, c) satisfy vw d ≺ b vw e ⇔ vw e ≺ c vw d , thus there is also a total order ≺ ′′ on F xwc (b, c) ∪ F xwc (c, a) ∪ E v,waw b that is a common extension of ≺ c and the inverse of ≺ b . Let vw j be the ≺ ′′ -smallest element of F xwc (c, a). Observations 18 and 19 imply that we can draw the </p><formula xml:id="formula_36">edges of F wax (a, b) ∪ F wax (c, a) ∪ F b (a, b) ∪ F b (c, a)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>3d) Detecting multiple crossings of independent edges</head><p>There are several possible approaches to finding small obstructions in the case when independent edges cross more than once. By the analysis in <ref type="bibr" target="#b17">[18]</ref>, if two independent edges e, f cross at least twice, then a subset of at most 13 vertices is responsible: this includes the vertex v, the endpoints of e and f , and at most four more vertices for each crossing.</p><p>We could proceed analogously as in the previous substep, by investigating drawings of a graph consisting of the star S(v) and two additional independent edges e, f . We would <ref type="figure" target="#fig_0">Figure 13</ref>: Two independent edges crossing more than once in a subgraph with seven vertices. show that if the homotopy classes of e, f force the two edges to cross at least twice, then it is typically due to a subgraph with six or seven vertices, including v, the endpoints of e and f , and one or two more vertices preventing simplification of the drawing; see <ref type="figure" target="#fig_0">Figure 13</ref> for one such example. However, this would lead to a rather tedious case analysis.</p><formula xml:id="formula_37">v w a w b w c w d w e w f</formula><formula xml:id="formula_38">w a w b w c w d γ R 0 (e) e f B 00 B 11 B 01 B 10 R 1 (e)</formula><p>Therefore, we choose another approach. We use the fact that D is a drawing of a complete graph and that adjacent edges do not cross in D, which is guaranteed by the results of the previous step. We proceed by induction. Whenever we have two independent edges that cross at least twice, we either find a drawing of a forbidden subgraph with just five vertices, or another pair of independent edges that cross at least twice, but in a smaller subgraph. Now we make the idea more precise.</p><p>Let e = w a w b and f = w c w d be two independent edges that cross more than once in D. In the subgraph of D formed by the two edges e and f , the vertices w a , w b , w c , w d are incident to a common face, since adjacent edges do not cross in D and every pair of the four vertices w a , w b , w c , w d is connected by an edge. We assume without loss of generality that w a , w b , w c , w d are incident to the outer face. That is, we may draw a simple closed curve γ containing the vertices w a , w b , w c , w d but no interior points of e or f , such that the relative interiors of e and f are inside γ. We distinguish two cases according to the parity of the number of crossings of e and f .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I)</head><p>The edges e and f cross an even number of times. The edge e splits the region inside γ into two regions, R 0 (e) and R 1 (e), where R 0 (e) is the region that does not contain the endpoints of f on its boundary. Similarly, f splits the region inside γ into regions R 0 (f ) and R 1 (f ) where R 0 (f ) is the region that does not contain the endpoints of e on its boundary. By Lemma 8, there is an innermost embedded 2-gon between e and f . For brevity, we call an innermost embedded 2-gon shortly a bigon <ref type="figure">. For a bigon B, by B</ref>   <ref type="figure" target="#fig_0">Figure 14</ref>.</p><p>Since D is a drawing realizing the crossing number cr(e, f ), there is at least one vertex of D inside every bigon. The graph induced by v, the endpoints of e and f , and a set of vertices intersecting all bigons, certifies that e and f have at least cr(e, f ) crossings forced by their homotopy classes.</p><p>We use the following classical result about drawings of K 5 in the plane. See also Observation 30 for a similar statement and its proof.</p><p>Lemma 24 (Kleitman <ref type="bibr" target="#b12">[13]</ref>). In every drawing of K 5 in the plane the total number of pairs of independent edges crossing an odd number of times is odd. In particular, in every simple drawing of K 5 in the plane the total number of crossings is odd.</p><p>Observation 25. Let D ′ be a drawing of K 5 that is a subdrawing of D. For every vertex v of D ′ , there is an edge vw in D ′ that crosses each of the other edges in D ′ an even number of times.</p><p>Proof. By Observations 11 and 12, it is sufficient to show that in simple drawings of K 5 , it is not possible that for some vertex v all four edges incident with v have a crossing. If there was such a vertex, there would have to be five crossings in total by Lemma 24. Up to isomorphism, there are two different simple drawings of K 5 with five crossings <ref type="bibr" target="#b8">[9]</ref>; see, for example, the first two drawings in <ref type="figure" target="#fig_0">Figure 1</ref>. Clearly, all vertices in these two drawings satisfy the claim.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 26.</head><p>If e and f cross evenly, then there is no 00-bigon between e and f in D.</p><p>Proof. Let B be a 00-bigon between e and f in D. Then there is a vertex w i inside B. Consider a subdrawing D ′ of D formed by the edges e, f, w a w c and w b w c ; see <ref type="figure" target="#fig_0">Figure 15</ref>. Since adjacent edges do not cross in D, the only crossings in D ′ are those between e and f . In particular, the triangle w a w b w c is a simple closed curve; call it γ abc . Since w i ∈ R 0 (e), w d is outside R 0 (e), and the edge f crosses the curve γ abc only on e, it follows that w i and w d are on opposite sides of γ abc . Therefore, the edge w i w d has to cross some edge of the triangle w a w b w c an odd number of times. By symmetry, in the subgraph induced by the 5-tuple {w a , w b , w c , w d , w i }, every edge adjacent to w i crosses some other edge an odd number of times. This contradicts Observation 25. The following lemma proves the induction step in the case when e and f cross an even number of times.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 28.</head><p>If e and f cross evenly and at least twice in D, and there is no 00-bigon between e and f , then there is a proper subset W of vertices of A and an edge g independent from f such that cr W (g, f ) ≥ 2.</p><p>Proof. By Observation 27, there is a 01-bigon B between e and f . Let w i be a vertex inside B. Let W ′ be a minimal subset of vertices containing v, w a , w b , w c , w d , w i and at least one vertex inside every bigon between e and f (except B). By the definition of W ′ , we have cr W ′ (e, f ) = cr(e, f ). We may assume that W ′ is the vertex set of A, otherwise we just take g = e. The edges w a w i and w b w i are adjacent to e and thus do not cross e. Moreover, in the drawing induced by e and f , the vertices w a and w b are separated from w i by at least two parts of f connecting points on e. This implies that cr W ′ (w a w i , f ) ≥ 2 and cr W ′ (w b w i , f ) ≥ 2.</p><p>We claim that at least one of the equalities </p><formula xml:id="formula_39">cr W ′ \{w b } (w a w i , f ) = cr W ′ (w a w i , f ) or cr W ′ \{wa} (w b w i , f ) = cr W ′ (w b w i , f )</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II)</head><p>The edges e and f cross an odd number of times. In this case, we find another pair of edges crossing evenly. <ref type="figure" target="#fig_0">Figure 16</ref>: Three interior-disjoint bigons between f and edges of the triangle w a w b w i yield a plane drawing of K 3,3 .</p><formula xml:id="formula_40">w a w b w c w d e f w i B a B b B x a x b x i</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 29.</head><p>If e and f cross oddly and at least three times in D, then there are two independent edges e ′ , f ′ such that cr(e ′ , f ′ ) is even and cr(e ′ , f ′ ) ≥ 2.</p><p>Proof. By Lemma 8, there is a bigon B between e and f . Let w i be a vertex inside B. Every edge connecting w i with an endpoint of e or f crosses f or e at least once. By Observation 25, at least one of these four edges crosses each of e and f an even number of times.</p><p>5 Independent Z 2 -realizability</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Algebraic algorithm</head><p>By the Hanani-Tutte theorem, planarity testing can be reduced to solving a system of linear equations over Z 2 <ref type="bibr" target="#b24">[25,</ref><ref type="bibr">Section 1.4.1]</ref>. The same algebraic method can be used for testing independent Z 2 -realizability of general AT-graphs. Pach and Tóth described a slightly more general method for proving the NP-completeness of computing the odd crossing number <ref type="bibr" target="#b22">[23]</ref>, where they also took the rotation system into account. We now describe the method in detail, since it will serve as a basis for the proof of Theorem 3.</p><p>Let (G, X ) be a given AT-graph and let D be an arbitrary drawing of G. For example, we may place the vertices of G on a circle in an arbitrary order and draw every edge as a straight-line segment. We use the "obvious" fact that every drawing of G can be obtained from any other drawing of G by a homeomorphism of the plane, which aligns the vertices of the two drawings, followed by a sequence of finitely many continuous deformations (isotopies) of the edges that keep the endpoints fixed, and maintain the property that every pair of edges have only finitely many points in common at each moment of the deformation (we will call such deformations generic). This fact can be proved using the Jordan-Schönflies theorem.</p><p>We will assume that the positions of the vertices are fixed. The algorithm will test whether the edges of the initial drawing D can be continuously deformed to form an independent Z 2realization of (G, X ). During a generic continuous deformation from D to some other drawing D ′ , three types of combinatorially interesting events can occur: 2) an edge passing over an another edge, forming a pair of new crossings and a lens between them,</p><p>3) an edge e passing over a vertex v not incident to e, creating a crossing with every edge incident to v.</p><p>Each of the three events also has a corresponding inverse event, where crossings are eliminated. Clearly, the effects on the parity of the number of crossings between edges are the same. The parity of the number of crossings between a pair of independent edges is affected only during the event 3) or its inverse, in which case we change the parity of the number of crossings of e with all the edges incident to v; see <ref type="figure" target="#fig_0">Figure 17</ref>. We call such an event an edge-vertex switch and we will denote it by the ordered pair (e, v). We will consider drawings up to the equivalence generated by events of type 1) and 2) and their inverses. Every edge-vertex switch (e, v) can be performed independently of others, for any initial drawing, by deforming the edge e along a curve connecting an interior point of e with v. We can thus represent the deformation from D to D ′ by the set of edge-vertex switches that were performed an odd number of times during the deformation. A drawing D of G can then be represented by a vector v ∈ Z M 2 where M is the number of unordered pairs of independent edges in G. The component of v corresponding to a pair {e, f } is 1 if e and f cross an odd number of times and 0 otherwise. We remark that the space Z M 2 can also be considered as the space of subgraphs of the complement of the line graph L(G). If G = K n , then the complement of L(G) is the Kneser graph KG n,2 .</p><p>Let e be an edge of G and v a vertex of G such that v / ∈ e. Performing an edge-vertex switch (e, v) corresponds to adding the vector w (e,v) ∈ Z M 2 whose only components equal to 1 are those indexed by pairs {e, f } where f is incident to v. The set of all drawings of G that can be obtained from D by edge-vertex switches then corresponds to an affine subspace v + W where W is the subspace generated by the set {w (e,v) ; v ∈ V (G), e ∈ E(G), v / ∈ e}. An AT-graph (G, X ) can similarly be represented by the vector x ∈ Z M 2 whose component corresponding to a pair {e, f } is 1 if and only if {e, f } ∈ X . In other words, x is the characteristic vector of X . Now (G, X ) is independently Z 2 -realizable if and only if x ∈ v+W , equivalently, x − v ∈ W . This is equivalent to the solvability of a system of M linear equations over Z 2 , where each variable corresponds to one edge-vertex switch. In general, the vectors w (e,v) are not linearly independent, so the number of variables in the system could be slightly reduced.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Proof of Theorem 3</head><p>We start with the following well-known fact, which implies that the condition of having no even K 5 and no odd 2K 3 is necessary for independent Z 2 -realizability of complete AT-graphs.</p><p>Observation 30. The number of pairs of independent edges crossing an odd number of times is odd in every drawing of K 5 and even in every drawing of 2K 3 .</p><p>Proof. For drawings of K 5 the observation follows from Lemma 24. For drawings of 2K 3 we show a proof that is analogous to Kleitman's <ref type="bibr" target="#b12">[13]</ref> proof for drawings of K 5 . We start with a plane drawing of 2K 3 , with no crossing. Every edge-vertex switch (e, v) changes the parity of the number of crossings for exactly two pairs of edges, {e, f 1 } and {e, f 2 }, where f 1 and f 2 are the two edges incident with v but vertex-disjoint with e. Therefore, the number of independent odd-crossing pairs of edges remains even after an arbitrary sequence of edgevertex switches.</p><p>It remains to show that complete AT-graphs with no even K 5 and no odd 2K 3 are independently Z 2 -realizable.</p><p>Let (K n , X ) be a complete AT-graph with no even K 5 and no odd 2K 3 . Let M = 3· n 4 be the number of (unordered) pairs of independent edges in K n . Let x ∈ Z M 2 be the characteristic vector of X , and let v ∈ Z M 2 be the vector representing an arbitrary drawing of K n . By Observation 30, the vector x − v represents a complete AT-graph with no odd K 5 and no odd 2K 3 ; we will call these properties the K 5 -property and the 2K 3 -property, respectively. Let U ≤ Z M 2 be the subspace of all vectors with the K 5 -property and the 2K 3 -property. Let W ≤ Z M 2 be the subspace generated by the vectors w (e,v) , defined in the previous subsection. By the proof of Observation 30, we have W ≤ U . We now show that W = U , which will imply the theorem.</p><p>Let u 0 ∈ U . By adding certain generators w (e,v) to u 0 , we will gradually set all the coordinates to zero, in 2n − 3 steps, building a sequence of vectors u 1 , u 2 , . . . , u 2n−3 . In each step, we choose an edge e of K n and set all the coordinates {e, f } to zero. We will call this clearing the edge e. Likewise, we call an edge e clear with respect to u k if all the coordinates {e, f } of u k are zero.</p><p>Let {v 0 , v 1 , . . . , v n−1 } be the vertex set of K n . In steps 1, 2, . . . , n − 1, we clear the edges v 0 v 1 , v 0 v 2 , . . . , v 0 v n−1 , respectively. In step i, whenever a coordinate {v 0 v i , f } of u i−1 is equal to 1, we add the generator w (f,v i ) , which changes the coordinate {v 0 v i , f } to 0 but does not affect any other coordinate of the form {v 0 v j , g}. Thus, adding the necessary generators in step i keeps the edges v 0 v j clear for j &lt; i. Hence, after the first n − 1 steps, every edge incident to v 0 is clear with respect to u n−1 .</p><p>In the remaining n − 2 steps, we want to clear all the edges v 1 v i for i ≥ 2. Since we also want to keep all the edges incident to v 0 clear, we cannot just add the generator w (f,v i ) if we want to set a coordinate {v 1 v i , f } to zero. Thus, we will restrict ourselves to adding only those vectors of W that have all the coordinates {v 0 v i , f } equal to zero. For every i, j ∈ {1, 2, . . . , n − 1}, i = j, let</p><formula xml:id="formula_41">y i,j = w (v 0 v i ,v j ) + 1≤k≤n−1; k =i,j w (v j v k ,v i ) .</formula><p>The nonzero coordinates of y i,j are exactly those pairs {v i v k , v j v l } where k, l ∈ {1, 2, . . . , n−1} and i, j, k, l are distinct. In the remaining steps, we will be adding only the vectors y i,j .</p><p>These vectors are a rather blunt tool compared to the vectors w (e,v) . Fortunately, they will be sufficient for clearing the edges v 1 v i thanks to the 2K 3 -property and the K 5 -property.</p><p>Observation 31. If all the edges incident to v 0 are clear with respect to a vector u ∈ U , then the set E v 1 v i of edges f such that the coordinate {v 1 v i , f } is nonzero in u forms a complete bipartite graph on the vertex set {v 2 , v 3 , . . . , v n−1 } \ {v i }; this also includes the possibility of the empty graph.</p><p>Proof. The 2K 3 -property applied to the triangle v 0 v 1 v i and every triangle induced by {v 2 , v 3 , . . . , v n−1 } \ {v i } implies that E v 1 v i has an even number of edges in every triangle induced by {v 2 , v 3 , . . . , v n−1 } \ {v i }. This implies that each connected component of the complement E c v 1 v i of E v 1 v i is a complete graph, and that the number of components of E c v 1 v i is at most 2. This is equivalent to E v 1 v i being complete bipartite or empty.</p><p>Let i ∈ {2, 3, . . . , n − 1} and suppose that the vector u n+i−3 has been computed. Let E v 1 v i be the set of edges f such that the coordinate {v <ref type="bibr" target="#b0">1</ref>  Proof. Suppose for contradiction that v j ∈ A and v k ∈ B, for some j, k ∈ {2, 3, . . . , i − 1}. In the complete subgraph induced by the vertices v 0 , v 1 , v i , v j , v k , only the edges v 1 v i and v j v k are not clear with respect to u n+i−3 , and the pair {v 1 v i , v j v k } is the only nonzero coordinate in u n+i−3 induced by the vertices v 0 , v 1 , v i , v j , v k . This contradicts the K 5 -property.</p><formula xml:id="formula_42">v i , f } is nonzero in u n+i−3 . If E v 1 v i = ∅, we set u n+i−2 = u n+i−3 . Otherwise E v 1 v i is</formula><p>Assume without loss of generality that {v 2 , v 3 , . . . , v i−1 } ⊆ A. We set u n+i−2 = u n+i−3 + v j ∈B y i,j .</p><p>All edges incident with v 0 are clear in u n+i−2 , since this is true for all the summands. By adding v j ∈B y i,j , we have cleared the edge v 1 v i , while keeping the coordinates {v 1 v j , f } unchanged for j ∈ A. Thus, all the edges v 1 v j with 2 ≤ j ≤ i are clear with respect to u n+i−2 . Consequently, all edges incident with v 0 or v 1 are clear with respect to u 2n−3 . The following observation finishes the proof.</p><p>Observation 33. We have u 2n−3 = 0.</p><p>Proof. Let i, j, k, l ∈ {2, 3, . . . , n − 1} be distinct integers. Since all edges incident with v 0 or v 1 are clear with respect to u 2n−3 , the 2K 3 -property applied to the two triangles v 0 v i v k and v 1 v j v l implies that the coordinate {v i v k , v j v l } is zero in u 2n−3 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Concluding remarks</head><p>Minimality of the characterization. Here we show that none of the two conditions in Theorem 3 can be omitted. This is equivalent to the fact that for n large enough, there is a vector in Z M 2 with the K 5 -property that does not have the 2K 3 -property, and another vector with the 2K 3 -property that does not have the K 5 -property.</p><p>For n ≥ 5, the AT-graph (K n , ∅) has no odd 2K 3 but every subgraph isomorphic to K 5 is even.</p><p>For n ≥ 6, the AT-graph (K n , X ) where X is the set of all pairs of independent edges, has no even K 5 but every subgraph isomorphic to 2K 3 is odd.</p><p>Drawings of K 6 . We conclude with the following interpretation of the characterization of independently Z 2 -realizable complete AT-graphs with six vertices. In the proof of Theorem 3 we have shown that by edge-vertex switches, we can transform any drawing of K 6 to a drawing where all the edges incident to a chosen vertex v 0 cross every independent edge an even number of times. The drawings with this property can be represented as subgraphs of the Kneser graph KG 5,2 , which is isomorphic to the Petersen graph. The 2K 3 -property now corresponds to the cycle space of the Petersen graph, and together with the K 5 -property, they correspond to the even cycle space of the Petersen graph; that is, Eulerian subgraphs with even number of edges. The even cycle space of the Petersen graph has dimension 5, and contains 10 subgraphs isomorphic to C 6 , 15 subgraphs isomorphic to C 8 , and 6 subgraphs isomorphic to 2C 5 . However, the vectors characterizing the drawings of K 6 satisfy the 2K 3 property but satisfy the "opposite" of the K 5 -property; they correspond to the 32 odd cycles in the Petersen graph, 12 of them isomorphic to C 5 and the remaining 20 isomorphic to C 9 .</p><p>For n = 6, the whole space U of the vectors with the K 5 -property and the 2K 3 -property has dimension 35, since each of the 30 edge-vertex switches (e, v) with v = v 0 and v 0 / ∈ e changes the parity of the number of crossings for exactly one pair of edges of the type {v 0 v i , f }.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Simple realizations of all six complete subgraphs of A with five vertices.3 Proof of Theorem 2 We use the shortcut ij to denote the edge {i, j}. Let A = ((V, E), X ) be the complete AT-graph with vertex set V = {0, 1, 2, 3, 4, 5} and with X = {{02, 13}, {02, 14}, {02, 15}, {02, 35}, {03, 14}, {03, 15}, {03, 24}, {04, 15}, {04, 25}, {04, 35}, {13, 24}, {24, 35}, {35, 14}, {14, 25}, {25, 13}}.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 :</head><label>2</label><figDesc>Triangulating a cycle in G. The vertices in the first row represent the vertices F 1 , . . . , F i of the original cycle K, the vertices in the second row represent the vertices F ′ 2 , . . . , F ′ i−2 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 3 :</head><label>3</label><figDesc>Illustration to Observation 9. The rotation of the crossing of the edges w a w b and vw c is determined by the rotation of v. The inverse rotation would force a self-crossing of the edge w a w b . Here a singular 1-gon of a curve γ : [0, 1] → S is an image γ[α] of an interval α ⊂ [0, 1] such that γ identifies the endpoints of α and the resulting loop is contractible in S. A singular 2-gon of γ is an image of two disjoint intervals α, β ⊂ [0, 1] such that γ identifies the endpoints of α with the endpoints of β and the resulting loop is contractible in S.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 4 :</head><label>4</label><figDesc>Illustration to Observation 10. The order of the crossings of w a w b with the edges vw c and vw d is determined by the rotation of v unless vw a and vw b alternate with vw c and vw d in the rotation of v. The opposite order would force at least three self-crossings of the edge w a w b , assuming Observation 9.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 5 :</head><label>5</label><figDesc>A drawing of a "typical" edge w a w b and the star S(v).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head></head><label></label><figDesc>vw a }, {w c w d , vw b }. Each of these five crossings appears in D if and only if it appears in a topological graph T that is a simple realization of the induced AT-graph A[{v, w a , w b , w c , w d }]. The remaining crossings between the two triangles vw a w b and vw c w d in D may appear only between the arcs γ a,b and γ c,d . Since the corresponding triangles vw a w b and vw c w d in T also have an even number of crossing in total, the parity of the number of crossings between γ a,b and γ c,d is odd if and only if w a w b and w c w d cross in T . The observation follows. Observation 12. Let w a w b and w a w c be two adjacent edges. Then cr(w a w b , w a w c ) is even. Proof. The triangle vw a w b is represented by a simple closed curve γ in D, and the path vw c w a is represented by a simple arc α. The rotations at v and w a determine whether the end-pieces of α are attached to γ from inside or outside. The following two pairs of edges can cross once in D: {w a w b , vw c } and {w a w c , vw b }. Each of these crossings appears in D if and only if it appears in a simple realization T of A[{v, w a , w b , w c }]. The remaining crossings between the curves γ and α in D may appear only between the arcs γ a,b and γ a,c . The end-pieces of α are both attached to γ from the same side if and only if in T , the end-pieces of the path vw c w a are attached to the triangle vw a w b from the same side. Therefore, the parity of the total number of crossings between γ and α is even if and only if the path vw c w a crosses the triangle vw a w b an even number of times in T , which happens if and only if T is planar.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 7 :</head><label>7</label><figDesc>Left: illustration to Observation 15. Right: illustration to Observation 16.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 8 :</head><label>8</label><figDesc>Left: Illustration to Observation 17. Right: A drawing of the edges w a w b , w a w c and parts of edges of S(v) in case I), where w a w b and w a w c do not cross. The rotation of v is compatible with the counterclockwise cyclic order of the parts of the edges drawn.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Observation 17 .</head><label>17</label><figDesc>Let vw d ∈ F c (a, b) and vw e ∈ F b (b, c). Then vw d ≺ b vw e . Similarly, if vw d ∈ F b (c,a)and vw e ∈ F c (b, c), then vw d ≺ c vw e .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 9 :</head><label>9</label><figDesc>Left: Illustration to Observation 18. Middle: Illustration to Observation 19. Right: Illustration to Observation 20. the figure. The remaining edges of S(v) can be drawn easily. In this way we obtain a simple drawing with noncrossing representatives of the homotopy classes of w a w b and w a w c .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Observation 20 .</head><label>20</label><figDesc>Let d, e ∈ (c, a) such that vw d ∈ F xwc (c, a) and vw e ∈ F b (c, a). Then d = e and (d, e, a) is compatible with (1, 2 . . . , n − 1).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Figure 12 :</head><label>12</label><figDesc>Left: Illustration to Observation 23. Right: A drawing of the edges w a w b , w a w c and parts of the edges of S(v) in case II), where w a w b and w a w c do not cross. The rotation of v is compatible with the counterclockwise cyclic order of the parts of the edges drawn.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head></head><label></label><figDesc>like in the figure. Observation 21 implies that we can draw the edges of F xwc (b, c) ∪ F b (b, c) like in the figure. Observation 20 implies that the edges of F b (c, a) are separated from the edges of F xwc (c, a) in the rotation of v, and Observation 23 implies that all edges vw k ∈ F b (b, c) satisfy vw k ≺ ′′ vw j , therefore we can draw the edges of F xwc (c, a) like in the figure.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 14 :</head><label>14</label><figDesc>Four types of bigons between e and f . An ij-bigon is denoted by B ij .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>Figure 15 :</head><label>15</label><figDesc>The vertices w i and w d are on opposite sides of the curve γ abc . region inside B and we call it the inside of B. There are four possible types of bigons between e and f , according to the regions R i (e) and R j (f ) in which their insides are contained. For i, j ∈ {0, 1}, we call a bigon B an ij-bigon if B o ⊆ R i (e) ∩ R j (f ); see</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head>Observation 27 .</head><label>27</label><figDesc>If e and f cross evenly and at least twice in D, and there is no 00-bigon between e and f , then there is a 01-bigon and a 10-bigon between e and f .Proof. If there is no 00-bigon and no 01-bigon between e and f , then there is no bigon in the region R 0 (e), so e and f have no crossings. Now we define crossing numbers of edges relative to a subset of vertices. For a subset W of vertices of A containing v and the endpoints of two edges e and f , let cr W (e, f ) be the minimum possible number of crossings of two curves from the homotopy classes of e and f determined by A[W ], by a procedure analogous to the one in Step 2. That is, if we start with the subdrawing of D consisting of the vertices of W and the edges e and f , and simplify it sequentially by removing all bigons with no vertices of W inside them, we get a drawing where e and f cross cr W (e, f ) times.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_20"><head></head><label></label><figDesc>is satisfied; this will imply the lemma by taking W = W ′ \ {w b } or W = W ′ \ {w a }. Suppose the contrary. Then by Lemma 8, the vertex w b is inside a bigon B b between a part of w a w i and f , and w a is inside a bigon B a between a part of w b w i and f ; seeFigure 16. Note that some edges of the triangle w a w b w i can intersect the inside of B a or B b . However, w a and w i are not inside B b , since they are connected to w c and w d by edges adjacent to w a w i and f . Similarly, w b and w i are not inside B a . Thus, B, B a and B b are the smallest bigons between f and a part of an edge of the triangle w a w b w i that contain w i , w a and w b , respectively. Since the edges e, w a w i and w b w i are pairwise adjacent, they do not cross, and this implies that the interiors of the bigons B, B a and B b are pairwise disjoint; their boundaries may share a portion of f though. Let x i be a point on e on the boundary of B, x a a point on w b w i on the boundary of B a , and x b a point on w a w i on the boundary of B b . By joining x i with w i inside B, x a with w a inside B a , and x b with w b inside B b , we obtain a plane drawing of K 3,3 ; a contradiction.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_21"><head>Figure 17 :</head><label>17</label><figDesc>1) two edges exchanging their order around their common vertex and creating a new crossing, A continuous deformation of e resulting in an edge-vertex switch (e, v).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_22"><head></head><label></label><figDesc>complete bipartite by Observation 31. Let (A, B) be the bipartition of {v2 , v 3 , . . . , v n−1 } \ {v i } that induces E v 1 v i .Observation 32. All the vertices {v 2 , v 3 , . . . , v i−1 } lie in the same part of the bipartition (A, B).</figDesc></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>I thank Martin Balko for his comments on an early version of the manuscript. I also thank the reviewers for their corrections and suggestions for improving the presentation.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">All good drawings of small complete graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">M</forename><surname>Ábrego</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Aichholzer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Fernández-Merchant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Hackl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pammer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Pilz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Ramos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Salazar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Vogtenhuber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Book of abstracts</title>
+		<imprint>
+			<biblScope unit="page" from="57" to="60" />
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Aichholzer</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014" />
+		</imprint>
+	</monogr>
+	<note>personal communication</note>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Self-intersection numbers of paths in compact surfaces</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Armas-Sanabria</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>González-Acuña</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Rodríguez-Viorato</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Knot Theory and Its Ramifications</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="403" to="410" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Crossing numbers and combinatorial characterization of monotone drawings of K n</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Balko</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Fulek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kynčl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete and Computational Geometry</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="107" to="143" />
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Facets in the crossing number polytope</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Chimani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="95" to="111" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Homeomorphisms and simple closed curves</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Farb</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Thurston</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+	<note>unpublished manuscript</note>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Complete graph drawings up to triangle mutations, Graph-theoretic concepts in computer science</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Gioan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">3787</biblScope>
+			<biblScope unit="page" from="139" to="150" />
+			<date type="published" when="2005" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Hanani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Über wesentlich unplättbare Kurven im drei-dimensionalen Raume</title>
+		<imprint>
+			<date type="published" when="1934" />
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="135" to="142" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Drawings of the complete graph with maximum number of crossings</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Harborth</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Mengersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Twenty-third Southeastern International Conference on Combinatorics, Graph Theory, and Computing</title>
+		<meeting>the Twenty-third Southeastern International Conference on Combinatorics, Graph Theory, and Computing<address><addrLine>Boca Raton, FL</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1992" />
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="225" to="228" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Intersections of curves on surfaces</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hass</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Scott</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Israel Journal of Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="90" to="120" />
+			<date type="published" when="1985" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">A generalization of the fast LUP matrix decomposition algorithm and applications</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><forename type="middle">H</forename><surname>Ibarra</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Moran</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Hui</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Algorithms</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="45" to="56" />
+			<date type="published" when="1982" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C.-P</forename><surname>Jeannerod</surname></persName>
+		</author>
+		<idno>RR2006-28</idno>
+		<ptr target="http://www.ens-lyon.fr/LIP/Pub/Rapports/RR/RR2006/RR2006-28.pdf" />
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+		<respStmt>
+			<orgName>LSP Matrix Decomposition Revisited, Laboratoire de l&apos;Informatique du Parallélisme,École Normale Supérieure de Lyon</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Research Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A note on the parity of the number of crossings of a graph</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">J</forename><surname>Kleitman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series B</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="88" to="89" />
+			<date type="published" when="1976" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">String graphs. II. Recognizing string graphs is NP-hard</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series B</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="67" to="78" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Noncrossing subgraphs in topological layouts</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kratochvíl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Lubiw</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Nešetřil</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="223" to="244" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+		<title level="m" type="main">NP-hardness results for intersection graphs, Commentationes Mathematicae Universitatis Carolinae</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kratochvíl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Matoušek</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1989" />
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="761" to="773" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Enumeration of simple complete topological graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1676" to="1685" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Simple realizability of complete abstract topological graphs in P</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete and Computational Geometry</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="383" to="399" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Improved enumeration of simple topological graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete and Computational Geometry</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="727" to="770" />
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Powers of tensors and fast matrix multiplication</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Le</forename><surname>Gall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ISSAC 2014-Proceedings of the 39th International Symposium on Symbolic and Algebraic Computation</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2014" />
+			<biblScope unit="page" from="296" to="303" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Recent advances in exact crossing minimization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Mutzel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Electronic Notes in Discrete Mathematics</title>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="33" to="36" />
+		</imprint>
+	</monogr>
+	<note>extended abstract</note>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Crossing numbers of graphs with rotation systems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Pelsmajer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Algorithmica</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="679" to="702" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Which crossing number is it anyway?</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series B</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="225" to="246" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">How many ways can one draw a graph?</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Combinatorica</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="559" to="576" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Geometry-intuitive, discrete, and convex</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Hanani-Tutte and related results</title>
+		<meeting><address><addrLine>Budapest</addrLine></address></meeting>
+		<imprint>
+			<publisher>Bolyai Soc. Math. Stud</publisher>
+			<date type="published" when="2013" />
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="259" to="299" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">The graph crossing number and its variants: A survey</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Journal of Combinatorics, Dynamic Survey</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<date type="published" when="2017" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Computing Dehn twists and geometric intersection numbers in polynomial time</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Sedgwick</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 20th Canadian Conference on Computational Geometry</title>
+		<meeting>the 20th Canadian Conference on Computational Geometry</meeting>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="page" from="111" to="114" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A successful concept for measuring non-planarity of graphs: the crossing number</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">A</forename><surname>Székely</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">276</biblScope>
+			<biblScope unit="issue">1-3</biblScope>
+			<biblScope unit="page" from="331" to="352" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Toward a theory of crossing numbers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">T</forename><surname>Tutte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="45" to="53" />
+			<date type="published" when="1970" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Multiplying matrices faster than Coppersmith-Winograd</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><forename type="middle">V</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Forty-fourth Annual ACM Symposium on Theory of Computing, STOC &apos;12</title>
+		<meeting>the Forty-fourth Annual ACM Symposium on Theory of Computing, STOC &apos;12<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2012" />
+			<biblScope unit="page" from="887" to="898" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,982 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Balancing and clustering of words in the Burrows-Wheeler transform</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2011">2011</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antonio</forename><surname>Restivo</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Dipartimento di Matematica ed Applicazioni</orgName>
+								<orgName type="institution">University of Palermo</orgName>
+								<address>
+									<addrLine>Via Archirafi 34</addrLine>
+									<postCode>90123</postCode>
+									<settlement>Palermo</settlement>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanna</forename><surname>Rosone</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Dipartimento di Matematica ed Applicazioni</orgName>
+								<orgName type="institution">University of Palermo</orgName>
+								<address>
+									<addrLine>Via Archirafi 34</addrLine>
+									<postCode>90123</postCode>
+									<settlement>Palermo</settlement>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Balancing and clustering of words in the Burrows-Wheeler transform</title>
+					</analytic>
+					<monogr>
+						<title level="j" type="main">Theoretical Computer Science</title>
+						<imprint>
+							<biblScope unit="volume">412</biblScope>
+							<biblScope unit="page" from="3019" to="3032"/>
+							<date type="published" when="2011">2011</date>
+						</imprint>
+					</monogr>
+					<idno type="DOI">10.1016/j.tcs.2010.11.040</idno>
+					<note>Contents lists available at ScienceDirect Theoretical Computer Science journal homepage: www.elsevier.com/locate/tcs a r t i c l e i n f o</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>Combinatorics on words Burrows-Wheeler transform Data compression</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>a b s t r a c t</head><p>Compression algorithms based on Burrows-Wheeler transform (BWT) take advantage of the fact that the word output of BWT shows a local similarity and then turns out to be highly compressible. The aim of the present paper is to study such ''clustering effect'' by using notions and methods from Combinatorics on Words.</p><p>The notion of balance of a word plays a central role in our investigation. Empirical observations suggest that balance is actually the combinatorial property of input word that ensure optimal BWT compression. Moreover, it is reasonable to assume that the more balanced the input word is, the more local similarity we have after BWT (and therefore the better the compression is). This hypothesis is here corroborated by experiments on ''real'' text, by using local entropy as a measure of the degree of balance of a word.</p><p>In the setting of Combinatorics on Words, a sound confirmation of previous hypothesis is given by a result of <ref type="bibr" target="#b26">Mantaci et al. (2003)</ref> [27], which states that, in the case of a binary alphabet, there is an equivalence between circularly balanced words, words having a clusterized BWT, and the conjugates of standard words. In the case of alphabets of size greater than two, there is no more equivalence. The last section of the present paper is devoted to investigate the relationships between these notions, and other related ones (as, for instance, palindromic richness) in the case of a general alphabet.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Michael Burrows and David Wheeler introduced in 1994 (cf. <ref type="bibr" target="#b8">[9]</ref>) a reversible transformation on words that turns out to be an extremely useful tool for textual data compression. Compression algorithms based on the Burrows-Wheeler Transform (BWT) take advantage of the fact that the word output of BWT shows a local similarity (occurrences of a given symbol tend to occur in clusters) and then turns out to be highly compressible. Several authors refer to such property as the ''clustering effect'' of BWT. The aim of this paper is to approach in a formal setting, and in a quantitative way, the investigation of the ''clustering effect'' of BWT, and its consequences on the performances of the BWT-based compressors.</p><p>Several papers (cf. <ref type="bibr" target="#b29">[30,</ref><ref type="bibr" target="#b13">14,</ref><ref type="bibr" target="#b22">23,</ref><ref type="bibr" target="#b23">24]</ref>) prove analytical upper bounds on the compression ratio of BWT-based compressors in terms of the kth order empirical entropy H k of the input string. Recall that, under the hypothesis of the Markovian nature of the input string w, H k (w) gives a lower bound on the compression ratio of any encoder that is allowed to use only the context of length k preceding character σ in order to encode it. <ref type="bibr">Kaplan et al. report</ref> in <ref type="bibr" target="#b22">[23]</ref> some empirical results which seem to indicate that achieving good bounds with respect to H k does not necessarily guarantee good compression results in practice. So they ask the question whether there is another statistic (more appropriate than H k ) that actually capture the compressibility of the input text.</p><p>Moreover, in <ref type="bibr" target="#b23">[24]</ref> Kaplan and Verbin prove the non-optimality of the most of BWT-based algorithms, but they observe that such compressors work well in practice (in particular on English text). They believe that BWT-compressors work on English text better than Dictionary-based compressors because of the non-Markovian elements in English text and they ask the following question: what kind of regularity is there in English text that compressors exploit?</p><p>In this paper we propose an answer to the questions of <ref type="bibr" target="#b23">[24]</ref> and <ref type="bibr" target="#b22">[23]</ref>. In particular, we believe that ''the regularity of the English text that BWT-compressors exploit'' is related to the balancing properties of the text itself. We recall that a word w is balanced if, roughly speaking, the frequency of each symbol in different blocks of w is almost the same. Remark that this property is actually satisfied, with a very good approximation, by an English text, or by a text written in another natural language. Moreover, empirical observations suggest the following hypothesis: the more balanced the input word is, the more local similarity we have after BWT, and, as a consequence, the better the compression is.</p><p>With the purpose to test in a quantitative way such hypothesis and to answer to the related question of <ref type="bibr" target="#b22">[23]</ref> (''which is the statistic that actually captures the compressibility of the input text'') we introduce the notion of local entropy, as a measure of the degree of balance of a text. Remark that as the BWT can be thought as a transformation acting on circular words, all the notions we introduce for our analysis are relative to circular words. So, in Section 5, we introduce the formal definitions concerning the balancing of a word w and the definition of Local Entropy LE(w).</p><p>The most optimal situation for the balancing of a word occurs when the distance between any two consecutive occurrences of a given symbol is a constant throughout the word. Such words, called constant gap words, are known to be at the root of a more general class of words, called balanced words. We recall that a word w is balanced if, for any symbol a, the number of a's in two blocks of w of the same length differs by at most 1. The opposite extremal case, with respect to balancing properties, is represented by the class of clustered words, i.e. words where the number of runs (consecutive occurrences of the same symbol) is equal to the size of the alphabet.</p><p>For any word w, we prove tight lower and upper bounds of LE(w) and, moreover, we prove that (i) LE(w) reaches its maximum if and only if w is a constant gap word and (ii) LE(w) reaches its minimum if and only if w is a clustered word.</p><p>This shows that local entropy actually provides a measure of the degree of balance of a word. On the other hand, these results have an independent interest since they give a characterization of constant gap (and clustered) words in terms of local entropy.</p><p>By using LE(w) as a measure of balance of a word w, we perform, in Section 6, some experiments on ''real'' text, in order to test the hypothesis that the more balanced the input word is, the more local similarity we have after BWT. The results of the experiments corroborate this hypothesis. Moreover they also suggest, as a practical application, a method to establish when to use a BWT-based compressor is more advantageous than to use a Dictionary-based compressor.</p><p>In the setting of Combinatorics on Words, a sound confirmation of our hypothesis is given, in the binary case, by a result proved in <ref type="bibr" target="#b26">[27]</ref>. In this paper, the authors give a full characterization of words on a binary alphabet {a, b} having the maximum amount of clustering under application of BWT, i.e. words w such that bwt(w) = b p a q , for some p, q &gt; 0. Such words actually correspond to (circularly) balanced words. It is interesting to remark that, in the binary case, (circularly) balanced words are closely related to the well known family of Sturmian sequences and, in particular, they correspond to the conjugates of standard words (cf. <ref type="bibr" target="#b25">[26]</ref>).</p><p>In the case of words over alphabets with more than two letters, there is no more a tight equivalence between words having clusterized BWT and balancing. Remark that the structure of balanced words on arbitrary alphabets is to a large extent unknown; for instance, the Fraenkel conjecture (cf. <ref type="bibr" target="#b14">[15]</ref>) corresponds to a special case of this general problem.</p><p>The relationship between balanced words and words having clusterized BWT are investigate in Section 8. Following <ref type="bibr" target="#b37">[38]</ref>, we introduce the class of simple BWT words, as a proper subclass of words having a clusterized BWT transform, and compare it with the class of (circularly) balanced words. Such investigation necessitates to introduce some supplementary notions from Combinatorics on Words. In particular, we need a generalization of the notion of standard word to a general alphabet.</p><p>The notion of standard word is closely related to that of Sturmian sequence. Numerous generalizations of Sturmian sequences have been introduced for an alphabet with more than 2 letters. Among them, one natural generalization are the episturmian sequences that are defined by using the palindromic closure property of Sturmian sequences (cf. <ref type="bibr" target="#b11">[12]</ref>). Here we consider some special prefixes of episturmian sequences, that we call finite epistandard words: in the case of a binary alphabet they correspond to the finite standard words.</p><p>Another notion, related to the previous ones, that has been recently introduced is that of (palindromic) rich word: a word is rich if it contains the maximal number of distinct palindromic factor (cf. <ref type="bibr" target="#b17">[18]</ref>). Rich words appear in many different contexts: they include sturmian and episturmian words, and also other families of words known in literature.</p><p>We remark that, in the case of alphabets of size greater than two, there is no more equivalence (as in the binary case) between the family of simple BWT words, the family of (circularly) balanced words and the conjugate of epistandard words. However, as a main results of Section 8, we prove that, under assumption of balancing, the following three conditions on a word w are equivalent: (i) w has simple BWT, (ii) w is a circularly rich word, and (iii) w is a conjugate of a finite epistandard word.</p><p>Apart from their interest for the study of the clustering effect of BWT (and of optimal performances of BWT-based compressors), the results of Section 8 can be considered as a contribution to combinatorics of episturmian sequences, and could provide new insight on the Fraenkel conjecture. A preliminary version of the results presented in Section 8 appear in <ref type="bibr" target="#b34">[35]</ref>.</p><p>In conclusion, the results presented in this paper deal with combinatorial properties of words applied to data compression. The main purpose of this investigation is to state a link between methods from Combinatorics on Words and techniques from data compression, in order to obtain a deeper comprehension of both research fields. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Preliminaries</head><p>Let A = {a 1 , a 2 , . . . , a k } be a finite ordered alphabet (with a 1 &lt; a 2 &lt; · · · &lt; a k ). We denote by A * the set of words over A. Given a finite word w = b 1 b 2 · · · b n ∈ A * with each b i ∈ A, the length of w, denoted |w|, is equal to n. By convention, the empty word ε is the unique word of length 0. We denote by n i the number of occurrences of the letter a i in the word w. We denote byw the reversal of w, given byw = b n · · · b 2 b 1 . If w is a word that has the property of reading the same in either direction, i.e. if w =w, then w is called a palindrome. A word has the two palindrome property if it can be written as uv where u and v are palindromes or empty.</p><p>We say that two words x, y ∈ A * are conjugate, if x = uv and y = vu, where u, v ∈ A * . Conjugacy between words is an equivalence relation over A * . The conjugacy class</p><formula xml:id="formula_0">[x] of x ∈ A n is the set of all words b i b i+1 · · · b n b 1 · · · b i−1 , for 1 ≤ i ≤ n. A</formula><p>conjugacy class can also be represented as a circular word. Hence in what follows we will use ''circular word'' and ''conjugacy class'' as synonyms.</p><p>A nonempty word w ∈ A * is primitive if w = u h implies w = u and h = 1. Recall that (cf. <ref type="bibr" target="#b24">[25]</ref>) every nonempty word u ∈ A * can be written in a unique way as a power of a primitive word, i.e. there exists a unique primitive word w, called the root of u, and a unique integer k such that u = w k .</p><p>If u is a word in A * , we denote by u ω the infinite word obtained by infinitely iterating u, i.e. u ω = uuuuu . . .. A word w ∈ A ω is ultimately periodic of period n ∈ N if b i = b i+n for each i ≥ l and l ∈ N. If l = 1, then w is purely periodic. An infinite word that is not ultimately periodic is said to be aperiodic.</p><p>A word v ∈ A * is said to be a factor (resp. a prefix, resp. a suffix) of a word w ∈ A * if there exist words x, y ∈ A * such that w = xvy (resp. w = vy, resp. w = xv). A factor (resp. the prefix, resp. the suffix) is proper if xy ̸ = ε (resp. y ̸ = ε, resp. x ̸ = ε). A factor u of a finite or infinite word w is said to be left special (resp. right special) in w if there exist at least two distinct letters a, b such that au and bu (resp. ua, ub) are factors of w. For any finite or infinite word w, F (w) denotes the set of all its factors. We say that F (w) is closed under reversal if for any u ∈ F (w),ũ ∈ F (w). Moreover, if w is infinite, we denote by Ult(w) the set of all letters occurring infinitely often in w. A factor of an infinite word x is recurrent in x if it occurs infinitely often in x, and x itself is said to be recurrent if all of its factors are recurrent in it. Given two palindromes w, v, we say that v is a central factor of w if w = uvũ for some u ∈ A * .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">The Burrows-Wheeler transform</head><p>The Burrows-Wheeler transform was introduced in 1994 by Burrows and Wheeler <ref type="bibr" target="#b8">[9]</ref> and represents an extremely useful tool for textual lossless data compression. The idea is to apply a reversible transformation in order to produce a permutation bwt(w) of an input word w, defined over an ordered alphabet A, so that the word becomes easier to compress. Actually the transformation tends to group characters together so that the probability of finding a character close to another instance of the same character is substantially increased. BWT transforms a word w = b 1 b 2 · · · b n of length n by lexicographically sorting all the n conjugates of w and extracting the last character of each conjugate. The word bwt(w) consists of the concatenation of these characters. We denote by M the matrix which consists of all conjugates w 1 , w 2 , . . . , w n of w lexicographically sorted. In what follows we will refer to M as the ''Burrows-Wheeler matrix'' of w. Moreover the transformation computes the index I, that is the row containing the original word in the sorted list of the conjugates.</p><p>For instance, suppose we want to compute bwt(w) where w = abraca. Consider the Burrows-Wheeler matrix M in The last column L of the matrix M represents bwt(w) = caraab and I = 2 since the original word w appears in row 2. The first column F , instead, contains the word of the characters of w lexicographically sorted.</p><p>Next proposition is an easy consequence of the definition of BWT (cf. <ref type="bibr" target="#b8">[9]</ref>). From the above properties of the BWT, it follows that the transform is reversible in the sense that, given bwt(w) and the index I, it is possible to recover the original string w = b 1 b 2 · · · b n . Actually, according to Property 2 of Proposition 3.1, we can define a permutation τ : {1, 2, . . . , n} → {1, 2, . . . , n} <ref type="bibr" target="#b0">(1)</ref> giving the correspondence between the positions of characters of the first and the last column of the matrix M. For instance, the permutation τ of the word w in <ref type="figure">Fig</ref> Starting from the position I, and by using Property 1 of Proposition 3.1, we can recover the word w as follows:</p><formula xml:id="formula_1">b i = F [τ i−1 (I)], where τ 0 (x) = x, and τ i+1 (x) = τ (τ i (x)).<label>(2)</label></formula><p>Notice that the reconstruction algorithm corresponds to decompose the permutation τ into a product of cycles. In our case there is only one cycle. For instance, the permutation τ of the word w = abraca can be decompose in this way: The permutation τ represents also the order in which we have to rearrange the elements of F to reconstruct the original word w. We show, for instance, how the reconstruction works for the example in <ref type="figure">Fig. 2</ref>:</p><formula xml:id="formula_2">b 1 = F [2] = a b 2 = F [4] = b b 3 = F [6] = r b 4 = F [3] = a b 5 = F [5] = c b 6 = F [1] = a.</formula><p>Notice that if we except the index, all the mutual conjugate words have the same Burrows-Wheeler Transform. Actually the index has the only aim of denoting one representative in the conjugacy class. However this index is not necessary for the construction of the matrix M from L.</p><p>In what follows we consider the problem of characterizing the words w such that their BWT has a specific form. Since two conjugate words have the same BWT, our characterizations concern conjugacy classes or, equivalently, circularly words.</p><p>Notice also that BWT is not surjective on the set A * , that is, there exist some words in A * that are not the image of any word by the BWT. Consider for instance the word u = bccaaab. It is easy to see that there exists no word w such that bwt(w) = u.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">BWT and data compression</head><p>Compression algorithms based on BWT take advantage of the fact that the word output of BWT shows a local similarity (occurrences of a given symbol tend to occur in clusters) and then turns out to be highly compressible. Several authors refer to such property as the ''clustering effect'' of BWT. The aim of this paper is to approach in a formal setting, and in a quantitative way, the investigation of the ''clustering effect'' of BWT, and its consequences on the performances of the BWT-based compressors.</p><p>Several papers prove analytical upper bounds on the compression ratio of BWT-based compressors. In <ref type="bibr" target="#b29">[30]</ref> Manzini gave the first worst-case upper bound on the compression ratio of several BWT-based algorithms in terms of the empirical entropy of the input string. It is well known that the zeroth order empirical entropy of a string w, H 0 (w), is a lower bound on the compression ratio of any order-0 compressor. Similarly, the kth order empirical entropy of the string w, H k (w) gives a lower bound on the compression ratio of any encoder that is allowed to use only the context of length k preceding the character σ in order to encode it. For this reason, the compression ratio of compression algorithms is traditionally compared to H k (w),</p><p>for various values of k.</p><p>In <ref type="bibr" target="#b13">[14]</ref> Ferragina et al. introduced a BWT-based compression booster and proved an upper bound of such a compression algorithm improving the result of <ref type="bibr" target="#b29">[30]</ref>. Moreover, they proved that this upper bound is optimal (for details see <ref type="bibr" target="#b13">[14]</ref>).</p><p>Kaplan et al. observed in <ref type="bibr" target="#b22">[23]</ref> that the empirical results (see [23, <ref type="table">Table 1</ref>]), obtained by implementing the algorithm in <ref type="bibr" target="#b13">[14]</ref>, surprisingly imply that while the algorithm of <ref type="bibr" target="#b13">[14]</ref> is optimal with respect to H k in a worst-case setting, its compression ratio in practice is comparable with that of algorithms with weaker worst-case guarantees. This seems to indicate that achieving good bounds with respect to H k does not necessarily guarantee good compression results in practice. So they ask the question whether there is another statistic (more appropriate than H k ) that actually capture the compressibility of the input text.</p><p>In <ref type="bibr" target="#b23">[24]</ref> Kaplan and Verbin prove the non-optimality of the most of BWT-based algorithms, but they observe that such compressors work well in practice. In particular, it is known that on English texts, BWT-based compressors work extremely well. The authors of <ref type="bibr" target="#b23">[24]</ref> believe that BWT-compressors work on English text better than Dictionary-based compressors because of the non-Markovian elements in English text. In their opinion the discrepancy between the performance of BWTbased compressors on Markov sources that resembles on English texts and their performance on the text itself is yet to be explored. They end their paper <ref type="bibr" target="#b23">[24]</ref> with the following question: what kind of regularity is there in English text that compressors exploit?</p><p>In this paper we propose an answer to the questions of <ref type="bibr" target="#b23">[24,</ref><ref type="bibr" target="#b22">23]</ref>. In particular, we believe that ''the regularity of the English text that BWT-compressors exploit'' is related to the balancing properties of the text itself. We recall that a word w is balanced if, roughly speaking, the frequency of each symbol in different blocks of w is almost the same. Remark that this property is actually satisfied, with a very good approximation, by an English text, or by a text written in another natural language. As to concern the related question of <ref type="bibr" target="#b22">[23]</ref> (''which is the statistic that actually captures the compressibility of the input text'') we propose the local entropy, as a measure of the degree of balance of a text.</p><p>In Section 5, we introduce the formal definitions relative to balancing properties of words, and the definition of local entropy of a word. We show that the maximum of local entropy is reached for words having maximum degree of balancing, and, moreover, the minimum of local entropy is reached for clustered words, i.e. words in which all occurrences of each symbol are grouped together. This shows that the local entropy actually provides a measure of the degree of balance of a word.</p><p>The introduction of local entropy as a measure of balancing of a word, allow us to test the general hypothesis which is at the base of the present paper: the more balanced the input word is, the more local similarity we have after BWT, and the better the compression is.</p><p>Actually, the experimental results reported in Section 6, and the combinatorial results given in Sections 7 and 8, strongly corroborate our hypothesis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Balancing, clustering, and local entropy</head><p>The notion of balance of a word plays a central role in our investigation. Informally, a word w is balanced if each symbol occurs ''equally spaced'' in the word. The most tight situation occurs when the distance between two consecutive occurrences of a given symbol is constant throughout the word. Such words are called constant gap words.</p><p>We recall that an infinite sequence s is constant gap if, for any letter σ ∈ A, there exists a constant q(σ ) such that the number of letters between two occurrences of successive letter σ in s is q(σ ). It is obvious that infinite constant gap words are periodic. A finite word w is constant gap if the infinite word w ω is constant gap. So the notion of constant gap word is invariant by conjugacy and adapts to the notion of circular word. For instance, abac is a constant gap word and ababc is not a constant gap word. The unique primitive constant gap word on a binary alphabet is of the form ab. Whereas, on an arbitrary alphabet, the structure of constant gap words is to a large extent unknown (cf. <ref type="bibr" target="#b0">[1]</ref>). In particular, given the distribution of letters (i.e. the number of occurrences of each letter), the problem to decide whether there exists a constant gap word with such distribution is NP-complete <ref type="bibr" target="#b3">[4]</ref>.</p><p>Constant gap words are known to be at the root of a more general class of words called balanced words. More precisely, a finite or infinite word is balanced if, for any two of its factors u, v with |u| = |v|, we have ||u| a − |v| a | ≤ 1 for any letter a ∈ A, where |u| a denotes the number of distinct occurrences of the letter a in the factor u. Hence a word is balanced if the number of a's in each of u and v differs by at most 1. A finite word is circularly balanced if all its conjugates are balanced. Let denote by B the set of the circularly balanced finite words, so u ∈ B if and only if u ω is balanced. For instance, the word w = abacbabdabaebabcabadbabe is a circularly balanced word. This example also shows that there exist circularly balanced words that are not constant gap.</p><p>In the case of binary alphabet, balanced sequences correspond to Sturmian words, a family of words widely investigated in Combinatorics on Words (cf. <ref type="bibr" target="#b25">[26]</ref>). Whereas, in the case of more than two-letter alphabets, balanced words appear in the statement of the Fraenkel conjecture (cf. <ref type="bibr" target="#b14">[15]</ref>). As a direct consequence of a result of Graham, one can prove that balanced sequences on a set of letters having different frequencies must be periodic (cf. <ref type="bibr" target="#b18">[19,</ref><ref type="bibr" target="#b40">41]</ref>). The Fraenkel conjecture states that the unique solution (up to a permutation of letters) of balanced word on each the |A| = k ≥ 3 letters with all distinct frequencies of letters is</p><formula xml:id="formula_3">(FR k ) ω = (FR k−1 kFR k−1 ) ω where FR 3 = 1213121. The sequence (FR k ) ω is the Fraenkel sequence.</formula><p>This conjecture is true for k = 3, 4, 5, 6 (cf. <ref type="bibr" target="#b38">[39,</ref><ref type="bibr" target="#b39">40]</ref>). The problem of characterizing balanced words over any alphabet has been developed by Altman et al. in <ref type="bibr" target="#b0">[1]</ref> in the field of optimal routing in queuing networks. We refer the interested readers to Vuillon <ref type="bibr" target="#b40">[41]</ref>, for a survey and the references about balanced words.</p><p>Our idea is that one obtains a more compressible string as output of BWT if its input is very close to be balanced. The balanced words can be considered as one of the extremal cases of the ''phenomenon'' that we study. The opposite extremal case is represented by the clustered words.</p><p>We say that the word w is a clustered word if the number of runs (i.e. consecutive occurrences of the same symbol) of the circular word [w] is equal to the size of alphabet. For instance, the words ddddddccccaaaaabbb and ccddddaaaaaabbbcc are two clustered words.</p><p>As a tool to measure the degree of balance of a word, we use the ''Local Entropy'' statistic (for shortly, LE) based on Distance Coding. Distance Coding (DC) (cf. <ref type="bibr" target="#b15">[16,</ref><ref type="bibr" target="#b22">23]</ref>) is an encoding procedure which is relatively little-known, probably because it was originally described only on a Usenet post <ref type="bibr" target="#b5">[6]</ref>.</p><p>We define the distance between two characters as the number of character between them (so the distance is zero if the two characters are consecutive) and we give a circular version of the Distance Coding in the following way: for each character σ , DC finds its circular previous occurrence and outputs the circular distance to it, that is DC encodes the character σ with an integer equal to the number of characters encountered since the circular previous occurrence of the symbol σ .</p><p>According to this definition and for our purpose, we need to know neither the starting point of DC nor the starting position of the first occurrence of each symbol. Given a word w, we denote by dc(w) the output of DC. It is a (circular) word of non-negative integers.</p><p>Example 5.1. In this example, we compute the distance coding of the word w.</p><formula xml:id="formula_4">w = a c b c a a b dc(w) = 1 4 2 1 3 0 3.</formula><p>Given a word w of length n, the Local Entropy on Distance Coding is defined as follows.</p><formula xml:id="formula_5">LE(w) = 1 n n − i=1 log(dc(w)[i] + 1) where dc(w)[i] denotes the ith symbol in dc(w). That is, LE(w)</formula><p>is the sum of the logarithms of the distance coding values plus 1 divided by the length n. We add the +1 in the logarithm so that a repeating symbol will contribute 0 to the sum. For example, for the word aa the DC value of the second a is 0. Moreover, when there is only one occurrence of the symbol σ , DC outputs n − 1.</p><p>Remark 5.2. The Local Entropy on Distance Coding was used by <ref type="bibr" target="#b22">[23]</ref> for the first time. The concept of the ''Local Entropy'' statistic was implicitly considered by Bentley et al. <ref type="bibr" target="#b4">[5]</ref> as well as by Manzini <ref type="bibr" target="#b28">[29]</ref>. In particular, they defined the local entropy on Move-to-Front (for shortly, MTF). We recall that MTF keeps the list of the characters of the alphabet and stores each character in the input by outputting its position in the list, then moves it in the front of the list. Therefore, MTF is the same as DC, except that instead of counting the number of characters (with repeats) between two consecutive occurrences of σ , it counts the number of distinct symbols. We denote by mtf (w) the output of MTF applied to a word w. Given a word w, one has:</p><formula xml:id="formula_6">LE MTF (w) = 1 n n − i=1 log(mtf (w)[i] + 1)</formula><p>where mtf (w)[i] denotes the ith symbol in mtf (w). We observe that mtf (w)[i] is less than or equal to dc(w)[i], for any i, so one has that LE MTF (w) ≤ LE(w).</p><p>In order to prove the bounds of LE, we recall that the order-zero empirical entropy (cf. <ref type="bibr" target="#b29">[30]</ref>) of the word w on A = {a 1 , a 2 , . . . , a k } of length n is defined as</p><formula xml:id="formula_7">H 0 (w) = k − i=1 n i n log n n i<label>(3)</label></formula><p>where n i denotes the number of occurrences of the letter a i in w. The value nH 0 (w), represents the output size of an ideal compressor which uses log n n i bits for coding the symbol a i . It is well known that this is the maximum compression we can achieve using a uniquely decodable code in which a fixed codeword is assigned to each alphabet symbol.</p><p>The following theorem is a refinement (cf. Remark 5.4) of a result in <ref type="bibr" target="#b4">[5]</ref>. Proof. We suppose that w = b 1 b 2 · · · b n is a word on A = {a 1 , a 2 , . . . , a k } and each symbol a i occurs n i times in w. Given a symbol a i ∈ A, we define Γ a i (w) as follows:</p><formula xml:id="formula_8">Γ a i (w) = − j:b j =a i log(dc(w)[j] + 1). So LE(w) = 1 n ∑ k i=1 Γ a i (w)</formula><p>. Clearly, the sum of the DC values plus 1 relative to symbol a i is n. So, we can write: −</p><formula xml:id="formula_9">j:b j =a i (dc(w)[j] + 1) = n.</formula><p>First we prove that for any word w on A, one has that LE(w) ≤ H 0 (w). Let us recall that the Jensen inequality states that, if f is a concave function, for any x 1 , x 2 , . . . , x h &gt; 0 and y 1 , y 2 , . . . , y h &gt; 0 such that ∑ h j=1 y j = 1, one has ∑ h j=1 y j f (x j ) ≤ f ( ∑ h j=1 y j x j ). Since log is a concave function, by taking in the previous equality f = log, h = n i , y j = 1 n i and x j = dc(w)[j] + 1, one has:</p><formula xml:id="formula_10">1 n i Γ a i (w) = − j:b j =a i 1 n i log(dc(w)[j] + 1) ≤ log   1 n i − j:b j =a i (dc(w)[j] + 1)   = log n n i . Hence Γ a i (w) ≤ n i log n n i and LE(w) = 1 n k − i=1 Γ a i (w) ≤ 1 n k − i=1 n i log n n i = H 0 (w). Now, we prove that LE(w) = H 0 (w) if and only if w is a constant gap word. (if). LE(w) = H 0 (w) means that Γ a i (w)</formula><p>, for each i = 1, . . . , k, reaches its maximum value. By the arithmetic-geometric means inequality, if one wishes to maximize Γ a i (w), which is the sum of logarithms of n i elements, under the constraint that the sum of these elements is n, then one needs to pick all the elements to be equal to n/n i . This means that dc(w)[j] + 1 = n n i is a constant, i.e. w is a constant gap word.</p><p>(only if). Let w be a constant gap word. From definition, in the constant gap words, the distance between any two consecutive occurrences of a given symbol a i ∈ A is constant throughout the word, in particular the DC values plus 1 relative to symbol a i is n n i . We observe that n n i is an integer and for each occurrence of the letter a i , we have the same n n i . Thus, we have that:</p><formula xml:id="formula_11">Γ a i (w) = n i log n n i . Hence LE(w) = 1 n k − i=1 Γ a i (w) = 1 n k − i=1 n i log n n i = H 0 (w).</formula><p>Remark 5.4. Theorem 5.3, in particular, states that LE(w) ≤ H 0 (w). We observe that a similar bound has been proved in <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b22">23,</ref><ref type="bibr" target="#b29">30]</ref> by considering the words in linear (and not circular) way. Bentley et al. <ref type="bibr" target="#b4">[5]</ref> define the local entropy on MTF ignorefirst and define mtf ignorefirst (w) to be a string which is identical to mtf (w) except that they omit the integers representing the first occurrence of each symbol (so mtf ignorefirst (w) is of length less than n). Hence, they obtain that, for any word w, LE MTF ignorefirst (w) ≤ H 0 (w). They ignore the first occurrence of each symbol, because if it is not omitted then we have to add the factor k log k, where k is the cardinality of alphabet (cf. <ref type="bibr" target="#b22">[23,</ref><ref type="bibr" target="#b29">30]</ref>). In this way they obtain the bound LE MTF (w) ≤ H 0 (w)+k log k.</p><p>In order to obtain the lower bound of the Local Entropy, for any word w on A = {a 1 , a 2 , . . . , a k } of length n, we define</p><formula xml:id="formula_12">G(w) = 1 n k − i=1 log(n − n i + 1)</formula><p>where n i denotes the number of occurrences of the letter a i in w.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 5.5. For any word w, LE(w) ≥ G(w). Moreover the equality holds if and only if w is a clustered word.</head><p>Proof. We suppose that w = b 1 b 2 · · · b n is a word on A = {a 1 , a 2 , . . . , a k } and each symbol a i occurs n i times in w. We first prove that LE(w) = G(w) if and only if w is a clustered word. Given a symbol a i ∈ A, we recall that Γ a i is defined as follows:</p><formula xml:id="formula_13">Γ a i (w) = − j:b j =a i log(dc(w)[j] + 1).</formula><p>Clearly, the sum of the DC values plus 1 relative to symbol a i is n.</p><p>(only if). We suppose that w is a clustered word, i.e. for any i, 1 ≤ i ≤ k, all occurrences of the symbol a i are grouped together. When we apply DC to the word w, we have that, for each i, the first occurrence of the symbol a i is coded by the integer n − n i , whereas the other occurrences of a i are coded by the integer 0. It follows that Γ a i (w) = log(n − n i + 1).</p><p>Hence</p><formula xml:id="formula_14">LE(w) = 1 n k − i=1 log(n − n i + 1) = G(w) (if).</formula><p>We know that if w is a clustered word then Γ a i (w) = log(n − n i + 1). Now we consider a word w ′ which is not a clustered word, it follows that w ′ contains at least two runs of a symbol a i . We suppose that w ′ has exactly m runs of the symbol a i , with m &gt; 1. Now, we compute Γ a i (w ′ ). By ordering the runs, denote by r j the distance between the first occurrence of a i in the run of order j and the ''circular'' previous occurrence of a i . We observe that r j &gt; 0, for all j, and ∑ m j=1 r j − n i . Thus</p><formula xml:id="formula_15">Γ a i (w ′ ) = m − j=1 log(r j + 1) = log m ∏ j=1 (r j + 1).</formula><p>We suppose now, by contradiction, that Γ a i (w) &gt; Γ a i (w ′ ), hence</p><formula xml:id="formula_16">log(n − n i + 1) &gt; m − j=1 log(r j + 1) = log m ∏ j=1 (r j + 1).</formula><p>Because log is an increasing function then</p><formula xml:id="formula_17">n − n i + 1 &gt; m ∏ j=1 (r j + 1).</formula><p>From the arithmetic-geometric means inequality, we have that</p><formula xml:id="formula_18">m ∏ j=1 (r j + 1) ≥ m − j=1 (r j + 1) = n − n i + m.</formula><p>Hence, it follows that</p><formula xml:id="formula_19">n − n i + 1 &gt; m ∏ j=1 (r j + 1) ≥ m − j=1 (r j + 1) = n − n i + m.</formula><p>Since m &gt; 1, it follows that n − n i + 1 &lt; n − n i + m, which leads to a contradiction, hence Γ a i (w) &lt; Γ a i (w ′ ). This contradiction proves that the value 1 n ∑ k i=1 log(n − n i + 1) is only reached by the clustered words. From this proof, it follows that, for any word w, one has LE(w) ≥ G(w).</p><p>The following theorem collects together the results that were established. Theorem 5.6. For any word w ∈ A * ,</p><formula xml:id="formula_20">• G(w) ≤ LE(w) ≤ H 0 (w) • LE(w) = H 0 (w) if</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>and only if w is a constant gap word. • LE(w) = G(w) if and only if w is a clustered word.</head><p>From this theorem, we note that the local entropy is useful to measure the degree of balance of a word. In particular, we can say that balanced words and clustered words correspond to the two extremal cases of the same ''phenomenon'', that is measured by local entropy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Experimental results</head><p>We have introduced in previous section the notion of local entropy and we have proved that it provides a measure of the degree of balance of a word. So we are now able to perform some experiments on ''real'' text in order to evaluate the clustering effect of BWT, and, in particular, to test the hypothesis at the base of the present paper: the more balanced the input word is, the more local similarity we have after BWT, and the better the compression is.</p><p>For any word w ∈ A * , we introduce the following measures:</p><formula xml:id="formula_21">δ(w) = H 0 (w) − LE(w) H 0 (w) − G(w) and τ (w) = LE(w) − G(w) H 0 (w) − G(w) .</formula><p>By Theorem 5.6, if a word w has high degree of balance, we have that δ(w) is close to 0. On the contrary, strong local similarity in a word w corresponds to a value of τ (w) close to 0. Thus, by using δ(w) and τ (w), we test, in a quantitative way, on ''real'' text w, the following hypothesis:</p><p>(i) the more balanced the input word w is, the more local similarity is after BWT; (ii) the more local similarity is found in the BWT of a word w, the better the compression is. <ref type="table">Table 1</ref> The column denoted by ''Size'' represents the uncompressed size of the input text. The column denoted by H 0 (w) represents the order-zero entropy. The columns denoted by bst(w) and gzip(w) represent the compressed size of BST and Gzip, respectively. The column denoted by ''Diff %'' represents the difference between the space savings of BST and the space savings of Gzip. The columns denoted by δ(w) and τ (bwt(w)) represent our measures. To evaluate the efficiency of the BWT-based compressor, we compare BWT-based compressor against dictionary-based compressor, in particular, we use a compressor based on ''LZ'' method (see <ref type="bibr" target="#b41">[42,</ref><ref type="bibr" target="#b42">43]</ref>). The LZ family of methods became popular because it gave excellent compression.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>File name Size</head><formula xml:id="formula_22">H 0 (w) bst(w) gzip(w) Diff % δ(w) τ (bwt(w))</formula><p>For experiments, we use ''MtfRleMth'' algorithm implemented in Booster Library (BST) (see <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b12">13]</ref>) to compress the text by using BWT, where ''MtfRleMth'' algorithm executes the same steps as Bzip2 <ref type="bibr" target="#b36">[37]</ref> operating on the whole input instead that on fixed length blocks. We denote by bst(w) the output of BST on w. We use the Gzip compressor, with ''compress better'' option, to compress the text with the ''LZ'' method. We denote by gzip(w) the output of Gzip on w.</p><p>As a testbed, we use some files included in ''Large Corpus'' <ref type="bibr" target="#b1">[2]</ref>, in ''Pizza &amp; Chili Corpus'' <ref type="bibr" target="#b9">[10]</ref> and in ''Manzini Corpus'' <ref type="bibr" target="#b27">[28]</ref>. We use these files instead of the classical Calgary corpus since this corpora contains only relatively small files which provide a poor indication of the behavior of our measures.</p><p>In the experiments we also compute the space savings. The space savings of a compressor C applied to a text w is the reduction in size relative to the uncompressed size |w|. So, if |C(w)| is the compressed size of w after that the compressor C has been applied to w, the space savings of C on w is defined as follows:</p><formula xml:id="formula_23">Space Savings(C (w)) =  1 − |C(w)| |w|  * 100.<label>(4)</label></formula><p>The experiments reported in <ref type="table">Table 1</ref> corroborate our hypothesis. In particular, they show that, when δ(w) is less than 0.23, then τ (bwt(w)) is less than 0.27, in agreement with hypothesis (i). Moreover, when τ (bwt(w)) is less than 0.27, then the BWT-based compressor has good performances (by ''good performance'' here we mean that BST is more advantageous than Gzip by percentage greater than 5%), and this is in agreement with hypothesis (ii).</p><p>Remark that the experiments reported suggest, as a practical application, a method to establish when to use a BWTbased compressor is more advantageous than to use a Gzip. We say that BST is better than Gzip on a text w, if the difference between the space savings of BST on w and the space savings of Gzip on w is at least 5%. The effectiveness of this application is based on the fact that the computation of δ(w) is actually a fast test for the choice between BWT-based compressor and Gzip compressor. For instance, from the results reported in <ref type="table">Table 1</ref>, we can state that, when δ(w) is less than 0.23, then to use a BWT compressor is more advantageous than to use a Gzip.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">Balancing and clustering on two letters alphabets</head><p>The experimental results reported in previous section corroborate the hypothesis that the more balanced the input word is, the more local similarity one has after BWT. From the theoretical point of view, a sound confirmation of such clustering effect of BWT is given, in the case of a binary alphabet, by a result proved in <ref type="bibr" target="#b26">[27]</ref>. In this paper, the authors give a full characterization of words on a binary alphabet {a, b} having the maximum amount of clustering under application of BWT, i.e. words w such that bwt(w) = b p a q , for some p, q &gt; 0. Remark that, if a &lt; b, the words of the form a q b p cannot be obtained as output of BWT.</p><p>It turns out that the family of words w such that bwt(w) = b p a q , for some p, q &gt; 0, corresponds to the family of (circularly) balanced words. Observe that, in the binary case, the subfamily of constant gap words is trivial: indeed the only constant gap words over {a, b} are the powers of the word ab.</p><p>It is interesting to remark that, in the binary case, balanced words are closely related to Sturmian words, that were introduced by Morse and Hedlund (cf. <ref type="bibr" target="#b30">[31]</ref>). Sturmian words can be defined in several different but equivalent ways (cf. <ref type="bibr" target="#b25">[26,</ref><ref type="bibr">Chapter 2]</ref>). Some definitions are ''combinatorial'' and others of ''geometrical'' nature. From the ''geometrical'' point of view, the Sturmian words code discrete lines. In particular, a Sturmian word can be defined by considering the intersections with a squared-lattice of a semiline having a slope which is an irrational number. A vertical intersection is denoted by the letter a, a horizontal intersection by b and the intersection with a corner by ab or ba (cf. <ref type="bibr" target="#b25">[26,</ref><ref type="bibr" target="#b26">27]</ref>). If the semiline starts from the origin the corresponding Sturmian words is called characteristic. Characteristic Sturmian words can be constructed by a family of finite words called standard words, in the sense that every characteristic word is the limit of a sequence of standard words (cf. <ref type="bibr" target="#b25">[26]</ref>).</p><p>Classical examples of Standard words are the Fibonacci words f i , i ≥ 0, defined as follows: f 0 = b, f 1 = a, and f n+1 = f n f n−1 , where n ≥ 1. A classical example of the characteristic Sturmian word is the infinite Fibonacci word obtained as the limit of the sequence of Fibonacci words.</p><p>The formal definition of Standard words can be considered as a generalization of the definition of the Fibonacci words.</p><p>Let d 1 , d 2 , . . . , d n , . . . be a sequence of natural numbers, with d i ≥ 0 and d i &gt; 0 for i = 2, . . . , n, . . .. Consider the following sequence {s n } n≥0 of words over the binary alphabet {a, b}: s 0 = b, s 1 = a, and s n+1 = s d n n s n−1 for n ≥ 1. The sequence {s n } n≥0 converges to a limit s that is a characteristic Sturmian word. Moreover any characteristic Sturmian word is obtained in this way. The sequence {s n } n≥0 is called the approximating sequence of <ref type="figure" target="#fig_0">s and (d 1 , d 2 , . . . , d n , . . .)</ref> is the directive sequence of s. Each finite word s n in the sequence is called a standard word. It is univocally determined by the (finite) directive sequence (d 1 , d 2 , . . . , d n−1 ). For instance, the infinite Fibonacci word f is the characteristic Sturmian word whose directive sequence is [1, 1, 1, . . .]. The characterization proved in <ref type="bibr" target="#b26">[27]</ref> (cf. also <ref type="bibr" target="#b19">[20]</ref>) is given by the following theorem. Theorem 7.1. Let w a word over the alphabet A = {a, b}. Then following conditions are equivalent: 1. bwt(w) = b p a q , for some p, q &gt; 0; 2. w is a conjugate of a power of a standard word; 3. w is circularly balanced.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.">The case of an arbitrary alphabet</head><p>In this section, we study the words on larger alphabets with the aim to generalize the result over binary alphabets stated in Theorem 7.1. We show that, when the words are over alphabets of more than two letters, there is no more a complete equivalence between words having clusterized Burrows-Wheeler transform and the balancing. The study of their relationship in the general case necessitates to introduce some supplementary notions from Combinatorics on Words and, in particular, a generalization of the notion of standard word and the notion of palindromic richness. A preliminary version of the results presented in this section appears in <ref type="bibr" target="#b34">[35]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.1.">Words with simple Burrows-Wheeler Transforms</head><p>A first generalization of the words w such that bwt(w) = b p a q has been given by Simpson and Puglisi in <ref type="bibr" target="#b37">[38]</ref>. They define the set S of the words w over a totally ordered alphabet A = {a 1 , a 2 , . . . , a k }, with a 1 &lt; a 2 &lt; · · · &lt; a k , for which bwt(w) = a n k k a n k−1 k−1 · · · a n 2 2 a n <ref type="bibr">1 1</ref> for some non-negative integers n 1 , n 2 , . . . , n k . They called these words: words with simple Burrows-Wheeler Transforms and here such words are denoted by simple BWT words.</p><p>In the notion of simple BWT word, the order used to perform the BWT is the inverse of the order in which the symbols appears in the output of BWT. So the set S of simple BWT words is a proper subset of the set of words whose BWT is a clustered word. Remark further that, in the binary case, the set of simple BWT words coincides with the set of words whose BWT is a clustered word. Indeed, the unique clustered words w over {a, b} with a &lt; b, which we can obtain by applying the BWT is of the form b p a q , where p is the number of occurrences of the letter b and q is the number of occurrences of the letter a in the word w. Whereas, when the words are over alphabets of more than two letters, there exist words whose BWT are clustered words which are not simple BWT. For instance, the BWT of the word w = abacad over {a, b, c, d} with a &lt; b &lt; c &lt; d, is a clustered word, indeed we have that bwt(w) = dbca 3 . However it is not simple.</p><p>A characterization of words having simple Burrows-Wheeler transform in the case of three letters alphabets has been given by Simpson and Puglisi in <ref type="bibr" target="#b37">[38]</ref>, where they also report some preliminary results in the general case.</p><p>The following result provides a characterization of the words in S in terms of the Burrows-Wheeler matrix M. For completeness, we report the proof, as given in <ref type="bibr" target="#b35">[36]</ref>. We denote by R the matrix obtained from M by a rotation of 180 • . Notice that the rows of R correspond to the conjugates ofw. 1. For all i, j = 1, . . . , n, i ̸ = j, the character L R [i] is followed by F R [i] in the j-th row of R. 2. For each character α, the i-th occurrence of α in F R corresponds to the i-th occurrence of α in L R .</p><p>As a consequence, given F R and L R , one can uniquely reconstruct the matrix R by the same procedure used for reversing BWT <ref type="figure">.  M  a a b r a c  a b r a c a  a c a a b r  b r a c a a  c a a b r a  r a c a a b   R  b a a c a r  a r b a a c  a a c a r b  r b a a c a  a c a r b a  c a r b a a   Fig. 2</ref>. The matrix M and R of the sequence w = abraca.</p><formula xml:id="formula_24">Theorem 8.2. A word w ∈ S if and only if M = R.</formula><p>Proof. Let w be a word in S and let M be the corresponding Burrows-Wheeler matrix. Since bwt(w) = L M = a n k k a n k−1 k−1 · · · a n 2 2 a  Conversely, if M = R, it follows trivially that bwt(w) = a n k k a n k−1 k−1 · · · a n 2 2 a n 1 1 , i.e. w ∈ S. For instance, in <ref type="figure">Fig. 2</ref>, M and R are distinct and the word w = abraca does not belong to S. We mention that a result equivalent of Theorem 8.2 has been obtained, with a different proof, by Simpson and Puglisi <ref type="bibr" target="#b37">[38,</ref><ref type="bibr">Theorem 4.3]</ref>. They also derive the following corollary (cf. <ref type="bibr" target="#b37">[38,</ref><ref type="bibr">Corollary 4.4]</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Corollary 8.3. Each conjugate of w ∈ S has the two palindrome property.</head><p>For alphabet of cardinality greater than two, the equivalence of 1 and 3 of Theorem 7.1 is no longer true. For example, there exist circularly balanced words that do not have simple BWT, for instance v = ababc (in fact bwt(v) = cbaab) and there exist unbalanced words having simple BWT, for instance u = bbacacacaca (in fact bwt(u) = c 4 b 2 a 5 ). Moreover, in order to study the relationship between the conditions 1, 2 and 3 of Theorem 7.1 in the case of larger alphabets, we need to extend the notion of (finite) standard word.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.2.">Finite epistandard words</head><p>Finite standard words are particular prefixes of Sturmian infinite words. In order to extend the notion of standard words to larger alphabets we need to generalize the notion of Sturmian word. A first generalization of Sturmian words to an arbitrary alphabet is the family of Arnoux-Rauzy sequences (cf. <ref type="bibr" target="#b33">[34,</ref><ref type="bibr" target="#b2">3]</ref>). Another generalization of Sturmian sequences, which also is a slight generalization of Arnoux-Rauzy sequences, is the set of infinite episturmian sequences. These sequences are not necessarily balanced, nor are they necessarily aperiodic (cf. <ref type="bibr" target="#b11">[12]</ref>). An infinite word t ∈ A ω is episturmian if F (t) is closed under reversal and t has at most one right (or equivalently left) special factor of each length. Moreover, an episturmian word is standard if all of its left special factors are prefixes of it. Sturmian words are exactly the aperiodic episturmian words over a 2-letter alphabet. For a recent survey on the theory of episturmian words see <ref type="bibr" target="#b16">[17]</ref>.</p><p>In order to give the formal definition we need some notations. The palindromic right-closure w (+) of a finite word w is the (unique) shortest palindrome having w as a prefix (see <ref type="bibr" target="#b10">[11]</ref>). For example, (abcd) <ref type="bibr">(+)</ref> = abcdcba. The iterated palindromic closure function <ref type="bibr" target="#b20">[21]</ref>, denoted by Pal, is defined recursively as follows. Set Pal(ε) = ε and, for any word w and letter x, define Pal(wx) = (Pal(w)x) (+) . For example, Pal(abc) = (Pal(ab)c) <ref type="bibr">(+)</ref> = (abac) (+) = abacaba. The following definition has been given by Droubay et al. in <ref type="bibr" target="#b11">[12]</ref>. (iii) There exists an infinite sequence u 1 = ε, u 2 , u 3 , . . . of palindromes and an infinite sequence ∆(s) = x 1 x 2 · · ·, x i ∈ A, such that u n+1 = (u n x n ) (+) for all n ≥ 1 and that all the u n are prefixes of s.</p><p>∆(s) is called the directive sequence of the standard episturmian sequence s.</p><p>Example 8.5. We consider the directive sequence ∆(s) = (abc) ω . We obtain the following sequence:</p><formula xml:id="formula_25">s = abacabaabacababacabaabacabacabaabaca · · · ,</formula><p>where each palindromic prefix Pal(x 1 · · · x n ) is followed by an underlined letter x n . This sequence is called Tribonacci sequence (or Rauzy word <ref type="bibr" target="#b33">[34]</ref>). A standard episturmian sequence s can also be obtained by the Rauzy rules (see <ref type="bibr" target="#b11">[12,</ref><ref type="bibr">Theorem 8]</ref>), where if ∆(s) = a i 1 a i 2 a i 3 · · · then the sequence of the labels of the applied Rauzy rules is i 1 , i 2 , i 3 , . . .. We recall that a sequence (R n ) n∈N of Rauzy k-tuples R n = (A <ref type="bibr" target="#b0">(1)</ref> n , A (2) n , . . . , A (k) n ) is defined as follows: R 0 = (a 1 , a 2 , . . . , a k ), R n+1 is obtained from R n by applying one of the Rauzy rules, labelled 1, 2, . . . , k, with the rule i ∈ <ref type="bibr">[1, k]</ref> defined by</p><formula xml:id="formula_26">A (i) n+1 = A (i) n A (j) n+1 = A (i) n A (j) n for j ∈ [1, k]\{i}.</formula><p>There exists a unique (infinite) sequence u such that every prefix of u is a prefix of infinitely many of the A (q) n , n ∈ N, q ∈ <ref type="bibr">[1, k]</ref>. So any Rauzy sequence (R n ) n∈N defines an infinite standard episturmian sequence. Definition 8.7. A word w ∈ A * is called finite epistandard if it is the element of a k-tuples R n , for some n ≥ 1.</p><p>It is easy to see that, in the case of binary alphabets, the notion of finite epistandard word corresponds to the notion of (finite) standard word given in Section 7. We observe that the notion of finite epistandard word is also connected to the notion of epichristoffel word defined in <ref type="bibr" target="#b31">[32]</ref>.</p><p>Let us remark that a finite epistandard word is primitive. In the sequel we will denote by E P the set of words that are a power of a conjugate of a finite epistandard word. From previous construction and Remark 8.6 follows lemma stated below.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 8.8. A periodic standard episturmian sequence is of the form t ω , where t is a finite epistandard word.</head><p>Contrary to the case of two letters alphabet, a standard episturmian sequence over an alphabet of size greater than two is not in general balanced. For example the word w = aadaacaad is epistandard, but it is not balanced, whereas the word w = abcabdabcabe is balanced, but it is not epistandard. The following important theorem of Paquin and Vuillon (cf. <ref type="bibr" target="#b32">[33]</ref>)</p><p>gives a characterization of balanced standard episturmian sequences. Theorem 8.9. Any balanced standard episturmian sequence s over an alphabet with 3 or more letters is of the form s = t ω , where t is a finite epistandard word that belongs to one of the following three families (up to letter permutation):</p><formula xml:id="formula_27">(i) t = pa 2 , with p = Pal(a m 1 a k a k−1 · · · a 3 ), where k ≥ 3 and m ≥ 1; (ii) t = pa 2 , with p = Pal(a 1 a k a k−1 · · · a k−ℓ a 1 a k−ℓ−1 a k−ℓ−2 · · · a 3 ), where 0 ≤ ℓ ≤ k − 4 and k ≥ 4; (iii) t = Pal(a 1 a k a k−1 · · · a 2 ), where k ≥ 3.</formula><p>We observe that the sequences of the last family of Theorem 8.9 correspond to the Fraenkel sequence. Since s is periodic and balanced, as a direct consequence, one can prove the following corollary. In order to state a relation among the notions of simple BWT words, finite epistandard word and circularly balanced word, we need a further definition, that of (palindromic) rich word, which is introduced in next subsection.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.3.">Rich words</head><p>In <ref type="bibr" target="#b11">[12]</ref>, it was proved that any word w of length |w| contains at most |w| + 1 distinct palindromic factors (including the empty word). The episturmian sequences, which include the Sturmian sequences, are ''rich'' in palindromes, in the sense that they contain the maximum number of different palindromic factors. Specifically, in <ref type="bibr" target="#b11">[12]</ref>, it was proved that if an infinite word w is episturmian, then any factor u of w contains exactly |u| + 1 distinct palindromic factors.</p><p>Glen et al. in <ref type="bibr" target="#b17">[18]</ref> introduced and studied rich words, that constitute a new class of finite and infinite words characterized by containing the maximal number of distinct palindromes. More precisely, a finite word w is rich if it has exactly |w| + 1 distinct palindromic factors. A finite or infinite word is rich if all of its factors are rich. Rich words have been recently investigated in several papers (cf. <ref type="bibr" target="#b17">[18,</ref><ref type="bibr" target="#b6">7,</ref><ref type="bibr" target="#b7">8]</ref>). In particular, we refer to <ref type="bibr" target="#b17">[18]</ref> for a complete survey on the subject, including very recent results. We say that a finite word w is circularly rich if the infinite word w ω is rich. We denote by R the set of the circularly rich words.</p><p>We first remark that the set of circularly balanced words over more than two letters alphabets does not coincide with the set of circularly rich words. For example, the word w = bbbbbacaca is circularly rich, but it is not circularly balanced, whereas the word u = abcabdabcabe is circularly balanced, but it is not circularly rich. In order to study the relationship between the circularly rich words and the circularly balanced words, we mention some results from <ref type="bibr" target="#b17">[18]</ref>.</p><p>Theorem 8.11. Recurrent balanced rich infinite words are precisely the balanced episturmian words.</p><p>Since, by Theorems 8.9 and 8.11, recurrent balanced rich infinite words are periodic, the following characterization (cf. <ref type="bibr" target="#b17">[18]</ref>) of rich infinite periodic words is useful. Proposition 8.12. For a finite word w, the following properties are equivalent:</p><p>1. w ω is rich; 2. w 2 is rich; 3. w is the product of two palindromes and all of the conjugates of w (including itself) are rich.</p><p>The following key result, proved in <ref type="bibr" target="#b35">[36]</ref>, relates rich words and words having simple Burrows-Wheeler transform. Theorem 8.13. If the word w belongs to S then w is circularly rich.</p><p>We here observe that the proof of Theorem 8.13 makes use of Proposition 8.12 and of Theorem 8.2 (in particular Corollary 8.3). Indeed, if a word belongs to S, then, by Corollary 8.3, it has the two palindromic property. So, by using statement 3 of Proposition 8.12, in order to prove that the word is circularly rich, we need to prove that all its conjugates are rich. This last step in the proof, which is however long and complex, is the main contribution in <ref type="bibr" target="#b35">[36]</ref>. The following example shows that the converse of Theorem 8.13 is false.</p><p>Example 8.14. The word w = ccaaccb is circularly rich, but bwt(w) = cacccba, hence w / ∈ S.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.4.">Relating previous notions on alphabets of more than two letters</head><p>Now, we show the following relationship:</p><formula xml:id="formula_28">B ∩ R = B ∩ E P = B ∩ S.</formula><p>We observe that the notions of epistandard, circularly balanced and circularly rich word are invariant under letter permutation. On the contrary the property that the word has simple BWT depends on the order of the alphabet. Hence the equivalence that we state between some of these notions holds true up to letter permutation. Proof. We consider the words t of the three families in the form given in Theorem 8.9, and the alphabet order a 1 &lt; a 2 &lt; · · · &lt; a k . In three cases, by the structure of t, we can determine the factor that follows each occurrence of letters of A in each conjugate of t. Then we prove that the letters of the last column L of the Burrows-Wheeler matrix M of t are non-increasing.</p><p>Type (i): t = pa 2 , with p = Pal(a m 1 a k a k−1 · · · a 3 ).</p><p>Each occurrence of letter a k is followed by the factor a m 1 a j with 1 &lt; j &lt; k. Each occurrence of letter a i , with 2 &lt; i &lt; k, is followed by the factor Pal(a m 1 a k · · · a i+1 )a j , with 1 &lt; j &lt; i. The unique occurrence of letter a 2 is followed by the factor Pal(a m 1 a k · · · a 3 ). Finally, each occurrence of letter a 1 is followed either by the factor a h 1 a j (only in the case m &gt; 1), with 1 ≤ h ≤ m − 1, or by the letter a j , with 2 ≤ j ≤ k.</p><p>Type (ii): t = pa 2 , with p = Pal(a 1 a k a k−1 · · · a k−ℓ a 1 a k−ℓ−1 a k−ℓ−2 · · · a 3 ). Each occurrence of letter a k is followed by the factor a 1 a j , with 1 ≤ j &lt; k. Each occurrence of letter a i , with k − ℓ ≤ i ≤ k − 1, is followed by the factor Pal(a 1 a k · · · a i+1 )a j , with 1 ≤ j &lt; i. Each occurrence of letter a k−ℓ−1 is followed by the factor Pal(a 1 a k · · · a k−ℓ a 1 )a j , with 1 &lt; j &lt; k − ℓ − 1. Each occurrence of letter a i , with 2 &lt; i &lt; k − ℓ − 1, is followed by the factor Pal(a 1 a k · · · a k−ℓ a 1 a k−ℓ−1 · · · a i+1 )a j , with 1 &lt; j &lt; i. The unique occurrence of letter a 2 is followed by the factor Pal(a 1 a k a k−1 · · · a k−ℓ a 1 a k−ℓ−1 · · · a 3 ). Finally, each occurrence of letter a 1 is followed either by the factor Pal(a 1 a k · · · a k−ℓ )a j , with 2 ≤ j ≤ k − ℓ − 1, or by letter a j , with 2 ≤ j ≤ k.</p><p>Type (iii): t = Pal(a 1 a k a k−1 · · · a 2 ). Each occurrence of letter a k is followed by the factor a 1 a j , with 1 ≤ j &lt; i, each occurrence of letter a i , with 1 &lt; i &lt; k, is followed by the factor Pal(a 1 a k · · · a i+1 )a j , with 1 ≤ j &lt; i. Finally, each occurrence of letter a 1 is followed either by the factor Pal(a 1 a k · · · a 3 )a 2 or by letter a j with 2 ≤ j ≤ k.</p><p>Clearly, in all cases, the smallest rows (in the lexicographic order) of M end with a k ; moreover the greatest rows end with a 1 . Hence the intermediate rows end with a i for 1 &lt; i &lt; k. Now we consider two conjugates t ′ and t ′′ of t, where the last letter of t ′ , say a i , is greater than the last letter of t ′′ , say a j , where 1 &lt; j &lt; i &lt; k. By the relation a j &lt; a i we derive that t ′ &lt; t ′′ . Indeed, by structure of t, the longest common prefix of t ′ and t ′′ is a palindromic factor with a i+1 as central letter. Moreover such a factor is followed by a letter a h &lt; a i in t ′ and by the letter a i in t ′′ . Since a h &lt; a i , we obtain t ′ &lt; t ′′ .</p><p>Previous results culminate in the following theorem that relates the notions introduced in this section. Theorem 8.16. Let A = {a 1 , a 2 , . . . , a k } be a totally ordered alphabet and let w ∈ A * be a circularly balanced word over A.</p><p>The following statements are equivalent up to a letter permutation:</p><p>(i) w belongs to S; (ii) w is a circularly rich word; (iii) w is a conjugate of a power of a finite epistandard word. Example 8.17. The circularly balanced word w = adacadabadacada belongs to S, is a finite epistandard word and is circularly rich.</p><p>The following examples show that the notions coincide only under assumption of balancing.</p><p>Example 8.18. The non-circularly balanced word w = bbbbbacaca belongs to S (clearly it is circularly rich), but it is not a finite epistandard word. The non-circularly balanced word w = (adac) 2 adab(adac) 2 ada(adac) 2 adab(adac) / ∈ S and it is a finite epistandard word.</p><p>The following example shows that there exist non-circularly balanced words which belong to E P ∩ S. Example 8. <ref type="bibr" target="#b18">19</ref>. The non-circularly balanced word w = aadaacaad is a finite epistandard word and belongs to S.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>The matrix M of the word w = abraca.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 1 .</head><label>1</label><figDesc>Fig. 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Proposition 3. 1 .</head><label>1</label><figDesc>The following properties hold: 1. For all i = 1, . . . , n, i ̸ = I, the character L[i] is followed in the original string by F [i]; 2. For each character α, the i-th occurrence of α in F corresponds to the i-th occurrence of α in L.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Theorem 5. 3 .</head><label>3</label><figDesc>For any word w, LE(w) ≤ H 0 (w). Moreover the equality holds if and only if w is a constant gap word.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Remark 8. 1 .</head><label>1</label><figDesc>By construction, the properties 1 and 2 stated in Proposition 3.1 for the matrix M hold true also for the matrix R:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head></head><label></label><figDesc>one has L M =  F M . Since, by definition of R, L R =  F M and F R =  L M , it follows that L R = L M and F R = F M .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head></head><label></label><figDesc>Remark 8.1, M = R.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Definition 8. 4 .</head><label>4</label><figDesc>An infinite sequence s is standard episturmian if it satisfies one of the following equivalent conditions: (i) For every prefix u of s, u (+) is also prefix of s. (ii) Every leftmost occurrence of a palindrome in s is a central factor of a palindromic prefix of s.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Remark 8. 6 .</head><label>6</label><figDesc>An episturmian sequence s is periodic if and only if |Ult(∆(s))| = 1 (see [22, Proposition 2.9]).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Corollary 8 .</head><label>8</label><figDesc>10. A finite epistandard word is circularly balanced if and only if it belongs to one of the three families described inTheorem 8.9.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Theorem 8. 15 .</head><label>15</label><figDesc>Any conjugate of a word in one of the three families defined in Theorem 8.9 belongs (up to letter permutation) to the set S.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head></head><label></label><figDesc>Proof. (i) ⇒ (ii): it the Theorem 8.13. (ii) ⇔ (iii): it follows from Theorem 8.11 and Lemma 8.8. (iii) ⇒ (i): it follows from Theorem 8.15.</figDesc></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>The authors thank the anonymous referees for helpful comments that improved the presentation of this paper.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Arie Hordijk, Balanced sequences and optimal routing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eitan</forename><surname>Altman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Bruno</forename><surname>Gaujal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="752" to="775" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">The Canterbury corpus home page</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ross</forename><surname>Arnold</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Tim</forename><surname>Bell</surname></persName>
+		</author>
+		<ptr target="http://corpus.canterbury.ac.nz" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Représentation géométrique de suites de complexité 2n + 1</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pierre</forename><surname>Arnoux</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Gérard</forename><surname>Rauzy</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1991" />
+			<publisher>Bulletin de la Société Mathématique de France. Soc. Math. France</publisher>
+			<biblScope unit="volume">119</biblScope>
+			<biblScope unit="page" from="199" to="215" />
+			<pubPlace>Paris</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Minimizing service and operation costs of periodic scheduling</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amotz</forename><surname>Bar-Noy</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Randeep</forename><surname>Bhatia</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Joseph</forename><forename type="middle">(</forename><surname>Seffi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">)</forename><surname>Naor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Baruch</forename><surname>Schieber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematics of Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="518" to="544" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A locally adaptive data compression scheme</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jon</forename><forename type="middle">Louis</forename><surname>Bentley</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Daniel</forename><forename type="middle">D</forename><surname>Sleator</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Robert</forename><forename type="middle">E</forename><surname>Tarjan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Victor</forename><forename type="middle">K</forename><surname>Wei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Commun. ACM</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="320" to="330" />
+			<date type="published" when="1986" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Edgar</forename><surname>Binder</surname></persName>
+		</author>
+		<title level="m">Distance coder. Usenet group: comp.compression</title>
+		<imprint>
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A connection between palindromic and factor complexity using return words</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Michelangelo</forename><surname>Bucci</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alessandro</forename><forename type="middle">De</forename><surname>Luca</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amy</forename><surname>Glen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Luca</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Zamboni</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances In Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="60" to="74" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">A new characteristic property of rich words</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Michelangelo</forename><surname>Bucci</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alessandro</forename><forename type="middle">De</forename><surname>Luca</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amy</forename><surname>Glen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Luca</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Zamboni</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">410</biblScope>
+			<biblScope unit="page" from="2860" to="2863" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<monogr>
+		<title level="m" type="main">A block sorting data compression algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Michael</forename><surname>Burrows</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><forename type="middle">J</forename><surname>Wheeler</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994" />
+		</imprint>
+		<respStmt>
+			<orgName>DIGITAL System Research Center</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical report</note>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pizza&amp;amp;chili</forename><surname>Corpus</surname></persName>
+		</author>
+		<ptr target="http://pizzachili.di.unipi.it/texts.html" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Aldo</forename><surname>De</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Luca</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Sturmian words: structure, combinatorics, and their arithmetics</title>
+		<imprint>
+			<date type="published" when="1997" />
+			<biblScope unit="volume">183</biblScope>
+			<biblScope unit="page" from="45" to="82" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Episturmian words and some constructions of de Luca and Rauzy</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Xavier</forename><surname>Droubay</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jacques</forename><surname>Justin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giuseppe</forename><surname>Pirillo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">255</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="539" to="553" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">The engineering of a compression boosting library: theory vs practice in bwt compression</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Paolo</forename><surname>Ferragina</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Raffaele</forename><surname>Giancarlo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanni</forename><surname>Manzini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ESA&apos;06: Proceedings of the 14th Conference on Annual European Symposium</title>
+		<meeting><address><addrLine>London, UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="756" to="767" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Boosting textual compression in optimal linear time</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Paolo</forename><surname>Ferragina</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Raffaele</forename><surname>Giancarlo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanni</forename><surname>Manzini</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Marinella</forename><surname>Sciortino</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="688" to="713" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Complementing and exactly covering sequences</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Aviezri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Fraenkel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory. Series A</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="8" to="20" />
+			<date type="published" when="1973" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Move-to-front, distance coding, and inversion frequencies revisited</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Travis</forename><surname>Gagie</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanni</forename><surname>Manzini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Combinatorial Pattern Matching, 18th Annual Symposium</title>
+		<editor>Bin Ma, Kaizhong Zhang</editor>
+		<meeting><address><addrLine>London, Canada</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2007-07-09" />
+			<biblScope unit="volume">4580</biblScope>
+			<biblScope unit="page" from="71" to="82" />
+		</imprint>
+	</monogr>
+	<note>Proceedings</note>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Episturmian words: a survey</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amy</forename><surname>Glen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jacques</forename><surname>Justin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">RAIRO Theoretical Informatics and Applications</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amy</forename><surname>Glen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jacques</forename><surname>Justin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Steve</forename><surname>Widmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Luca</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Zamboni</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Palindromic richness</title>
+		<imprint>
+			<date type="published" when="2009" />
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="510" to="531" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Covering the positive integers by disjoint sets of the form {</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ronald</forename><forename type="middle">L</forename><surname>Graham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory. Series A</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="354" to="358" />
+			<date type="published" when="1973" />
+		</imprint>
+	</monogr>
+	<note>nα + β] : n = 1, 2, . . .}</note>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Oliver</forename><surname>Jenkinson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Luca</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Zamboni</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Characterisations of balanced words via orderings</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="volume">310</biblScope>
+			<biblScope unit="page" from="247" to="271" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Episturmian morphisms and a Galois theorem on continued fractions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jacques</forename><surname>Justin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Informatics and Applications</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="207" to="215" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Episturmian words and episturmian morphisms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jacques</forename><surname>Justin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giuseppe</forename><surname>Pirillo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">276</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="281" to="313" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Elad Verbin, A simpler analysis of Burrows-Wheeler-based compression</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Haim</forename><surname>Kaplan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Shir</forename><surname>Landau</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">387</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="220" to="235" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Most Burrows-Wheeler based compressors are not optimal</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Haim</forename><surname>Kaplan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Elad</forename><surname>Verbin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Combinatorial Pattern Matching, 18th Annual Symposium</title>
+		<editor>Bin Ma, Kaizhong Zhang</editor>
+		<meeting><address><addrLine>London, Canada</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2007-07-09" />
+			<biblScope unit="volume">4580</biblScope>
+			<biblScope unit="page" from="107" to="118" />
+		</imprint>
+	</monogr>
+	<note>Proceedings</note>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Lothaire</surname></persName>
+		</author>
+		<title level="m">Reprinted in the Cambridge Mathematical Library</title>
+		<meeting><address><addrLine>Reading, Mass</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1983" />
+			<biblScope unit="volume">17</biblScope>
+		</imprint>
+	</monogr>
+	<note>Encyclopedia of Mathematics</note>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Lothaire</surname></persName>
+		</author>
+		<title level="m">Algebraic Combinatorics on Words</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Burrows-Wheeler transform and Sturmian words</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sabrina</forename><surname>Mantaci</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antonio</forename><surname>Restivo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Marinella</forename><surname>Sciortino</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information Processing Letters</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="page" from="241" to="246" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanni</forename><surname>Manzini</surname></persName>
+		</author>
+		<ptr target="http://web.unipmn.it/~manzini/lightweight/corpus/" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+		<title level="a" type="main">The Burrows-Wheeler transform: Theory and practice</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanni</forename><surname>Manzini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of the 24th International Symposium on Mathematical Foundations of Computer Science, MFCS&apos;99</title>
+		<meeting>of the 24th International Symposium on Mathematical Foundations of Computer Science, MFCS&apos;99</meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="1999" />
+			<biblScope unit="volume">1672</biblScope>
+			<biblScope unit="page" from="34" to="47" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">An analysis of the Burrows-Wheeler transform</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanni</forename><surname>Manzini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="407" to="430" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Symbolic dynamics II. Sturmian trajectories</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Marston</forename><surname>Morse</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Gustav</forename><forename type="middle">A</forename><surname>Hedlund</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="42" />
+			<date type="published" when="1940" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<analytic>
+		<title level="a" type="main">On a generalization of christoffel words: epichristoffel words</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Geneviève</forename><surname>Paquin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">410</biblScope>
+			<biblScope unit="page" from="3782" to="3791" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A characterization of balanced episturmian sequences</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Geneviève</forename><surname>Paquin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Laurent</forename><surname>Vuillon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Journal of Combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page">12</biblScope>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Suites à termes dans un alphabet fini</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Gérard</forename><surname>Rauzy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Séminaire de théorie des Nombres de Bordeaux. Exposé</title>
+		<imprint>
+			<date type="published" when="1982" />
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="1" to="16" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Balanced words having simple Burrows-Wheeler transform</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antonio</forename><surname>Restivo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanna</forename><surname>Rosone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">DLT&apos;09: Proceedings of the 13th International Conference on Developments in Language Theory</title>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="2009" />
+			<biblScope unit="volume">5583</biblScope>
+			<biblScope unit="page" from="431" to="442" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Burrows-Wheeler transform and palindromic richness</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antonio</forename><surname>Restivo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanna</forename><surname>Rosone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">410</biblScope>
+			<biblScope unit="page" from="3018" to="3026" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b36">
+	<monogr>
+		<title level="m" type="main">The bzip2 home page</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Julian</forename><surname>Seward</surname></persName>
+		</author>
+		<ptr target="http://www.bzip.org" />
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Words with simple Burrows-Wheeler transforms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jamie</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Simon</forename><forename type="middle">J</forename><surname>Puglisi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Journal of Combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page">83</biblScope>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b38">
+	<monogr>
+		<title level="m" type="main">Exact covers of balanced sequences and Fraenkel&apos;s conjecture</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Robert</forename><surname>Tijdeman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="467" to="483" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Fraenkel&apos;s conjecture for six sequences</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Robert</forename><surname>Tijdeman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">222</biblScope>
+			<biblScope unit="issue">1-3</biblScope>
+			<biblScope unit="page" from="223" to="234" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Balanced words</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Laurent</forename><surname>Vuillon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bulletin of the Belgian Mathematical Society</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="787" to="805" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b41">
+	<analytic>
+		<title level="a" type="main">A universal algorithm for sequential data compression</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jacob</forename><surname>Ziv</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Abraham</forename><surname>Lempel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Information Theory</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="337" to="343" />
+			<date type="published" when="1977" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Compression of individual sequences via variable-rate coding</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jacob</forename><surname>Ziv</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Abraham</forename><surname>Lempel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Information Theory</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="530" to="536" />
+			<date type="published" when="1978" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

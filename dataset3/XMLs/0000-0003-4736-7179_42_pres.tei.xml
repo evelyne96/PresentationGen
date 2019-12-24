@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Adaptive Scheduling on Power-Aware Managed Data-Centers using Machine Learning Context: Energy, Autonomic Computing and Machine Learning • Keywords: -Autonomic Computing (AC): Automation of management -Machine Learning (ML): Learning patterns and predict them • Applying AC and ML to energy control: 1. Self-management must include energy policies 2. Optimization mechanisms are becoming more complex 3. Decision makers can be improved through adaption • Modeling and prediction: -Obtain a model from the system -&quot;Let the machine do it for you&quot;</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2011-09-22">2011 September 22-23</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Josep</forename><forename type="middle">Ll</forename><surname>Berral</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jordi</forename><surname>Torres</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Josep</forename><forename type="middle">Ll</forename><surname>Berral</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jordi</forename><surname>Torres</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Josep</forename><forename type="middle">Ll</forename><surname>Berral</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jordi</forename><surname>Torres</surname></persName>
+						</author>
+						<title level="a" type="main">Adaptive Scheduling on Power-Aware Managed Data-Centers using Machine Learning Context: Energy, Autonomic Computing and Machine Learning • Keywords: -Autonomic Computing (AC): Automation of management -Machine Learning (ML): Learning patterns and predict them • Applying AC and ML to energy control: 1. Self-management must include energy policies 2. Optimization mechanisms are becoming more complex 3. Decision makers can be improved through adaption • Modeling and prediction: -Obtain a model from the system -&quot;Let the machine do it for you&quot;</title>
+					</analytic>
+					<monogr>
+						<title level="m">12 th IEEE Intl. Conf. on GRID Computing</title>
+						<meeting> <address><addrLine>Lyon (France</addrLine></address>
+						</meeting>
+						<imprint>
+							<date type="published" when="2011-09-22">2011 September 22-23</date>
+						</imprint>
+					</monogr>
+					<note>1</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• Find π: jobs → (hosts x resources) that maximizes ∑ j (price(j) -penalizations(j, π)) -∑ h power(h, π) • Subject to: -For all h, jobs that π allocates to h fit in h -For all h, power(h, π) = power consumed by host h under jobs j assigned to it by π -For all j, QoS(j, π) = QoS of job j given the set of jobs assigned to the h where π places j -For all j, penalizations(j, π) = SLAfunction(QoS(j, π)) Modeling the data-center • Mathematical Model -The goal: Profit = Benefits for running jobs/VMs -power costs -Outputs: Schedule optimizing profits -Constraints: maintaining the consistence of DC and operations -Parameters &amp; variables: hosts, jobs/VMs and SLAs in DC • Find π: jobs → (hosts x resources) that maximizes ∑ j (price(j) -penalizations(j, π)) -∑ h power(h, π) • Subject to: -For all h, jobs that π allocates to h fit in h -For all h, power(h, π) = power consumed by host h under jobs j assigned to it by π -For all j, QoS(j, π) = QoS of job j given the set of jobs assigned to the h where π places j -For all j, penalizations(j, π) = SLAfunction(QoS(j, π)) Josep Ll. Berral, Ricard Gavaldà, Jordi Torres</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Machine Learning</head><p>Learning relations • How much CPU will each job (web service in VM) demand? -Given the expected or known load (requests and clients) -M5P learning algorithm: decision tree + LinReg  -Extend to multidimensional SLA -Extend to multidimensional resource (CPU, memory, disk, database, bandwidth....) -Extend to cloud (= many data centers) -Extend to more complex economic scenarios (= auctions)</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>-</head><label></label><figDesc>Optimal place for a job/VM? -Required resources for the job/VM? -Resulting QoS in the new location? • Contributions: -Mathematic model of the cloud/data-center -Solve the model as Benefit-Cost optimization -Learning and predicting behaviors of jobs and QoS elements J.L.Berral, I.Goiri, R.Nou, F.Julià, J.Guitart, R.Gavaldà, J.Torres</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>•-</head><label></label><figDesc>Load vs Resources: &lt;load~CPU&gt; • Non-linear function approximated by parts • Error:~12% CPU MSE, Stdev 0,1 CPU -Use it to fill parameters in the model! • How good will the job (web service in VM) behave? -Given the resources assigned and host characteristics -Linear Regression algorithm • Context vs Response Time: &lt;given CPU + CPU context~RT&gt; • Approximation by linear function • Error:~0.00003s MSE, Stdev 0.004s-Use it to adjust CPU assignation in solving timeWhile all functions involved are written as linear: ILP -If solution found: we have an optimal solution -… -Solving is expensive in time/space! • Heuristic and approximate algorithms -Solving the model using first-fit / best-fit algorithms (or others!) -Lower bound on optimality assured -Solving time and space can be adjusted -We can adjust to non-linear functions -… -Optimal solution can be missed! (but how much missed?</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Dividing the problem into parts…• Model the data-center -Create a mathematic model to represent the Data-Center • Predict relations and goals -Relevant variables for decision making only available a posteriori -ML creates a model from past examples • Solving the model -Complement the model with learned relations -Find appropriate algorithm to optimize the model Josep Ll. Berral, Ricard Gavaldà, Jordi Torres</figDesc><table>ML 
+
+Tagged 
+Elements 
+
+Model 
+New 
+Element 
+
+Data for the 
+new Element 
+
+Training Dataset 
+(posteriori data) 
+
+Data to Predict 
+Estimates 
+• Mathematical Model 
+
+-The goal: Profit = Benefits for running jobs/VMs -power costs 
+-Outputs: Schedule optimizing profits 
+-Constraints: maintaining the consistence of DC and operations 
+-Parameters &amp; variables: hosts, jobs/VMs and SLAs in DC 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Conclusions• Modeled jobs and system behaviors -In an automatic manner through Machine Learning -Improving decision makers with estimation functions a priori • Presented a mathematical model for the "job×host" allocation problem • Tested the model against complete solvers and finding approximate algorithms • Future work:</figDesc><table>Experiments (II) 
+
+• Heuristics vs ILP Solver 
+
+-Time to solve: 4 seconds vs +4 hours of complete search 
+-Desc. ordered best-fit is really close to complete search! 
+
+Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 
+
+Parameters 
+Method 
+Power KwH 
+Migs 
+Profit 
+Avg QoS 
+Used CPUs 
+Used hosts 
+
+First Fit 
+290.2 
+1421 
+177.290 
+0.519 
+3523 
+921 
+
+0.09 €/Kwh 
+λ-RR 
+358.9 
+520 
+241.048 
+0.716 
+3917 
+1237 
+
+0.17 €/job 
+Desc BF 
+203.4 
+1665 
+321.002 
+0.866 
+2230 
+660 
+
+RT ≤ 2 · RT 0 ILP Solver 
+169.8 
+1963 
+326.935 
+0.878 
+1568 
+571 
+
+First Fit 
+293.2 
+1491 
+69.871 
+0.515 
+3563 
+970 
+
+0.45 €/Kwh 
+λ-RR 
+230.7 
+519 
+132.610 
+0.604 
+3985 
+1161 
+
+0.17 €/job 
+Desc BF 
+139.8 
+1634 
+255.980 
+0.818 
+1504 
+456 
+
+RT ≤ 2 · RT 0 
+ILP Solver 
+151.3 
+1998 
+270.543 
+0.862 
+1483 
+503 
+
+First Fit 
+189.8 
+1513 
+310.569 
+0.859 
+3529 
+919 
+
+0.09 €/Kwh 
+λ-RR 
+232.7 
+527 
+311.619 
+0.849 
+4077 
+1177 
+
+0.17 €/job 
+Desc BF 
+155.7 
+1404 
+350.892 
+0.932 
+1777 
+508 
+
+RT ≤ 10 · RT 0 ILP Solver 
+161.1 
+2007 
+354.891 
+0.852 
+1697 
+528 
+Experiments (III) 
+
+• Adding a new policy 
+
+-New SLA object: Migrations will penalize the profit 
+
+• We want to reduce migrations, then! 
+
+-Model reduces migrations depending on costs: 
+
+Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 
+
+Euro/Kwh 
+Power (KwH) 
+Migs 
+Profit (€) 
+AvgQoS 
+Used CPUs 
+Used Hosts 
+
+0.00 
+365.585 
+195 
+353.559 
+0.883 
+4600 
+1150 
+0.01 
+242.807 
+225 
+340.002 
+0.879 
+1798 
+846 
+0.09 
+194.974 
+232 
+321.319 
+0.877 
+1702 
+662 
+0.14 
+170.743 
+330 
+312.523 
+0.878 
+1619 
+571 
+0.45 
+150.265 
+445 
+264.770 
+0.870 
+1492 
+498 
+0.90 
+137.242 
+550 
+199.360 
+0.857 
+1380 
+455 
+1.80 
+128.062 
+600 
+81.188 
+0.840 
+1327 
+422 
+3.60 
+120.122 
+776 
+-136.816 
+0.815 
+1285 
+392 
+7.20 
+115.384 
+889 
+-559.543 
+0.776 
+1274 
+374 
+14.40 
+110.087 
+837 
+-134.466 
+0.737 
+1248 
+357 
+28.80 
+110.451 
+913 
+-293.312 
+0.738 
+1251 
+356 
+
+* 0.09 €/Kwh 0.17 €/job RT ≤ 2 · RT0 0.014 €/mig 
+
+Method 
+Power (KwH) 
+Migs 
+Profit (€) 
+AvgQoS 
+UsedCPU 
+UsedHosts 
+
+Desc BestFit 
+203.175 
+991 
+304.885 
+0.860 
+2250 
+658 
+
+ILP Solver 
+194.974 
+232 
+321.319 
+0.877 
+1702 
+662 
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">Josep Ll. Berral, Ricard Gavaldà, Jordi Torres</note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thank you for your attention Josep Ll. Berral, Ricard Gavaldà, Jordi Torres berral@ac.upc.edu <ref type="bibr">(also jlberral@lsi.upc.edu)</ref> </p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

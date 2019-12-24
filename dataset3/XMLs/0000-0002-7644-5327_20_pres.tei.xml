@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Hierarchical Hardness Models Hierarchical Hardness Models for SAT for SAT</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lin</forename><surname>Xu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Brown University of British Columbia University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Brown University of British Columbia University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lin</forename><surname>Xu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Brown University of British Columbia University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Brown University of British Columbia University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton</surname></persName>
+							<email>kevinlb@cs.ubc.cakevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Brown University of British Columbia University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton --Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Brown University of British Columbia University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Hierarchical Hardness Models Hierarchical Hardness Models for SAT for SAT</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>1</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SATzilla</head><p>SATzilla --07 07</p><p>Old SATzilla <ref type="bibr">[Nudelman, et. al, 2003 ]</ref> Introduction 5 Empirical Hardness Model (EHM)</p><p>Predicting algorithm's runtime based on poly-time computable features</p><p>Features: anything can characterize the problem instance and can be represented by a real number 9 category features <ref type="bibr">[Nudelman, et al, 2004]</ref> Prediction: any machine learning technique can return prediction of a continuous value Linear basis function regression <ref type="bibr">[Leyton-Brown et al, 2002;</ref><ref type="bibr">Nudelman, et al, 2004]</ref> Features (Φ) Runtime (y)  <ref type="bibr">[Krishnapuram, et al. 2005]</ref> Performance of Classification (QCP) Improve EHM by using classification A classifier can be used to distinguish SAT/UNSAT with high accuracy.</p><formula xml:id="formula_0">f w (Φ) = w T Φ •</formula><p>Conditional models can be combined into hierarchical model with better performance.</p><p>Classifier's confidence correlates with prediction error.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Models conditioned on SAT/UNSAT have much better runtime prediction accuracies.</figDesc><table>Key idea: use prediction of satisfiability to 
+improve runtime prediction 
+
+Does this mean that I just use the (eg) unsat 
+model if the instance is predicted to be unsat? 
+NO! need to consider the error distribution 
+
+Note: best performance would be achieved by 
+model selection oracle! 
+Question: How to approximate model 
+selection oracle based on features 
+Φ, s 
+
+Features &amp; 
+Classifier output 
+s: P(sat) 
+
+Z 
+
+Model selection 
+oracle 
+
+y 
+
+Runtime 
+
+Mixture of experts problem with fixed experts, 
+
+use EM to find the parameters for z [Murphy, 2001] 
+
+{ , 
+} 
+
+( | , ) 
+( | , ) ( | 
+, ) 
+
+T 
+z 
+z 
+z sat unsat 
+
+P y 
+s 
+P z 
+s N y w 
+
+β 
+
+∈ 
+
+Φ = 
+Φ 
+Φ 
+
+∑ 
+B 
+
+A 
+
+Importance of Classifier's Output 
+
+Two ways: 
+A: Using 
+classifier's 
+output as a 
+feature 
+
+B: Using 
+classifier's 
+output for EM 
+initialization 
+
+A+B 
+Big Picture of HHM Performance 
+
+Oracular Uncond. Hier. 
+Uncond. Hier. 
+
+Solver 
+
+Oracular 
+
+RMSE (rand3-var) 
+RMSE (rand3-fix) 
+
+satz 
+0.329 
+0.358 
+0.344 
+0.343 
+0.420 
+0.413 
+
+march_dl 
+0.283 
+0.396 
+0.306 
+0.444 
+0.542 
+0.533 
+
+kcnfs 
+0.294 
+0.373 
+0.312 
+0.397 
+0.491 
+0.486 
+
+Oksolver 
+0.356 
+0.443 
+0.378 
+0.479 
+0.596 
+0.587 
+
+Solver 
+RMSE (QCP) 
+RMSE (SW-GCP) 
+
+Zchaff 
+0.303 
+0.675 
+0.577 
+0.657 
+0.993 
+0.983 
+
+Minisat 
+0.305 
+0.574 
+0.500 
+0.682 
+1.022 
+1.024 
+
+Satzoo 
+0.240 
+0.397 
+0.334 
+0.384 
+0.581 
+0.581 
+
+Satelite 
+0.247 
+0.426 
+0.372 
+0.618 
+0.970 
+0.978 
+
+Sato 
+0.375 
+0.711 
+0.635 
+0.723 
+1.352 
+1.345 
+
+oksolver 
+0.427 
+0.548 
+0.506 
+0.601 
+1.337 
+1.331 
+Correlation Between Prediction Error 
+and Classifier's Confidence 
+
+Left: Predicted P(sat.) vs 
+runtime prediction error 
+
+Right: Predicted P(sat.) 
+vs RMSE 
+
+Solver: satelite; Dataset: QCP 
+Conclusions 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Test on more real world problems Extend underlying experts beyond satisfiability</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Sw-Gcp</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Diffusing Focused Loads in Networks using Pricing</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Balaji</forename><surname>Prabakar</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ryan</forename><surname>Porter</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yoav</forename><surname>Shoham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Shobha</forename><surname>Venkataraman</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Diffusing Focused Loads in Networks using Pricing</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Focused Loading</head><p>• Many users demand network resources at some focal time, predictable in advance • Canonical example: long distance phone -people want to talk as early as possible, minimize cost -utility maximized when rates drop at 5 PM: network demand spikes • Computer networks: load can be even more focused -sudden onset: TicketMaster server as tickets go on sale -deadline: IRS server just before taxes are due • Trade-off between load balancing and revenue -load balancing is achieved by offering free slots</p><formula xml:id="formula_0">-z(Φ,d) = g(d) + E[R|Φ,d]</formula><p>• Optimality of a mechanism-equilibrium pair -z maximal as compared to z for all other equilibria of other mechanisms (constant n, participation rational)</p><p>Our Mechanisms</p><p>• To begin with, I'll add two assumptions:</p><p>1. all agents have the same preferences for slots 2. mechanism designer knows these preferences • I'll describe two in some detail; two more in our paper • Why more than one mechanism? Many variables: • Any set of strategies is a weak equilibrium, e.g.:</p><p>-agents randomize (load balancing) -agents pick the "best" slots deterministically: maximize z • this is a weak, optimal equilibrium -agents pick same slot deterministically: focused loading! "Collective Reward"</p><p>1. The mechanism assigns agents "names" corresponding to slot numbers 2. Each agent chooses a slot 3. The mechanism computes p, and determines which slots will actually be free CR: Choosing Names, Optimality</p><p>• Problem: we want to assign names to agents before we know how many agents will participate • Theorem: assigning each agent the name that greedily improves z gives rise to optimal d</p><p>• Theorem: (CR, ϕ) is optimal -an optimal distribution of agents may be achieved -agents can be paid the minimum needed to make deviation unprofitable CR: Bounds on Utility Functions • Relax our assumptions:</p><p>1. agents have different preferences for slots 2. mech. doesn't know agents' preferences, knows bounds: v l and v u -impossible to construct optimal mechanisms in this case</p><p>• k-Optimality of a mechanism-equilibrium pair -z is no further than kn from its maximal value • CR is k-optimal, k = max s (v u (s) -v l (s)) -participation rational for all agents • expected cost of each slot less than v l -deviation unprofitable • expected utility for each slot must exceed v u (bestslot) Two More Mechanisms</p><p>• "Bulletin Board"</p><p>-agents coordinate with each other by broadcasting their intended slot choice -agents get free slots according to p * iff their distribution is optimal; otherwise no slots are free -strict, optimal equilibrium • "Discriminatory" -agents are assigned slots by the system -each agent gets the slot free according to p * iff he chose the assigned slot; otherwise he pays m -dominant strategy: unique, optimal equilibrium Future Work</p><p>• Theoretical:</p><p>-consider other cases where agents' valuations not known • e.g., mechanism announces price of next slot, retroactive payment of agents not allowed • can we achieve a bound on optimality here?</p><p>• Practical: -apply one of our mechanisms in a real system -beginning to work with Stanford student housing system, which experiences focused loads on application deadlines • their database can accommodate only 40 simultaneous users • this year they were forced to extend the application deadline because of system unavailability • For the whole story, please see our paper: available at http://robotics.stanford.edu/~kevinlb</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Technological: isolate packet flows -problem: difficult to implement • Economic: give agents incentives -Smart Market: use bids to set price for network usage at each time slot [MacKie-Mason and Varian; Gibbens, Kelly, Key] -Paris Metro Pricing: partitions of the network that differ only in price [Odlyzko; Altmann's system from 1 st talk] Smart Market will suddenly charge unpredictably higher prices -Paris Metro Pricing assumes that users have enough information about current load to choose the right class of service Each slot has a fixed usage cost m • Agent a i 's valuation for slot s is given by v i (s) • d(s) is the number of agents who choose slot s • Give agents an incentive to balance load -waive the usage fee for slot s with probability p(s) -agents made aware of the mechanism, including how p is calculated, but not of the actual draws from p -a set of strategies for the agents participating in Φ where no single agent a i can benefit from changing his strategy, given that all other agents' strategies as fixed -strict equilibrium: a i is always worse off changing strategy -weak equilibrium: a i is never better off changing strategy Mechanism Evaluation, Optimality • Mechanism Φ has two goals: 1. balance load caused by the agents' selection of slots -g(d): the monetary value of d to the network 2. maximize expected revenue -depends on Φ and d: E[R|Φ,d]</figDesc><table>Managing Network Congestion 
+
+• Share bandwidth fairly, even when agents may act 
+selfishly to maximize bandwidth available to them 
+• Diffusing Focused Loads 
+
+• Existing schemes are not designed to deal gracefully with 
+sudden changes in load 
+
+-technological: queues may be overwhelmed, leading to many dropped 
+packets and degraded service for everyone 
+-• Rather than trying to decide which packets to drop, 
+give an incentive for smoothing out the demand 
+
+-possible because focused loads are predictable by definition 
+-knowledge about utility functions means more revenue; 
+more modest computational demands 
+Outline 
+Our Model 
+
+• Network use is divided into t timeslots 
+• n risk-neutral agents will use the network 
+for one time slot each 
+• Agents, Equilibria 
+
+• Agents act to maximize their own utility 
+
+-agent's action: choosing a slot 
+-agent's strategy: a probability distribution over slot choices 
+-a i 's utility for choosing slot s is u i (s) = v i (s) -(1-p(s))m 
+-only consider mechanisms where participation is rational for all agents 
+
+• Nash equilibrium for a mechanism Φ: 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">Thursday August 23, 2001ITCom 2001</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Our game-theoretic model 2. A simple mechanism</title>
+		<imprint/>
+	</monogr>
+	<note>Matching Pennies</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Collective Reward&quot; 4. Future directions Warning: the length of this talk forces me to gloss over many details. More formal models and analysis are provided in our paper</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>More</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Mechanism</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

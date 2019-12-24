@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Constraint programming for scheduling problems</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sütő</forename><surname>Evelyne</surname></persName>
+						</author>
+						<title level="a" type="main">Constraint programming for scheduling problems</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Constraint programming (CP) is used in declarative description and effective solving of large, particularly combinatorial, problems especially in areas of planning and scheduling. Not only it is based on a strong theoretical foundation but it is used to solve problems of commercial interest, in particular, in areas of modelling heterogeneous optimisation and satisfaction problems. Constraints are naturally occuring elements of our world, they can be described as a relation of different variables which can have a set of possible values in their domains. Constraints should be strictly declarative, by specifying the relationship of the constraints without giving specifications of the computational procedure that enforces them. By using constraint programming the aim is to solve problems based on the stated constraints by finding solutions which can satisfy them. <ref type="bibr" target="#b1">[Barták, 1999]</ref> The first ancestors of constraint programming can be considered the early Logic programming, which was focused on stating what has to be solved instead of how should it be solved.</p><p>A Constraint Satisfaction Problem (CSP) is defined as:</p><p>• a set of variables X = x 1 , ..., x n • for each variable x i , a finite set D i of possible values (its domain)</p><p>• a set of constraints restricting the values that the variables can simultaneously take.</p><p>A solution of the problem is an assignment of a value from its domain to every variable, in such a way that all constraints are satisfied at once. These solutions are found by using systematic search algorithms such as backtracking. The simple backtracking algorithm is usually extended with consistency techniques and constraint propagation to avoid problems like: repeated failure due to the same reason, redundant work or late detection of conflict.</p><p>[ <ref type="bibr" target="#b1">Barták, 1999]</ref> Constraint satisfaction can be implemented to any problem that can be described by a list of constraints. This means that the problem itself has to be modelled in a very specific way for us to use the constraint programming techniques on them. One of the most successful areas where this approach is applied is related to scheduling problems. This is mainly because the problem itself is defined by its constraints.</p><p>In this paper we will be exploring some real life applications of constraint programming in scheduling and planning problems.</p><p>2 Constructing university timetable using constraint satisfaction programming</p><p>The timetable building problem is an NP complete one, which makes it an interesting research topic. It is difficult to find an optimal solution, because it naturally implies resource sharing and time constraints it is natural to use constraint programming to solve it. As defined in <ref type="bibr" target="#b5">[Zhang and Lau, 2005]</ref> "Timetabling is the allocation, subject to constraints, of given resources to objects being placed in space time, in such a way as to satisfy as nearly as possible a set of desirable objectives." The constraints of the timetabling problem: students attend one class at the same time, the room must be big enough for all the attending students, no core subject is scheduled at the same time, and only one class is scheduled in one room at any one timeslot.</p><p>Elements that are constrained in this case are: set of students, subjects, time slots and rooms. The model for a timetabling problem as a CSP is as follows: a timetable is a constrained variable the value of which is a function associating a value to each slot in time t. The timetable item is given by the set of subjects. Note that the subject can be offered as a lecture or a tutorial, which is considered as a timetable item. Basically our task consists ininstantiation of the set of three tuples CSP (timetable item, classroom, time), i.e., each lecture or tutorial of a subject has assigned its set of classroom and time. In solving the problem, we define each timetable item as an activity and the room as resource <ref type="bibr" target="#b5">[Zhang and Lau, 2005]</ref> In order to implement the solution for this problem the researchers have chosen to use the ILOG system, which decmposes the problem by separating the models from the search algorithms, so they could apply different algorithms to apply on the same model. The model was build with the ILOG scheduler and the resources represented with IloActivity and IloUnaryResources. Then they apply the ILOG Solver which generates a goal and searches for a solution. In the solution they use different search strategies defined in ILOG, such as ILORankForward, IloRankBackward etc. The result is analyzed from the perspectives of number of fails and number of choice points. Failure refers to the node which backtracks when the search cannot find the goal. The number of fails refers to the number of backtrack in the search process until a goal is found. Choice point refers to the node that has been explored or visited in the search process. Therefore the number of choice points refers to the number of nodes that has been visited in the search process.</p><p>They manage to solve the timetableing problem with constraint satisfaction programming and they also find that enforcing tight constraint level and ranking the constraints by positioning the constraints at the beginning of the activities can lead to better result.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Fuzzy project scheduling using constraint programming</head><p>Another possible scheduling problem can be the scheduling of projects. A possible solution for this using constraint programming can be seen in <ref type="bibr" target="#b3">[Relich, 2013]</ref>. In order to model the imprecision of activity duration and cost they use fuzzy elements such as α cuts. This fuzzy aspect of the implementation also makes it possible to get to different solutions in terms of risk management, by modelling optimistic, pessimistic and intermediate scenarios.</p><p>While working on independent project their management can be straightforward since it only has the time and cost estimations are needed to be considered. However, most of the times when companies are developing different projects these can be very much dependent of each other and it is challenging to plan them in a way that they can be developed in the most agile way possible. Project management problems typically consist of resource planning and scheduling decisions. In the context of resource management, it is often required to know how much a particular project will cost, what resources are needed, what resource allocation procedure can ensure the completion of a project in target time, etc. <ref type="bibr" target="#b3">[Relich, 2013]</ref> A simple CSP problem can be defined as the set of CSP = (V, D), C where V is a set of variables, D is the domain of the variables and C is a set of constraints that are applied on these variables. Fuzzy CSP is defined in a similar way with CSP = (V , D), C where V' is a finite set of fuzzy variables, D is the set of domains for th fuzzy variables and C is the set of constraints linking and limiting these variables.</p><p>Given a set of projects P = P 1 , P 2 , ..., P I , where the project P i consists of J activities: P i = A i,1 , ..., A i,j , ..., A i,J . The j-th activity of i-th project that is specified by the starting time of the activity s i,j,1 (i.e. the time counted from the beginning of the time horizon H), the completion time of the activity s i,j,2 , and the duration of the activity t i,j . The project P i is described as an activity-on-node network, where nodes represent the activities and the arcs determine the precedence constraints between activities. According to this the precedence constraints are as follows: s i,j + t i,j &lt;= s i,n (for the n-th activity follows the i-th one), s i,j + t i,j &lt;= s i,n ; s i,j+1 + t i,j+1 &lt;= s i,n ; ...; s i,j+n + t i,j+m &lt;= s i,n (for the n-th activity follows other activities), and s i,n + t i,n &lt;= s i,j ; s i,n + t i,n &lt;= s i,j+1 ; ...; s i,n + t i,n &lt;= s i,j+m (for the n-th activity is followed by other activities). The imprecise variables are defined by α cuts, where the α -cut is a crisp set consisting of elements of A which belong to the fuzzy set at least to a degree of α ( 0 ¡ α ¡= 1 ). An α -cut is a method of defuzzifying a fuzzy set to a crisp set at desired α -levels that correspond to the perceived risk (α=1 meaning no risk, α=0+ meaning the highest risk). The main objective of fuzzy project scheduling is to apply fuzzy set theory concepts to the scheduling of real world projects where task duration can be specified as fuzzy numbers instead of crisp numbers. With the help of fuzzy project scheduling we can define fuzzy start and completion dates for each projects. The fuzzy start indicates the uncertainty of completion of proceeding projects, activities, whereas the completion is the sum of the fuzzy start and activity duration. Calculated using the fuzzy + operator:</p><p>s + t =&lt; a, b, c &gt; + &lt; d, e, f &gt;=&lt; a + d, b + e, c + f &gt; The cost for unit of time calculated by dividing the cost of every activity by its duration. Since these can be defines for optimistic and pessimistic scenarios we can calculate minD α (best case scenerio, activity starts as soon as possible) and maxD α (activity starts at latest possible time).</p><formula xml:id="formula_0">minD α = [α(b-a) + a, α(e-d) + d] maxD α = [α(b-c) + c, α(e-f ) + f ]</formula><p>The financial means are allocated to the activity A i,j . taking into account all α-levels of a fuzzy number.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Example of project scheduling</head><p>Consider having 3 dependent projects P = P 1 , P 2 , P 3 which need to be done in 32 months and the budget is 1159 money unit. The duration of each activity as estimated by using past experiences or estimated by experts in this field. Some of the activities have constant durations, while some activities are defined by fuzzy duration e.g "about 6 weeks" which would be between 5-7 weeks in reality.</p><p>The aim of the Fuzzy scheduling is to create a fuzzy cash flow for different risk levels, which would help the project managers to determine which schedule would be the best option, by considering the different levels in terms of duration and cost efficiency. The answer to the questions is connected with the determination of the starting time of project portfolio activities s i, j and the allocation of financial means to the activities by different α -level dp i,j,α . <ref type="figure">Figure 1</ref>: Example of activities and dependencies of project 1. Source: <ref type="bibr" target="#b3">[Relich, 2013]</ref> As a result, using these methodologies one can generate different cash flow graph for the different risk levels. In the best case, the project portfolio will be completed in 26 months with the total cost of 921 m.u., whereas in the worst in 32 months with the total cost of 1,119 m.u. This allows the decision-maker to consider a wide range of analyses, including the requirement of the cost allocation in the horizon of project portfolio. <ref type="bibr" target="#b3">[Relich, 2013]</ref> Since the problem of project scheduling always holds some uncertainty as well, because of problematic activity estimations and unseen problems using fuzzy methods to solve this problem seems to be a good approach. It is also important to mention that having constraints which are naturally defined for each projects in terms of resource management it is fairly straightforward to use constraint programming to model this problem. Having a generated <ref type="figure">Figure 2</ref>: Example of activities and dependencies of project 2. Source: <ref type="bibr" target="#b3">[Relich, 2013]</ref> Figure 3: Example of activities and dependencies of project 3. Source: <ref type="bibr" target="#b3">[Relich, 2013]</ref> fuzzy cash flow could be very helpful for project managers for decision making and efficient cost/time estimation as well. <ref type="figure">Figure 4</ref>: Example of fuzzy project cash flow with 5 different levels. e.g. At µ =0.5, there is an optimistic scenario below and a pessimistic one above (dashed line). Source: <ref type="bibr" target="#b3">[Relich, 2013]</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Conclusion</head><p>In this paper we have examined some applications of constraint programming in scheduling problems. We have mainly considered only two use cases for this: project scheduling and timetable generation, however there are many other examples in the literature for other similarly defined cases as well. For example applications in medical resident scheduling <ref type="bibr" target="#b4">[Topaloglu and Ozkarahan, 2011]</ref>, nurse scheduling <ref type="bibr" target="#b0">[Abdennadher and Schlenker, 1999]</ref>, airport runway scheduling <ref type="bibr" target="#b2">[Bennell et al., 2011]</ref> are just a few of these real life uses.</p><p>As we've seen, since constraint programming in general is mostly interested in what is the problem that needs to be solved, rather than how should the problem be solved. This means that the main challenge in these cases is to create the right model for our tasks that we want to solve, because if the specified variables or domains are not defined correctly this could mean that the solution that we find is not a solution for our desired problem.</p><p>Overall I think that constraint programming as a solution for scheduling problem is very promising and already successful, but we need to be sure that the optimization steps of consistency technique and constraint propagation are used in this solution to ensure that we get results in optimal time for these combinatorial problems.</p></div>		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Nurse scheduling using constraint logic programming</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Abdennadher</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Schlenker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI/IAAI</title>
+		<imprint>
+			<date type="published" when="1999" />
+			<biblScope unit="page" from="838" to="843" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Constraint programming: In pursuit of the holy grail</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Barták</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Week of Doctoral Students (WDS99)</title>
+		<meeting>the Week of Doctoral Students (WDS99)</meeting>
+		<imprint>
+			<publisher>MatFyzPress Prague</publisher>
+			<date type="published" when="1999" />
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="555" to="564" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Airport runway scheduling</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Bennell</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page">115</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Fuzzy project scheduling using constraint programming</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Relich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+	<note>Relich, 2013</note>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A constraint programming-based solution approach for medical resident scheduling problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ozkarahan ;</forename><surname>Topaloglu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Topaloglu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Ozkarahan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Computers &amp; Operations Research</title>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="246" to="255" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Constructing university timetable using constraint satisfaction programming approach</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lau ;</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Lau</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Computational Intelligence for Modelling, Control and Automation and International Conference on Intelligent Agents, Web Technologies and Internet Commerce (CIMCA-IAWTIC&apos;06)</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2005" />
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="55" to="60" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

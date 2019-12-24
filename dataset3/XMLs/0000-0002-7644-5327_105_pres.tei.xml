@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">An Algorithm for Multi-Unit Combinatorial Auctions</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Dept</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yoav</forename><surname>Shoham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Dept</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Moshe</forename><surname>Tennenholtz</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Dept</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">An Algorithm for Multi-Unit Combinatorial Auctions</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>thanks also to Shobha Venkataraman</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>if desired, some bids may be mutually exclusive otherwise, more than one of a bidder's bids may win Benefit: less risk for bidders won't win a subset of a bundle for more than it is worth to them can request multiple mutually-exclusive bundles More efficient / higher revenue no need to hedge bids or restrict bidding to a single bundle Multi-Unit CA's Sometimes a set of goods are identical traditionally, bidders have no way to compactly represent indifference between members of the set instead, they must enumerate bundles between which they are indifferent this can require a huge number of bids Multi-Unit CA set of identical goods: a single multi-unit good in general, consider all goods to have a fixed number of units bids specify goods, number of units for each good, a price offer for the whole package Winner Determination Auctioneer's task:</p><p>given a set of bids, find the revenue-maximizing subset of these bids allocating no more than the maximum number of units for each good We can handle XOR with "dummy goods" unique virtual goods with one unit add a dummy good to every bid in an XOR set now at most one bid from each set can be satisfied Same winner-determination procedure used by: After adding a bid, move to the bin for the lowest-order good with unallocated units this may be the bin we just left (multi-unit!) create a subbin of the current bin and keep searching subbin: include only higher-order bids than the last bid chosen from this bin any bids that we skip are guaranteed to conflict with the current partial allocation</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Benefits of finding optimal solution constant-bounded approximation is still intractable bidders' strategies affected by approximation restriction can prevent bidders from expressing full preferencesFinding Optimal Solution All previously-published work on CA's has concerned single-unit case A natural solution: mixed-integer programming First: CAMUS/CPLEX comparison Necessary to use artificial data for testing used a distribution from our new paper (to appear at EC-00) aims to model bidding in real-world domains Railroad Shipping Domain: Railroad Graph Create a new bidder randomly choose start and end cities, number of units to ship valuation for route: random proportional to the distance, superadditive in number of units generate substitutable bids for all bundles of edges Branch and Bound Search lower bound: best allocation observed so far upper bound: revenue of current partial allocation + overestimate of revenue from unallocated units when upper bound ≤ lower bound, backtrack Structure the Search Space Partition the bids into bins one bin for each good each bid belongs to the bin corresponding to its lowest-order good</figDesc><table>first-price combinatorial auction 
+generalized Vickrey auction 
+various ascending auction mechanisms 
+
+Computational Problem 
+
+Unfortunately, winner determination is NP-Hard, 
+even with only one unit per good 
+
+Responses to intractability 
+
+approximation 
+restrict bids (tractable subcase) 
+find optimal solution anyway 
+
+rich history 
+commercial packages (CPLEX) 
+
+CAMUS 
+
+Combinatorial Auction Multi-Unit Search 
+
+branch and bound search 
+structure the search space 
+
+avoid considering impossible allocations 
+efficient upper-bound function for pruning 
+
+enhancements 
+
+preprocessing dominated bids 
+dynamic programming 
+caching to improve tightness of upper-bound 
+
+heuristics 
+
+maximize effectiveness of pruning: upper bound 
+find good allocations quickly: lower bound 
+
+A generalization of our CASS algorithm (1999) 
+
+nodes: cities 
+edges: railroad link between cities 
+edge weights: link capacity 
+
+Railroad Distribution 
+
+Randomly generate a graph 
+
+random num units per edge: [1, max_units_per_good] 
+
+where valuation &gt; cost of shipping (c * distance) 
+price offer: valuation -cost, rounded to integer 
+10 goods: 
+CAMUS, CPLEX, Min Performance 
+
+0.1 
+
+1 
+
+10 
+
+100 
+
+1000 
+
+10000 
+
+100000 
+
+400 
+500 
+600 
+700 
+800 
+900 
+1000 
+1100 
+1200 
+1300 
+1400 
+1500 
+1600 
+1700 
+1800 
+1900 
+2000 
+2100 
+
+Number of Bids 
+
+Average over 10 Trials (s) 
+
+CAMUS -10 
+CPLEX -10 
+Min -10 
+
+12 goods: 
+CAMUS, CPLEX, Min Performance 
+
+0.1 
+
+1 
+
+10 
+
+100 
+
+1000 
+
+10000 
+
+100000 
+
+400 
+500 
+600 
+700 
+800 
+900 
+1000 
+1100 
+1200 
+1300 
+1400 
+1500 
+1600 
+1700 
+1800 
+1900 
+2000 
+2100 
+
+Number of Bids 
+
+Average over 10 Trials (s) 
+
+CAMUS -12 
+CPLEX -12 
+Min -12 
+
+CAMUS Implementation: Search 
+
+Depth-First Search on allocations 
+
+begin with empty allocation 
+add bids to current partial allocation until 
+complete; backtrack 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">Parameters: num_cities = 5.3 * goods + 3.5, initial_connections = 2, building_penalty = 2.7, num_building_paths = (num_cities)²/4, shipping_cost_factor = 1.1, max_bid_set_size = 8, max_cap = 20, additivity = 0.2.</note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>For each pair of bids (b 1 , b 2 ), where:</p><p>b 2 will not win unless b 1 also wins store b 2 as a "child" of b 1 only consider adding b 2 after adding b 1 if units j (b 1 ) + units j (b 2 ) ≥ maxunits j for any j we will never add b 2 : delete it Dynamic Programming</p><p>In some auctions, singleton bids will be relatively common Additionally, singleton bids can be computationally expensive to consider: can lead to deep searches Dynamic programming preprocessing: find the optimal set of singleton bids requesting from 1 to maxunits j , for each good j in search, only ever consider the optimal singleton set that consumes all remaining units of a good Caching It is possible to allocate the same number of units of the same goods in more than one way the search beyond this point is always the same store the results of search in a hash table, then reuse them if we get to the same point again most searches are pruned before they reach a full allocation, so we can't store the best allocation in the cache use the cache to store upper bounds only store the results that involved non-negligible cost to compute cache upper bounds often tighter than h( ) cache can be seen as learning a better h( ) </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bid-Ordering Heuristic</head><p>Order bids within bin so we encounter most promising bids first improve lower bound Sort bids b in descending order of Promising performance when compared to CPLEX on our railroad distribution more work needed to understand strengths and weaknesses of each approach on other real-world CA distributions</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

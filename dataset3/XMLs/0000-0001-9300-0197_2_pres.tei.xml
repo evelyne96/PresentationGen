@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A SURVEY OF MULTI-AGENT SYSTEMS USED FOR AIR TRAFFICCONTROL</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sütő</forename><surname>Evelyne</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Babeş-Bolyai University</orgName>
+								<address>
+									<addrLine>Computer Science</addrLine>
+									<settlement>Cluj-Napoca</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A SURVEY OF MULTI-AGENT SYSTEMS USED FOR AIR TRAFFICCONTROL</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>INTRODUCTION INTRODUCTION</head><p>• Purpose: Explore why air traffic control is an ideal system for agent oriented implementation • Intelligent air traffic flow management is one of the fundamental challenges facing the Federal Aviation Administration (FAA) today.</p><p>• ATC systems have geographically and functionally distributed elements, subsystems which have a high degree of autonomy and highly dynamic environment.</p><p>• The system is very complex, each decision can affect other unexpected parts of the environment.</p><p>• Decentralised systems are more effective, can adapt more easily.</p><p>• Multi-agent systems can solve system conflict with different policies: negotiation, competition, cooperation.</p><p>• With the appearance of GPS and ADS-B devices the automation of ATC has become more and more possible.</p><p>• NASA introduced the concept of Free Flight systems to solve this problem.</p><p>• Free Flight system allows pilots to choose their own routes, altitude and speed and essentially gives each aircraft the freedom to self-optimise.</p><p>• The goal is to create a decentralised system by using on-board equipment which allows aircrafts to share some of the workload, such as navigation, weather prediction and aircraft separation, with ground controllers.</p><p>• Air traffic flow management: the regulation of air traffic in order to avoid exceeding airport or air traffic control capacity in handling traffic, and to ensure that available capacity is used efficiently • Conflict resolution: resolving the problems of two aircraft trajectories meeting in the future Currently relies on a centralised, hierarchical routing strategy that performs flow projections ranging from 1 to 6 hour.</p><p>We will discuss an agent oriented system from [Agogino and Tumer, 2012]</p><p>• Agents</p><p>• If we used aircrafts as agents the system would become too big • Researchers use individual ground locations throughout the airspace called 'fixes' as agents. Each agent is then responsible for any aircraft going through its fix.</p><p>• Agent actions</p><p>• Miles in trail (MIT): controls the distance aircraft have to keep from each other wile approaching a fix.</p><p>• Ground delays: controls how long aircraft that will eventually go through a fix should wait on the ground. With this action, congestion can be reduced if some agents choose ground delays and others do not, as this will spread out the congestion.</p><p>• Routing: controls the routes of aircraft going through its fix, by diverting them to take other routes that will (in principle) avoid the congestion.</p><p>• The agents use reinforcement learning to improve the system.</p><p>• Each agent has its own reward function which they need to maximise.</p><p>• The agents use the ϵ-greedy learning algorithm.</p><p>• Chooses the action with the highest table value with probability 1ϵ and chooses a random action with probability ϵ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>V(a) = (1 − λ)V(a) + λR</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ATFM EXPERIMENTS</head><p>• Agent learning • The researchers use a simulation tool called FACET (Future ATM Concepts Evaluation Tool) to test theirs system.</p><p>• The effectiveness of the system is then calculated based on the linear combination of the amount of congestion and air traffic delay.</p><p>• The agents take independent actions that maximize the system evaluation function G(z).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>G(z) = (B(z) + αC(z))</head><p>where B(z) is the total delay penalty for all aircraft in the system, and C(z) is the total congestion penalty.</p><p>First we we'll explore Distributed problem solvers for ATC <ref type="bibr" target="#b3">[Cammarata et al., 1988]</ref> • Each aircraft is an agent</p><p>• Goal: move from point A to B which can lead to shared coflicts • Conflict arises when aircrafts enter each other's protected zone.</p><p>• Agents resolve these conflicts through distributed problem solving</p><p>• Each system implements the information distribution policies where the information should be sent to other aircraft selectively • An agent is selected to perform the evaluation, create a new plan and execute it. It that's not enough other agents replan as well until conflict is resolved.</p><p>• Usually the agent with the most degree of freedom is the chosen planner.</p><p>• The most knowledgeable agent can also be a planner.</p><p>• Task sharing policy Autonomous Agents for Air-Traffic Deconfliction <ref type="bibr" target="#b5">[Pěchouček et al., 2006]</ref> • The aircraft are modeled by agent containers hosting several agents</p><p>• The aircrafts have multiple information specific zones: Communication, Alert, Safety and Collision zones.</p><p>• The deconfliction can happen by cooperative or non-cooperative negotiation.</p><p>• When agents enter each other's communication zones they subscribe to the other's flight plan updates.</p><p>• At each update conflict detection is made Agents use a rule based system to modify their flight plan.</p><p>The goal is to guarantee minimal future conflicts</p><p>The flight plans can be described by waypoints and timestamps at which the airplane arrives to that specific waypoint. Using these the flight planner generates the path consisting of segments and elements.</p><p>• head-on collision, both of them turning to the right.</p><p>• rear collision, it has to change its flight plan so that it turns to the right and passes the front airplane without endangering it. • side collision (right), The aircraft A needs to slow down its speed. • side collision (left), aircraft A changes its flight plan by increasing its flight speed so that it passes the collision point before the airplane B.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>• Free Flight system• Present two important components of the Free flight system</figDesc><table>• Air Traffic Flow Management 
+
+• Conflict resolution 
+
+• Conclusions 
+
+2 
+
+ATC CHALLANGES 
+
+AIR TRAFFIC CONTROL CHALLANGES 
+
+• The growing air traffic since the 1990s. 
+
+• ATC was mainly relying on human resources to resolve the traffic 
+management 
+
+• FAA estimates put weather, routing decisions and airport condition 
+induced delays at 1,682,700 h in 2007, resulting in a staggering 
+economic loss of over $41 billion, and in 740 million gallons of fuel 
+being wasted. [Agogino and Tumer, 2012] 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5">SOLUTION: FREE FLIGHT SYSTEM</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Agent oriented Free flight system are easily adaptable and improve the problems of delays and fuel waste</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">• We already have some good results in this automatization task, but we still need to improve it</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A multiagent approach to managing air traffic flow</title>
+	</analytic>
+	<monogr>
+		<title level="j">Autonomous Agents and Multi-Agent Systems</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="25" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Cammarata</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Mcarthur</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Steeb</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1988" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Strategies of cooperation in distributed problem solving</title>
+	</analytic>
+	<monogr>
+		<title level="m">Readings in Distributed Artificial Intelligence</title>
+		<imprint>
+			<publisher>Elsevier</publisher>
+			<biblScope unit="page" from="102" to="105" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Autonomous agents for air-traffic deconfliction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Pěchouček</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Šišlák</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Pavlíček</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Uller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the fifth international joint conference on Autonomous agents and multiagent systems</title>
+		<meeting>the fifth international joint conference on Autonomous agents and multiagent systems</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="1498" to="1505" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

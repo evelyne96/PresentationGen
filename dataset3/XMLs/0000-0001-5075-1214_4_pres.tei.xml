@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">An Extension of the Burrows Wheeler Transform and Applications to Sequence Comparison and Data Compression</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sabrina</forename><surname>Mantaci</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Università di Palermo</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antonio</forename><surname>Restivo</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Università di Palermo</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanna</forename><surname>Rosone</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Università di Palermo</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Marinella</forename><surname>Sciortino</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Università di Palermo</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">An Extension of the Burrows Wheeler Transform and Applications to Sequence Comparison and Data Compression</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:44+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>lexicographically sort all the cyclic shifts or conjugates of w 1: The BWT is injective. Every conjugacy class have a different transformation.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• OUTPUT: BWT(w)=L=caraab and the index I=1, that denotes the position of the original word w after the lexicographical sorting of its conjugates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I</head><p>The following properties hold:</p><p>• For all i  I, the character L[i] is followed in w by F[i];</p><p>• for any character ch, the i-th occurrence of ch in F corresponds to the i-th occurrence of ch in L.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Reversibility of the BWT</head><p>The Burrows-Wheeler Transform is reversible, in the sense that, given BWT(w) and an index I, it is possible to recover the original word w.</p><p>Given L=BWT(w)=caraab and I=1:</p><p>• We construct the first column F, by alphabetically sorting the letters in L.</p><p> :  = 0 1 2 3 4 5 1 3 4 5 0 2</p><p>• A permutation  is defined on the set {0,1,…,n-1}, estabilishing a correspondence between the positions of the same letter in F and in L;</p><p>F 0 a 1 a 2 a 3 b 4 c 5 r L c 0 a 1 r 2 a 3 a 4 b 5 I w= a b r a c a • Starting from position I, we can recover w= F( 0 (I))F( 1 (I))… F( n-1 (I)) where  0 (x)=x,  i+1 (x)= ( i (x)) =(1 3 5 2 4 0) 1 3 5 2 4 0 2: The Burrows-Wheeler transform is not surjective, in the sense that there exist words in A * that are not image by the BWT of any conjugacy class. Take for instance bccaaab.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>3:</head><p>The permutation defining the BWT is always a cycle with a descent number less than or equal to the size of the alphabet minus one.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remarks</head><p>If we do not care about the index, the BWT defines a correspondence between the set of conjugacy classes of words over A and the set of words over A. In this sense we have that:</p><p>The BWT and Combinatorics on words Let A be a finite alphabet and let A * denote the set of the words over A. A word u in A * is primitive if the condition u=w n implies u=w and n=1.</p><p>If u A * , we denote by u w =uuuu… For every word v, there exists a unique primitive word w and an integer k such that v=w k . By notation, w=root(v) and k=exp(v)</p><p>Definition: Let u and v be two primitive words.</p><formula xml:id="formula_0">u≤ w v  { exp(u)&lt;exp(v) if root(u)=root(v) u w &lt; lex v w otherwise</formula><p>Where u w &lt; lex v w denotes the usual lexicographic order between infinite words.</p><p>A new order relation Proposition: Given two primitive words u and v,</p><formula xml:id="formula_1">u≤ w v pref k (u w )&lt; lex pref k (v w ) where k=|u|+|v|-gcd(|u|,|v|).</formula><p>The bound is tight: indeed abaababa≤ w abaab because abaababaabab… abaababaabaa… differ for the character in position 12=8+5-1.</p><p>Notice that the &lt; w order is different than the lexicographic one. For instance ab&lt; lex aba, but aba≤ w ab , since abaabaaba… &lt; lex ababab… The extended transform E For instance, E(ab, abcac)=(bccaaab).</p><formula xml:id="formula_2">INPUT: S={abac, cbab, bca, cba}. a b a c a b … a b c a b c … a b c b a b … a c a b a c … a c b a c b … b a b c b a … b a c a b a … b a c b a c … b c a b c a … b c b a b c … c a b</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem [Gessel-Reutenauer]:</head><p>There exists a bijection between A * and the family of multisets of conjugacy classes of primitive words in A * . g(u,v)=u n 1 v n 2 u n 3 …v n k <ref type="bibr">(v,u)</ref>, that is the distance measure d is symmetric.</p><formula xml:id="formula_3">     k n i i i n v u 0 , 1 ) 1 ( ) , ( d u u v v u v u v v Definition Properties of the distance measure d • d(u,v)=d</formula><p>• If u and v are conjugates, then d(u,v)=0. In fact in this case g(u,v)=(uv) |u| , then n i =1 for all i=1,…,2|u|.</p><p>• If u' is a conjugate of u and v' is a conjugate of v, then d(u,v)= d(u',v'). Then, d is a similarity measure between conjugacy classes.</p><p>• d(u,v)=0 does not imply that u and v are conjugate. For instance, if u=aabc and v=abbc, g(u,v)=(uv) 4 . Then d(u,v)=0. </p><formula xml:id="formula_4">d(u,v)=0 d(u,w)=1 d(u,z)=1 d(v,w)=1 d(u,z)=1 d(w,z)=1</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Multiple sequence comparison</head><p>Multiple sequence comparison • We can compute the distance d of all pairs taken out from a set S of k sequences of length n by symultaneously applying the transformation E to the entire set S. • In order to obtain the kk-matrix of distances we can perform a single sorting of kn sequences of length n instead of k 2 sortings of 2n sequences of length n.</p><p>• We can define the notion of distance between sets If S and T are two sets, we encode each conjugate of an element of S and T by U and V, respectively. If g(S,T)=U n 1 V n 2 U n 3 …V n k is the sequence so obtained, we define A is a BWT-based compressor (BWT+MTF+HC). C is the E-based compressor.</p><formula xml:id="formula_5">     k n i i i n T S 0<label>,</label></formula><p>M and N are the size of the blocks and the whole text, respectively. We compare the compression ratios (expressed as output bits per input character) obtained with some files of the Calgary Corpus.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>•</head><label></label><figDesc>Relationship with Standard words. [S. Mantaci, A. Restivo, M. Sciortino, "Burrows-Wheeler Transform and Sturmian Words", Information Processing Letters, 2003]. • Relationship with combinatorics on permutations. [M. Crochemore, J. Désarménien, D. Perrin, "A note on the Burrows-Wheeler Transform", Theoretical Computer Science, 2005]; [M. Gessel, C. Reutenauer, "Counting permutations with given cycle structure and descent set", J. Comb. Theory, 1993].</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>•</head><label></label><figDesc>Sort all the conjugates of the words in S by the  w order relation; • Consider the sequence of the sorted words and take the word S' obtained by concatenating the last letter of each word; • Take the set I containing the positions of the words corresponding to the ones in S; • The output of the E transformation is the pair (S',any row iI, the first symbol follows the last one, in a word in S.• For each character, the i-th occurrence in the first column corresponds to the i-th occurrence in the red column. cyclic decomposition of the permutation and read the corresponding letters in F: Bijectivity Theorem: For each word uA * , there exists a multiset S M such that E(S)=u.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>• d does not satisfy the triangle inequality. For instance if u=abaab, v=babab, z=abbba, we have d(u,v)=6, d(v,z)=3 and d(u,z)=2.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Theorem:The transformation E is injective.</figDesc><table>Let M be the family of multisets of conjugacy classes of 
+primitive words of A * . Then, if we don't care about the indices 
+
+E: M 
+A * 
+
+A distance measure between words 
+
+u=bcaa 
+v=ccbab 
+
+aabc 
+c 
+abca 
+a 
+abccb 
+b 
+babcc 
+c 
+bcaa 
+a 
+bccba 
+a 
+caab 
+b 
+cbabc 
+c 
+ccbab 
+b 
+
+g(u,v)=u 2 v 2 uvuv 2 
+
+d(u,v)=3 
+
+In general: 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Comparison of biological sequences• d is an example of alignment free distance measure. • d measures how dissimilar two conjugacy classes of sequences are. • In order to test our method we applied the normalized version of our distance to the whole mitochondrial genome phylogeny. • The results we have obtained are very close to the ones derived, with other approaches in most of the papers in which the considered species are the same.</figDesc><table>1 
+
+) 
+1 
+( 
+) 
+, 
+( 
+
+d 
+
+primates 
+
+rodents 
+
+ferungulates 
+
+Evolutionary tree built from mtDNA sequences of 20 species 
+File 
+Size(in bytes) 
+Alg 
+M=16K 
+M=64K 
+M=N 
+
+bib 
+111261 
+
+C 
+
+2.547 
+2.461 
+2.425 
+
+A 
+
+3.204 
+2.634 
+
+obj1 
+21504 
+
+C 
+
+4.743 
+4.740 
+
+A 
+
+5.076 
+
+paper2 
+82199 
+
+C 
+
+2.805 
+2.786 
+2.779 
+
+A 
+
+3.330 
+2.917 
+
+progl 
+71646 
+
+C 
+
+2.145 
+2.138 
+2.131 
+
+A 
+
+2.440 
+2.200 
+
+trans 
+93695 
+
+C 
+
+2.064 
+1.978 
+1.950 
+
+A 
+
+2.667 
+2.123 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• The BWT was introduced as a tool in order to get a word easier to compress. • We use the transformation E as a preprocessing for the simultaneous compression of a set of k texts. • If {x 1 ,x 2 ,…,x k } is a multiset of words, we denote by C (x 1 ,x 2 ,…,x k ) the word obtained by applying a compressor C to the output of E({x 1 ,x 2 ,…x k }).</p><p>• If  is a permutation on {1,…,k}, then</p><p>Simultaneous compression of k texts </p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

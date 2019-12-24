@@ -1,0 +1,997 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">University of the Basque Country (EHU) Systems for the 2011 NIST Language Recognition Evaluation</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikel</forename><surname>Penagarikano</surname></persName>
+							<email>mikel.penagarikano@ehu.es</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amparo</forename><surname>Varona</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Javier</forename><surname>Luis</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mireia</forename><surname>Rodriguez-Fuentes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">German</forename><forename type="middle">Bordel</forename><surname>Diez</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Gtts</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">University of the Basque Country (EHU) Systems for the 2011 NIST Language Recognition Evaluation</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper describes the systems developed by the Software Technologies Working Group (http://gtts.ehu.es) of the University of the Basque Country for the 2011 NIST Language Recognition Evaluation. Four different systems (one primary and three contrastive) were submitted, consisting of a fusion of five subsystems: a Linearized Eigenchannel GMM (LE-GMM) subsystem, an iVector subsystem and three phone-lattice-SVM subsystems based on the publicly available BUT decoders for Czech, Hungarian an Russian. The four submitted systems were identical except for the backend approach and the development dataset used to estimate the backend and fusion parameters. Multiclass fusion was performed separately for each nominal duration. A development set was defined, including the evaluation sets of LRE07 and LRE09 and the development data provided by NIST for 9 additional languages in LRE11. Systems were evaluated on 10 random partitions of the development set, using one half for estimating backend and fusion parameters and the other half for testing. The average cost as defined in the LRE11 evaluation plan was used as performance measure. The primary system yielded an actual average cost of 0.038 (±0.002), being Hindi-Urdu, by far, the most challenging pair, with an actual average cost of 0.222.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>This paper describes the systems developed by the Software Technologies Working Group (GTTS, http://gtts.ehu.es) of the University of the Basque Country (EHU) for the 2011 NIST Language Recognition Evaluation (LRE). Attending to preliminary evaluation on development data, this submission yields improved performance with regard to previous EHU submissions to <ref type="bibr">NIST LRE in 2007</ref>  <ref type="bibr" target="#b0">[1]</ref> and 2009 <ref type="bibr" target="#b1">[2]</ref>.</p><p>Currently, spoken language recognition systems can be classified under two main categories, depending on the features used to model target languages <ref type="bibr" target="#b2">[3]</ref>: those using low level acoustic features and those using high level phonotactic features (recently, both approaches have been successfully mixed for a dialect recognition task <ref type="bibr" target="#b3">[4]</ref>). Acoustic systems are based on shorttime spectral characteristics of the audio signal, whereas phonotactic systems use sequences or lattices of tokens produced by phone recognizers. Both approaches provide complementary information and their fusion usually leads to the best results.</p><p>The EHU submission for the 2011 NIST LRE aims to take advantage from this complementarity, by combining both types The main novelty with regard to previous evaluations is the focus on the discrimination between pairs of languages (276 different pairs can be defined on a set of 24 target languages), which is emphasized with a new performance measure which takes into account only the 24 most challenging language pairs, i.e. those for which system performance is worst. This means that all the target languages should be suitably modeled and the discriminative power suitably balanced for all the pairs. In other words, if a single language was poorly modeled, a high number of confusable pairs (involving that language) could appear and cause performance to drop drastically. This is why the availability of training data to provide coverage for all the target languages (specially for those newly added in this evaluation) seemed critical to us. As for previous NIST evaluations, three test conditions are defined for three nominal durations of 30, 10 and 3 seconds. More detailed information about the 2011 NIST LRE can be found in <ref type="bibr" target="#b4">[5]</ref>.</p><p>The rest of the paper is organized as follows. Section 2 describes the datasets used for training and development, including details about the collection of training data for the target languages appearing for the first time in 2011. Section 3 describes the acoustic and phonotactic subsystems on which the EHU submission is based. Section 4 completes the picture by briefly describing the backend and fusion strategies and the subtle differences among the four systems submitted to 2011 NIST LRE. Finally, the average performance of individual subsystems and the fused systems on 10 random partitions of the development corpus are presented and briefly discussed in Section 5.</p><p>2. Train and development data 2.1. Data collection for the newly added target languages NIST has provided a development dataset specifically collected for this evaluation, including 100 30-second segments for each of the newly added target languages, except for Lao, for which only 93 segments were provided. We augmented the dataset with 10-and 3-second segments extracted from the original 30-second segments. Hereafter, we will refer to this dataset as lre11.</p><p>It is not strictly necessary to train models for all the target languages, since a backend can be trained and applied to map scores obtained for an arbitrary set of language models into loglikelihoods for the set of target languages. This means that lre11 may be used just to estimate the backend parameters for the newly added languages. By doing that, we assume that any target language can be parameterized and discriminated in terms of the available models.</p><p>For a better coverage of target languages, we randomly split lre11 into two disjoint subsets (each having approximately half the segments for each language): lre11-train was used to train specific models for the newly added languages, and lre11-dev was used to estimate backend and fusion parameters for the EHU submission, and to evaluate system performance during development (see Section 5 for details).</p><p>However, splitting lre11 in two halves may lead to data sparsity and robustness issues. Note that each subset amounted to around 25 minutes of speech per target language, which may be enough to estimate backend parameters, but probably not enough to train robust models. In the context of a joint submission to 2011 NIST LRE, the INESC-ID Spoken Language Systems Laboratory (L 2 F ), the University of Zaragoza and the University of the Basque Country collaborated in order to share, acquire and, whenever necessary, filter speech data for the newly added languages. In some cases we collected telephone speech directly from the source (that was the case of CTS databases and BN databases including telephone speech). When this was not possible, we used broadcast news speech, downsampled it to 8 kHz and applied the Filtering and Noise Adding Tool (FANT) 1 to filter speech data with a frequency characteristic as defined by ITU for telephone equipment 2 .</p><p>The VOA corpus used for the 2009 NIST LRE was explored in first place, starting from the labels provided by NIST. Music and fragments in English were automatically detected and filtered out, and telephone-channel speech fragments were extracted. Around two hours of Lao were extracted this way. Then we used databases distributed by the LDC, some of them containing conversational telephone speech (LDC2006S45 for Arabic Iraqi and LDC2006S29 for Arabic Levantine) and others broadcast news with fragments of telephone speech (LDC2000S89 and LDC2009S02 for Czech). In both cases, segments containing telephone speech were extracted with no further processing.</p><p>The remaining materials were extracted from wideband broadcast news recordings, dowsampling them to 8 kHz and applying FANT to simulate a telephone channel. The COST278 Broadcast News database <ref type="bibr" target="#b5">[6]</ref> was used to get speech segments for Czech and Slovak. Arabic MSA was extracted from Al Jazeera broadcasts included in the Kalaka-2 database created for the Albayzin 2010 LRE <ref type="bibr" target="#b6">[7]</ref>. Finally, broadcasts were also captured from video archives in TV websites to get speech segments in Arabic Maghrebi (Arrabia TV, http://www.arrabia.ma) and Polish (Telewizja Polska, TVP INFO, http://tvp.info). TV broadcasts were fully audited, so that only reasonably clean speech segments were selected for training.</p><p>We were not able to collect by any means additional training materials for Panjabi, which means that a single model (trained on just 55 segments) was used for this language.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Train data</head><p>Train data have been obtained from several sources. Most of them were provided by NIST to LRE participants in past campaigns:</p><p>• Conversational telephone speech (CTS) from previous LRE: <ref type="formula" target="#formula_0">(1)</ref>   <ref type="bibr" target="#b8">[9]</ref>. • The lre11-train corpus, as defined in Section 2.1, which amounts to half of the segments provided by NIST for the newly added target languages in the 2011 LRE.</p><p>As noted above, we considered the two following criteria: (1) there should be models for all the target languages, to prevent performance loss due to a lack of coverage; and (2) the amount of training data should be increased for the newly added languages (for which only the lre11-train corpus was available), to prevent robustness issues. Therefore, we collected additional training data for the newly added languages (we have already addressed this task in Section 2.1).</p><p>We ended up with 66 subsets, very heterogeneous in size and composition, corresponding to different languages/dialects, including target and non-target languages, and different sources (see <ref type="table" target="#tab_1">Table 1</ref>). We trained a different model on each subset, which means that models account not only for the spoken language but also for the channel and other factors related to the source from which the speech data were drawn.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Development data</head><p>The criterion applied to define the development set was making the process of tuning systems as robust and reliable as possible, so we decided to use only segments audited by NIST. To cover all the target languages, the evaluation sets of the NIST 2007 and 2009 LREs (only the segments corresponding to NIST 2011 LRE target languages), together with the lre11-dev subset, as defined in Section 2.1, were used. We defined three development subsets: dev30, dev10 and dev03, corresponding to nominal durations of 30, 10 and 3 seconds, containing 8539, 8343 and 8290 segments, respectively. <ref type="table" target="#tab_2">Table 2</ref> shows the distribution of segments in the subset dev30 with regard to the target languages and sources. Target languages show large differences in the number of segments amongst each other. The newly added target languages are the less populated (and thereby, the most likely to suffer from overtraining and/or robustness issues), with around 50 segments each.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">The EHU Language Recognition</head><p>Sub-systems</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Acoustic Sub-systems</head><p>For the acoustic systems, the concatenation of 7 Mel-Frequency Cepstral Coefficients (MFCC) and the Shifted Delta Cepstrum (SDC) coefficients under a 7-2-3-7 configuration, were used as acoustic features. A gender independent 1024-mixture GMM (Universal Background Model, UBM) was estimated by Maximum Likelihood on the training dataset, using binary mixture splitting, orphan mixture discarding and variance flooring. Finally, for each input utterance, UBM-MAP adaptation was applied and the centered zero-order and first-order Baum-Welch statistics were used as features. The Linearized Eigenchannel GMM (LE-GMM) sub-system, that we briefly call Dot-Scoring sub-system, makes use of a linearized procedure to score test segments against target models <ref type="bibr" target="#b9">[10]</ref>. The log-likelihood ratio between the target model and the UBM used for scoring can be approximated as follows:</p><formula xml:id="formula_0">score (f, l) = log P (f |λ l ) P (f |λ ubm ) ≈ m t l ·x f<label>(1)</label></formula><p>where m l denotes the vector of normalized means corresponding to language l andx f is the vector of channel-compensated first-order statistics corresponding to the target signal f . Channel compensation was performed by using Niko Brümer's recipe <ref type="bibr" target="#b10">[11]</ref>. The channel matrix was estimated using only data from target languages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.2.">iVector Sub-system</head><p>The estimation of the total variability matrix T and the computation of iVectors started from the channel-compensated sufficient statistics obtained with the Dot-Scoring system. This is not the common procedure, since compensation is usually performed in the iVector space, but we had a hardware issue 3 and no time to reestimate Baum-Welch statistics for training the T matrix. We had the iVector software prepared, so we decided to go ahead with this alternative computation method. Except for the compensation of statistics, computations were performed as in <ref type="bibr" target="#b11">[12]</ref>. Once again, the total variability matrix was estimated using only data from target languages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Phonotactic Sub-systems</head><p>Three phonotactic sub-systems were developed under a phonelattice-SVM approach. Given an input signal, an energy-based voice activity detector was applied in first place, which split and removed long-duration non-speech segments. Then, the Temporal Patterns Neural Network (TRAPs/NN) phone decoders developed by the Brno University of Technology (BUT) for Czech (CZ), Hungarian (HU) and Russian (RU) <ref type="bibr" target="#b12">[13]</ref>, were applied to perform phone tokenization. Non-phonetic units: int (intermittent noise), pau (short pause) and spk (non-speech speaker noise) were mapped to sil (silent pause). Regarding channel compensation, noise reduction, etc. the three subsystems relied on the acoustic front-end provided by BUT decoders. BUT decoders were configured to produce phone lattices. Lattices, which encode multiple hypotheses with acoustic likelihoods, were then used to produce expected counts of phone n-grams, by means of HTK <ref type="bibr" target="#b13">[14]</ref>. Finally, a Support Vector Machine classifier was applied, SVM vectors consisting of counts of features representing the phonotactics of an input utterance. In this work, phone n-grams up to n = 3 were used, weighted as in <ref type="bibr" target="#b14">[15]</ref>. L2-regularized L1-loss support vector classification was applied, by means of LIBLINEAR <ref type="bibr" target="#b15">[16]</ref>, whose source code was slightly modified to get regression values.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">The EHU submission</head><p>The EHU submission consists of one primary and three contrastive systems, fusing the 5 sub-systems described in Section 3 under four different configurations, depending on the type of backend and on the datasets used to estimate backend and fusion parameters for nominal durations 10 and 3 (see <ref type="table" target="#tab_3">Table 3</ref>). Note that backend and fusion were estimated and applied separately for each nominal duration. The four submitted systems have the same complexity and processing speed (see Section 4.1 for details). Each sub-system produces 66 scores (one score per trained model). These scores are taken as input by the backend, which outputs 24 log-likelihoods, one per target language. A Gaussian backend, preceded by an optional zt-norm <ref type="bibr" target="#b16">[17]</ref>, has been applied in all cases. Though discriminative backends have been also tried, the (generative) Gaussian backend outperformed them in most cases, probably due to a lack of samples which led to overtraining on the development set used in the experiments. Finally, the resulting 5 × 24 log-likelihood values are fused by applying linear logistic regression, under a multiclass paradigm, to get 24 calibrated scores for which a minimum expected cost Bayes decision is made, according to applicationdependent language priors and costs. We have also tried pairwise backends and fusions but they did not provide significant improvements with regard to the basic multiclass approach (much easier to implement). The FoCal toolkit has been used to estimate and apply the backend and calibration/fusion models <ref type="bibr" target="#b17">[18,</ref><ref type="bibr" target="#b18">19]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Processing times</head><p>Processing times were all measured on a computer with 2 Intel Xeon 5550 CPUs (x 4 cores x 2 turbo HT) running at 2.66GHz with 32GB of memory. Real-time factors for the five subsystems and the overall fused systems are shown in <ref type="table" target="#tab_4">Table 4</ref>. For the iVector sub-system, the real-time factor only accounts for the iVector estimation from the total variability matrix and precomputed statistics, since it relies on the compensated statistics computed for the Dot-Scoring sub-system. Sub-processes with relatively small (negligible) run times, such as dot product, iVector scoring and SVM vector scoring, have not been taken into account. Processing times for the backend and fusion operations have been also omitted, since they are extremely fast. The overall fused systems run at 0.7295 times real time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>5.</head><p>System performance: results on the development dataset</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">Evaluation methodology</head><p>To measure system performance, the development dataset can be split in two halves, the first being used to estimate backend and fusion parameters and the second to generate a set of trials, on which the performance measure, as defined in the Evaluation Plan, can be computed. Note, however, that if we consider a single partition, a positive or negative bias may be introduced. To have a more robust measure of system performance, we define 10 random partitions (always the same) and compute the average performance on them. This strategy pursues (via random subset selection) the same goal than a 2-fold cross-validation strategy, but providing a better balance between the size of the evaluation subset (large enough for the results to be reliable) and the number of partitions considered in the average (for statistical significance). The above described strategy may introduce a positive bias if signals used for testing also appear in the subset used to estimate backend and fusion parameters. In this regard, note that for the 9 newly added target languages, 10-second segments in the development set were entirely extracted from 30-second segments, and 3-second segments were entirely extracted from 10-second segments. Moreover, we suspect that 10-and 3second segments provided by NIST in the evaluation sets of the 2007 and 2009 LREs (which have been also included in the development set) were partly obtained using a similar procedure. This means that, for contrastive systems 1 and 3, whose development sets for nominal durations 10 and 3 consist of dev10 + dev30 and dev03 + dev10 + dev30, respectively, some signals may appear two or even three times. Due to these dependencies, performance results for contrastive systems 1 and 3 have been omitted 4 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">Overall performance results</head><p>The actual and minimum average costs for the EHU primary system and the EHU contrastive system 2, along with the costs for the sub-systems involved in the corresponding fusions, in experiments on 10 fixed partitions of the development set, are shown in <ref type="table" target="#tab_5">Table 5</ref>. The only difference between the primary and contrastive systems regards the introduction of a zt-norm before the backend in the contrastive system, which consistently leads to a slight (but not significant) improvement in performance. Systems are not perfectly calibrated, as the differences between C act avg and C min avg reveal. In fact, a perfect calibration may provide cost reductions ranging from 15% to 25%. Calibration issues probably arise due to a lack of samples in the development set for some of the target languages. This effect is more noticeable in these experiments than in the scores submitted to NIST 2011 LRE, because only one half of the development set (maybe unbalanced) has been used to estimate backend and fusion parameters. The dot-scoring sub-system consistently yields the best performance, followed by the Phone-SVM sub-systems for Russian, Czech and Hungarian. Finally, the iVector subsystem does not perform as well as expected, maybe because the precompensation issue commented in Section 3. In any case, the five sub-systems provide a reasonably good fusion. We found that the iVector sub-system contributed with complementary information, improving the fusion of the four other sub-systems, despite being trained on the same compensated statistics used for the dot-scoring sub-system. <ref type="figure" target="#fig_1">Figure 1</ref> shows the minimum and actual average costs for the 24 language pairs yielding the highest minimum average costs on dev30, when using the EHU primary system. The pair Hindi-Urdu yields, by far, the highest cost, with C act avg = 0.222, the next highest costs being one third that value: C act avg ≈ 0.073 for the pairs English American-English Indian, Czech-Slovak and Arabic Levantine-Arabic Iraqui. There are only three more pairs with actual costs greater than 0.05: Dari-Farsi, Hindi-Panjabi and Panjabi-Urdu. In all cases, the involved pairs were expected to be highly confusable. However, the pair Hindi-Urdu accounts for a large fraction of the overall cost, so specific efforts should be devoted to analyze the reasons for this result and to study ways to improve the discrimination between both languages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.">Most challenging language pairs</head><p>On the other hand, the EHU primary system seems to be reasonably well calibrated for some language pairs, but very poorly for other pairs. <ref type="table" target="#tab_6">Table 6</ref> shows the 5 worst calibrated pairs, in terms of the absolute and relative difference between C act avg and C min avg . In all cases, one of the languages of the pair, or both, have few development utterances (less than 100, in most cases around 50, see <ref type="table" target="#tab_2">Table 2</ref>), and only half of them (on average) are used to estimate backend and fusion parameters for each of the 10 partitions considered in these experiments. Therefore, as we suggested above, the lack of samples is the most plausible explanation for the calibration issues observed in <ref type="figure" target="#fig_1">Figure 1</ref>. We expect the scores to be better calibrated in the submission to NIST 2011 LRE, since backend and fusion parameters were estimated on all the development utterances. (D a ri ,F a rs i) (A ra b ic _ Ir a q i, A ra b ic _ L e v a n ti n e ) (H in d i, P a n ja b i) (P a n ja b i, U rd u ) </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>This work has been supported by the University of the Basque Country (EHU) under grant GIU10/18, by the Government of the Basque Country under program SAIOTEK (project S-PE10UN87) and by the Spanish MICINN under Plan Nacional de I+D+i (project TIN2009-07446, partially financed by FEDER funds). of systems. Two acoustic and three phonotactic subsystems have been fused: a Linearized Eigenchannel GMM (LE-GMM) subsystem, an iVector subsystem and three Phone-SVM subsystems based on the Brno University of Technology (BUT) phone decoders for Czech, Hungarian and Russian. The 2011 NIST LRE features 24 target languages, some of them already used in previous 2007 and/or 2009 LREs (Bengali, Dari, English American, English Indian, Farsi/Persian, Hindi, Mandarin, Pashto, Russian, Spanish, Tamil, Thai, Turkish, Ukranian and Urdu), whereas the remaining ones (Arabic Iraqi, Arabic Levantine, Arabic Maghrebi, Arabic MSA, Czech, Lao, Panjabi, Polish and Slovak) have been used as target languages for the first time in this evaluation.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 :</head><label>1</label><figDesc>Minimum and actual average costs for the 24 language pairs yielding the highest minimum average costs when using the EHU primary system. Performance has been averaged on 10 fixed partitions of the development set (30-second segments).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="true"><head>Table 1 :</head><label>1</label><figDesc>Training set: distribution of subsets (66), according to the language/dialect and source.</figDesc><table>Source 
+Languages 
+
+LRE 2007 (CTS) 
+
+Bengali, English-American, 
+English-Indian, Farsi, French, 
+German, Hindi, Japanese, Korean, 
+Mainland (Mandarin), Russian, 
+Spanish-Caribbean, 
+Spanish-Mexican, 
+Spanish-NonCaribbean, Taiwan 
+(Mandarin), Tamil, Thai, Urdu 
+
+LRE 2009 (VOA, 
+CTS from BN) 
+
+Albanian, Amharic, Bangla, Creole, 
+Dari, French, Georgian, Greek, 
+Hausa, Hindi, Indonesian, 
+Kinyarwanda/Kirundi, Korean, Lao, 
+Mandarin, Ndebele, Oromo, Pashto, 
+Persian/Farsi, Russian, Shona, 
+Somali, Spanish, Swahili, Tibetan, 
+Tigrigna, ttam (English), Turkish, 
+Ukrainian, Urdu 
+LRE 2011 
+(lre11-train, CTS 
+and/or BN) 
+
+Arabic-Iraqi, Arabic-Levantine, 
+Arabic-Magrebi, Arabic-MSA, 
+Czech, Lao, Panjabi, Polish, Slovak 
+LDC 2006S45 
+(CTS) 
+Arabic-Iraqi 
+
+LDC 2006S29 
+(CTS) 
+Arabic-Levantine 
+
+Arrabia TV (BN) 
+Arabic-Magrebi 
+Al Jazeera (BN) 
+Arabic-MSA 
+LDC 2000S89 
+(CTS from BN) 
+Czech 
+
+LDC 2009S02 
+(CTS from BN) 
+Czech 
+
+COST278 (BN) 
+Czech, Slovak 
+Telewizja Polska 
+(BN) 
+Polish 
+
+3.1.1. Dot Scoring Sub-system 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head>Table 2 :</head><label>2</label><figDesc></figDesc><table>Development set (30-second segments): distribution 
+with regard to the target language and source. 
+LRE 
+LRE 
+LRE 
+Language 
+2007 
+2009 
+2011 
+Total 
+(eval) (eval) (lre11-dev) 
+Arabic Iraqi 
+-
+-
+48 
+48 
+Arabic Levantine 
+-
+-
+49 
+49 
+Arabic Maghrebi 
+-
+-
+54 
+54 
+Arabic MSA 
+-
+-
+51 
+51 
+Bengali 
+80 
+43 
+-
+123 
+Czech 
+-
+-
+56 
+56 
+Dari 
+-
+389 
+-
+389 
+English American 
+80 
+896 
+-
+976 
+English Indian 
+160 
+574 
+-
+734 
+Farsi/Persian 
+80 
+390 
+-
+470 
+Hindi 
+160 
+667 
+-
+827 
+Lao 
+-
+-
+41 
+41 
+Mandarin 
+158 
+1015 
+-
+1173 
+Panjabi 
+32 
+9 
+45 
+86 
+Pashto 
+-
+395 
+-
+395 
+Polish 
+-
+-
+46 
+46 
+Russian 
+160 
+511 
+-
+671 
+Slovak 
+-
+-
+56 
+56 
+Spanish 
+240 
+385 
+-
+625 
+Tamil 
+160 
+-
+-
+160 
+Thai 
+80 
+188 
+-
+268 
+Turkish 
+-
+394 
+-
+394 
+Ukrainian 
+-
+388 
+-
+388 
+Urdu 
+80 
+379 
+-
+459 
+Total 
+1470 
+6623 
+446 
+8539 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="true"><head>Table 3 :</head><label>3</label><figDesc>Main features of the EHU primary and contrastive systems. Backend and fusion were estimated and applied separately for each nominal duration.</figDesc><table>System 
+zt-norm 
+Backend &amp; Fusion Train Dataset 
+30s 
+10s 
+3s 
+Pri 
+No 
+dev30 
+dev10 
+dev03 
+Con1 
+No 
+dev30 
+dev10+dev30 
+dev03+dev10+dev30 
+Con2 
+Yes 
+dev30 
+dev10 
+dev03 
+Con3 
+Yes 
+dev30 
+dev10+dev30 
+dev03+dev10+dev30 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head>Table 4 :</head><label>4</label><figDesc></figDesc><table>Real-time factors of the five sub-systems and the cor-
+responding sub-processes. The fused systems are obtained by 
+sequentially running the five sub-systems, so the real-time fac-
+tor is computed by adding the real-time factors of sub-systems. 
+
+Dot-Scoring 
+0.0467 
+Acoustic Parameterization 0.0020 
+Sufficient Statistics 
+0.0187 
+Channel Compensation 
+0.0260 
+iVector 
+0.0250 
+Phone-SVM-CZ 
+0.2114 
+Lattice Decoding 
+0.1267 
+Expected Counts 
+0.0847 
+Phone-SVM-HU 
+0.2300 
+Lattice Decoding 
+0.1517 
+Expected Counts 
+0.0783 
+Phone-SVM-RU 
+0.2164 
+Lattice Decoding 
+0.1327 
+Expected Counts 
+0.0837 
+Fused Systems 
+0.7295 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5" validated="true"><head>Table 5 :</head><label>5</label><figDesc>Actual and minimum average costs for the EHU primary system, the EHU contrastive system 2 and the sub-systems involved in the respective fusions, in experiments on 10 fixed partitions of the development set.</figDesc><table>C act 
+
+avg 
+
+C min 
+
+avg 
+
+30s 
+10s 
+3s 
+30s 
+10s 
+3s 
+Primary 
+0.038 (±0.002) 
+0.084 (±0.005) 
+0.209 (±0.009) 
+0.029 (±0.002) 
+0.067 (±0.003) 
+0.179 (±0.007) 
+Dot-Scoring 
+0.071 (±0.005) 0.140 (±0.007) 0.276 (±0.010) 
+0.056 (±0.004) 0.116 (±0.005) 
+0.248 (±0.008) 
+iVector 
+0.086 (±0.006) 0.172 (±0.008) 0.304 (±0.010) 
+0.069 (±0.003) 0.144 (±0.005) 
+0.271 (±0.007) 
+Phone-SVM-CZ 
+0.078 (±0.005) 0.161 (±0.007) 0.321 (±0.011) 
+0.062 (±0.004) 0.139 (±0.007) 
+0.284 (±0.008) 
+Phone-SVM-HU 
+0.086 (±0.005) 0.160 (±0.006) 0.300 (±0.008) 
+0.068 (±0.004) 0.135 (±0.004) 
+0.264 (±0.003) 
+Phone-SVM-RU 
+0.073 (±0.005) 0.158 (±0.011) 0.300 (±0.009) 
+0.059 (±0.005) 0.133 (±0.008) 
+0.261 (±0.007) 
+
+Contrastive 2 
+0.037 (±0.002) 
+0.082 (±0.004) 
+0.205 (±0.009) 
+0.028 (±0.002) 
+0.066 (±0.003) 
+0.174 (±0.007) 
+Dot-Scoring 
+0.073 (±0.004) 0.135 (±0.008) 0.276 (±0.011) 
+0.056 (±0.003) 0.112 (±0.003) 
+0.243 (±0.008) 
+iVector 
+0.082 (±0.006) 0.169 (±0.007) 0.304 (±0.009) 
+0.067 (±0.005) 0.141 (±0.005) 
+0.271 (±0.008) 
+Phone-SVM-CZ 
+0.077 (±0.004) 0.160 (±0.008) 0.322 (±0.012) 
+0.061 (±0.004) 0.139 (±0.007) 0.282 (± 0.007) 
+Phone-SVM-HU 
+0.082 (±0.004) 0.157 (±0.006) 0.297 (±0.008) 
+0.066 (±0.003) 0.132 (±0.004) 
+0.263 (±0.004) 
+Phone-SVM-RU 
+0.073 (±0.006) 0.154 (±0.009) 0.299 (±0.008) 
+0.058 (±0.005) 0.130 (±0.007) 
+0.262 (±0.007) 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" validated="false"><head>Table 6 :</head><label>6</label><figDesc>The 5 worst calibrated language pairs (on average) in absolute and relative terms, when using the EHU primary system on 10 fixed partitions of the development set (30-second segments). Arabic Levantine, Arabic MSA 0.032 Arabic Levantine, Arabic MSA 3.22 Lao, Thai 0.028 Polish, Slovak 2.88 Arabic Iraqi, Arabic Levantine 0.025 Bengali, Panjabi 2.24 Czech, Slovak 0.018 Bengali, English Indian 2.24 Arabic Iraqi, Arabic MSA 0.018 Lao, Thai 1.75 (E n g li s h _ A m e ri c a n ,E n g li s h _ In d ia n )</figDesc><table>Absolute 
+Relative 
+C act 
+avg − C min 
+
+avg 
+
+C act 
+avg /C min 
+avg − 1 
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">http://dnt.kr.hs-niederrhein.de/download.html 2 Thanks to Alberto Abad from L 2 F for doing all the filtering tasks on BN speech and VOA materials.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">We lost the LRE11 data (speech signals, statistics, etc.), due to a mechanical failure of a disk, two weeks before the submission deadline.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4">Regarding performance on 30-second segments, the contrastive system 1 is identical to the primary system, and the contrastive system 3 is identical to the contrastive system 2.</note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Acknowledgements</head><p>We thank Alberto Abad from L 2 F and the people from the University of Zaragoza, which collaborated with us for a joint submission to NIST 2011 LRE: their work, the enriching discussions and the fun time shared in a series of video-conferences have been key for the development of EHU systems. We also thank the NIST 2011 LRE organizers for their readiness to answer our questions.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">University of the Basque Country + Ikerlan System for NIST 2007 Language Recognition Evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Bordel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">J</forename><surname>Rodriguez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">P</forename><surname>Uribe</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2007 NIST Language Recognition Evaluation (LRE) Workshop</title>
+		<meeting><address><addrLine>Orlando, Florida, USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">University of the Basque Country + Ikerlan System for NIST 2009 Language Recognition Evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Varona</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Zamalloa</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">J</forename><surname>Rodriguez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Bordel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">P</forename><surname>Uribe</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2009 NIST Language Recognition Evaluation (LRE) Workshop</title>
+		<meeting><address><addrLine>Baltimore, MD, USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">The MITLL NIST LRE 2009 language recognition system</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Torres-Carrasquillo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Singer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Gleason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Mccree</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Reynolds</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Richardson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Sturim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of ICASSP 2010</title>
+		<meeting>of ICASSP 2010</meeting>
+		<imprint>
+			<date type="published" when="2010" />
+			<biblScope unit="page" from="4994" to="4997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Dialect and accent recognition using phonetic-segmentation supervectors</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Biadsy</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hirschberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">P W</forename><surname>Ellis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech<address><addrLine>Firenze, Italia</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="745" to="748" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+				<ptr target="http://www.nist.gov/itl/iad/mig/upload/LRE11EvalPlanreleasev4.pdf" />
+		<title level="m">The 2011 NIST Language Recognition Evaluation Plan (LRE11)</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The COST278 pan-European Broadcast News Database</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Vandecatseye</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J.-P</forename><surname>Martens</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Neto</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Meinedo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Garcia-Mateo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Dieguez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Mihelic</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Zibert</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Nouza</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>David</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Pleva</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Cizmar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Papageorgiou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Alexandris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the LREC</title>
+		<meeting>the LREC<address><addrLine>Lisbon, Portugal</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="873" to="876" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The Albayzin 2010 Language Recognition Evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">J</forename><surname>Rodriguez-Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Varona</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Diez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Bordel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech<address><addrLine>Firenze, Italia</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="1529" to="1532" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<monogr>
+				<ptr target="http://www.itl.nist.gov/iad/mig/tests/lre/2009/LRE09EvalPlanv6.pdf" />
+		<title level="m">The 2009 NIST Language Recognition Evaluation Plan (LRE09)</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The 2009 NIST Language Recognition Evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Martin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Greenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Odyssey 2010: The Speaker and Language Recognition Workshop</title>
+		<meeting>Odyssey 2010: The Speaker and Language Recognition Workshop<address><addrLine>Brno, Czech Republic</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2010" />
+			<biblScope unit="page" from="165" to="171" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Strasheim</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<title level="m">NIST Speaker Recognition Evaluation Workshop Booklet</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+	<note>SUNSDV system description: NIST SRE</note>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Discriminative Acoustic Language Recognition via Channel-Compensated GMM Statistics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Strasheim</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Hubeika</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Matejka</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Glembek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech<address><addrLine>Brighton, UK</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2009" />
+			<biblScope unit="page" from="2187" to="2190" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Language Recognition in iVectors Space</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Martínez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Plchot</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Glembek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Matejka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech<address><addrLine>Firenze, Italy</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="861" to="864" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Phoneme recognition based on long temporal context</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Schwarz</surname></persName>
+		</author>
+		<ptr target="http://www.fit.vutbr.cz/schwarzp/publi/thesis.pdf" />
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+		<respStmt>
+			<orgName>Faculty of Information Technology, Brno University of Technology</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Ph.D. dissertation</note>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<monogr>
+		<title level="m" type="main">The HTK Book (for HTK Version 3.4)</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Young</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Evermann</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Gales</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Hain</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Kershaw</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Lui</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Moore</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Odell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Ollason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Povey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Valtchev</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Woodland</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+		<respStmt>
+			<orgName>Cambridge University Engineering Department, UK</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Language recognition with discriminative keyword selection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Richardson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Campbell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICASSP</title>
+		<meeting>ICASSP</meeting>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="page" from="4145" to="4148" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">LIBLINEAR: A library for large linear classification</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R.-E</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K.-W</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C.-J</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X.-R</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C.-J</forename><surname>Lin</surname></persName>
+		</author>
+		<ptr target="http://www.csie.ntu.edu.tw/∼cjlin/liblinear" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="1871" to="1874" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Score normalization for text-independent speaker verification systems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Auckenthaler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Carey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Lloyd-Thomas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Digital Signal Processing</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">1-3</biblScope>
+			<biblScope unit="page" from="42" to="54" />
+			<date type="published" when="2000-01" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">On calibration of language recognition scores</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Van Leeuwen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Odyssey -The Speaker and Language Recognition Workshop</title>
+		<meeting>Odyssey -The Speaker and Language Recognition Workshop</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="1" to="8" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Fusion of heterogeneous speaker recognition systems in the STBU submission for the NIST speaker recognition evaluation 2006</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Cernocky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Glembek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Grezl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Karafiat</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Van Leeuwen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Matejka</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Schwarz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Strasheim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Audio, Speech, and Language Processing</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="2072" to="2084" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

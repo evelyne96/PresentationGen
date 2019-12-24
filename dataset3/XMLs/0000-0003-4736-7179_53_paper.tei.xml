@@ -1,0 +1,576 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Does Training Affect Match Performance? A Study Using Data Mining And Tracking Devices</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Javier</forename><surname>Fernández</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Fútbol Club Barcelona</orgName>
+								<orgName type="institution">Ciudad Deportiva Joan Gamper</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="institution">Universitat Politècnica de Catalunya</orgName>
+								<address>
+									<addrLine>Campus Nord</addrLine>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Daniel</forename><surname>Medina</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Fútbol Club Barcelona</orgName>
+								<orgName type="institution">Ciudad Deportiva Joan Gamper</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antonio</forename><surname>Gómez</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Fútbol Club Barcelona</orgName>
+								<orgName type="institution">Ciudad Deportiva Joan Gamper</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Marta</forename><surname>Arias</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Universitat Politècnica de Catalunya</orgName>
+								<address>
+									<addrLine>Campus Nord</addrLine>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Universitat Politècnica de Catalunya</orgName>
+								<address>
+									<addrLine>Campus Nord</addrLine>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Does Training Affect Match Performance? A Study Using Data Mining And Tracking Devices</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>GPS</term>
+					<term>tracking devices</term>
+					<term>football physical performance</term>
+					<term>sports analytics</term>
+					<term>dtw</term>
+					<term>cluster analysis</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FIFA has recently allowed the use of electronic performance and tracking systems (EPTS ) in professional football competition, providing teams with novel and more accurate data. Physical performance has not yet taken much attention from the research community, due to the difficulty of accessing this information with the same devices during training and competition. This study provides a methodology based on machine learning and statistical methods to relate the physical performance variation of players during time-framed training sessions, and their performance in the following matches. The analysis is carried out over F.C. Barcelona B, season 2015-2016 data, and makes emphasis on exploiting the design characteristics of the structured training methodology implemented within the club. The use of summarized physical variation data has provided a remarkable relation between higher magnitudes of variation in 3-week time frames during training, and higher physical values in the following matches. With increased data availability this and new approaches could provide a new frontier in physical performance analysis. This is, up to our knowledge, the first study to relate training and matches performance through the same EPTS devices in professional football.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Professional football has attracted the attention of the data science community in the last decade due to the increasing availability of quantitative data. The latest technology has provided the possibility of gathering different kinds of specific metrics, from team statistics to in-game detailed events, contributing to the improvement of typical and critical tasks such as team tactics evaluation, opponent analysis, player scouting and training design. The idea that exploiting data-related analysis can become a competitive advantage within professional sports is increasingly supported <ref type="bibr" target="#b0">[1]</ref>. However, it should be noted that few of the current studies are devoted to the analysis of physical information of the players <ref type="bibr" target="#b1">[2]</ref>. This has to do mainly with the difficulty of having access to this data through training and competition, which is considered highly valued by football clubs <ref type="bibr" target="#b1">[2]</ref>. Typically, such information is gathered through the use of electronic performance and tracking systems (EPTS) which include GPS and microsensor technology such as accelerometeres, gyroscopes and magnetometers. Such is the case of professional sections at F.C. Barcelona where these tools are used for monitoring load and many other physical variables. Despite the existing concerns regarding its reliability, they have increasingly being adapted and accepted in sports such as Rugby, Australian football, Cricket and Hockey <ref type="bibr" target="#b2">[3]</ref>. Recently, the Football Association Board (IFAB) has authorized the use of these devices during official football competition for the 2015-2016 season <ref type="bibr" target="#b3">[4]</ref>, opening the doors for novel research regarding physical performance of players during the season.</p><p>At F.C. Barcelona, EPTS devices have been recently used to aid the evaluation of the applied training methodology, the structured training, a system that sets the baselines for the planning and adaptation of the training activities along the season, providing the novelty of incorporating competition activities in this design. This involves the idea of providing a schema in which the player is promoted to adapt to the training demands and evolve in each of its structures, beyond the strictly physical conditions <ref type="bibr" target="#b4">[5]</ref>. A player optimization is sought through the application of training situations that cause imbalance in one of the subject's structures in order to promote its adaptation, so forcing a continuous auto-organization process in sets of 3 weeks periodization <ref type="bibr" target="#b4">[5]</ref>. This methodology considers not only training as a stimulus to induce adaptation but also competition as the most relevant stimulus to optimize the athlete capabilities. This implies that physical demands for players during training are structured within consecutive cycles but are not strictly defined, so the measured physical player values can provide uncertainty and richness in its analysis. Also, given the idea of deterministic chaos present in biological systems <ref type="bibr" target="#b5">[6]</ref>, players are expected to evidence different adaptational behaviors along the season trainings. Based on this, it is plausible to think that periodical variation of physical values could provide valuable information regarding the adaptability and fitness of the player.</p><p>The main objective of this study is to find whether there exist significant relations between physical performance of players during training and the measured performance in subsequent matches, for F.C. Barcelona B data from season 2015-2016. Machine learning algorithms are used in order to exploit the contribution of the high amount of measured variables as a whole, all of which are expected to contribute explaining the player's dynamic up to some extent. The study is structured in three main stages. A data preparation stage in which data is pre-processed and normalized, and two datasets are created. An exploration stage where dynamic time warping and cluster analysis is applied in order to obtain representative natural groups from data. And finally, a validation stage, where the matches associated with clustered series are extracted and statistical tests are performed to determine the existence of significant differences. Final conclusions and future work suggestions are detailed, regarding the usefulness of this approach and the finding of moderate standardized differences between groups presenting high and low variations of physical values from week to week.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Methodology</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Data Collection</head><p>F.C. Barcelona B has collected both training and matches physical performance measurements, for season 2015-2016, using the StatsSports GPS Viper Pod devices. The resulting tracking information is manually segmented by physical coaches, and further visualized through a software integrated with the devices which outputs several variables. From this set of variables, we have selected 15 along physical coaches, described in <ref type="table">Table 1</ref>, which summarize the considered most relevant performance information. Variables are structured in three main groups: locomotor, metabolic and mechanical. Locomotor variables refer to simple direct measurements of travelled distance and speed, that are obtained solely through GPS. Metabolic variables are associated with energy expenditure and exertion, while mechanical variables relate with intensity changes and impacts <ref type="bibr" target="#b6">[7]</ref>. For these last two groups variables are calculated by a combination of GPS and accelerometers. The data consists of 153 training sessions and 34 matches, which adds up to 2478 training rows and 473 match rows among all the 42 different players throughout the season 2015-2016. The season information is queried from the central database containing the total 2951 rows, where each one contains the measured variables for a single player in a specific session and additional variables that contextualize the information such as player id, position, name, total session time, the session id and session type.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Data Processing</head><p>The dataset is initially processed, adding additional contextualization variables and performing several types of normalizations. Within F.C. Barcelona training structure, training days are labelled in strict relation with the following match day, where match is labelled as MD, the following two days MD+1 and MD+2, and the previous days MD-1 up to MD-4. Each day-type follows specific design rules for training drills. For simplicity of the study, only day MD-3 sessions are used, due to they similarities to match days in terms of number of players, playing spaces and opposition level. Additionally, day MD-3 involves the highest differences between physical values. Goalkeepers are deleted from the database since they face considerably different physical challenges than field players. A new variable, load percentage (PER) is added in order to reflect the session load, which is calculated as a ratio of the average AMP from matches. All the measured values are normalized by dividing by the total time of duration of the session. Variables that already represent averages or maximums are kept <ref type="table">Table 1</ref>: Description of selected physical variables splitted in three groups: locomotor, metabolic and mechanical.</p><p>Locomotor Variables Name and Acronym Description Travelled Distance (DIS) <ref type="bibr" target="#b7">[8]</ref> Total distance travelled during session drills or matches Sprints (SPR) <ref type="bibr" target="#b7">[8]</ref> Number of times over 5.5m/s during &gt; 1 High Speed Running (HSR) <ref type="bibr" target="#b7">[8]</ref> Travelled meters when speed &gt; 5.8m/s Max Speed (MAX) <ref type="bibr" target="#b7">[8]</ref> Maximum speed reached by the player Metabolic Variables Name and Acronym Description Average Metabolic Power (AMP) <ref type="bibr" target="#b7">[8]</ref> Energy expended by the player per second per kg, measured in W/Kg High Metabolic Load Distance (HML) <ref type="bibr" target="#b7">[8]</ref> Distance travelled by a player when the metabolic power is &gt; 25.5W/Kg High Metabolic Efforts (HEF) <ref type="bibr" target="#b8">[9]</ref> The number of separate movements/efforts undertaken in producing HML distance Load Percentage (PER) Proportion of AMP with respect to an average 9.5 AMP in matches Mechanical Variables Name and Acronym Description Fatigue Index (FAI) <ref type="bibr" target="#b7">[8]</ref> Accumulated DSL from the total session volume, in terms of speed. (DSL/SP I) Dynamic Stress Load (DSL) <ref type="bibr" target="#b7">[8]</ref> Total of the weighted impacts, based on accelerometer values over 2g Lower Speed Loading (LSL) <ref type="bibr" target="#b7">[8]</ref> Load associated with the low speed activity alone Total Loading (TLO) <ref type="bibr" target="#b7">[8]</ref> The total of the forces on the player over the entire session based on accelerometer data alone Accelerations (ACC) <ref type="bibr" target="#b7">[8]</ref> Number of increases of speed during at least 0.5 s (&gt; 3m/s 2 ) Decelerations (DEC) <ref type="bibr" target="#b7">[8]</ref> Number of decreases of speed during at least 0.5 s (&lt; 3m/s 2 )</p><p>Step Balance (STE) <ref type="bibr" target="#b7">[8]</ref> Ratio of left step impact to the sum of the left step impact and right step impact as originally measured, such as AMP, FI, PER, STE and MAX. Additionally, summarized information is added to matches data such as the average training minutes, average fatigue and total (training plus match) load in the previous three weeks. An additional normalization is applied where absolute values are transformed into the number of standard deviations of each particular player in the given day label type. This transformation is performed in order to avoid differences that arise due to player physical characteristics instead of a response to training. Finally, a last transformation performed over training data seeks to quantify the degree of variability from week to week on each physical value. The idea is to measure the difference between registered values from two consecutive weeks, as presented in <ref type="figure" target="#fig_0">Figure 1</ref>. Each value V i represents the absolute difference between a value registered at sessions S i+1 and S i . Two datasets were built: the first one consists of timeseries of W window size. A sliding window approach is followed by using a fixsized (W ) window of consecutive weeks. The time-series dataset is conformed by groups of W rows containing the 15 physical variables, corresponding to a player in a specific period of the season. Selected windows sizes during experiments are 3 and 6 in order to match the methodology of the club. Windows are moved SW steps each time, so to control the degree of coincidence of values between windows. The value of SW was selected following Equation (1) to avoid an excessive overlap between windows and to avoid a too strict separation that would reduce significantly the amount of data. Another dataset is built which summarizes each group of W rows in each variable, by calculating the average of absolute differences. Equation (2) describes the performed calculations, where P jvd corresponds to the absolute average of window differences of a variable v of a player j, measured in the window frame d, substracted by the mean of P ivd for every other player i. P corresponds to the set of all possible players.</p><formula xml:id="formula_0">SW = W − (W/3)<label>(1)</label></formula><formula xml:id="formula_1">P jvd = W +1 i=2 S i − S i−1 W − |P | i =j P ivd |P |<label>(2)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Data Exploration</head><p>Visual Exploration. Specific differences of physical variables where assessed visually through boxplots and analytically through one-way ANOVA and Post Hoc tests observing the differences between type-days (i.e MD-4, MD-3, MD-2, etc.). A PCA analysis was also performed, and the two principal components where plotted accounting for 69% of variance and observing the acknowledged differences. On the other hand, different plots over the time-series and summarized datasets allowed to visualize oscillatory patterns along the season that respond to cycles design. Also, it is observed how players tend to oscillate in similar patterns due to the training design. There exist, however, several cases in which certain players magnitude of variations starts differing considerably from the mean variation. The results of these observations coincided with the understanding of physical responses in training from the club's physical coaches. For space restriction reasons, the graphical results are omitted from this section.</p><p>Calculating Series Similarities through Dynamic Time Warping. Dynamic time warping (DTW ) is a highly used method that allows to measure the similarity between two temporal series, while being less sensitive to signal transformations such as shifting, uniform amplitude scaling or uniform time scaling <ref type="bibr" target="#b11">[12]</ref>. DTW was applied over the time-series dataset in order to calculate similarity between windowed variations along the season on different players. The idea is to find variation patterns that are more similar to each other, independently from the specific player or position. A distance or dissimilarity matrix is found for each pair of series in the dataset. Euclidean distance was used, in order to prioritize vectors magnitude over angles since the degree of variation is believed to be more informative than the actual followed pattern, in order to approximate the physiological response. Once the dissimilarity matrix is found, the k-mediods algorithm is applied for finding a natural clustering of the time series.</p><p>Cluster Analysis For both datasets cluster analysis is applied to find natural groupings of variation. It is critical to observe that the clustering procedure is applied to multidimensional data, aiming to incorporate the relation between each of the variables. For the time-series dataset the k-mediods algorithm is used, since its capability of being applied to distance matrices and the flexibility of controlling the number of clusters. For the summarized dataset, k-means is used instead. The selection of number of clusters is performed by calculating five internal indices and selecting the number of clusters picked by the majority. These indices are: C-index, C-H index, DB index, Silhouette index and the Ratkowsky-Lance index <ref type="bibr">[13]</ref>. Also, the dimensionality reduction technique T-Stochastic Neighbor Embedding t-SNE <ref type="bibr" target="#b12">[14]</ref> was applied to visually asses the quality of clusters. Once the training sessions information is clustered, each of the window-frames is associated with next upcoming match, generating a clusterlabelled dataset containing the absolute values of matches physical variables.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Results</head><p>Results for both the time-series and the summarized datasets are presented together since they follow an identical approach in its evaluation. For both cases, the selected number of clusters was 2 by four of the five different indices, the sample size of the training sessions dataset is 112, and the sample size of associated matches dataset is 82. Only the results for 3-week window are presented, since no statistically significant relation was found with 6-week window frames. For each of the variables conforming the two groups (in each dataset) the standardized difference of means was calculated to describe the effect size. The limits of the effect sizes are those suggested by Hopkins <ref type="bibr" target="#b14">[16]</ref> which are recommended in sports related data and for practical applications (trivial effect: &lt; 0. Detailed results are presented in <ref type="table" target="#tab_0">Table 2</ref>. It can be clearly observed that for the summarized dataset almost every variable in training registered a moderate to large effect size when comparing groups. So, we are observing the detection of two groups: one where the average magnitude of variations of each variable is higher (high variation group), and one where is lower (low variation group). It is critical to observe that separation among groups is not absolute, and there exist ranges of values which overlap. This has to do with multivariate nature of the clustering procedure, and coincides with the original expectation of this study. It can also be observed that for the timeseries dataset few variables where able to stand out just with a small size effect. Even with the selection of Euclidean distance to favor magnitudes, the cluster analysis over the DTW procedure was not able to found a clear separation between groups. The procedure over the summarized dataset, instead, did find a considerably separation between training groups so the analysis over associated matches is easier to interpret and translate to practice. <ref type="figure" target="#fig_2">Figure 2</ref> presents the effect sizes for the associated matches in both datasets. It can be observed for both cases that variables registering high intensity efforts, energy consumption and distance travelled appear with higher magnitude in the high variation group consistently, while the total load percentage and training minutes in the previous three weeks are considerably low in this same group. HML, AMP and DIS present moderate effect size in the summarized dataset, variables belonging to metabolic group (the first two) and locomotor group. For the timeseries dataset only HML presents a moderate effect size, toward the same tendency. A small effect size is also observed in other locomotor (MAX), metabolic (PER and HSR) and mechanical variables (DSL, DEC) toward the same tendency. Three-weekly PER and training minutes show also a moderate effect in differences, towards lower values. Sample size for associated matches allows to conclude with certainty about moderate size effects. Small effects should be taken into account, but must be further validated with the future increase of availability of data. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Conclusions and Future Work</head><p>The presented approach allowed to observe considerable relation between training variations and match performance. The players presenting higher variations during training reflected in higher values in 11 of the 15 analyzed variables for locomotor (4/4), metabolic (4/4) and mechanical (3/7) groups in the next matches, and also lower training minutes and accumulated load during training. This approach might provide a way for analyzing the adaptation of players to training dynamics, and even to evaluate training design. The procedure follows a series of simplifications such as the selection of day-type MD-3 which might incur in loss of information. However, this type of calculations can be easily integrated to daily routine performance analysis carried out by physical coaches, without the need of additional systems or requiring high processing times. The findings provide sufficient evidence to suggest the incorporation of this calculation in daily analysis and track its evolution in order to further measure is effectiveness on relating with match performance.</p><p>The summarized dataset allowed a more representative grouping and more conclusive results. In practice, high and low variations can be found directly by using the ranges found by the clustering procedure for each variable. Also, time-window aggregated information is showing to add value for performance analysis and should be considered in future research. On the other hand, DTW could not provide sufficiently clear results in this study, most probably due the the short-size characteristics of the analyzed time series and that exact match of variation patterns might be too strict for the few data available. Also, the player normalization seems to favor a cleaner comparison between players, instead of using absolute values which could lead to differences that are more related to physical characteristics than actual adaptation patterns. This is the first study, up to our knowledge, to relate training and match physical values directly registered from player using EPTS devices during training and matches for a whole season. In the following years, with higher availability of data these remarks must be further validated. Future work should incorporate new day-types in the analysis and factors beyond the physical such as tactical information and variables related with psychological information such as the rate of perceived exertion (RPE). The yearly knowledge of physical evolution of training dynamics and even specific players might provide new insights about the physical preparation of teams and the performance during competition.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 :</head><label>1</label><figDesc>Representation of a series of measured values of a particular variable during weekly training sessions (x axis). Vi values refer to the difference of values registered at sessions Si+1 and Si. W is the size of the sliding window, used to build time-series and summarized datasets. SW refers to the amount of weeks to slide each time.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>2, small effect: 0.2 − 0.6 , moderate effect: 0.6 − 1.2, large effect 1.2 − 2.0 and, very large: &gt; 2.0), with a confidence interval of 90%.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 2 :</head><label>2</label><figDesc>Effect size differences in group mean values in standardize units for matches groups found through the summarized dataset (left) and the timeseries dataset (right). Trivial effect sizes are not shown.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>Table 2 :</head><label>2</label><figDesc>Mean and standard deviation for each physical variable in each of the clustered groups. For both training data and the associated matches, values obtained in both summarized and timeseries datasets are presented. The standardized difference of means SDM is presented for each case. Training results refer to the absolute average of variation while matches results refer to the actual measured physical values. Small 111.5 ± 10.98 104 ± 11.3 M oderate 109.5 ± 10.72 110.71 ± 15.41 T rivial TLO p/m 0.83 ± 0.25 0.39 ± 0.21 Large 0.35 ± 0.16 0.32 ± 01.9 Small 1.59 ± 0.23 1.48 ± 0.32 Small 1.56 ± 0.22 1.67 ± 0.38 Small MAX 0.80 ± 0.39 0.63 ± 0.32 T rivial 0.40 ± 0.198 0.42 ± 0.22 T rivial 29.6 ± 2.11 28.79 ± 2.32 Small 29.612 ± 2.57 29.28 ± 1.61 T rivial STE 1.05 ± 0.57 0.97 ± 0.53 T rivial 0.61 ± 0.35 0.596 ± 0.317 T rivial 0.006 ± 0.03 0.008 ± 0.026 T rivial 0.012 ± 0.022 0.002 ± 0.029 Small PER 0.57 ± 0.35 0.27 ± 0.15 Large 0.23 ± 0.12 0.22 ± 0.19 T rivial 0.96 ± 0.25 0.85 ± 0.29 201 M oderate 725 ± 186.50 873.30 ± 202.87 M oderate</figDesc><table>Training (mean ± SD) 
+Matches (mean ± SD) 
+Summarized 
+Timeseries 
+Summarized 
+Timeseries 
+Variable 
+Cluster 1 Cluster 2 
+SDM 
+Cluster 1 
+Cluster 2 
+SDM 
+Cluster 1 
+Cluster 2 
+SDM 
+Cluster 1 
+Cluster 2 
+SDM 
+DSL p/m 
+0.89 ± 0.29 0.58 ± 0.28 M oderate 0.41 ± 0.198 0.41 ± 0.18 T rivial 3.60 ± 1.30 3.26 ± 1.37 
+Small 
+3.37 ± 1.17 
+4.29 ± 1.84 
+Small 
+ACC p/m 
+1.011 ± 0.45 0.67 ± 0.31 M oderate 0.45 ± 0.26 0.49 ± 0.23 T rivial 0.56 ± 0.22 0.52 ± 0.24 T rivial 0.65 ± 0.23 
+0.561 ± 0.21 
+Small 
+DEC p/m 
+0.94 ± 0.38 0.51 ± 0.23 Large 0.43 ± 0.25 0.38 ± 0.19 T rivial 0.80 ± 0.27 0.69 ± 0.26 
+Small 
+0.82 ± 0.29 0.785 ± 0.307 T rivial 
+SPR p/m 
+0.74 ± 0.35 0.59 ± 0.28 Small 0.36 ± 0.17 0.40 ± 0.20 T rivial 0.37 ± 0.11 0.311 ± 0.09 Small 
+0.37 ± 0.12 
+0.38 ± 0.20 
+T rivial 
+HSR p/m 
+0.98 ± 0.46 0.53 ± 0.26 Large 0.39 ± 0.17 0.43 ± 0.28 T rivial 13.30 ± 4.73 10.78 ± 4.31 Small 12.58 ± 5.27 10.686 ± 3.837 Small 
+AMP 
+0.62 ± 0.36 0.29 ± 0.14 Large 0.28 ± 0.10 0.25 ± 0.13 Small 10.35 ± 1.08 9.65 ± 1.17 M oderate 10.27 ± 1.09 10.26 ± 1.50 
+T rivial 
+HML 
+0.58 ± 0.24 0.40 ± 0.20 M oderate 0.33 ± 0.14 0.25 ± 0.13 Small 39.12 ± 10.05 32.05 ± 10.01 M oderate 36.09 ± 9.11 30.892 ± 7.95 M oderate 
+HEF p/m 
+0.74 ± 0.31 0.40 ± 0.22 Large 0.34 ± 0.17 0.29 ± 0.19 Small 2.23 ± 0.52 
+1.94 ± 0.5 
+Small 
+2.31 ± 0.5 
+2.20 ± 0.64 
+T rivial 
+FAI 
+0.93 ± 0.39 0.71 ± 0.34 M oderate 0.47 ± 0.24 0.48 ± 0.21 T rivial 0.62 ± 0.19 0.64 ± 0.25 T rivial 0.602 ± 0.18 
+0.75 ± 0.29 M oderate 
+DIS p/m 
+0.58 ± 0.36 0.27 ± 0.15 Large 0.25 ± 0.10 0.21 ± 0.20 Small 
+0.86 ± 0.31 
+0.73 ± 0.34 
+Small 
+3W Training PER 
+− 
+− 
+− 
+− 
+− 
+− 
+5.26 ± 1.24 8.29 ± 1.68 M oderate 7.04 ± 1.09 
+7.45 ± 1.79 M oderate 
+3W Training Minutes 
+− 
+− 
+− 
+− 
+− 
+− 
+796 ± 171 
+964 ± 3W Total PER 
+− 
+− 
+− 
+− 
+− 
+− 
+7.71 ± 1.08 8.29 ± 1.68 
+Small 
+7.04 ± 1.09 
+7.45 ± 1.79 
+Small 
+3W Average FAI 
+− 
+− 
+− 
+− 
+− 
+− 
+0.65 ± 0.14 0.67 ± 0.18 T rivial 0.629 ± 0.14 
+0.77 ± 0.22 M oderate 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Can off-field &apos;brains&apos; provide a competitive advantage in professional football?</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Mccall</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Davison</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Carling</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Buckthorpe</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">J</forename><surname>Coutts</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Dupont</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Br J Sports Med</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="710" to="712" />
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Estimating the Maximal Speed of Soccer Players on Scale</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Gyarmati</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Hefeeda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of Machine Learning and Data Mining for Sports Analytics Workshop</title>
+		<meeting>of Machine Learning and Data Mining for Sports Analytics Workshop<address><addrLine>Porto, Portugal</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Global Positioning Systems (GPS) and Microtechnology Sensors in Team Sports: A Systematic Review</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Cummins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Orr</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Oconnor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>West</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sports Med</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page">10251042</biblScope>
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+				<ptr target="http://resources.fifa.com/mm/document/affederation/ifab/02/60/90/85/2015agmminutesv10neutral.pdf" />
+		<title level="m">IFAB. 129th Annual General Meeting The Football Association</title>
+		<imprint>
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Análisis comparado del enfoque estructurado y la periodizacin táctica. Acciónmotriz</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Arjol</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012" />
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="27" to="37" />
+		</imprint>
+	</monogr>
+	<note>La planificación actual del entrenamiento en fútbol</note>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Lesne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Chaos in Biology. Biology Forum / Rivista di Biologia</title>
+		<imprint>
+			<biblScope unit="volume">99</biblScope>
+			<biblScope unit="page" from="467" to="481" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Estimated metabolic and mechanical demands during different small-sided games in elite soccer players</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Gaudino</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Alberti</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Iaia</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014" />
+			<publisher>Elsevier</publisher>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="123" to="133" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title/>
+	</analytic>
+	<monogr>
+		<title level="j">STATSports Technologies Ltd. STATSSports Viper Metrics. version</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Movement Demands of Elite U20 International Rugby Union Players</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ø</forename><surname>Sandbakk</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Cunningham</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Shearer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Drawer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Eager</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Kilduff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Plos One</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page">153275</biblScope>
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Preventing in-game injuries for NBA players</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hisham</forename><surname>Talukder</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Thomas</forename><surname>Vincent</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Geoff</forename><surname>Foster</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Camden</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Juan</forename><surname>Huerta</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Aparna</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mark</forename><surname>Malazarte</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Diego</forename><surname>Saldana</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Shawn</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Simpson</surname></persName>
+		</author>
+		<ptr target="http://www.sloansportsconference.com/wp-content/uploads/2016/02/1590-Preventing-in-game-injuries-for-NBA-players.pdf" />
+	</analytic>
+	<monogr>
+		<title level="m">MIT Sloan Sports Analytics Conference</title>
+		<imprint>
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Physical and metabolic demands of training and match-play in the elite football player</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Bangsbo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Mohr</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Krustrup</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Sports Sciences</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="665" to="674" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Everything you know about dynamic time warping is wrong Third Workshop on Mining Temporal and Sequential Data</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Chotirat</forename><forename type="middle">A</forename><surname>Ratanamahatana</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eamon</forename></persName>
+		</author>
+		<ptr target="https://cran.r-project.org/web/packages/clusterCrit/vignettes/clusterCrit.pdf" />
+		<editor>Desgraupes B., University Paris Ou.</editor>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page">13</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Visualizing High-Dimensional Data Using t-SNE</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Van Der Maaten</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Hinton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="2579" to="2605" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Power Primer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Psychological Bulletin</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="page" from="155" to="159" />
+			<date type="published" when="1992" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Progressive statistics for studies in sports medicine and exercise science</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">G</forename><surname>Hopkins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">W</forename><surname>Marshall</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">M</forename><surname>Batterham</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hanin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medicine and science in sports and exercise</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="3" to="13" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

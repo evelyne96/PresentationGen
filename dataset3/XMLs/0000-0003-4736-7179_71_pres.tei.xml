@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">An Efficient Closed Frequent Itemset Miner for the MOA Stream Mining System</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Massimo</forename></persName>
+						</author>
+						<title level="a" type="main">An Efficient Closed Frequent Itemset Miner for the MOA Stream Mining System</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Formal Definition</head><p>Transaction database D:</p><p>trans. ID items 1 abde 2 bce 3 abde 4 abce 5 abcde 6 bcd Let I be the set of items and T be the set of transactions.</p><p>A set X = {X 1 , . . . , X n }, X ⊆ I is called an itemset.</p><p>The fraction of transactions in D that contain X is called its support. support(ab)=4/6, support(bcd)=2/6</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Frequent Closed Itemsets</head><p>Definition A frequent itemset X is closed if it has no frequent superset with the same support.  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>is a frequent closed itemset (support = 3) abd is frequent, but not closed (abde has the same support)AccuracyPrecision and recall w.r.t. exact ECLAT [Zaki 00] T40I10D100K dataset. Sliding window of size 10 × and 500 trans./batchFigure: Fixed minsupp. Variable relaxation rate Figure: Variable minsupp. Fixed relaxation rate M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 12 / 23 Average number of transactions processed per second IncMine (Java) is compared with MOMENT(C++) Figure: Fixed minsupp. Variable relaxation rate Figure: Variable minsupp. Fixed relaxation rate M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 13 / 23</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Larger window size, higher memory usage Static frequent closed itemset mining in batches is the most memory intensive task</figDesc><table>Memory usage 
+
+Average memory consumption of the JVM 
+
+Garbage collector skews results (no comparison with MOMENT) 
+
+Lower minsupp, higher memory usage 
+
+σ 
+Total Memory Usage(MB) Data Structures Size(MB) 
+0.02 
+225.2 
+23.1 
+0.04 
+226.6 
+3.1 
+0.06 
+217.8 
+0.9 
+0.08 
+198.3 
+0.5 
+0.10 
+187.2 
+0.3 
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+			</analytic>
+	<monogr>
+		<title level="m">The Fellowship of the Ring</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+	<note>The</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Harry</forename><surname>Potter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Sorcerer&amp;apos;s Stone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Lord of the Rings: The Fellowship of the Ring</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+				<title level="m">Star Wars: Episode II -Attack of the Clones</title>
+		<imprint>
+			<date type="published" when="2002-07" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title/>
+	</analytic>
+	<monogr>
+		<title level="j">Bourne Identity</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+	<note>The</note>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+				<title level="m">Minority Report</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+			</analytic>
+	<monogr>
+		<title level="m">Lord of the Rings: The Two Towers</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+	<note>The Fellowship of the Ring</note>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title/>
+	</analytic>
+	<monogr>
+		<title level="j">Minority Report</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title/>
+	</analytic>
+	<monogr>
+		<title level="j">Signs</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+			</analytic>
+	<monogr>
+		<title level="m">Lord of the Rings: The Two Towers</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+	<note>The Fellowship of the Ring</note>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Pirates of the Caribbean: The Curse of the Black Pearl</title>
+	</analytic>
+	<monogr>
+		<title level="m">The Two Towers, The</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

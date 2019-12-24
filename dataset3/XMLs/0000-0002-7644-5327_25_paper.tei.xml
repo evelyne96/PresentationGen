@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Understanding Random SAT: Beyond the Clauses-to-Variables Ratio</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eugene</forename><surname>Nudelman</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff1">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<email>hoos@cs.ubc.ca</email>
+							<affiliation key="aff1">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alex</forename><surname>Devkar</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yoav</forename><surname>Shoham</surname></persName>
+							<email>shoham@cs.stanford.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Understanding Random SAT: Beyond the Clauses-to-Variables Ratio</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>It is well known that the ratio of the number of clauses to the number of variables in a random k-SAT instance is highly correlated with the instance's empirical hardness. We consider the problem of identifying such features of random SAT instances automatically using machine learning. We describe and analyze models for three SAT solvers-kcnfs, oksolver and satz-and for two different distributions of instances: uniform random 3-SAT with varying ratio of clauses-to-variables, and uniform random 3-SAT with fixed ratio of clauses-tovariables. We show that surprisingly accurate models can be built in all cases. Furthermore, we analyze these models to determine which features are most useful in predicting whether an instance will be hard to solve. Finally we discuss the use of our models to build SATzilla, an algorithm portfolio for SAT. 3 terminate the algorithm the moment a solution is found. We also have promising unpublished results for TSP and the computation of Nash equilibria.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>SAT is among the most studied problems in computer science, representing a generic constraint satisfaction problem with binary variables and arbitrary constraints. It is also the prototypical N P-hard problem, and its worst-case complexity has received much attention. Accordingly, it is not surprising that SAT has become a primary platform for the investigation of average-case and empirical complexity. Particular interest has been paid to randomly generated SAT instances. In this paper we concentrate on such instances as they offer both a range of very easy to very hard instances for any given input size and the opportunity to make connections to a wealth of existing work.</p><p>Early work <ref type="bibr" target="#b14">[15,</ref><ref type="bibr" target="#b1">2]</ref> considered the empirical performance of DPLL-type solvers running on uniform random k-SAT instances, finding a strong correlation between the instance's hardness and the ratio of the number of clauses to the number of variables in the instance. Further, it was demonstrated that the hardest region (e.g., for random 3-SAT, a clauses-to-variables ratio of roughly 4.26) corresponds exactly to a phase transition in an algorithm-independent property of the instance: the probability that a randomlygenerated formula having a given ratio will be satisfiable. This well-publicized finding led to increased enthusiasm for the idea of studying algorithm performance experimentally, using the same tools as are used to study natural phenomena. Over the past decade, this approach has complemented worst-case analysis of algorithms, improving our understanding of algorithms' empirical behavior with interesting findings on (e.g.) islands of tractability <ref type="bibr" target="#b7">[8]</ref>, search space topologies for stochastic local search algorithms <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b3">4]</ref>, backbones <ref type="bibr" target="#b12">[13]</ref>, backdoors <ref type="bibr" target="#b17">[18]</ref> and random restarts <ref type="bibr" target="#b2">[3]</ref>.</p><p>Inspired by the success of this work on SAT and related problems, in 2002 we proposed a new methodology for using machine learning to study empirical hardness <ref type="bibr" target="#b10">[11]</ref>. We applied this methodology to the combinatorial auction winner determination problem (WDP), an N P-hard combinatorial optimization problem equivalent to weighted set packing. In subsequent papers <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b8">9]</ref> we extended our methodology, demonstrating techniques for improving empirical algorithm performance through the construction of algorithm portfolios and for automatically generating hard benchmark distributions. In this paper we come full-circle and apply our techniques to uniform random 3-SAT-the problem that originally inspired their development.</p><p>The work which is perhaps the most related to our own is <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b13">14]</ref>. There classification techniques are used to categorize runs of CSP and SAT solvers according to length. In <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b8">9]</ref> we discuss the relationship between this work and our approach in more detail. It is worth pointing out that, different from ours, their work focuses on understanding the behavior of solvers during the run, as opposed to studying the effect of problem structure on hardness. In addition, as argued in <ref type="bibr" target="#b10">[11]</ref>, standard classifications techniques can be sometimes inappropriate in this context, for example, because of boundary cases.</p><p>Our current work has three goals. First, we aim to show that inexpensively-computable features can be used to make accurate predictions about the empirical hardness of random SAT instances, and to analyze these models in order to identify important features. We consider three different SAT algorithms and two different instance distributions. The first distribution contains random 3-SAT instances with a varying ratio of clauses to variables, allowing us to see whether our techniques automatically select the clauses-to-variables ratio as an important feature, and also what other features are important in this setting. Our second distribution contains random 3-SAT instances with the ratio of clauses-to-variables held constant at the phase transition point. This distribution has received much attention in the past; it gives us the opportunity to explain the orders-of-magnitude runtime variation that persists in this so-called "hard region."</p><p>Second, we show that empirical hardness models have other useful applications for SAT. Most importantly, we describe a SAT solver, SATzilla, which uses hardness models to choose among existing SAT solvers on a per-instance basis. We explain some details of its construction and summarize its performance.</p><p>Our final goal is to offer a concrete example in support of our abstract claim that empirical hardness models are a useful tool for gaining understanding of the behavior of algorithms for solving N P-hard problems. Thus, while we believe that our SAT results are interesting in their own right, and while studying random 3-SAT is useful because it allows connection to existing theoretical work, we want to emphasize that very few of our techniques are particular to SAT. Indeed, we have achieved equally strong results applying our methodologies to qualitatively different problems. <ref type="bibr" target="#b3">4</ref> Although the work surveyed above has led to great advances in understanding the empirical hardness of SAT problems, most of these approaches scale poorly to more complicated domains. In particular, most of these methods involve exhaustive exploration of the search and/or distribution parameter spaces, and require considerable human intervention and decision-making. As the space of relevant features grows and instance distributions become more complex, it is increasingly difficult either to characterize the problem theoretically or to explore its degrees of freedom exhaustively. Moreover, most current work focuses on understanding algorithms' performance profiles, rather than trying to characterize the hardness of individual problem instances.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Empirical Hardness Models</head><p>In <ref type="bibr" target="#b10">[11]</ref> we proposed a novel experimental approach for predicting the runtime of a given algorithm on individual problem instances:</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Select a problem instance distribution.</head><p>Observe that the choice of distribution is fundamental-different distributions can induce very different algorithm behavior.</p><p>2. Select one or more algorithms.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Select a set of inexpensive, distribution-independent features.</head><p>It is important to remember that individual features need not be perfectly predictive of hardness; ultimately, our goal will be to combine features together. Thus, it is possible to take an inclusive approach, adding all features that seem reasonable and then removing those that turned out to be unhelpful (see <ref type="bibr">step 5)</ref>. Furthermore, many features that proved useful for one constraint satisfaction or optimization problem can carry over into another. <ref type="bibr" target="#b3">4</ref>. Generate a set of instances and for each one, determine the running time of the selected algorithms and compute the features.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Eliminate redundant or uninformative features.</head><p>Much better models tend to be learned when all features are informative. A variety of statistical techniques are available for eliminating or de-emphasizing the effect of such features. The simplest approach is to manually examine pairwise correlations, eliminating features that are highly correlated with what remains. Shrinkage techniques (such as lasso <ref type="bibr" target="#b15">[16]</ref> or ridge regression) are another alternative.</p><p>6. Use machine learning to select a function of the features that predicts each algorithm's running time.</p><p>Since running time is a continuous variable, regression is the natural machinelearning approach to use for building runtime models. For more detail about why we prefer regression to other approaches such as classification, see <ref type="bibr" target="#b10">[11]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Building Models</head><p>There are a wide variety of different regression techniques; the most appropriate for our purposes perform supervised learning. <ref type="bibr" target="#b4">5</ref> Such techniques choose a function from a given hypothesis space (i.e., a space of candidate mappings from the given features to the running time) in order to minimize a given error metric (a function that scores the quality of a given mapping, based on the difference between predicted and actual running times on training data, and possibly also based on other properties of the mapping).</p><p>Our task in applying regression to the construction of hardness models thus reduces to choosing a hypothesis space that is able to express the relationship between our features and our response variable (running time), and choosing an error metric that both leads us to select good mappings from this hypothesis space and can be tractably minimized.</p><p>The simplest regression technique is linear regression, which learns functions of the form i w i f i , where f i is the i th feature and the w's are free variables, and has as its error metric root mean squared error (RMSE). Linear regression is a computationally appealing procedure because it reduces to the (roughly) cubic-time problem of matrix inversion.</p><p>Choosing a Hypothesis Space Although linear regression seems quite limited, it can actually be extended to a wide range of hypothesis spaces. There are two key tricks. The first is to introduce new features that are functions of the original features. For example, in order to learn a model which is a quadratic function of the features, the feature set can be augmented to include all pairwise products of features. A hyperplane in the resulting much-higher-dimensional space corresponds to a quadratic manifold in the original feature space. The key problem with this approach is that the set of features grows quadratically, which may cause the regression problem to become intractable and can also lead to overfitting. Thus, it can make sense to add only a subset of the pairwise products of features; e.g., only pairwise products of the k most important features in the linear regression model. Of course, we can use the same idea to reduce many other nonlinear hypothesis spaces to linear regression: all hypothesis spaces which can be expressed by i w i g i (f), where the g i 's are arbitrary functions and f = {f i }.</p><p>Sometimes we want to consider hypothesis spaces of the form h ( i w i g i (f)). For example, we may want to fit a sigmoid or an exponential curve. When h is a one-to-one function, we can transform this problem to a linear regression problem by replacing our response variable y in our training data by h −1 (y), where h −1 is the inverse of h, and then training a model of the form i w i g i (f). On test data, we must evaluate the model h ( i w i g i (f)). One caveat about this trick is that it distorts the error metric: the errorminimizing model in the transformed space will not generally be the error-minimizing model in the true space. In many cases this distortion is acceptable, however, making this trick a tractable way of performing many different varieties of nonlinear regression. In this paper we use exponential models (h(y) = 10 y ; h −1 (y) = log 10 (y)) and logistic models (h(y) = 1/(1 + e −y ); h −1 (y) = ln(y) ln(1 − y) with values of y first mapped onto the interval (0, 1)). Because logistic functions have a finite range, we found them particularly useful for modeling capped runs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Evaluating the Importance of Variables in a Hardness Model</head><p>Once we are able to construct an accurate empirical hardness model, it is natural to try to explain why it works. A key question is which features were most important to the success of the model. It is tempting to interpret a linear regression model by comparing the coefficients assigned to the different features, on the principle that larger coefficients indicate greater importance. This can be misleading for two reasons. First, features may have different ranges, though this problem can be mitigated by normalization. More fundamentally, when two or more features are highly correlated then models can include larger-than-necessary coefficients with different signs. A better approach is to force models to contain fewer variables, on the principle that the best low-dimensional model will involve only relatively uncorrelated features. Once such a model has been obtained, we can evaluate the importance of each feature to that model by looking at each feature's cost of omission. That is, we can train a model without the given feature and report the resulting increase in (cross-validated) prediction error. To make them easier to compare, we scale the cost of omission of the most important feature to 100 and scale the other costs of omission in proportion.</p><p>There are many different "subset selection" techniques for finding good, small models. Ideally, exhaustive enumeration would be used to find the best subset of features of desired size. Unfortunately, this process requires consideration of a binomial number of subsets, making it infeasible unless both the desired subset size and the number of base features are very small. When exhaustive search is impossible, heuristic search can still find good subsets. We considered four heuristic methods: forward selection, backward elimination, sequential replacements and LAR. Since none of these four techniques is guaranteed to find the optimal subset, we combine them together by running all four and keeping the model with the smallest cross-validated (or validation-set) error. <ref type="figure" target="#fig_0">Figure 1</ref> summarizes the 91 features used by our SAT models. Since not every feature is useful in every distribution, we discard uninformative or highly correlated features after fixing the distribution. For example, while ratio of clauses-to-variables was important for SATzilla, it is not at all useful for the fixed-ratio dataset. In order to keep values to sensible ranges, whenever it makes sense we normalize features by either the number of clauses or the number of variables in the formula.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Hardness Models for SAT</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Features</head><p>We divide the features into nine groups. The first group captures problem size, measured by the number of clauses, variables, and the ratio of the two. Because we expect this ratio to be an important feature, we gave it additional expressive power by including squares and cubes of both the ratio and its reciprocal. Also, because we know that features are more powerful in simple regression models when they are directly correlated with the response variable, we include a "linearized" version of the ratio which is defined as the absolute value of the difference between the ratio and the phase transition point, 4.26. It turns out that for variable-ratio data this group of features alone suffices Problem Size Features:</p><p>1. Number of clauses: denoted c 2. Number of variables: Local Search Probes: 68-71. Minimum fraction of unsat clauses in a run: mean and variation coefficient for SAPS and GSAT (see <ref type="bibr" target="#b16">[17]</ref>). 72-81. Number of steps to the best local minimum in a run: mean, median, variation coefficient, 10 th and 90 th percentiles for SAPS and GSAT. 82-85. Average improvement to best: For each run, we calculate the mean improvement per step to best solution. We then compute mean and variation coefficient over all runs for SAPS and GSAT. 86-89. Fraction of improvement due to first local minimum: mean and variation coefficient for SAPS and GSAT. 90-91. Coefficient of variation of the number of unsatisfied clauses in each local minimum: mean over all runs for SAPS and GSAT. to construct reasonably good models. However, including the rest of our features significantly improves these models. Moreover, in the presence of other features, including higher-order features 4, 5, 7, 8, 10 and 11 does not improve accuracy much and does not qualitatively change the results reported below. Due to space constraints, for the rest of this paper we focus on models that use all of the ratio features. The next three groups correspond to three different graph representations of a SAT instance. The variable-clause graph (VCG) is a bipartite graph with a node for each variable, a node for each clause, and an edge between them whenever a variable occurs in a clause. The variable graph (VG) has a node for each variable and an edge between variables that occur together in at least one clause. The clause graph (CG) has nodes representing clauses and an edge between two clauses whenever they share a negated literal. Each of these graphs corresponds to a constraint graph for the associated CSP; thus, each encodes aspects of the problem's combinatorial structure. For each graph we compute various node degree statistics. For the CG we also compute statistics of weighted clustering coefficients, which measure the extent to which each node belongs to a clique. For each node the weighted clustering coefficient is the number of edges among its neighbors (including the node itself) divided by k(k + 1)/2, where k is the number of neighbors. Including the node when counting edges has an effect of weighting the classical clustering coefficient by the node degree.</p><formula xml:id="formula_0">denoted v 3-5. Ratio: c/v, (c/v) 2 , (c/v) 3 6-8. Ratio reciprocal: (v/c), (v/c) 2 , (v/c) 3 9-11.</formula><p>The fifth group measures the balance of a formula in several different senses, while the sixth group measures the proximity of the instance to a Horn formula, motivated by the fact that such formulas are an important SAT subclass. The seventh group of features is obtained by solving a linear programming relaxation of an integer program representing the current SAT instance. Denote the formula C 1 ∧ · · · ∧ C n and let x j denote both boolean and LP variables. Define v(x j ) = x j and v(¬x j ) = 1 − x j . Then the program is maximize</p><formula xml:id="formula_1">n i=1 l∈Ci v(l) subject to ∀C i : l∈Ci v(l) ≥ 1, ∀x j : 0 ≤ x j ≤ 1.</formula><p>The objective function prevents the trivial solution where all variables are set to 0.5. The eighth group involves running DPLL "probes." First, we run a DPLL procedure to an exponentially-increasing sequence of depths, measuring the number of unit propagations done at each depths. We also run depth-first random probes by repeatedly instantiating random variables and performing unit propagation until a contradiction is found. The average depth at which a contradiction occurs is an unbiased estimate of the log size of the search space <ref type="bibr" target="#b11">[12]</ref>. Our final group of features probes the search space with two stochastic local search algorithms, GSAT and SAPS. We run both algorithms many times, each time continuing the search trajectory until a plateau cannot be escaped within a given number of steps. We then average statistics collected during each run.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Experimental Setup</head><p>Our first dataset contained 20 000 uniform random 3-SAT instances with 400 variables each. To determine the number of clauses in each instance, we determined the clausesto-variables ratio by drawing a uniform sample from [3.26, 5.26] (i.e., the number of clauses varied between 1 304 and 2 104). <ref type="bibr" target="#b5">6</ref> Our second dataset contained 20 000 uniform random 3-SAT instances with 400 variables and 1 704 clauses each, corresponding to a fixed clauses-to-variables ratio of 4.26. On each dataset we ran three solvers-kcnfs, oksolver and satz-which performed well on random instances in previous years' SAT competitions. Our experiments were executed on 2.4 GHz Xeon processors, under Linux 2.4.20. Our fixed-ratio experiments took about four CPU-months to complete. In contrast, our variable-ratio dataset took only about one CPU-month, since many instances were generated in the easy region away from the phase transition point. Every solver was allowed to run to completion on every instance.</p><p>Each dataset was split into 3 parts-training, test and validation sets-in the ratio 70 : 15 : 15. All parameter tuning was performed with the validation set; the test set was used only to generate the graphs shown in this paper. We performed machine learning and statistical analysis with the R and Matlab software packages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Variable-Ratio Random Instances</head><p>We had three goals with this distribution. First, we wanted to show that our empirical hardness model training and analysis techniques would be able to sift through all the features provided and "discover" that the clauses-to-variables ratio was important to the empirical hardness of instances from this distribution. Second, having included nine features derived from this ratio among our 91 features we wanted to find out which particular function of these features would be most predictive of hardness. Third, we wanted to find out what other features, if any, were important in this setting.</p><p>We begin by examining the clauses-to-variables ratio, c/v, in more detail. <ref type="figure" target="#fig_1">Figure 2</ref> shows kcnfs runtime (log scale) vs. c/v, for satisfiable and unsatisfiable instances. First observe that, as expected, there is a clear relationship between runtime and c/v. At the same time, c/v is not a very accurate predictor of hardness by itself: particularly near the phase transition point, there are several orders of magnitude of runtime variance across different instances. This is particularly the case for satisfiable instances around the phase transition; while the variation in runtime between unsatisfiable instances is consistently much smaller. (It may be noted that overall, our dataset is balanced in that it consists of 10 011 satisfiable and 9 989 unsatisfiable instances.)</p><p>To build models, we first considered linear, logistic and exponential models in our 91 features, evaluating the models on our validation set. Of these, linear were the worst, and logistic and exponential were similar, with logistic being slightly better. Next, we wanted to consider quadratic models under these same three transformations. However, a full quadratic model would have involved 4 277 features, and given that our training data involved 14 000 different problem instances, training the model would have entailed inverting a matrix of nearly sixty million values. In order to concentrate on the most important quadratic features, we first used our variable importance techniques to identify the best 30-feature subset of our 91 features. We computed the full quadratic expansion of these features, then performed forward selection-the only subset selection technique that worked with such a huge number of features-to keep only the most useful features. We ended up with 360 features, some of which were members of our original set of 91 features and the rest of which were products of these original features. Again, we evaluated linear, logistic and exponential models; all three model types were better with the expanded features, and again logistic models were best. Although the actual RMSE values obtained by three different kinds of models were very close to each other, linear models tended to have much higher prediction bias and many more outliers, especially among easy instances. <ref type="figure" target="#fig_2">Figure 3</ref> (left) shows the performance of our logistic models in this quadratic case for kcnfs (evaluated for the first time on our test set). Note that this is a very accurate model: perfect predictions would lie exactly on the line y = x, and the vast majority </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Variable</head><p>Cost of Omission |c/v − 4.26| <ref type="bibr" target="#b8">[9]</ref> 100 |c/v − 4.26| 2 <ref type="bibr" target="#b9">[10]</ref> 69 of points lie on or very close to this line, with no significant bias in the residuals. <ref type="bibr" target="#b6">7</ref> The plots for satz and oksolver look very similar; the RMSE values for the kcnfs, satz and oksolver models are 13.16, 24.09, and 81.32 seconds, respectively. We now turn to the question of which variables were most important to our models. For the remainder of this paper we focus only on our models for kcnfs; our results with the other two algorithms are comparable. First, we discuss what it means for our techniques to identify a variable as "important." If a set of variables X is identified as the best subset of a given size, and this subset has a RMSE that is close to the RMSE of the complete model, this indicates that the variables in X are sufficient to approximate the performance of the full model-useful information, since it means that we can explain an algorithm's empirical hardness in terms of a small number of features. It must be stressed, however, that this does not amount to an argument that choosing the subset X is necessary for good performance in a subset of size k. Because variables are very often correlated, there may be other sets that would achieve similar performance; furthermore, since our subset selection techniques are heuristic, we are not even guaranteed that X is the globally best subset of its size. Thus, we can draw conclusions about the variables that are present in small, well-performing subsets, but we must be very careful in drawing conclusions about the variables that are absent. <ref type="figure" target="#fig_2">Figure 3</ref> (right) shows the validation set RMSE of our best subset of each size. Note that our best four-variable model achieves a root-mean-squared error of 19.42 seconds, while our full 360-feature model had an error of about 14.57 seconds. <ref type="table">Table 1</ref>  correctly identified the importance of the clauses-to-variables ratio, which satisfies our first goal. In terms of the second goal, these results indicate that the simple absolute distance of the ratio c/v from the critical value 4.26 appears to be the most informative variant of the nine related features we considered.</p><formula xml:id="formula_2">(v/c) 2 × SAPS</formula><p>The third and fourth features in this model satisfy our third goal: we see that c/v variants are not the only useful features in this model. Interestingly, both of these remaining variables are based on a local search probing feature, the coefficient of variation over the number of clauses unsatisfied in local minima found by SAPS, a highperformance local search algorithm for SAT. It may appear somewhat surprising that such a local search probing feature can convey meaningful information about the runtime behavior of a DPLL algorithm. However, notice that deep local minima in the space searched by a local search algorithm correspond to assignments that leave few clauses unsatisfied. Intuitively, such assignments can cause substantial difficulties for DPLL search, where the respective partial assignments may correspond to large subtrees that do not contain any solutions. However, our current understanding of the impact of the features captured by local search probes on DPLL solver performance is rather limited, and further work is needed to fully explain this phenomenon.</p><p>While analyzing our variable-ratio models, we discovered that the weighted clause graph clustering coefficient (33) was one of the most important features. In fact, it was the most important feature if we excluded higher-order c/v and v/c features from models. It turns out, that the WCGCC is almost perfectly correlated with v/c, as illustrated in <ref type="figure" target="#fig_5">Figure 6</ref> (left). This is particularly interesting as both the clustering coefficient and the connectivity of the constraint graph have been shown to be important statistics in a wide range of combinatorial problems, such as graph coloring and WDP. This correlation provides very nice new structural insight into the clause-to-variables ratio: it shows explicitly how constraint structure changes as the ratio varies. This discovery demonstrates how our empirical hardness methodology can help to gain new understanding of the nature of N P-Hard problems.</p><p>The previously mentioned similar performance of our predictive models for kcnfs, satz and oksolver raises the question of whether the underlying reason simply lies in a strong correlation between the respective runtimes. <ref type="figure" target="#fig_3">Figure 4</ref> shows the correlation of kcnfs runtime vs. satz runtime on satisfiable and unsatisfiable instances. Note that there are two qualitatively different patterns in the performance correlation for the two types of instances: runtimes on UNSAT instances are almost perfectly correlated, while runtimes on SAT instances are almost entirely uncorrelated. We conjecture that this is because proving unsatisfiability of an instance essentially requires exploring the entire search tree, which does not differ substantially between the algorithms, while finding a satisfiable assignment depends much more on each algorithm's different heuristics. We can conclude that the similar model accuracy between the algorithms is due jointly to the correlation between their runtimes on UNSAT instances and to the ability of our features to express each algorithm's runtime profile on both SAT and UNSAT instances.</p><p>Motivated by qualitative differences between satisfiable and unsatisfiable instances, we studied the subsets of all satisfiable and all unsatisfiable instances from our dataset separately. Analogously to what we did for the full dataset, we trained a separate predictive model for each of these two subsets. Interestingly, as seen in <ref type="figure" target="#fig_4">Figure 5</ref>, the predictions for unsatisfiable instances are much better than those for satisfiable instances (RMSE 5.3 vs. 13.4). Furthermore, the 'loss curves', which indicate the best RMSE achieved in dependence of model size (cf. <ref type="figure" target="#fig_2">Figure 3)</ref>, are rather different between the two subsets: For the satisfiable instances, seven features are required to get within 10% of full model accuracy (in terms of RMSE), compared to only three for the unsatisfiable instances. While the seven features in the former model are all local search probe features (namely, in order of decreasing importance, features 68 2 , 68 × 70, 90, 70, 70 2 , 90 × 71 and 71), the three features in the latter are DPLL probe and constraint graph features (namely features 66 2 , 66 and 26 × 27).</p><p>It must be noted that excluding all local search probe features (68-91 in <ref type="figure" target="#fig_0">Figure 1</ref>) in the process of model construction leads to models with only moderately worse performance (RMSE 16.6 instead of 13.4 for satisfiable, 5.5 instead of 5.3 for unsatisfiable, and 17.2 instead of 13.2 for all instances). Interestingly, in such models for satisfiable instances, features based on LP relaxation (features 55-60 in <ref type="figure" target="#fig_0">Figure 1</ref>) become quite important. Even when excluding all probing and LP features (features 55-91), reasonably accurate models can still be obtained <ref type="bibr">(RMSE 14.7,</ref><ref type="bibr">8.4</ref>, and 17.1 for satisfiable, unsatisfiable, and all instances, respectively); this indicates that combinations of the remaining purely structural features still provide a sufficient basis for accurate runtime predictions on the variable-ratio instance distribution.   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Fixed-Ratio Random Instances</head><p>According to a widely held (yet somewhat simplistic) belief, uniform random 3-SAT is easy when far from the phase-transition point, and hard when close to it. In fact, while the first part of this statement is generally true, the second part is not. <ref type="figure" target="#fig_5">Figure 6</ref> (right) shows cumulative distributions of the kcnfs's runtime per instance across our second dataset, comprising 20 000 fixed-ratio uniform random-3-SAT instances with 400 variables at c/v = 4.26, indicating substantial variation in runtime between instances in the phase transition region. (Similar observations have been made previously for local search algorithms <ref type="bibr" target="#b5">[6]</ref>.) Random-3-SAT at the phase transition point is one of the most widely used classes of benchmark instances for SAT; in the context of our study of empirical hardness models this instance distribution is particularly interesting since the most important features for predicting instance hardness for the variable-ratio distribution, namely variants of c/v, are kept constant in this case. Hence, it presents the challenge of identifying other features underlying the observed variation in hardness. We built models in the same way as described in Section 4, except that all variants of c/v are constant and were hence omitted. Again, we achieved the best (validation set) results with logistic models on a (partial) quadratic expansion of the features; <ref type="figure" target="#fig_6">Fig. 7</ref> (left) shows the performance of our logistic model for kcnfs on test data (RMSE = 35.23); similar results were obtained for oksolver and satz (RMSE = 220.43 and 60.71, respectively; note that particularly for oksolver , the higher RMSE values are partly due to overall higher runtimes). The shape of the scatter plots can be visually misleading: although it appears to be not tight, there are many more points that lie along the diagonal than outliers (this becomes evident when plotting the data on a heat map). <ref type="figure" target="#fig_6">Figure 7</ref> (right) shows the validation set RMSE of the best model we found at each subset size. Here, a 4-variable model obtains RMSE 39.02 on the validation set, which is within 10% on the RMSE of the full model. The variables in the model, along with their costs of omission, are given in <ref type="table" target="#tab_3">Table 2</ref>. Note that this model is dominated by local search and DPLL probing features, and the most important feature is the deepest local minimum reached on a SAPS trajectory (BestSolution), which intuitively captures the degree to which a given instance has "almost" satisfying assignments.</p><p>As for the variable-ratio set, we studied the subsets of all satisfiable and all unsatisfiable instances from our fixed-ratio data set separately and trained separate models for each of these subsets. Analogous to our results for the variable-ratio sets, we found that our model for the former subset gave significantly better predictions than that for the latter (RMSE 15.6 vs. 30.2). Surprisingly, in both cases, only a single feature is required to get within 10% of full model accuracy (in terms of RMSE on the training set): the product of the two SAPS probing features 69 and 82 in the case of satisfiable instances, and the square of DPLL probing feature 66 in the case of unsatisfiable instances.</p><p>We also constructed models that do not use local search features and/or probing features and obtained results that are qualitatively the same as those for the variableratio data set. Furthermore, we have observed results on the correlation of runtimes between solvers that are analogous to those reported in Section 4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">SATzilla and Other Applications of Hardness Models</head><p>While so far, we have argued that accurate empirical hardness models are useful because of the insight they give into problem structure, these models also have other applications <ref type="bibr" target="#b8">[9]</ref>. For example, it is very easy to combine accurate hardness models with an existing instance generator to create a new generator that makes harder instances, through the use of rejection sampling techniques. Within the next few months, we intend to make available a new generator of harder random 3-SAT formulas. This generator will work by generating an instance from the phase transition region and then rejecting it in inverse proportion to the log time of the minimum of our three algorithms' predicted runtimes.</p><p>A second application of hardness models is the construction of algorithm portfolios. It is well known that for SAT different algorithms often perform very differently on the same instances (cf. left side of <ref type="figure" target="#fig_3">Figure 4</ref>). On distributions for which this sort of uncorrelation holds, selecting among algorithms on a per-instance basis offers the potential for substantial improvements over per-distribution algorithm selection. Empirical hardness models allow us to choose algorithms based on predicted runtimes. Interestingly, fairly inaccurate models often suffice to build good portfolios: if algorithms' performances are close to each other, picking the wrong one is not very costly, while if algorithms' behaviors differ significantly, the discrimination task is relatively easy.</p><p>We can offer concrete evidence for the utility of the latter application of hardness models: SATzilla, an algorithm portfolio that we built for the 2003 SAT competition. This portfolio consisted of 2clseq, eqSatz, HeerHugo, JeruSat, Limmat, oksolver, Relsat, Sato, Satz-rand and zChaff. The 2004 version dropped HeerHugo, but added Satzoo, kcnfs, and BerkMin.</p><p>To construct SATzilla we gathered from various public websites a library of about 5 000 SAT instances, for which we computed runtimes and the features described in Section 3.1. We built models using ridge regression. To yield better models, we dropped from our dataset all instances that were solved by all or none of the algorithms, or as a side-effect of feature computation. Upon execution, SATzilla begins by running a UBCSAT <ref type="bibr" target="#b16">[17]</ref> implementation of WalkSAT to filter out easy satisfiable instances. Next, it runs the Hypre preprocessor <ref type="bibr" target="#b0">[1]</ref> to clean up instances, allowing features to better reflect the problem's "combinatorial core." Third, SATzilla computes its features, terminating if any feature (e.g., probing or LP relaxation) solves the problem. Some features can take inordinate amounts of time, particularly with very large inputs. To prevent feature computation from consuming all of our allotted time, certain features run only until a timeout is reached, at which point SATzilla gives up on them. Fourth, SATzilla evaluates a hardness model for each algorithm. If some of the features have timed out, it uses a different model which does not involve the missing feature. Finally, SATzilla executes the algorithm with the best predicted runtime.</p><p>SATzilla performed very well both in 2003 and 2004. In 2003, it was the only complete solver that did well both on random and on structured instances. It finished second and third in different categories, loosing only to new-generation solvers. In 2004, it was leading among complete solvers in the first round, but didn't advance to the final round due to complicated new competition rules.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusion and Future Work</head><p>We have shown that empirical hardness models are a valuable tool for the study of the empirical behavior of complex algorithms such as SAT solvers. We were able to build accurate models of runtime on test distributions of fixed-and variable-ratio uniform random-3-SAT instances. On the variable-ratio dataset, our techniques were able to automatically "discover" the importance of the c/v ratio. Analysis in this case provided insight into the structural variations in uniform random 3-SAT formulas at the phase transition point that correlate with the dramatic variation in empirical hardness. Finally, we argued that our empirical hardness models offer practical benefit in less well-controlled domains by presenting SATzilla, our algorithm portfolio for SAT.</p><p>The results presented suggest a number of avenues for future research. One issue that clearly deserves further investigation is the degree to which our methodology can be used to predict and explain the performance of stochastic local search algorithms for SAT, which have recently been shown to outperform the best systematic solvers on various classes of random SAT instances. Another obvious and very relevant direction is the extension of our work to more structured types of SAT instances. Also, our results for the satisfiable and unsatisfiable subsets suggest that hierarchical models could give even better results. Such models may use some features to predict the satisfiability (or more generally, the type) of a given instance, and a subsidiary model for predicting the runtime. And finally, we believe that by studying in more detail how some of the features identified through the use of predictive statistical models cause instances to be easy or hard for certain types of algorithms, our understanding of how to solve SAT most efficiently will be further advanced.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>SAT instance features used for constructing our predictive models.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 .</head><label>2</label><figDesc>Runtime of kcnfs on variable-ratio satisfiable (left) and unsatisfiable instances (right)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3 .</head><label>3</label><figDesc>Actual vs. predicted runtimes for kcnfs on variable-ratio instances (left) and RMSE as a function of model size (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4 .</head><label>4</label><figDesc>lists the four variables in this model along with their normalized costs of omission. Note that the most important feature (by far) is the linearized version of c/v, which also occurs (in different forms) in the other three features of this model. Hence, our techniques Runtime correlation between kcnfs and satz for satisfiable (left) and unsatisfiable (right) variable-ratio instances.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 5 .</head><label>5</label><figDesc>Actual vs. predicted runtimes for kcnfs on satisfiable (left) and unsatisfiable (right) variable-ratio instances.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 6 .</head><label>6</label><figDesc>Left: Correlation between CG weighted clustering coefficient and v/c. Right: Distribution of kcnfs runtimes across fixed-ratio instances.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 7 .</head><label>7</label><figDesc>Actual vs. predicted runtimes for kcnfs on fixed-ratio instances (left) and RMSE as a function of model size (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Linearized ratio: |4.26 − c/v|, |4.26 − c/v| 2 , |4.26 − c/v| 3 Variable-Clause Graph Features: 12-16. Variable nodes degree statistics: mean, variation coefficient, min, max and entropy. 17-21. Clause nodes degree statistics: mean, variation coefficient, min, max and entropy. Variable Graph Features: 22-25. Nodes degree statistics: mean, variation coefficient, min, and max. Clause Graph Features: 26-32. Nodes degree statistics: mean, variation coefficient, min, max, and entropy. 33-35. Weighted clustering coefficient statistics: mean, variation coefficient, min, max, and entropy. Ratio of positive and negative literals in each clause: mean, variation coefficient, min, max, and entropy. 41-45. Ratio of positive and negative occurrences of each variable: mean, variation coefficient, min, max, and entropy. 46-48. Fraction of unary, binary, and ternary clauses Proximity to Horn Formula 49. Fraction of Horn clauses 50-54. Number of occurrences in a Horn clause for each variable : mean, variation coefficient, min, max, and entropy. LP-Based Features: 55. Objective value of linear programming relaxation 56. Fraction of variables set to 0 or 1 57-60. Variable integer slack statistics: mean, variation coefficient, min, max. Search space size estimate: mean depth to contradiction, estimate of the log of number of nodes.</figDesc><table>Balance Features: 
+36-40. DPLL Search Space: 
+61-65. Number of unit propagations: computed at 
+depths 1, 4, 16, 64 and 256 
+66-67. </table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Table 1. Variable importance in size 4 model for variable-ratio instances.</figDesc><table>BestCoeffVar Mean [7 × 90] 
+53 
+|(c/v) − 4.26|× SAPS BestCoeffVar Mean [9 × 90] 
+33 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head>Table 2 .</head><label>2</label><figDesc>Variable importance in size 4 model for fixed-ratio instances.</figDesc><table></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">We'd like to acknowledge very helpful assistance from Nando de Freitas, and our indebtedness to the authors of the algorithms in the SATzilla portfolio. We also thank the anonymous reviewers for helpful comments.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4">WDP, for example, is very different from SAT: while feasible solutions can be identified in constant time, the goal is to find an optimal feasible solution, and there is thus no opportunity to</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5">Because of our interests in being able to analyze our models and in keeping model sizes small, we avoid model-free approaches such as nearest neighbor.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6">This range was chosen symmetrically around the phase transition point, 4.26, to ensure that an approximately equal number of satisfiable and unsatisfiable instances would be obtained.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7">The banding on very small runtimes in this and other scatterplots is a discretization effect due to the low resolution of the operating system's process timer.</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Effective preprocessing with hyper-resolution and equality reduction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Fahiem</forename><surname>Bacchus</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jonathan</forename><surname>Winter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. SAT-2003</title>
+		<meeting>SAT-2003</meeting>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="341" to="355" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Where the Really Hard Problems Are</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Cheeseman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Kanefsky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">M</forename><surname>Taylor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. IJCAI-1991</title>
+		<meeting>IJCAI-1991</meeting>
+		<imprint>
+			<date type="published" when="1991" />
+			<biblScope unit="page" from="331" to="337" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Heavy-tailed phenomena in satisfiability and constraint satisfaction problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Crato</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kautz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. of Automated Reasoning</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="67" to="100" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Stochastic Local Search-Foundations and Applications</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Stützle</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004" />
+			<publisher>Morgan Kaufmann</publisher>
+		</imprint>
+	</monogr>
+	<note>to appear</note>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">SAT-encodings, search space structure, and local search performance</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. IJCAI-99</title>
+		<meeting>IJCAI-99</meeting>
+		<imprint>
+			<publisher>Morgan Kaufmann</publisher>
+			<date type="published" when="1999" />
+			<biblScope unit="page" from="296" to="302" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Towards a characterisation of the behaviour of stochastic local search algorithms for sat</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Stützle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Artificial Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="page" from="213" to="232" />
+			<date type="published" when="1999" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A Bayesian approach to tackling hard computational problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Horvitz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Ruan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kautz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Chickering</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. UAI-2001</title>
+		<meeting>UAI-2001</meeting>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="235" to="244" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Constraint satisfaction, databases and logic</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Phokion</forename><surname>Kolaitis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. IJCAI-2003</title>
+		<meeting>IJCAI-2003</meeting>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="1587" to="1595" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Boosting as a metaphor for algorithm design</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Mcfadden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. CP-2003</title>
+		<meeting>CP-2003</meeting>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="899" to="903" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A portfolio approach to algorithm selection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Mcfadden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. IJCAI-2003</title>
+		<meeting>IJCAI-2003</meeting>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="1542" to="1542" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Learning the empirical hardness of optimization problems: The case of combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. CP-2002</title>
+		<meeting>CP-2002</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="556" to="572" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Branch and bound algorithm selection by performance prediction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Lobjois</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Lemaître</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. AAAI-1998</title>
+		<meeting>AAAI-1998</meeting>
+		<imprint>
+			<date type="published" when="1998" />
+			<biblScope unit="page" from="353" to="358" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Determining computational complexity from characteristic &apos;phase transitions&apos;</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Monasson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Zecchina</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Kirkpatrick</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Troyansky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">400</biblScope>
+			<biblScope unit="page" from="133" to="137" />
+			<date type="published" when="1999" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Restart policies with dependence among runs: A dynamic programming approach</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Ruan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Horvitz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kautz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc CP2-2002</title>
+		<meeting>CP2-2002</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="573" to="586" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Generating hard satisfiability problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">G</forename><surname>Mitchell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">J</forename><surname>Levesque</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Artificial Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="17" to="29" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Regression shrinkage and selection via the lasso</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Royal Statist. Soc B</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="267" to="288" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">UBCSAT: An implementation and experimentation environment for SLS algorithms for SAT and MAX-SAT</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Tompkins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Hoos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. SAT-2004</title>
+		<meeting>SAT-2004</meeting>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="37" to="46" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Backdoors to typical case complexity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. IJCAI-2003</title>
+		<meeting>IJCAI-2003</meeting>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="1173" to="1178" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Monotone crossing number of complete graphs</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date>June 26-28, 2013</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Martin</forename><surname>Balko</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Applied Mathematics</orgName>
+								<orgName type="department" key="dep2">Faculty of Mathematics and Physics</orgName>
+								<orgName type="institution">Charles University</orgName>
+								<address>
+									<addrLine>Malostranské nám. 25</addrLine>
+									<postCode>118 00</postCode>
+									<settlement>Praha 1</settlement>
+									<country key="CZ">Czech Republic</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Radoslav</forename><surname>Fulek</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Applied Mathematics</orgName>
+								<orgName type="department" key="dep2">Faculty of Mathematics and Physics</orgName>
+								<orgName type="institution">Charles University</orgName>
+								<address>
+									<addrLine>Malostranské nám. 25</addrLine>
+									<postCode>118 00</postCode>
+									<settlement>Praha 1</settlement>
+									<country key="CZ">Czech Republic</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Kyn£l</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department" key="dep1">Department of Applied Mathematics and Institute for Theoretical Computer Science</orgName>
+								<orgName type="department" key="dep2">Faculty of Mathematics and Physics</orgName>
+								<orgName type="institution">Charles University</orgName>
+								<address>
+									<addrLine>Malostranské nám. 25</addrLine>
+									<postCode>118 00</postCode>
+									<settlement>Praha 1</settlement>
+									<country key="CZ">Czech Republic</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Monotone crossing number of complete graphs</title>
+					</analytic>
+					<monogr>
+						<title level="j" type="main">XV Spanish Meeting on Computational Geometry</title>
+						<imprint>
+							<date type="published">June 26-28, 2013</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In 1958, Hill conjectured that the minimum number of crossings in a drawing of K n is exactly Z(n) = 1 4 n 2 n−1 2 n−2 2 n−3 2</p><p>. Generalizing the result by Ábrego et al. for 2-page book drawings, we prove this conjecture for plane drawings in which edges are represented by x-monotone curves. In fact, our proof shows that the conjecture remains true for xmonotone drawings in which adjacent edges do not cross and we count only pairs of edges which cross odd number of times. We also discuss a combinatorial characterization of these drawings.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Let G be a graph with no loops and multiple edges. In a drawing D of a graph G in the plane, the vertices are represented by distinct points and each edge is represented by a simple continuous arc connecting the images of its endpoints. As usual, we identify the vertices and their images, as well as the edges and the arcs representing them. It is required that the edges pass through no vertices other than their endpoints. We also assume for simplicity that any two edges have only nitely many points in common, no two edges touch at an interior point and no three edges meet at a common interior point.</p><p>A crossing in D is a common interior point of two edges where they properly cross. The crossing number cr(D) of a drawing D is the number of crossings in D. The crossing number cr(G) of a graph G is the * Email: balko@kam.m.cuni.cz. Research supported by the grant GACR GIG/11/E023 GraDR in the framework of ESF EUROGIGA program, by the Grant Agency of the Charles University, GAUK 1262213, and by the grant SVV-2013-267313 (Discrete Models and Algorithms). minimum of cr(D), taken over all drawings D of G. A drawing D is called simple if no two adjacent edges cross and no two edges have more than one common crossing. It is well known and easy to see that every drawing of G which minimizes the crossing number is simple.</p><p>According to the famous conjecture of Hill <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b7">8]</ref> (also known as Guy's conjecture), the crossing number of the complete graph K n on n vertices satises</p><formula xml:id="formula_0">cr(K n ) = Z(n), where Z(n) = 1 4 n 2 n − 1 2 n − 2 2 n − 3 2 .</formula><p>This conjecture has been veried for n ≤ 12 <ref type="bibr" target="#b11">[12]</ref> and for each n, there are drawings of K n with Z(n) crossings <ref type="bibr" target="#b5">[6,</ref><ref type="bibr" target="#b6">7,</ref><ref type="bibr" target="#b7">8,</ref><ref type="bibr" target="#b8">9]</ref>. A curve α in the plane is x-monotone if every vertical line intersects α in at most one point. A drawing of a graph G in which every edge is represented by an x-monotone curve and no two vertices share the same x-coordinate is called x-monotone (or monotone, for short). The monotone crossing number mon-cr(G) of a graph G is the minimum of cr(D), taken over all monotone drawings D of G.</p><p>The rectilinear crossing number cr(G) of a graph G is the smallest number of crossings in a drawing of G where every edge is represented by a straightline segment. Since every rectilinear drawing of G in which no two vertices share the same x-coordinate is x-monotone, we have cr(G) ≤ mon-cr(G) ≤ cr(G) for every graph G.</p><p>We call a drawing of a graph semisimple if adjacent edges do not cross but independent edges may cross more than once. The monotone semisimple odd crossing number of G (called monotone odd + by Schaefer <ref type="bibr" target="#b13">[14]</ref>), denoted by mon-ocr + (G), is the smallest number of pairs of edges that cross an odd number of times in a monotone semisimple drawing of G. Clearly, mon-ocr + (G) ≤ mon-cr(G).</p><p>The monotone crossing number has been introduced by Valtr <ref type="bibr" target="#b14">[15]</ref> and recently further investigated by Pach and Tóth <ref type="bibr" target="#b10">[11]</ref>, who showed that mon-cr(G) &lt; 2cr(G) 2 holds for every graph G. On the other hand, they showed that the monotone crossing number and the crossing number are not always the same: there are graphs G with arbitrarily large crossing numbers such that mon-cr(G) ≥ 7 6 cr(G) − 6.</p><p>We study the monotone crossing numbers of complete graphs. The drawings of complete graphs with Z(n) crossings obtained by Blaºek and Koman <ref type="bibr" target="#b5">[6]</ref> (see also <ref type="bibr" target="#b8">[9]</ref>) are 2-page book drawings, which may be considered as a strict subset of x-monotone drawings. Thus we have mon-cr(K n ) ≤ Z(n). Ábrego et al. <ref type="bibr" target="#b0">[1]</ref> recently proved Hill's conjecture for 2-page book drawings of complete graphs. We generalize their techniques and show that Hill's conjecture holds for all x-monotone drawings of complete graphs, even for the monotone semisimple odd crossing number.</p><formula xml:id="formula_1">Theorem 1 For every n ∈ N, we have mon-ocr + (K n ) = mon-cr(K n ) = Z(n).</formula><p>The rectilinear crossing number of K n is known to be asymptotically larger than Z(n): this follows from the best current lower bound cr(K n ) ≥ See a recent survey by Schaefer <ref type="bibr" target="#b13">[14]</ref> for an encyclopedic treatment of all known variants of crossing numbers.</p><p>After submitting this extended abstract, we were informed that the authors of <ref type="bibr" target="#b0">[1]</ref> achieved the result mon-cr(K n ) = Z(n) already during discussions after their presentation at SoCG 2012, and that it will appear in the proceedings of LAGOS 2013 <ref type="bibr" target="#b1">[2]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Monotone Crossing Number</head><p>To prove the upper bound on the 2-page crossing number of K n , Ábrego et al. <ref type="bibr" target="#b0">[1]</ref> generalized the notion of k-edges to arbitrary simple drawings of complete graphs. They also introduced the notion of ≤≤kedges. These capture the essential properties of 2page book drawings better than ≤k-edges, which had been successfully used before for rectilinear and pseudolinear drawings <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b2">3]</ref>. We show that the approach using ≤≤k-edges can be generalized to arbitrary semisimple x-monotone drawings.</p><p>For a semisimple drawing D of K n and distinct vertices u and v of K n , let γ be the oriented arc representing the edge {u, v}. If w is a vertex of K n dierent from u and v, then we say that w is on the left (right) side of γ if the topological triangle uvw with vertices u, v and w traced in this order is oriented counterclockwise (clockwise, respectively). This generalizes the denition introduced by Ábrego et al. <ref type="bibr" target="#b0">[1]</ref> for simple drawings. However, we were not able to nd a meaningful generalization of this notion to drawings that are not semisimple, where the edges of the triangle uvw can cross several times.</p><p>A k-edge is an edge {u, v} of D that has exactly k points on the same side (left or right). Since every k-edge has n − 2 − k points on the other side, every kedge is also an (n − 2 − k)-edge and so every edge of D is a k-edge for some integer k where 0 ≤ k ≤ n/2 −1.</p><p>An i-edge with i ≤ k is called a ≤k-edge. Let E i (D) be the number of i-edges and E ≤k (D) the number of ≤k-edges of D. Clearly,</p><formula xml:id="formula_2">E ≤k (D) = k i=0 E i (D).</formula><p>Similarly, the number of ≤≤k-edges of D, E ≤≤k (D), is dened by the following identity.</p><formula xml:id="formula_3">E ≤≤k (D) = k j=0 E ≤j (D) = k i=0 (k + 1 − i)E i (D) (1)</formula><p>Considering the only three dierent simple drawings of K 4 up to a homeomorphism of the plane, Ábrego et al. <ref type="bibr" target="#b0">[1]</ref> showed that the number of crossings in a simple drawing D of K n can be expressed in terms of the number of k-edges in the following way.</p><formula xml:id="formula_4">Lemma 2 ([1]) For every simple drawing D of K n we have cr(D) = 3 n 4 − n/2 −1 k=0 k(n − 2 − k)E k (D),<label>(2)</label></formula><p>which can be equivalently rewritten as</p><formula xml:id="formula_5">cr(D) = 2 n/2 −2 k=0 E ≤≤k (D) − 1 2 n 2 n − 2 2 − 1 2 (1 + (−1) n ) E ≤≤ n/2 −2 (D).</formula><p>In fact, Lemma 2 can be easily generalized to semisimple drawings of K n where cr(D) is replaced by ocr(D), which counts the number of pairs of edges that cross an odd number of times in D. The main reason is that the cycle C 4 cannot be drawn in the plane in such a way that both its pairs of opposite edges cross oddly while adjacent edges do not cross.</p><p>By Lemma 2, lower bounds on E k (D) imply lower bounds on cr(D) and ocr(D). Considering ≤k-edges, Ábrego and Fernández-Merchant <ref type="bibr" target="#b3">[4]</ref> and Lovász et al. <ref type="bibr" target="#b9">[10]</ref> proved that for rectilinear drawings of K n , the inequality E ≤k ≥ 3 k+2 2 together with (2) gives cr(G) ≥ Z(n). However, there are simple x-monotone (even 2-page) drawings of K n where E ≤k &lt; 3 k+2 2 for k = 1 <ref type="bibr" target="#b0">[1]</ref>. Ábrego et al. <ref type="bibr" target="#b0">[1]</ref> showed that similar inequality for ≤≤k-edges is satised by all 2-page book drawings. We show that the same inequality is satised by all x-monotone semisimple drawings of K n .</p><p>Let {v 1 , v 2 , . . . , v n } be the vertex set of K n . Note that we can assume that all vertices in an x-monotone drawing lie on the x-axis. We also assume that the x-coordinates of the vertices satisfy x(v 1 ) &lt; x(v 2 ) &lt; · · · &lt; x(v n ).</p><p>Observation 3 Let D be a semisimple drawing of K n , not necessarily x-monotone. Let v be a vertex incident with the outer face of D and let γ i be the ith edge incident with v in the counter-clockwise cyclic order such that γ 1 and γ n−1 are incident with the outer face in a small neighborhood of v. Let v ki be the other endpoint of γ i . Then for every i, j, 1 ≤ i &lt; j ≤ n − 1, the triangle v ki vv kj is oriented clockwise. Consequently, for every k, 1 ≤ k ≤ (n − 1)/2, the edges γ k and γ n−k are (k − 1)-edges. For even n, the edge γ n/2 is a halving edge.</p><p>For an x-monotone drawing D of K n , we use Observation 3 directly for the vertex v n and then for each i, for the vertex v i and the subgraph induced by v i , v i+1 , . . . , v n .</p><p>The following denitions were introduced by Ábrego et al. <ref type="bibr" target="#b0">[1]</ref> for 2-page book drawings. Let D be a semisimple x-monotone drawing of K n and let D be a drawing obtained from D by deleting the vertex v n together with its adjacent edges. For i &lt; j, the edge v i v j is called the right edge at v i . The right edges at v i have a natural vertical order. <ref type="bibr">Lemma 4</ref> Let k be a xed integer such that 0 ≤ k ≤ (n−3)/2. For every i ∈ {1, 2, . . . , k +1}, the k + 2 − i bottommost and the k + 2 − i topmost right edges at v i are ≤ k-edges in D. Moreover, at least k + 2 − i of these ≤ k-edges are (D, D )-invariant ≤k-edges.</p><formula xml:id="formula_6">A k-edge in D is a (D, D )-invariant k-edge if it is also a k-edge in D . It is easy to see that every ≤k-edge in D is also a ≤(k + 1)-edge in D. If 0 ≤ j ≤ k ≤ n/2 − 1,</formula><p>Proof. The rst part of the lemma follows directly from Observation 3. If the edge v i v n is one of the k + 2 − i topmost right edges at v i , then the k + 2 − i bottommost right edges at v i are (D, D )-invariant ≤k-edges. Otherwise the k + 2 − i topmost right edges at v i are (D, D )-invariant ≤k-edges.</p><formula xml:id="formula_7">Corollary 5 We have E ≤k (D, D ) ≥ k+1 i=1 (k + 2 − i) = k + 2 2 .</formula><p>The following theorem gives the lower bound on the number of ≤≤k-edges. The proof is essentially the same as in <ref type="bibr" target="#b0">[1]</ref>, we only extracted Lemma 4, which needed to be generalized. Together with Lemma 2, Theorem 6 yields Theorem 1. Theorem 6 Let n ≥ 3 and let D be a semisimple xmonotone drawing of K n . Then for every k, 0 ≤ k &lt; n/2 − 1, we have E ≤≤k (D) ≥ 3 k+3</p><p>Proof. The proof proceeds by induction on n where the case n = 3 is trivially true. Let n ≥ 4 and let D be a semisimple x-monotone drawing of K n . For the induction step we remove the point v n together with its adjacent edges to obtain a drawing D of K n−1 , which is also semisimple and x-monotone.</p><p>Using Observation 3 we see that for 0 ≤ i ≤ k &lt; n/2 − 1 there are two i-edges adjacent to v n in D and together they contribute with 2 k</p><formula xml:id="formula_8">i=0 (k + 1 − i) = 2 k+2 2 to E ≤≤k (D) by (1). Let γ be an i-edge in D . Then γ contributes by (k − i) to the sum E ≤≤k−1 (D ) = k−1 i=0 (k − i)E i (D ).</formula><p>We already observed that γ is either an i-edge or an (i + 1)-edge in D. If γ is also an i-edge in D (that is, γ is a (D, D )-invariant i-edge), then it contributes by (k + 1 − i) to E ≤≤k (D). This is a gain of +1 towards E ≤≤k−1 (D ). If γ is an (i + 1)-edge in D, then it contributes only (k − i) to E ≤≤k (D). Therefore we have</p><formula xml:id="formula_9">E ≤≤k (D) = 2 k + 2 2 + E ≤≤k−1 (D ) + E ≤k (D, D ).</formula><p>By the induction hypothesis we know that</p><formula xml:id="formula_10">E ≤≤k−1 (D ) ≥ 3 k+2 3</formula><p>and thus we obtain</p><formula xml:id="formula_11">E ≤≤k (D) ≥ 3 k + 3 3 − k + 2 2 + E ≤k (D, D ).</formula><p>The theorem follows by plugging the lower bound from Corollary 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Combinatorial Description</head><p>In this section we develop a combinatorial characterization of x-monotone drawings which is based on the signature function introduced by Peters and Szekeres <ref type="bibr" target="#b12">[13]</ref> for describing order types of points sets. Let T n be the set of ordered triples (i, j, k) of the set Let D be an x-monotone drawing of the complete graph K n = (V, E) with vertices v 1 , v 2 , . . . , v n such that their x-coordinates satisfy x(v 1 ) &lt; x(v 2 ) &lt; · · · &lt; x(v n ). We assign a signature function σ ∈ Σ n to the drawing D according to the following rule. For each e = {v i , v k } ∈ E and every integer j, i &lt; j &lt; k, let σ(i, j, k) = − if the point v j lies above the arc representing the edge e and σ(i, j, k) = + otherwise.</p><p>Note that if the drawing D is also semisimple, then a triangle v i v k v j , j ∈ (i, k), is oriented counterclockwise (clockwise) if and only if σ(i, j, k) = − (σ(i, j, k) = +, respectively). It is easy to see that for every signature function σ ∈ Σ n there is an xmonotone drawing D which induces σ. However, such a drawing does not have to be semisimple. We show a characterization of simple and semisimple xmonotone drawings by small forbidden congurations in the signature functions.</p><p>For a, b, c, d ∈ [n] with a &lt; b &lt; c &lt; d and a signature function σ ∈ Σ n we say that the 4-tuple <ref type="figure">(a, b, c, d)</ref> is of the form ξ 1 ξ 2 ξ 3 ξ 4 in σ if σ(a, b, c) = ξ 1 , σ(a, b, d) = ξ 2 , σ(a, c, d) = ξ 3 and σ(b, c, d) = ξ 4 . Note that in a simple x-monotone drawing of K n the crossings can appear only between edges whose endpoints induce a 4-tuple of one of the forms Analogously to a similar correspondence in rectilinear drawings of K n , we may call these 4-tuples convex. Then for a simple x-monotone drawing D of K n the crossing number of D equals the number of convex 4-tuples.</p><p>A similar notion of convexity for general k-tuples was used by Peters and Szekeres <ref type="bibr" target="#b12">[13]</ref>. This description of crossings is convenient for computer calculations. Using it, we have obtained a complete list of optimal x-monotone drawings of K n for n ≤ 10.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Concluding remarks</head><p>It is an interesting direction of further research to see if similar techniques can be helpful in proving Hill's conjecture for general drawings of complete graphs. We note that the same approach does not generalize to all drawings: for example, a particular planar realization of the so-called cylindrical drawing <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b7">8]</ref> of K 10 , with crossing number Z(10), does not satisfy the lower bound on ≤≤1-edges in Theorem 6. It would also be interesting to further generalize Theorem 1 to monotone drawings where also adjacent edges are allowed to cross.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>†</head><label></label><figDesc>Email: radoslav@kam.m.cuni.cz. Research supported by the grant GACR GIG/11/E023 GraDR in the framework of ESF EUROGIGA program. ‡ Email: kyncl@kam.m.cuni.cz. Research supported by the grant GACR GIG/11/E023 GraDR in the framework of ESF EUROGIGA program, by the Grant Agency of the Charles University, GAUK 1262213, and by the grant SVV-2013-267313 (Discrete Models and Algorithms).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>then a (D, D )-invariant j-edge is called a (D, D )invariant ≤k-edge. Let E ≤k (D, D ) denote the number of (D, D )-invariant ≤k-edges.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>[n] = {1, 2, . . . , n} and let Σ n be the set of signature functions σ : T n → {−, +}.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Theorem 7 A</head><label>7</label><figDesc>signature function σ ∈ Σ n can be realized by a semisimple x-monotone drawing if and only if each ordered 4-tuple of indices is of one of the forms ++++, −−−−, ++−−, −−++, −++−, +−−+, −−−+, +++−, +−−−, −+++ in σ. The signature function σ can be realized by a simple xmonotone drawing if, in addition, there is no 5-tuple (a, b, c, d, e), a &lt; b &lt; c &lt; d &lt; e, with σ(a, b, e) = σ(a, d, e) = σ(b, c, d) = −σ(a, c, e).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head></head><label></label><figDesc>++++, −−−−, ++−−, −−++, −++−, +−−+.</figDesc></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgments</head><p>We would like to thank Pavel Valtr for initializing the research which led to this problem and Marek Eliá² for developing visualization tools that were helpful during the research.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">The 2-page crossing number of Kn</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">M</forename><surname>Ábrego</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Aichholzer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Fernández-Merchant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Ramos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Salazar</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1206.5669</idno>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+	<note>preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">M</forename><surname>Ábrego</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Aichholzer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Fernández-Merchant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Ramos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Salazar</surname></persName>
+		</author>
+		<title level="m">More on the crossing number of Kn: Monotone drawings, Proceedings of the VII Latin-American Algorithms, Graphs and Optimization Symposium (LAGOS) 2013, Playa del Carmen</title>
+		<meeting><address><addrLine>Mexico</addrLine></address></meeting>
+		<imprint/>
+	</monogr>
+	<note>to appear</note>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">On ≤k-edges, crossings, and halving lines of geometric drawings of Kn</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">M</forename><surname>Ábrego</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Cetina</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Fernández-Merchant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Leaños</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Salazar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Comput. Geom</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">M</forename><surname>Ábrego</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Fernández-Merchant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">A lower bound for the rectilinear crossing number</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page">293300</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A central approach to bound the number of crossings in a generalized conguration</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">M</forename><surname>Ábrego</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Fernández-Merchant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Leaños</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Salazar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The IVLatin-American Algorithms, Graphs, and Optimization Symposium</title>
+		<meeting><address><addrLine>Amsterdam</addrLine></address></meeting>
+		<imprint>
+			<publisher>Elsevier Sci. B. V</publisher>
+			<date type="published" when="2008" />
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page">273278</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">A minimal problem concerning complete plane graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Blaºek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Koman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Theory of Graphs and its Applications, Proc. Sympos. Smolenice</title>
+		<meeting><address><addrLine>Prague</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1963" />
+			<biblScope unit="page">113117</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A combinatorial problem</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">K</forename><surname>Guy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nabla (Bull. Malayan Math. Soc)</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page">6872</biblScope>
+			<date type="published" when="1960" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">On the number of crossings in a complete graph</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Harary</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Hill</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proc. Edinburgh Math. Soc</title>
+		<imprint>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">333338</biblScope>
+			<date type="published" when="1963" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Special numbers of crossings for complete graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Harborth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">244</biblScope>
+			<biblScope unit="page">102</biblScope>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Convex quadrilaterals and k-sets, in: Towards a theory of geometric graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Lovász</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Vesztergombi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">U</forename><surname>Wagner</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Welzl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Contemp. Math</title>
+		<imprint>
+			<biblScope unit="volume">7034</biblScope>
+			<biblScope unit="page">139148</biblScope>
+			<date type="published" when="2004" />
+			<publisher>Amer. Math. Soc</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Monotone Crossing Number</title>
+		<meeting><address><addrLine>Berlin Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2012" />
+			<biblScope unit="volume">7034</biblScope>
+			<biblScope unit="page">278289</biblScope>
+		</imprint>
+	</monogr>
+	<note>Graph drawing</note>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">The crossing number of K11 is 100</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Pan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">R</forename><surname>Richter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Theory</title>
+		<imprint>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="page">128134</biblScope>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Computer solution to the 17-point Erd®s-Szekeres problem</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Szekeres</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Peters</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ANZIAM J</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page">151164</biblScope>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The Graph Crossing Number and its Variants: A Survey</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Journal of Combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+	<note>Dynamic Survey</note>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">On the pair-crossing number, in: Combinatorial and computational geometry</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Valtr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Math. Sci. Res. Inst. Publ</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page">569575</biblScope>
+			<date type="published" when="2005" />
+			<publisher>Cambridge Univ. Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Bidding Agents for Online Auctions with Hidden Bids</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><forename type="middle">Xin</forename><surname>Jiang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Bidding Agents for Online Auctions with Hidden Bids</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>joint work with</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bidding Agents</head><p>• Given a bidding history, but no explicit valuation distribution, compute a bidding strategy that maximizes EU -Motivating example: how should agents behave in a sequence of eBay auctions?</p><p>• Game Theoretic Approach <ref type="bibr">[Athey&amp;Haile, 2000]</ref>, <ref type="bibr">[Haile&amp;Tamer, 2003]</ref>, <ref type="bibr">[Rogers et al., 2005]</ref> -model the situation as a Bayesian game -estimate other bidders' valuations from the history -compute and then play a Bayes-Nash equilibrium of the game • Decision Theoretic Approach <ref type="bibr">[Boutilier et al., 1999]</ref>, <ref type="bibr">[Byde, 2002]</ref>, <ref type="bibr">[Stone et al., 2003]</ref>, <ref type="bibr">[Greenwald &amp; Boyan, 2004]</ref>, <ref type="bibr">[MacKie-Mason et al., 2004]</ref>, <ref type="bibr">[Osepayshvili et al., 2005]</ref> -learn the behavior of other bidders from historical data • treat other bidders as part of the environment -play an optimal strategy in the resulting single-agent decision problem • Fundamental subproblem: using historical data to estimate distribution of bidders' bid amounts or valuations -…why is there still any work to be done? • let n denote the number of bidders who place (accepted) bids in the auction -each bidder i has an independent private valuation drawn from distribution f(v)</p><p>• Bidding dynamics -start with reserve price of zero -bidders sequentially place proxy bids (each bidder gets only one bid) -auctioneer maintains current price: second-highest proxy amount declared so far -if a new bid is less than the current price, it is dropped • Bidding history -some bidders' proxy bid amounts will be perfectly observed (denote this set of bids x o )</p><p>• any bidder who placed a proxy bid and was outbid (n-1 such bidders) -however, some bids will be hidden (denote this set x h )</p><p>• highest bid (one bidder) -revealed only up to the second-highest bidder's proxy amount</p><p>• any bid which was lower than the current price when it was placed (m -n bidders) -either the bidder leaves or the bid is rejected Bidding Example highest current price</p><p>Learning the Distributions f(v) and g(m)</p><p>• Data: a set of auction histories -number of bidders and bids distributed identically in each auction • Simple technique for estimating f(v) and g(m):</p><p>-ignore hidden bids, considering only x o and n from each auction -use any standard density estimation technique to learn the distributions -essentially this is the straightforward price estimation technique described earlier</p><p>• Problem:</p><p>-the simple technique ignores the hidden bids and so introduces bias g(m) will be skewed towards small values because n ≤ m f(v) may be</p><p>• skewed towards small values because it ignores the winning bid • skewed towards large values because ignores dropped, losing bids EM Algorithm</p><p>• Solution: use EM to account for hidden bids -similar in spirit to an approach by Boutilier et al. <ref type="bibr">[1999]</ref> -I'll discuss related work at the end; short answer: our setting is different • E step: generate the missing data given estimates of f', g' and bidding model -for each observation x o , repeat until N samples of x h have been generated: is the EU of the bidding strategy that maximizes U j+1 (derived in the paper)</p><formula xml:id="formula_0">• sample m from g'(m | m ≥ n) • draw m -n + 1 samples from f'(v) to</formula><p>• first term: payoff from current auction; second term: payoff from future auctions • note that U j+1 depends on the distribution of the highest bid:</p><p>• …and that F j 1 depends in turn on f(x), g(m)</p><p>• thus we must estimate f(x), g(m) to build a decision theoretic agent in this setting • Our agent computes U * j+1 by approximating an integral using Monte Carlo sampling, again relying on our model of the auction Game Theoretic Approach • If each bidder (other than our agent) only participates in one auction:</p><p>-dominant strategy is to bid truthfully: b(v) = v -we can use the decision-theoretic approach • If other bidders participate in more than one auction <ref type="bibr">[Milgrom &amp; Weber, 1982]</ref> -equilibrium strategy gets more complex (both strategically and computationally) -success in this domain is much harder to benchmark experimentally • do we believe that all agents will follow an equilibrium strategy on eBay?</p><p>• We analyzed game theoretic bidding in online auctions without proxies -we derived Bayes-Nash equilibrium for this game -used EM to learn distributions f(v) and g(m) -EM approach consistently has lower KL divergence than the simple approach -statistically significant difference: Wilcoxon sign-rank test (non-parametric)  -EM, simple approaches estimating normal and Poisson distributions -EM, simple approaches using kernel density estimation • Question 1: no ground truth for this data set-dropped bids are really dropped, etc.</p><p>• Question 2: the EM approaches achieve significantly higher expected payoffs than the simple approaches.</p><p>Data Set V: Online Auctions without Proxies</p><p>• Synthetic Data: f(v) is a normal distribution; g(m) is a Poisson distribution • Bidding history of 30 auctions is generated for each instance.</p><p>• Both learning approaches use the correct (normal &amp; Poisson) families of distributions to estimate f(v) and g(m) • Question 1: EM approach gives (stat. significantly) better estimates • Question 3: EM approach computes ε-equilibria with significantly smaller ε.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>represent a hidden bids • if x h does not contain exactly one bid that exceeds the highest bid in x o , reject sample. • M step: -update f '(v) and g'(m) to maximize the likelihood of the bids x o ∪ x h• depends on functional form of f', g'; either analytic or using e.g. approach described above is decision-theoretic • What if we want to take a game-theoretic approach?-Athey &amp; Haile [2000] discuss estimation in the game theoretic setting • however, they generally assume that number of bidders is known -let f(v) be the distribution of bidder's valuations (instead of bid amounts) • g(m) remains the distribution of number of bidders, as before -given a bidder's valuation v, what is his bid amount? • solve for Bayes-Nash equilibrium of the auction game: bid function b(v |f, g) • EM algorithm to estimate f and g in a GT setting: -E step: for each sample given observation x o : • sample m from g'(m | m ≥ n) • compute observed bidders' valuations v o from x o by inverting the bid function • generate new bidders with valuations v h who place hidden bids x h = b(v h |f', g') -generate mn + 1 bids, keeping samples when exactly one hidden bid is higher than the highest observed bid -M step: update f' and g' to maximize likelihood of the valuations v o ∪ v h sequential, single-good online auctions for possibly non-identical goods -we want only one item • e.g. buying a Playstation 2 from eBay, where such auctions are held regularly -denote our valuation for the item in auction j as v j and our bid as b j -let U j denote expected payoff at time j, conditional on not having won already • a function of our valuations for the goods in the auctions j, …, k • Consider the construction of a decision-theoretic agent to participate in a finite sequence of auctions (under our online auction model) -given estimates f'(v) and g'(m), what are the optimal bidding strategies?• Greenwald &amp; Boyan[2004]  and Arora et al.[2003]  analyzed similar domains -using similar reasoning, we derive the optimal bidding strategy for</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>compared our EM approach to the simple approach I. Synthetic data: sequence of auctions for identical items (decision theoretic), known distribution families II. Synthetic data: sequence of auctions for non-identical items (decision theoretic), known distribution families III. Synthetic data: sequence of auctions for identical items (decision theoretic), unknown distribution families IV. eBay data: auctions for Playstation 2, March 2005 (decision theoretic), V. Synthetic data: online auction without proxies (game theoretic), known distribution families • For each dataset, we ask two of the following three questions: Data: f(v) is a normal distribution; g(m) is a Poisson distribution • Bidding history of 40 auctions is generated for each instance.• Both learning approaches use the correct (normal &amp; Poisson) families of distributions to estimate f(v) and g(m) • Question 1: which approach made a better estimate of f(v), g(m), f 1 (v)?</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>of eight new auctions, after learning from the 40-auction history -in the new auctions, we still use the true g(m) and f(v)• Question 2: following the optimal strategy with the EM estimates gives higher expected payoffs than following this strategy with the simple approach'mean of f(v) depends linearly on some unknown parameter a • Both approaches use linear regression to estimate the linear coefficients • Question 1: EM approach gives (stat. significantly) better estimates • Question 2: EM approach achieves significantly better expected payoffs</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Data Set III: Unknown distributions • Identical items. Distribution families for f(v) and g(m) are unknown -ground truth: f(v) is Gamma distributed; g(m) is a mixture of two Poissons • Use kernel density estimation to estimate f(v) and g(m) • Result: the EM approach gives better estimates (significantly lower KL divergence); both approaches achieved similar payoffs (difference not significant) Data Set IV: eBay Data • 60 Sony Playstation-2 auctions from eBay, March 2005 -considered only one-day auctions with at least 3 bidders • Problem: highest bids not available • Workaround: "pretend" second-highest bid is the highest bid -justification: this "shifted" data set should have similar characteristics to the actual bidding history • Compared four approaches:</figDesc><table>simple 
+
+simple kernel 
+EM 
+EM kernel 
+
+0 
+
+1 
+
+2 
+
+3 
+
+4 
+
+5 
+
+Regret 
+
+Payoff Regrets 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion &amp; Future Work</head><p>• Bidding agents in online auction settings face the problem of estimating -distribution of bid amounts; -distribution of number of bidders from incomplete auction data • We proposed a learning approach based on EM • We considered the application of building a decision theoretic agent for sequences of online auctions -Also a game theoretic agent for online auctions without proxies • We showed in experiments that our EM approach never did worse and usually did better than the straightforward approach, on both synthetic and real-world data • Recently published in MLJ; available at http://cs.ubc.ca/~kevinlb</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+				<title level="m">Which approach gives better estimates of the distributions f(v), g(m)</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Online Auction Model and Learning Problem 3. Building an Agent 4. Experimental Evaluation 5. Conclusions Conclusions: Related Work on the Hidden Bid Problem • [Boutilier et al. 1999]: -a decision-theoretic MDP approach to bidding in sequential first-price auctions for complementary goods -for the case where these sequential auctions are repeated, discusses learning a distribution of other agents&apos; highest bid for each good</title>
+	</analytic>
+	<monogr>
+		<title level="m">Decision theoretic: which approach gives better expected payoffs? 3. Game theoretic: which approach finds ε-equilibria for smaller ε? 1. Background</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="volume">2</biblScope>
+		</imprint>
+	</monogr>
+	<note>based on winning bids • uses EM: the agent&apos;s own bid wins, hiding the highest bid by other agents • [Rogers et al.</note>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">English auctions with discrete bid levels, unknown # bidders; want to find optimal design -look at the final prices to compute posterior distributions (Bayesian inference) -ignores all the earlier bids</title>
+		<imprint/>
+	</monogr>
+	<note>thus higher variance</note>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">English auctions in eBay-like environments -use second-and third-highest bids to estimate the value distribution -problem: third-highest bids sometimes hidden; using the observed bids introduces bias • [Haile &amp; Tamer, 2003] -study a different problem: bidders&apos; final observed bids may be below their valuations -solve the problem by computing bounds on the value distributions -intended for physical auctions with known numbers of bidders</title>
+	</analytic>
+	<monogr>
+		<title level="m">-works only for parametric distributions, and is exponential in the number of parameters • [Song</title>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+	<note>introduces bias when applied to online auctions with unknown numbers of bidders -interesting open question: combining with our methods for unknown number of bidders</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

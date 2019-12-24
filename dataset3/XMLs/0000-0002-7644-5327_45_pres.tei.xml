@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Taming the Computational Complexity of Combinatorial Auctions</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yoav</forename><forename type="middle">Shoham</forename><surname>Overview</surname></persName>
+						</author>
+						<title level="a" type="main">Taming the Computational Complexity of Combinatorial Auctions</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CASS: Introduction</head><p>CASS -Combinatorial Auction Structured Search CASS considers fewer partial allocations than a naïve DFS: structure the search space: consider fewer conflicting bids pruning: use context from the search structure to generate close overestimates of total revenue ordering heuristics: capitalize on this structure to speed searching and improve anytime performance CASS has low memory demands only stores nodes that are part of current allocation (# goods) most memory is used for pruning tables average 10-20 MB used for problems discussed today Originally we proposed two algorithms, now CASS is always faster Naïve Depth-First Search bids are tuples: (a binary set of goods, a price) nodes are partial allocations (sums of bids) start node: empty set (no goods, $0) transitions between nodes: add one bid to the partial allocation only add non-conflicting bids (bids whose intersection with the current partial allocation is empty) terminal node: no non-conflicting bids exist the terminal node with the highest revenue is the optimal allocation Structure the search space to reduce the number of infeasible allocations that are considered </p><formula xml:id="formula_0">1 D 1 D 2 D 3 D 4 D 5</formula><p>When considering bin D i , if good j &gt; i is already part of the allocation then do not consider any of the bids in D j</p><p>All the bids in D j are guaranteed to conflict with our allocation</p><p>In general, instead of considering each bin in turn, skip to D k where k ∉ G(F) and ∀i&lt;k, I ∈ G(F) There is little or no real data available, so we drew bids randomly from specific distributions Binomial:</p><p>The probability of each good being included in a given bid is independent of which other goods are included </p><formula xml:id="formula_1">, = = p n!(N-n)! N! (1-p) p (n) f N-n n b</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Experimental Results: Data Distributions</head><p>Binomial is fairly easy to analyze, but not very realistic in a real auction, we expect mostly short bids harder more bids must be combined in an allocation Exponential: f e (n) = Ce -x/p , p = 5 a bid for n+1 goods appears e -1/p times less often than a bid for n goods.  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>Partition bids into bins, D i , containing all bids b where good i ∈ G b and for all j &lt; i, j ∉ G b</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>prices is also very important pruning is done on the basis of price Prices of bids for n goods is uniformly distributed between [n(1-d), n(1+d)], d = 0.5 prices cluster around a "natural" average price per bid, and deviate by a random amount if prices were completely random, the pruning algorithm would have more of an advantage</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Backtrack when it is impossible to add bids to the current allocation to achieve more revenue than the current best allocation Revenue overestimate function o(g,i,F)    an overestimate of the revenue that can be achieved with good g, searching from bin i with current partial allocation F ⌧an admissible heuristic precompute lists for all g, i:⌧all bids that contain good g and appear in bin i or beyond ⌧sorted in descending order of average price per bid (APPB) return APPB of the first bid in the list that doesn't conflict with F Backtrack at any point during the search ifGood ordering: what good will be numbered #1, #2… Goal: reduce branching factor at the top of the tree pruning will often occur before bins with a higher branching factor are reached Ordering of goods: Sort goods in ascending order of score,</figDesc><table>124 
+12 
+134 
+1345 
+
+1245 
+
+14 
+
+125 
+
+23 
+234 
+24 
+245 
+2 
+
+34 
+35 
+345 
+3 
+
+45 
+5 
+4 
+
+1 
+revenue(F) + 
+≤ revenue(best_allocation) 
+
+∑ 
+
+∉F 
+g 
+
+F 
+i 
+g 
+o 
+) 
+, 
+, 
+( 
+
+CASS Improvement #5: 
+Good Ordering Heuristic 
+
+more bids 
+more branching 
+longer bids 
+shallower search 
+
+g 
+containing 
+bids 
+of 
+length 
+average 
+
+g 
+containing 
+bids 
+of 
+number 
+g 
+score 
+= 
+: 
+) 
+( 
+Data Distributions 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Number of Bids (Exponentially Distributed) Running time (median over 20 runs, seconds) CASS Performance: Runtime vs. Number of Bids Number of Bids (Exponentially Distributed) Running time (median over 20 runs, seconds) CASS Percentage Optimality: Elapsed Time vs. Number of Bids Number of Bids (Always 60 Goods, Exponentially Distributed) Elapsed time (median over 20 runs, seconds)</figDesc><table>Experimental Results: 
+Running Time (Binomial) 
+
+CASS Performance: Runtime vs. Number of Bids 
+
+0.1 
+
+1 
+
+10 
+
+100 
+
+0 
+200 
+400 
+600 
+800 
+1000 
+1200 
+1400 
+1600 
+1800 
+2000 
+
+Number of Bids (Binomially Distributed) 
+Running time (median over 20 runs, seconds) 
+
+200 goods 
+300 goods 
+400 goods 
+500 goods 
+
+Experimental Results: 
+Running Time (Exp.) 
+
+CASS Performance: Runtime vs. Number of Bids 
+
+0.01 
+
+0.1 
+
+1 
+
+10 
+
+100 
+
+1000 
+
+0 
+200 
+400 
+600 
+800 
+1000 
+1200 
+1400 
+1600 
+1800 
+2000 
+
+30 goods 
+40 goods 
+50 goods 
+60 goods 
+70 goods 
+
+Experimental Results: 
+Running Time (Exp.) 
+
+0.01 
+
+0.1 
+
+1 
+
+10 
+
+100 
+
+1000 
+
+0 
+200 
+400 
+600 
+800 
+1000 
+1200 
+1400 
+1600 
+1800 
+2000 
+
+60 goods 
+
+Experimental Results: 
+Anytime Performance (Exp) 
+
+0.01 
+
+0.1 
+
+1 
+
+10 
+
+100 
+
+1000 
+
+0 
+200 
+400 
+600 
+800 
+1000 
+1200 
+1400 
+1600 
+1800 
+2000 
+
+0.8 
+0.9 
+0.95 
+0.96 
+0.97 
+0.98 
+0.99 
+1 
+Completed 
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">. Remove dominated bids If there exist bids b k = (p k ,G k ) and b l = (p l ,G l ) such that p l ≥ p k and G l ⊆ G k , then remove b k ⌧ Two bids for the same bundle of goods with different prices ⌧ One bundle is a a strict subset of another and has a higher price 2. For each good g, if there is no bid b=(x,{g}), add a dummy bid b=(0,{g})    This ensures that the optimal set of bids will name every good, even if some goods are not actually allocated</note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Presents results for four different distributions:</p><p>Random Distribution: ⌧Select the number of goods, N, in a given bid (uniform random) ⌧Uniquely choose the goods</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions</head><p>We have proposed an algorithm to mitigate the computational complexity of combinatorial auctions, which works surprisingly well on simulated data determines optimal allocations in a small fraction of the time taken by a naïve DFS approach to solve the same problem can find good approximate solutions quickly</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Future Work</head><p>Investigate the effects of different bin orderings and orderings of bids within bins Compare to other search techniques integer programming other combinatorial auction search techniques Experiments with real data (FCC auctions?) Caching: referenced in our paper, but currently disabled Divisible/identical goods some of our work on CASS is relevant to the new problem; much is not</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

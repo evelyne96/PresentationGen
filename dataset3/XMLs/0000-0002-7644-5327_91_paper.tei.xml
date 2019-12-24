@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Incentive Mechanisms for Smoothing Out A Focused Demand for Network Resources</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ryan</forename><surname>Porter</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Balaji</forename><surname>Prabhakar</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yoav</forename><surname>Shoham</surname></persName>
+							<email>shobha@cs.stanford.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Shobha</forename><surname>Venkataraman</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science Department</orgName>
+								<orgName type="institution">Stanford University</orgName>
+								<address>
+									<postCode>94305</postCode>
+									<settlement>Stanford</settlement>
+									<region>CA</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Incentive Mechanisms for Smoothing Out A Focused Demand for Network Resources</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We explore the problem of sharing network resources when users' preferences lead to temporally concentrated loads, resulting in an inefficient use of the network. In such cases external incentives can be supplied to smooth out demand, obviating the need for expensive technological mechanisms. Taking a game-theoretic approach, we consider a setting in which bandwidth or access to service is available during different time slots at a fixed cost, but all agents have a natural preference for choosing the same time slot. We present four mechanisms that motivate users to distribute the load by probabilistically waiving the cost for each time slot, and analyze the equilibria that arise under these mechanisms. 1</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Competition for network resources is intrinsic to a network's operation and leads to congestion. Since users access resources in a distributed and uncoordinated fashion, it is common for a network to experience congestion even when the average demand for a resource is much less than its capacity. Some of these congestion epochs are simply a product of the statistical nature of user access patterns and traffic types, and are thus unpredictable. To cope with this lack of coordination among users and the unpredictability of congestion epochs, networks send "congestion signals" to users to help them share its resources in a fair and satisfactory fashion. For example, packets at a congested router may be either dropped or marked <ref type="bibr" target="#b4">[5]</ref>.</p><p>A great deal of network congestion is not only caused by a lack of coordination, but also by users who aim to selfishly maximize the bandwidth available to them (see Shenker <ref type="bibr" target="#b17">[18]</ref>). There exists a substantial body of work on the fair management of this sort of congestion in networks. In particular, the problem of designing congestion control and pricing mechanisms to provide differentiated qualities-of-service (QoS) in the Internet has received a lot of attention recently. The first common type of solution to this problem is technological: the network can erect "bandwidth firewalls" between packet flows using scheduling algorithms like Weighted Fair Queuing <ref type="bibr" target="#b2">[3]</ref>. Such scheduling algorithms decrease or eliminate the dependence of one flow's QoS from the QoS of other flows. They can be difficult to implement in high-capacity routers, however, as they require the maintenance of per-flow state to distinguish, buffer and schedule the packets of individual flows. This has led researchers to explore trading off performance for simplicity of implementation, yielding router mechanisms that provide approximate fairness <ref type="bibr" target="#b5">[6,</ref><ref type="bibr" target="#b16">17,</ref><ref type="bibr" target="#b15">16</ref>].</p><p>An alternate line of research takes an economic approach to congestion management. Following this approach the network attempts to induce users to condition their flows; this avoids the implementation complexity inherent in erecting explicit bandwidth firewalls. Using ideas from economics, MacKie-Mason and Varian <ref type="bibr" target="#b11">[12]</ref> argued that this incentive can be provided by charging agents for the damage caused to others by their ill-conditioned flows. This work proposes a "smart market" that uses bids to set a price for network usage at each of several time slots. Gibbens and Kelly <ref type="bibr" target="#b7">[8]</ref> suggest charging a user for the role its packets play in causing congestion; see also <ref type="bibr" target="#b8">[9]</ref> and <ref type="bibr" target="#b9">[10]</ref>. Odlyzko <ref type="bibr" target="#b13">[14]</ref> proposes "Paris Metro Pricing": partitions of the network that behave identically but charge different prices, inviting users to choose the partition they believe will offer the best balance of cost and congestion.</p><p>In some situations, times of high demand are regular and predictable. Such focused loading can occur because many users' utility functions are maximized by using the network at some specific time. For example, early studies of longdistance telephone networks show a spike in usage when rates drop <ref type="bibr" target="#b12">[13]</ref>. <ref type="figure" target="#fig_0">Figure  1</ref> is a representative graph adapted from p. 450 of this paper, which shows telephone network traffic versus time of day. Note that usage falls off before the 1 PM rate drop, spikes afterwards and then falls off again. A recent study <ref type="bibr" target="#b0">[1]</ref> considers dial-up data traffic in Ireland and the UK-where ISPs provide free Internet access but users pay for the duration of their phone connectionswhere a focused load on the telephone network occurs from an increase in data connections when phone charges drop. Web servers also experience focused loading just before deadlines, or just after new content or services are made available. While these times are known well in advance, users have no incentive to avoid accessing the web site close to the deadline and thus can cause server overloads or crashes, to which system managers typically respond by buying more resources.  What approaches would more directly address the source of the problem? It is instructive to examine a particularly elegant solution employed by radio broadcasters. To boost audience levels, radio shows routinely offer prizes to listeners such as concert tickets, vacations and money. Listeners tune in, wait for a signal such as a particular song and then call in hoping to win the prize. Of course, this invites an episode of severe focused loading at the switch board of the radio station as many listeners simultaneously call. The brilliantly simple way out is to announce that "caller number 9" will be the winner. This provides an incentive for listeners to randomize their call-in times-calling in too early or too late will not work-and the focused load is thereby diffused.</p><p>Of course, many of the general-purpose congestion management techniques surveyed above may also be applied to the special case of focused loading. We believe, however, that separate consideration of this special case is worthwhile, for two main reasons. First, the fact that focused loading occurs at very predictable times means that it is possible to know in advance the cases for which a specialized solution should be used. Second, the generality of the above congestion management techniques prevents them from explicitly taking into account information about agent valuation functions. Focused loading occurs because many agents prefer to use the network at the same time. This additional knowledge makes it possible to design mechanisms that collect more revenue and make fewer (e.g., computational) demands on the network.</p><p>In this paper 2 we propose a game theoretic model of the problem of defocusing predictable and time-dependent focused loads. We attempt to explain why techniques such as the radio show announcement can be effective, while also contributing a formal model that permits analysis. While we do not rely on any particularly advanced results from game theory or mechanism design, we do assume that the reader is familiar with such concepts as individual rationality, risk attitudes (e.g,. risk neutrality, risk aversion) and dominant strategies. Also in the game theoretic tradition, we refer to users as agents. Good introductions to the concepts listed above are provided in <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b14">15]</ref>.</p><p>In Section 2 we give a formal model of the temporal resource contention problem, define metrics for evaluating agent distributions and related notions of optimality, and specify agent utility functions. In Section 3 we propose a simple mechanism under which load balancing is a weak equilibrium for agents who value slots identically. We strengthen this to a strict equilibrium in Section 4 and also prove that this mechanism is arbitrarily close to optimal. In Sections 5 and 6 we relax the assumption that all agents have identical utility functions and present two mechanisms that balance load when only bounds on agent valuations are known. Since these mechanisms cannot take into account exactly how much each agent would be willing to pay to use the network, these mechanisms are not optimal; however, we prove a bound on their optimality which depends on the tightness of the bound on agent utility functions. If these mechanisms were used in the original case where agents value slots identically, then they too would be arbitrarily close to optimal. Finally, in Section 7 we summarize and compare the four mechanisms presented in this paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Problem Definition</head><p>In order to motivate the notation that we will use throughout the paper, it is helpful to begin with an example. Consider a network resource with a fixed number of identical time slots, where usage cost does not depend on the time slot. For example, consider a usage-based web service such as a pay-per-view streaming video service in which usage is divided into half-hour blocks from 7 PM to midnight. We assume that each agent wants to use the network during only one time slot, that each agent knows his own valuation for each slot, and that all agents' utilities are maximized by using the network during the same slot. For example, all agents might prefer to use the network from 7:00 to 7:30, having strictly monotonically-decreasing valuations for later slots as compared to earlier slots. Since time slots are priced identically, rational agents would all choose to use the network from 7:00 to 7:30, leading to a focused load. We further assume that although the capacity of the network resource is unlimited (e.g., hosted on an ASP) the operator of the resource has an exogenous desire for users to de-focus their demands (e.g., the ASP charges the operator for peak bandwidth used 3 ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Mechanism Characteristics</head><p>In order to spread out the focused load, the network will provide agents with an incentive to choose slots other than s. In this paper we will consider mechanisms in which agents are probabilistically spared the usage cost for the slot they choose. The cost of using the slot is waived according to a probability which depends on the slot chosen, and which is independent of the probabilities corresponding to other slots.</p><p>More formally, a mechanism Φ is defined by a tuple t, m, N, f (.) . The network operates over t time slots, where each slot has a fixed usage cost of m, and where the set N of n agents, a 1 . . . a n , intend to use the network. Each agent a i takes an action A i of using a slot. The function f : A 1 ×· · ·×A n → [0, 1] n maps the actions taken by all agents into individual probabilities P i that the cost of the slot chosen by a i will be waived. Though f is specified by the mechanism, the network must draw from each P i to determine whether the usage cost will actually be waived for each agent. Note that the P i 's are independent. By q we denote the expected number of slots that will be offered to at least one agent for free. The distribution of agents is denoted d, and so d(s) is the number of agents who chose slot s.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Agent Characteristics</head><p>We assume that all agents are risk neutral. Agent a i 's valuation for slot s is given by an arbitrary non-negative function v i (s). Let s i = arg max s v i (s) and s i = arg min s v i (s). Because we are concerned with cases in which focused loading occurs we will assume that all agents have identical and unique mostand least-preferred slots, although this assumption is not required for any of our results. (If agents find several slots to be the most preferable, some amount of load balancing is likely to occur without any intervention by the network, as agents will distribute themselves across these slots.) Therefore, we define constants s and s such that for all i, s i = s and s i = s. In sections 3 and 4 we will make the assumption that all agents' valuation functions are identical (in these sections we will use the notation v rather than v i to describe agents' valuations). Of course this assumption is not realistic; we relax it in sections 5 and 6. Let v l and v u be lower and upper bounds on all agents' valuations, respectively: i.e., ∀i, s v l (s) ≤ v i (s) ≤ v u (s). It is important to note that these bounds apply to all agents: in our model no agent has a valuation for slot s lower than v l (s) or higher than v u (s). <ref type="bibr" target="#b3">4</ref> Using this notation, the restriction on agents' valuations in sections 3 and 4 can be understood as the case where ∀s v l (s) = v u (s). Finally, each agent a i may also receive a signal from the network, denoted σ(a i ).</p><p>In our model, the decision faced by agents is simply to choose a slot s. The space of agent strategies S is the space of all functions mapping from the information available to a probability distribution over slot choices. We denote an element of S as S = Π(s): a distribution over slot choices. Agents are aware of the mechanism and consider it when determining their strategies. Let ϕ ∈ S n denote a set of agent strategies, which we formally call a strategy profile. Let ϕ(i) denote a i 's strategy under strategy profile ϕ, and let {ϕ \ i, S} denote the strategy profile where all agents j = i choose the strategy ϕ(j) and agent a i chooses the strategy S. We can write agent a i 's expected utility under strategy profile ϕ (recall that ϕ(i) is a distribution over slot choices for agent a i , and hence ϕ(i)(s) is the probability that agent a i will choose slot s under strategy profile ϕ):</p><formula xml:id="formula_0">u i (ϕ) = t s 1 =1 . . . t s i =1 . . . t sn=1 ϕ(1)(s 1 ) · . . . · ϕ(n)(s n ) · v i (s i ) − 1 − f (s 1 , . . . , s n ) i m<label>(1)</label></formula><p>We can now give a key definition:</p><formula xml:id="formula_1">Definition 1 ϕ is a Nash equilibrium of Φ if ∀i, ∀S, u i (ϕ) ≥ u i ({ϕ \ i, S}).</formula><p>Intuitively, no agent can gain by unilaterally deviating from a Nash equilibrium. This type of equilibrium is also referred to as a weak Nash equilibrium since it is possible that the agent receives equal utility from alternative strategies. When no such alternative exists, we have a strict Nash equilibrium:</p><formula xml:id="formula_2">Definition 2 ϕ is a strict Nash equilibrium of Φ if ∀i, ∀S = ϕ(i), u i (ϕ) &gt; u i ({ϕ \ i, S}).</formula><p>Equation <ref type="formula" target="#formula_0">(1)</ref> is complicated because it accounts for the calculation of the probability that slot s i is free, starting from a strategy profile. Although this definition of utility is necessary for discussing Nash equilibria, in other parts of the paper we will find it more convenient to take as given the same distribution p for all agents, indicating the probability of each slot being free. We can then specify an expression for a i 's expected utility for choosing slot s:</p><formula xml:id="formula_3">u i (s) = v i (s) − 1 − p(s) m<label>(2)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Restrictions on the Class of Mechanisms</head><p>We now consider restrictions on the class of mechanisms that could be used to solve the focused loading problem, not to make the problem easier to solve, but in order to identify solutions with desirable characteristics. First, we introduce a restriction concerned with agents' incentives to participate (as discussed below, this condition is stronger than the standard mechanism design requirement of individual rationality). Next, we discuss restrictions that could arise from implementation considerations and the case of continuous pricing.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 3</head><p>A mechanism Φ is participation-safe if and only if m ≤ v l (s).</p><p>We will consider only participation-safe mechanisms in this paper; that is, we require that the fixed usage cost for the network resource must never exceed the lower bound on any agent's valuation for his most-preferred slot. Intuitively, this means that every agent will always be able to choose at least one slot in which his payment will never exceed his valuation, and hence that it will be rational for him to participate regardless of how the mechanism assigns free slots. Observe that participation-safety implies individual rationality, because, regardless of P i , agent a i can choose slot s and achieve a non-negative utility. Individual rationality does depend on P i , and thus is a weaker condition.</p><p>We do not restrict the class of mechanisms in order to simplify analysis. As it turns out, it is very easy to design and analyze mechanisms that have a fixed cost exceeding all agents' valuations, and then reward agents only when they behave as desired. Such mechanisms can have good theoretical characteristics (such as optimality, defined below) and can remain consistent with individual rationality by assuring agents non-negative expected gain. Indeed, it turns out that in what follows, everywhere we prove ε-optimality or (c + ε)optimality, we could prove optimality or c-optimality, respectively, if we were not restricted to participation-safe mechanisms. However, we believe that such mechanisms would be considered unreasonable to deploy in practice despite their theoretical benefits, because they address the problem of focused loading by threatening agents with unviable alternatives-slots whose expected costs exceed agents' valuations-rather than giving agents positive incentives to behave as desired.</p><p>Because of the difficulty of implementing complex protocols on a highly-loaded network resource, it is worthwhile to consider various other restrictions on the class of mechanisms. For example, it may or may not be possible to reimburse agents after all agents have chosen a slot, as opposed to doing so after each agent chooses. Also, it may or may not be permissible for f to depend on what slots agents chose, as this would require that information be stored for each agent, and again that billing be deferred until after all agents have selected slots. In some settings it might not be reasonable for the network to give signals to agents; in other cases, it would be possible to give signals but not to record which signals were given to which agents. The significance of the time, space and communication complexity of the mechanism may also vary depending on the setting. We discuss these and other trade-offs in section 7.</p><p>Also, it might appear that more powerful mechanisms could be designed if prices could be varied arbitrarily, as opposed to our model in which slots must be priced at either m or 0. In fact, since we assume that agents are riskneutral, agents will be indifferent between any slot priced on the range [0, m] and the same slot made free with an appropriate probability. Furthermore, m can be increased arbitrarily. In the case of risk-averse agents, such 'continuous pricing' would be useful: our results throughout this paper hold for risk-averse agents if and only if this sort of continuous pricing scheme is used. We have chosen not to emphasize continuous pricing because it would be likely to make greater computational and communication demands on the network; however, all our results are compatible with such a scheme, and furthermore our bounds on q and m (see, e.g, equations <ref type="formula" target="#formula_14">(7)</ref>, <ref type="bibr" target="#b7">(8)</ref>, and <ref type="formula" target="#formula_16">(9)</ref>) may be dropped in this case.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Evaluating Outcomes</head><p>The network has two aims: to balance the load caused by the agents' selection of slots and to collect as much revenue as possible. We denote the network's expected revenue given a mechanism Φ and equilibrium ϕ as E <ref type="bibr">[R|Φ, ϕ]</ref>. The network collects a payment of m from each participating agent except for those who receive free slots. Expected revenue is given by:</p><formula xml:id="formula_4">E[R|Φ, ϕ] = n i=1 t s 1 =1 . . . t sn=1 ϕ(1)(s 1 ) · . . . · ϕ(n)(s n ) · 1 − f (s 1 , . . . , s n ) i m (3)</formula><p>We define g as the monetary value to the network of the variance of load across the set of time slots. Lower variance corresponds to a more even load and thus to a higher dollar value; thus g must decrease strictly as variance increases. We will say that load is balanced when g is maximized, which corresponds to minimal variance. We define the superlinear summation class of functions to be the set of functions in which</p><formula xml:id="formula_5">g(d) = −κ i h(d(i)), where h is superlinear in d(i)</formula><p>and κ is a constant that is used to indicate the relative importance of load balancing to the network. Note that this measure is only reasonable if we assume that each agent consumes about the same amount of load. The expected value of load balancing is given by:</p><formula xml:id="formula_6">E[g|ϕ] = d g(d)P rob(d|ϕ)<label>( 4 )</label></formula><p>Maximizing revenue and maximizing g are conflicting goals, as it costs the network more to induce an agent to choose slot s than to choose slot s. Indeed, note that revenue is maximized in the original focused loading equilibrium when all agents choose s and ∀i P i = 0. According to our problem definition, agents are willing to distribute themselves this way, and thus this equilibrium can be achieved without waiving any agents' usage fees. In some systems this could be a desirable outcome; however, we have assumed that the mechanism designer would prefer at least some balancing of the load. The network must therefore trade off quality of load balancing against expected revenue; the degree of trade-off desired may be specified through the choice of κ. Given definitions of the expected values R and g, we can define z, the network operator's evaluation of equilibrium ϕ of mechanism Φ:</p><formula xml:id="formula_7">z(Φ, ϕ) = E[R|Φ, ϕ] + E[g|ϕ]<label>( 5 )</label></formula><p>It will be useful to define the best possible distribution of agents given a free slot distribution that applies to all agents. Imagine a mechanism Φ all in which all strategy profiles are in equilibrium, and P i = p(A i ). Intuitively, this is the best distribution of agents for the mechanism, given the constraint that the free slot distribution must be the same for all agents.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 4 A distribution d is ideal for p(s) if and only if an equilibrium</head><p>ϕ which deterministically results in distribution d maximizes z(Φ all , ϕ).</p><p>Note that this expression may not have a unique maximum. We will denote an ideal distribution d as d * .</p><p>Next, we define the optimality of an equilibrium under a mechanism. Essentially, an equilibrium of a given mechanism is optimal if there does not exist another equilibrium of any other mechanism that yields a higher expected value of z.</p><formula xml:id="formula_8">Definition 5 A mechanism-equilibrium pair (Φ, ϕ) is optimal if and only if for all other pairs (Φ , ϕ ), z(Φ, ϕ) ≥ z(Φ , ϕ ), where n is held constant.</formula><p>This definition of optimality is problematic when agents have different valuation functions that are not known by the network-the case we take up in sections 5 and 6. An optimal mechanism for this case would have to set each agent's expected payment to exactly his valuation for any slot chosen, by constructing a different P i for each agent. For every set of agents there does exist a set of such mechanisms. However, it is impossible to select such a mechanism based on the information available; furthermore such a mechanism will violate our restriction that it be participation-safe, because an agent a i who chooses slot s is charged v i (s), which can be exceed v l (s). To overcome this difficulty we provide an alternate notion of optimality that bounds the average loss per agent as compared to an optimal mechanism:</p><formula xml:id="formula_9">Definition 6 A mechanism-equilibrium pair (Φ, ϕ) is c-optimal if and only if for all other pairs (Φ , ϕ ), z(Φ, ϕ) + cn ≥ z(Φ , ϕ ), where n is held constant and c &gt; 0.</formula><p>For convenience, we will also make use of the term [c-]optimal to refer to equilibria alone, in cases where the mechanism giving rise to the equilibrium is unambiguous.</p><formula xml:id="formula_10">Definition 7 An equilibrium ϕ is [c-]optimal if ϕ is an equilibrium of mech- anism Φ, and (Φ, ϕ) is [c-]optimal.</formula><p>We call ϕ where all agents choose the same slot a focused-loading equilibrium.</p><p>We assume that g and v do not take values that would cause ϕ to be optimal. This assumption is only required for our proof of Theorem 2, but it is a reasonable one for us to make since if ϕ were optimal, we would have no problem to solve in the first place.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Preselection Mechanism</head><p>In this section we consider a simple mechanism, designed to make agents indifferent between all time slots despite their initial preferences. This mechanism will be formally referred to as Φ 1 , and informally called 'preselection', since it decides which slots will be free before observing the actions of the agents. This mechanism is unrealistic in several ways, and we do not discuss it here in order to propose that it should be used in practice. Indeed, such a mechanism is an obvious first approach to the problem of focused loading, and so it is important to demonstrate its insufficiency. Furthermore, the exposition of this mechanism will prove useful as a starting point for the discussion of more sophisticated mechanisms.</p><p>Φ 1 works as follows:</p><p>(1) The network determines free slots by drawing from p. (Thus, P i = p(A i ).) (2) Agents choose a slot.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Equilibria</head><p>We know from the definition of the problem that when there is no chance that they will win a free slot agents prefer slot s to slot s. We can overcome this preference by biasing p(s). An agent's expected utility is given by u i (s) = v(s) − (1 − p(s))m. Recall that we assume v l = v u until section 5; here we use (unsubscripted) v to denote the valuation function that all agents share. We can make agents indifferent between slots by requiring that all time slots will have the same expected utility for agents: that is, that the expected utility derived from each time slot is equal to the average expected utility over all time slots. This is expressed by the equation</p><formula xml:id="formula_11">v(s) − 1 − p(s) m = 1 t i v(i) − 1 − p(i) m .</formula><p>Algebraic manipulation and q = Σ s p(s) give us:</p><formula xml:id="formula_12">p * (s) = 1 t qm + i v(i) −v(s) m<label>(6)</label></formula><p>Observe that since free slots are free for all agents, q represents the expected number of free slots. Because we will find this probability distribution useful throughout the paper, we have given it a name: p * .</p><p>If free slots are awarded according to p * , it is a weak Nash equilibrium for all agents to select a slot uniformly at random. We will call this equilibrium ϕ 1 . Consider the case where all other agents play according to ϕ 1 , and one remaining agent a i must decide his strategy. Since the choice of any slot entails equal utility on expectation, a i can do no better than to randomly pick a slot. Again, ϕ 1 is only a weak equilibrium: indeed, there is no strategy a i could follow that would make him worse off.</p><p>We now make several remarks about the preselection mechanism. First, note that the above analysis assumes that a i is risk-neutral. If a i is risk-averse, he will prefer slot s, since it gives the largest fixed payment, v(s). Second, this mechanism is not susceptible to collusion, because each agent is indifferent between all pure strategies regardless of the actions of other agents. Finally, since all strategy profiles are weak equilibria under the preselection mechanism, it would be reasonable to ask why we pay special attention to ϕ 1 . It may be argued that randomization is a "natural" response to indifference, and so we will consider this as a primary case in the next subsection; however, none of our results depend on the assumption that agents will choose this strategy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Bounds on q and m</head><p>It appears that deviation from ϕ 1 will never be profitable for agents, since we have guaranteed that all slots provide the same expected utility. Consider the most profitable deviation, from s to s. We have claimed that the utility of both slots is the same:</p><formula xml:id="formula_13">v(s)− 1−p(s) m = v(s)− 1−p(s) m.</formula><p>However if qm is too small or too large, p(s) − p(s) &gt; 1 will hold. Since we want to interpret p(s) and p(s) as probability measures, we must add the constraints p(s) ≥ 0 and p(s) ≤ 1. Without these constraints, the equation for p * still makes sense if we consider continuous pricing rather than our default model of free/nonfree slots; p &gt; 1 corresponds to an expected slot cost of less than zero (paying agents to choose a slot) while p &lt; 0 corresponds to an expected slot cost of more than m. Substituting p(s) ≥ 0 into equation <ref type="formula" target="#formula_12">(6)</ref> and rearranging, we get:</p><formula xml:id="formula_14">q ≥ tv(s) − Σ i v(i) m<label>(7)</label></formula><p>For the second condition, we require that p(s) ≤ 1, which gives us:</p><formula xml:id="formula_15">q ≤ t v(s) + m −Σ i v(i) m<label>(8)</label></formula><p>We must also ensure that a value of q exists for a given m and v. Intersecting the two bounds and simplifying, we get:</p><formula xml:id="formula_16">m ≥ v(s) − v(s)<label>( 9 )</label></formula><p>Indeed, if m &lt; v(s) − v(s) then if an agent were certain to win a free slot in s and guaranteed never to win a free slot in s, he would still prefer s to s.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Maximizing Revenue</head><p>Equation <ref type="formula">(3)</ref>  </p><formula xml:id="formula_17">E[R|Φ 1 , ϕ 1 ] = 1 − q t mn<label>(10)</label></formula><p>Increasing m will increase expected revenue; however, recall that we require that the mechanism be participation-safe, and hence that m ≤ v l (s). Regardless of the particular value of m, reducing q (the expected number of free slots) will increase expected revenue.</p><p>We will now show how the network can maximize revenue. We define v avg as</p><formula xml:id="formula_18">1 − q t m = v avg<label>(11)</label></formula><p>We substitute in the lower bound for q from equation <ref type="formula" target="#formula_14">(7)</ref>: i.e., q = 1 m tv(s) − Σ i v(i) . Rearranging for m, we get m = v(s). This satisfies equation <ref type="bibr" target="#b8">(9)</ref> and ensures that the mechanism is participation-safe, so we are done. This is intuitive because when we minimize q we set p(s) = 0. We know that agents are indifferent between all slots, and so agents will be willing to choose any slot when the cost of s does not exceed their valuation. We thus set m = v(s) and (plugging m into the lower bound on q) q = t 1−v avg /v(s) .</p><p>We have shown that each agent can be made to pay an expected amount exactly equal to his utility for any slot he chooses. However, ϕ 1 is not guaranteed to achieve an ideal distribution of agents, and therefore ϕ 1 is not optimal. The easiest way to show this is to present another equilibrium of the preselection mechanism that is optimal.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Optimal Equilibria</head><p>Consider an equilibrium in which each of the agents deterministically chooses one slot. (Recall that any strategy is rational under Φ 1 , and thus that any set of strategies is a weak equilibrium.) In one such equilibrium, agents deterministically choose slots so that the distribution of all agents is ideal; we will call this equilibrium ϕ * 1 . Unsurprisingly, we can show:</p><formula xml:id="formula_19">Theorem 1 (Φ 1 , ϕ * 1 ) is optimal.</formula><p>PROOF. Please see the appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>REMARK.</head><p>Recall that a mechanism-equilibrium pair is optimal when there does not exist another mechanism that has an equilibrium giving rise to a distribution that yields a higher value according to the evaluation function z.</p><p>The equilibrium ϕ * 1 is optimal, but it is extremely unlikely that it would arise through the choices of real agents. As mentioned above, the fact that agents are indifferent between all slots means that every combination of agent strategies is a weak equilibrium. In fact, the preselection mechanism gives rise to many equilibria that minimize g(d). For example, the case in which all agents choose slot s is a weak equilibrium. Since discouraging focused loading is the purpose of the preselection mechanism, it is undesirable to find that such behavior remains an equilibrium! However, this drawback is inherent to the setting as we have modeled it so far; a preselection mechanism can only yield weak equilibria or focused-loading equilibria.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 2 When agents have identical utility functions and no signals are given to agents and the network preselects p before agents move, all equilibria are either weak or focused-loading.</head><p>PROOF. Please see the appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>REMARK.</head><p>Intuitively, this proof shows that under the conditions of the preselection mechanism any incentive given to one agent is given to all the agents, and that the mechanism designer must therefore choose between encouraging all agents to choose the same slot and making all agents indifferent between a set of slots.</p><p>In fact, we can show another negative result: there does not exist an optimal mechanism that is participation-safe and that gives rise to a strict equilibrium.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 3 There does not exist an optimal (Φ, ϕ) for which ϕ is a strict equilibrium and m ≤ v(s).</head><p>PROOF. Please see the appendix.</p><p>Theorem 3 shows that strict, optimal equilibria do not exist for participationsafe mechanisms. However, if we allow networks with different characteristics than those we allowed in this section, we can see that it is possible to get close to a strict, optimal equilibrium when agents have identical utility functions and no signals are given to agents, and p depends on the agents' actions. Intuitively, consider a mechanism that sets p = (1 + ε)p * if agents achieve an ideal distribution, and p = 0 otherwise. Further, consider a set of (pure) agent strategies where agents happen to distribute themselves according to d * for p * (s). This is an equilibrium because agents are penalized for deviating. Intuitively, it is nearly optimal because agents achieve an ideal distribution with respect to the mechanism, and the probability of awarding free slots is arbitrarily close to the probability from the optimal mechanism-equilibrium pair described in theorem 1. However, it would be extremely difficult for agents to coordinate to this equilibrium in real play. In the next section we will show how the use of a non-binding coordination phase before the selection of slots can help agents to reach strict, nearly-optimal equilibria.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Bulletin Board System Mechanism</head><p>In this section we assume that agents are given a bulletin board system: a forum in which all communications are visible to all agents and the identity of agents is associated with their transmissions. For simplicity, we allow a very limited form of communication: agents indicate the slot that they intend to choose. We assume that agents do not all indicate slots at the same time; rather, they indicate sequentially during the first phase. Let d j (s) denote the number of agents who have indicated that they will choose slot s after a total of j agents have posted to the bulletin board. d * will again be the ideal distribution for p * (s). Agents' communications through the bulletin board are cheap talk : a technical term that indicates that these communications are not binding in any way. Even so, the bulletin board can help agents to coordinate on desirable equilibria. Mechanism Φ 2 follows:</p><p>(1) The network picks "potentially free" 5 slots according to (1 + ε)p * . <ref type="bibr" target="#b4">5</ref> We redefine q as the expected number of "potentially free" slots; the same redef-(2) Agents communicate through the bulletin board.</p><p>(3) Agents choose time slots. (4) If d = d * , then "potentially free" slots are made to be free. That is,</p><formula xml:id="formula_20">P i = p * (A i ).</formula><p>Otherwise, all agents are made to pay for their slots (P i = 0).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Equilibria</head><p>A strict equilibrium in Φ 2 , which we call ϕ 2 , is for the i th agent to indicate on the bulletin board a slot s such that d i−1 (s) &lt; d * i (s), and ultimately to choose that slot s. Consider the case where all other agents follow ϕ 2 and agent a i must decide his strategy. If a i cooperates and chooses slot s then the distribution of agents will be d * and so a i will receive an expected utility of v(s) − 1 − (1 + ε)p * (s) m. If a i defects to slot s , one of two cases will result. In the first case, agents indicating their choices after a i will compensate for his deviation by choosing different slots; thus a i will receive the same expected utility as he would have received if he had not deviated. In the second case, a i will be late enough in the sequence of agents indicating their choices that the agents who indicate after him will be too few to bring the distribution back to d * . In this case a i will receive an expected utility of v(s ) − m. The key point is that a i does not know the total number of agents, and so he must assign non-zero probability to the second case, regardless of the number of agents who have already indicated. Furthermore, we must show that a i will choose the slot he indicated on the bulletin board even though his selection was not binding. If all other agents follow ϕ 2 then there is clearly no incentive for a i to choose a different slot than he indicated, because that would certainly prevent d = d * and reduce his payoff. Therefore ϕ 2 is strict as long as v(s) + (1 + ε)p * (s)m &gt; v(s ) for all s, s such that 1 ≤ s, s ≤ t. Simplifying, we derive the conditions similar to those described in section 3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>tv(s)</head><formula xml:id="formula_21">− Σ i v(i) m ≤ q ≤ t v(s) + m 1+ε −Σ i v(i) m<label>(12)</label></formula><p>Again, we must intersect the two bounds to get a bound on m, which we combine with the constraint on participation-safe mechanisms:</p><formula xml:id="formula_22">(1 + ε) v(s) − v(s) ≤ m ≤ v(s)<label>(13)</label></formula><p>This equilibrium relies on the fact that each agent can choose a slot as if he were the last agent and achieve the distribution d * , even if all agents before inition is required for section <ref type="bibr">6.</ref> him chose slots in this same way. We prove that this greedy approach works in section 4.2.</p><p>An analysis of the possibility of collusion in the bulletin board mechanism is not appropriate, because agents are already encouraged to coordinate with each other. Any agent or cartel of agents who deviated would hurt themselves along with all other agents.</p><p>It is well known that any game having an equilibrium arising from cheap talk coordination has other equilibria in which agents ignore the cheap talk <ref type="bibr" target="#b1">[2]</ref>. The bulletin board mechanism is no exception. All agents choosing s (focused loading) is an equilibrium when the resulting d could not be transformed into d * by one agent choosing a different slot. Note, however, that ϕ 2 Pareto-dominates all equilibria where the cheap talk is ignored and a different distribution results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Greedy Assignment of Slots</head><p>In ϕ 2 each agent chooses a slot that would result in an optimal distribution if he were the last agent to post to the bulletin board. For this reason it is important to show that we can assign slots to agents greedily, with the guarantee of achieving the ideal distribution for whatever number of agents eventually participate.</p><p>We must introduce new notation to describe changes as each agent chooses a slot in turn. (Readers who do not intend to read the proof for lemma 1 can safely skip to section 4.3.) First, we will subscript d to indicate the total number of agents in the distribution, so that we can describe the distributions that result after only a subset of agents have chosen slots. By d * i we denote the optimal distribution of i agents. Second, we define ∆(d i , s) to be the increase in z if one agent is added to slot s, relative to d i . Define the decomposition <ref type="figure">s)</ref> does not depend on d i , but only on p(s) and m. (We assume here that p does not depend on d * i .) Two properties follow from the fact that g is superlinear summation:</p><formula xml:id="formula_23">∆(d i , s) = ∆ E (d i , s) + ∆ g (d i , s), where ∆ E (d i , s) is the increase in E[R|Φ, d i ], and ∆ g (d i , s) is the increase in g(d i ). In equilibrium ∆ E (d i ,</formula><formula xml:id="formula_24">(1) ∆ g (d i , s) is strictly monotonically decreasing in d i (s) (2) ∆ g (d i , s) = ∆ g (d j , s) for all distributions d j where d j (s) = d i (s)</formula><p>Since ∆ E does not depend on d i , ∆ also has these properties.</p><p>We now describe a function γ: let γ(i) represent the slot number that will be assigned to a i , where a i is the i th agent to register. Let d γ i (s) be the number of times s occurs in {γ(1), . . . , γ(i)}. We note that ∀s∆(d γ 0 (s)) = 0. We can now inductively define γ: γ(i) = arg max s ∆(d γ i−1 (s)).</p><formula xml:id="formula_25">Lemma 1 ∀i d γ i is ideal under Φ 2 .</formula><p>PROOF. Please see the appendix.</p><p>REMARK. This lemma demonstrates that greedy assignment of slots to agents leads to an ideal distribution when we assign slots according to γ as defined above.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">ε-Optimality</head><p>Although theorem 3 showed that the bulletin board mechanism cannot be optimal, it turns out that it can be made arbitrarily close to optimal. We now show that there exists no other equilibrium of any other mechanism which will yield a value of z larger than z(Φ 2 , ϕ 2 ) + ε for arbitrarily small ε.</p><formula xml:id="formula_26">Theorem 4 (Φ 2 , ϕ 2 ) is ε-optimal.</formula><p>PROOF. Please see the appendix.</p><p>REMARK. This is a key result, because it shows that we can get arbitrarily close to an optimal equilibrium with a mechanism that could actually be used in practice. Furthermore, the fact that the equilibrium is strict is encouraging, because it means that an agent could not reduce z by deviating from ϕ 2 without also reducing his own utility.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4">Implementation Considerations</head><p>We point out that ε-optimality means that the mechanism can lose ε per agent; in practice, ε would have to be large enough to overcome agents' indifference between nearly-identical payoffs and encourage them to coordinate.</p><p>Although we speak about agent strategies throughout this paper, it is worthwhile to note that in a real system these strategies would probably be implemented in software that most users would not be able to change easily. Of course, this is not an argument against equilibrium analysis or the careful design of economic mechanisms. If agents could gain by deviating, there would be an incentive for users to change their software, and once software has been modified it is easily redistributed. However, the fact that the mechanism designer could in many cases distribute client software is significant because it can act as a coordination device: agents' common knowledge of using the same software could help them to coordinate to an equilibrium the mechanism designer has preselected. Although the bulletin board mechanism gives rise to non-ε-optimal equilibria, these might be avoided if client software helped agents to coordinate to ϕ 2 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Collective Reward Mechanism</head><p>We now consider the more general and realistic case where each agent may have a different v i , bounded by v l and v u , as described in section 2. Recall that since the network does not know each agent's v, we can no longer tune m, q, and p to extract the maximum amount of revenue from each agent.</p><p>In this section we also allow the network to give signals to agents, to allow the agents to coordinate to a desirable equilibrium; we also show how collective reward may be used to prevent agents from deviating. We define mechanism Φ 3 as follows:</p><p>(1) Each agent indicates that he will participate.</p><p>(2) The network gives a signal to each agent from {1, . . . , t}.</p><p>(3) Agents choose time slots.</p><p>(4) The network determines whether each slot will retroactively be made free.</p><p>In this mechanism, the chance that slot s will be free, p(s), depends on the number of agents who chose slot s, d(s). Let count(s) be the number of agents who were given the signal s. Define d + (s) = d(s) − count(s). For the collective reward mechanism Φ 3 :</p><formula xml:id="formula_27">p(s) = { p b (s) if d + (s) ≤ 0 0 if d + (s) &gt; 0<label>(14)</label></formula><p>Thus</p><formula xml:id="formula_28">P i = p b (A i ) if d + (s) ≤ 0 and P i = 0 otherwise, where p b (·) is defined below.</formula><p>We will assign signals to agents so that count(s) = d * (s), where d * is now ideal for p b (s). The idea of this mechanism is that agents who choose the slot s to which they are assigned will get that slot free with probability p b (s), and agents who deviate to another slot will pay m. The p(s) used for this mechanism will thus differ from p(s) for the previous two mechanisms. The intuitive reason for the change is that in Φ 1 and Φ 2 we used p to make agents indifferent between all slots. Now, however, we use p so that agents will not deviate from an assignment to a particular slot. We will construct p b so that each agent a i will choose his assigned slot even when a i has the lowest possible valuation for the slot corresponding to his signal, and the highest possible valuation for s, the most profitable slot to which he could deviate. When an agent is assigned a slot s = s, this condition can be formalized as:</p><formula xml:id="formula_29">v l (s) − 1 − p b (s) m = v u (s) − m + ε<label>(15)</label></formula><p>Here as before ε is a small, positive value used to make agents strictly prefer the slot to which they are assigned. It can be interpreted as an offset to v u , giving us a strict upper bound on agents' utilities. If we make an agent with this impossibly high valuation for slot s indifferent between his assigned slot and s, then any agent who actually plays the game must prefer his assigned slot. We can now derive p b :</p><formula xml:id="formula_30">p b (s) = { v u (s)−v l (s)+ε m if s = s 0 i fs = s<label>(16)</label></formula><p>The case of s = s is considered separately because an agent assigned to this slot has no incentive to deviate. Note that if v i (s) = v i (s) is possible for an s = s, then we would have to change the definition of p b to maintain a strict equilibrium, giving ε probability of awarding s free.</p><p>We now need to define bounds on m. The condition that p b (s) ≤ 1 can be rewritten, combined with the requirement that the mechanism be participationsafe, as:</p><formula xml:id="formula_31">v u (s) − v l (s) + ε ≤ m ≤ v l (s)<label>(17)</label></formula><p>For Φ 3 q is defined as:</p><formula xml:id="formula_32">q = i =s v u (s) − v l (i) + ε m<label>(18)</label></formula><p>To maximize expected revenue, the collective reward mechanism sets m to its upper bound of v l (s).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Equilibria</head><p>An equilibrium ϕ 3 is for each agent a j to select the slot corresponding to his signal. <ref type="bibr" target="#b5">6</ref> Consider the case where all other agents follow this strategy, and one remaining agent a i decides his strategy. If agent a i selects slot s as above, then his expected utility is</p><formula xml:id="formula_33">u i (s) = v i (s) − 1 − p b (s) m.</formula><p>Deviating to even the best slot only gives him u i (s) = v i (s) − m. We have defined p b so that in this case a i strictly prefers slot s.</p><p>There are no equilibria of the collective reward mechanism for which d = d * .</p><p>Consider any distribution of agents such that d = d * . There must be some s 1 such that d + (s 1 ) &lt; 0, and some other s 2 such that d + (s 2 ) &gt; 0. An agent in s 2 thus has no chance of a free slot, and he receives utility of at most v i (s) − m. If he switches to s 1 , then his probability of receiving a free slot becomes p b (s 1 ) because d + (s 1 ) ≤ 0. Since p b is constructed so that this agent receives more utility, on expectation, than v i (s) − m, he has incentive to move to slot s 1 . However, there do exist equilibria in which agents do not select slots corresponding to the signals they receive. For example, consider the case where agent a i deterministically selects the slot σ(n + 1 − i). (Note that this could occur even if agent a i did not know what signal agent a n+1−i receives.) In this case the distribution of agents is d * , and so the analysis above demonstrates that all agents have a disincentive to deviate. Another example is where all agents select the slot corresponding to their signals except where agent a i chooses slot σ(j) and agent a j chooses slot σ(i).</p><p>Harmful collusion is not possible under the collective reward mechanism. A single agent who deviates from ϕ 3 can harm other agents by denying them a chance at a free slot. However, no set of agents is able to improve other agents' chance of getting a free slot, and so there is no way that a cartel of agents could benefit from colluding.</p><formula xml:id="formula_34">Theorem 5 (Φ 3 , ϕ 3 ) is c-optimal for c = max s v u (s) − v l (s) +ε.</formula><p>PROOF. Please see the appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>REMARK.</head><p>Because it depends on bounds rather than on agents' actual valuations, ϕ 3 is not optimal. However, this theorem shows that we can prove a bound on the optimality of ϕ 3 , showing that the network can lose no more than max s v u (s) − v l (s) +ε in revenue from each agent.</p><p>It follows from this statement that if we revert back to the setting from sections 3 and 4 (where v u (s) = v l (s)), the network will lose only ε in revenue from each agent. It is only the change to bounds on valuation functions that causes the weaker claims on optimality for this mechanism and the next.</p><formula xml:id="formula_35">Corollary 1 (Φ 3 , ϕ 3 ) is ε-optimal for v l = v u .</formula><p>PROOF. This follows directly from the preceding theorem, because v l = v u implies that c = ε.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Implementation Considerations</head><p>We observe that it may involve less overhead to assign single, persistent signals to agents if the game will be repeated many times. In this case, the collective reward mechanism may be used as above but without the signalling phase, and with each agent a j who did not participate counted by d + as having participated in slot σ(j). This allows ϕ 3 to hold in the case where signals are not assigned repeatedly with the penalty that ϕ 3 will only be c-optimal for c = max s v u (s) − v l (s) +ε when all agents participate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Discriminatory Mechanism</head><p>A disadvantage of the bulletin board mechanism is that it reimburses some agents at the end of the game rather than simply waiving their fees. This requires tracking individual agents' behavior and executing more financial transactions, both of which could be costly to the network. Also, the bulletin board mechanism has non-optimal equilibria. Finally, irrational agents can harm others in both the bulletin board and collective reward mechanisms. These problems are eliminated by the discriminatory mechanism, Φ 4 , which makes use of agent signals and also discriminates by offering different free slots to different agents (although, as we will see in section 6.2 it makes new demands of the network that will sometimes be undesirable):</p><p>(1) Each agent indicates that he will participate.</p><p>(2) The network assigns signals to agents from {1, . . . , t} according to the d * that is ideal for p b . (3) The network chooses "potentially free" slots according to p b . (4) Each agent indicates what slot he selects.</p><p>(5) The network checks only those agents in each slot s i that was picked to be "potentially free" (for all agents who chose other slots, P i = 0) . If agent a j in slot s i has σ(a j ) = s i then P j = p b (A j ); otherwise P j = 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Equilibria</head><p>Agent a i 's dominant strategy is to choose the slot corresponding to his signal. The analysis exactly follows that for ϕ 3 ; we call this equilibrium ϕ 4 . The only difference is that an agent's expected utility does not depend on other agents' strategies, and hence ϕ 4 is an equilibrium in dominant strategies. A consequence is that ϕ 4 is unique. By exactly the same argument that was given in the proof of theorem 5,</p><formula xml:id="formula_36">(Φ 4 , ϕ 4 ) is c-optimal for c = max s v u (s) − v l (s) +ε.</formula><p>The same corollary also holds, and so (Φ 4 , ϕ 4 ) is ε-optimal for the special case where v u = v l .</p><p>It may seem disappointing from a game-theoretic point of view that neither strategy nor even payoffs under the discriminatory mechanism depend on the actions of other agents. However, this may be seen as an advantage of the discriminatory mechanism, since irrational agents are not able to harm others.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Implementation Considerations</head><p>As compared to the collective reward mechanism, the discriminatory mechanism makes two additional demands of the network. First, the network must keep track of the signals that are given to agents in the second step, so that they can be verified in the fifth step. In collective reward the system does not need any sort of user accounts; rather, it greedily assigns signals to agents, recording only the number of agents who received each signal.</p><p>Second, the discriminatory mechanism requires the network to verify user identities. In contrast, the collective reward mechanism simply counts the number of agents who chose each slot. Under the discriminatory mechanism the network only has to check the identity of agents from q slots on expectation, since agents who choose a slot that is not potentially free do not have to be checked. It would be possible for the network to assume that all agents in possibly free slots have played according to the dominant strategy and to randomly check only a subset of the agents in these slots, but this would reduce the penalty for defection and thus sacrifice c-optimality.</p><p>In order to permit this verification, the mechanism can assign signals to agents in two different ways. The obvious option is to assign signals to agents as described in theorem 1, to store the numbers in some sort of user account requiring login and then to verify that agents selected the appropriate slot by requiring them to log in again before using the network resource. This approach requires further data storage by the mechanism, but the resulting d will be ideal and thus the mechanism will be c-optimal as argued above. If this data storage is not desirable, a deterministic function may be used to calculate the slot that may be offered free to a given agent, and the same function may be used to determine whether each agent has selected the appropriate slot. For example, a hash of the agent's IP address-or of any other identifying information from the packet header-could be used. This approach has the disadvantage that it sacrifices optimality and for steps 2 and 5 in the mechanism, but the advantage that no information about identifying individual agents must be stored by the mechanism. 7 Indeed, if the function itself is publicized then the first two steps may be omitted from the mechanism, requiring only one interaction between agents and the network. <ref type="table" target="#tab_2">Table 1</ref> summarizes and contrasts the mechanisms discussed in this paper. For convenience, we have divided the display into three parts: (i) a list of mechanism characteristics, (ii) a comparison of the outcomes of the mechanisms, and (iii) costs associated with executing the mechanisms.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Comparison of Different Mechanisms</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">Conclusion</head><p>Focused loading is a predictable network congestion problem. It is caused by a preference users have for transacting with a network resource at a specific time when the network charges transactions equally over a period of time. For example, focused loading frequently causes web servers to crash. In this paper we have taken an economic approach to de-focusing load by devising incentive schemes for encouraging users to desynchronize their transaction times. While general congestion-management techniques may be applicable to this problem, the use of a specialized solution is attractive because additional information about the problem can be used to increase revenue and reduce demands on the network.  We present a theoretical model of the problem, and discuss four mechanisms that induce selfish agents to smooth out their resource demands by probabilistically waiving the cost of resource usage. We show one very simple mechanism that achieves a weak load-balancing equilibrium, and three other, somewhat more complex mechanisms that balance load in strict equilibria or dominant strategies. Two of our mechanisms concern the case where all agents have the same valuations for different time slots, and two generalize to the case where the mechanism knows only bounds on agent valuations. We prove optimality and ε-optimality of the revenue/load balancing trade-off in the first case, and a bound on the optimality of this trade-off in the second case.</p><p>In future work, we plan to apply the methods proposed in this paper to defocus the load at web servers operating under transaction deadlines.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Proofs of Theorems</head><p>Theorem 1 (Φ 1 , ϕ * 1 ) is optimal.</p><p>PROOF. Let E[R i |Φ, ϕ] be the expected revenue extracted from agent a i , given mechanism Φ and equilibrium ϕ. First, we prove by contradiction that Φ 1 yields at least as large a z as any other Φ, both given the same equilibrium of the respective mechanisms. Assume that there exists a pair (Φ, ϕ) such that z(Φ, ϕ) &gt; z(Φ 1 , ϕ Second, we consider the case where Φ and Φ 1 give rise to different equilibria. As described above, under ϕ * 1 agents deterministically distribute themselves so as to give rise to the distribution d * . Recall that d * is an ideal distribution:</p><formula xml:id="formula_37">∀ϕ z(Φ 1 , ϕ * 1 ) ≥ z(Φ 1 , ϕ) . Thus, ∀Φ, ϕ z(Φ 1 , ϕ * 1 ) ≥ z(Φ 1 , ϕ) ≥ z(Φ, ϕ). 2</formula><p>Theorem 2 When agents have identical utility functions and no signals are given to agents and the network preselects p before agents move, all equilibria are either weak or focused-loading.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>PROOF.</head><p>Consider two agents a i and a j , without restriction. The network has only three choices with respect to a i 's preferences:</p><p>(1) a i strictly prefers some slot s k to every other slot. However, every other agent a j has the same preference. Therefore, no agents will choose any other slot. This is a strict equilibrium, but it is also a focused-loading equilibrium. (2) a i will (non-strictly) prefer some slot s k to all other slots: he will strictly prefer s k to s l , and will be indifferent between s k and at least one other slot. Thus no agents will choose slot s l , and g will not be minimized. Any set of mixed strategies over slots between which agents are indifferent will constitute a weak equilibrium. (3) a i is indifferent between all pairs of slots s k and s l . In this case a i receives the same payment regardless of his action, so randomizing uniformly over all the slots is not a dominated strategy. Indeed, randomization is a weak, load-balancing equilibrium, as shown above.</p><p>The only strict equilibrium is a focused-loading equilibrium; all other equilibria are weak. 2</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Quarterly Trunk Calls on Weekdays in the United Kingdom, December 1975</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head>Φ 1 :</head><label>1</label><figDesc></figDesc><table>Φ 2 : 
+Φ 3 : 
+Φ 4 : 
+Preselection 
+Bulletin 
+Collective 
+Discriminatory 
+Board 
+Reward 
+Earliest possible 
+Before any 
+After all 
+After each 
+After each 
+free slot selection 
+time slots 
+time slots 
+time slot 
+time slot 
+Agent signals 
+No 
+No 
+Yes 
+Yes 
+The network must 
+No 
+No 
+No 
+Yes, or 
+store agent signals 
+hash IP 
+Agents may have 
+No 
+No 
+Yes 
+Yes 
+different v functions 
+Time required for 
+None 
+Substantial Negligible 
+Negligible 
+coordination phase 
+
+Type of equilibrium 
+Weak 
+Strict 
+Strict 
+Dominant 
+or strategy 
+equilibrium 
+equilibrium equilibrium 
+strategy 
+Non-optimal 
+Yes 
+Yes 
+No 
+No 
+equilibria exist 
+Revenue increases 
+No 
+Yes 
+Yes 
+Yes 
+if agents deviate 
+Harmful collusion 
+No 
+No 
+No 
+No 
+Irrational actions 
+No actions 
+Yes 
+Yes 
+No 
+harm other agents 
+are irrational 
+
+Time cost after 
+O(n) 
+O(n) 
+O(n) 
+O(n) 
+coordination phase 
+Storage cost 
+O(q) 
+O(t) 
+O(n) 
+O(n) 
+(free slots) 
+(d) 
+(moves) 
+(signals, identities) 
+Communication cost 
+O(n) 
+O(nt) 
+O(n) 
+O(n) 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head>Table 1</head><label>1</label><figDesc>Comparison of Φ 1 , Φ 2 , Φ 3 , Φ 4</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head></head><label></label><figDesc>). Since the equilibrium is constant, we can expand z on both sides and simplify to getE[R|Φ, ϕ] &gt; E[R|Φ 1 , ϕ], which implies E[R i |Φ, ϕ] &gt; E[R i |Φ 1 , ϕ]for at least one agent a i . Φ 1 sets values of p, q and m so that for all slots agent a i 's expected utility is v(s) − E[R i |Φ 1 , ϕ] = 0. Thus for Φ we have ∀s u i (s) &lt; 0, implying that Φ is non-participation-safe, a contradiction.</figDesc><table></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">This work was supported by DARPA grant F30602-00-2-0598 and by a Stanford Graduate Fellowship.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2">A preliminary version of this paper was presented at the ACM Conference on Electronic Commerce, 2001<ref type="bibr" target="#b10">[11]</ref>.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">A number of proposals for usage-based pricing of bandwidth suggest charging according to the "effective" bandwidth consumed by an operator. Roughly, the effective bandwidth of a connection is a value between the mean and peak bandwidths, capturing the trade-off between the long-term average amount of bandwidth used by the connection and the instantaneous peak bandwidth consumption. See, for example<ref type="bibr" target="#b3">[4]</ref>, and the references therein.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4">While these bounds strengthen our results, the assumption that they exist is not unrealistic. The upper bound is easily justified by the fact that no agent is willing to pay an arbitrarily large amount. The lower bound is trickier, since agent a i might simply not be interested in using some slot s (i.e. v i (s) = 0). However, since we're interested in defocusing the load, in practice we will be considering time slots that agents want to use. Therefore, it is not unrealistic to assume that every agent has a non-zero valuation for every slot.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">t s v(s). The requirement that an agent's utility for slot s must be greater than or equal to zero-i.e., that v(s) − 1 − p(s) m ≥ 0-can be rewritten, substituting in p * , as v avg −(1− q t )m ≥ 0. The seller's revenue will be maximized when all agents get zero utility. Thus we must have:</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6">This note is intended for readers familiar with game theory. Consider the space of all functions H : N → {1, . . . , t} mapping from agent names to suggested slots. Let P rob be a probability distribution over all functions h ∈ H that give rise to the agent distribution d * . If signals are assigned based on an h drawn from P rob then ϕ 3 can easily be formulated as a correlated equilibrium. However, for ease of exposition and to emphasize the sequential assignment of agent signals for implementation reasons, we do not make further use of this formulation.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7">Another disadvantage is that an agent could register from one computer, receive a slot assignment, use the network from a second computer and be denied a chance for a free slot because the second computer's IP did not hash to the same signal. This could be addressed by requiring agents to use the network from the computer from which they registered, and permitting them to register again if they change their mind about which machine they want to use.</note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 3 There does not exist an optimal (Φ, ϕ) for which ϕ is a strict equilibrium and m ≤ v(s).</head><p>PROOF. We will prove this statement by contradiction. Assume that there exists an optimal (Φ, ϕ) in which ϕ is a strict equilibrium. Since ϕ is a strict equilibrium, the difference (call it x) between expected utility from slot s and the highest expected utility of any other slot must be positive. By the assumption that m ≤ v(s), deviation to s would result in no less than 0 utility. Thus by strictness of ϕ, agents in slots s = s have positive expected utility of x. If we create Φ by altering P i so that the expected utility of s is decreased by x, then the revenue is increased, and it is still an equilibrium (albeit weak) for a i to select slot s. The fact that revenue is higher in (Φ , ϕ) than (Φ, ϕ) but that both give rise to the same distribution contradicts the claim that (Φ, ϕ) is optimal. 2</p><p>We will prove the following statement that is stronger than the theorem: ∀j, i ≥ j, there exists an ideal dis-</p><p>We will first prove this statement by induction on j. The base case, where j = 0, trivially holds because ∀s d γ 0 (s) = 0.</p><p>For the inductive step, assume that there exists a d * i for all i ≥ j such that</p><p>We now prove that there exists an ideal distribution d * i consistent with this greedy choice. <ref type="figure">Υ(d , s l , 1)</ref>). Since Υ(d , s l , 1) = d * i is ideal, d must also be ideal. Since d ≥ d γ j+1 , we have proven the inductive step. 2</p><p>PROOF. First, we prove by contradiction that Φ 2 yields z that is within nε of any other Φ, both given the same equilibrium. Assume that there exists a</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>PROOF.</head><p>Define for the cases when all agents' functions are v l and v l+c−ε , respectively. In each variant we assume that the network has full knowledge of agents' valuations and can set different p's for each agent. Let d a , d l , and d l+c−ε be the corresponding ideal distributions arising from ϕ 3 in their respective mechanisms. The revenue extracted from each agent in equilibrium</p><p>We also make the change that each of these variants of Φ 3 sets ε = 0 when it determines p b . This has the consequence that equilibrium ϕ 3 still holds but is no longer strict. Each variant will then extract the full v(s) from each agent in ϕ 3 . Each of these mechanism-equilibrium pairs is optimal, following an argument analogous to the one given in the proof of theorem 1 (not given here): the mechanism makes each agent pay exactly his valuation, and achieves an ideal distribution. Thus, for any set of arbitrary v functions that Φ 3 encounters, z(Φ a 3 , ϕ 3 ) represents the optimal evaluation. We now bound how far Φ 3 can be from this amount.</p><p>because v l+c−ε is an upper bound on each of the v's in the case of Φ a 3 and g(d a ) is common to both terms. Thus z(Φ l 3 , ϕ 3 ) + (c − ε)n = z(Φ l+c−ε 3 , ϕ 3 ) ≥ z(Φ a 3 , ϕ 3 ). Now we return to the real Φ 3 . The optimal distribution is d l , and in ϕ 3 the network extracts ε less revenue from each agent than Φ l 3 did because it does not set ε = 0. Thus, z(Φ 3 , ϕ 3 ) + nε = z(Φ l 3 , ϕ 3 ). Combining the last two equations, we can conclude: z(Φ 3 , ϕ 3 ) + cn ≥ z(Φ a 3 , ϕ 3 ), and thus that ϕ 3 is c-optimal. 2</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Impact of the Internet on core switching network</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Blair</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of ENPW&apos;98</title>
+		<meeting>of ENPW&apos;98<address><addrLine>Les Arcs, France</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1998-03" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Strategic information transmission</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><forename type="middle">P</forename><surname>Crawford</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Sobel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1431" to="1451" />
+			<date type="published" when="1982-11" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Analysis and simulation of a fair queuing algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Demers</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Keshav</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Shenker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of internetworking research and experience</title>
+		<imprint>
+			<biblScope unit="page" from="3" to="26" />
+			<date type="published" when="1990-10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Usage-based charging using effective bandwidths: studies and reality</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Stoer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Songhurst</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Stamoulis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the International Teletraffic Congress, ITC-16</title>
+		<meeting>the International Teletraffic Congress, ITC-16</meeting>
+		<imprint>
+			<date type="published" when="1999" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Tcp and explicit congestion notification</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Floyd</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Computer Communication Review</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="10" to="23" />
+			<date type="published" when="1994-10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Random early detection gateways for congestion avoidance</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Floyd</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Jacobson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE/ACM Transactions on Networking</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="397" to="413" />
+			<date type="published" when="1993-08" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Game Theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Fudenberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Tirole</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1991" />
+			<publisher>MIT Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Resource pricing and the evolution of congestion control</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gibbens</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Kelly</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Automatica</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<date type="published" when="1969" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<monogr>
+		<title level="m" type="main">The use of games to assess user strategies for differential quality of service in the internet</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">J</forename><surname>Gibbens</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">B</forename><surname>Key</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999-11" />
+			<pubPlace>Microsoft Research, Cambridge</pubPlace>
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical report</note>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Differential QoS and pricing in networks: Where flow control meets game theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Key</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Mcauley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEE Proc Software</title>
+		<imprint>
+			<date type="published" when="1999" />
+			<biblScope unit="volume">146</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Smoothing out focused demand for network resources (short paper)</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Porter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Venkataraman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Prabhakar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM Conference on Electronic Commerce</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Pricing the internet</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">K</forename><surname>Mackie-Mason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Varian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Public Access to the Internet</title>
+		<editor>B. Kahin and J. Keller</editor>
+		<imprint>
+			<publisher>Prentice-Hall</publisher>
+			<date type="published" when="1994" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Pricing policies in selected European telephone systems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Mitchell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of 6th Conference on Telecommunications Policy Research</title>
+		<meeting>6th Conference on Telecommunications Policy Research</meeting>
+		<imprint>
+			<date type="published" when="1978" />
+			<biblScope unit="page" from="437" to="475" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A modest proposal for preventing internet congestion</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Odlyzko</surname></persName>
+		</author>
+		<idno>TR 97.35.1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">AT&amp;T Research</title>
+		<imprint>
+			<date type="published" when="1997-09" />
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<monogr>
+		<title level="m" type="main">A Course in Game Theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Osborne</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Rubinstein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994" />
+			<publisher>MIT Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Approximate fairness through differential dropping</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Pan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Breslau</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Prabhakar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Shenker</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+	<note>Submitted</note>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">CHOKe: A stateless active queue management scheme for approximating fair bandwidth allocation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Pan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Prabhakar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Psounis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of IEEE INFOCOM 2000</title>
+		<meeting>IEEE INFOCOM 2000</meeting>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="942" to="951" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">pair (Φ, ϕ) such that z(Φ, ϕ) &gt; z(Φ 2 , ϕ) + nε. Since the equilibrium is the same for both mechanisms, we can expand z on both sides and simplify to get E[R|Φ, ϕ] &gt; E[R|Φ 2 , ϕ] + nε, which implies E[R i |Φ, ϕ] &gt; E[R i |Φ 2 , ϕ] + ε for at least one agent a i . Φ 2 sets values of p, q and m so that for all slots agent a i &apos;s expected utility is v(s) − E</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Shenker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE/ACM Transactions on Networking</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="819" to="831" />
+			<date type="published" when="1995" />
+		</imprint>
+	</monogr>
+	<note>Making greed work in networks: A game-theoretic analysis of switch service disciplines. R i |Φ 2 , ϕ] = ε. Thus for Φ we have ∀s u i (s) &lt; 0, implying that Φ is non-participation-safe, a contradiction</note>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Second, we now consider the case where Φ and Φ 2 have different equilibria. As shown above in lemma 1, the ideal distribution d * is achieved by (Φ 2 , ϕ 2 ), hence ∀Φ</title>
+		<imprint/>
+	</monogr>
+	<note>ϕ z(Φ 2 , ϕ 2 ) ≥ z(Φ 2 , ϕ) ≥ z(Φ, ϕ) − nε</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

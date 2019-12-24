@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Verification of UML/OCL Class Diagrams using Constraint Programming</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Verification of UML/OCL Class Diagrams using Constraint Programming</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The aim of this paper is to present a general overview of constraint programming field and present how to verify UML/OCL class diagrams using Constraint Programming.</p><p>First we will present a general formulation of the constraint programming problems.Because constraint programming problems vary from task to task, we will present first a brief introduction to the setup for the task. First, we will present a general introduction to the UML/OCL processes with the basic notations. Then we will present what kind of constraints can we extract from these diagrams. After that we will present what definitions will be usefull for defineing the correctness of these models. And at last we will present how to evaluate the generated CSP model.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Constraint Programming</head><p>In last few years, Constraint Programming has attracted high attention among experts from many areas because of its potential for solving hard real life problems. Not only it is based on a strong theoretical foundation but it is attracting widespread commercial interest as well. Not surprisingly, it has recently been identified by the Association for Computing Machinery as one of the strategic directions in computer research. However, at the same time, Constraint Programming is still one of the least known and understood technologies. Constraints arise in most areas of human endeavour. They formalise the dependencies in physical worlds and their mathematical abstractions naturally and transparently. A constraint is simply a logical relation among several unknowns (or variables), each taking a value in a given domain. The constraint thus restricts the possible values that variables can take, it represents partial information about the variables of interest. Constraints can also be heterogeneous, so they can bind unknowns from different domains, for example the length (number) with the word (string). The important feature of constraints is their declarative manner, i.e., they specify what relationship must hold without specifying a computational procedure to enforce that relationship. We all use constraints to guide reasoning as a key part of everyday common sense. "I can be there from five to six o'clock", this is a typical constraint we use to plan our time. Naturally, we do not solve one constraint only but a collection of constraints that are rarely independent. This complicates the problem a bit, so, usually, we have to give and take. Constraint programming is the study of computational systems based on constraints. The idea of constraint programming is to solve problems by stating constraints (requirements) about the problem area and, consequently, finding solution satisfying all the constraints. <ref type="bibr" target="#b0">Barták [1999]</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.2">Software verification</head><p>Software verification is one of the long-standing goals of software engineering. The need for correct software specifications is even more relevant in the context of the Model driven development and Model driven architecture communities where software models are used to (semi)automatically generate the implementation of the final software system. Unfortunately, formal verification of software models is known to be undecidable in general. This is also the case when focusing on the verification of UML class diagrams extended with OCL constraints: first-order logic (FOL) itself is undecidable in general and OCL is more expressive than FOL. Therefore, to avoid undecidability, existing methods able to reason on UML/OCL diagrams either limit the UML/OCL constructs that may appear in the diagrams, are not automatic or are semi-decidable. <ref type="bibr" target="#b1">Cabot et al. [2008]</ref> The aim of this paper is to present a general overview of constraint programming field and present how to verify UML/OCL class diagrams using Constraint Programming.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.3">Theory</head><p>Based on this paper <ref type="bibr" target="#b1">Cabot et al. [2008]</ref> we will present how using the Constraint Programming paradigm as a complementary method will change the process problem to a fully automatic, decidable and expressive verification of UML/OCL class diagrams. Decidability is achieved by defining a finite solution space, i.e. establishing finite bounds for the number of instances and finite domains for attribute values to be considered during the verification process. This way, the constraint solver is able to perform a complete search within the solution space.</p><p>The main goal of this paper is to present a systematic procedure for the transformation of a UML class diagram annotated with OCL constraints into a Constraint Satisfaction Problem (CSP). A predefined set of correctness properties about the original UML/OCL diagram can then be checked on the resulting CSP.</p><p>One of the most well-known correctness properties is satisfiability. A model is satisfiable if it is possible to create a correct and non-empty instantiation of the model, i.e. if a user can possibly create a finite set of new objects and links over the classes and associations of the model so that no model constraint is violated. As an example, consider the class diagram of 1. This model is unsatisfiable due to two different reasons and therefore completely useless:</p><p>1. The multiplicities of association Reviews require exactly three distinct researchers per paper, meanwhile, the multiplicities of Writes requires one or two researchers per paper.</p><p>2. Students cannot be referees according to constraint NoStudentReviewers. However, all researchers must be authors (due to the multiplicities in Writes), all authors must review papers (Reviews) and there must be at least one student paper (LimitsOnStu-dentPapers) with an student author (AuthorsOfStudentPaper).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Figure 1: A UML class diagram with OCL constraints</head><p>So in order to detect such unsatisfiability of a model, first, we have to transform the diagram into a CSP. If that CSP has a solution than the model is satisfiable. In the CSP, there are several constraint that restrict the legal values of the variables. To find a solution the constraint solver tries to assign a value to all variables without violating an constraint. If no legal assignment is possible, the model is determined as unsatisfiable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.4">Cosntraint programming</head><p>Constraint Programming is a declarative problem solving paradigm where the programming process is limited to the definition of the set of requirements (constraints). A constraint solver is in charge of finding a solution that satisfies the requirements.</p><p>Problems addressed by Constraint Programming are called constraint satisfaction problems (CSPs). A CSP is represented by the tuple CSP = (V,D,C) where V denotes the finite set of variables of the CSP, D the set of domains, one for each variable, and C the set of constraints over the variables. A solution to a CSP is an assignment of values to variables that satisfies all constraints, with each value within the domain of the corresponding variable. A CSP that does not have solutions is called unfeasable.</p><p>The most traditional technique for finding solutions to such problems is backtracking. These search processes are largely improved by constraint propagation techniques, which means that we are using the information about the structure of the constrainst and the decisions taken so far.</p><p>In <ref type="bibr" target="#b0">Barták [1999]</ref> they used the ECL i P S e W allaceetal.</p><p>[1997]aConstraintprogrammingsystem, wherethe basedlanguage, whilethevariablesmaybeeithersimple, structuredorlists.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.5">Translation of UML/OCL Class Diagrams</head><p>Before we can verify the correctness of the diagrams, first, we have to transform them into a CSP. A class diagram is defined as CD = (Cl, As, AC, G, IC), where Cl is the set of classes, As is the set of associations, AC the set off association classes, G is the set of generalisation sets and IC the set of constraints. Each element is translated into a set of variables, domains and constraints. We are trying to build the smalles domains that suffice to identify inconsistencies. The domain of the oid field is the set of positive integers. The domain of an f i field is defined as a finite subset of domain of the corresponding attribute in c. Boolean and enumerated types are already finite. Finite domains for integers requires at least a lower and an upper bound. For real types we need also a maximum decimal precision and for string types the possible "alphabet" is needed.</p><p>The multiplicities of an association impose constraints on the number of instances of the participant classes and the association. These constraints are presented in <ref type="figure">Fig. 2</ref>. First, the set of links is a subset of the cartesian product of the participant classes, so its size (product of class sizes) defines an upper bound for the number of links. Also, minimum and maximum multiplicities of roles define a lower and upper bound relationship between the number of links and the number of objects of each participant class. <ref type="figure">Figure 2</ref>: Implicit cardinality constraints due to the association multiplicities</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.5.2">Definition of correctness properties</head><p>A model is expected to satisfy several reasonable assumptions. For instance, it should be possible to instantiate the model in some way that does not violate any integrity constraint. Moreover, it may be desirable to avoid unnecessary constraints in the model. Failing to satisfy these criteria may be a symptom of an incomplete, over-constrained or incorrect model. Designers can select which of these criteria should be satisfied by a model. If the CSP still has a solution once the new constraint is added, we may conclude that the model satisfies the property. The set of correctness properties that can be checked by designers is the following:</p><p>Strong satisfiability: The model must have a finite instantiation where the population of all classes and associations is at least one. Weak satisfiability: The model must have a finite instantiation where the population of at least one class is at least one. Liveliness of a class c: The model must have a finite instantiation where the population of c is non-empty. Lack of constraint subsumptions: Given two integrity constraints C1 and C2, the model must have a finite instantiation where C1 is satisfied and C2 is not. Otherwise we can say that C1 subsumes C2 and C2 could be removed. Lack of constraint redundancies: Given two integrity constraints C1 and C2, the model must have a finite instantiation where only one is satisfied. Otherwise we can say that C1 and C2 are redundant, because for e.g. both have the same truth value and one should be removed.</p><p>Other validation criterias can be defined similarly.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.6">Resolution of the generated CSP</head><p>The CSP is organized in two subproblems. In the first one, we define the cardinality variables for the number of instances of each class and association, their domains and all constraints restricting them. In this phase, the goal is to find a legal assignment of values to these variables. If no asssignment is possible, the CSP is directly unfeasible.</p><p>In the second subproblem, the valid values assigned to the Size x variables are used to instantiate the corresponding Instances x variables. Now the goal is to find legal values for properties (either attributes or roles) of all elements in the Instances x lists. Intuitively, the procedure tries to find a valid solution for this second subproblem for each assignment satisfying the first one. If there is no such solution, the CSP is determined as unfeasible.</p><p>After each phase we define the variables and theri domains, define the constraints on the variables and finally find a legal assignment to these variables.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Conclusion</head><p>In this work we presented a general overview of constraint programmingfield and present how to verify UML/OCL class diagrams using Constraint Programming. The general introduction part is followed by a section which contains some recent researches in this domain.</p><p>First we presented a general formulation of the constraint programming problems. Because constraint programming problems vary from task to task, we presented first a brief introduction to the setup for the task. First, we presented a general introduction to the UML/OCL processes with the basic notations. Then we presented what kind of constraints can we extract from these diagrams. After that we presented what definitions will be usefull for defineing the correctness of these models. And at last we presented how to evaluate the generated CSP model.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>Programming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 1.2 Software verification . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1 1.3 Theory . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2 1.4 Cosntraint programming . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3 1.5 Translation of UML/OCL Class Diagrams . . . . . . . . . . . . . . . . . . . 3 1.5.1 Tranformation of classes . . . . . . . . . . . . . . . . . . . . . . . . . 4 1.5.2 Definition of correctness properties . . . . . . . . . . . . . . . . . . . 5 1.6 Resolution of the generated CSP . . . . . . . . . . . . . . . . . . . . . . .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>Instances c of type list. Each element represents an instace of c. Therefore the structure: struct(c) = (oid, f 1 , ..., f n ), where: oid represents the explicit class identifier and each f i represents an attribute. -A variable Size c of type integer. Its domain is domain(Size c ) = [0, P M axSize c ], where P M axSize c is a parameter which indicates the max number of instances of class c -Number of instances: Size c = length(Instances c ) -Distinct oids: ∀ x,y ∈ Instances c : x = y − &gt; x.oid = y.oid</figDesc></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Constraint programming: In pursuit of the holy grail</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Roman</forename><surname>Barták</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Week of Doctoral Students (WDS99)</title>
+		<meeting>the Week of Doctoral Students (WDS99)</meeting>
+		<imprint>
+			<publisher>MatFyzPress Prague</publisher>
+			<date type="published" when="1999" />
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="555" to="564" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Verification of uml/ocl class diagrams using constraint programming</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jordi</forename><surname>Cabot</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Robert</forename><surname>Claris</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Daniel</forename><surname>Riera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2008 IEEE International Conference on Software Testing Verification and Validation Workshop</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2008" />
+			<biblScope unit="page" from="73" to="80" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Eclipse: A platform for constraint logic programming</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mark</forename><surname>Wallace</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Stefano</forename><surname>Novello</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Joachim</forename><surname>Schimpf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ICL Systems Journal</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="159" to="200" />
+			<date type="published" when="1997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

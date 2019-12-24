@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">CONSTRAINT PROGRAMMING FOR SCHEDULING PROBLEMS</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sütő</forename><surname>Evelyne</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Babeş-Bolyai University</orgName>
+								<address>
+									<addrLine>Computer Science</addrLine>
+									<settlement>Cluj-Napoca</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">CONSTRAINT PROGRAMMING FOR SCHEDULING PROBLEMS</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>MOTIVATIONS TO US CONSTRAINT PROGRAMMING</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>WHY USE CONSTRAINT PROGRAMMING?</head><p>• Scheduling problems naturally defined with their constraints in mind, thus it is easy to model with CSP</p><p>• Depending on resources and needed constraints to satisfy it can become a combinatorial problem • Concentrates on the WHAT of the problem instead of the HOW • Many effective ways already implemented that can boost up the search for the solutions • Generating university timetables <ref type="bibr" target="#b2">[Zhang and Lau, 2005]</ref> • Project scheduling <ref type="bibr" target="#b0">[Relich, 2013]</ref> 5</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>UNIVERSITY TIMETABLES</head><p>• NP complete problem, difficult to find optimal solution</p><p>• Constraints based on time restrictions and resource sharing (class rooms, teachers)</p><p>• Students attend one class at the same time, the room must be big enough for all the attending students, no core subject is scheduled at the same time, and only one class is scheduled in one room at any one timeslot.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>UNIVERSITY TIMETABLES</head><p>• Each timetable item is an activity and rooms are resources</p><p>• Solution: Defined model in ILOG</p><p>• ILOG is a constraint optimization software developed by IBM for CSP (mainly scheduling problems)</p><p>• https://www.ibm.com/analytics/cplex-cp-optimizer UNIVERSITY TIMETABLES • When developing multiple project at the same time sometimes we need to share some resources between then • Each activity is defined by their start time and duration</p><p>• The imprecise variables are defined by α cuts, where the α -cut is a crisp set consisting of elements of A which belong to the fuzzy set at least to a degree of α ( 0 &lt; α &lt;= 1 ). An α -cut is a method of defuzzifying a fuzzy set to a crisp set at desired α -levels that correspond to the perceived risk (α=1 meaning no risk, α=0+ meaning the highest risk)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>FUZZY PROJECT SCHEDULING</head><p>• Cost for unit of time calculated by dividing the cost of every activity by its duration.</p><p>• Financial cost allocating by taking into account all α-levels of a fuzzy number</p><p>• minD α (best case scenerio, activity starts as soon as possible)</p><p>• maxD α (activity starts at latest possible time). <ref type="figure">Figure 2</ref>: Example of activities and dependencies of project 1. Source: <ref type="bibr" target="#b0">[Relich, 2013]</ref> The aim of the Fuzzy scheduling is to create a fuzzy cash flow for different risk levels, which would help the project managers to determine which schedule would be the best option, by considering the different levels in terms of duration and cost efficiency <ref type="figure">Figure 3</ref>: Example of fuzzy project cash flow with 5 different levels. e.g. At µ =0.5, there is an optimistic scenario below and a pessimistic one above (dashed line). Source: <ref type="bibr" target="#b0">[Relich, 2013]</ref> </p><formula xml:id="formula_0">minD α = [α(ba) + a, α(ed) + d] maxD α = [α(bc) + c, α(ef) + f]</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>•Figure 1 :</head><label>1</label><figDesc>ILOG decompesses programs by separating the model from the search algorithm itself • Model built with ILOG scheduler • Resources represented in IloActivity • The ILOG Solver generates a goal and goes thorough the search space to find the solution • Results analyze the number of backtracked nodes (fails) and number of choice point (nr of visited nodes) Results<ref type="bibr" target="#b2">[Zhang and Lau, 2005]</ref> </figDesc></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CONCLUSION CONCLUSION</head><p>• The interest in scheduling is big, because it allows good resource allocation and time optimization</p><p>• Many other use cases other than the two mentioned in this paper: nurse scheduling, doctor scheduling, virual machine scheduling etc</p><p>• Constraint programming is successfully applied to these problems by using well defined elements for consistency technique and constraint propagation</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Relich</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Fuzzy project scheduling using constraint programming</title>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Lau</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Constructing university timetable using constraint satisfaction programming approach</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+				<title level="m">International Conference on Computational Intelligence for Modelling, Control and Automation and International Conference on Intelligent Agents, Web Technologies and Internet Commerce (CIMCA-IAWTIC&apos;06)</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="55" to="60" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

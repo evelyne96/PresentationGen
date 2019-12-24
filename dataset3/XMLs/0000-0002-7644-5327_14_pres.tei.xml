@@ -1,0 +1,1110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="it">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Tractable Computational Methods for Finding Nash Equilibria of Perfect-Information Position Auctions</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><surname>Robert</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Martin</forename><surname>Thompson</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Tractable Computational Methods for Finding Nash Equilibria of Perfect-Information Position Auctions</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract xml:lang="en">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Motivation</head><p>How will bidders behave in a position auction that does not meet the assumptions for which theoretical results are known? Motivation How will bidders behave in a position auction that does not meet the assumptions for which theoretical results are known?</p><p>Our approach: compute Nash equilibrium Motivation How will bidders behave in a position auction that does not meet the assumptions for which theoretical results are known?</p><p>Our approach: compute Nash equilibrium Main hurdle: existing algorithms work with normal form; infeasibly large for ad auctions Motivation</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="it">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Agent C β=3</head><p>Weighted GFP as AGG <ref type="bibr">Agent B β=2</ref> Agent A β=2</p><p>Weighted GFP as AGG Agent C β=3</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Agent B β=2</head><p>Agent A β=2</p><p>Weighted GFP as AGG  </p><formula xml:id="formula_0">0 # e i =0 # e i ≥0 1 1 # e i =2 # e i ≥2 1 # e i =3 # e i ≥3 2 2 # e i =4 # e i ≥4 3 3 2 # e i =6 # e i ≥6 4 4 # e i =8 # e i ≥8 3 # e i =9 # e i ≥9 5 5 Effective Bid (e i ) 0 2 3 4 6 8 9 10 Agent C β=3 Agent B β=2 Agent A β=2 # e i =10 # e i ≥10 Weighted GSP as AGG 0 0 0 # e i =0 # e i ≥0 1 1 # e i =2 # e i ≥2 1 # e i =3 # e i ≥3 2 2 # e i =4 # e i ≥4 3 3 2 # e i =6 # e i ≥6 4 4 # e i =8 # e i ≥8 3 # e i =9 # e i ≥9 5 5 Effective Bid (e i ) 0 2 3 4 6 8 9 10 Agent C β=3 Agent B β=2 Agent A β=2 max e i e i &lt;4 # e i =10 # e i ≥10 Weighted GSP as AGG 0 0 0 # e i =0 # e i ≥0 1 1 # e i =2 # e i ≥2 1 # e i =3 # e i ≥3 2 2 # e i =4 # e i ≥4 3 3 2 # e i =6 # e i ≥6 4 4 # e i =8 # e i ≥8 3 # e i =9 # e i ≥9 5 5 Effective Bid (e i ) 0 2 3 4 6 8 9 10 Agent C β=3 Agent B β=2 Agent A β=2 max e i e i &lt;4 # e i =10 # e i ≥10 Weighted GSP as AGG 0 0 0 # e i =0 # e i ≥0 1 1 # e i =2 # e i ≥2 1 # e i =3 # e i ≥3 2 2 # e i =4 # e i ≥4 3 3 2 # e i =6 # e i ≥6 4 4 # e i =8 # e i ≥8 3 # e i =9 # e i ≥9 5 5 Effective Bid (e i ) 0 2 3 4 6 8 9 10 Agent C β=3 Agent B β=2 Agent A β=2 max e i e i &lt;4 # e i =10 # e i ≥10 Weighted GSP as AGG 0 0 0 # e i =0 # e i ≥0 1 1 # e i =2 # e i ≥2 1 # e i =3 # e i ≥3 2 2 # e i =4 # e i ≥4 3 3 2 # e i =6 # e i ≥6 4 4 # e i =8 # e i ≥8 3 # e i =9 # e i ≥9</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Experimental Setup  10 bidders, 5 slots  Integer bids between 0 and 10  For pay-per-click, normalize value/click:  Scale max i value i to 10, then scale other values proportionately  to use full range of discrete bid amounts  For pay-per-impression, normalize value/impression. Size Experiments: Bid Increments Runtime Experiments: Test-bed  Environment:  Intel Xeon 3.2GHz, 2MB cache, 2GB RAM  Suse Linux 10.1  Solver software:  Gambit [McKelvey, McLennan, Turocy, 2007] implementation of simplicial subdivision "simpdiv" [van der Laan, Talman, and van Der Heyden, 1987], AGG-specific dynamic programming inner loop 1 [Jiang &amp; Leyton-Brown, 2006] 1. http://www.cs.ubc.ca/~jiang/agg/</figDesc><table>5 
+
+5 
+
+Effective 
+Bid (e i ) 
+0 
+2 
+3 
+4 
+6 
+8 
+9 
+10 
+
+Agent C 
+β=3 
+
+Agent B 
+β=2 
+
+Agent A 
+β=2 
+
+max 
+e i 
+e i &lt;10 
+
+max 
+e i 
+e i &lt;4 
+
+max 
+e i 
+e i &lt;3 
+
+max 
+e i 
+e i &lt;2 
+
+max 
+e i 
+e i &lt;0 
+
+max 
+e i 
+e i &lt;6 
+
+max 
+e i 
+e i &lt;8 
+
+max 
+e i 
+e i &lt;9 
+
+# 
+e i =10 
+
+# 
+e i ≥10 
+
+Weighted GSP as AGG 
+
+0 
+
+0 
+
+0 
+
+# 
+e i =0 
+
+# 
+e i ≥0 
+
+1 
+
+1 
+
+# 
+e i =2 
+
+# 
+e i ≥2 
+
+1 
+
+# 
+e i =3 
+
+# 
+e i ≥3 
+
+2 
+
+2 
+
+# 
+e i =4 
+
+# 
+e i ≥4 
+
+3 
+
+3 
+
+2 
+
+# 
+e i =6 
+
+# 
+e i ≥6 
+
+4 
+
+4 
+
+# 
+e i =8 
+
+# 
+e i ≥8 
+
+3 
+
+# 
+e i =9 
+
+# 
+e i ≥9 
+
+5 
+
+5 
+
+Effective 
+Bid (e i ) 
+0 
+2 
+3 
+4 
+6 
+8 
+9 
+10 
+
+max 
+e i 
+e i &lt;10 
+
+Agent C 
+β=3 
+
+Agent B 
+β=2 
+
+Agent A 
+β=2 
+
+max 
+e i 
+e i &lt;4 
+
+max 
+e i 
+e i &lt;3 
+
+max 
+e i 
+e i &lt;2 
+
+max 
+e i 
+e i &lt;0 
+
+max 
+e i 
+e i &lt;6 
+
+max 
+e i 
+e i &lt;8 
+
+max 
+e i 
+e i &lt;9 
+
+# 
+e i =10 
+
+# 
+e i ≥10 
+
+max 
+e i 
+e i &lt;10 
+
+Weighted GSP as AGG 
+
+0 
+
+0 
+
+0 
+
+# 
+e i =0 
+
+# 
+e i ≥0 
+
+1 
+
+1 
+
+# 
+e i =2 
+
+# 
+e i ≥2 
+
+1 
+
+# 
+e i =3 
+
+# 
+e i ≥3 
+
+2 
+
+2 
+
+# 
+e i =4 
+
+# 
+e i ≥4 
+
+3 
+
+3 
+
+2 
+
+# 
+e i =6 
+
+# 
+e i ≥6 
+
+4 
+
+4 
+
+# 
+e i =8 
+
+# 
+e i ≥8 
+
+3 
+
+# 
+e i =9 
+
+# 
+e i ≥9 
+
+5 
+
+5 
+
+Effective 
+Bid (e i ) 
+0 
+2 
+3 
+4 
+6 
+8 
+9 
+10 
+
+Agent C 
+β=3 
+
+Agent B 
+β=2 
+
+Agent A 
+β=2 
+
+max 
+e i 
+e i &lt;4 
+
+max 
+e i 
+e i &lt;3 
+
+max 
+e i 
+e i &lt;2 
+
+max 
+e i 
+e i &lt;0 
+
+max 
+e i 
+e i &lt;6 
+
+max 
+e i 
+e i &lt;8 
+
+max 
+e i 
+e i &lt;9 
+
+# 
+e i =10 
+
+# 
+e i ≥10 
+
+max 
+e i 
+e i &lt;10 
+
+Weighted GSP as AGG 
+
+0 
+
+0 
+
+0 
+
+# 
+e i =0 
+
+# 
+e i ≥0 
+
+1 
+
+1 
+
+# 
+e i =2 
+
+# 
+e i ≥2 
+
+1 
+
+# 
+e i =3 
+
+# 
+e i ≥3 
+
+2 
+
+2 
+
+# 
+e i =4 
+
+# 
+e i ≥4 
+
+3 
+
+3 
+
+2 
+
+# 
+e i =6 
+
+# 
+e i ≥6 
+
+4 
+
+4 
+
+# 
+e i =8 
+
+# 
+e i ≥8 
+
+3 
+
+# 
+e i =9 
+
+# 
+e i ≥9 
+
+5 
+
+5 
+
+Effective 
+Bid (e i ) 
+0 
+2 
+3 
+4 
+6 
+8 
+9 
+10 
+
+Agent C 
+β=3 
+
+Agent B 
+β=2 
+
+Agent A 
+β=2 
+
+max 
+e i 
+e i &lt;4 
+
+max 
+e i 
+e i &lt;3 
+
+max 
+e i 
+e i &lt;2 
+
+max 
+e i 
+e i &lt;0 
+
+max 
+e i 
+e i &lt;6 
+
+max 
+e i 
+e i &lt;8 
+
+max 
+e i 
+e i &lt;9 
+
+# 
+e i =10 
+
+# 
+e i ≥10 
+
+max 
+e i 
+e i &lt;10 
+
+Weighted GSP as AGG 
+
+0 
+
+0 
+
+0 
+
+# 
+e i =0 
+
+# 
+e i ≥0 
+
+1 
+
+1 
+
+# 
+e i =2 
+
+# 
+e i ≥2 
+
+1 
+
+# 
+e i =3 
+
+# 
+e i ≥3 
+
+2 
+
+2 
+
+# 
+e i =4 
+
+# 
+e i ≥4 
+
+3 
+
+3 
+
+2 
+
+# 
+e i =6 
+
+# 
+e i ≥6 
+
+4 
+
+4 
+
+# 
+e i =8 
+
+# 
+e i ≥8 
+
+3 
+
+# 
+e i =9 
+
+# 
+e i ≥9 
+
+5 
+
+5 
+
+Effective 
+Bid (e i ) 
+0 
+2 
+3 
+4 
+6 
+8 
+9 
+10 
+
+Agent C 
+β=3 
+
+Agent B 
+β=2 
+
+Agent A 
+β=2 
+
+max 
+e i 
+e i &lt;4 
+
+max 
+e i 
+e i &lt;3 
+
+max 
+e i 
+e i &lt;2 
+
+max 
+e i 
+e i &lt;0 
+
+max 
+e i 
+e i &lt;6 
+
+max 
+e i 
+e i &lt;8 
+
+max 
+e i 
+e i &lt;9 
+
+2 
+2 
+0 
+0 
+4 
+4 
+4 
+9 
+
+# 
+e i =10 
+
+# 
+e i ≥10 
+
+max 
+e i 
+e i &lt;10 
+
+Weighted GSP as AGG 
+
+0 
+
+0 
+
+0 
+
+# 
+e i =0 
+
+# 
+e i ≥0 
+
+1 
+
+1 
+
+# 
+e i =2 
+
+# 
+e i ≥2 
+
+1 
+
+# 
+e i =3 
+
+# 
+e i ≥3 
+
+2 
+
+2 
+
+# 
+e i =4 
+
+# 
+e i ≥4 
+
+3 
+
+3 
+
+2 
+
+# 
+e i =6 
+
+# 
+e i ≥6 
+
+4 
+
+4 
+
+# 
+e i =8 
+
+# 
+e i ≥8 
+
+3 
+
+# 
+e i =9 
+
+# 
+e i ≥9 
+
+5 
+
+5 
+
+Effective 
+Bid (e i ) 
+0 
+2 
+3 
+4 
+6 
+8 
+9 
+10 
+
+max 
+e i 
+e i &lt;4 
+
+Position = 2 
+Price = 2/β=1 
+
+Agent C 
+β=3 
+
+Agent B 
+β=2 
+
+Agent A 
+β=2 
+
+max 
+e i 
+e i &lt;3 
+
+max 
+e i 
+e i &lt;2 
+
+max 
+e i 
+e i &lt;0 
+
+max 
+e i 
+e i &lt;6 
+
+max 
+e i 
+e i &lt;8 
+
+max 
+e i 
+e i &lt;9 
+
+2 
+2 
+0 
+0 
+4 
+4 
+4 
+9 
+
+Outline 
+
+ Auctions &amp; Model 
+
+ Action-Graph Games 
+
+ Auctions as AGGs 
+
+ Computational Experiments 
+
+ Economic Experiments 
+
+Model of Auction Setting 
+
+Weights 
+
+CTR across 
+positions 
+
+CTR across 
+bidders 
+Value per Click 
+
+Bid 
+Amounts 
+
+[EOS] 
+Always 1 
+Decreasing 
+Constant 
+One value 
+per bidder 
+Continuous 
+
+[Varian] 
+Arbitrary 
+Decreasing 
+
+Proportional 
+to Weight 
+("Separable") 
+
+One value 
+per bidder 
+Continuous 
+
+Our model 
+Arbitrary 
+Arbitrary 
+
+Arbitrary 
+
+Arbitrary 
+Discrete 
+
+Model of Auction Setting 
+
+Weights 
+
+CTR across 
+positions 
+
+CTR across 
+bidders 
+Value per Click 
+
+Bid 
+Amounts 
+
+[EOS] 
+Always 1 
+Decreasing 
+Constant 
+One value 
+per bidder 
+Continuous 
+
+[Varian] 
+Arbitrary 
+Decreasing 
+
+Proportional 
+to Weight 
+("Separable") 
+
+One value 
+per bidder 
+Continuous 
+
+Our model 
+Arbitrary 
+Arbitrary 
+
+Arbitrary 
+
+Arbitrary 
+Discrete 
+
+Why Instantiate [Varian]? 
+
+ Validate by comparing with Varian's analytical 
+results for weighted, pay-per-click GSP 
+
+ and obtain computational results on a model of 
+independent interest 
+
+ Obtain novel economic results 
+
+ "Apples-to-apples" comparison: how do different 
+auctions perform given identical preferences? 
+
+ Most appropriate model is still an open question 
+
+Model of Auction Setting 
+
+Weights 
+
+CTR across 
+positions 
+
+CTR across 
+bidders 
+Value per Click 
+
+Bid 
+Amounts 
+
+[EOS] 
+Always 1 
+Decreasing 
+Constant 
+One value 
+per bidder 
+Continuous 
+
+[Varian] 
+Arbitrary 
+Decreasing 
+
+Proportional 
+to Weight 
+("Separable") 
+
+One value 
+per bidder 
+Continuous 
+
+Our model 
+Arbitrary 
+Arbitrary 
+
+Arbitrary 
+
+Arbitrary 
+Discrete 
+
+Problem 
+Distribution 
+Uniform[0,1] 
+
+Uniform[0,1] 
+* CTR of 
+higher slot 
+
+Proportional 
+to Weight 
+("Separable") 
+
+One value 
+per bidder: 
+Uniform[0,1] 
+
+Discrete 
+
+Size Experiments: Players 
+
+Integer bids: 0 to 10 
+
+1.00E+00 
+
+1.00E+02 
+
+1.00E+04 
+
+1.00E+06 
+
+1.00E+08 
+
+1.00E+10 
+
+1.00E+12 
+
+1.00E+14 
+
+1.00E+16 
+
+1.00E+18 
+
+1.00E+20 
+
+1.00E+22 
+
+1.00E+24 
+
+0 
+5 
+10 
+15 
+20 
+
+Bidders 
+Representation size (bytes) 
+
+Normal Form 
+GSP Unweighted 
+GSP Weighted 
+GFP Unweighted 
+GFP Weighted 
+2GB 
+
+10 bidders 
+
+1.00E+00 
+
+1.00E+02 
+
+1.00E+04 
+
+1.00E+06 
+
+1.00E+08 
+
+1.00E+10 
+
+1.00E+12 
+
+1.00E+14 
+
+1.00E+16 
+
+0 
+5 
+10 
+15 
+20 
+25 
+
+Bid Increments 
+Representation size (bytes) 
+
+Normal Form 
+GSP Unweighted 
+GSP Weighted 
+GFP Unweighted 
+GFP Weighted 
+2GB 
+
+Runtime Experiments: Results 
+
+0% 
+
+10% 
+
+20% 
+
+30% 
+
+40% 
+
+50% 
+
+60% 
+
+70% 
+
+80% 
+
+90% 
+
+100% 
+
+1 
+10 
+100 
+
+Time (s) 
+Fraction of instances solved 
+</table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thank You.</p></div>			</div>
+			<div type="references">
+
+				<listBibl/>
+			</div>
+		</back>
+	</text>
+</TEI>

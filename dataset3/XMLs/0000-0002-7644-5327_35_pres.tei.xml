@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Action-Graph Games, and an Algorithm for Computing their Equilibria</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Navin</forename><forename type="middle">A R</forename><surname>Bhat</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Toronto</orgName>
+								<orgName type="institution" key="instit2">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Toronto</orgName>
+								<orgName type="institution" key="instit2">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Action-Graph Games, and an Algorithm for Computing their Equilibria</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Extensive form: sequential structure • Congestion games [Rosenthal, 1973]    anonymity: agents' payoffs depend on numbers of other agents choosing same resources, not on individual identities; additivity over resources</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• Graphical games <ref type="bibr">[Kearns et al., 2001]</ref> strict utility independence holds between some pairs of agents leveraged for rapid computation of equilibria (e.g.) <ref type="bibr">[Blum et al. , 2003]</ref> • Local-effect games <ref type="bibr">[L-B &amp; Tennenholtz, 2003]</ref> context-specific independence also symmetry, anonymity, monotonicity, additivity of local effects Continuation Method for Equilibria <ref type="bibr">[Govindan &amp; Wilson, 2003]</ref> • ≡ expected payoff to agent i for playing action s i , if other agents play according to mixed-strategy profile σ • Deform payoff to obtain a game with known equilibrium:</p><p>add bonus, parameterized by λ:</p><p>• Strategy improvement mapping:</p><p>fixed points define equilibria • Path following:</p><p>-Initial (σ, λ) known -Compute local path direction • Continuation method:</p><p>seed with a symmetric equilibrium of the perturbed game -Jacobian is agent-independent path traces to symmetric equilibrium of game of interest Symmetric AGG Jacobian • All pure action profiles giving rise to the same distribution of agents are equally likely, so is just times the number profiles that achieve number of profiles: multinomial coefficients on projected graph • Jacobian: sum over space space of projected distributions is polynomial-sized (number of combinatorial compositions)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Speedup Results</head><p>One flavor ice cream vendor game; 10 stations Given a 1 GFLOP computer, solve Jacobian for:</p><p>10 agents: GW ∼1 hr; AGG-arb ∼1 sec; AGG-symm ∼0.00001 sec 1 hr: GW 10 agents; AGG-arb 15 agents; AGG-symm ∼200,000 agents </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>AGG Jacobian for Arbitrary Equilibria• Projection captures context-specific independence and strict independence • Writing in terms of the distribution captures anonymity • Exponential speedup vs. GW: • Same exponential speedup as Blum et. al. for computing the Jacobian for a graphical game using an explicit graphical game representation Symmetric Equilibria • Symmetric games are important -AGGs are symmetric when ∀i, S i =S</figDesc><table>• ∇V is bottleneck computation 
+
+-Take small step along path; repeat 
+
+Payoff Jacobian 
+
+Computational complexity: 
+• 
+
+Other applications of this Jacobian: 
+• Iterated Polymatrix Approximation (IPA) 
+
+-a quick start for the continuation method 
+
+• Gradient for policy search multiagent RL algorithms 
+
+Projection 
+
+V3 
+
+C4 
+
+V4 
+
+C3 
+
+∅ 
+
+V1 
+V3 
+
+C4 
+
+V4 
+V2 
+
+C3 
+C2 
+C1 
+
+V1 
+V2 
+
+C2 
+C1 
+
+∅ 
+
+• Nash [1951] proved all symmetric 
+games have symmetric mixed-
+strategy equilibria: ∀i, σ i ≡σ* 
+
+-Jacobian simplifies because elements 
+are agent-independent 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">compactly express: -context-specific and/or strict utility independencies -anonymity in utility functions</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">• We leverage the AGG representation to compute Nash equilibria using a continuation method; guarantee -arbitrary equilibria: exponential speedup of continuation method -symmetric equilibria: bounded indegree implies polytime</title>
+	</analytic>
+	<monogr>
+		<title level="j">Kevin Leyton-Brown</title>
+		<imprint/>
+	</monogr>
+	<note>Navin Bhat</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

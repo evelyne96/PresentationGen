@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Performance Prediction and Automated Tuning of Randomized and Parametric Algorithms Motivation: Performance Prediction • Useful for research in algorithms</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Youssef</forename><surname>Hamadi</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Microsoft Research Cambridge</orgName>
+								<address>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><surname>Hoos</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<settlement>Vancouver</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Performance Prediction and Automated Tuning of Randomized and Parametric Algorithms Motivation: Performance Prediction • Useful for research in algorithms</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>Hutter, Hamadi, Hoos, Leyton-Brown: Performance Prediction and Automated Tuning 2</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Overview</head><p>• Previous work on empirical hardness models <ref type="bibr">Nudelman et al. '02 &amp; '04]</ref> • EH models for randomized algorithms • EH models for parametric algorithms • Automatic tuning based on these • Ongoing Work and Conclusions Empirical hardness models: basics • Training: Given a set of t instances inst 1 ,...,inst t For each instance inst i -Compute instance features x i = (x i1 ,...,x im ) -Run algorithm and record its runtime y i Learn function f: features → runtime, such that y i ≈ f(x i ) for i=1,…,t • Test / Practical use: Given a new instance inst t+1</p><p>Compute features x t+1 Predict runtime y t+1 = f(x t+1 ) Which instance features?</p><p>• Features should be computable in polytime Basic properties, e.g. #vars, #clauses, ratio Graph-based characterics Local search and DPLL probes • Combine features to form more expressive basis functions φ = (φ 1 ,...,φ q ) Can be arbitrary combinations of the features x 1 ,...,x m • Basis functions used for SAT in <ref type="bibr">[Nudelman et al. '</ref> Compute features x t+1 Compute basis functions φ t+1 = (φ t+1,1 ,..., φ t+1,k ) Predict runtime y t+1 = f(φ t+1 ) EH models: basics → sufficient stats for RTD • Training: Given a set of t instances inst 1 ,..., inst t For each instance inst i -Compute instance features x i = (x i1 ,...,x im ) -Compute basis functions φ i = (φ i1 ,..., φ ik ) -Run algorithm multiple times and record its runtimes y i 1 , …, y i k -Fit sufficient statistics s i for distribution from y i 1 , …, y i k Learn function f: basis functions → sufficient statistics,</p><formula xml:id="formula_0">such that s i ≈ f(φ i ) for i=1,…,t • Test / Practical use: Given a new instance inst t+1</formula><p>Compute features x t+1 Compute basis functions φ t+1 = (φ t+1,1 ,..., φ t+1,k ) Predict sufficient statistics s t+1 = f(φ t+1 ) Predicting median run-time </p><formula xml:id="formula_1">-Compute instance features x i = (x i1 ,...,x im ) Compute basis functions φ i = φ(x i )</formula><p>-Run algorithm and record its runtime y i Learn function f: basis functions → runtime,</p><formula xml:id="formula_2">such that y i ≈ f(φ i ) for i=1,…,t • Test / Practical use: Given a new instance inst t+1</formula><p>Compute features x t+1 . Compute basis functions φ t+1 = φ(x t+1 ) Predict runtime y t+1 = f(φ t+1 ) EH models: basics → parametric algos • Training: Given a set of t instances inst 1 ,..., inst t For each instance inst i -Compute instance features x i = (x i1 ,...,x im ) -For parameter settings p i 1 ,...,p i n i:</p><p>Compute basis functions φ i j = φ(x i , p i j ) of features and parameter settings (quadratic expansion of params, multiplied by instance features) -Run algorithm with each setting p i j and record its runtime y i j Learn function f: basis functions → runtime, N o t t h e b e s t a l g o r i t h m t o t u n e ; -)</p><formula xml:id="formula_3">such that y i j ≈ f(φ i j ) for i=1,</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>04 ]</head><label>04</label><figDesc>91 original features: x i Pairwise products of features: x i * x j Feature selection to pick best basis functions How to learn function f: features runtime? • Runtimes can vary by orders of magnitude Linear in the basis functions: y i ≈ f(φ i ) = φ i * w T</figDesc><table>Need to pick an appropriate model 
+Log-transform the output 
+e.g. runtime is 10 3 sec 
+y i = 3 
+
+• Simple functions show good performance 
+
+-Learning: fit the weights w 
+
+(ridge regression: w = (λ + Φ T Φ) -1 Φ T y) 
+
+Gaussian Processes didn't improve accuracy 
+Overview 
+
+• Previous work on empirical hardness models 
+
+[Leyton-Brown, Nudelman et al. '02 &amp; '04] 
+
+• EH models for randomized algorithms 
+• EH models for parametric algorithms 
+• Automatic tuning based on these 
+• Ongoing Work and Conclusions 
+• We have incomplete, randomized local search algorithms 
+
+Can this same approach still predict the run-time ? Yes! 
+
+• Algorithms are incomplete (local search) 
+
+Train and test on satisfiable instances only 
+
+• Randomized 
+
+Ultimately, want to predict entire run-time distribution (RTDs) 
+For our algorithms, RTDs are typically exponential 
+Can be characterized by a single sufficient statistic (e.g. median 
+run-time) 
+
+EH models for randomized algorithms 
+EH models: basics → sufficient stats for RTD 
+
+• Training: Given a set of t instances inst 1 ,..., inst t 
+
+For each instance inst i 
+-Compute instance features x i = (x i1 ,...,x im ) 
+-Compute basis functions φ i = (φ i1 ,..., φ ik ) 
+-Run algorithm and record its runtime y i 
+
+Learn function f: basis functions → runtime, 
+
+such that y i ≈ f(φ i ) for i=1,…,t 
+
+• Test / Practical use: Given a new instance inst t+1 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Median runtime of Novelty + on CV-var EH models: basics → parametric algos • Training: Given a set of t instances inst 1 ,..., inst t</figDesc><table>Prediction based on 
+single runs 
+
+Prediction based on 
+100 runs 
+SAPS on QWH 
+Novelty + on SW-GCP 
+
+Structured instances 
+
+Median runtime predictions based on 10 runs 
+Predicting run-time distributions 
+
+RTD of SAPS on q 0.75 
+instance of QWH 
+
+RTD of SAPS on q 0.25 
+instance of QWH 
+Overview 
+
+• Previous work on empirical hardness models 
+
+[Leyton-Brown, Nudelman et al. '02 &amp; '04] 
+
+• EH models for randomized algorithms 
+• EH models for parametric algorithms 
+• Automatic tuning based on these 
+• Ongoing Work and Conclusions 
+For each instance inst i 
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>-Default noise setting 0.5 (=50%) for unstructured instances -Noise setting 0.1 used for structured instances SAPS (Scaling and Probabilistic Smoothing) -Default setting (alpha, rho) = (1.3, 0.8) Results for Novelty + on Mixed • Learn a function that predicts runtime from instance features and algorithm parameter settings (like before) • Given a new instance Compute the features (they are fix) Search for the parameter setting that minimizes predicted runtime for these features Parameter setting based on runtime prediction Find single parameter setting that minimizes expected runtime for a whole class of problems • Generate special purpose code [Minton '93] • Minimize estimated error [Kohavi &amp; John '95] • Racing algorithm [Birattari et al. '02] • Local search [Hutter '04] • Experimental design [Adenso-Daz &amp; Laguna '05] • Decision trees [Srivastava &amp; Mediratta, '05] Related work: best default parameters Examine instance, choose algorithm that will work well for it • Estimate size of DPLL search tree for each algorithm [Lobjois and Lemaître, '98] • [Sillito '00] • Predict runtime for each algorithm [Leyton-Brown, Nudelman et al. '02 &amp; '04] Related work: per-instance selection Performance Prediction • Vision: situational awareness in algorithms When will the current algorithm be done ? How good a solution will it find ? • A first step: instance-aware algorithms Before you start: how long will the algorithm take ? -Randomized → whole run-time distribution For different parameter settings -Can pick the one with best predicted performance</figDesc><table>…,t 
+
+• Test / Practical use: Given a new instance inst t+1 
+
+Compute features x t+1 
+For each parameter setting p j of interest, 
+Compute basis functions φ t+1 
+j = φ(x t+1 , p j ) 
+Predict runtime y t+1 
+j = f(φ t+1 
+j ) 
+Predicting SAPS with different settings 
+
+• Train and test with 30 
+
+different parameter 
+settings on QWH 
+
+• Show 5 test instances, 
+
+each with different symbol 
+
+Easiest 
+25% quantile 
+Median 
+75% quantile 
+Hardest 
+
+• More variation in harder 
+
+instances 
+One instance in detail 
+
+• Note: this is a 
+
+projection from 40-
+dimensional joint 
+feature/parameter 
+space 
+
+• Relative relationship 
+
+predicted well 
+
+(blue diamonds in previous figure) 
+Algo Data Set 
+Speedup over 
+default params 
+
+Speedup over best fixed 
+params for data set 
+Nov + unstructured 
+0.90 
+0.90 
+Nov + structured 
+257 
+0.94 
+Nov + mixed 
+15 
+10 
+SAPS unstructured 
+2.9 
+1.05 
+SAPS structured 
+2.3 
+0.98 
+
+SAPS mixed 
+2.31 
+1 
+
+Automated parameter setting: results 
+
+D o y o u 
+h a v e o n e ? 
+
+N o t t h e b e s t 
+a l g o r i t h m t o 
+t u n e ; -) 
+Results for Novelty + on Mixed 
+
+Compared to best fixed 
+parameters 
+
+Compared to random 
+parameters 
+Overview 
+
+• Previous work on empirical hardness models 
+
+[Leyton-Brown, Nudelman et al. '02 &amp; '04] 
+
+• EH models for randomized algorithms 
+• EH models for parametric algorithms 
+• Automatic tuning based on these 
+• Ongoing Work and Conclusions 
+Ongoing work 
+
+• Uncertainty estimates 
+
+• Bayesian linear regression 
+
+vs. Gaussian processes 
+
+• GPs are better in 
+
+predicting uncertainty 
+
+• Active Learning 
+
+For many problems, cannot try all parameter combinations 
+Dynamically choose best parameter configurations to train on 
+
+• Want to try more problem domains (do you have one?) 
+
+Complete parametric SAT solvers 
+Parametric solvers for other domains (need features) 
+Optimization algorithms 
+Conclusions 
+
+• Performance Prediction 
+
+Empirical hardness models can predict the run-times of 
+randomized, incomplete, parameterized, local search algorithms 
+
+• Automated Tuning 
+
+We automatically find parameter settings that are better than 
+defaults 
+Sometimes better than the best possible fixed setting 
+
+• There's no free lunch 
+
+Long initial training time 
+Need domain knowledge to define features for a domain 
+(only once per domain) 
+The End 
+
+• Thanks to 
+
+Holger Hoos, Kevin Leyton-Brown, 
+Youssef Hamadi 
+Reviewers for helpful comments 
+You for your attention ☺ 
+Backup 
+Experimental setup: solvers 
+
+• Two SAT solvers 
+
+Novelty + (WalkSAT variant) 
+
+-Adaptive version won SAT04 random competition 
+-Six values for noise between 0.1 and 0.6 
+
+SAPS (Scaling and Probabilistic Smoothing) 
+
+-Second in above competition 
+-All 30 combinations of 
+
+3 values for α between 1.2 and 1.4 
+10 values for ρ between 0 and 0.9 
+
+• Runs cut off after 15 minutes 
+
+Cutoff is interesting (previous talk), but orthogonal 
+Experimental setup: benchmarks 
+
+• Unstructured distributions: 
+
+SAT04: two generators from SAT04 competition, random 
+CV-fix: uf400 with c/v ratio 4.26 
+CV-var: uf400 with c/v ratio between 3.26 and 5.26 
+
+• Structured distributions: 
+
+QWH: quasi groups with holes, 25% to 75% holes 
+SW-GCP: graph colouring based on small world graphs 
+QCP: quasi group completion , 25% to 75% holes 
+
+• Mixed: union of QWH and SAT04 
+• All data sets split 50:25:25 for train/valid/test 
+Prediction based on 
+single runs 
+
+Prediction based on 
+100 runs 
+
+Median runtime of SAPS on CV-fix 
+
+Predicting median run-time 
+Automatic tuning 
+
+• Algorithm design: new algorithm/application 
+
+A lot of time is spent for parameter tuning 
+
+• Algorithm analysis: comparability 
+
+Is algorithm A faster than algorithm B because they 
+spent more time tuning it ? 
+
+• Algorithm use in practice 
+
+Want to solve MY problems fast, not necessarily the 
+ones the developers used for parameter tuning 
+Examples of parameters 
+
+• Tree search 
+
+Variable/value heuristic 
+Propagation 
+Whether and when to restart 
+How much learning 
+
+• Local search 
+
+Noise parameter 
+Tabu length in tabu search 
+Strength of penalty increase and decrease in DLS 
+Pertubation, acceptance criterion, etc. in ILS 
+Which features are most important? 
+
+• Results consistent with those for deterministic tree-
+
+search algorithms 
+
+Graph-based and DPLL-based features 
+Local search probes are even more important here 
+
+• Only very few features needed for good models 
+
+Previously observed for all-sat data [Nudelman et al. '04] 
+A single quadratic basis function is often almost as good as 
+the best feature subset 
+Strong correlation between features 
+Many choices yield comparable performance 
+Algorithm selection based on EH models 
+
+• Given portfolio of n different algorithms A 1 ,...,A n 
+
+Pick best algorithm for each instance 
+E.g. satzilla 
+
+• Training: 
+
+Learn n separate functions 
+f j : features runtime of algorithm j 
+
+• Test (for each new instance s t+1 ): 
+
+Predict runtime y j 
+t+1 = f j (φ t+1 ) for each algorithm 
+Choose algorithm A j with minimal y j 
+
+t+1 
+Experimental setup: solvers 
+
+• Two SAT solvers 
+
+Novelty + (WalkSAT variant) 
+
+Best per 
+instance 
+settings 
+
+Worst per 
+instance 
+settings 
+
+Algo Data Set 
+Speedup over 
+default params 
+
+Speedup over best fixed 
+params for data set 
+Nov + unstructured 
+0.89 
+0.89 
+Nov + structured 
+177 
+0.91 
+Nov + mixed 
+13 
+10.72 
+SAPS unstructured 
+2 
+1.07 
+SAPS structured 
+2 
+0.93 
+
+SAPS mixed 
+1.91 
+0.93 
+
+Automated parameter setting: results-
+old 
+
+D o y o u 
+h a v e o n e ? 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">Compared to best fixed parametersResults for Novelty + on Mixed -old Compared to random parameters</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Best parameter setting per instance: algorithm selection/ algorithm configuration Estimate size of DPLL tree for some algos, pick smallest [Lobjois and Lemaître, &apos;98] Previous work in empirical hardness models</title>
+		<imprint/>
+	</monogr>
+	<note>Leyton-Brown, Nudelman et al. &apos;02 &amp; &apos;04</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Auto-Walksat</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+	<note>Patterson &amp; Kautz &apos;02</note>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Best sequence of operators / changing search strategy during the search Reactive search</title>
+		<imprint/>
+	</monogr>
+	<note>Battiti et al, &apos;05] Reinforcement learning [Lagoudakis &amp; Littman, &apos;01 &amp; &apos;02</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
