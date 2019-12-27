@@ -49,7 +49,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 
 		<encodingDesc>
 			<appInfo>
-				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
 					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
 				</application>
 			</appInfo>
@@ -60,8 +60,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 	<text xml:lang="en">
 		<body>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Learning PDFA Many algorithms to learn PDFA, either heuristically or provably in the limit [Clark-Thollard 04] An algorithm that provably learns in a PAC-like framework from polynomial-size samples Followup papers, slightly different frameworks: </p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Distinguishability</head><p>For a state q, D q = distribution on strings generated starting at q </p><formula xml:id="formula_0">L ∞ -distinguishability L ∞ -dist(q, q ) = max x∈Σ |D q (x) − D q (x)| L ∞ -dist(M) = min q,q L ∞ -dist(q, q ) J.</formula></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Distinguishability</head><p>For a state q, D q = distribution on strings generated starting at q</p><formula xml:id="formula_1">L ∞ -distinguishability L ∞ -dist(q, q ) = max x∈Σ |D q (x) − D q (x)| L ∞ -dist(M) = min q,q L ∞ -dist(q, q )</formula><p>1. input |Σ|, n, δ, , µ, L // Assumption: // target is µ ≥ distinguishability, n ≥ #states, L ≥expected length 2. compute m = poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L) 3. ask for sample S of size m 4. work on S, using again n, , µ, L 5. produce pdfa Theorem PAC-learning w.r.t. KL-divergence occurs 1. input |Σ|, n, δ, , µ, L // Assumption: // target is µ ≥ distinguishability, n ≥ #states, L ≥expected length 2. compute m = poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L) 3. ask for sample S of size m 4. work on S, using again n, , µ, L 5. produce pdfa </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Our contributionA variation of the Clark-Thollard algorithm for learning PDFA that has formal guarantees of performance: PAC-learning w.r.t. KL-divergence does not require unknown parameters as input Potentially much more efficient:Finer notion of state distinguishability More efficient test to decide state merging/splitting Adapts to complexity of target: faster on simpler problems Extends to cyclic PDFA considering parameter L = bound on expected length of generated strings. Provably PAC-learns w.r.t. Kullback-Leibler divergence It provably PAC-learns with sample size But Requires full sample up-front: Always worst-case sample size Polynomial is huge: for n = 3, = δ = µ = 0.1 → m &gt; 10 24 Parameters n, L, µ are user-entered -upper bounds, guesswork</figDesc><table>Introduction 
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Distinguishability</head><p>For a state q, D q = distribution on strings generated starting at q  </p><formula xml:id="formula_0">L ∞ -distinguishability L ∞ -dist(q, q ) = max x∈Σ |D q (x) − D q (x)| L ∞ -dist(M) = min q,q L ∞ -dist(q, q ) J.</formula><formula xml:id="formula_1">Prefix L ∞ -distinguishability prefL ∞ -distinguishability prefL ∞ -dist(q, q ) = max x∈Σ |D q (xΣ ) − D q (xΣ )| prefL ∞ -dist(M) = min q,q max{L ∞ -dist(q, q ), prefL ∞ -dist(q, q )} Obviously for every M prefL ∞ -dist(M) ≥ L ∞ -dist(M) J.</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Our contributionA variation of the Clark-Thollard algorithm for learning PDFA that has formal guarantees of performance: PAC-learning w.r.t. KL-divergence does not require unknown parameters as input Potentially much more efficient:Finer notion of state distinguishability More efficient test to decide state merging/splitting Adapts to complexity of target: faster on simpler problems Extends to cyclic PDFA considering parameter L = bound on expected length of generated strings. Provably PAC-learns w.r.t. Kullback-Leibler divergence But Requires full sample up-front: Always worst-case sample size Polynomial is huge: for n = 3, = δ = µ = 0.1 → m &gt; 10 24</figDesc><table>Introduction 
 
 Promising results on simple dynamical systems, and on a large 
 weblog dataset 
@@ -77,6 +76,17 @@ introducing a distinguishability parameter µ
 
 [Clark-Thollard 04] 
 
+J. Castro, R. Gavaldà (UPC) 
+PAC-Learning PDFA 
+ICGI'08, september 2008 
+6 / 22 
+
+Definitions &amp; previous results 
+
+The C&amp;T algorithm: promise and drawbacks 
+
+It provably PAC-learns with sample size 
+
 poly (|Σ|, n, ln 
 1 
 δ 
@@ -86,6 +96,8 @@ poly (|Σ|, n, ln
 µ 
 , L) 
 
+Parameters n, L, µ are user-entered -upper bounds, guesswork 
+
 J. Castro, R. Gavaldà (UPC) 
 PAC-Learning PDFA 
 ICGI'08, september 2008 
@@ -94,23 +106,44 @@ ICGI'08, september 2008
 Definitions &amp; previous results 
 
 </table></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>If |S| ≥ poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L), then PAC-learning w.r.t. KL-divergence occurs(n =#target states, µ = prefL ∞ -dist(target), L =expected-length(target))If |S| ≥ poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L), then PAC-learning w.r.t. KL-divergence occurs (n =#target states, µ = prefL ∞ -dist(target), L =expected-length(target))</figDesc><table>Theorem 
-PAC-learning w.r.t. KL-divergence occurs 
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>compute m = poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L) 3. ask for sample S of size m 4. work on S, using again n, , µ, L 5. produce pdfa Theorem PAC-learning w.r.t. KL-divergence occurs If |S| ≥ poly (|Σ|, n, ln 1 δ , 1 , 1 µ , L), then PAC-learning w.r.t. KL-divergence occurs (n =#target states, µ = prefL ∞ -dist(target), L =expected-length(target))</figDesc><table>Castro, R. Gavaldà (UPC) 
+PAC-Learning PDFA 
+ICGI'08, september 2008 
+9 / 22 
+
+Our contributions 
+
+Data Structures 
+
+Algorithm keeps a graph with "safe" and "candidate" states 
+
+Safe state s: represents state where string s ends 
+
+Invariant: Graph of safe states isomorphic to a subgraph of target 
+
+Candidate state: pair (s, σ) where next(s, σ) still unclear 
+
+For each candidate (s, σ), keep multiset B (s,σ) , sample of D (s,σ) 
+
+Eventually, all candidate states are promoted to safe states or 
+merged with existing safe states 
 
 J. Castro, R. Gavaldà (UPC) 
+PAC-Learning PDFA 
+ICGI'08, september 2008 
+10 / 22 
+
+Our contributions 
+
+The Clark-Thollard algorithm 
+
+1. input |Σ|, n, δ, , µ, L 
+// Assumption: 
+// target is µ ≥ distinguishability, n ≥ #states, L ≥expected length 
+2. J. Castro, R. Gavaldà (UPC) 
 PAC-Learning PDFA 
 ICGI'08, september 2008 
 11 / 22 
-1. input |Σ|, δ, available sample S 
-2. work on S 
-3. produce pdfa 
-
-Theorem 
-
-J. Castro, R. Gavaldà (UPC) 
-PAC-Learning PDFA 
-ICGI'08, september 2008 
-12 / 22 
 1. input |Σ|, δ, available sample S 
 2. work on S 
 3. produce pdfa 

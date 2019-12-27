@@ -35,7 +35,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 
 		<encodingDesc>
 			<appInfo>
-				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
 					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
 				</application>
 			</appInfo>
@@ -52,19 +52,19 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Benchmark Data</head><p>• How should we judge a heuristic algorithm's effectiveness at solving the WDP?</p><p>• Previous researchers used:</p><p>small-scale experiments with human subjects, based on real economic problems artificial bid distributions that can generate arbitrary amounts of data, but that lacked any economic motivation</p><p>• We proposed a middle ground: a test suite of artificial distributions that modeled real economic problems from the combinatorial auctions literature.</p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>CATS</head></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical Hardness Models EHMs for SAT SATzilla</head></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Combinatorial Auction Test Suite (CATS)</head><p>• Overall approach for building a distribution:</p><p>-Identify a domain; basic bidder preferences -Derive an economic motivation for:</p><p>• what goods bidders will request in bundle  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Combinatorial Auction Test Suite (CATS)</head><p>• Overall approach for building a distribution:</p><p>-Identify a domain; basic bidder preferences -Derive an economic motivation for:</p><p>• what goods bidders will request in bundle nine of the artificial distributions that were widely used before </p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Questions About CATS</head><p>• CATS has become widely used as a way of evaluating WDP algorithms also used for a purpose we didn't expect: modeling agent preferences for uses other than evaluating WDP algorithms</p><p>• Some researchers found that their algorithms were much faster on CATS than on certain legacy distributions did this mean that real CA problems are easier than the hardest artificial problems? -did this just mean that the CATS distributions were easy? -did this mean that we had chosen the wrong parameters for some of the CATS distributions? </p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>II. EMPIRICAL HARDNESS MODELS FOR COMBINATORIAL AUCTIONS</head></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical Hardness Models</head><p>• To see if we'd made CATS too easy, we investigated tuning CATS' generators to create harder instances.</p><p>• Along the way, we developed a host of other methods that I will survey today:</p><p>accurately predicting an algorithm's runtime on an unseen instance determining which instance properties most affect an algorithm's performance building algorithm portfolios that can dramatically outperform their constituent algorithms </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical Hardness Models</head><p>• To see if we'd made CATS too easy, we investigated tuning CATS' generators to create harder instances.</p><p>• Along the way, we developed a host of other methods that I will survey today:</p><p>accurately predicting an algorithm's runtime on an unseen instance determining which instance properties most affect an algorithm's performance building algorithm portfolios that can dramatically outperform their constituent algorithms CATS Empirical Hardness Models EHMs for SAT SATzilla</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Linear Programming</head><p>-L 1 , L 2 , L ∞ norms of integer slack vector</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Price</head><p>stdev(prices) -stdev(avg price / num goods) -stdev(average price / sqrt(num goods))</p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Bid-Good graph</head><p>node degree stats (max, min, avg, stdev)</p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Bid graph</head><p>node degree stats edge density clustering coefficient (CC), stdev avg min path length (AMPL) -ratio of CC to AMPL eccentricity stats (max, min, avg, stdev) -Overall, we've achieved high accuracy combined with tractable computation by using basis function ridge regression w = (δI + Ф ⊤ Ф) -1 Ф ⊤ y to predict log 10 (runtime), evaluate w ⊤ ϕ (x i ) </p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical Hardness Models for SAT</head><p>• After establishing to ourselves that empirical hardness models are a useful way to tackle combinatorial auction problems, we sought to demonstrate their effectiveness on a more widely-studied NP-complete problem</p><p>• Thus, we turned to SAT also interesting: it is a decision, not optimization problem -(especially) uniform-random 3-SAT has been widely studied</p><p>• After discussing our models, I'll describe some of the new techniques we developed for SAT:</p><p>the direct prediction of satisfiability status the construction of hierarchical models dealing with censored data -… </p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Previously…</head><note type="other">Empirical Hardness Models EHMs for SAT SATzilla Other Features</note><p>• Problem Size:</p><formula xml:id="formula_0">-v (#vars) -c (#clauses) -Powers of c/v, v/c, |c/v -4.26|</formula><p>• Graphs:</p><p>- </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Bid graph</head><p>node degree stats edge density clustering coefficient (CC), stdev avg min path length (AMPL) -ratio of CC to AMPL eccentricity stats (max, min, avg, stdev) </p><formula xml:id="formula_0">-ϕ i = [ϕ 1 (x 1 ), ..., ϕ k (x k )]</formula><p>4. run another pass of forward selection on Ф = [ϕ 1 , ..., ϕ k ] 5. use ridge regression to learn a linear function of the basis function expansion of the features let δ be a small constant (e.g., 10 -3 ) </p><formula xml:id="formula_1">-w = (δI + Ф ⊤ Ф) -1 Ф ⊤ y -to predict log 10 (runtime), evaluate w ⊤ ϕ (x i )</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical Hardness Models for SAT</head><p>• After establishing to ourselves that empirical hardness models are a useful way to tackle combinatorial auction problems, we sought to demonstrate their effectiveness on a more widely-studied NP-complete problem</p><p>• Thus, we turned to SAT also interesting: it is a decision, not optimization problem -(especially) uniform-random 3-SAT has been widely studied</p><p>• After discussing our models, I'll describe some of the new techniques we developed for SAT:</p><p>the direct prediction of satisfiability status the construction of hierarchical models dealing with censored data   </p><note type="other">Empirical Hardness Models EHMs for SAT SATzilla Features: DPLL</note></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Other Features</head><p>• Problem Size:</p><formula xml:id="formula_2">-v (#vars) -c (#clauses) -Powers of c/v, v/c, |c/v -4.26|</formula><p>• Graphs: </p><formula xml:id="formula_3">-Variable-Clause (VCG, bipartite) -Variable (VG,</formula></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Building Runtime Models</head><p>• Predict performance score optimize for the quantity we actually care about also makes it easier to add local search, which has infinite runtime on UNSAT instances</p><p>• We also used censored sampling</p><p>• SATzilla07:</p><p>-Predict runtime using HHM with two experts (SAT/UNSAT)</p><p>• SATzilla07 + :</p><p>-Predict performance score using HHM with two experts (SAT/UNSAT) -Predict performance score using HHM with six experts (3 categories  SAT/UNSAT) • Each category has three events -SAT -UNSAT -SAT+UNSAT</p><p>• Performance evaluated by a scoring function based on:</p><p>-Solution purse (shared among solvers that solve the instance) -Speed purse (awarded to solvers based on solution time) -Series purse (shared among solvers that solve at least one inst/series)</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>•</head><label></label><figDesc>Auctions where bidders can request bundles of goods -Lately, a hot topic in CS • Interesting because of complementarity and substitutability</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>• how bidders will value goods in a bundle • what bundles form sets of substitutable bids -Key question: from what does complementarity arise? Other CATS Distributions • Arbitrary Relationships: -a generalization of Regions that begins with a complete graph • Temporal Matching: -a model of aircraft take-off / landing slot auctions • Temporal Scheduling: -a model of job-shop scheduling • Legacy Distributions:nine of the artificial distributions that were widely used before</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>log transform runtime: set y = log 10 (y) 2. forward selection: discard unnecessary features from x 3. add new features by performing a basis function expansion of the existing features ϕ i = [ϕ 1 (x 1 ), ..., ϕ k (x k )] 4. run another pass of forward selection on Ф = [ϕ 1 , ..., ϕ k ] 5. use ridge regression to learn a linear function of the basis function expansion of the features let δ be a small constant (e.g., 10 -3 )</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>-</head><label></label><figDesc>Random probing with unit propagation -Compute mean depth till contradiction -Estimate log(#nodes) • Cumulative number of unit propagations at different depths (DPLL with Satz heuristic) • LP relaxation -Objective value stats of integer slacks -#vars set to an integer CATS</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head></head><label></label><figDesc>Distribution Induction• We want our test distribution to generate problems in proportion to the time our portfolio spends on them-D: original distribution of instances -H f : model of portfolio runtime (h f : normalized) • Goal: generate instances from D · h f -D isa distribution over the parameters of an instance generator h f depends on features of generated instance • Rejection sampling 1. Create model of hardness H p using parameters of the instance generator as features; normalize it to create a PDF h p 2. Generate an instance from D · h p 3. Keep the sample with probability proportional to</figDesc><table>CATS 
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>• how bidders will value goods in a bundle • what bundles form sets of substitutable bids -Key question: from what does complementarity arise? Other CATS Distributions • Arbitrary Relationships: -a generalization of Regions that begins with a complete graph • Temporal Matching: -a model of aircraft take-off / landing slot auctions • Temporal Scheduling: -a model of job-shop scheduling • Legacy Distributions:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>Algorithm Design with Hardness Models: 1. Hardness models can be used to select an algorithm to run on a per-instance basis 2. Use portfolio hardness model as a PDF, to induce a new test distribution for design of new algorithms [Leyton-Brown, Nudelman, Andrew, McFadden, Shoham, 2003] Distribution Induction • We want our test distribution to generate problems in proportion to the time our portfolio spends on them -D: original distribution of instances -H f : model of portfolio runtime (h f : normalized) • Goal: generate instances from D · h f -D is a distribution over the parameters of an instance generator h f depends on features of generated instance • Rejection sampling 1. Create model of hardness H p using parameters of the instance generator as features; normalize it to create a PDF h p 2. Generate an instance from D · h p 3. Keep the sample with probability proportional to</figDesc><table>CATS 
 Empirical Hardness Models 
 EHMs for SAT 
 SATzilla 
@@ -189,14 +189,6 @@ Boosting (machine learning technique):
 1. Combine uncorrelated weak classifiers into aggregate 
 2. Train new classifiers on instances that are hard for 
 the aggregate 
-
-Algorithm Design with Hardness Models: 
-1. Hardness models can be used to select an algorithm 
-to run on a per-instance basis 
-2. Use portfolio hardness model as a PDF, to induce a 
-new test distribution for design of new algorithms 
-
-[Leyton-Brown, Nudelman, Andrew, McFadden, Shoham, 2003] 
 
 CATS 
 Empirical Hardness Models 
@@ -345,8 +337,39 @@ EHMs for SAT
 SATzilla 
 
 </table></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" validated="false"><head></head><label></label><figDesc>-If LS features omitted, LP + DPLL search space probing • Feature importance on UNSAT instances: -DPLL search space probing -Clause graph features IV. SATZILLA: AN ALGORITHM PORTFOLIO FOR SAT [Nudelman, Devkar, Shoham, Leyton-Brown, Hoos, 2003] [Nudelman, Devkar, Shoham, Leyton-Brown, Hoos, 2004] [Xu, Hutter, Hoos, Leyton-Brown, 2007] [Xu, Hutter, Hoos, Leyton-Brown, 2008]some slides based on originals by Lin Xu There are many high performance SAT solvers, but none is dominant • Instead of using a "winner-take-all" approach, the work I'll describe here advocates building an algorithm portfolio based on empirical hardness models• In particular, I'll describe SATzilla: -an algorithm portfolio constructed from 19 state-of-the-art complete and incomplete SAT solvers it won 5 medals at the 2007 SAT competition. 9. Sequentially run each presolver until cutoff time if the instance is solved, end 10. Compute features if there's an error, run the backup solver 11. Predict runtime for each solver using the EHMs 12. Run the algorithm predicted to be best if it crashes, etc., run the next-best algorithm SAPS, a local search algorithm as a pre-solver • SATzilla07 + -The 7 complete solvers from SATzilla07 -8 new complete solvers from the 2007 SAT competition -4 local search solvers from the 2007 SAT competition Presolving • Three consequences of presolving -Solve easy instances without feature computation overhead -Filter out easy instances and allow prediction models to focus more on hard instances -Increase runtime on instances not solved during presolving • How to select presolvers -SATzilla07: manually -SATzilla07 + : automatically • Predefined set of presolvers and allowed cutoff times • Exhaustively search all possible combinations</figDesc><table>Variable-Clause (VCG, bipartite) 
--Variable (VG, edge whenever two 
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head></head><label></label><figDesc>• Follow-up has included study of:-Islands of tractability [Kolaitis et. al.] -SLS search space topologies [Frank et.al., Hoos] -Backbones [Monasson et.al., Walsh and Slaney] -Backdoors [Williams et. al.] -Random restarts [Gomes et. al.] -Restart policies [Horvitz et.al, Ruan et.al.]</figDesc><table>CATS 
+Empirical Hardness Models 
+EHMs for SAT 
+SATzilla 
+
+• Easy-hard-less hard transitions discovered in the 
+behaviour of DPLL-type solvers [Selman, Mitchell, Levesque] 
+
+-Strongly correlated with phase transition in solvability 
+-Spawned a new enthusiasm for using empirical methods to 
+study algorithm performance 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5" validated="false"><head></head><label></label><figDesc>, LP • DPLL search space size estimate</figDesc><table>-Random probing with unit propagation 
+-Compute mean depth till contradiction 
+-Estimate log(#nodes) 
+
+• Cumulative number of unit propagations at 
+different depths (DPLL with Satz heuristic) 
+
+• LP relaxation 
+
+-Objective value 
+-stats of integer slacks 
+-#vars set to an integer 
+
+CATS 
+Empirical Hardness Models 
+EHMs for SAT 
+SATzilla 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" validated="false"><head></head><label></label><figDesc>There are many high performance SAT solvers, but none is dominant • Instead of using a "winner-take-all" approach, the work I'll describe here advocates building an algorithm portfolio based on empirical hardness models• In particular, I'll describe SATzilla: -an algorithm portfolio constructed from 19 state-of-the-art complete and incomplete SAT solvers it won 5 medals at the 2007 SAT competition. 9. Sequentially run each presolver until cutoff time if the instance is solved, end 10. Compute features if there's an error, run the backup solver 11. Predict runtime for each solver using the EHMs 12. Run the algorithm predicted to be best if it crashes, etc., run the next-best algorithm SAPS, a local search algorithm as a pre-solver • SATzilla07 + -The 7 complete solvers from SATzilla07 -8 new complete solvers from the 2007 SAT competition -4 local search solvers from the 2007 SAT competition Presolving • Three consequences of presolving -Solve easy instances without feature computation overhead -Filter out easy instances and allow prediction models to focus more on hard instances -Increase runtime on instances not solved during presolving • How to select presolvers -SATzilla07: manually -SATzilla07 + : automatically • Predefined set of presolvers and allowed cutoff times • Exhaustively search all possible combinations</figDesc><table>edge whenever two 
 variables occur in the same clause) 
 -Clause (CG, edge iff two clauses 
 share a variable with opposite sign) 
@@ -457,93 +480,6 @@ c / v
 4 * Pr(SAT) -2 
 
 log(Kcnfs runtime) 
-
-CATS 
-Empirical Hardness Models 
-EHMs for SAT 
-SATzilla 
-
-0.01 
-
-0.1 
-
-1 
-
-10 
-
-100 
-
-1000 
-
-3.26 
-3.76 
-4.26 
-4.76 
-5.26 
-
-Clauses-to-Variables Ratio 
-
-Runtime(s) 
-
-Kcnfs Data 
-
-CATS 
-Empirical Hardness Models 
-EHMs for SAT 
-SATzilla 
-
-0.01 
-
-0.1 
-
-1 
-
-10 
-
-100 
-
-1000 
-
-3.26 
-3.76 
-4.26 
-4.76 
-5.26 
-
-Clauses-to-Variables Ratio 
-
-Runtime(s) 
-
-Kcnfs Data 
-
-CATS 
-Empirical Hardness Models 
-EHMs for SAT 
-SATzilla 
-
-0.01 
-
-0.1 
-
-1 
-
-10 
-
-100 
-
-1000 
-
-3.26 
-3.76 
-4.26 
-4.76 
-5.26 
-
-Clauses-to-Variables Ratio 
-
-Runtime(s) 
-
-Kcnfs Data 
 
 CATS 
 Empirical Hardness Models 
@@ -716,64 +652,6 @@ SATzilla
 
 Feature Importance -Variable Ratio 
 
-• Subset selection was used to identify features 
-sufficient for achieving good performance 
-• As before, other (correlated) subsets could 
-potentially achieve similar performance 
-
-Variable 
-Cost of 
-Omission 
-
-|c/v -4.26| 
-100 
-
-|c/v -4.26| 2 
-69 
-
-(v/c) 2 · SapsBestCVMean 
-
-53 
-
-|c/v -4.26| · SapsBestCVMean 
-33 
-
-CATS 
-Empirical Hardness Models 
-EHMs for SAT 
-SATzilla 
-
-Feature Importance -Variable Ratio 
-
-• Subset selection was used to identify features 
-sufficient for achieving good performance 
-• As before, other (correlated) subsets could 
-potentially achieve similar performance 
-
-Variable 
-Cost of 
-Omission 
-
-|c/v -4.26| 
-100 
-
-|c/v -4.26| 2 
-69 
-
-(v/c) 2 · SapsBestCVMean 
-
-53 
-
-|c/v -4.26| · SapsBestCVMean 
-33 
-
-CATS 
-Empirical Hardness Models 
-EHMs for SAT 
-SATzilla 
-
-Feature Importance -Variable Ratio 
-
 0.01 
 
 0.1 
@@ -866,60 +744,6 @@ Empirical Hardness Models
 EHMs for SAT 
 SATzilla 
 
-Feature Importance -Fixed Ratio 
-
-Variable 
-Cost of 
-Omission 
-
-SapsBestSolMean 2 
-
-100 
-
-SapsBestSolMean · MeanDPLLDepth 
-
-74 
-
-GsatBestSolCV · MeanDPLLDepth 
-
-21 
-
-VCGClauseMean · GsatFirstLMRatioMean 
-
-9 
-
-CATS 
-Empirical Hardness Models 
-EHMs for SAT 
-SATzilla 
-
-Feature Importance -Fixed Ratio 
-
-Variable 
-Cost of 
-Omission 
-
-SapsBestSolMean 2 
-
-100 
-
-SapsBestSolMean · MeanDPLLDepth 
-
-74 
-
-GsatBestSolCV · MeanDPLLDepth 
-
-21 
-
-VCGClauseMean · GsatFirstLMRatioMean 
-
-9 
-
-CATS 
-Empirical Hardness Models 
-EHMs for SAT 
-SATzilla 
-
 SAT vs. UNSAT 
 
 • Training models separately for SAT and UNSAT instances: 
@@ -936,10 +760,33 @@ SAT vs. UNSAT
 • 7 features for good VR model 
 • 1 feature for good FR model (SAPSBestSolCV x SAPSAveImpMean) 
 
+-If LS features omitted, LP + DPLL search space probing 
+
+• Feature importance on UNSAT instances: 
+
+-DPLL search space probing 
+-Clause graph features 
+
 CATS 
 Empirical Hardness Models 
 EHMs for SAT 
 SATzilla 
+• Then we use a mixture of experts approach to learn our 
+hierarchical hardness model 
+
+-the experts are clamped to our SAT and UNSAT models 
+-the classifier's prediction is a feature used to select the expert 
+-the model is trained using EM 
+IV. SATZILLA: AN ALGORITHM 
+PORTFOLIO FOR SAT 
+
+[Nudelman, Devkar, Shoham, Leyton-Brown, Hoos, 2003] 
+[Nudelman, Devkar, Shoham, Leyton-Brown, Hoos, 2004] 
+[Xu, Hutter, Hoos, Leyton-Brown, 2007] 
+[Xu, Hutter, Hoos, Leyton-Brown, 2008] 
+
+some slides based on originals by Lin Xu 
+
 CATS 
 Empirical Hardness Models 
 EHMs for SAT 
@@ -978,9 +825,7 @@ SATzilla
 		</body>
 		<back>
 			<div type="annex">
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Hierarchical Hardness Models</head><p>• We can leverage the fact that we can build strong "conditional hardness models" by combining them into a hierarchical hardness model <ref type="bibr" target="#b0">[Xu, Hoos, Leyton-Brown, 2007</ref>]:</p><p>1. Predict satisfiability status 2. Use this prediction as a feature to combine the predictions of SAT-only and UNSAT-only models</p><p>• Not necessarily easy: SAT-only and UNSAT-only models can make large errors when given wrong data Predicting Satisfiability Status (fixed-ratio 3-SAT)</p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>CATS</head></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Dealing with Censored Data</head><p>• When runs can take weeks, some runs will have to be killed before the algorithm terminates</p><p>• This is called censored data. Three ways to handle it: </p></div>			</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Hierarchical Hardness Models</head><p>• We can leverage the fact that we can build strong "conditional hardness models" by combining them into a hierarchical hardness model <ref type="bibr">[</ref> </p></div>			</div>
 			<div type="references">
 
 				<listBibl>

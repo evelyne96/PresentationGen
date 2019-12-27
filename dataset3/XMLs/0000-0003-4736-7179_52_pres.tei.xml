@@ -98,7 +98,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 
 		<encodingDesc>
 			<appInfo>
-				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
 					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
 				</application>
 			</appInfo>
@@ -108,11 +108,9 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 	</teiHeader>
 	<text xml:lang="en">
 		<body>
-<div xmlns="http://www.tei-c.org/ns/1.0"><formula xml:id="formula_0">L ∞ (D 1 , D 2 ) = max x |D 1 (x) − D 2 (x)| KLD(D 1 D 2 ) = x D 1 (x) log D 1 (x) D 2 (x)</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>Models (HMM) useful for prediction under uncertainty HMM generates probability distribution on sequences of observations (or action/observation pairs) Learning problem: Given sample of sequences of observations infer an HMM generating a similar distribution Standard approach: Expectation Maximization (EM) to approximate target's parameters [Rabiner89] Models (HMM) useful for prediction under uncertainty HMM generates probability distribution on sequences of observations (or action/observation pairs) Learning problem: Given sample of sequences of observations infer an HMM generating a similar distribution</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>7</head><label>7</label><figDesc>States emit observations, probabilistically PNFA, PDFA: Transitions emit observations, probabilistically R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. Politècnica de Catalunya, Barcelona McGill University, Montréal ) PAC-Learning of HMM 6 / 32 N = Nondeterministic: Each (state,letter) leads to many states D = Deterministic: Fixing (state,observation) fixes next state R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. Politècnica de Catalunya, Barcelona McGill University, Montréal ) PAC-Learning of HMM states → PNFA n states PNFA n states → HMM n 2 states Some finite-size PNFA/HMM only have infinite-size PDFA But: For every PNFA M and every ǫ there is a finite-size PDFA that approximates M within precision ǫ in L ∞ distance Distribution distances Definition For two distributions D 1 , D 2 ,</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>[</head><label></label><figDesc>Ron et al 96] Learning becomes possible by restricting to acyclic PDFA and considering distinguishability parameter µ [Clark&amp;Thollard 04] Works for cyclic automata if we consider a new parameter L = bound on expected length of generated strings They learn in the KLD sense in time poly (n, 1/ǫ, ln(1/δ), 1/µ, L) Distinguishability DefinitionStatesq and q ′ are µ-distinguishable if L ∞ (D(q), D(q ′ )) ≥ µ,where D(q) is the distribution of strings generated from q A PDFA is µ-distinguishable if every two states in it are µ-distinguishable The C&amp;T algorithm: promise and drawbacks It provably PAC-learns. But: Asks for parameters ǫ, δ, . . . and n, µ, L (guesswork) Requires full sample up-front: read parameters; compute m = poly(ǫ, δ, n, µ, L); get sample of size m; build pdfa from sample Always worst-case: as many samples as worst target PDFA! Polynomial is huge: for n = L = 3, ǫ = δ = µ = 0.1 → m &gt; 10 20Analysis certainly not tight. Is this cost unavoidable?</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>of learned PDFA has natural interpretation e.g. N 5 = "We're at S5 or S7, prob. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. Politècnica de Catalunya, Barcelona McGill University, Montréal ) PAC-Learning of HMM</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Standard approach: Expectation Maximization (EM) to approximate target's parameters [Rabiner89] We use Probabilistic Deterministic Finite Automata as approximations of HMM We give a learning algorithm for PDFA that infers both state representations and parameters has formal guarantees of performance -PAC-learning Learning HMM without prior knowledge of states: Predictive State Representations [Jaeger et al 05, Rosencrantz et al 04, Singh et al 03]. No formal guarantees, millions of examples. PAC-style: [Ron et al 95] [Clark &amp; Tholard 04]: basis of our work [Holmes &amp; Isbell 06]: similar to ours, deterministic systems</figDesc><table>Introduction 
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Hidden Markov Models</head><p>Hidden Markov Models (HMM) useful for prediction under uncertainty HMM generates probability distribution on sequences of observations (or action/observation pairs)</p><p>Learning problem: Given sample of sequences of observations infer an HMM generating a similar distribution  </p><formula xml:id="formula_0">L ∞ (D 1 , D 2 ) = max x |D 1 (x) − D 2 (x)| KLD(D 1 D 2 ) = x D 1 (x) log D 1 (x) D 2 (x) Definition An algorithm PAC-learns PDFA if for every target PDFA M, every ǫ, every δ it produces a PDFA M ′ such that Pr[ KLD(D(M) D(M ′ )) ≥ ǫ ] ≤ δ in time poly (size(M), 1/ǫ, 1/δ).</formula><formula xml:id="formula_1">Distinguishability Definition States q and q ′ are µ-distinguishable if L ∞ (D(q), D(q ′ )) ≥ µ,</formula><p>where D(q) is the distribution of strings generated from q A PDFA is µ-distinguishable if every two states in it are µ-distinguishable  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>of learned PDFA has natural interpretation e.g. N 5 = "We're at S5 or S7, prob. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. Politècnica de Catalunya, Barcelona McGill University, Montréal ) PAC-Learning of HMM</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Standard approach: Expectation Maximization (EM) to approximate target's parameters [Rabiner89] We use Probabilistic Deterministic Finite Automata as approximations of HMM We give a learning algorithm for PDFA that infers both state representations and parameters has formal guarantees of performance -PAC-learning Learning HMM without prior knowledge of states: Predictive State Representations [Jaeger et al 05, Rosencrantz et al 04, Singh et al 03]. No formal guarantees, millions of examples. PAC-style: [Ron et al 95] [Clark &amp; Tholard 04]: basis of our work [Holmes &amp; Isbell 06]: similar to ours, deterministic systems N = Nondeterministic: Each (state,letter) leads to many states D = Deterministic: Fixing (state,observation) fixes next state R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. Politècnica de Catalunya, Barcelona McGill University, Montréal )For every PNFA M and every ǫ there is a finite-size PDFA that approximates M within precision ǫ in L ∞ distance</figDesc><table>Introduction 
 
 Summary of Results 
 
@@ -120,71 +118,57 @@ Introduction
 
 Previous work 
 
+PAC-Learning of HMM 
+7 / 32 
+HMM n states → PNFA n states 
+
+PNFA n states → HMM n 2 states 
+
+Some finite-size PNFA/HMM only have infinite-size PDFA 
+
+But: 
+
+Distribution distances 
+
+Definition 
+For two distributions D 1 , D 2 , 
+
 </table></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>No need to give L and ǫ as parameters if m is fixed; Improved analysis: Lemma Suppose a target state q is reachable by a path of length ℓ all whose edges have absolute probability ≥ p. Then q has a corresponding safe state in the graph by time at most Time depends on unknown ℓ and p: easier states are found faster No dependence on ǫ; on L, indirectly via p alphabet = {a, b, #}, # as word separator HMM generates only {abb, aaa, bba}</figDesc><table>Our approach 
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Unfortunately this is impossible [Kearns et al05] [Ron et al 96] Learning becomes possible by restricting to acyclic PDFA and considering distinguishability parameter µ [Clark&amp;Thollard 04] Works for cyclic automata if we consider a new parameter L = bound on expected length of generated strings They learn in the KLD sense in time poly (n, 1/ǫ, ln(1/δ), 1/µ, L)</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>No need to give L and ǫ as parameters if m is fixed; Improved analysis: But with less parameters, faster in non-worst-case situations alphabet = {a, b, #}, # as word separator HMM generates only {abb, aaa, bba}</figDesc><table>The C&amp;T algorithm: promise and drawbacks 
+
+It provably PAC-learns. But: 
+
+Asks for parameters ǫ, δ, . . . and n, µ, L (guesswork) 
+Requires full sample up-front: 
+
+read parameters; 
+compute m = poly(ǫ, δ, n, µ, L); 
+get sample of size m; 
+build pdfa from sample 
+
+Always worst-case: as many samples as worst target PDFA! 
+
+Polynomial is huge: 
+for n = L = 3, ǫ = δ = µ = 0.1 → m &gt; 10 20 
+
+Analysis certainly not tight. Is this cost unavoidable? 
+
+R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. Politècnica de Catalunya, Barcelona McGill University, Montréal ) 
+PAC-Learning of HMM 
+13 / 32 
+
+Our algorithm 
+
+Our approach 
 
 Based on [C&amp;T04], but: 
 
 separates time to get graph and time to tune parameters 
 time to get state graph independent of ǫ, L 
 this time smaller for "easier" graphs 
-Largeness condition: D s,σ has size at least 
+Merging and promoting states 
 
-T = 
-c 
-µ 2 · ln 
-
-n|Σ| 
-δ 
-
-Assuming µ-distinguishable target, we can then decide reliably: 
-
-if distributions observed at (s, σ) and some safe state s ′ are 
-µ/2-close → identify (s, σ) and s ′ , i.e., set next(s, σ) = s ′ 
-
-else, (s, σ) is µ/2-far from all safe states → 
-promote (s, σ) to safe state labelled sσ, create new candidate 
-states 
-
-rerun strings in D s,σ from merged/promoted state 
-Largeness condition: D s,σ has size at least 
-
-T = 
-c 
-µ 2 · ln 
-
-n|Σ| 
-δ 
-
-Assuming µ-distinguishable target, we can then decide reliably: 
-
-if distributions observed at (s, σ) and some safe state s ′ are 
-µ/2-close → identify (s, σ) and s ′ , i.e., set next(s, σ) = s ′ 
-
-else, (s, σ) is µ/2-far from all safe states → 
-promote (s, σ) to safe state labelled sσ, create new candidate 
-states 
-
-rerun strings in D s,σ from merged/promoted state 
-Largeness condition: D s,σ has size at least 
-
-T = 
-c 
-µ 2 · ln 
-
-n|Σ| 
-δ 
-
-Assuming µ-distinguishable target, we can then decide reliably: 
-
-if distributions observed at (s, σ) and some safe state s ′ are 
-µ/2-close → identify (s, σ) and s ′ , i.e., set next(s, σ) = s ′ 
-
-else, (s, σ) is µ/2-far from all safe states → 
-promote (s, σ) to safe state labelled sσ, create new candidate 
-states 
-
-rerun strings in D s,σ from merged/promoted state 
 Largeness condition: D s,σ has size at least 
 
 T = 
@@ -223,6 +207,11 @@ Pr[ s
 (maybe with some smoothing) 
 Main claim 1: time to learn topology 
 
+Lemma 
+Suppose a target state q is reachable by a path of length ℓ all whose 
+edges have absolute probability ≥ p. Then q has a corresponding safe 
+state in the graph by time at most 
+
 ℓ 
 p 
 · O(T ) = O 
@@ -231,6 +220,26 @@ p
 · ln 
 n|Σ| 
 δ 
+
+Time depends on unknown ℓ and p: easier states are found faster 
+
+No dependence on ǫ; on L, indirectly via p 
+Lemma 
+Suppose the built graph is isomorphic to target graph; if we see 
+
+poly (n, 1/ǫ, ln(1/δ), 1/µ, L) 
+
+additional samples, the PDFA obtained from the graph satisfies the 
+PAC-learning criterion 
+
+[proof basically as in Clark&amp;Thollard04] 
+Wrap-up 
+
+Lemma 1 states time to identify non-negligible states 
+
+Lemma 2 states time to approximate transition probabilities 
+
+Together, we recover [Clark&amp;Thollard04] PAC-guarantees 
 
 s1 
 s3 
@@ -276,48 +285,6 @@ s9
 </biblStruct>
 
 <biblStruct xml:id="b3">
-	<monogr>
-		<title level="m" type="main">if D s,σ large enough, either merge or promote (s, σ); initial state, labelled with empty string</title>
-		<imprint/>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b4">
-	<monogr>
-		<title level="m" type="main">2. define candidate states out of initial state, one per letter</title>
-		<imprint/>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b5">
-	<monogr>
-		<title level="m" type="main">in D s,σ</title>
-		<imprint/>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b6">
-	<monogr>
-		<title level="m" type="main">if D s,σ large enough, either merge or promote (s, σ); initial state, labelled with empty string</title>
-		<imprint/>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b7">
-	<monogr>
-		<title level="m" type="main">2. define candidate states out of initial state, one per letter</title>
-		<imprint/>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b8">
-	<monogr>
-		<title level="m" type="main">in D s,σ</title>
-		<imprint/>
-	</monogr>
-</biblStruct>
-
-<biblStruct xml:id="b9">
 	<monogr>
 		<title level="m" type="main">if D s,σ large enough, either merge or promote (s, σ)</title>
 		<imprint/>

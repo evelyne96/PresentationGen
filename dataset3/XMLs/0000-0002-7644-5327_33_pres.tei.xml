@@ -69,7 +69,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 
 		<encodingDesc>
 			<appInfo>
-				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:48+0000">
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:32+0000">
 					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
 				</application>
 			</appInfo>
@@ -80,8 +80,14 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 	<text xml:lang="en">
 		<body>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>• SAT is one of the most studied problems in CS</p><p>• Lots known about its worst-case complexity -But often, particular instances of NP-hard problems like SAT are easy in practice</p><p>• "Drosophila" for average-case and empirical (typical-case) complexity studies</p><p>• (Uniformly) random SAT provides a way to bridge analytical and empirical work <ref type="bibr">CP 2004</ref> Previously… • Easy-hard-less hard transitions discovered in the behaviour of DPLL-type solvers <ref type="bibr">[Selman, Mitchell, Levesque]</ref> -Strongly correlated with phase transition in solvability -Spawned a new enthusiasm for using empirical methods to study algorithm performance</p><p>• Follow up included study of:</p><p>-Islands of tractability <ref type="bibr">[Kolaitis et. al.]</ref> -SLS search space topologies <ref type="bibr">[Frank et.al., Hoos]</ref> -Backbones <ref type="bibr">[Monasson et.al., Walsh and Slaney]</ref> -Backdoors <ref type="bibr">[Williams et. al.]</ref> -Random restarts <ref type="bibr">[Gomes et. al.]</ref> -Restart policies <ref type="bibr">[Horvitz et.al, Ruan et.al.]</ref> -… </p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical Hardness Models</head><p>• We proposed building regression models as a disciplined way of predicting and studying algorithms' behaviour <ref type="bibr">Nudelman,</ref><ref type="bibr">Shoham,</ref> • Applications of this machine learning approach:  • Problem Size:</p><formula xml:id="formula_0">-v (#vars) -c (#clauses) -Powers of c/v, v/c, |c/v -4.26|</formula><p>• Graphs: Beyond Ratio: Weighted CG Clustering Coefficient</p><formula xml:id="formula_1">-Variable-Clause (VCG, bipartite) -Variable (VG,</formula><p>• Byproduct of our analysis: a very strong correlation between weighted CG clustering coefficient and v/c</p><p>• Clustering coefficient is a more fundamental concept than v/c, since it describes the structure of the constraints explicitly, not implicitly.</p><p>correlation between (unweighted) CC and hardness has been shown for other constraint problems (e.g., graph coloring, combinatorial auctions)</p><p>• We have a proof sketch of this correlation <ref type="bibr">CP 2004</ref> Conclusions • Can construct good models for DPLL solvers • These models can be analyzed to gain understanding about what makes instances hard or easy for solvers • Algorithm portfolios can be constructed (Satzilla)</p><p>• More specifically:</p><p>-Strong relationship between LS and DPLL search spaces -Our approach automatically identified importance of c/v -SAT/UNSAT instances have very different performance characteristics; it helps to model them separately -Clustering Coefficient explains why c/v is important in terms of local properties of constraint graph</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>-</head><label></label><figDesc>Random probing with unit propagation -Compute mean depth till contradiction -Estimate log(#nodes)• Cumulative number of unit propagations at different depths (DPLL with Satz heuristic)• LP relaxation -Objective value stats of integer slacks -#vars set to</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>edge whenever two variables occur in the same clause) -Clause (CG, edge iff two clauses share a variable with opposite sign) • c/v=4.26 (∴ v=400, c=1704) • Solvers -Kcnfs [Dubois and Dequen] -OKsolver [Kullmann] -Satz [Chu Min Li] • Quadratic regression with logistic response function • Training : test : validation split -70 : 15 : 15 Completely different features are useful for SAT than for UNSAT • Feature importance on SAT instances: -Local Search features sufficient • 7 features for good VR model • 1 feature for good FR model (SAPSBestSolCV x SAPSAveImpMean) -If LS features omitted, LP + DPLL search space probing • Feature importance on UNSAT instances:</figDesc><table>• Balance 
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical Hardness Models</head><p>• We proposed building regression models as a disciplined way of predicting and studying algorithms' behaviour <ref type="bibr">Nudelman,</ref><ref type="bibr">Shoham,</ref> • Applications of this machine learning approach:  • Problem Size:</p><formula xml:id="formula_0">-v (#vars) -c (#clauses) -Powers of c/v, v/c, |c/v -4.26|</formula><p>• Graphs:</p><p>- Beyond Ratio: Weighted CG Clustering Coefficient</p><p>• Byproduct of our analysis: a very strong correlation between weighted CG clustering coefficient and v/c</p><p>• Clustering coefficient is a more fundamental concept than v/c, since it describes the structure of the constraints explicitly, not implicitly.</p><p>correlation between (unweighted) CC and hardness has been shown for other constraint problems (e.g., graph coloring, combinatorial auctions)</p><p>• We have a proof sketch of this correlation <ref type="bibr">CP 2004</ref> Conclusions • Can construct good models for DPLL solvers • These models can be analyzed to gain understanding about what makes instances hard or easy for solvers • Algorithm portfolios can be constructed (Satzilla)</p><p>• More specifically:</p><p>-Strong relationship between LS and DPLL search spaces -Our approach automatically identified importance of c/v -SAT/UNSAT instances have very different performance characteristics; it helps to model them separately -Clustering Coefficient explains why c/v is important in terms of local properties of constraint graph</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>-</head><label></label><figDesc>Random probing with unit propagation -Compute mean depth till contradiction -Estimate log(#nodes)• Cumulative number of unit propagations at different depths (DPLL with Satz heuristic)• LP relaxation -Objective value stats of integer slacks -#vars set to</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>• c/v=4.26 (∴ v=400, c=1704)• Solvers-Kcnfs [Dubois and Dequen] -OKsolver [Kullmann] -Satz [Chu Min Li] • Quadratic regression with logistic response function • Training : test : validation split -70 : 15 : 15 • 7 features for good VR model • 1 feature for good FR model (SAPSBestSolCV x SAPSAveImpMean) -If LS features omitted, LP + DPLL search space probing • Feature importance on UNSAT instances:</figDesc><table>Variable-Clause (VCG, bipartite) 
+-Variable (VG, edge whenever two 
+variables occur in the same clause) 
+-Clause (CG, edge iff two clauses share 
+a variable with opposite sign) 
+
+• Balance 
 
 -#pos vs. #neg literals 
 -unary, binary, ternary clauses 
@@ -171,87 +177,6 @@ c / v
 4 * Pr(SAT) -2 
 
 log(Kcnfs runtime) 
-
-CP 2004 
-
-Kcnfs Data 
-
-0.01 
-
-0.1 
-
-1 
-
-10 
-
-100 
-
-1000 
-
-3.26 
-3.76 
-4.26 
-4.76 
-5.26 
-
-Clauses-to-Variables Ratio 
-
-Runtime(s) 
-
-CP 2004 
-
-Kcnfs Data 
-
-0.01 
-
-0.1 
-
-1 
-
-10 
-
-100 
-
-1000 
-
-3.26 
-3.76 
-4.26 
-4.76 
-5.26 
-
-Clauses-to-Variables Ratio 
-
-Runtime(s) 
-
-CP 2004 
-
-Kcnfs Data 
-
-0.01 
-
-0.1 
-
-1 
-
-10 
-
-100 
-
-1000 
-
-3.26 
-3.76 
-4.26 
-4.76 
-5.26 
-
-Clauses-to-Variables Ratio 
-
-Runtime(s) 
-
-CP 2004 
-
 Kcnfs Data 
 
 0.01 
@@ -402,61 +327,6 @@ Kcnfs vs. Satz (SAT)
 
 Kcnfs time [CPU sec] 
 Satz time [CPU sec] 
-
-CP 2004 
-
-Feature Importance -Variable Ratio 
-
-• Subset selection can be used to identify features sufficient 
-for approximating full model performance 
-• Other (correlated) sets could potentially achieve similar 
-performance 
-
-Variable 
-Cost of 
-Omission 
-
-|c/v-4.26| 
-100 
-
-|c/v-4.26| 2 
-69 
-
-(v/c) 2 × SapsBestCVMean 
-
-53 
-
-|c/v-4.26| × SapsBestCVMean 
-33 
-
-CP 2004 
-
-Feature Importance -Variable Ratio 
-
-• Subset selection can be used to identify features sufficient 
-for approximating full model performance 
-• Other (correlated) sets could potentially achieve similar 
-performance 
-
-Variable 
-Cost of 
-Omission 
-
-|c/v-4.26| 
-100 
-
-|c/v-4.26| 2 
-69 
-
-(v/c) 2 × SapsBestCVMean 
-
-53 
-
-|c/v-4.26| × SapsBestCVMean 
-33 
-
-CP 2004 
-
 Feature Importance -Variable Ratio 
 
 • Subset selection can be used to identify features sufficient 
@@ -530,14 +400,49 @@ Fixed Ratio Prediction (Kcnfs)
 100 
 1000 
 
-Actual Runtime [CPU sec] SAT vs. UNSAT 
+Actual Runtime [CPU sec] 
+Predicted Runtime [CPU sec] 
+
+CP 2004 
+
+Feature Importance -Fixed Ratio 
+
+Variable 
+Cost of 
+Omission 
+
+SapsBestSolMean 2 
+
+100 
+
+SapsBestSolMean × MeanDPLLDepth 
+
+74 
+
+GsatBestSolCV × MeanDPLLDepth 
+
+21 
+
+VCGClauseMean × GsatFirstLMRatioMean 
+
+9 
+
+CP 2004 
+
+SAT vs. UNSAT 
 
 • Training models separately for SAT and UNSAT instances: 
 
 -good models require fewer features 
 -model accuracy improves 
 -c/v no longer an important feature for VR data 
---DPLL search space probing 
+-Completely different features are useful for SAT than for UNSAT 
+
+• Feature importance on SAT instances: 
+
+-Local Search features sufficient 
+
+-DPLL search space probing 
 -Clause graph features 
 
 CP 2004 

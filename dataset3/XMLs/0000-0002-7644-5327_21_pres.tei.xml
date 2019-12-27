@@ -45,7 +45,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 
 		<encodingDesc>
 			<appInfo>
-				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:47+0000">
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
 					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
 				</application>
 			</appInfo>
@@ -57,16 +57,16 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 		<body>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Action Graph Games</head><p>Definition (Action Graph Game (AGG)) An action graph game Γ is a tuple N, (A i ) i∈N , G, u where N is the set of agents Theorem (Conitzer, personal communication; also proven independently in <ref type="bibr">(Daskalakis et al. 2008</ref>))</p><p>The problem of determining whether a pure Nash equilibrium exists in a symmetric AGG is NP-complete, even when the in-degree of the action graph is at most 3.</p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>AGG</head><p>Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions</p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Our Contribution</head><p>We provide an algorithm that is tractable for symmetric AGGs with bounded treewidth the algorithm can also be applied to other settings Specifically, we propose a dynamic programming approach:</p><p>partition action graph into subgraphs (via tree decomposition) construct equilibria of the game from equilibria of games played on subgraphs AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions</p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Our Contribution</head><p>We provide an algorithm that is tractable for symmetric AGGs with bounded treewidth the algorithm can also be applied to other settings Specifically, we propose a dynamic programming approach:</p><p>partition action graph into subgraphs (via tree decomposition) construct equilibria of the game from equilibria of games played on subgraphs </p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Restricted Game</head><p>To derive an algorithm that builds up from partial solutions, we must define the concept of a restricted game game played by a subset of players: n ≤ n actions restricted to R ⊆ A utility functions same as in original AGG need to specify configuration of neighboring nodes not in R </p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition (partial solution)</head><p>A partial solution on a restricted game 2. number of agents playing in X 3. U w , utility of the worst-off player in X \ ν(X). 4. U b , best utility an outside player can get by playing in X \ ν(X).</p><formula xml:id="formula_0">Γ(n , X, c[ν(X)]) is a configuration c[X ∪ ν(X)] such that c[X] is a pure NE of Γ.</formula><p>Number of distinct tuples: polynomial for action graphs of bounded treewidth AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions Algorithm 1 Construct the primal graph of the action graph.</p><p>2 Build a tree decomposition of this primal graph.</p><p>3 Partition the AGG according to the tree decomposition.</p><p>4 Find all sufficient statistics 1 corresponding to partial solutions of games restricted to each partition.</p><p>5 Working up the tree, combine adjacent nodes together.</p><p>6 When root is reached, return whether the game has a PSNE.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition (partial solution)</head><p>A partial solution on a restricted game 2. number of agents playing in X 3. U w , utility of the worst-off player in X \ ν(X). 4. U b , best utility an outside player can get by playing in X \ ν(X).</p><formula xml:id="formula_0">Γ(n , X, c[ν(X)]) is a configuration c[X ∪ ν(X)] such that c[X] is a pure NE of Γ.</formula><p>Number of distinct tuples: polynomial for action graphs of bounded treewidth AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Combining sufficient statistics</head><p>Given two sets of such tuples, summarizing partial solutions on X, Y ⊂ A, we can compute the set of sufficient statistics for the combined restricted game X ∪ Y start with all consistent configurations analogous to database join of the two sets of tuples discard those with profitable X → Y deviations (&amp; vice versa) easy: discard when U w from X is worse than U b from Y trickier: checking deviations from X ∩ ν(Y ) to ν(Y ) utilities in ν(Y ) change when c[ν(Y )] changes, so checking these deviations is more costly solution: augment our sufficient statistics to keep track of the configuration of the neighborhood of ν(Y ), in order to compute these utilities on the fly luckily, for graphs of bounded treewidth, this implies storing a small amount of additional information overall: all profitable deviations can be discarded efficiently AGG</p><note type="other">Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions</note><p>Algorithm 1 Construct the primal graph of the action graph.</p><p>2 Build a tree decomposition of this primal graph.</p><p>3 Partition the AGG according to the tree decomposition.</p><p>4 Find all sufficient statistics 1 corresponding to partial solutions of games restricted to each partition.</p><p>5 Working up the tree, combine adjacent nodes together.</p><p>6 When root is reached, return whether the game has a PSNE.</p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem</head><p>For symmetric AGGs with bounded treewidth, our algorithm determines existence of pure Nash equilibria in polynomial time.</p><p>Recover a PSNE from the SS's: downwards pass on the tree 1 Augment sufficient statistics to include configurations over additional actions that belong to the decomposition's tree node that is closest to the root. </p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head>AGG</head><note type="other">Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions An Example ?</note></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Construct Tree Decomposition</head><p>A tree where each node is labeled with one or more nodes from the primal graph, where every label is used at least once for every edge in the primal graph from α 1 to α 2 , there is a node in the tree labeled with both α 1 and α 2 if a label occurs in two nodes x 1 , x 2 in the tree, it also occurs on all paths between x 1 and x 2 . If treewidth of the AGG is bounded by a constant, the primal graph's tree decomposition can be computed in polynomial time.</p></div>
 <div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Partition the AGG According to the Tree Decomposition</head><p>By construction: for each node α in the action graph, there always exists a tree node in the decomposition of the primal graph that contains α and its neighbors in the action graph.</p><p>The tree decomposition therefore induces the following partition on the AGG:    To compute a PSNE, start from the root and work down. At each node, pick a row from the table of sufficient statistics that is consistent with earlier picks.</p><formula xml:id="formula_1">n c[B, C, D, F ] U w (∅) U b (∅) 0 0,0,0,0 ∞ −∞ 0 1,0,0,0 ∞ −∞ · · · · · · ∞ −∞ 1 0,1,0,0 ∞ −∞ 1 1,1,0,0 ∞ −∞ · · · · · · ∞ −∞ 2 0,2,0,0 ∞ −∞ For restricted game on {F, G}: n c[C, F, G] U w (G) U b (G) 0 0,0,0 ∞ 0 0 1,0,0 ∞ 0 0 2,0,0 ∞ 0 1 0,1,0 ∞ −2 1 1,0,1 0 −2 2 0,1,1 −2 −∞ AGG</formula><formula xml:id="formula_2">n c[B, C, D, F ] Uw(G) U b (G) 0 0,0,0,0 ∞ 0 0 1,0,0,0 ∞ 0 · · · · · · ∞ 0 1 0,0,0,1 ∞ −2 1 1,0,0,1 ∞ −2 1 0,0,1,1 ∞ −2 2 0,1,0,0 0 −∞ 2 0,2,0,0 ∞ −∞ AGG</formula><formula xml:id="formula_3">n c[B, C, D, F ] Uw(E, G) U b (E, G) 0 0,0,0,0 ∞ 0 0 1,0,0,0 ∞ 0 0 2,0,0,0 ∞ 0 1 0,0,1,0 ∞ 0 1 1,0,1,0 ∞ 0 1 0,0,0,1 ∞ 0 1 1,0,0,1 ∞ 0 2 0,0,1,1 ∞ −∞ 2 0,2,0,0 ∞ −∞ AGG</formula><note type="other">Computing Pure Nash Equilibria Symmetric AGGs Algorithm</note><p>If we start with row 1, we select an equilibrium in which one player chooses D, one player chooses F If we start with row 2, we select an equilibrium in which both players choose C</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>A</head><label></label><figDesc>i is agent i's set of actions G = (A, E) is the action graph, where A = i∈N A i is the set of distinct actions u = (u α ) α∈A , where u α : C[ν(α)] → RDefinition (symmetric AGG)An AGG is symmetric if all players have identical action sets, i.e. if A i = A for all i. in normal form size worst-case exponential time in AGG size Consider the restriction to symmetric AGGs.</figDesc></figure>
 <figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Combine</head><label></label><figDesc>{A,B} and {C,D,E,F,G}: n c[A, B, C] U w (D, E, F, G) U b (D,</figDesc></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>Problem: combining two partial solutions on two non-overlapping restricted games does not necessarily produce an equilibrium of the combined game configurations may be inconsistent, or player might profitably deviate from playing in one restricted game to another keeping all partial solutions: impractical as sizes of restricted games grow we would like sufficient statistics that summarize partial solutions as compactly as possible Sufficient Statistic: a tuple consisting of 1. configuration over</figDesc><table>AGG 
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>Sufficient Statistic: a tuple consisting of 1. configuration over outside neighbours: ν(X) inside nodes that are neighbors of outside nodes: ν(X)</figDesc><table>AGG 
 
 Computing Pure Nash Equilibria 
 Symmetric AGGs 
@@ -75,6 +75,19 @@ Conclusions
 
 Extending partial solutions 
 
+Problem: combining two partial solutions on two 
+non-overlapping restricted games does not necessarily produce 
+an equilibrium of the combined game 
+
+configurations may be inconsistent, or 
+player might profitably deviate from playing in one restricted 
+game to another 
+
+keeping all partial solutions: impractical as sizes of restricted 
+games grow 
+
+we would like sufficient statistics that summarize partial 
+solutions as compactly as possible 
 AGG 
 
 Computing Pure Nash Equilibria 
@@ -108,18 +121,13 @@ T7
 T6 
 T5 
 
-outside neighbours: ν(X) 
-inside nodes that are neighbors of outside nodes: ν(X) 
-
 </table></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" validated="false"><head></head><label></label><figDesc>Combine {C} and {F,G} to create table for restricted game on {C,F,G}:</figDesc><table>Computing Pure Nash Equilibria 
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" validated="false"><head></head><label></label><figDesc>Combine restricted games in bottom-up order: from leaves to root.Combine {C} and {F,G} to create table for restricted game on {C,F,G}:</figDesc><table>Computing Pure Nash Equilibria 
 Symmetric AGGs 
 Algorithm 
 Conclusions 
 
 5. Working up the Tree, Combine Restricted Games 
-
-Combine restricted games in bottom-up order: from leaves to root. 
 
 X1={A,B,C} 
 

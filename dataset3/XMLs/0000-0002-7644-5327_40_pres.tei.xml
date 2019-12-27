@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Learning the Empirical Hardness of Combinatorial Auctions</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2004-09-12">September 12, 2004</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eugene</forename><surname>Nudelman</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yoav</forename><surname>Shoham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Carla</forename><surname>Gomes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Bart</forename><surname>Selman</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Rámon</forename><surname>Béjar</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ioannis</forename><surname>Vetsikas</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Henry</forename><surname>Kautz</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer Science</orgName>
+								<orgName type="institution">Stanford University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Learning the Empirical Hardness of Combinatorial Auctions</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2004-09-12">September 12, 2004</date>
+						</imprint>
+					</monogr>
+					<note>Thanks to: Constraint Programming 2002, Cornell 2</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:32+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Recent trend: study of average/empirical hardness as opposed to the worst-case complexity (NP-Hardness) <ref type="bibr">[Cheeseman et al.; Selman et al.]</ref> Our proposal: predict the running time of an algorithm on a particular instance based on features of that instance Today: a methodology for doing this its application to the combinatorial auction winner determination problem <ref type="bibr">(WDP)</ref>   <ref type="bibr">[Cheeseman et al.; Selman et al.]</ref> solution invariants: e.g., backbone <ref type="bibr">[Gomes et al.]</ref> Optimization problems: experimental:</p><p>• reduce to decision problem <ref type="bibr">[Zhang et al.]</ref> • introduce backbone concepts <ref type="bibr">[Walsh et al.]</ref> theoretical:</p><p>• polynomial/exponential transition in search algorithms <ref type="bibr">[Zhang]</ref> • predict A* nodes expanded for problem distribution <ref type="bibr">[Korf, Reid]</ref> Learning dynamic restart policies <ref type="bibr">[Kautz et al.]</ref> September <ref type="formula">12</ref> </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Attempted to model bidder valuations to provide more motivated CA distributions 1. regions: real estate 2. arbitrary: complementarity described by weighted graph 3. matching: FAA take-off &amp; landing auctions 4. scheduling: single resource, multiple deadlines for each agent[Wellman]   Tuning distributions for hardness releasing new version of CATS</figDesc><table>, 2004 
+
+Constraint Programming 2002, Cornell 
+5 
+
+Combinatorial Auctions 
+
+Auctioneer sells a set of non-homogeneous items 
+Bidders often have complex valuations 
+
+complementarities 
+
+• e.g. V(TV &amp; VCR) &gt; V(TV) + V(VCR) 
+
+substitutabilities 
+
+• V(TV 1 &amp; TV 2 ) &lt; V(TV 1 ) + V(TV 2 ) 
+
+Solution: allow bids on bundles of goods 
+
+achieves a higher revenue and social welfare than 
+separate auctions 
+
+Two hard problems: 
+
+Expressing valuations 
+Determining optimal allocation 
+Winner Determination Problem 
+
+Equivalent to weighted set packing 
+Input: m bids 
+Objective: find revenue-maximizing non-
+conflicting allocation 
+
+Even constant factor approximation is NP-Hard 
+Square-root approximation known 
+Polynomial in the number of bids 
+WDP Case Study 
+
+Difficulty: highly parameterized, complex 
+distributions 
+Hard to analyze theoretically 
+
+large variation in edge costs and branching 
+factors throughout the search tree [Korf, Reid, Zhang] 
+
+Too many parameters to vary 
+systematically [Walsh et al., Gomes et. al.] 
+Parameters affect expected optimum: 
+difficult to transform to decision problem 
+
+[Zhang et al.] 
+Methodology 
+
+1. Select algorithm: ILOG's CPLEX 7.1 
+2. Select set of input distributions 
+3. Factor out known sources of hardness 
+4. Choose features 
+5. Generate instances 
+6. Compute running time, features 
+7. Learn a model of running time 
+Methodology 
+
+1. Select algorithm 
+2. Select set of input distributions 
+3. Factor out known sources of hardness 
+4. Choose features 
+5. Generate instances 
+6. Compute running time, features 
+7. Learn a model of running time 
+WDP Distributions 
+
+Legacy (7 distributions) 
+
+sample bid sizes/prices independently from 
+simple statistical distributions 
+
+Combinatorial Auctions Test Suite (CATS) 
+
+Methodology 
+
+1. Select algorithm 
+2. Select set of input distributions 
+3. Factor out known sources of hardness 
+4. Choose features 
+5. Generate instances 
+6. Compute running time, features 
+7. Learn a model of running time 
+Problem Size 
+
+Some sources of hardness well-understood 
+
+hold these constant to focus on unknown 
+sources of hardness 
+
+Common: input size 
+Problem size is affected by preprocessing 
+techniques! (e.g. arc-consistency) 
+WDP: dominated bids can be removed 
+(raw #bids, #goods) is a very misleading 
+measure of size for legacy distributions 
+
+we fix size as (#non-dominated bids, #goods) 
+Raw vs. Non-Dominated Bids 
+
+(64 goods, target of 2000 non-dominated bids) 
+
+0 
+
+200 
+
+400 
+
+600 
+
+800 
+
+1000 
+
+1200 
+
+1400 
+
+1600 
+
+1800 
+
+2000 
+
+0 
+2000 
+4000 
+6000 
+8000 
+
+Raw Number of Bids 
+
+Number of Non-Dominated Bids 
+(average over 20 runs) 
+
+L1 
+L2 
+L3 
+L4 
+L5 
+L6 
+L7 
+
+L1: Uniform Random 
+
+L4: Decay 
+
+L5: Normal 
+
+L6: Exponential 
+L2: Weighted Random 
+
+L7: Binomial 
+L3: Uniform 
+Features 
+
+No automatic way to construct features 
+
+must come from domain knowledge 
+
+We require features to be: 
+
+polynomial-time computable 
+distribution-independent 
+
+We identified 35 features 
+
+after using various statistical feature selection 
+techniques, we were left with 25 
+Features 
+
+Bid Good Graph 
+(BGG) 
+
+1. Bid node degree stats 
+2. Good node degree stats 
+
+Price-based features 
+
+9. std. deviation 
+10. stdev price/#goods 
+11. stdev price/ √#goods 
+
+Bid Graph (BG) 
+
+3. node degree stats 
+4. edge density 
+5. clustering coef. and 
+deviation 
+
+6. avg. min. path. length 
+7. ratio of 5 &amp; 6 
+8. node eccentricity stats 
+
+LP Relaxation 
+
+12. L 1 , L 2 , L ∞ norms of 
+integer slack vector 
+Experimental Setup 
+
+Sample parameters uniformly from range of 
+acceptable values 
+3 separate datasets: 
+
+256 goods, 1000 non-dominated bids 
+144 goods, 1000 non-dominated bids 
+64 goods, 2000 non-dominated bids 
+
+4500 instances/dataset, from 9 distributions 
+Collecting data took approximately 3 years of 
+CPU time! (550 MHz Xeons, Linux 2.12) 
+Running times varied from 0.01 sec to 22 hours 
+(CPLEX capped at 130000 nodes) 
+Gross Hardness (256 goods, 1000 bids) 
+
+-1 
+0 
+1 
+2 
+3 
+4 
+5 
+M a t c h i n g 
+P a t h s 
+S c h e d u l i n g 
+L 6 
+L 2 
+R e g i o n s 
+L 4 
+A r b i t r a r y 
+L 7 
+L 3 
+
+0% 
+
+10% 
+
+20% 
+
+30% 
+
+40% 
+
+50% 
+
+60% 
+
+70% 
+
+80% 
+
+90% 
+
+100% 
+
+Running Time 
+log10(sec) 
+Distribution 
+
+500 instances 
+in each 
+Learning 
+
+Classification: misleading error measure 
+Statistical regression: learn a continuous function 
+of features that predicts log of running time 
+Supervised learning: data broken into 80% 
+training set, 20% test set 
+Started with simplest technique: linear regression 
+
+find a hyperplane that minimizes root mean squared 
+error (RMSE) on training data 
+
+Linear regression is useful: 
+
+as a (surprisingly good) baseline 
+yields a very interpretable model with understandable 
+variables 
+Constraint Programming 2002, Cornell 
+23 
+
+LR: Error 
+
+0 
+
+20 
+
+40 
+
+60 
+
+80 
+
+100 
+
+120 
+
+140 
+
+160 
+
+Count 
+
+0.1 0.3 
+0.5 
+0.7 
+0.9 
+1.1 1.3 
+1.5 1.7 
+1.9 
+2.1 2.3 
+2.5 
+2.7 
+
+Absolute Error 
+
+Dataset 
+RMSE 
+MAE 
+
+1000 Bids, 256 Goods 
+0.581 
+0.436 
+
+1 
+
+September 12, 2004 
+
+Constraint Programming 2002, Cornell 
+24 
+
+LR: Subset Selection 
+
+0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1 
+
+1.2 
+
+1.4 
+
+1.6 
+
+1.8 
+
+2 
+
+0 
+5 
+10 
+15 
+20 
+25 
+
+Subset Size 
+
+RMSE 
+LR: Cost of Omission (subset size 7) 
+
+0 
+1 0 
+2 0 
+3 0 
+4 0 
+5 0 
+6 0 
+7 0 
+8 0 
+9 0 
+1 0 0 
+
+Cost of Omission 
+
+BG: Edge Density 
+
+BG: Clustering Coefficient 
+
+BGG: Avg Good Degree 
+
+BGG: Min Good Degree 
+
+LP: L1 Norm 
+
+BG: Degree Deviation 
+
+BGG: Min Bid Degree 
+Non-Linear Approaches 
+
+Linear regression doesn't consider interactions 
+between variables; likely to underfit data 
+Consider 2 nd degree polynomials 
+Variables = pairwise products of original features 
+
+total of 325 variables 
+(cf. clauses/variables) 
+
+More predictability, less interpretability 
+Quadratic vs Linear Regression 
+
+0.436 
+
+0.216 
+
+0 
+
+0.05 
+
+0.1 
+
+0.15 
+
+0.2 
+
+0.25 
+
+0.3 
+
+0.35 
+
+0.4 
+
+0.45 
+
+1000 Bids 256 Goods 
+
+Linear 
+Quadratic 
+0 
+
+50 
+
+100 
+
+150 
+
+200 
+
+250 
+
+300 
+
+350 
+
+Count 
+
+0.1 0.3 0.5 0.7 0.9 1.1 1.3 1.5 1.7 1.9 2.1 2.3 2.5 2.7 
+
+Absolute Error 
+
+Linear 
+Quadratic 
+
+Quadratic vs Linear Regression 
+
+1 
+QR: RMSE vs. Subset Size 
+
+0 
+
+0.2 
+
+0.4 
+
+0.6 
+
+0.8 
+
+1 
+
+1.2 
+
+0 
+10 
+20 
+30 
+40 
+50 
+60 
+
+RMSE of the complete model 
+
+RMSE of the linear model 
+What's Next? 
+
+Constructing algorithm portfolios 
+
+combine several uncorrelated algorithms 
+good initial results for WDP 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Cost of Omission (subset size 6)  </p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Empirical hardness can be studied in a disciplined way Once again: Structure matters! Uniform distributions aren&apos;t the best testbeds Constraint graphs are very useful Hypothesis: good heuristics make good features</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

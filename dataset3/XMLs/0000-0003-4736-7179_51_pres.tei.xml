@@ -46,7 +46,7 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 
 		<encodingDesc>
 			<appInfo>
-				<application version="0.5.6" ident="GROBID" when="2019-12-23T23:49+0000">
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
 					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
 				</application>
 			</appInfo>
@@ -56,12 +56,8 @@ xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/gr
 	</teiHeader>
 	<text xml:lang="en">
 		<body>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Data Streams Introduction Problem Given an input sequence x 1 , x 2 , . . . , x t , . . . we want to output at instant t a prediction x t+1 minimizing prediction error: The ADWIN Algorithm The ADWIN Algorithm We classify the new instance:</p><formula xml:id="formula_0">Algorithm ADWIN [BG06] Example W = 101010110111111 W 0 = 10101011 W 1 = 0111111 ADWIN: ADAPTIVE WINDOWING ALGORITHM 1 Initialize Window W 2 for each t &gt; 0 3 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 7 Outputμ W A.</formula><formula xml:id="formula_1">Algorithm ADWIN [BG06] Example W = 101010110111111 |μ W 0 −μ W 1 | ≥ c : CHANGE DETECTED! W 0 = 101010110 W 1 = 111111 ADWIN: ADAPTIVE WINDOWING ALGORITHM 1 Initialize Window W 2 for each t &gt; 0 3 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 7 Outputμ W A.</formula><p>ν NB = arg max ν∈{yes,no} P(ν j )P(sunny |ν j )P(cool|ν j )P(high|ν j )P(true|ν j )</p><p>Conditional probabilities can be estimated directly as frequencies:</p><p>P(a i |ν j ) = number of instances with attribute a i and class ν j total number of training instances with class ν j Create one estimator for each frequence that needs estimation </p></div>
-<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>No estimator ever does much better than K-ADWIN K-ADWIN does much better than every other estimators in at least one context.</p><p>Tracking problem K-ADWIN and ADWIN automatically do about as well as the Kalman filter with the best set of fixed covariance parameters.</p><p>Naïve Bayes and k -means: K-ADWIN does somewhat better than ADWIN and far better than any memoryless Kalman filter.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4repeat Drop elements from the tail of W 5until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 then with probability 1 − δ ADWIN shrinks W to W 1 , or shorter.uses O( 1 log W ) memory words the processing time per example is O(log W ) (amortized) and O(log 2 W ) (worst-case).</figDesc><table>Bifet, R. Gavaldà (UPC) 
-Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 
-11 / 29 
-
-The ADWIN Algorithm 
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Data Streams Introduction Problem Given an input sequence x 1 , x 2 , . . . , x t , . . . we want to output at instant t a prediction x t+1 minimizing prediction error: Estimator 5</p><p>The CUSUM Test</p><p>The cumulative sum (CUSUM algorithm),is a change detection algorithm that gives an alarm when the mean of the input data is significantly different from zero.</p><p>The CUSUM test is memoryless, and its accuracy depends on the choice of parameters υ and h. It is as follows:</p><formula xml:id="formula_0">g 0 = 0, g t = max (0, g t−1 + t − υ)</formula><p>if g t &gt; h then alarm and g t = 0 The ADWIN Algorithm The ADWIN Algorithm The ADWIN Algorithm We classify the new instance:</p><formula xml:id="formula_1">Algorithm ADWIN [BG06] Example W = 101010110111111 W 0 = 1010101 W 1 = 10111111 ADWIN: ADAPTIVE WINDOWING ALGORITHM 1 Initialize Window W 2 for each t &gt; 0 3 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 7 Outputμ W A.</formula><formula xml:id="formula_2">Algorithm ADWIN [BG06] Example W = 101010110111111 W 0 = 10101011 W 1 = 0111111 ADWIN: ADAPTIVE WINDOWING ALGORITHM 1 Initialize Window W 2 for each t &gt; 0 3 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 7 Outputμ W A.</formula><formula xml:id="formula_3">Algorithm ADWIN [BG06] Example W = 101010110111111 |μ W 0 −μ W 1 | ≥ c : CHANGE DETECTED! W 0 = 101010110 W 1 = 111111 ADWIN: ADAPTIVE WINDOWING ALGORITHM 1 Initialize Window W 2 for each t &gt; 0 3 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 7 Outputμ W A.</formula><p>ν NB = arg max ν∈{yes,no} P(ν j )P(sunny |ν j )P(cool|ν j )P(high|ν j )P(true|ν j )</p><p>Conditional probabilities can be estimated directly as frequencies:</p><p>P(a i |ν j ) = number of instances with attribute a i and class ν j total number of training instances with class ν j Create one estimator for each frequence that needs estimation </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>No estimator ever does much better than K-ADWIN K-ADWIN does much better than every other estimators in at least one context.</p><p>Tracking problem K-ADWIN and ADWIN automatically do about as well as the Kalman filter with the best set of fixed covariance parameters.</p><p>Naïve Bayes and k -means: K-ADWIN does somewhat better than ADWIN and far better than any memoryless Kalman filter.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head></head><label></label><figDesc>Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 11 / 29 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 do W ← W ∪ {x t } (i.e., add x t to the head of W ) 4 repeat Drop elements from the tail of W 5 until |μ W 0 −μ W 1 | ≥ c holds 6 for every split of W into W = W 0 · W 1 then with probability 1 − δ ADWIN shrinks W to W 1 , or shorter. the processing time per example is O(log W ) (amortized) and O(log 2 W ) (worst-case).</figDesc><table>The ADWIN Algorithm 
 
 Algorithm ADWIN [BG06] 
 
@@ -467,29 +463,6 @@ O(log 2 W ) (worst-case).
 
 Compressing Buckets 
 
-1010101 101 11 11 1 
-
-Content: 
-4 
-2 
-2 2 1 
-
-Capacity: 
-7 
-3 
-2 2 1 
-ADWIN2 using a Data Stream Sliding Window Model, 
-can provide the exact counts of 1's in O(1) time per point. 
-
-tries O(log W ) cutpoints 
-
-uses O( 1 log W ) memory words 
-
-the processing time per example is O(log W ) (amortized) and 
-O(log 2 W ) (worst-case). 
-
-Compressing Buckets 
-
 1010101 10111 11 1 
 
 Content: 
@@ -532,6 +505,8 @@ ADWIN2 using a Data Stream Sliding Window Model,
 can provide the exact counts of 1's in O(1) time per point. 
 
 tries O(log W ) cutpoints 
+
+uses O( 1 log W ) memory words 
 
 Detecting Change: Delete last Bucket 
 
@@ -615,7 +590,7 @@ true
 ? 
 
 </table></figure>
-<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>39% Kalman Q = .25, R = .25 Kalman Q = .25, R = .25</figDesc><table>Naïve Bayes Predictor 
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5" validated="false"><head></head><label></label><figDesc>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona 24 / 29 39% Kalman Q = .25, R = .25 Kalman Q = .25, R = .25</figDesc><table>Naïve Bayes Predictor 
 
 Width %Static %Dynamic % Dynamic/Static 
 
@@ -717,6 +692,11 @@ Fixed-sized Window
 			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data Streams DS'06 Barcelona</note>
 		</body>
 		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0" />
+			</div>
+
 			<div type="references">
 
 				<listBibl/>
