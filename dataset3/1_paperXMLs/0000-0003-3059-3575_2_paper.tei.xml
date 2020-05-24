@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A Demand-Response Framework in Balance Groups through Direct Battery-Storage Control</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Georgios</forename><forename type="middle">C</forename><surname>Chasparis</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mario</forename><surname>Pichler</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Thomas</forename><surname>Natschläger</surname></persName>
+						</author>
+						<title level="a" type="main">A Demand-Response Framework in Balance Groups through Direct Battery-Storage Control</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We consider the Austrian model for the liberalized electricity market which is based on the Balance-Group (BG) organization. According to this model, all participants (consumers and producers) are organized into (virtual) balance groups, within which injection and withdrawal of power are balanced. In this paper, the available energy potential within a BG corresponds to the energy that can additionally be exchanged (generated/consumed) through directly controlling the operation of the participants' battery-storage systems. Under such scheme, a participant's battery is directly controlled in exchange to some compensation. We present an optimization framework that allows a BG to optimally utilize the participants' batteries either for exchanging the available energy potential in the spot-market (Day-Ahead or Intra-Day) or for reacting to predicted energy imbalances.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I. INTRODUCTION</head><p>A recent trend in home automation is a constant increase in the number of battery systems <ref type="bibr" target="#b0">[1]</ref>. So far, these storage systems are mainly used to maximize the on-site absorption of the Photovoltaic (PV) generation or maximize the monetary benefits of the consumer (through feeding any surplus energy into the grid). However, these incentives of the consumers should not be independent of the current state of the grid (e.g., transmission constraints and energy balance).</p><p>We consider the Balance-Group (BG) organization of the Austrian market <ref type="bibr" target="#b1">[2]</ref>. Under this structure, one possibility for utilizing the available battery systems is to correct possible imbalances observed within a balance group or a control area, due to, e.g., large amounts of feed-in energy in some parts of the grid. Apart from correcting possible energy imbalances, the available storage potential can also be exchanged within the Day-Ahead or the Intra-Day (spot) electricity market. The BG could decide over the activation of the participating storage units either for balancing or exchanging electricity, the benefits of which are then transferred to the owners of the activated batteries. This work has been supported by the Austrian Research Agency FFG through the research projects MBS+ (FFG # 853674) and Flex+ (FFG # 864996). It has also been partially supported by the Austrian Ministry for Transport, Innovation and Technology, the Federal Ministry of Science, Research and Economy, and the Province of Upper Austria in the frame of the COMET center SCCH.</p><p>G. C. Chasparis, M. Pichler and T. Natschläger are with the Department of Data Analysis Systems, Software Competence Center Hagenberg GmbH, Softwarepark 21, A-4232 Hagenberg, Austria, E-mail: georgios.chasparis@scch.at.</p><p>In this paper, we provide an optimization framework that is able to utilize the available batteries in the residential buildings, that belong to a BG, either for (O1) (Market participation) computing the minimum-cost (additional) energy commitment level for participation in the Day-Ahead or the Intra-Day electricity market, or (O2) (Imbalance optimization) optimally correcting a predicted energy imbalance of a BG within a time interval of interest (usually 15-minutes in the Austrian market).</p><p>Such intervention of the BRP in the normal operation of a household battery system comes at the expense of a disutility compensation to the owner of the battery (or participant). We consider two alternative forms of household disutility compensation, namely (C1) (Opportunity-cost compensation) It considers only the monetary disutility caused to the owner due to missed opportunities, i.e., the opportunity costs. (C2) (Comfort-cost compensation) It considers a generic linear disutility function that approximates discomfort and it is declared by the participant through a flexibility bidding curve.</p><p>We consider a specific form of demand response (through the direct intervention to the household battery systems) which also requires that we account for all relevant technological/physical constraints involved. This allows for a very accurate calculation of the demand flexibility of the BG and the corresponding disutility compensation (or costs). Such direct and accurate demand-response would not have been possible, had the households been provided with just financial incentives, which may or may not be taken into account by the household owner, as it is usually the strategy in mechanism-design-based approaches.</p><p>The remainder of the paper is organized as follows. Section II provides an overall description of our framework. In Section III, we present related literature and the main contributions of this paper. Section IV presents a computation of the energy potential of a BG, and Section V presents alternative formulations of activation costs in the flexibility extraction. Sections VI-VII formulate and analyze the optimization for optimal activation. Finally, Section VIII presents concluding remarks.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II. FRAMEWORK</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Framework</head><p>We consider the Balance-Group (BG) Model organization of the Austrian electricity market as well as a characterization of a BG's objectives. In the remainder of the paper, time is divided into intervals (or measuring periods of length ∆T = 1 /4h). Let also t = 0, 1, 2, ..., 96 be an enumeration of these intervals during one day.</p><p>1) Balance-Group (BG) Model: According to the organization of the liberalized Austrian electricity market (cf., <ref type="bibr" target="#b1">[2]</ref>), BGs were introduced to enable consumers, generators, suppliers and wholesalers to trade electricity. Whoever participates should be a member of a BG. The Electricity Act defines a commercial BG as a virtual group of suppliers and customers within which injection (procurement schedule, generation) and withdrawal (delivery schedule, demand) are balanced. Feed-in and off-take of electrical energy are forecast, cleared and settled based on 15-minute intervals. Each BG designates a Balancing Responsible Party (BRP), who is responsible for contacts with the market participants (data exchange) and assumes the BG's financial risk, particularly regarding balancing energy.</p><p>2) Clearing of Balance-Group: The energy balance of a BG within a control area is determined by the balance-group coordinator (BGC) in the course of technical clearing. It is charged monthly to the BRP, and usually consists of two price components: λ 1 g (t), which is calculated once per month per 15-minute interval according to BRP's imbalances; and λ 2 g which is constant for the entire month based on consumption. The costs incurred by a BG result from balancing energy demand of its current energy imbalance ∆ BG (t). It becomes clear that the balancing energy allocation scheme can provide incentives to a strategic behavior of the BGs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Incentives for strategic behavior of balance-groups</head><p>The BG's incentives can be classified as follows: 1) Market participation (O1). The BRP may exchange electricity in the Day-Ahead or the Intra-Day market. To this end, the BRP needs to calculate the minimum cost for any extra energy potential that is stored/withdrawn from the battery network. 2) Imbalance optimization (O2). Depending on the clearing price and the current energy imbalance ∆ BG (t), the BG may have the incentive to reduce the energy imbalance to zero.</p><p>In this work, we would like to utilize the available battery-storage of residential consumers to effectively optimize the BG's response to either a) market opportunities-Optimization (O1), and/or b) predicted BG's imbalances-Optimization (O2), as described in (1)-(2) above.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>III. RELATED WORK AND CONTRIBUTIONS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Related work</head><p>With the continuously increasing renewable generation, consumers need to be flexible in adjusting their energy consumption, giving rise to demand response mechanisms. Demand response refers to the ability of each participant to respond to certain requests reported by the network operator. This may be performed either in the form of a commitment of the consumer to reduce electricity during peak hours <ref type="bibr" target="#b2">[3]</ref>, <ref type="bibr" target="#b3">[4]</ref> or by introducing financial incentives that affect prices during peak hours <ref type="bibr" target="#b4">[5]</ref>, <ref type="bibr" target="#b5">[6]</ref>, <ref type="bibr" target="#b6">[7]</ref>.</p><p>One of the commitment-based approaches that is more closely related to our methodology was proposed by <ref type="bibr" target="#b3">[4]</ref>. In that paper, the operator distributes portions of its desired aggregated demand to the consumers, using an average consensus algorithm. In particular, each one of the households receives a local demand objective which may only be fulfilled through the adjustment of its own flexible loads. These local objectives are updated by keeping track of the overall flexible load through a consensus-based algorithm. However, activation costs are not part of the operator's optimization, something that would be necessary if a more realistic representation of the consumer's preferences/comfort levels is included.</p><p>One of the incentive-based approaches that is more closely related to our methodology was proposed by <ref type="bibr" target="#b6">[7]</ref>. Similarly to the objective here, the operator wishes to extract a given amount of electricity load from the group of households (positive or negative). Each of the households communicates to the operator a bidding curve, that is a function that provides the load adjustment that each participant is willing to perform at a given price. For this purpose, a set of parametrized functions are provided to the group of households. Then, the group operator needs to compute the clearing prices, so that the overall cost of the participating households is minimized while achieving the desired demand adjustment.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Contributions</head><p>In comparison with this line of research, we could argue that our proposed framework bears elements of both commitment-based and incentive-based approaches. In particular, the BRP will compute the optimal commitment-levels of the participating consumers, but the level of commitment is computed by taking into account the local incentives of the battery owners as well as the physical constraints of the equipment. In other words, we guarantee that an overall desirable objective of a ∆ BG (t) is achieved, while incorporating the involved activation costs (either purely financial or comfort-based). Thus, on one hand, we guarantee the required overall energy balance (something that, in practice, cannot be guaranteed by incentive-based mechanisms, such as in <ref type="bibr" target="#b6">[7]</ref>), while at the same time we allow for an accurate incorporation of the individual's incentives (something that is not usually the case in commitment-based schemes, such as in <ref type="bibr" target="#b3">[4]</ref>).</p><p>We present the corresponding optimization programs that the BRP needs to address for responding to energy imbalances or for market participation. In both cases, the relevant optimization takes the form of a linear program. In the case of the most general case of linear supply bidding, we also provide an explicit calculation of the optimal policy by means of the dual optimization through which the activation clearing price emerges.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>IV. ENERGY POTENTIAL</head><p>In order for the BRP to optimize over the activation of the battery units either for (O1) or for (O2), the BRP needs to have a good estimate of the energy potential of each participant to better utilize the participating batteries.</p><p>In the following, the net power production of participant i at time interval t will be denoted by: 1</p><formula xml:id="formula_0">∆P i (t) . = P PV,i (t) − P load,i (t),</formula><p>where P PV,i is the PV power generation and P load,i is the power load consumption. Throughout the paper, we employ the convention that any power quantity pointing towards the battery admits a positive sign, and negative otherwise. We also introduce the following notation: − ∆T * c,i is the time needed for the battery of participant i to reach its full capacity, given its current state-ofcharge SOC i (t) (evaluated at the beginning of time interval t) and assuming full charge rate c max,i , i.e.,</p><formula xml:id="formula_1">∆T * c,i (t) . = (1 − SOC i (t)) η c,i c max,i .</formula><p>− ∆T * d,i is the time needed for the battery to empty, assuming full discharge rate, d max,i , i.e.,</p><formula xml:id="formula_2">∆T * d,i (t) . = η d,i SOC i (t) d max,i .</formula><p>The constants η c,i , η d,i ∈ [0, 1] denote the charging and discharging efficiency rates of the battery, respectively. When the above computations are performed at the current charge/discharge speed (c i (t) or d i (t)), we will denote the corresponding time for reaching the full capacity as ∆T c,i (t) and the time for emptying the battery as ∆T d,i (t). We employ the constraint c i (t) ≥ 0 , d i (t) ≥ 0. Also, if c i (t) &gt; 0, then d i (t) = 0 and vice versa.</p><p>For each participant i, we distinguish the energy potential into: a) Charging Energy Potential, denoted by V c,i (t), which corresponds to the amount of energy that can be consumed/stored by participant i at time t; and b) Discharging Energy Potential, denoted by V d,i (t), which corresponds to the amount of energy that can be produced by participant i at time t.</p><p>In order to compute the energy potential, we need to compare the current power exchange with the grid P g,i (t) with the corresponding power exchange P g,i (t) at the maximum possible charging rate. In other words, V c,i (t) . = P g,i (t) − P g,i (t), where these quantities are average values throughout the interval of interest t. Analogously, V d,i (t) . = P g,i (t)−P g,i (t), where P g,i (t) corresponds to the maximum possible discharging rate at time interval t. Note that the following energy balance identities should be satisfied,</p><formula xml:id="formula_3">P g,i (t)·∆T = −∆P i (t)·∆T +c max,i ·min ∆T * c,i (t), ∆T , P g,i (t)·∆T = −∆P i (t)·∆T −d max,i ·min ∆T * d,i (t), ∆T .</formula><p>In case c i (t) ≥ 0 (d i (t) = 0), i.e., the battery is currently charged, the charging and discharging energy potential are:</p><formula xml:id="formula_4">V c,i (t) = 1 ∆T · c max,i · min ∆T * c,i (t), ∆T − 1 ∆T · c i (t) · min{∆T c,i (t), ∆T }, V d,i (t) = − 1 ∆T · d max,i · min ∆T * d,i (t), ∆T − 1 ∆T · c i (t) · min{∆T c,i (t), ∆T }.</formula><p>Similarly, in case d i (t) &gt; 0 (c i (t) = 0), the charging and discharging energy potential are:</p><formula xml:id="formula_5">V c,i (t) = 1 ∆T · c max,i · min ∆T * c,i (t), ∆T + 1 ∆T · d i (t) · min{∆T d,i (t), ∆T }, V d,i (t) = − 1 ∆T · d max,i · min ∆T * d,i (t), ∆T + 1 ∆T · d i (t) · min{∆T d,i (t), ∆T }.</formula><p>Remarks: As probably expected, both the charging and discharging energy potential may admit both positive and negative values. Of course, a negative charging potential and a positive discharging potential are essentially of no significance to the BRP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>V. ACTIVATION COSTS</head><p>The activation costs, or the costs of disutility compensation, play an important role in the overall efficiency of the optimization framework. An accurate calculation of these costs serves two purposes: a) it provides a fair allocation of the profit of the BRP to the participating households, and b) it provides an efficient utilization of the network of batteries. We will consider two alternative types of activation costs, namely a) opportunity costs, and b) generic disutility costs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Opportunity costs</head><p>Independently of the way that the BRP is currently utilizing a participant's battery, the opportunity costs of activation that the household experiences can be defined as follows:</p><formula xml:id="formula_6">C act,i (P g,i (t)) = U * base,i (t) − U BRP,i (P g,i (t)),<label>(1)</label></formula><p>under the selected by the BRP power exchange with the grid, P g,i (t). The variable U * base,i (t) corresponds to the optimal utility received by participant i under normal conditions (baseline operation), and U BRP,i corresponds to the utility received by participant i when the BRP is operating the battery. We introduce the following notation: 2 − U e.sell,i (P g,i (t)) . = λ f (t)[P g,i (t)] − ∆T ≥ 0 corresponds to the utility received by feeding P g,i (t) ≤ 0 into the grid, assuming a feed-in price λ f (t). − C e.buy,i (P g,i (t)) . = λ g (t)[P g,i (t)] + ∆T ≥ 0 corresponds to the cost of withdrawing power P g,i (t) ≥ 0 from the grid, assuming an off-take price λ g (t). − U b.store,i (P g,i (t)) . = λ opp,i (t)η c,i η d,i c i (t)∆T ≥ 0 corresponds to the utility that the household could receive by utilizing the energy stored into the battery at a later stage (also accounting for the charging and discharging losses). The unit value of this energy, λ opp,i (t), captures the opportunity of the household to either reduce costs or sell this energy at a later stage. A rough estimate could be λ opp,i (t) = λ f (t). − C b.loss,i (P g,i (t)) . = λ loss,i (t)(1 − η c,i )c i (t)∆T + λ loss,i (t)η c,i (1−η d,i )c i (t)∆T corresponds to the value of the energy lost during charging and (future) discharging of the total energy charged into the battery during time interval t, c i (t)∆T . Note that the unit value λ loss,i (t) depends on the source of the charged energy at time interval t. The unit value of the energy losses, λ loss,i (t) is defined in detail in <ref type="table" target="#tab_0">Table I</ref>. − C b.wear,i (P g,i (t)) corresponds to the cost induced due to the wear of the battery from its use.</p><p>Having introduced the necessary notation, the terms of the activation costs (1) can be defined explicitly. In particular,</p><formula xml:id="formula_7">U * base,i (t) = max Pg,i∈[Pg,i(t),Pg,i(t)] U base,i (P g,i )<label>(2)</label></formula><p>where, we define the objective function as</p><formula xml:id="formula_8">U base,i (P g,i ) . = U e.sell,i (P g,i ) + U b.store,i (P g,i )− C e.buy,i (P g,i ) − C b.loss,i (P g,i ) − C b.wear,i (P g,i ).</formula><p>This is an optimization program with a sublinear objective function of a single optimization variable that evolves on 2 For a real variable x ∈ R, we will use the notation</p><formula xml:id="formula_9">[x] + = x x ≥ 0 0 else and [x] − = 0 x ≥ 0 x else .</formula><p>a bounded and closed interval. It can be solved (even numerically) in a straightforward manner. On the other hand, the utility of the participant when the BRP is operating the battery by imposing P g,i is:</p><formula xml:id="formula_10">U BRP,i (P g,i ) = U e.sell,i (P g,i ) + U b.store,i (P g,i )− C e.buy,i (P g,i )) − C b.loss,i (P g,i ) − C b.wear,i (P g,i ),</formula><p>under the selected (by the BRP) power exchange P g,i ∈ [P g,i (t), P g,i (t)].</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Generic Activation Costs</head><p>Monetary disutility may not necessarily incorporate all possible sources of discomfort imposed to a participant. A participant may also value autarky (i.e., maintaining a high SOC at all times), eco-friendliness (i.e., priority on charging the battery only with PV generation), or greediness (i.e., always selling available PV or battery energy). Such preferences can be expressed through a bidding curve of the form C act,</p><formula xml:id="formula_11">i (t) = α i (t)V d,i (t)β d,i (t) in case the BRP needs to establish a positive imbalance ∆ BG (t) &gt; 0, or C act,i (t) = α i (t)V c,i (t)β c,i (t),</formula><p>in case the BRP needs to establish a negative imbalance ∆ BG (t) &lt; 0. The parameter α i (t) ∈ [0, 1] denotes the activation percentage of the overall potential of the participant, V d,i (t), imposed by the BRP. The parameters β c,i (t) , β d,i (t) are positive constants, which are declared by the participant for each interval t. They express the weight that the participant assigns to the BRP intervention. To simplify notation, for the remainder of the paper, we will denote ζ d,i (t)</p><p>.</p><formula xml:id="formula_12">= V d,i (t)β d,i ≥ 0, ζ c,i (t) . = V c,i (t)β c,i .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>VI. CENTRALIZED OPTIMAL ACTIVATION</head><p>We are concerned with optimization problems (O1) and (O2). In (O1), the BRP needs to know what would be the cost for generating/consuming certain ∆ BG (t). This is relevant for participation of the BRP either in the spot electricity market (Day-ahead or Intra-day), since it can provide the basis for calculating the bidding cost curves of the BRP that will be offered to the market coordinator. The second class of optimization problems (O2) is relevant when the BRP wishes to correct a predicted imbalance ∆ BG (t).</p><p>For the remainder of the paper, we will present these two classes of optimization problems for the case of the generic activation costs with the linear supply bidding (Section V-B). The case of opportunity costs of Section V-A only differs in the objective function (sub-linear instead of linear) and can be treated in a similar way. Furthermore, without loss of generality, and due to space limitations, we will only present the case of ∆ BG (t) &gt; 0 (deficit of energy generation, in which case the BRP would benefit from discharging the participating batteries). </p><formula xml:id="formula_13">∆P i (t) c i (t) , P g,i (t) λ loss,i (t) ∆P i (t) ≥ 0 c i (t) &gt; 0 , P g,i (t) ≤ 0</formula><p>Charging the battery only from PV excess generation.</p><formula xml:id="formula_14">λ loss,i (t) = λ f (t)</formula><p>This is the price the household could have received, had it fed this amount of power directly into the grid.</p><formula xml:id="formula_15">c i (t) &gt; 0 , P g,i (t) &gt; 0</formula><p>Charging the battery partly from PV excess generation and partly from the grid. The amount of excess PV power generation charged into the battery is equal to ∆P i (t).</p><formula xml:id="formula_16">λ loss,i (t) = λ f (t) ∆P i (t) c i (t) + λg(t) P g,i (t) c i (t)</formula><p>The first part corresponds to the value of the energy charged from the excess PV generation, which is equal to the feed-in price λ f (t).</p><p>The second part is the value of the energy withdrawn from the grid, which is equal to the current off-take price λg(t).</p><formula xml:id="formula_17">∆P i (t) &lt; 0 c i (t) &gt; 0 , P g,i (t) &gt; 0</formula><p>Charging the battery with energy coming directly from the grid.</p><formula xml:id="formula_18">λ loss,i (t) = λg(t)</formula><p>The value of the energy withdrawn from the grid is equal to the current off-take price λg(t).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Market participation (O1)</head><p>We are concerned with the computation of the optimal subset of participants and their schedules to generate a specific commitment ∆ BG (t) &gt; 0 at time interval t. More formally, for N participants, the optimization problem may take on the following form:</p><formula xml:id="formula_19">min z d (t) T a s.t. V d (t) T a = ∆ BG (t) var. a ∈ [0, 1] N (3) where z T d . = (ζ d,1 · · · ζ d,N ), and V T d . = (V d,1 · · · V d,N ).</formula><p>The optimization translates into computing the combination of consumers, each of which provides part of its energy potential α i ∈ [0, 1], so that the corresponding activation cost is the minimum possible.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Imbalance Optimization (O2)</head><p>If the BRP predicts an imbalance ∆ BG (t) from its planned schedules, then the BRP will experience a cost equal to λ 1 g (t) |∆ BG (t)| that it will be transferred to the participants in the group (due to the clearing at the end of the month), with clearing price of λ 1 g (t). Let also δ(a; t) . = ∆ BG (t) + V d (t) T a denote the predicted imbalance when activating the (usually negative) discharging potential of the participating batteries according to a ∈ [0, 1] N . The BRP would like to reduce the predicted energy imbalance by properly balancing the activation costs, z d (t) T a, with the predicted imbalance costs,λ 1 g (t) |∆ BG (t)|, wherê λ 1 g (t) is the forecast imbalance price (generated, e.g., using historical data). In other words, the optimization may take on the following form:</p><formula xml:id="formula_20">min z d (t) T a +λ 1 g (t)δ(a; t) var. a ∈ [0, 1] N<label>(4)</label></formula><p>which tries to compensate for the current imbalance through the activation of the participants' extra potential V d (t).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>VII. ANALYSIS OF MARKET PARTICIPATION</head><p>Under the case of market participation optimization (O1) of Equation <ref type="formula">(3)</ref>, we would like to provide a characterization of the optimal activation when ∆ BG (t) &gt; 0. Prior on executing such optimization each participant i should declare the corresponding parameter β d,i (t) which defines its activation cost.</p><p>a) Optimality conditions: The Lagrangian function of optimization (3) is:</p><formula xml:id="formula_21">L(a, λ 1 , λ 2 , ν) = z T d a − λ T 1 a + λ T 2 (a − 1) − ν V T d a − ∆ BG = z T d − λ T 1 + λ T 2 − νV T d a − λ T 2 1 + ν∆ BG .</formula><p>Given that the linear program of (3) satisfies strong duality, the following dual optimization problem max min 0≤a≤1 L(a, λ 1 , λ 2 , ν) var.</p><formula xml:id="formula_22">λ 1 ≥ 0, λ 2 ≥ 0, ν ∈ R<label>(5)</label></formula><p>also provides the solution to (3) (cf., <ref type="bibr" target="#b7">[8,</ref><ref type="bibr">Theorem 28.2]</ref>). Proposition 7.1: Let us assume that the participants i = 1, 2, ..., N are ordered as follows: ζ d,1/V d,1 ≤ ζ d,2/V d,2 ≤ · · · ≤ ζ d,N/V d,N . The optimal Lagrange multipliers of the linear program (3) satisfy the following conditions:</p><formula xml:id="formula_23">λ * 1 = 0 , λ * 2 = [−z d + ν * V d ] + , ν * = ζ d,k * +1 V d,k * +1 ,<label>(6)</label></formula><p>where k * . = max k ∈ {1, 2, ..., N } :</p><formula xml:id="formula_24">k * i=1 V d,i &lt; ∆ BG (t) . (7)</formula><p>Proof: By exploiting the fact that λ 1 ≥ 0, it is straightforward to show that the dual optimization (5) can be written equivalently as:</p><formula xml:id="formula_25">max −λ T 2 1 + ν∆ BG (t) s.t. z T d + λ T 2 − νV d T ≥ 0 var. λ 2 ≥ 0, ν ∈ R<label>(8)</label></formula><p>Note that, given the constraints λ T 2 ≥ −z T d + νV d T and λ 2 ≥ 0, the above dual optimization problem can be written equivalently as:</p><formula xml:id="formula_26">max − −z T d + νV d T + 1 + ν∆ BG (t) var. ν ∈ R.<label>(9)</label></formula><p>It is straightforward to check that the above objective function increases with ν as long as ν * ≤ ζ d,k * +1 /V d,k * +1 . Then, the optimal Lagrange multiplier is ν * = ζ d,k * +1 /V d,k * +1 , which concludes the proof. b) Clearing price: The optimal Lagrange multiplier ν * , defined in Proposition 7.1, represents a clearing price for the problem of extracting the required amount of energy ∆ BG (t) &gt; 0. In this case, the BRP can define an optimal strategy for defining the optimal allocation a * .</p><p>Algorithm 1 Optimal activation for ∆ BG (t) &gt; 0 1: procedure OPTIMALACTIVATION(ν * , k * , V d , z d , ∆BG(t)) 2:</p><p>order participants i = 1, 2, ..., N as follows if i = k * + 1 then 8:</p><formula xml:id="formula_27">ζ d,1 V d,1 ≤ ζ d,2 V d,2 ≤ · · · ≤ ζ d,N V d,</formula><formula xml:id="formula_28">α * i = ∆BG(t) − i−1 j=1 V d,j /V d,i 9:</formula><p>else 10:</p><formula xml:id="formula_29">α * i = 0 11:</formula><p>return a * Implicitly, Algorithm 1, given ν * , solves in sequence for each participant i the following (local) optimization:</p><formula xml:id="formula_30">max U i (α i , β i ) . = ν * (β i )V d,i α i − ζ d,i α i s.t. i−1 j=1 V d,j α j + V d,i α i ≤ ∆ BG (t), for all i &gt; 1 var.</formula><p>α i ∈ [0, 1] (10) where U i (α i , β i ) represents the utility of participant i.</p><p>Proposition 7.2: The allocation a * derived from Algorithm 1 is an optimal allocation for the original optimization of Equation <ref type="bibr" target="#b2">(3)</ref>.</p><p>Proof: This is a direct implication of Proposition 7.1 and the strong duality of the linear program. c) Price-anticipating participants: We should also investigate whether it is in the participants' advantage to bid higher than their true costs. In fact, it is straightforward to show that this is not possible. To see this, let us consider any participant i such that i ≤ k * . If i decreases β i , then its utility (according to (10)) is going to increase due to fact that the corresponding cost ζ d,i (β i ) decreases. If, instead, i = k * +1, whose utility satisfies U i (α i , β i ) = ζ d,k * +1 α i − ζ d,k * +1 α i ≡ 0, then it may only increase its utility by decreasing β i . Similar reasoning applies for any other participant that is currently not activated, i.e., α * i = 0 for any i &gt; k * +1. Thus, we conclude that under the proposed framework, inflation is not possible (among rational participants).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>VIII. CONCLUSIONS AND FUTURE WORK</head><p>This work presented an optimization framework for optimal demand response within balance groups, based on the Austrian model for the liberalized electricity market. Demand response optimization takes the form of either market participation or imbalance correction. In either case, the available battery systems within the balance group are utilized to extract any available energy flexibility for charging/discharging energy. The activation of the individual battery systems is decided in terms of the available energy potential and the corresponding activation cost, where costs correspond to either monetary or generic comfort disutility. Such optimization formulation takes place in a given time slot ∆T , and it can be used as a basis for any day-ahead optimization. However, a day-ahead optimization (e.g., for participating in the Day-Ahead electricity market), constitutes a dynamic optimization problem that was not directly addressed in this paper.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>TABLE I</head><label>I</label><figDesc>UNIT VALUE OF ENERGY LOSSES</figDesc><table></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">We implicitly assume here that the PV-generation P PV,i (t) and load P load,i (t) remain constant for the time interval ∆T and equal to the corresponding values at the beginning of that interval. This is a reasonable assumption given the small length of ∆T .</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Wissenschaftliches messund evaluierungsprogramm solarstromspeicher 2.0. jahresbericht</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Kairies</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Haberschusz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Ouwerkerk</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Strebel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Wessels</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Magnor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Badeda</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">U</forename><surname>Sauer</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">APG -Market Information -Electricity Market</title>
+		<ptr target="https://www.apg.at/en/market/electricity-market" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A Direct Load Control Model for Virtual Power Plant Management</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Ruiz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Cobelo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Oyarzabal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Power Systems</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="959" to="966" />
+			<date type="published" when="2009-05" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A Distributed Direct Load Control Approach for Large-Scale Residential Demand Response</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Kishore</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Power Systems</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="2219" to="2228" />
+			<date type="published" when="2014-09" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Residential implementation of critical-peak pricing of electricity</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Herter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Energy Policy</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="2121" to="2130" />
+			<date type="published" when="2007-04" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Dynamic pricing of electricity in retail markets</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Triki</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Violi</surname></persName>
+		</author>
+		<idno>4OR</idno>
+		<imprint>
+			<date type="published" when="2009-03" />
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="21" to="36" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Demand Response With Capacity Constrained Supply Function Bidding</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">H</forename><surname>Low</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Power Systems</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="1377" to="1394" />
+			<date type="published" when="2016-03" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Convex analysis</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">T</forename><surname>Rockafellar</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1970" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

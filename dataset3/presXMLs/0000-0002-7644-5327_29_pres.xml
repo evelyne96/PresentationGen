@@ -1,0 +1,1194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Revenue Optimization in the
+Generalized Second-Price Auction
+.=</p>
+<p>Kevin Leyton-Brown
+.=</p>
+<p>joint work with David R. M. Thompson
+To appear at EC’13
+.=</p>
+<p>{daveth, kevinlb}@cs.ubc.ca, University of British Columbia
+.=</p>
+<p>April 18, 2013; Dagstuhl
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Introduction
+.=</p>
+<p>Despite years of research into novel designs, search engines have
+held on to (quality-weighted) GSP.
+.=</p>
+<p>Question
+.=</p>
+<p>How can revenue be maximized within the GSP framework?
+.=</p>
+<p>Various (reserve price; squashing) schemes have been proposed.
+.=</p>
+<p>We do three kinds of analysis:
+.=</p>
+<p>theoretical: single slot, Bayesian
+.=</p>
+<p>computational, perfect information: enumerate all pure
+equilibria; consider best and worst
+.=</p>
+<p>computational: consider the equilibrium corresponding to a
+DS truthful mechanism with the appropriate allocation rule
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Model and auctions
+.=</p>
+<p>2 Theoretical analysis, single-slot auctions
+.=</p>
+<p>3 What happens in the multi-slot case?
+.=</p>
+<p>4 Equilibria corresponding to DS truthful mechanisms
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Modeling advertisers
+.=</p>
+<p>Definition (Varian’s model [Varian 07])
+.=</p>
+<p>Each advertiser i has a valuation vi per click, and quality score qi.
+In position k, i’s ad will be clicked with probability αkqi, where αk
+is a position-specific click factor.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>“Vanilla” GSP
+.=</p>
+<p>rank by biqi, charge lowest amount that would preserve
+position in the ranking.
+.=</p>
+<p>1 slot, 2 bidders, quality scores q1 = 1 and q2 = 0.5:
+.=</p>
+<p>1.0
+.=</p>
+<p>0.8
+.=</p>
+<p>0.6
+.=</p>
+<p>0.4
+.=</p>
+<p>0.2
+.=</p>
+<p>0.2 0.4 0.6 0.8 1.0
+v1
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>v2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>GSP with Squashing
+.=</p>
+<p>rank by b si(qi) , s ∈ [0, 1] [Lahaie, Pennock 07].
+s = 1: vanilla GSP
+s = 0: no quality weighting
+.=</p>
+<p>used in practice by Yahoo!, according to media reports
+.=</p>
+<p>1.0
+.=</p>
+<p>0.8
+.=</p>
+<p>0.6
+.=</p>
+<p>0.4
+.=</p>
+<p>0.2
+.=</p>
+<p>0.2 0.4 0.6 0.8 1.0
+v1
+.=</p>
+<p>1 slot, 2 bidders, quality scores q1 = 1 and q2 = 0.5, s = 0.19.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>v2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>GSP with unweighted reserves (UWR)
+.=</p>
+<p>Vanilla GSP with global minimum bid and payment of r
+.=</p>
+<p>UWR was common industry practice; now replaced by QWR.
+.=</p>
+<p>1.0 1.0
+.=</p>
+<p>0.8 0.8
+.=</p>
+<p>0.6 0.6
+.=</p>
+<p>0.4 0.4
+.=</p>
+<p>0.2 0.2
+.=</p>
+<p>0.2 0.4 0.6 0.8 1.0 0.2 0.4 0.6 0.8 1.0
+v1 v1
+.=</p>
+<p>1 slot, 2 bidders, quality scores q1 = 1 and q2 = 0.5, r = .549.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>v2
+.=</p>
+<p>v2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>GSP with quality-weighted reserves (QWR)
+.=</p>
+<p>Vanilla GSP with per-bidder minimum bid and payment r/qi
+UWR was common industry practice; now replaced by QWR.
+.=</p>
+<p>1.0
+.=</p>
+<p>0.8
+.=</p>
+<p>0.6
+.=</p>
+<p>0.4
+.=</p>
+<p>0.2
+.=</p>
+<p>0.2 0.4 0.6 0.8 1.0
+v1
+.=</p>
+<p>1 slot, 2 bidders, quality scores q1 = 1 and q2 = 0.5, r = .375.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>v2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>GSP with unweighted reserves and squashing (UWR+sq)
+.=</p>
+<p>1.0
+.=</p>
+<p>0.8
+.=</p>
+<p>0.6
+.=</p>
+<p>0.4
+.=</p>
+<p>0.2
+.=</p>
+<p>0.2 0.4 0.6 0.8 1.0
+v1
+.=</p>
+<p>1 slot, 2 bidders, quality scores q1 = 1 and
+q2 = 0.5, r = .505, s = 0.32.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>v2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>GSP: quality-weighted reserves and squashing (UWR+sq)
+.=</p>
+<p>1.0
+.=</p>
+<p>0.8
+.=</p>
+<p>0.6
+.=</p>
+<p>0.4
+.=</p>
+<p>0.2
+.=</p>
+<p>0.2 0.4 0.6 0.8 1.0
+v1
+.=</p>
+<p>1 slot, 2 bidders, quality scores q1 = 1 and
+q2 = 0.5, r = .472, s = 0.24.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>v2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Our main findings
+.=</p>
+<p>Considering Varian’s valuation model, our main findings:
+.=</p>
+<p>QWR is consistently the lowest-revenue reserve-price variant,
+and substantially worse than UWR.
+.=</p>
+<p>Anchoring: a new GSP variant that is provably optimal in
+some settings, and does well in others
+.=</p>
+<p>first systematic investigation of the interaction between
+reserve prices and squashing
+.=</p>
+<p>first systematic investigation of the effect of equilibrium
+selection on the effectiveness of revenue optimization
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Model and auctions
+.=</p>
+<p>2 Theoretical analysis, single-slot auctions
+.=</p>
+<p>3 What happens in the multi-slot case?
+.=</p>
+<p>4 Equilibria corresponding to DS truthful mechanisms
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Revenue-optimal position auctions
+.=</p>
+<p>The auctioneer is selling impressions. A bidder’s
+per-impression valuation is qivi, where:
+.=</p>
+<p>the auctioneer knows qi
+the auctioneer knows the distribution from which vi comes
+.=</p>
+<p>Thus, even if per-click valuations are i.i.d., each bidder has a
+different per-impression valuation distribution, and the seller
+knows about those differences.
+.=</p>
+<p>Strategically, it doesn’t matter how q’s are distributed, because
+it is impossible for a bidder to participate in the auction
+without revealing this information.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Optimality of unweighted reserves
+.=</p>
+<p>Proposition
+Consider any one-position setting where each agent i’s per-click valuation vi is
+independently drawn from a common distribution g. If g is regular, then the
+optimal auction uses the same per-click reserve price r for all bidders.
+.=</p>
+<p>Proof.
+.=</p>
+<p>Because g is regular, we must maximize virtual surplus.
+.=</p>
+<p>i’s value per-impression is qivi.
+.=</p>
+<p>Transforming g into a per-impression valuation distribution f gives:
+f(qivi) = g(vi)/qi and F (givi) = G(vi).
+.=</p>
+<p>Substituting into the virtual val(ue function gives:)
+− 1−Gi(vi)ψi(qivi) = qi vi
+.=</p>
+<p>gi(vi)
+.=</p>
+<p>Optimal per-click reserve ri is solution to ψi(qiri) = 0, which is
+independent of qi. 2
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Uniform distribution, single slot
+.=</p>
+<p>Definition (Anchoring GSP)
+1.0
+.=</p>
+<p>Bidders face an unweighted
+reserve r, and those who exceed 0.8
+.=</p>
+<p>it are ranked by (bi − r)qi.
+0.6
+.=</p>
+<p>Proposition
+0.4
+.=</p>
+<p>When per-click valuations are
+drawn from the uniform 0.2
+.=</p>
+<p>distribution, anchoring GSP is
+optimal. 0.2 0.4 0.6 0.8 1.0
+.=</p>
+<p>v1
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>v2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Optimizing GSP variants by grid search: uniform, 2 bidders
+.=</p>
+<p>Auction Revenue (±1e− 5) Parameters
+.=</p>
+<p>VCG/GSP 0.208 —
+Squashing 0.255 s = 0.19
+.=</p>
+<p>QWR 0.279 r = 0.375
+UWR 0.316 r = 0.549
+.=</p>
+<p>QWR+Sq 0.321 r = 0.472, s = 0.24
+UWR+Sq 0.322 r = 0.505, s = 0.32
+Anchoring 0.323 r = 0.5
+.=</p>
+<p>Anchoring’s r agrees with [Myerson 81] and QWR’s with [Sun,
+Zhou, Deng 11].
+.=</p>
+<p>Optimal parameters for other variants don’t correspond to
+recommendations from the literature.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Optimal auction for the log-normal distribution
+.=</p>
+<p>Anchoring is not always optimal
+(but perhaps it is always a good approximation?)
+.=</p>
+<p>2.5
+.=</p>
+<p>2.0
+.=</p>
+<p>1.5
+.=</p>
+<p>1.0
+.=</p>
+<p>0.5
+.=</p>
+<p>0.5 1.0 1.5 2.0 2.5
+v1
+.=</p>
+<p>Optimal auction for log normal, 1 slot, 2 bidders, quality scores
+q1 = 1 and q2 = 0.5. Anchoring shown for comparison.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>v2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Model and auctions
+.=</p>
+<p>2 Theoretical analysis, single-slot auctions
+.=</p>
+<p>3 What happens in the multi-slot case?
+.=</p>
+<p>4 Equilibria corresponding to DS truthful mechanisms
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Computing equilibria
+.=</p>
+<p>Action-graph games (AGGs) exploit structure to represent
+games in exponentially less space than than the normal form
+[Bhat, LB 04; Jiang, LB 06; Jiang, LB, Bhat 11].
+.=</p>
+<p>Games involving GSP and Varian’s preference model have
+such structure [Thompson, LB 09].
+.=</p>
+<p>Heuristic tree search can enumerate all pure-strategy Nash
+equilibria of an AGG [Thompson, Leung, LB 11].
+.=</p>
+<p>S1={H} S1={T} S1={H,T}
+.=</p>
+<p>S2={H} S2={T} S2={H,T}
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Investigating multiple slots with grid search
+.=</p>
+<p>Leverage AGGs to consider more than a single slot, and to
+examine different equilibria of GSP variants to determine
+impact of equilibrium selection
+.=</p>
+<p>Sample perfect-information games from the distribution over
+values and quality scores
+.=</p>
+<p>5 bidders; 26 bid increments each; 3 slots; uniform valuations
+.=</p>
+<p>enumerate pure-strategy equilibria
+consider statistics over their best and worst (conservative) NE.
+.=</p>
+<p>Identify optimal parameter settings by performing fine-grained
+grid search.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Equilibrium Selection and Reserve Prices
+.=</p>
+<p>14 14 14
+Worst NE Worst NE Worst NE
+.=</p>
+<p>Best NE Best NE Best NE
+.=</p>
+<p>12 12 12
+.=</p>
+<p>10 10 10
+.=</p>
+<p>8 8 8
+.=</p>
+<p>6 6 6
+.=</p>
+<p>4 4 4
+.=</p>
+<p>2 2 2
+.=</p>
+<p>0 0 0
+0 5 10 15 20 25 0 5 10 15 20 25 0 5 10 15 20 25
+.=</p>
+<p>r r r
+.=</p>
+<p>UWR QWR Anchoring
+.=</p>
+<p>Any reserve scheme dramatically improves vanilla GSP’s
+worst-case revenue (look at reserves of $0).
+.=</p>
+<p>Optimal unweighted reserves are higher than quality-weighted.
+.=</p>
+<p>High bidding can do the work of high reserve prices. Thus,
+worst-case reserve prices tend to be higher than best case.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>Revenue
+.=</p>
+<p>Revenue
+.=</p>
+<p>Revenue.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Equilibrium Selection and Squashing
+.=</p>
+<p>14
+Worst NE
+.=</p>
+<p>Best NE
+.=</p>
+<p>12
+.=</p>
+<p>10
+.=</p>
+<p>8
+.=</p>
+<p>6
+.=</p>
+<p>4
+.=</p>
+<p>2
+.=</p>
+<p>0
+0.0 0.2 0.4 0.6 0.8 1.0
+.=</p>
+<p>s
+.=</p>
+<p>Squashing can improve revenue in best- and worst-case
+equilibrium. (Recall: s = 1 is vanilla GSP.)
+.=</p>
+<p>Smaller impact, lower sensitivity than reserve prices.
+.=</p>
+<p>Gap between best and worst is consistently large (∼ 2.5×).
+Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>Revenue.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Comparing variants optimized for best/worst case
+.=</p>
+<p>Auction Revenue Auction Revenue
+.=</p>
+<p>Vanilla GSP 3.814 Vanilla GSP 9.911
+Squashing 4.247 QWR 10.820
+.=</p>
+<p>QWR 9.369 Squashing 11.534
+Anchoring 10.212 UWR 11.686
+QWR+Sq 10.217 Anchoring 12.464
+UWR 11.024 QWR+Sq 12.627
+.=</p>
+<p>UWR+Sq 11.032 UWR+Sq 12.745
+.=</p>
+<p>Worst-case equilibrium Best-case equilibrium
+.=</p>
+<p>Worst case: 2-way tie (UWR+Sq, UWR)
+.=</p>
+<p>Best case: 3-way tie (UWR+Sq, QWR+Sq, Anchoring)
+.=</p>
+<p>UWR’s worst case is better than QWR’s best case.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Model and auctions
+.=</p>
+<p>2 Theoretical analysis, single-slot auctions
+.=</p>
+<p>3 What happens in the multi-slot case?
+.=</p>
+<p>4 Equilibria corresponding to DS truthful mechanisms
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Equilibrium Selection
+.=</p>
+<p>With vanilla GSP, it’s common to study the equilibrium that leads
+to the efficient (thus, VCG) outcome. Many reasons why this is an
+interesting equilibrium:
+.=</p>
+<p>Existence, uniqueness, polytime computability [Aggarwal et al 06]
+.=</p>
+<p>Envy-free, symmetric, competitive eq [Varian 07; EOS 07]
+.=</p>
+<p>Impersonation-proof [Kash, Parkes 12]
+.=</p>
+<p>Doesn’t predict that GSP gets more revenue than Myerson
+(“Non-contradiction criterion”) [ES 10]
+.=</p>
+<p>Analogously, can compute the equilibrium corresponding to a DS
+truthful mechanism with the appropriate allocation rule.
+.=</p>
+<p>see previous analyses of squashing [LP 07] and reserves [ES 10].
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Distributions
+.=</p>
+<p>For these experiments, we used two distributions:
+.=</p>
+<p>Uniform vi’s drawn from uniform (0, 25); qi’s drawn from
+uniform (0, 1).
+.=</p>
+<p>Log-Normal qi’s and vi’s drawn from log-normal
+distributions; qi positively correlated with vi by Gaussian
+copula. (Similar to [LP07]; new parameters based on personal
+communication.)
+.=</p>
+<p>We compute equilibrium following recursion of [Aggarwal et al 06].
+We optimize parameters by grid search.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Revenue across GSP variants, optimal parameters
+.=</p>
+<p>Auction Revenue Auction Revenue
+.=</p>
+<p>VCG 7.737 VCG 20.454
+Squashing 9.123 QWR 48.071
+.=</p>
+<p>QWR 10.598 Squashing 53.349
+UWR 12.026 QWR+Sq 79.208
+.=</p>
+<p>QWR+Sq 12.046 UWR 80.050
+Anchoring 12.2 Anchoring 80.156
+UWR+Sq 12.220 UWR+Sq 81.098
+.=</p>
+<p>Uniform distribution Log-Normal Distribution
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Reserve Prices
+.=</p>
+<p>14 90
+anchor anchor
+.=</p>
+<p>uRes uRes
+80
+.=</p>
+<p>wRes wRes
+12
+.=</p>
+<p>70
+.=</p>
+<p>10
+60
+.=</p>
+<p>8 50
+.=</p>
+<p>40
+6
+.=</p>
+<p>30
+.=</p>
+<p>4
+.=</p>
+<p>20
+.=</p>
+<p>2
+10
+.=</p>
+<p>0 0
+0 5 10 15 20 25 100 101 102 103 104 105
+.=</p>
+<p>Reserve Price Reserve Price
+.=</p>
+<p>Uniform Distribution Log-Normal Distribution
+.=</p>
+<p>All three reserve-based variants (anchoring, QRW and UWR)
+provide substantial revenue gains (compare to reserve 0).
+.=</p>
+<p>Anchoring very slightly better than UWR; both substantially
+better than QWR.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>Revenue
+.=</p>
+<p>Revenue.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Squashing + UWR
+.=</p>
+<p>14 90
+0.0 0.0
+.=</p>
+<p>0.25 0.25
+80
+.=</p>
+<p>0.5 0.5
+12
+.=</p>
+<p>0.75 0.75
+.=</p>
+<p>1.0 70 1.0
+.=</p>
+<p>10
+60
+.=</p>
+<p>8 50
+.=</p>
+<p>40
+6
+.=</p>
+<p>30
+.=</p>
+<p>4
+.=</p>
+<p>20
+.=</p>
+<p>2
+10
+.=</p>
+<p>0 0
+0 5 10 15 20 25 100 101 102 103 104 105
+.=</p>
+<p>Reserve Price Reserve Price
+.=</p>
+<p>Uniform Distribution Log-Normal Distribution
+.=</p>
+<p>Adding squashing to UWR provides small marginal
+improvements (compare to s = 1) and does not substantially
+affect the optimal reserve price.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>Revenue
+.=</p>
+<p>Revenue.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Squashing + QWR
+.=</p>
+<p>14 90
+0.0 0.0
+.=</p>
+<p>0.25 0.25
+80
+.=</p>
+<p>0.5 0.5
+12
+.=</p>
+<p>0.75 0.75
+.=</p>
+<p>1.0 70 1.0
+.=</p>
+<p>10
+60
+.=</p>
+<p>8 50
+.=</p>
+<p>40
+6
+.=</p>
+<p>30
+.=</p>
+<p>4
+.=</p>
+<p>20
+.=</p>
+<p>2
+10
+.=</p>
+<p>0 0
+0 5 10 15 20 25 100 101 102 103 104 105
+.=</p>
+<p>Reserve Price Reserve Price
+.=</p>
+<p>Uniform Distribution Log-Normal Distribution
+.=</p>
+<p>Adding squashing to QWR yields big improvements (compare
+to s = 1); high sensitivity.
+But, the higher the squashing power (s→ 0), the less reserve
+prices are actually weighted by quality.
+Log-normal: optimal parameter setting (s = 0.0) removes
+quality scores entirely and is thus equivalent to UWR.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>Revenue
+.=</p>
+<p>Revenue.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>90
+0.0
+.=</p>
+<p>0.25
+80 0.5
+.=</p>
+<p>0.75
+.=</p>
+<p>70 1.0
+.=</p>
+<p>60
+.=</p>
+<p>50
+.=</p>
+<p>40
+.=</p>
+<p>30
+.=</p>
+<p>20
+.=</p>
+<p>10
+.=</p>
+<p>0
+100 101 102 103 104 105
+.=</p>
+<p>Reserve Price
+.=</p>
+<p>Squashing applied to ranking only
+(log normal)
+.=</p>
+<p>Applying squashing only to ranking, the marginal gains from
+squashing over QWR (with optimal reserve) are very small.
+.=</p>
+<p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Does squashing help QWR via reserve or ranking?
+.=</p>
+<p>90
+0.0
+.=</p>
+<p>0.25
+80 0.5
+.=</p>
+<p>0.75
+.=</p>
+<p>70 1.0
+.=</p>
+<p>60
+.=</p>
+<p>50
+.=</p>
+<p>40
+.=</p>
+<p>30
+.=</p>
+<p>20
+.=</p>
+<p>10
+.=</p>
+<p>0
+100 101 102 103 104 105
+.=</p>
+<p>Reserve Price
+.=</p>
+<p>Squashing applied to reserve only
+(log normal)
+.=</p>
+<p>Applying squashing only to reserve prices can dramatically
+increase QWR’s revenue (compare to s = 1).
+.=</p>
+<p>However, there has to be a lot of squashing (i.e., s close to 0)
+optimal reserve is very dependent on squashing power
+optimal parameter setting is s = 0: identical to UWR
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>Revenue
+.=</p>
+<p>Revenue.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Does squashing help QWR via reserve or ranking?
+.=</p>
+<p>90 90
+0.0 0.0
+.=</p>
+<p>0.25 0.25
+80 0.5 80 0.5
+.=</p>
+<p>0.75 0.75
+.=</p>
+<p>70 1.0 70 1.0
+.=</p>
+<p>60 60
+.=</p>
+<p>50 50
+.=</p>
+<p>40 40
+.=</p>
+<p>30 30
+.=</p>
+<p>20 20
+.=</p>
+<p>10 10
+.=</p>
+<p>0 0
+100 101 102 103 104 105 100 101 102 103 104 105
+.=</p>
+<p>Reserve Price Reserve Price
+.=</p>
+<p>Squashing applied to reserve only Squashing applied to ranking only
+(log normal) (log normal)
+.=</p>
+<p>Applying squashing only to reserve prices can dramatically
+increase QWR’s revenue (compare to s = 1).
+.=</p>
+<p>However, there has to be a lot of squashing (i.e., s close to 0)
+optimal reserve is very dependent on squashing power
+optimal parameter setting is s = 0: identical to UWR
+.=</p>
+<p>Applying squashing only to ranking, the marginal gains from
+squashing over QWR (with optimal reserve) are very small.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>Revenue
+.=</p>
+<p>Revenue.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Scaling
+.=</p>
+<p>Because equilibrium computation is cheap, we can scale up.
+.=</p>
+<p>VCG VCG
+.=</p>
+<p>Squashing 350 Squashing
+.=</p>
+<p>UWR UWR
+.=</p>
+<p>25 QWR QWR
+.=</p>
+<p>Anchoring 300 Anchoring
+.=</p>
+<p>UWR+Sq UWR+Sq
+.=</p>
+<p>QWR+Sq QWR+Sq
+.=</p>
+<p>20 250
+.=</p>
+<p>200
+15
+.=</p>
+<p>150
+.=</p>
+<p>10
+.=</p>
+<p>100
+.=</p>
+<p>5
+50
+.=</p>
+<p>0 0
+2 4 6 8 10 12 14 16 18 20 2 4 6 8 10 12 14 16 18 20
+.=</p>
+<p>Agents Agents
+.=</p>
+<p>Uniform Distribution Log-Normal Distribution
+.=</p>
+<p>Top 4 mechanisms are still nearly tied. Squashing and QWR
+are consistently below.
+.=</p>
+<p>As n increases, squashing gains on QWR.
+.=</p>
+<p>For log normal, squashing substantially outperforms QWR.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson)
+.=</p>
+<p>Revenue
+.=</p>
+<p>Revenue.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Why do search engines prefer QWR to UWR? Possible explanations:
+.=</p>
+<p>Whoops—they should use UWR.
+.=</p>
+<p>Analysis should consider long-run revenue
+.=</p>
+<p>Analysis should consider cost of showing bad ads
+.=</p>
+<p>Actually, they do some other, secret thing, not QWR.
+.=</p>
+<p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Conclusions
+.=</p>
+<p>We optimized revenue in GSP-like auctions under Varian’s
+valuation model, conducting three different kinds of analysis.
+.=</p>
+<p>QWR was consistently the lowest-revenue reserve-price
+variant, and substantially worse than UWR.
+.=</p>
+<p>Anchoring does well; optimal in simple settings
+.=</p>
+<p>Equilibrium selection: vanilla GSP, squashing have big gaps
+between best and worst case
+.=</p>
+<p>Squashing helps both UWR and QWR.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Whoops—they should use UWR.
+.=</p>
+<p>Analysis should consider long-run revenue
+.=</p>
+<p>Analysis should consider cost of showing bad ads
+.=</p>
+<p>Actually, they do some other, secret thing, not QWR.
+.=</p>
+<p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Conclusions
+.=</p>
+<p>We optimized revenue in GSP-like auctions under Varian’s
+valuation model, conducting three different kinds of analysis.
+.=</p>
+<p>QWR was consistently the lowest-revenue reserve-price
+variant, and substantially worse than UWR.
+.=</p>
+<p>Anchoring does well; optimal in simple settings
+.=</p>
+<p>Equilibrium selection: vanilla GSP, squashing have big gaps
+between best and worst case
+.=</p>
+<p>Squashing helps both UWR and QWR.
+.=</p>
+<p>Why do search engines prefer QWR to UWR? Possible explanations:
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis should consider long-run revenue
+.=</p>
+<p>Analysis should consider cost of showing bad ads
+.=</p>
+<p>Actually, they do some other, secret thing, not QWR.
+.=</p>
+<p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Conclusions
+.=</p>
+<p>We optimized revenue in GSP-like auctions under Varian’s
+valuation model, conducting three different kinds of analysis.
+.=</p>
+<p>QWR was consistently the lowest-revenue reserve-price
+variant, and substantially worse than UWR.
+.=</p>
+<p>Anchoring does well; optimal in simple settings
+.=</p>
+<p>Equilibrium selection: vanilla GSP, squashing have big gaps
+between best and worst case
+.=</p>
+<p>Squashing helps both UWR and QWR.
+.=</p>
+<p>Why do search engines prefer QWR to UWR? Possible explanations:
+.=</p>
+<p>Whoops—they should use UWR.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis should consider cost of showing bad ads
+.=</p>
+<p>Actually, they do some other, secret thing, not QWR.
+.=</p>
+<p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Conclusions
+.=</p>
+<p>We optimized revenue in GSP-like auctions under Varian’s
+valuation model, conducting three different kinds of analysis.
+.=</p>
+<p>QWR was consistently the lowest-revenue reserve-price
+variant, and substantially worse than UWR.
+.=</p>
+<p>Anchoring does well; optimal in simple settings
+.=</p>
+<p>Equilibrium selection: vanilla GSP, squashing have big gaps
+between best and worst case
+.=</p>
+<p>Squashing helps both UWR and QWR.
+.=</p>
+<p>Why do search engines prefer QWR to UWR? Possible explanations:
+.=</p>
+<p>Whoops—they should use UWR.
+.=</p>
+<p>Analysis should consider long-run revenue
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Actually, they do some other, secret thing, not QWR.
+.=</p>
+<p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Conclusions
+.=</p>
+<p>We optimized revenue in GSP-like auctions under Varian’s
+valuation model, conducting three different kinds of analysis.
+.=</p>
+<p>QWR was consistently the lowest-revenue reserve-price
+variant, and substantially worse than UWR.
+.=</p>
+<p>Anchoring does well; optimal in simple settings
+.=</p>
+<p>Equilibrium selection: vanilla GSP, squashing have big gaps
+between best and worst case
+.=</p>
+<p>Squashing helps both UWR and QWR.
+.=</p>
+<p>Why do search engines prefer QWR to UWR? Possible explanations:
+.=</p>
+<p>Whoops—they should use UWR.
+.=</p>
+<p>Analysis should consider long-run revenue
+.=</p>
+<p>Analysis should consider cost of showing bad ads
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model and Auctions Theory: single slot All pure equilibria, perfect information Equilibrium selection
+.=</p>
+<p>Conclusions
+.=</p>
+<p>We optimized revenue in GSP-like auctions under Varian’s
+valuation model, conducting three different kinds of analysis.
+.=</p>
+<p>QWR was consistently the lowest-revenue reserve-price
+variant, and substantially worse than UWR.
+.=</p>
+<p>Anchoring does well; optimal in simple settings
+.=</p>
+<p>Equilibrium selection: vanilla GSP, squashing have big gaps
+between best and worst case
+.=</p>
+<p>Squashing helps both UWR and QWR.
+.=</p>
+<p>Why do search engines prefer QWR to UWR? Possible explanations:
+.=</p>
+<p>Whoops—they should use UWR.
+.=</p>
+<p>Analysis should consider long-run revenue
+.=</p>
+<p>Analysis should consider cost of showing bad ads
+.=</p>
+<p>Actually, they do some other, secret thing, not QWR.
+.=</p>
+<p>Revenue Optimization in the GSP Leyton-Brown (joint work with David Thompson).=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

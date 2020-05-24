@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The place of automatic evaluation 
+</p>
+<p>metrics in external quality models 
+</p>
+<p>for machine translation
+</p>
+<p>Andrei Popescu-Belis
+</p>
+<p>ISSCO / TIM / ETI
+</p>
+<p>University of Geneva
+</p>
+<p>Workshop on Automatic Procedures in MT Evaluation
+</p>
+<p>MT Summit XI, Copenhagen, 11 September 2007</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What is translation evaluation?     ☺
+</p>
+<p> Given 
+</p>
+<p> a sentence Sn in a source language
+</p>
+<p> a sentence Tn in a target language
+</p>
+<p> Determine
+</p>
+<p> a score s(Sn , Tn) such as
+</p>
+<p> s = 1 iff Tn is a perfect translation of Sn
+</p>
+<p> s = 0 iff Tn is clearly not a translation of Sn 
+</p>
+<p> s(Sn , Tn) > s(Sn , Tk) iff
+</p>
+<p>Tn is a better translation of Sn than Tk
+</p>
+<p>2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Issues and answers
+</p>
+<p> What does “better translation” mean?
+</p>
+<p> go and ask people (= language users)
+</p>
+<p> Could s be computed automatically,
+directly from Sn and Tn?
+</p>
+<p> but this is also the goal of MT!
+</p>
+<p> so, could s be approximated? with 
+what supplementary knowledge?
+</p>
+<p> A consistently high s is not the only
+desirable property of an MT system
+</p>
+<p>  FEMTI
+</p>
+<p>3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Plan
+</p>
+<p> A principled view of MT evaluation: FEMTI
+ quality models: characteristics, attributes, metrics
+</p>
+<p> Two types of justifications for automatic MT 
+evaluation metrics
+ structural reasons (“glass-box”)
+</p>
+<p> empirical reasons (“black-box”)
+</p>
+<p> Empirical distance-based metrics
+ arguments for or against them
+</p>
+<p> Task-based evaluation
+ proposal for automatic task-based evaluation
+</p>
+<p>4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Principled view of MT evaluation: FEMTI
+</p>
+<p> FEMTI: Framework for the evaluation of MT, 
+</p>
+<p>started within the ISLE project
+</p>
+<p>http://www.issco.unige.ch/femti
+</p>
+<p> Two classifications / surveys
+</p>
+<p> characteristics of the context of use
+</p>
+<p> quality characteristics and metrics
+</p>
+<p> Helps to define evaluation plans
+</p>
+<p> support interfaces: specify context of use, then 
+</p>
+<p>generate contextualized quality model
+</p>
+<p>5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Important ISO-inspired notions
+</p>
+<p> ISO/IEC 9126 and 14598, SQUARE framework
+</p>
+<p> Quality
+</p>
+<p> “the totality of features and characteristics of a product or 
+</p>
+<p>service that bear on its ability to satisfy stated or implied 
+</p>
+<p>needs” (ISO/IEC 9126)
+</p>
+<p> decomposed into quality characteristics, then into 
+</p>
+<p>measurable attributes, each with internal/external metrics
+</p>
+<p> six categories of quality characteristics: functionality, 
+</p>
+<p>reliability, usability, efficiency, maintainability, portability
+</p>
+<p> Metric
+</p>
+<p> “a measurement is the use of a metric to assign a value 
+</p>
+<p>(i.e., a measure, be it a number or a category) from a scale 
+</p>
+<p>to an attribute of an entity” (ISO/IEC 14598)
+</p>
+<p>6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FEMTI refinement of ISO quality charac-
+teristics for MT (Hovy, King & Popescu-Belis, 2002)
+2.1 Functionality 2.1.2.3 Translation process models
+</p>
+<p>2.1.1 Accuracy 2.1.2.3.1 Methodology
+</p>
+<p>2.1.1.1 Terminology 2.1.2.3.1.1 Rule-based models
+</p>
+<p>2.1.1.2 Fidelity / precision 2.1.2.3.1.2 Statistically-based models
+</p>
+<p>2.1.1.3 Well-formedness 2.1.2.3.1.3 Example-based models
+</p>
+<p>2.1.1.3.1 Morphology 2.1.2.3.1.4 TM incorporated
+</p>
+<p>2.1.1.3.2 Punctuation errors 2.1.2.3.2 MT Models
+</p>
+<p>2.1.1.3.3 Lexis / Lexical choice 2.1.2.3.2.1 Direct MT
+</p>
+<p>2.1.1.3.4 Grammar / Syntax 2.1.2.3.2.2 Transfer-based MT
+</p>
+<p>2.1.1.4 Consistency 2.1.2.3.2.3 Interlingua-based MT
+</p>
+<p>2.1.2 Suitability 2.1.2.4 Linguistic resources and utilities
+</p>
+<p>2.1.2.1 Target-language suitability 2.1.2.4.1 Languages
+</p>
+<p>2.1.2.1.1 Readability 2.1.2.4.2 Dictionaries
+</p>
+<p>2.1.2.1.2 Comprehensibility 2.1.2.4.3 Word lists or glossaries
+</p>
+<p>2.1.2.1.3 Coherence 2.1.2.4.4 Corpora
+</p>
+<p>2.1.2.1.4 Cohesion 2.1.2.4.5 Grammars
+</p>
+<p>2.1.2.2 Cross-language / Contrastive 2.1.2.5 Characteristics of process flow
+</p>
+<p>2.1.2.2.1 Style 2.1.2.5.1 Translation preparation activities
+</p>
+<p>2.1.2.2.2 Coverage of corpus- 2.1.2.5.2 Post-translation activities
+specific phenomena 2.1.2.5.3 Interactive translation activities
+</p>
+<p>2.1.2.5.4 Dictionary updating
+</p>
+<p>2.1.3 Interoperability
+</p>
+<p>2.1.4 Functionality compliance 7
+</p>
+<p>2.1.5 Security</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FEMTI refinement of ISO quality charac-
+teristics for MT (Hovy, King & Popescu-Belis, 2002)
+</p>
+<p>2.2 Reliability 2.4.2 Resource utilisation
+</p>
+<p>2.2.1 Maturity 2.4.2.1 Memory usage
+</p>
+<p>2.2.2 Fault tolerance 2.4.2.2 Lexicon size
+</p>
+<p>2.2.3 Crashing frequency 2.4.2.3 Intermediate file clean-up
+</p>
+<p>2.2.4 Recoverability 2.4.2.4 Program size
+</p>
+<p>2.2.5 Reliability compliance 2.5 Maintainability
+</p>
+<p>2.3 Usability 2.5.1 Analysability
+</p>
+<p>2.3.1 Understandability 2.5.2 Changeability
+</p>
+<p>2.3.2 Learnability 2.5.2.1 Ease of upgrading multilingual aspects
+</p>
+<p>2.3.3 Operability 2.5.2.2 Improvability
+</p>
+<p>2.3.3.1 Process management 2.5.2.3 Ease of dictionary update
+</p>
+<p>2.3.4 Documentation 2.5.2.4 Ease of modifying grammar rules
+</p>
+<p>2.3.5 Attractiveness 2.5.2.5 Ease of importing data
+</p>
+<p>2.3.6 Usability compliance 2.5.3 Stability
+</p>
+<p>2.4 Efficiency 2.5.4 Testability
+</p>
+<p>2.4.1 Time behaviour 2.5.5 Maintainability compliance
+</p>
+<p>2.4.1.1 Overall Production Time 2.6 Portability
+</p>
+<p>2.4.1.2 Pre-processing time 2.6.1 Adaptability
+</p>
+<p>2.4.1.3 Input to Output Tr. Speed 2.6.2 Installability
+</p>
+<p>2.4.1.4 Post-processing time 2.6.3 Portability compliance
+</p>
+<p>2.4.1.4.1 Post-editing time 2.6.4 Replaceability
+</p>
+<p>2.4.1.4.2 Code set conversion 2.6.5 Co-existence
+</p>
+<p>2.4.1.4.3 Update time 2.7 Cost (Introduction, Maintenance, Other) 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Examples of metrics from FEMTI
+</p>
+<p> For <2.1.1.2 Fidelity>
+ assessment of the correctness of the information transferred 
+by human judges
+</p>
+<p> For <2.4.1.3 Input to Output Translation Speed>
+ number of translated words per unit of time
+</p>
+<p> For <2.1.3.2 Punctuation errors>
+ percentage of correct punctuation marks
+</p>
+<p> For <2.5.2.3 Ease of dictionary update>
+ time OR effort necessary to update dictionary
+</p>
+<p> Some metrics require human judges that cannot be 
+replaced with software (#1 above)
+</p>
+<p> Some metrics can be applied both by human judges or 
+software (#2), but software is more precise & cheaper
+</p>
+<p> Some require human judges or complex software (#3)
+</p>
+<p> Some metrics require human users of the system (#4)
+</p>
+<p>9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This workshop:
+“Automatic procedures in MT evaluation”
+</p>
+<p> Underlying assumption: look only at 
+</p>
+<p>automatic metrics for the quality of 
+</p>
+<p>MT output such as BLEU, WER, etc.
+</p>
+<p> FEMTI Part II, under 
+</p>
+<p><2.1 Functionality>
+</p>
+<p> current metrics require human judges
+</p>
+<p> could they all be automated? No obvious 
+</p>
+<p>solutions!
+</p>
+<p>10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Place of automatic metrics in FEMTI
+</p>
+<p> Do automatic metrics which were 
+</p>
+<p>independently proposed belong in FEMTI? 
+</p>
+<p>Where?
+</p>
+<p> If a function s(S , T) : SL x TL  [0; 1] is 
+</p>
+<p>to be called a quality metric, one should 
+</p>
+<p>indicate what quality it measures
+</p>
+<p> it must be possible to integrate this (external) 
+</p>
+<p>quality into the ISO/FEMTI classification, most 
+</p>
+<p>likely under <Functionality>, if not present yet
+</p>
+<p>11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two types of justifications for 
+automatic MT evaluation metrics (1/2)
+</p>
+<p> Structural = “glass-box”
+</p>
+<p> the definition of the score s indicates that 
+</p>
+<p>it measures the same quality attribute as a 
+</p>
+<p>recognized metric applied by humans
+</p>
+<p> hence place s in FEMTI under the same 
+</p>
+<p>quality attribute
+</p>
+<p> An infrequent justification…
+</p>
+<p>12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two types of justifications for 
+automatic MT evaluation metrics (2/2)
+</p>
+<p> Empirical (and frequent) justification = “black-box”
+</p>
+<p> the values of score s on a given test set are statistically 
+</p>
+<p>correlated with a recognized metric applied by human judges 
+</p>
+<p> assume that the two metrics measure the same quality
+</p>
+<p> Reverse engineering: how to construct such a score s?
+</p>
+<p> start with a set of MT sentences that are already scored by 
+</p>
+<p>humans according to a metric sh , i.e. start with a large set 
+</p>
+<p>of triples (Sn, Tn, sh(n))
+</p>
+<p> train a statistical model to approximate sh and then estimate 
+</p>
+<p>its error using cross-validation  new automatic metric!
+</p>
+<p> But this is the same problem as statistical MT! (sh = 1)
+</p>
+<p> too difficult…  need to use supplementary information 
+</p>
+<p>about correct translation(s) of the evaluation data set
+</p>
+<p>13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Trainable distance-based metrics
+</p>
+<p> Distance-based NLP evaluation
+</p>
+<p> the evaluation data set (test set) contains desired 
+</p>
+<p>output associated to the input data
+</p>
+<p> evaluation metrics are defined as distances between a 
+</p>
+<p>system’s output and the desired output, averaged 
+</p>
+<p>over all items of input data
+</p>
+<p> Situation for MT
+</p>
+<p> no unique desired output for an input sentence
+</p>
+<p> frequent proposal: compute a distance between a 
+</p>
+<p>system’s output and a sample of correct outputs
+</p>
+<p>(often up to 4)
+</p>
+<p> replace score s(Sn , Tn) with d({Tref(1), …, Tref(4)}, Tn)
+</p>
+<p>14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Graphical representation
+</p>
+<p>x = Sample of correct
+</p>
+<p>x = MT output to be evaluated translations of sentence 
+Sn (reference translations)
+</p>
+<p>x x
+</p>
+<p>Distance to sample x x
+</p>
+<p>x
+</p>
+<p>Real distance
+</p>
+<p>All correct translations 
+of sentence Sn
+</p>
+<p>All possible sentences
+</p>
+<p>15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Training automatic metrics
+</p>
+<p> How to construct a distance-based automatic metric d?
+</p>
+<p> start with a set of machine-translated sentences (Tn) that are already 
+</p>
+<p>scored by humans according to a metric sh 
+</p>
+<p> each source sentence is accompanied by reference translation(s)
+</p>
+<p> i.e. start with a large set of t-uples ({Tref(1), …, Tref(k)}, Tn, sh(n))
+</p>
+<p> Find a distance d that approximates sh
+</p>
+<p> that is,  d({Tref(1), …, Tref(k)}, Tn) ≈ sh(n)
+</p>
+<p> Essential point: role of (machine) learning
+</p>
+<p> either the statistical model d was explicitly trained to approximate sh 
+</p>
+<p> or several distances d were tried & the one closest to s
+i h was selected
+</p>
+<p> in both cases, error of the model was estimated using cross-validation
+</p>
+<p>16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Advantages and drawbacks of trainable 
+(empirical) distance-based metrics
+</p>
+<p> Advantages
+</p>
+<p> low application cost
+</p>
+<p> high speed
+</p>
+<p> reproducible (vs. human judges who may vary)
+</p>
+<p> Drawbacks
+</p>
+<p> correlation with reference (human) metric holds mainly for 
+</p>
+<p>data that is similar to the training (or validation data) 
+</p>
+<p> unknown behavior for different (unseen) types of data
+</p>
+<p> unclear/variable correlation with ISO-style qualities
+</p>
+<p> need training data (which may have imperfect inter-judge 
+</p>
+<p>agreement)
+</p>
+<p>17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An alternative: task-based evaluation
+</p>
+<p> Measure utility of MT output for a given task
+</p>
+<p> e.g. performance of human subjects on a task using 
+human vs. machine-translated text
+</p>
+<p> closer to ISO’s quality in use
+</p>
+<p> increasingly popular as limits of BLEU become visible
+</p>
+<p>+ OK if system intended for specific application
+</p>
+<p>─ Expensive, time-consuming
+</p>
+<p> Idea
+</p>
+<p> automatic task-based evaluation
+</p>
+<p> use MT output for another NLP module for which good 
+automatic metrics are available
+</p>
+<p> e.g. reference resolution, document retrieval
+18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions: two views of the future
+</p>
+<p> Utilitarian view
+</p>
+<p> a “better” system means only “better adapted to the 
+</p>
+<p>users who wish to pay for it” – no absolute metrics 
+</p>
+<p> task-based metrics do work, and could be automated
+</p>
+<p> but could this really be the whole story?
+</p>
+<p> Cognitive view
+</p>
+<p> why did the quest for MT evaluation metrics become 
+</p>
+<p>just another NLP problem?
+</p>
+<p> with machine learning techniques, annotated data, etc.
+</p>
+<p> the invariants of translation aren’t well understood
+</p>
+<p> good candidates for ground truth
+</p>
+<p> components of meaning: logical form, inferences
+</p>
+<p>19</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

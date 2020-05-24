@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Improving Adaptive Bagging Methods for Evolving Data Streams</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<title level="a" type="main">Improving Adaptive Bagging Methods for Evolving Data Streams</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We propose two new improvements for bagging methods on evolving data streams. Recently, two new variants of Bagging were proposed [5] : ADWIN Bagging and Adaptive-Size Hoeffding Tree (ASHT) Bagging. ASHT Bagging uses trees of different sizes, and ADWIN Bagging uses ADWIN as a change detector to decide when to discard underperforming ensemble members. We improve ADWIN Bagging using Hoeffding Adaptive Trees, trees that can adaptively learn from data streams that change over time. To speed up the time for adapting to change of Adaptive-Size Hoeffding Tree (ASHT) Bagging, we add an error change detector for each classifier. We test our improvements by performing an evaluation study on synthetic and real-world datasets comprising up to ten million examples.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Data streams pose several challenges on data mining algorithm design. First, algorithms must make use of limited resources (time and memory). Second, by necessity they must deal with data whose nature or distribution changes over time. In turn, dealing with time-changing data requires strategies for detecting and quantifying change, forgetting stale examples, and for model revision. Fairly generic strategies exist for detecting change and deciding when examples are no longer relevant. Model revision strategies, on the other hand, are in most cases method-specific.</p><p>The following constraints apply in the Data Stream model:</p><p>1. Data arrives as a potentially infinite sequence. Thus, it is impossible to store it all. Therefore, only a small summary can be computed and stored. 2. The speed of arrival of data is fast, so each particular element has to be processed essentially in real time, and then discarded. 3. The distribution generating the items may change over time. Thus, data from the past may become irrelevant (or even harmful) for the current prediction.</p><p>Under these constraints the main properties of an ideal classification method are the following: high accuracy and fast adaption to change, low computational cost in both space and time, theoretical performance guarantees, and a minimal number of parameters.</p><p>Ensemble methods are combinations of several models whose individual predictions are combined in some manner (for example, by averaging or voting) to form a final prediction. Often, ensemble learning classifiers provide superior predictive performance and they are easier to scale and parallelize than single classifier methods.</p><p>In <ref type="bibr" target="#b4">[5]</ref> two new state-of-the-art bagging methods were presented: ASHT Bagging using trees of different sizes, and ADWIN Bagging using a change detector to decide when to discard underperforming ensemble members. This paper improves on ASHT Bagging by speeding up the time taken to adapt to changes in the distribution generating the stream. It improves on ADWIN Bagging by employing Hoeffding Adaptive Trees, trees that can adaptively learn from evolving data streams. The paper is structured as follows: the state-of-the-art Bagging methods are presented in Section 2. Improvements to these methods are presented in Section 3. An experimental evaluation is conducted in Section 4. Finally, conclusions and suggested items for future work are presented in Section 5. In <ref type="bibr" target="#b4">[5]</ref>, a new method of bagging was presented using Hoeffding Trees of different sizes. A Hoeffding tree <ref type="bibr" target="#b7">[8]</ref> is an incremental, anytime decision tree induction algorithm that is capable of learning from massive data streams, assuming that the distribution generating examples does not change over time. Hoeffding trees exploit the fact that a small sample can often be enough to choose an optimal splitting attribute. This idea is supported mathematically by the Hoeffding bound, which quantifies the number of observations (in our case, examples) needed to estimate some statistics within a prescribed precision (in our case, the goodness of an attribute). More precisely, the Hoeffding bound states that with probability 1 − δ, the true mean of a random variable of range R will not differ from the estimated mean after n independent observations by more than:</p><formula xml:id="formula_0">= R 2 ln(1/δ) 2n .</formula><p>A theoretically appealing feature of Hoeffding Trees not shared by other incremental decision tree learners is that it has sound guarantees of performance. Using the Hoeffd-ing bound one can show that its output is asymptotically nearly identical to that of a non-incremental learner using infinitely many examples. See <ref type="bibr" target="#b7">[8]</ref> for details. The Adaptive-Size Hoeffding Tree (ASHT) is derived from the Hoeffding Tree algorithm with the following differences:</p><p>it has a value for the maximum number of split nodes, or size after one node splits, if the number of split nodes of the ASHT tree is higher than the maximum value, then it deletes some nodes to reduce its size</p><p>The intuition behind this method is as follows: smaller trees adapt more quickly to changes, and larger trees perform better during periods with little or no change, simply because they were built on more data. Trees limited to size s will be reset about twice as often as trees with a size limit of 2s. This creates a set of different reset-speeds for an ensemble of such trees, and therefore a subset of trees that are a good approximation for the current rate of change. It is important to note that resets will happen all the time, even for stationary datasets, but this behaviour should not have a negative impact on the ensemble's predictive performance.</p><p>When the tree size exceeds the maximun size value, there are two different delete options:</p><p>delete the oldest node, the root, and all of its children except the one where the split has been made. After that, the root of the child not deleted becomes the new root. delete all the nodes of the tree, that is, restart from a new root.</p><p>In <ref type="bibr" target="#b4">[5]</ref> a new bagging method was presented that uses these Adaptive-Size Hoeffding Trees and that sets the size for each tree. The maximum allowed size for the n-th ASHT tree is twice the maximum allowed size for the (n − 1)-th tree. Moreover, each tree has a weight proportional to the inverse of the square of its error, and it monitors its error with an exponential weighted moving average (EWMA) with α = .01. The size of the first tree is 2.</p><p>With this new method, the authors attempted to improve bagging performance by increasing tree diversity. It has been observed <ref type="bibr" target="#b14">[15]</ref> that boosting tends to produce a more diverse set of classifiers than bagging, and this has been cited as a factor in increased performance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Bagging using ADWIN</head><p>ADWIN <ref type="bibr" target="#b2">[3]</ref> is a change detector and estimator that solves in a well-specified way the problem of tracking the average of a stream of bits or real-valued numbers. ADWIN keeps a variable-length window of recently seen items, with the property that the window has the maximal length statistically consistent with the hypothesis "there has been no change in the average value inside the window".</p><p>More precisely, an older fragment of the window is dropped if and only if there is enough evidence that its average value differs from that of the rest of the window. This has two consequences: first, that change is reliably declared whenever the window shrinks; and second, that at any time the average over the existing window can be reliably taken as an estimate of the current average in the stream (barring a very small or very recent change that is still not statistically visible). A formal and quantitative statement of these two points (in the form of a theorem) appears in <ref type="bibr" target="#b2">[3]</ref>.</p><p>ADWIN is parameter-and assumption-free in the sense that it automatically detects and adapts to the current rate of change. Its only parameter is a confidence bound δ, indicating how confident we want to be in the algorithm's output, a property inherent to all algorithms dealing with random processes.</p><p>Also important for our purposes, ADWIN does not maintain the window explicitly, but compresses it using a variant of the exponential histogram technique. This means that it keeps a window of length W using only O(log W ) memory and O(log W ) processing time per item.</p><p>Bagging using ADWIN is implemented as ADWIN Bagging where the Bagging method is the online bagging method of Oza and Rusell <ref type="bibr" target="#b16">[17]</ref> with the addition of the ADWIN algorithm as a change detector. When a change is detected, the worst classifier of the ensemble of classifiers is removed and a new classifier is added to the ensemble.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Improvements for Adaptive Bagging Methods</head><p>In this section we propose two new improvements for the adaptive bagging methods explained in the previous section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">ADWIN bagging using Hoeffding Adaptive Trees</head><p>The basic idea is to use adaptive Hoeffding trees instead of non-adaptive Hoeffding trees as the base classifier for the bagging ensemble method. We use the Hoeffding Adaptive Trees proposed in <ref type="bibr" target="#b3">[4]</ref>, where a new method for managing alternate trees is proposed. The general idea is simple: we place ADWIN instances at every node that will raise an alert whenever something worth attention happens at the node.</p><p>We use the variant of the Hoeffding Adaptive Tree algorithm (HAT for short) that uses ADWIN as a change detector. It uses one instance of ADWIN in each node, as a change detector, to monitor the classification error rate at that node. A significant increase in that rate indicates that the data is changing with respect to the time at which the subtree was created. This was the approach used by Gama et al. in <ref type="bibr" target="#b9">[10]</ref>, using another change detector.</p><p>When any instance of ADWIN at a node detects change, we create a new alternate tree without splitting any attribute. Using two ADWIN instances at every node, we monitor the average error of the subtree rooted at this node and the average error of the new alternate subtree. When there is enough evidence (as witnessed by ADWIN) that the new alternate tree is doing better than the original decision subtree, we replace the original decision subtree by the new alternate subtree.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">DDM Bagging using trees of different size</head><p>We improve the Bagging using trees of different size, by adding a change detector for each Hoeffding tree to speed up the adaption to the evolving stream.</p><p>We use two drift detection methods (DDM and EDDM) proposed by Gama et al. <ref type="bibr" target="#b8">[9]</ref> and Baena-García et al. <ref type="bibr" target="#b1">[2]</ref>. These methods control the number of errors produced by the learning model during prediction. They compare the statistics of two windows: the first contains all of the data, and the second contains only the data from the beginning until the number of errors increases. Their methods do not store these windows in memory. They keep only statistics and a window of recent errors data.</p><p>The drift detection method (DDM) uses the number of errors in a sample of n examples, modelled by a binomial distribution. For each point i in the sequence that is being sampled, the error rate is the probability of misclassifying (p i ), with standard deviation given by s i = p i (1 − p i )/i. They assume (as stated in the PAC learning model <ref type="bibr" target="#b15">[16]</ref>) that the error rate of the learning algorithm (p i ) will decrease while the number of examples increases if the distribution of the examples is stationary. A significant increase in the error of the algorithm, suggests that the class distribution is changing and, hence, the actual decision model is supposed to be inappropriate. Thus, they store the values of p i and s i when p i + s i reaches its minimum value during the process (obtaining p pmin and s min ). It then checks when the following conditions are triggered: This approach is good at detecting abrupt changes and gradual changes when the gradual change is not very slow, but has difficulties when the change is gradual and slow. In that case, the examples will be stored for a long time, the drift level then takes too long to trigger and the examples in memory can be exceeded.</p><formula xml:id="formula_1">-p i + s i ≥ p min + 2 · s</formula><p>Baena-García et al. proposed a new method EDDM <ref type="bibr" target="#b1">[2]</ref> in order to improve DDM. It is based on the estimated distribution of the distances between classification errors. The window resize procedure is governed by the same heuristics.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Comparative Experimental Evaluation</head><p>Massive Online Analysis (MOA) <ref type="bibr" target="#b12">[13]</ref> is a software environment for implementing algorithms and running experiments for online learning from data streams. The data stream evaluation framework and all algorithms evaluated in this paper were implemented in the Java programming language extending the MOA software. MOA includes a collection of offline and online methods as well as tools for evaluation. In particular, it implements boosting, bagging, and Hoeffding Trees, all with and without Naïve Bayes classifiers at the leaves.</p><p>One of the key data structures used in MOA is the description of an example from a data stream. This structure borrows from WEKA, where an example is represented by an array of double precision floating point values. This provides freedom to store all necessary types of value -numeric attribute values can be stored directly, and discrete attribute values and class labels are represented by integer index values that are stored as floating point values in the array. Double precision floating point values require storage space of 64 bits, or 8 bytes. This detail can have implications for memory usage.</p><p>We use the new experimental framework for concept drift presented in <ref type="bibr" target="#b4">[5]</ref>. Considering data streams as data generated from pure distributions, we can model a concept drift event as a weighted combination of two pure distributions that characterizes the target concepts before and after the drift. This framework defines the probability that every new instance of the stream belongs to the new concept after the drift. It uses the sigmoid function, as an elegant and practical solution. We see from <ref type="figure" target="#fig_2">Figure 2</ref> that the sigmoid function</p><formula xml:id="formula_2">f (t) = 1/(1 + e −s(t−t0) )</formula><p>has a derivative at the point t 0 equal to f (t 0 ) = s/4. The tangent of angle α is equal to this derivative, tan α = s/4. We observe that tan α = 1/W , and as s = 4 tan α then s = 4/W . So the parameter s in the sigmoid gives the length of W and the angle α. In this sigmoid model we only need to specify two parameters : t 0 the point of change, and W the length of change.  In order to create a data stream with multiple concept changes, we can build new data streams joining different concept drifts:</p><formula xml:id="formula_3">(((a ⊕ W0 t0 b) ⊕ W1 t1 c) ⊕ W2 t2 d) . . .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Datasets for concept drift</head><p>Synthetic data has several advantages -it is easier to reproduce and there is little cost in terms of storage and transmission. For this paper we use the data generators most commonly found in the literature.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SEA Concepts Generator</head><p>This artificial dataset contains abrupt concept drift, first introduced in <ref type="bibr" target="#b19">[20]</ref>. It is generated using three attributes, where only the two first attributes are relevant. All three attributes have values between 0 and 10. The points of the dataset are divided into 4 blocks with different concepts. In each block, the classification is done using f 1 + f 2 ≤ θ, where f 1 and f 2 represent the first two attributes and θ is a threshold value. The most frequent values are 9, 8, 7 and 9.5 for the data blocks. In our framework, SEA concepts are defined as follows:</p><formula xml:id="formula_4">(((SEA 9 ⊕ W t0 SEA 8 ) ⊕ W 2t0 SEA 7 ) ⊕ W 3t0 SEA 9.5 )</formula><p>Rotating Hyperplane It was used as testbed for CVFDT versus VFDT in <ref type="bibr" target="#b13">[14]</ref>. A hyperplane in d-dimensional space is the set of points x that satisfy w i x i &lt; w 0 are labeled negative. Hyperplanes are useful for simulating time-changing concepts, because we can change the orientation and position of the hyperplane in a smooth manner by changing the relative size of the weights. We introduce change to this dataset adding drift to each weight attribute w i = w i + dσ, where σ is the probability that the direction of change is reversed and d is the change applied to every example. Random RBF Generator This generator was devised to offer an alternate complex concept type that is not straightforward to approximate with a decision tree model. The RBF (Radial Basis Function) generator works as follows: A fixed number of random centroids are generated. Each center has a random position, a single standard deviation, class label and weight. New examples are generated by selecting a center at random, taking weights into consideration so that centers with higher weight are more likely to be chosen. A random direction is chosen to offset the attribute values from the central point. The length of the displacement is randomly drawn from a Gaussian distribution with standard deviation determined by the chosen centroid. The chosen centroid also determines the class label of the example. This effectively creates a normally distributed hypersphere of examples surrounding each central point with varying densities. Only numeric attributes are generated. Drift is introduced by moving the centroids with constant speed. This speed is initialized by a drift parameter. LED Generator This data source originates from the CART book <ref type="bibr" target="#b5">[6]</ref>. An implementation in C was donated to the UCI [1] machine learning repository by David Aha. The goal is to predict the digit displayed on a seven-segment LED display, where each attribute has a 10% chance of being inverted. It has an optimal Bayes classification rate of 74%. The particular configuration of the generator used for experiments (led) produces 24 binary attributes, 17 of which are irrelevant.</p><formula xml:id="formula_5">d i=1 w i x i = w 0 = d i=1 w i where x i , is the ith coordinate of x. Examples for which d i=1 w i x i ≥ w 0 are la-</formula><p>Data streams may be considered infinite sequences of (x, y) where x is the feature vector and y the class label. Zhang et al. <ref type="bibr" target="#b20">[21]</ref> observe that p(x, y) = p(x|t) · p(y|x) and categorize concept drift in two types:</p><p>-Loose Concept Drifting (LCD) when concept drift is caused only by the change of the class prior probability p(y|x), -Rigorous Concept Drifting (RCD) when concept drift is caused by the change of the class prior probability p(y|x) and the conditional probability p(x|t)</p><p>Note that the Random RBF Generator has RCD drift, and the rest of the dataset generators have LCD drift.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Real-World Data</head><p>It is not easy to find large real-world datasets for public benchmarking, especially with substantial concept change. The UCI machine learning repository <ref type="bibr" target="#b0">[1]</ref> contains some real-world benchmark data for evaluating machine learning techniques. We consider three of the largest: Forest Covertype, Poker-Hand, and Electricity.</p><p>Forest Covertype Contains the forest cover type for 30 x 30 meter cells obtained from US Forest Service (USFS) Region 2 Resource Information System (RIS) data. It contains 581, 012 instances and 54 attributes, and it has been used in several papers on data stream classification <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b17">18]</ref>. Poker-Hand Consists of 1, 000, 000 instances and 11 attributes. Each record of the Poker-Hand dataset is an example of a hand consisting of five playing cards drawn from a standard deck of 52. Each card is described using two attributes (suit and rank), for a total of 10 predictive attributes. There is one Class attribute that describes the "Poker Hand". The order of cards is important, which is why there are 480 possible Royal Flush hands instead of 4. Electricity Is another widely used dataset described by M. Harries <ref type="bibr" target="#b11">[12]</ref> and analysed by <ref type="bibr">Gama [9]</ref>. This data was collected from the Australian New South Wales Electricity Market. In this market, the prices are not  three datasets, merging attributes, and supposing that each dataset corresponds to a different concept.</p><p>CovPokElec = (CoverType ⊕ 5,000 581,012 Poker) ⊕ 5,000 1,000,000 ELEC</p><p>As all examples need to have the same number of attributes, we simple concatenate all the attributes, and we set a number of classes that is the maximum number of classes of all the datasets.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Results</head><p>We use the datasets for evaluation explained in the previous sections. The experiments were performed on a 2.0 GHz Intel Core Duo PC machine with 2 Gigabyte main memory, running Ubuntu 8.10. The evaluation methodology used was Interleaved Test-Then-Train: every example was used for testing the model before using it to train. This interleaved test followed by train procedure was carried out on 10 million examples from the hyperplane and RandomRBF datasets, and one million examples from the SEA dataset. <ref type="table">Tables 1 and 2</ref> reports the final accuracy, and speed of the classification models induced on synthetic data. <ref type="table">Table 3</ref> shows the results for real datasets: Forest CoverType, Poker Hand, and CovPokElec. The results for the Electricity dataset were structurally similar  to those for the Forest CoverType dataset and therefore not reported. Additionally, the learning curves and model growth curves for LED dataset are plotted ( <ref type="figure" target="#fig_7">Figure 3</ref>). The first, and baseline, algorithm (HT) is a single Hoeffding tree, enhanced with adaptive Naive Bayes leaf predictions. Parameter settings are n min = 1000, δ = 10 −8 and τ = 0.05, as used in <ref type="bibr" target="#b7">[8]</ref>. The HT DDM and HT EDDM are Hoeffding Trees with drift detection methods as explained in Section 3.2.</p><p>Bag10 is Oza and Russell online bagging using ten classifiers and Bag5 only five. BagADWIN is the online bagging version using ADWIN explained in Section 2.2. As described earlier, we implemented the following new variants of bagging:</p><p>-ADWIN Bagging using Hoeffding Adaptive Trees.</p><p>-Bagging ASHT using the DDM drift detection method -Bagging ASHT using the EDDM drift detection method</p><p>In general terms, we observe that ensemble methods perform better than single classifier methods, and that explicit drift detection is better. However, these improvements come at a cost of runtime and memory. In fact, the results indicate that memory is not as big an issue as the runtime accuracy tradeoff.</p><p>RCD drift produces much more drama than LCD -for example, the best result in <ref type="table">Table 2</ref>  For all datasets one of the new methods always wins in terms of accuracy. Specifically, on the nine analysed datasets: BagADWIN 10 HAT wins five times out of nine, DDM Bag10 ASHT W wins three times, EDDM Bag10 ASHT W wins once; this relationship is consistent in the following way: whenever the single HAT beats Bag10 ASHT W, then BagADWIN 10 HAT beats DDM Bag10 ASHT W, and vice versa. Note that the bad result for DDM Bag10 ASHT W on the Poker dataset must be due to too many false positive drift predictions that wrongly keep the model too small (this can be verified by observing the memory usage in this case), which is mirrored by the behavior of HT DDM on the Poker dataset.</p><p>The new improved ensemble methods presented in this paper are slower than the old ones, with BagADWIN 10 HAT being worst, because it pays twice: through the addition of ADWIN and HAT, the latter being slower than HT by a factor between two and five. Change detection can be time-consuming, the extreme case being Naive Bayes vs. NBAdwin, where Naive Bayes can be up to six times faster. However, change detection helps accuracy, with improvements of up to 20 percentage points (see, for example, CovPokElec).</p><p>Non-drift-aware non-adaptive ensembles like Bag10 HT and OzaBoost usually need the most memory, sometimes by a very large margin. Bag10 ASHT W+R needs a lot more memory than Bag5 ASHT W+R, because the last trees in a Bag N ASHT W+R needs as much space as the full Bag N-1 ASHT W+R ensemble.</p><p>Recall that data stream evaluation is fundamentally three-dimensional. When adding adaptability to evolving data streams using change detector methods, we increase the run-time, obtaining more accurate methods. For example, adding a change detector DDM to HT, or to Bag10 ASHT W, in <ref type="table">Table 1</ref>, we observe a higher cost in runtime, but also an improvement in accuracy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Conclusions and Future Work</head><p>We have presented two new improvements for bagging methods, using Hoeffding Adaptive Trees and change detection methods. In general terms, we observe that using explicit drift detection methods we improve accuracy. However, these improvements come at a cost of runtime and memory. It seems that the cost of improving accuracy in bagging methods for data streams, is large in runtime, but small in memory.</p><p>As future work, we would like to build new ensemble methods that perform with an accuracy similar to the methods presented in this paper, but using less runtime. These new methods could be a boosting ensemble method, or a bagging method using new change detection strategies. We think that a boosting method could improve bagging performance by increasing tree diversity, as it is shown by the increased performance of boosting for the traditional batch learning setting. This could be a challenging topic since in <ref type="bibr" target="#b4">[5]</ref>, the authors didn't find any boosting method in the literature <ref type="bibr" target="#b16">[17,</ref><ref type="bibr" target="#b18">19,</ref><ref type="bibr" target="#b6">7]</ref> that outperformed bagging in the streaming setting.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>An ensemble of trees of different size</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>min for the warning level. Beyond this level, the examples are stored in anticipation of a possible change of context. p i + s i ≥ p min + 3 · s min for the drift level. Beyond this level the concept drift is supposed to be true, the model induced by the learning method is reset and a new model is learnt using the examples stored since the warning level triggered. The values for p min and s min are reset too.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 2 .</head><label>2</label><figDesc>A sigmoid function f (t) = 1/(1 + e −s(t−t 0 ) ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Definition 1 .</head><label>1</label><figDesc>Given two data streams a, b, we define c = a ⊕ W t0 b as the data stream built joining the two data streams a and b, where t 0 is the point of change, W is the length of change and</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>-</head><label></label><figDesc>Pr[c(t) = a(t)] = e −4(t−t0)/W /(1 + e −4(t−t0)/W ) -Pr[c(t) = b(t)] = 1/(1 + e −4(t−t0)/W ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head></head><label></label><figDesc>fixed and are affected by demand and supply of the market. The prices in this market are set every five minutes. The ELEC dataset contains 45, 312 instances. Each example of the dataset refers to a period of 30 minutes, i.e. there are 48 instances for each time period of one day. The class label identifies the change of the price related to a moving average of the last 24 hours. The class level only reflect deviations of the price on a one day average and removes the impact of longer term price trends.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig. 3 .</head><label>3</label><figDesc>Accuracy, runtime and memory on dataset LED with three concept drifts.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>The size of these datasets is small, compared to tens of millions of training examples of synthetic datasets: 45, 312 for ELEC dataset, 581, 012 for CoverType, and 1, 000, 000 for Poker-Hand. Another important fact is that we do not know when drift occurs or indeed if there is any drift. We may simulate RCD concept drift, joining theTable 1. Comparison of algorithms. Accuracy is measured as the final percentage of examples correctly classified over the 1 or 10 million test/train interleaved evaluation. Time is measured in seconds, and memory in MB. The best individual accuracies are indicated in boldface. Note that due to the large number of test examples all differences are statistically significant, but these differences may not be meaningful in practise.</figDesc><table>Hyperplane 
+Hyperplane 
+SEA 
+Drift .0001 
+Drift .001 
+W= 50000 
+Time Acc. Mem. 
+Time Acc. Mem. Time Acc. Mem. 
+BagADWIN 10 HAT 
+3025.87 90.80 9.91 2834.85 90.02 1.23 154.91 89.02 2.35 
+DDM Bag10 ASHT W 1321.64 91.57 0.85 1351.16 91.23 2.10 44.02 88.80 0.65 
+EDDM Bag10 ASHT W 1362.31 91.39 3.15 1371.46 90.96 2.77 48.95 88.75 0.90 
+NaiveBayes 
+86.97 84.37 0.01 
+86.87 73.69 0.01 
+5.52 83.87 0.00 
+NBADWIN 
+308.85 91.40 0.06 295.19 90.68 0.06 12.40 87.58 0.02 
+HT 
+157.71 86.39 9.57 159.43 80.70 10.41 
+7.20 84.87 0.33 
+HT DDM 
+174.10 89.28 0.04 180.51 88.48 0.01 
+7.88 88.07 0.16 
+HT EDDM 
+207.47 88.95 13.23 193.07 87.64 2.52 
+8.52 87.64 0.06 
+HAT 
+500.81 89.88 1.72 
+431.6 88.72 0.15 20.96 88.32 0.18 
+BagADWIN 10 HT 
+1306.22 91.16 11.40 1308.08 90.48 5.52 53.15 88.53 0.88 
+Bag10 HT 
+1236.92 87.68 108.75 1253.07 81.80 114.14 30.88 85.34 3.36 
+Bag10 ASHT 
+1060.37 91.11 2.68 1070.44 90.08 2.69 35.30 87.57 0.91 
+Bag10 ASHT W 
+1055.87 91.40 2.68 1073.96 90.65 2.69 35.69 87.91 0.91 
+Bag10 ASHT R 
+995.06 91.47 2.95 1016.48 90.61 2.14 33.74 88.07 0.84 
+Bag10 ASHT W+R 
+996.52 91.57 2.95 1024.02 90.94 2.14 33.56 88.30 0.84 
+Bag5 ASHT W+R 
+551.53 90.75 0.08 562.09 90.57 0.09 20.00 87.99 0.05 
+OzaBoost 
+974.69 87.01 130.00 959.14 82.56 123.75 39.97 86.17 4.00 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Table 2. Comparison of algorithms. Accuracy is measured as the final percentage of examples correctly classified over the 1 or 10 million test/train interleaved evaluation. Time is measured in seconds, and memory in MB.</figDesc><table>RandomRBF 
+RandomRBF 
+RandomRBF 
+No Drift 
+Drift .0001 
+Drift .001 
+50 centers 
+50 centers 
+50 centers 
+Time Acc. Mem. 
+Time Acc. Mem. 
+Time Acc. Mem. 
+BagADWIN 10 HAT 
+5378.75 95.40 119.17 2706.91 86.73 0.51 1976.62 69.09 0.10 
+DDM Bag10 ASHT W 1230.43 93.01 3.21 1349.65 83.42 0.53 1441.22 69.85 3.09 
+EDDM Bag10 ASHT W 1317.58 93.29 3.76 1366.65 84.30 0.71 1422.31 70.29 0.71 
+NaiveBayes 
+111.12 72.04 0.01 111.47 53.21 0.01 113.37 53.17 0.01 
+NBADWIN 
+396.01 72.04 0.08 272.58 68.07 0.05 
+249.1 62.20 0.04 
+HT 
+154.67 93.64 6.86 189.25 63.64 9.86 186.47 55.48 8.90 
+HT DDM 
+185.15 93.64 13.72 199.95 76.49 0.02 206.41 64.09 0.03 
+HT EDDM 
+185.89 93.66 13.81 214.55 75.55 0.09 203.41 64.00 0.02 
+HAT 
+794.48 93.63 9.28 413.53 79.09 0.09 294.94 65.29 0.01 
+BagADWIN 10 HT 
+1238.50 95.29 67.79 1326.12 85.23 0.26 1354.03 67.18 0.03 
+Bag10 HT 
+995.46 95.30 71.26 1362.66 71.08 106.20 1240.89 58.15 88.52 
+Bag10 ASHT 
+1009.62 85.47 3.73 1124.40 76.09 3.05 1133.51 66.36 3.10 
+Bag10 ASHT W 
+986.90 93.76 3.73 1104.03 76.61 3.05 1106.26 66.94 3.10 
+Bag10 ASHT R 
+913.74 91.96 2.65 1069.76 84.28 3.74 1085.99 67.83 2.35 
+Bag10 ASHT W+R 
+925.65 93.57 2.65 1068.59 84.71 3.74 1101.10 69.27 2.35 
+Bag5 ASHT W+R 
+536.61 85.47 0.06 557.20 81.69 0.09 587.46 68.19 0.10 
+OzaBoost 
+964.75 94.82 206.60 1312.00 71.64 105.94 1266.75 58.20 88.36 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>goes down 16% when increasing the drift from 0.0001 to 0.001 -in Hyperplane the same change in drift elicits only a fractional change in accuracy. For RCD drift all Cover Type Poker CovPokElec Time Acc. Mem. Time Acc. Mem. Time Acc. Mem. BagADWIN 10 HAT 317.75 85.48 0.2 267.41 88.63 13.74 1403.40 87.16 0.62 DDM Bag10 ASHT W 249.92 88.39 6.09 128.17 75.85 1.51 876.18 84.54 19.74 EDDM Bag10 ASHT W 207.10 86.72 0.37 141.96 85.93 12.84 828.63 84.98 48.Table 3. Comparison of algorithms on real data sets. Time is measured in seconds, and memory in MB.methods drop significantly. The bagging methods have the most to lose and go down between 14-17% (top three) and 10-18% (bottom of table). The base methods have less to lose going down (0-14%).</figDesc><table>54 
+NaiveBayes 
+31.66 60.52 0.05 13.58 50.01 0.02 91.50 23.52 0.08 
+NBADWIN 
+127.34 72.53 5.61 64.52 50.12 1.97 667.52 53.32 14.51 
+HT 
+31.52 77.77 1.31 18.98 72.14 1.15 95.22 74.00 7.42 
+HT DDM 
+40.26 84.35 0.33 21.58 61.65 0.21 114.72 71.26 0.42 
+HT EDDM 
+34.49 86.02 0.02 22.86 72.20 2.30 114.57 76.66 11.15 
+HAT 
+55.00 81.43 0.01 31.68 72.14 1.24 188.65 75.75 0.01 
+BagADWIN 10 HT 
+247.50 84.71 0.23 165.01 84.84 8.79 911.57 85.95 0.41 
+Bag10 HT 
+138.41 83.62 16.80 121.03 87.36 12.29 624.27 81.62 82.75 
+Bag10 ASHT 
+213.75 83.34 5.23 124.76 86.80 7.19 638.37 78.87 29.30 
+Bag10 ASHT W 
+212.17 85.37 5.23 123.72 87.13 7.19 636.42 80.51 29.30 
+Bag10 ASHT R 
+229.06 84.20 4.09 122.92 86.21 6.47 776.61 80.01 29.94 
+Bag10 ASHT W+R 
+198.04 86.43 4.09 123.25 86.76 6.47 757.00 81.05 29.94 
+Bag5 ASHT W+R 
+116.83 83.79 0.23 57.09 75.87 0.44 363.09 77.65 0.95 
+OzaBoost 
+170.73 85.05 21.22 151.03 87.85 14.50 779.99 84.69 105.63 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">UCI machine learning repository</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Asuncion</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Newman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Early drift detection method</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Baena-García</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">D</forename><surname>Campo-Ávila</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Fidalgo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Morales-Bueno</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Fourth International Workshop on Knowledge Discovery from Data Streams</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Learning from time-changing data with adaptive windowing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SIAM International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="443" to="448" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Adaptive learning from evolving data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<editor>IDA</editor>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">New ensemble methods for evolving data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Pfahringer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Kirkby</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;09</title>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Classification and Regression Trees</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1984" />
+			<publisher>Chapman &amp; Hall</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Fast and light boosting for adaptive mining of data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Chu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Zaniolo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">PAKDD</title>
+		<imprint>
+			<publisher>Springer Verlag</publisher>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="282" to="292" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Mining high-speed data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Domingos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Hulten</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Knowledge Discovery and Data Mining</title>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="71" to="80" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Learning with drift detection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Gama</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Medas</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Castillo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Rodrigues</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SBIA Brazilian Symposium on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="286" to="295" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Forest trees for on-line data</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Gama</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Medas</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Rocha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SAC &apos;04: Proceedings of the 2004 ACM symposium on Applied computing</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="632" to="636" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Accurate decision trees for mining high-speed data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Gama</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Rocha</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Medas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;03</title>
+		<imprint>
+			<date type="published" when="2003-08" />
+			<biblScope unit="page" from="523" to="528" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Splice-2 comparative evaluation: Electricity pricing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Harries</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999" />
+		</imprint>
+		<respStmt>
+			<orgName>The University of South Wales</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical report</note>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+		<title level="m" type="main">MOA: Massive Online Analysis</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Kirkby</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Pfahringer</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Mining time-changing data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Hulten</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Spencer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Domingos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD&apos;01</title>
+		<meeting><address><addrLine>San Francisco, CA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="97" to="106" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Pruning adaptive boosting</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">D</forename><surname>Margineantu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">G</forename><surname>Dietterich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICML &apos;97</title>
+		<imprint>
+			<date type="published" when="1997" />
+			<biblScope unit="page" from="211" to="218" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Mitchell</surname></persName>
+		</author>
+		<title level="m">Machine Learning. McGraw-Hill Education (ISE Editions)</title>
+		<imprint>
+			<date type="published" when="1997-10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Online bagging and boosting</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Oza</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Russell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Artificial Intelligence and Statistics</title>
+		<imprint>
+			<publisher>Morgan Kaufmann</publisher>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="105" to="112" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Experimental comparisons of online and batch versions of bagging and boosting</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">C</forename><surname>Oza</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Russell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;01</title>
+		<imprint>
+			<date type="published" when="2001-08" />
+			<biblScope unit="page" from="359" to="364" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Online coordinate boosting</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Pelossof</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Vovsha</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Rudin</surname></persName>
+		</author>
+		<ptr target="http://arxiv.org/abs/0810.4553" />
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A streaming ensemble algorithm (SEA) for large-scale classification</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">N</forename><surname>Street</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;01</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="377" to="382" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Categorizing and mining concept drifting data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;08</title>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2008" />
+			<biblScope unit="page" from="812" to="820" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

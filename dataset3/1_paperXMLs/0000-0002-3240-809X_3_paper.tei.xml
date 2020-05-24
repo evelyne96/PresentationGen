@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">0.4-3 Low Complexity Global Motion Estimation Techniques for Image Stabilization</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Felix</forename><surname>Albu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">FotoNation Romania</orgName>
+								<address>
+									<settlement>Bucharest</settlement>
+									<country key="RO">Romania</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Corneliu</forename><surname>Florea</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">FotoNation Romania</orgName>
+								<address>
+									<settlement>Bucharest</settlement>
+									<country key="RO">Romania</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Adrian</forename><surname>Zamfir</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">FotoNation Romania</orgName>
+								<address>
+									<settlement>Bucharest</settlement>
+									<country key="RO">Romania</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><roleName>Members IEEE</roleName><forename type="first">Alexandru</forename><surname>Drimbarean</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">FotoNation Romania</orgName>
+								<address>
+									<settlement>Bucharest</settlement>
+									<country key="RO">Romania</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">0.4-3 Low Complexity Global Motion Estimation Techniques for Image Stabilization</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two new global motion estimation methods are proposed. The first one, called Sign Projection (SP) is obtained by modifying the integral projection estimation method using two thresholds for pixel values. The second method, called binary incrementation (BI), is obtained by using only one threshold for generating binary vectors from two images. It is shown that the proposed approaches provide similar motion estimation accuracy with the integral projection (IP) and phase correlation (PC) methods. Also, they have reduced numerical complexity and memory requirements, leading to shorter processing times as well as lower power consumption. The technique is particularly suitable for implementation in consumer devices such as digital video cameras.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I. INTRODUCTION</head><p>The hand jitter is a biological phenomenon and the effect it has on the recorded video sequences is amplified by the small and lightweight modem cameras. To reduce the influence of the hand-jitter motion many image stabilization approaches have been proposed (the Optical Image Stabilization (OIS), the electronic image stabilization (EIS) and the digital image stabilization (DIS) techniques <ref type="bibr" target="#b0">[1]</ref>. The proposed methods are dedicated DIS techniques for devices with limited computational power or memory (e.g. the mobile phone equipped with a digital camera).</p><p>The optimal procedure for global motion estimation is considered the full search (FS) method. However the computational complexity of the FS method is very high and alternative simpler and faster techniques have been explored. Two popular techniques used for motion estimation are: the phase correlation method (PC) <ref type="bibr" target="#b1">[2]</ref> and the integral projection method <ref type="bibr" target="#b2">[3]</ref>. The phase correlation method is based on the phase shift theorem <ref type="bibr" target="#b1">[2]</ref>. In the integral projection method a pair of one-dimensional vectors is computed by summing the elements of each column or rows respectively. The projection vectors are correlated to find the best offset corresponding to the matched frames <ref type="bibr" target="#b2">[3]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II. THE LOW COMPLEXITY GLOBAL MOTION ESTIMATION METHODS</head><p>The proposed methods are derived from the integral projection method. They are inspired from standard methods used to determine the fundamental frequency of the speech signal <ref type="bibr" target="#b3">[4]</ref>. For this purpose, the speech signal is "centrally clipped" in order to reduce the dynamic range of the signal and simplify the necessary hardware or software implementation. Further, the complexity is significantly reduced if a level clipping or a limitation function is applied. Then the autocorrelation function or the average magnitude distance function (AMDF) is computed and the fundamental period of the speech signal is found <ref type="bibr" target="#b3">[4]</ref>.</p><p>A. The Sign Projection Method A pair of one-dimensional vectors (horizontal and vertical) is computed from the pixel values of each frame or image plane crops. Instead of summing all elements and obtain a high final value (like in <ref type="bibr" target="#b2">[3]</ref>), a lower value is obtained by incrementing or decrementing its value based on the result of comparison of the elements using two thresholds. We call this method the Sign Projection method.</p><p>For each row we add 1 if the value on the image plane is higher than a second threshold and add -1 if the value is lower than a first threshold. These thresholds are computed as a percentage of the dynamic range given by the maximum and minimum values of the image elements.</p><p>B. The Binary Incrementation Method Further significant numerical complexity reduction can be obtained if only one threshold is used. Each pixel value of two consecutive frames is compared with only one threshold. For each line of the image, a counter counts the number of pixels above the threshold and a vector is obtained. A bit 1 is generated if each vector element is above its average (or median value), otherwise a bit 0 is generated. Two pairs of binary vectors (corresponding to horizontal and vertical computations) are obtained. For each pair of binary vectors, an exclusive OR (XOR) operation is performed between one vector and delayed versions of the other vector. The number of bits "1" shows the mismatch between the vectors for different displacement values and the minimum gives the displacement value. We call this global motion estimation method the Binary Incrementation (BI) method.</p><p>For all investigated methods, the following step involves low-pass temporal filtering. We are using the jitter improved calculation method proposed in <ref type="bibr" target="#b0">[1]</ref>. Next, the image shift is performed using the maximum buffer area of the image sensor. The numerical complexity and memory requirements of the SP and BI methods are reduced. The integer additions are replaced with comparisons and simple counting is used in the first phase. The IP method needs about 2 integer additions per pixel, while the complexity of the PC method is much higher, because it involves three 2-D FFT's whose complexity depends on the particular implementation. Only slightly more than one comparison per pixel is required to generate the binary vectors for the BI method. There is no need to keep the full binary matrices in the memory like the method described in <ref type="bibr" target="#b4">[5]</ref>. The proposed methods give robust displacement estimations on sufficiently large regions of both image crops depending on the picture content (at least few hundred samples for each direction). Bigger image crops should be chosen in case of pictures with little information.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>III. EXPERIMENTS AND RESULTS</head><p>Firstly, we tested the considered methods by computing the displacements between pictures taken with a camera on burst pictures mode operation. It can be seen from <ref type="figure">Fig. 2a</ref> that the global motion values indicated by all methods are close. Next, we tested the considered algorithms on a low quality video (320 x 240 pixels). As shown in <ref type="figure">Fig. 2b</ref> there are more differences between the displacement estimates of the considered methods for the low quality movie. The IP, SP, and BI displacement estimates are more sensitive in case of luminance variation and small intra-frame movements than PC estimates. Overall, the proposed stabilization methods reduced the hand jitter effect and improved the visual quality of a large variety of video sequences. Subjective test ranked the PC stabilized movies the first, followed by SP, IP and BI stabilized movies. Also, the performance of the algorithms was evaluated using the following error measure, E: <ref type="bibr" target="#b0">(1)</ref> where (h/FS, vFS) represents the global motion vector obtained by the FS method and (hin, vi ) is the global motion vector obtained by aforementioned methods. <ref type="table" target="#tab_0">Table I</ref> shows the error values obtained by he investigated global motion algorithms for a video sequence.  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>FigsFig. 1 .</head><label>1</label><figDesc>. la and Ic show the computed horizontal projection vectors for the IP and SP methods. Figs. lb and Id show the corresponding SAD (sum of absolute difference) values for both methods. It can be seen from Fig. la and Fig. Ic that the dynamic range of the vectors of the SP method is reduced by about two orders of magnitude in comparison with those of the IP method. Fig. 1 e shows the binary vectors and Fig. If shows the sum of XOR output values. The maximum value of the sum of the XOR output values depends only on the maximum allowed displacement value. All methods (BI, SP, IP, a) The horizontal projection vectors for both image crops; b) The horizontal sign projection vectors for both image crops; c) The SAD values for the horizontal projection vectors; d) The SAD values for the horizontal sign projection vectors; e) The binary vectors for both image crops; f) The sum of XOR output values;</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig</head><label></label><figDesc>. 2. a) The horizontal displacements estimated by the BI, SP, IP and PC methods for a burst of pictures. b) The vertical displacements estimated by the BI, SP, IP and PC methods for a low quality video sequence IV. CONCLUSIONSThe Sign Projection and Binary Incrementation methods are proposed for global motion estimation. Our experiments demonstrated that they provide similar motion estimation accuracy with other more complex global motion estimation methods. The proposed methods are obtained by central clipping and limiting the pixel values of consecutive frames or images. Due to their simplicity, these methods can have an efficient hardware or software implementation.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>TABLE I ERROR</head><label>I</label><figDesc>VALUES FOR GLOBAL MOTION VECTORS COMPUTED BY</figDesc><table>DIFFERENT METHODS 
+Method 
+PC 
+IP 
+SP 
+BI 
+
+E for burst pictures 
+0.1556 
+0.1860 
+0.1664 
+0.1951 
+E for movie 
+0.1681 
+0.2661 
+0.2088 
+0.3243 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">In-camera, all-digital video stabilization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Deever</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">proc. ICIS&apos;06</title>
+		<meeting>ICIS&apos;06<address><addrLine>Rochester, New York</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2006-05" />
+			<biblScope unit="page" from="190" to="193" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">The phase correlation image alignment method</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">D</forename><surname>Kuglin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Hines</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. Int. Conf Cybernetics and Society</title>
+		<meeting>Int. Conf Cybernetics and Society<address><addrLine>Bucharest, Romania</addrLine></address></meeting>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="1975-09" />
+			<biblScope unit="page" from="163" to="165" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Efficient Block Motion Estimation Using Integral Projections</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Sauer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Schwartz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Circuits, Systems for video Tech</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="513" to="518" />
+			<date type="published" when="1996-10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Discrete-Time Processing of Speech Signals</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Deller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hansen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Proakis</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999" />
+			<publisher>Wiley-IEEE Press</publisher>
+		</imprint>
+	</monogr>
+	<note>2nd. edition</note>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Low-complexity block-based motion estimation via one-bit transforms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Natarajan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Bhaskaran</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Konstantinides</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Circuit Syst. Video Technol</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="702" to="706" />
+			<date type="published" when="1997-08" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

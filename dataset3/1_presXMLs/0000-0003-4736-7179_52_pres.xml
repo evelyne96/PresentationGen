@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PAC-Learning of Markov Models with Hidden State
+</p>
+<p>Ricard Gavaldà 1 Philipp W. Keller 2
+</p>
+<p>Joelle Pineau 2 Doina Precup 2
+</p>
+<p>1Univ. Politècnica de Catalunya, Barcelona
+2McGill University, Montréal
+</p>
+<p>(work presented in ECML’06)
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 1 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 HMM and PDFA
+</p>
+<p>3 PAC-Learning PDFA
+</p>
+<p>4 Our algorithm
+</p>
+<p>5 Analysis
+</p>
+<p>6 Experiments
+</p>
+<p>7 Conclusions
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 2 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>Hidden Markov Models
+</p>
+<p>Hidden Markov Models (HMM) useful for prediction under
+uncertainty
+</p>
+<p>HMM generates probability distribution on
+sequences of observations (or action/observation pairs)
+</p>
+<p>Learning problem: Given sample of sequences of observations
+infer an HMM generating a similar distribution
+</p>
+<p>Standard approach: Expectation Maximization (EM) to
+approximate target’s parameters [Rabiner89]
+</p>
+<p>Drawbacks:
+1 requires previous knowledge of state set - not always available
+2 converges to local minimum – how far from optimum?
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 3 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>Summary of Results
+</p>
+<p>We use Probabilistic Deterministic Finite Automata as
+approximations of HMM
+We give a learning algorithm for PDFA
+</p>
+<p>that infers both state representations and parameters
+has formal guarantees of performance – PAC-learning
+</p>
+<p>We test on (very small) simple dynamical systems - promising
+results
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 4 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>Previous work
+</p>
+<p>Learning HMM without prior knowledge of states:
+</p>
+<p>Predictive State Representations [Jaeger et al 05, Rosencrantz et
+al 04, Singh et al 03].
+No formal guarantees, millions of examples.
+</p>
+<p>PAC-style: [Ron et al 95] [Clark & Tholard 04]: basis of our work
+</p>
+<p>[Holmes & Isbell 06]: similar to ours, deterministic systems
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 5 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>HMM and PDFA
+</p>
+<p>HMM, PNFA, PDFA
+</p>
+<p>Finite set of observations or letters
+</p>
+<p>Finite set of states
+</p>
+<p>Probabilities on transitions between states
+</p>
+<p>HMM: States emit observations, probabilistically
+</p>
+<p>PNFA, PDFA: Transitions emit observations, probabilistically
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 6 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>HMM and PDFA
+</p>
+<p>HMM, PNFA, PDFA
+</p>
+<p>N = Nondeterministic: Each (state,letter) leads to many states
+</p>
+<p>D = Deterministic: Fixing (state,observation) fixes next state
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 7 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>HMM and PDFA
+</p>
+<p>Relation between models
+</p>
+<p>HMM n states → PNFA n states
+</p>
+<p>PNFA n states → HMM n2 states
+</p>
+<p>Some finite-size PNFA/HMM only have infinite-size PDFA
+</p>
+<p>But:
+</p>
+<p>For every PNFA M and every ǫ there is a finite-size PDFA
+that approximates M within precision ǫ in L∞ distance
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 8 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PAC-Learning PDFA
+</p>
+<p>Distribution distances
+</p>
+<p>Definition
+For two distributions D1, D2,
+</p>
+<p>L∞(D1, D2) = max |D1(x) − D2(x)|
+x
+</p>
+<p>∑ D (x)
+KLD(D1‖D2) = D
+</p>
+<p>1
+1(x) log D
+</p>
+<p>x 2
+(x)
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 9 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PAC-Learning PDFA
+</p>
+<p>What do we mean by learning?
+</p>
+<p>Definition
+</p>
+<p>An algorithm PAC-learns PDFA if for every target PDFA M, every ǫ,
+every δ it produces a PDFA M ′ such that
+</p>
+<p>Pr[ KLD(D(M)‖D(M ′)) ≥ ǫ ] ≤ δ
+</p>
+<p>in time poly(size(M), 1/ǫ, 1/δ).
+</p>
+<p>Unfortunately this is impossible [Kearns et al05]
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 10 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PAC-Learning PDFA
+</p>
+<p>What do we mean by learning?
+</p>
+<p>[Ron et al 96] Learning becomes possible by
+restricting to acyclic PDFA and
+considering distinguishability parameter µ
+</p>
+<p>[Clark&Thollard 04] Works for cyclic automata if we consider a
+new parameter L = bound on expected length of generated strings
+</p>
+<p>They learn in the KLD sense in time poly(n, 1/ǫ, ln(1/δ), 1/µ, L)
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 11 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PAC-Learning PDFA
+</p>
+<p>Distinguishability
+</p>
+<p>Definition
+</p>
+<p>States q and q′ are µ-distinguishable if
+</p>
+<p>L∞(D(q), D(q′)) ≥ µ,
+</p>
+<p>where D(q) is the distribution of strings generated from q
+</p>
+<p>A PDFA is µ-distinguishable if every two states in it are
+µ-distinguishable
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 12 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PAC-Learning PDFA
+</p>
+<p>The C&T algorithm: promise and drawbacks
+</p>
+<p>It provably PAC-learns. But:
+</p>
+<p>Asks for parameters ǫ, δ, . . . and n, µ, L (guesswork)
+Requires full sample up-front:
+</p>
+<p>read parameters;
+compute m = poly(ǫ, δ, n, µ, L);
+get sample of size m;
+build pdfa from sample
+</p>
+<p>Always worst-case: as many samples as worst target PDFA!
+</p>
+<p>Polynomial is huge:
+for n = L = 3, ǫ = δ = µ = 0.1 → m > 1020
+</p>
+<p>Analysis certainly not tight. Is this cost unavoidable?
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 13 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>Our approach
+</p>
+<p>Based on [C&T04], but:
+</p>
+<p>No need to give L and ǫ as parameters if m is fixed;
+Improved analysis:
+</p>
+<p>separates time to get graph and time to tune parameters
+time to get state graph independent of ǫ, L
+this time smaller for “easier” graphs
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 14 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>Data structures
+</p>
+<p>Graph with “safe” and “candidate” states
+</p>
+<p>Safe state s: represents state where string s ends
+</p>
+<p>Candidate state: pair (s, σ) where next(s, σ) still unclear
+</p>
+<p>Invariant: all safe states are really distinct in target
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 15 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>Growing the graph
+</p>
+<p>A candidate state can be promoted to safe or merged with an
+existing safe state
+</p>
+<p>Keep a multiset Ds,σ for each candidate (s, σ)
+</p>
+<p>Ds,σ sample of distribution from state reached by s · σ
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 16 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>Growing the graph
+</p>
+<p>A candidate state can be promoted to safe or merged with an
+existing safe state
+</p>
+<p>Keep a multiset Ds,σ for each candidate (s, σ)
+</p>
+<p>Ds,σ sample of distribution from state reached by s · σ
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 17 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>Growing the graph
+</p>
+<p>A candidate state can be promoted to safe or merged with an
+existing safe state
+</p>
+<p>Keep a multiset Ds,σ for each candidate (s, σ)
+</p>
+<p>Ds,σ sample of distribution from state reached by s · σ
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 18 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>Growing the graph
+</p>
+<p>A candidate state can be promoted to safe or merged with an
+existing safe state
+</p>
+<p>Keep a multiset Ds,σ for each candidate (s, σ)
+</p>
+<p>Ds,σ sample of distribution from state reached by s · σ
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 19 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>The algorithm
+</p>
+<p>1. define safe initial state, labelled with empty string;
+2. define candidate states out of initial state, one per letter;
+3. while there are samples left do
+4. run next sample through current graph;
+5. if it ends in a candidate state (s, σ) then
+6. let w be the unprocessed part of sample;
+7. store w in Ds,σ;
+8. if Ds,σ large enough, either merge or promote (s, σ);
+9. endif
+10. endwhile
+11. build PDFA from current graph
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 20 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>Merging and promoting states
+</p>
+<p>Largeness condition: Ds,σ has size at least
+</p>
+<p>c n|Σ|
+T =
+</p>
+<p>µ2
+· ln
+</p>
+<p>δ
+</p>
+<p>Assuming µ-distinguishable target, we can then decide reliably:
+</p>
+<p>if distributions observed at (s, σ) and some safe state s′ are
+µ/2-close → identify (s, σ) and s′, i.e., set next(s, σ) = s′
+</p>
+<p>else, (s, σ) is µ/2-far from all safe states →
+promote (s, σ) to safe state labelled sσ, create new candidate
+states
+</p>
+<p>rerun strings in Ds,σ from merged/promoted state
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 21 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our algorithm
+</p>
+<p>Building the PDFA from the graph
+</p>
+<p>Identify each remaining candidate states with a closest safe state;
+</p>
+<p>Compute transition probabilities in obvious way:
+</p>
+<p>#samples using s σ( −→s′σ )Pr[ s−→s′ ] =
+#samples passing through s
+</p>
+<p>(maybe with some smoothing)
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 22 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis
+</p>
+<p>Main claim 1: time to learn topology
+</p>
+<p>Lemma
+</p>
+<p>Suppose a target state q is reachable by a path of length ℓ all whose
+edges have absolute probability ≥ p. Then q has a corresponding safe
+state in the graph by time at most
+</p>
+<p>( )
+</p>
+<p>ℓ ℓ n|Σ|
+· O(T ) = O
+</p>
+<p>p µ2
+· ln
+</p>
+<p>p δ
+</p>
+<p>Time depends on unknown ℓ and p: easier states are found faster
+</p>
+<p>No dependence on ǫ; on L, indirectly via p
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 23 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis
+</p>
+<p>Main claim 2: time to learn parameters
+</p>
+<p>Lemma
+</p>
+<p>Suppose the built graph is isomorphic to target graph; if we see
+</p>
+<p>poly(n, 1/ǫ, ln(1/δ), 1/µ, L)
+</p>
+<p>additional samples, the PDFA obtained from the graph satisfies the
+PAC-learning criterion
+</p>
+<p>[proof basically as in Clark&Thollard04]
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 24 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis
+</p>
+<p>Wrap-up
+</p>
+<p>Lemma 1 states time to identify non-negligible states
+</p>
+<p>Lemma 2 states time to approximate transition probabilities
+</p>
+<p>Together, we recover [Clark&Thollard04] PAC-guarantees
+</p>
+<p>But with less parameters, faster in non-worst-case situations
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 25 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Simple text generation
+</p>
+<p>alphabet = {a, b, #}, # as word separator
+</p>
+<p>HMM generates only {abb, aaa, bba}
+</p>
+<p>0.6 s1 s2 s3
+</p>
+<p>a b b
+</p>
+<p>0.1 s4 s5 s6 s10
+</p>
+<p>a a a #
+</p>
+<p>0.3 s7 s8 s9
+</p>
+<p>b b a
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 26 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Simple text generation
+</p>
+<p>alphabet = {a, b, #}, # as word separator
+</p>
+<p>HMM generates only {abb, aaa, bba}
+</p>
+<p>a / 0.71 b / 0.86
+N_0 N_1 N_2
+</p>
+<p># / 1
+b / 0.29 a / 0.14 N_6b / 1
+</p>
+<p>N_3
+a / 1
+</p>
+<p>N_4 N_5
+b / 1
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 27 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Simple text generation
+</p>
+<p>alphabet = {a, b, #}, # as word separator
+</p>
+<p>HMM generates only {abb, aaa, bba}
+</p>
+<p>Noisy: flip letter with probability 0.1
+</p>
+<p>b / 0.34
+N_0 N_4 a / 0.12
+</p>
+<p>b / 0.88 N_5 b / 0.25
+</p>
+<p>a / 0.66 a / 0.75
+</p>
+<p># / 1
+a / 0.59
+</p>
+<p>N_3 N_7
+b / 0.41
+</p>
+<p>a / 0.2 N_6 b / 0.85
+</p>
+<p>N_1
+b / 0.8
+</p>
+<p>a / 0.15
+</p>
+<p>N_2
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 28 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Samples to achieve desired prediction
+</p>
+<p>5
+x 10
+</p>
+<p>4
+HMM
+Noisy HMM
+</p>
+<p>3
+</p>
+<p>2
+</p>
+<p>1
+</p>
+<p>0
+−3 −2 −1 0
+</p>
+<p>10 10 10 10
+epsilon
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 29 / 32
+</p>
+<p>num. samples</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Cheese maze experiment
+</p>
+<p>observations: a = 1 wall; b = 2 walls; c = 3 walls
+</p>
+<p>move to random neighbor
+</p>
+<p>task resets whenever we reach s10
+</p>
+<p>each state of learned PDFA has natural interpretation
+</p>
+<p>e.g. N5 = “We’re at S5 or S7, prob. 0.5 each”
+</p>
+<p>a / 0.5
+</p>
+<p>b / 1 N_4
+</p>
+<p>a / 0.25
+S0 S1 S2 S3 S4 N_5 # / 0.17
+</p>
+<p>b / 0.33 N_6
+</p>
+<p>S5 S6 S7 b / 1 c / 0.25N_3 N_0 c / 0.5
+</p>
+<p>b / 0.49 b / 1
+b / 0.5 N_1
+</p>
+<p>S8 S10 S9 N_2
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 30 / 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>Conclusions
+</p>
+<p>A PAC-learning algorithm for learning HMM as PDFA
+</p>
+<p>Learns state structure as well as transition probabilities
+</p>
+<p># samples order of 105 where theory said > 1020
+</p>
+<p>Future work:
+</p>
+<p>Extend to distances other than L∞
+No need to input µ
+</p>
+<p>Reduce number of samples (by tighter analysis)
+</p>
+<p>[Denis et al 06] PAC-learn full class of PNFA. Practical?
+</p>
+<p>R. Gavaldà, P. Keller, J. Pineau, D. Precup ( Univ. PoliPtèAcCn-iLceaadrneinCgatoafluHnMyaM, Barcelona McGill University, Montréal ) 31 / 32</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

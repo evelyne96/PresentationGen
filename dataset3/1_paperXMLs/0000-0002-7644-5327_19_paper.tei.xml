@@ -1,0 +1,762 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">SATzilla-07: The Design and Analysis of an Algorithm Portfolio for SAT</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lin</forename><surname>Xu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+							<email>hutter@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<email>hoos@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">SATzilla-07: The Design and Analysis of an Algorithm Portfolio for SAT</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>It has been widely observed that there is no "dominant" SAT solver; instead, different solvers perform best on different instances. Rather than following the traditional approach of choosing the best solver for a given class of instances, we advocate making this decision online on a per-instance basis. Building on previous work, we describe a per-instance solver portfolio for SAT, SATzilla-07, which uses socalled empirical hardness models to choose among its constituent solvers. We leverage new model-building techniques such as censored sampling and hierarchical hardness models, and demonstrate the effectiveness of our techniques by building a portfolio of state-of-the-art SAT solvers and evaluating it on several widely-studied SAT data sets. Overall, we show that our portfolio significantly outperforms its constituent algorithms on every data set. Our approach has also proven itself to be effective in practice: in the 2007 SAT competition, SATzilla-07 won three gold medals, one silver, and one bronze; it is available online at</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>The propositional satisfiability problem (SAT) is one of the most fundamental problems in computer science. SAT is interesting for its own sake, but also because instances of other N P-complete problems can be encoded into SAT and solved by SAT solvers. This approach has proven effective for planning, scheduling, graph coloring and software/hardware verification problems. The conceptual simplicity of SAT facilitates algorithm development, and significant research and engineering efforts have led to sophisticated algorithms with highly-optimized implementations. By now, many such high-performance SAT solvers exist. Although there are some general patterns describing which solvers tend to be good at solving certain kinds of instances, it is still often the case that one solver is better than others at solving some problem instances from a given class, but dramatically worse on other instances. Indeed, we know that no solver can be guaranteed to dominate all others on unrestricted SAT instances <ref type="bibr" target="#b1">[2]</ref>. Thus, practitioners with hard SAT problems to solve face a potentially difficult algorithm selection problem <ref type="bibr" target="#b26">[27]</ref>: which algorithm(s) should be run in order to minimize some performance objective, such as expected runtime?</p><p>The most widely-adopted solution to such algorithm selection problems is to measure every candidate solver's runtime on a representative set of problem instances, and then to use only the algorithm which offered the best (e.g., average or median) performance. We call this the "winner-take-all" approach. Its use has resulted in the neglect of many algorithms that are not competitive on average but that nevertheless offer very good performance on particular instances. The ideal solution to the algorithm selection problem, on the other hand, would be to consult an oracle that tells us the amount of time that each algorithm would take to solve a given problem instance, and then to select the algorithm with the best performance.</p><p>Unfortunately, computationally cheap, perfect oracles of this nature are not available for SAT or any other N P-complete problem, and we cannot precisely determine an arbitrary algorithm's runtime on an arbitrary instance without actually running it. Nevertheless, our approach to algorithm selection in this paper is based on the idea of building approximate runtime predictors, which can be seen as heuristic approximations to perfect oracles. Specifically, we use machine learning techniques to build an empirical hardness model, a computationally inexpensive way of predicting an algorithm's runtime on a given problem instance based on features of the instance and the algorithm's past performance <ref type="bibr" target="#b24">[25,</ref><ref type="bibr" target="#b18">19]</ref>. This approach has previously yielded effective algorithm portfolios for the winner determination problem (WDP) in combinatorial auctions <ref type="bibr" target="#b17">[18,</ref><ref type="bibr" target="#b16">17]</ref>; however, there exist relatively few state-of-the-art solvers for WDP.</p><p>To show that algorithm portfolios based on empirical hardness models can also effectively combine larger sets of highly-optimized algorithms, we consider the satisfiability problem in this work. Specifically, we describe and analyze SATzilla, a portfolio-based SAT solver that utilizes empirical hardness models for per-instance algorithm selection. SATzilla goes back to 2003, when its original version was first submitted to the SAT competition <ref type="bibr" target="#b23">[24,</ref><ref type="bibr" target="#b24">25]</ref>. In that competition, SATzilla placed 2 nd in the random instances category, 2 nd in the handmade instances (satisfiable only) category, and 3 rd in the handmade instances category. Here, we describe a substantially improved version of SATzilla, which uses new techniques, such as censored sampling and hierarchical hardness models, as well as an updated set of solvers. This new solver, dubbed SATzilla-07, was entered into the 2007 SAT competition and placed 1 st in the handmade, handmade (unsatisfiable only) and random categories, 2 nd in the handmade (satisfiable only) category, and 3 rd in the random (unsatisfiable only) category. Here, we give a detailed description and performance analysis for SATzilla-07, something which was never published for the original of SATzilla.</p><p>There exists a fair amount of work related to ours. Lobjois et al. studied the problem of selecting between branch-and-bound algorithms <ref type="bibr" target="#b19">[20]</ref> based on an estimate of search tree size due to Knuth. Gebruers et al. employed case-based reasoning to select a solution strategy for instances of a CP problem <ref type="bibr" target="#b7">[8]</ref>. One problem with such classification approaches <ref type="bibr" target="#b11">[12]</ref> is that they use a misleading error metric, penalizing misclassifications equally regardless of their cost. For the algorithm selection problem, however, using a sub-optimal algorithm is acceptable if the difference between its runtime and that of the best algorithm is small. (Our SATzilla approach can be considered to be a classifier with an error metric that depends on the difference in runtime between algorithms.) Further related work includes "online" approaches that switch between algorithms during runtime. Gomes et al. built a portfolio of stochastic algorithms for quasi-group completion and logistics scheduling problems <ref type="bibr" target="#b9">[10]</ref>; rather than choosing a single algorithm, their approach achieved performance improvements by running multiple algorithms. Lagoudakis &amp; Littman employed reinforcement learning to solve an algorithm selection problem at each decision point of a DPLL solver for SAT in order to select a branching rule <ref type="bibr" target="#b15">[16]</ref>. Low-knowledge algorithm control by Carchrae &amp; Beck employed a portfolio of anytime algorithms, prioritizing each algorithm according to its performance so far <ref type="bibr" target="#b2">[3]</ref>. Gagliolo &amp; Schmidhuber learned dynamic algorithm portfolios that also support running several algorithms at once <ref type="bibr" target="#b6">[7]</ref>, where an algorithm's priority depends on its predicted runtime conditioned on the fact that it has not yet found a solution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Building Portfolios with Empirical Hardness Models</head><p>The general methodology for building an algorithm portfolio we use in this work follows that of Leyton-Brown et al. <ref type="bibr" target="#b17">[18]</ref> in its broad strokes, but we have made significant extensions here. Portfolio construction happens offline, as part of algorithm development, and comprises the following steps:</p><p>1. Identify a target distribution of problem instances. 2. Select a set of candidate solvers that have relatively uncorrelated runtimes on this distribution. 3. Use domain knowledge to identify features that characterize problem instances. 4. On a training set of problem instances, compute these features and run each algorithm to determine running times. 5. Optionally, identify one or more solvers to use for pre-solving instances, by examining the algorithms' runtimes. These pre-solvers will later be run for a short amount of time before features are computed (step 9 below), in order to ensure good performance on very easy instances. 6. Using a validation data set, determine which solver achieves the best average runtime (i.e., is the winner-take-all choice) on instances that would not have been solved by the pre-solvers. 7. Construct an empirical hardness model for each algorithm. 8. Choose the best subset of solvers to use in the final portfolio. We formalise and automatically solve this as a simple subset selection problem: from all given solvers, select a subset for which the respective portfolio (which uses the empirical hardness models learned in the previous step) achieves the lowest total runtime on the validation set.</p><p>Then, online, to solve a given instance, the following steps are performed:</p><p>9. Optionally, run each pre-solver for up to some fixed cutoff time. 10. Compute feature values. If feature computation cannot be finished for some reason (error, timeout), select the solver identified in step 6 above. 11. Otherwise, predict each algorithm's runtime using the empirical hardness models from step 7 above. 12. Run the algorithm predicted to be fastest. If one solver fails to finish its run (e.g., it crashes), run the algorithm predicted to be next-fastest.</p><p>In this work, we apply this general strategy to SAT and consider two different settings. In the first, discussed in Section 4, we investigate a problem distribution based on SAT-encoded quasi-group completion instances, which we obtained from an existing generator. On this fairly homogeneous distribution, we attempt to minimize average runtime. In our second setting, discussed in Section 5, we study several different distributions defined by sets of representative instances: the different categories of the SAT competition. These distributions are all highly heterogeneous. Our goal here is to maximize the SAT competition's scoring function: Score(P, S i ) = 1000 · SF(P, S i )/Σ j SF(P, S j ), where the speed factor SF(P, S) = timeLimit(P )/(1 + timeUsed(P, S)) reflects the fraction of the maximum time allowed for an instance S that was used by solver P . <ref type="bibr" target="#b0">1</ref> Notice that when minimizing average runtime it does not much matter which solver is chosen for an easy instance on which all solvers are relatively fast, as the overall average will remain essentially unchanged. Given the competition's scoring function, however, we must always strive to choose the fastest algorithm.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Constructing Empirical Hardness Models</head><p>The success of an algorithm portfolio built using the methodology above depends on our ability to learn empirical hardness models that can accurately predict a solver's runtime for a given instance using efficiently computable features. In experiments presented in this paper, we use the same ridge regression method (linear in a set of quadratic basis functions) that has previously proven to be very successful in predicting runtime on uniform random k-SAT and on combinatorial auction winner determination <ref type="bibr" target="#b24">[25,</ref><ref type="bibr" target="#b18">19]</ref>. Other learning techniques (e.g., lasso regression, SVM regression, and Gaussian process regression) are also possible; it should be noted that our portfolio methodology is independent of the method used for estimating an algorithm's runtime.</p><p>Feature selection and ridge regression. To predict the runtime of an algorithm A on an instance distribution D, we run algorithm A on n instances drawn from D and compute for each instance i a set of features</p><formula xml:id="formula_0">x i = [x i,1 , . . . , x i,m ].</formula><p>We then fit a function f (x) that, given the features x i of instance i, yields a prediction, y i , of A's runtime on i. Unfortunately, the performance of learning algorithms can suffer when some features are uninformative or highly correlated with other features, and in practice both of these problems tend to arise. Therefore, we first reduce the set of features by performing feature selection, in our case forward selection. Next, we perform a quadratic basis function expansion of our feature set to obtain additional pairwise product features x i,j ·x i,k for j = 1 . . . m and k = j + 1 . . . m. Finally, we perform another pass of forward selection on this extended set to determine our final set of basis functions, such that for instance i we obtain an expanded feature vector</p><formula xml:id="formula_1">φ i = φ(x i ) = [φ 1 (x i ), . . . , φ d (x i )],</formula><p>where d is the number of basis functions. We then use ridge regression to fit the free parameters w of the function f w (x) as follows. Letỹ be a vector withỹ i = log y i . Let Φ be an n × d matrix containing the vectors φ i for each instance in the training set, and let I be the identity matrix. Finally, let δ be a (small) regularization constant (to penalize large coefficients w and thereby increase numerical stability). Then, we compute w = (δI + Φ Φ) −1 Φ ỹ. Given a previously unseen instance j, a log runtime prediction is obtained by computing the instance features x j and evaluating f w (x j ) = w φ(x j ).</p><p>Accounting for censored data. As is common with heuristic algorithms for solving N P-complete problems, SAT algorithms tend to solve some instances very quickly, while taking an extremely long amount of time to solve other instances. Indeed, this property of SAT solvers is precisely our motivation for building an algorithm portfolio. However, this property has a downside: runtime data can be very costly to gather, as individual runs can literally take weeks to complete, even when other runs on instances of the same size take only milliseconds. The common solution to this problem is to "censor" some runs by terminating them after a fixed cutoff time.</p><p>The bias introduced by this censorship can be dealt with in three ways. (We evaluate these three techniques experimentally in Section 4; here we discuss them conceptually.) First, censored data points can be discarded. Since the role of empirical hardness models in an algorithm portfolio can be seen as warning us away from instance-solver pairs that will be especially costly, this approach is highly unsatisfactory-the hardness models cannot warn us about parts of the instance space that they have never seen.</p><p>Second, we can pretend that all censored data points were solved at exactly the cutoff time. This approach is better, as it does record hard cases and recognizes them as being hard. (We have used this approach in past work.) However, it still introduces bias into hardness models by systematically underestimating the hardness of censored instances.</p><p>The third approach is to build models that do not disregard censored data points, but do not pretend that the respective runs terminated successfully at the cutoff time either. This approach has been extensively studied in the "survival analysis" literature in statistics, which originated in actuarial questions such as estimating a person's lifespan given mortality data and the ages and features of other people still alive. (Observe that this problem is the same as ours, except that for us data points are always censored at the same value. This subtlety turns out not to matter.) Gagliolo et al. showed that censored sampling can have substantial impact on the performance of restart strategies for solving SAT <ref type="bibr" target="#b20">[21]</ref>. Different from their solution, we chose the simple, yet effective method by Schmee &amp; Hahn <ref type="bibr" target="#b27">[28]</ref> to deal with censored samples. In brief, this method consists of repeating the following steps until convergence:</p><p>1. Estimate the runtime of censored instances using the hardness model, conditioning on the fact that each runtime equals or exceeds the cutoff time. 2. Train a new hardness model using true runtimes for the uncensored instances and the predictions generated in the previous step for the censored instances.</p><p>Using hierarchical hardness models. This section summarizes ideas from a companion paper <ref type="bibr" target="#b29">[30]</ref>. Previous research on empirical hardness models for SAT has shown that we can achieve better prediction accuracy and simpler models than with models trained on mixed instance sets ("unconditional models";</p><p>M uncond ) if we restrict ourselves to only satisfiable or unsatisfiable instances <ref type="bibr" target="#b24">[25]</ref>. Of course, in practice we cannot divide instances in this way; otherwise we would not need to run a SAT solver in the first place. The idea of a hierarchical hardness model is to first predict an instance's satisfiability using a classification algorithm, and then to predict its hardness conditioned on the classifier's prediction. We use the Sparse Multinomial Logistic Regression (SMLR) classifier <ref type="bibr" target="#b13">[14]</ref>, but any classification algorithm that returns the probability of belonging to each class could be used. We train empirical hardness models (M sat , M unsat ) using quadratic basis-function regression for both satisfiable and unsatisfiable training instances. Then we train a classifier to predict the probability that an instance is satisfiable. Finally, we build hierarchical hardness models using a mixture-ofexperts approach with clamped experts: M sat and M unsat . We evaluate both models on test data, and weight each model's prediction by the predicted usefulness of that model. (Further details can be found in the companion paper <ref type="bibr" target="#b29">[30]</ref>.)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Evaluating SATzilla-07 on the QCP Data Set</head><p>In the following, we will describe the design and empirical analysis of an algorithm portfolio for solving relatively homogeneous QCP instances. The primary motivation for this part of our work was to demonstrate how our approach works in a relatively simple, yet meaningful, application scenario. At the same time, we did not want to make certain aspects of this application, such as solver selection, overly specific to the QCP instance distribution. The equally important goal of a full-scale performance assessment is addressed in Section 5, where we apply SATzilla-07 to a broad range of instances from past SAT competitions.</p><p>1. Selecting instances. In the quasi-group completion problem (QCP), the objective is to determine whether the unspecified entries of a partial Latin square can be filled to obtain a complete Latin square. QCP instances are widely used in the SAT community to evaluate the performance of SAT solvers. We generated 23 000 QCP instances around the solubility phase transition, using the parameters given by Gomes &amp; Selman <ref type="bibr" target="#b8">[9]</ref>. Specifically, the order n was drawn uniformly from the interval <ref type="bibr" target="#b25">[26,</ref><ref type="bibr">43]</ref> These solvers were chosen because they are known to perform well on various types of SAT instances (as can be seen, e.g., from past SAT competition results). It should be noted, however, that on QCP, they are dominated by other solvers, such as Satzoo <ref type="bibr" target="#b4">[5]</ref>; nevertheless, as previously explained, our goal in this evaluation was not to construct a highly QCP-specific portfolio, but to demonstrate and validate our general approach.</p><p>3. Choosing features. Instance features are very important for building accurate hardness models. Good features should correlate well with (solver-specific) instance hardness, and they should be cheap to compute, since feature computation time counts as part of SATzilla-07's runtime.</p><p>Nudelman et al. <ref type="bibr" target="#b24">[25]</ref> described 84 features for SAT instances. These features can be classified into nine categories: problem size, variable-clause graph, variable graph, clause graph, balance features, proximity to Horn formulae, LP-based, DPLL probing, and local search probing. For the QCP data set, we ignored all LPbased features, because they were too expensive to compute. After eliminating features that were constant across our instance set, we ended up with 70 raw features. The computation time for the local search and DPLL probing features was limited to 4 CPU seconds each.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Computing features and runtimes.</head><p>All our experiments were performed using a computer cluster consisting of 55 machines with dual Intel Xeon 3.2GHz CPUs, 2MB cache and 2GB RAM, running Suse Linux 9.1. All runs of any solver that exceeded 1 CPU hour were aborted (censored). The time for computing all features of a given instance was 13 CPU seconds on average and never exceeded 60 CPU seconds.</p><p>We randomly split our data set into training, validation and testing sets at a ratio of 70:15:15. All parameter tuning was performed on the validation set, and the test set was used only to generate the final results reported here. Although test and validation sets of 15% might seem small, we note that each of them contained 3 450 instances.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>5.</head><p>Identifying pre-solvers. Since in this experiment, our goal was simply to minimize expected runtime, a pre-solving step was unnecessary.</p><p>6. Identifying the winner-take-all algorithm. We computed average runtimes for all solvers on the training data set, using the cutoff time of 3600 CPU seconds for unsuccesful runs and discarding those instances that were not solved by any of the solvers (the latter applies to 5.2% of the instances from the QCP instance set). The average runtimes were 546 CPU seconds for OKsolver, 566 CPU seconds for Eureka, and 613 CPU seconds for Zchaff Rand; thus, OKsolver was identified as the winner-take-all algorithm.</p><p>7. Learning empirical hardness models. We learned empirical hardness models as described in Section 3. For each solver, we used forward selection to eliminate problematic features and kept the model with the smallest validation error. This lead to empirical hardness models with 30, 30 and 27 features for Eureka, OKsolver and Zchaff Rand, respectively. When evaluating these models, we specifically investigated the effectiveness of our techniques for censored sampling and hierarchical models.   Censored Sampling. We gathered OKsolver runtimes on a set of all-satisfiable QCP instances of small order. The instances were chosen such that we could determine true runtimes in all cases; we then artificially censored our runtime data, using a cutoff time of 10 −0.5 CPU seconds, and compared the various methods for dealing with censored data surveyed in Section 3 on the resulting data. <ref type="figure" target="#fig_0">Fig. 1 (left)</ref> shows the runtime predictions achieved by the hardness model trained on ideal, uncensored data (RMSE=0.146). In contrast, <ref type="figure" target="#fig_0">Fig. 1 (right)</ref> shows that throwing away censored data points leads to very noisy runtime prediction for test instances whose true runtimes are higher than the cutoff time (RMSE for censored data: 1.713). <ref type="figure" target="#fig_2">Fig. 2 (left)</ref> shows the performance of a model trained on runtime data in which all censored points were labelled as having completed at exactly the cutoff time (RMSE for censored data: 0.883). Finally, <ref type="figure" target="#fig_2">Fig. 2 (right)</ref> shows that a hardness model trained using the method of Schmee &amp; Hahn <ref type="bibr" target="#b27">[28]</ref> yields the best prediction accuracy (RMSE for censored data: 0.608). Furthermore, we see good runtime predictions even for instances where the solver's runtime is up to half an order of magnitude (a factor of three) greater than the cutoff time. When runtimes get much bigger than this, the  prediction becomes much noisier, albeit still better than we observed earlier.</p><p>(We obtained similar results for the two other solvers, Eureka and Zchaff Rand.</p><p>Hierarchical Hardness Models. <ref type="figure" target="#fig_3">Fig. 3</ref> compares the runtime predictions made by a model with access to a model selection oracle (M oracular ), and an unconditional model (M uncond ) for the Eureka solver on the QCP instance set. M oracular defines an upper bound on performance with the conditional model. Overall, M uncond tends to make considerably less accurate predictions (RMSE= 1.111) than M oracular (RMSE=0.630). We report the performance of the classifier and hierarchical hardness models in <ref type="figure" target="#fig_4">Fig. 4</ref>. The overall classification accuracy is 89%; as shown in <ref type="figure" target="#fig_4">Fig. 4 (left)</ref>, the classifier is nearly certain, and usually correct, about the satisfiability of most instances. Although our hierarchical hardness model did not achieve the same runtime prediction accuracy as M oracular , its performance is 36% closer to this ideal than M uncond in terms of RMSE. (Note that hierarchical models are not guaranteed to achieve better performance than unconditional models, since the use of the wrong conditional model on certain instances can cause large prediction errors.) Similar results are obtained for the two other solvers, OKsolver and Zchaff Rand.</p><p>8. Solver subset selection. Using our automated subset selection procedure, we determined that all three solvers performed strongly enough on QCP that dropping any of them would lead to reduced portfolio performance. 9. Performance analysis. We compare the average runtime of SATzilla-07, an algorithm selection scheme based on a perfect oracle and all of SATzilla-07's component solvers in <ref type="figure" target="#fig_5">Fig. 5 (left)</ref>. On the test data set, all component solvers have runtimes of around 600 CPU seconds on average; OKsolver, the "winnertake-all" choice, has an average runtime of 543 CPU seconds. SATzilla-07's average runtime, 205 CPU seconds, is much lower. Although SATzilla-07's performance is much better than any of its components, it still does significantly worse than the oracle. In particular, it chooses the same solver as the oracle only for 62% of the instances. However, in most of these cases, the runtimes of the solvers picked by SATzilla-07 and the oracle are very similar, and only for 12% of the QCP instances, the solver chosen by SATzilla-07 is more than 10 CPU seconds slower. A more nuanced view of the algorithms' empirical performance is afforded by the cumulative distribution functions (CDFs) of their runtimes over the given instance set; these show the fraction of instances that would have been solved if runtime was capped at a given bound. As seen from <ref type="figure" target="#fig_5">Fig. 5 (right)</ref>, for very short runtimes, SATzilla-07 performs worse than its component solvers, because it requires about 13 CPU seconds (on average) to compute instance features. For higher runtimes, SATzilla-07 dominates all of its component solvers, and within the 1 CPU hour cutoff, SATzilla-07 solves about 6% more instances.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">SATzilla-07 for the 2007 SAT Competition</head><p>In this section, we describe the SATzilla-07 solvers entered into the 2007 SAT competition and demonstrate that these achieve state-of-the-art performance on a variety of real-world instance collections from past SAT competitions. The purpose of the SAT competitions is to track the state of the art in SAT solving, to assess and promote new solvers, and to identify new challenging benchmarks. In 2007, more than 30 solvers entered the SAT competition. Solvers were scored taking into account both speed and robustness. There were three main categories of instances, RANDOM, HANDMADE (or CRAFTED), and INDUSTRIAL.</p><p>We submitted three different versions of SATzilla-07 to the 2007 SAT competition. Two versions specifically targeted the RANDOM and HANDMADE categories. <ref type="bibr" target="#b1">2</ref> In order to study an even more heterogeneous instance distribution, a third version of SATzilla-07 attempted to perform well in all three categories of the competition; we call this meta-category BIG-MIX.</p><p>Following our general procedure for portfolio construction (see Section 2), the three versions of SATzilla-07 were obtained as follows.</p><p>1. Selecting instances. In order to train empirical hardness models for any of the above scenarios, we required instances that would be similar to those used in the real competition. For this purpose we used instances from the respective categories in all previous SAT competitions, as well as in the 2006 SAT Race (which only featured industrial instances). Instances that were repeated in previous competitions were also repeated in our data sets. Overall, there are 4 811 instances (all of them used in BIG-MIX), 2 300 instances in category RANDOM and 1 490 in category HANDMADE. About 67.5% of these instances can be solved by at least one solver within 1 200 CPU seconds on our reference machine.</p><p>2. Selecting solvers. We considered a wide variety of solvers from previous SAT competitions and the 2006 SAT Race for inclusion in our portfolio. We manually analyzed the results of these competitions, selecting all algorithms that yielded the best performance on some subset of instances. Since our focus was on both satisfiable and unsatisfiable instances, we did not choose any incomplete algorithms (with the exception of SAPS as a pre-solver). In the end we selected seven high-performance solvers as candidates for SATzilla-07: Eureka <ref type="bibr" target="#b22">[23]</ref>, Zchaff Rand <ref type="bibr" target="#b21">[22]</ref>, Kcnfs2006 <ref type="bibr" target="#b3">[4]</ref>, Minisat2.0 <ref type="bibr" target="#b5">[6]</ref>, March dl2004 <ref type="bibr" target="#b10">[11]</ref>, Vallst <ref type="bibr" target="#b28">[29]</ref>, and Rsat <ref type="bibr" target="#b25">[26]</ref>. Since preprocessing has proven to be an important element for some algorithms in previous SAT competitions, we considered seven additional solvers (labeled "+" in the following) that first run the Hyper preprocessor <ref type="bibr" target="#b0">[1]</ref>, followed by one of the above algorithms on the preprocessed instance. This doubled the number of our component solvers to 14.</p><p>3. Choosing features. In order to limit the additional cost for computing features, we limited the total feature computation time per instance to 60 CPU seconds. Again, we used the features of Nudelman et al. <ref type="bibr" target="#b24">[25]</ref>, but excluded a number of computationally expensive features, such as clause graph and LPbased features. The computation time for each of the local search and DPLL probing features was limited to 1 CPU second. The number of raw features used in SATzilla-07 is 48.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Computing features and runtimes.</head><p>We collected feature and runtime data using the same environment and process as for the QCP data set, we reduced the cutoff time to 1 200 CPU seconds (The same as SAT competition cutoff time).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Identifying pre-solvers.</head><p>Since the scoring function used in the 2007 SAT competition rewards quick algorithm runs, we cannot afford the feature computation for very easy instances (for which runtimes greater than one second <ref type="table">Table 1</ref>. Percentage of instances solved by each algorithm and average runtime over all instances solved by at least one solver. "+" means with preprocessing; preprocessing is not carried out for industrial instances as it would often time out.</p><p>are already too large). Thus, we have to solve easy instances before even computing any features. Good algorithms for pre-solving solve a large proportion of instances quickly; based on an examination of the training runtime data we chose March dl2004 and the local search algorithm SAPS (UBCSAT implementation with the best fixed parameter configuration identified by Hutter et al. <ref type="bibr" target="#b12">[13]</ref>) as pre-solvers. Within 5 CPU seconds on our reference machine, March dl2004 solved 47.8%, 47.7%, and 43.4% of the instances in our RANDOM, HANDMADE and BIG-MIX data sets, respectively. For the remaining instances, we let SAPS run for 2 CPU seconds, because we found its runtime to be almost completely uncorrelated with March dl2004 (r = 0.118 for the 487 remaining instances solved by both solvers). SAPS solved 28.8%, 5.3%, and 14.5% of the remaining RANDOM, HANDMADE and BIG-MIX instances, respectively.</p><p>6. Identifying winner-takes-all algorithm. Each solver's performance is reported in <ref type="table">Table 1</ref>; as can be seen from this data, the winner-take-all solvers for BIG-MIX, RANDOM and HANDMADE happened always to be March dl2004.</p><p>7. Learning empirical hardness models. We learned empirical hardness models as described in Section 3, using the Schmee &amp; Hahn <ref type="bibr" target="#b27">[28]</ref> procedure for dealing with censored data as well as hierarchical empirical hardness models <ref type="bibr" target="#b29">[30]</ref>. 8. Solver subset selection. Based on the results of automatic exhaustive subset search as outlined in Section 2, we obtained portfolios comprising the following solvers for our three data sets: 9. Performance analysis. For all three data sets we obtained excellent results: SATzilla-07 always outperformed all its constituent solvers in terms of average runtime and instances solved at any given time. The SAT/UNSAT classifier was surprisingly effective in predicting satisfiability of RANDOM instances, where it reached a classification accuracy of 94%. For HANDMADE and BIG-MIX, the classification accuracy was still at a respectable 70% and 78% (i.e., substantially better than random guessing). For BIG-MIX, the frequencies with which each solver was selected by a perfect oracle and SATzilla-07 were found to be similar. However, this does not mean that our hardness models made perfect predictions. Only for 46% of the instances, SATzilla-07 picked exactly the same solver as the oracle, but it selected a "good solver" (no more than 10 CPU seconds slower) for 89% of the instances. This indicates that many of the mistakes made by our models occur in situations where it does not matter much, because the selected and the best algorithms have very similar runtimes. Although the runtime predictions were not perfect, SATzilla-07 achieved very good performance (see <ref type="figure">Fig. 6</ref>). Its average runtime (154 CPU seconds) was half that of the best single solver, March dl2004 (407 CPU seconds), and it solved 20% more instances than any single solver within the given time limit.</p><p>For data set RANDOM, <ref type="figure">Fig. 7</ref> (left) shows that SATzilla-07 performed much better than the best solver, March dl2004. SATzilla-07 was more than three times faster on average than the best single solver. The runtime CDF plot <ref type="figure">(Fig. 7, right)</ref> shows that local search pre-solver Saps really helps a lot, and SATzilla-07 dominated March dl2004; in particular, for the same overall cutoff time, SATzilla-07 solved 15% more instances.</p><p>The performance results for HANDMADE were very good too. Using five component solvers, SATzilla-07 was more than 50% faster on average than the best single solver (see <ref type="figure" target="#fig_8">Fig. 8</ref>, left). The CDF plot in <ref type="figure" target="#fig_8">Fig. 8</ref> (right) shows that SATzilla-07 dominated all its components and solved 11% more instances than the best single solver; overall, its performance was found to be very close to that of the oracle.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusions</head><p>Algorithms can be combined into portfolios to build a whole greater than the sum of its parts. In this work, we have significantly extended earlier work on algorithm portfolios for SAT that select solvers on a per-instance basis using empirical hardness models for runtime prediction. We have demonstrated the effectiveness of our new portfolio construction method, SATzilla-07, on a large set of SAT-encoded QCP instances as well as on three large sets of SAT competition instances. Our own experiments show that our SATzilla-07 portfolio solvers always outperform their components. Furthermore, SATzilla-07's excellent performance in the recent 2007 SAT competition demonstrates the practical effectiveness of our portfolio approach. SATzilla is an open project. We believe that with more solvers and training data added, SATzilla's performance will continue to improve. SATzilla-07 is available online at http://www.cs.ubc.ca/labs/beta/ Projects/SATzilla.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Actual vs predicted runtime for OKsolver on selected (easy) instances from QCP with cutoff time 10 −0.5 . Left: trained with complete data; right: censored data points are discarded, RMSE for censored data: 1.713.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 2 .</head><label>2</label><figDesc>Actual vs predicted runtime for OKsolver on selected (easy) instances from QCP with cutoff time 10 −0.5 . Left: set runtime for censored data points as cutoff time, RMSE for censored data: 0.883; right: using the method of Schmee &amp; Hahn<ref type="bibr" target="#b27">[28]</ref>, RMSE for censored data: 0.608.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 3 .</head><label>3</label><figDesc>Actual vs predicted runtime plots for Eureka on QCP. Left: model using a model selection oracle, RMSE=0.630; right: unconditional model, RMSE=1.111.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 4 .</head><label>4</label><figDesc>Left: Performance of the SMLR classifier on QCP. Right: Actual vs predicted runtime for Eureka on QCP using a hierarchical hardness model, RMSE=0.938.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 5 .</head><label>5</label><figDesc>Left: Average runtime for different solvers on QCP; the hollow box for SATzilla-07 represents the time used for computing instance features (13 CPU sec on average). Right: Empirical cumulative distribution functions (CDFs) for the same runtime data.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>-</head><label></label><figDesc>BIG-MIX: Eureka, kcnfs2006, March dl2004, Rsat; -RANDOM: March dl2004, kcnfs2006, Minisat2.0+; -HANDMADE: March dl2004, Vallst, March dl2004+, Minisat2.0+, Zchaff Rand+.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig. 6 .Fig. 7 .</head><label>67</label><figDesc>Left: Average runtime, right: runtime CDF for different solvers on BIG-MIX; the average feature computation time was 6 CPU seconds. Left: Average runtime, right: runtime CDF for different solvers on RANDOM; the average feature computation time was 3 CPU seconds.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Fig. 8 .</head><label>8</label><figDesc>Left: Average runtime, right: runtime CDF for different solvers on HANDMADE; the average feature computation time was 3 CPU seconds.</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">Please see http://www.satcompetition.org/2007/rules07.html for details.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2">We built a version of SATzilla-07 for the INDUSTRIAL category after the submission deadline and found its performance to be qualitatively similar to the results we present here: on average, it is twice as fast as the best single solver, Eureka.</note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0" />			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Effective preprocessing with hyper-resolution and equality reduction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Bacchus</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Winter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SAT-03</title>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="341" to="355" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Linear Network Optimization, Algorithms and Codes</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">P</forename><surname>Bertsekas</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1991" />
+			<publisher>MIT Press</publisher>
+			<pubPlace>Cambridge, MA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Applying machine learning to low-knowledge control of optimization algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Carchrae</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">C</forename><surname>Beck</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="372" to="387" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A backbone-search heuristic for efficient solving of hard 3-SAT formulae</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Dubois</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Dequen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IJCAI-01</title>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="248" to="253" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">An extensible SAT solver</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Eén</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Sörensson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SAT-03</title>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="502" to="518" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Minisat v2.0 (beta). Solver description, SAT Race</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Eén</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Sörensson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Learning dynamic algorithm portfolios</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Gagliolo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Schmidhuber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Mathematics and Artificial Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3-4</biblScope>
+			<biblScope unit="page" from="295" to="328" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Using CBR to select solution strategies in constraint programming</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gebruers</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Hnich</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Bridge</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Freuder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICCBR-05</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="222" to="236" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Problem structure in the presence of perturbations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">P</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI-97</title>
+		<imprint>
+			<date type="published" when="1997" />
+			<biblScope unit="page" from="221" to="226" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Algorithm portfolios</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">P</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Artificial Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">126</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="43" to="62" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">march dl: Adding adaptive heuristics and a new branching strategy</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Heule</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">V</forename><surname>Maaren</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal on Satisfiability, Boolean Modeling and Computation</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="47" to="59" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">A Bayesian approach to tackling hard computational problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Horvitz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Ruan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">P</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kautz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">M</forename><surname>Chickering</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of UAI-01</title>
+		<meeting>of UAI-01</meeting>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="235" to="244" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Performance prediction and automated tuning of randomized and parametric algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Hamadi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of CP-06</title>
+		<meeting>of CP-06</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="213" to="228" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Sparse multinomial logistic regression: Fast algorithms and generalization bounds</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Krishnapuram</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Carin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Figueiredo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Hartemink</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE Transactions on Pattern Analysis and Machine Intelligence</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="957" to="968" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Kullmann</surname></persName>
+		</author>
+		<ptr target="http://cs-svr1.swan.ac.uk/∼csoliver/Artikel/OKsolverAnalyse.html" />
+		<title level="m">Investigating the behaviour of a SAT solver on random formulas</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Learning to select branching rules in the DPLL procedure for satisfiability</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">G</forename><surname>Lagoudakis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">L</forename><surname>Littman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">LICS/SAT</title>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="344" to="359" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Boosting as a metaphor for algorithm design</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Mcfadden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-03</title>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="899" to="903" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A portfolio approach to algorithm selection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Mcfadden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IJCAI-03</title>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="1542" to="1543" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Learning the empirical hardness of optimization problems: The case of combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-02</title>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="556" to="572" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Branch and bound algorithm selection by performance prediction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Lobjois</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Lemaître</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI-98</title>
+		<imprint>
+			<date type="published" when="1998" />
+			<biblScope unit="page" from="353" to="358" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Impact of censored sampling on the performance of restart strategies</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Schmidhuber</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Gagliolo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-06</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="167" to="181" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Zchaff2004: an efficient SAT solver</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><forename type="middle">S</forename><surname>Mahajan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Z</forename><surname>Fu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Malik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SAT-05</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="360" to="375" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Nadel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Gordon</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Palti</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Z</forename><surname>Hanna</surname></persName>
+		</author>
+		<title level="m">Eureka-2006 SAT solver. Solver description, SAT Race</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Satzilla: An algorithm portfolio for SAT. Solver description, SAT competition</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Devkar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Understanding random SAT: Beyond the clauses-to-variables ratio</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Devkar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-04</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="438" to="452" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Rsat 1.03: SAT solver description</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Pipatsrisawat</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Darwiche</surname></persName>
+		</author>
+		<idno>D-152</idno>
+		<imprint>
+			<date type="published" when="2006" />
+			<pubPlace>UCLA</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Automated Reasoning Group</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The algorithm selection problem</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">R</forename><surname>Rice</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Computers</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="65" to="118" />
+			<date type="published" when="1976" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A simple method for regression analysis with censored data</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Schmee</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">J</forename><surname>Hahn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="417" to="432" />
+			<date type="published" when="1979" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Vallst documentation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Vallstrom</surname></persName>
+		</author>
+		<ptr target="http://vallst.satcompetition.org/index.html" />
+		<imprint>
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Hierarchical hardness models for SAT</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-07</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

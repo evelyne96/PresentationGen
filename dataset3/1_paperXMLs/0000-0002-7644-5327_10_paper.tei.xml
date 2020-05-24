@@ -1,0 +1,907 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Computational Analysis of Perfect-Information Position Auctions</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><surname>Robert</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Computer Science</orgName>
+								<orgName type="department" key="dep2">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>201-2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<region>BC</region>
+									<country key="CA">CANADA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Martin</forename><surname>Thompson</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Computer Science</orgName>
+								<orgName type="department" key="dep2">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>201-2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<region>BC</region>
+									<country key="CA">CANADA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff1">
+								<orgName type="institution">University of British</orgName>
+								<address>
+									<addrLine>Columbia 201-2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<region>BC</region>
+									<country key="CA">CANADA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Computational Analysis of Perfect-Information Position Auctions</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>F2m [Analysis of Algorithms and Problem Complex- ity]: Miscellaneous</term>
+					<term>I28 [Artificial Intelligence]: Prob- lem Solving, Control Methods, and Search-Heuristic Meth- ods</term>
+					<term>I211 [Artificial Intelligence]: Distributed AI-Mul- tiagent Systems</term>
+					<term>K44 [Computers and Society]: Elec- tronic Commerce General Terms Algorithms, Economics, Experimentation, Measurement Keywords Sponsored search, game theory, compact games, Nash equi- librium, empirical analysis</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position auctions were widely used by search engines to sell keyword advertising before being well understood (and, indeed, studied)  theoretically. To date, theorists have made significant progress, for example showing that a given auction is efficient or revenue-dominates a benchmark auction such as VCG. This paper augments that line of work, relying on computational equilibrium analysis. By computing Nash equilibria and calculating their expected revenue and social welfare, we can quantitatively answer questions that theoretical methods have not. Broadly, the questions we answer are: (1) How often do the theoretically predicted "good" (i.e., efficient, high-revenue) equilibria of GSP occur? (2) In models where GSP is known to be inefficient, how much welfare does it waste? We also use our data to examine the larger question of whether GSP is a good choice, compared with the alternatives.</p><p>These auctions have all been subjected to theoretical analysis under a variety of models, typically with the assumption that bidders will converge, in repeated play, to an equilibrium of the full-information, one-shot game.</p><p>Edelman, et al. analyzed the uGSP 1 under a preference 1 In their model, uGSP and wGSP are strategically equilvalent.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Position auctions are a relatively new family of auctions whose distinguishing characteristic is that rather than losing, the second-highest bidder wins the second-most-desirable good. Each year, these auctions are used to sell billions of dollars worth of advertising space on search engine results pages. The search engines have some degrees of freedom within the framework of position auctions: whether advertisers pay every time their ad is shown or only when the user clicks on it whether ads that attract more clicks are given more favorable rankings and how prices are set.</p><p>Although a few varieties have been tried, the major search engines have converged on a single design: the weighted, generalized second-price auction (wGSP for short). The main question that this paper seeks to address is the extent to which wGSP represents a good choice as compared both to the auctions it has replaced and to theoretical benchmarks. Specifically, we ask whether wGSP is more economically efficient, and whether it generates more revenue. A range of theoretical work has been published showing properties of wGSP under various preference models, some positive and some negative. These results have raised further questions, not all of which appear to be amenable to theoretical study.</p><p>This paper attempts to answer these questions quantitatively. We introduce novel computational and representational techniques that for the first time permit the computation of Nash equilibria of position auctions. This allows us to make "apples-to-apples" comparisons to find out exactly how two different auctions behave in equilibrium, given the same bidder preferences. It also allows us to measure the magnitude and frequency of auction properties that are theoretically possible, but are not proven to always hold, such as the existence of envy-free equilibria.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.1">Previous Work</head><p>Although a variety of position auction variants have been proposed, only three have seen large-scale use in practice. We describe each here and also provide a short form that we will use throughout the paper. model (which we denote EOS) in which each bidder's expected value per click is independent of position. The clickthrough rate is decreasing in position (i.e., ads that appear lower on the screen get fewer clicks) but independent of bidder <ref type="bibr" target="#b14">[15]</ref>. They showed that in any locally envy-free equilibrium (one in which no bidder envies the allocation received by a bidder in a neighboring position), uGSP is efficient and revenue dominates the truthful equilibrium of VCG. Given that locally envy-free equilibria are not guaranteed to exist, a natural question about this model is:</p><p>Question 1: Under EOS preferences, how often does wGSP have efficient, VCG-revenue-dominating Nash equilibria? What happens in other equilibria <ref type="bibr">?</ref> Varian analyzed wGSP under a more general model <ref type="bibr" target="#b35">[36]</ref>. In his model (which we denote V), each bidder's value per click is still independent of position, but the click-through rate is decreasing and "separable." Separability means that for any position/bidder pair, the click-through rate can be factored into a position-specific component that is independent of bidder identity and a bidder-specific component that is independent of position. The weights of wGSP are assumed to correspond to these bidder-specific factors. Varian showed that in any "symmetric equilibrium" (i.e., globally envy-free) wGSP is efficient and revenue dominates VCG. Because symmetric equilibria are similarly not guaranteed to exist, it is natural to ask a second question analogous to our first:</p><p>Question 2: Under V preferences, how often does wGSP have efficient, VCG-revenue-dominating Nash equilibria? What happens in other equilibria?</p><p>Blumrosen, et al. proposed an even more general model (which we denote BHN). In this model, click-through rate is still decreasing and separable <ref type="bibr" target="#b7">[8]</ref>. However, a bidder's expected value per click is increasing in rank in a separable fashion, subject to the constraint that a bidder's expected value per impression is weakly decreasing. The authors support their generalization by describing empirical data that shows that conversions (e.g., sales) are more likely for clicks in lower positions. They show that preference-profiles exist where wGSP has no efficient, pure-strategy Nash equilibrium. However, while we know that such preference profiles exist, we do not know how much of a problem they pose on average. Question 3: Under BHN preferences, how often does wGSP have no efficient Nash equilibrium? How much social welfare is lost?</p><p>Benisch, et al. proposed another model (which we denote BSS) generalizing EOS. In this model, click-through rate is decreasing in position but independent of bidder. However, bidders' values are single peaked in position and strictly decreasing from that peak (e.g., "brand" bidders prefer the prestige of top positions, while "value" bidders prefer positions near the middle) <ref type="bibr" target="#b5">[6]</ref>. They analyze this model in an imperfectinformation game, and show both that GSP ranking rules can be arbitrarily inefficient for such models and that more expressive bidding languages can improve efficiency. For different distributions over their model, they bounded the loss of efficiency in the best-case Bayes-Nash equilibrium.</p><p>Question 4: Under BSS preferences, how often does wGSP have no efficient perfect-information Nash equilibrium? How much social welfare is lost?</p><p>Yet another family of models are the "cascade models" <ref type="bibr" target="#b17">[18,</ref><ref type="bibr" target="#b21">22,</ref><ref type="bibr" target="#b1">2]</ref> which seek to capture externalities in the bidders' preferences. Specifically, in these models a bidder's value and click-through rate depend on which bidders win the other positions. The motivation for this model is that users tend to scan and click ads in the order they appear; a good ad can make lower ones appear less desirable, while a bad ad can cause a user to give up on the ads entirely. Although this is an important and plausible preference model, it is not tractable within our current representation, and so we defer its study to future work.</p><p>Having posed the questions that we will address, the rest of the paper takes the following form. In Section 2, we explain the representation that makes our computational approach possible. <ref type="bibr" target="#b1">2</ref> In Section 3, we describe our specific experimental method: problem distributions, game solving algorithms and statistical techniques. In Section 4, we address our questions, presenting the results of our experimental study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">POSITION AUCTIONS AS AGGS</head><p>This section describes our preference model and shows how that model can be represented compactly to allow for more efficient computation of Nash equilibria. The essential insight that makes this possible is that these games obey "contextspecific independence": for example, in GFP a bidder's payoff depends only on his own bid and on how many bidders bid higher than he did, but not on who they are or exactly what their bids were. Action-graph games (described below) exploit this independence to represent games more compactly and answer questions about them more tractably.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Preference model</head><p>In our evaluation of auction types, we use the following model. As in previous work <ref type="bibr" target="#b35">[36,</ref><ref type="bibr" target="#b14">15,</ref><ref type="bibr" target="#b23">24]</ref>, we look for the equilibria of the one-shot, full-information game. 4. P is a matrix of click-through rates, where Pj,i is the probability that bidder i will receive a click when his ad is in position j;</p><p>5. V is a matrix of expected values for a click, where Vj,i is the value that bidder i has for a click when his ad is in position j; and 6. β is a vector of "quality scores" or weights, where βi/βj denotes the quality of bidder i relative to bidder j.</p><p>Because our model allows for arbitrary click-value and clickthrough rates for every bidder, position pairing, it strictly generalizes all the models described earlier: EOS, V, BHN and BSS.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">AGGs</head><p>Since analyses of position auctions have relied on perfectinformation games, in principle we could discretize bid amounts and then represent the auction as a normal-form game. This would have the advantage that Nash equilibria of the auction could be identified by standard computational tools such as Gambit <ref type="bibr" target="#b27">[28]</ref>. The catch, of course, is that the normal form representation of a realistic ad auction problem is unmanageably large. For example, the normal form representation of a relatively small game with 10 agents and 10 bid amounts per agent consists of 100 billion values, too many to store even on the hard drive of many modern computers-let alone in RAM. Thus, to have any hope of tackling position auctions computationally, it is necessary to work with a representation language that allows the game to be compactly described.</p><p>We chose to use the action-graph game (AGG) representation <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b19">20]</ref>. Action-graph games are similar to the more widely-known graphical game representation <ref type="bibr" target="#b20">[21]</ref> in that they exploit utility independencies. AGGs are strictly more powerful than graphical games, however. This is because AGGs are compact not only for games with "strict utility independencies" (the property that one agent's payoff never depends on some second agent's action) but also "contextspecific independencies" (one agent's payoff is independent of a second agent's action, at least for some action of the first agent and some set of actions of the second). This distinction is important for modeling position auctions. Note that any bidder can affect any other bidder's payoff (e.g., by outbidding him); hence the graphical game representation of a perfect-information position auction is a clique, meaning that it is no more compact than the normal form. However, position auctions have considerable context-specific independence structure. To give one simple example, in a GFP auction, bidder i's utility is independent of bidder j's bid, conditional on j bidding less than i. This is the sort of structure that can be captured by AGGs.</p><p>The core idea behind action-graph games is the action graph, so called because nodes in this directed graph represent actions. Each agent is allowed to choose his action from an arbitrary subset of the nodes; agents' subsets are allowed to overlap or coincide. Play of the game can be visualized as each agent simultaneously placing a single token on one of the nodes in the graph. Given the locations of all the tokens, an agent's utility can be computed by referring only to the number of tokens in the neighborhood of his chosen node. (The neighborhood of a node v is the set of all nodes having outgoing edges that point to v; self-edges are allowed, and so a node can belong to its own neighborhood.) <ref type="figure" target="#fig_0">Figure 1</ref> gives an example of an action-graph game taken from <ref type="bibr" target="#b6">[7]</ref>. Observe that there are two action sets consisting of four actions each; unlike in a graphical game, the number of agents cannot be inferred from the graph.</p><p>Compact size is not the only interesting thing about AGGs. More importantly, AGG structure can be leveraged computationally, and hence game-theoretic computations can be performed dramatically more quickly for AGGs than for games represented in normal form. For example, given action graphs with bounded in-degree, a polynomial-time dynamic programming algorithm can be used to compute an agent's expected utility under an arbitrary mixed strategy profile <ref type="bibr" target="#b19">[20]</ref>. (Observe that this is interesting because the standard method of computing expected utility has running time polynomial in the size of the normal form, but potentially exponential in the size of more compact representations like AGGs.) This computational problem is important because it constitutes the inner loop of many game-theoretic algorithms, including state-of-the-art algorithms for computing Nash equilibria like Simplicial Subdivision <ref type="bibr" target="#b32">[33]</ref> and Govindan-Wilson <ref type="bibr" target="#b18">[19]</ref>. An exponential speedup to the solution of the expected utility problem therefore translates directly to an exponential speedup of such algorithms, without altering the solution obtained.</p><p>Although it is beyond the scope of this paper to describe AGGs in detail, there is one further element of the represen-f an Gs that cannot be comgames include: location affic routing games, prodffiliation games. bability distributions over strategies for i as</p><formula xml:id="formula_0">i ),<label>(5)</label></formula><p>profiles as</p><formula xml:id="formula_1">Σ i .<label>(6)</label></formula><p>when the actions of i and i are added to D.</p><p>Define the expected utility to agent i for playing pure strategy s, given that all other agents play the mixed strategy profile σ −i , as</p><formula xml:id="formula_2">V i s (σ −i ) ≡ s −i ∈S −i u(s, s −i ) Pr(s −i |σ −i ).<label>(7)</label></formula><p>The set of i's pure strategy best responses to a mixed strategy profile σ −i is arg max s V i s (σ −i ), and hence the full set of i's pure and mixed strategy best responses to σ −i is</p><formula xml:id="formula_3">BR i (σ −i ) ≡ ϕ(arg max s V i s (σ −i )).<label>(8)</label></formula><p>A strategy profile σ is a Nash equilibrium iff</p><formula xml:id="formula_4">∀i ∈ N, σ i ∈ BR i (σ −i ).<label>(9)</label></formula><p>Finally, we describe the projection of a distribution of agents onto a smaller action space. Intuitively we construct tation that we must describe here. Specifically, it is possible to add so-called function nodes to the action graph, which are nodes that belong to no agents' action sets. Instead, the "action count" at a function node is calculated as an (arbitrary) deterministic function of the counts at the function node's parents. For example, when an agent's payoff for playing a depends on how many agents play any of b, c or d, we can add a summation node to reduce the in-degree of a. Function nodes can dramatically reduce representation size when (for example) many actions affect a given action in the same way. As long as the functions are well-behaved ("contribution-independent"; roughly, commutative and associative), function nodes can be used with the dynamic programming algorithm from <ref type="bibr" target="#b19">[20]</ref>. Since the variable most important to the asymptotic running time of this algorithm is the maximal in-degree of action nodes, and since this quantity can be drastically reduced by the introduction of high-in-degree function nodes, function nodes can also lead to substantial computational savings.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Representing GFPs as AGGs</head><p>Having described the auction types and model that we intend to solve, our next step is to show that they can be compactly represented. This section will present algorithms for representing an ad auction type (for example, weighted per-click GSP) and auction setting as an action-graph game 3 and bounds on the size of those representations.</p><p>To get a suitably compact representation, one of our biggest concerns is the maximum in-degree of our action graph. Every action node must have a table representing that action's payoff function, and this table will grow exponentially in the in-degree of that action node. An arc (u, v) in an AGG denotes that the payoff for playing action v depends on the number of agents playing u. However, note that an agent's payoff depends only on the position he is awarded and the price he is made to pay. In the case of a GFP, an agent's price is determined by his bid while his position is determined by the number of bids weakly greater than his, denoted g, and the number of bids equal to his, denoted e. (We assume that ties are broken randomly.) His position can be affected by many different actions by other bidders, leading to a very large in-degree. However, if we introduce function nodes corresponding to summation (hereafter summation nodes) to keep track of how many bids are equal to or greater than each possible bid value, we need only two in-arcs to capture the two values.</p><p>Algorithm 1 converts a weighted (or, as a special case, unweighted 4 ) GFP to an AGG. An example AGG is shown in <ref type="figure" target="#fig_3">Figure 2</ref>.</p><formula xml:id="formula_5">foreach agent i ∈ N do</formula><p>foreach bid m ∈ M do create an action node representing i bidding m;</p><formula xml:id="formula_6">E ← {mβi|∀i ∈ N, ∀m ∈ M };</formula><p>foreach effective bid e ∈ E do create a summation function node, (=, e) representing the bidders bidding exactly e; create a summation function node, (≥, e) representing the bidders bidding above e; add an arc from (=, e) to (≥, e); if e&gt;0 then add an arc from (≥, e) to (≥, e ) (where e is the next largest effective bid);</p><p>foreach action node a do e ← effective bid of a; add an arc from a to (=, e); add an arc from (=, e) to a; add an arc from (≥, e) to a; Algorithm 1: An algorithm for converting an auction setting into an action graph representing a GFP.</p><p>For each action node, we must have a payoff function <ref type="bibr" target="#b3">4</ref> Trivially, this algorithm can also be used to represent an unweighted GFP by replacing β with a vector of ones, causing the auction to treat bids by different agents equivalently. mapping from the inputs to that node to the payoff an agent playing that action will get. For a bid of b by agent i, we denote this as γ 1,I i,b for a pay-per-impression GFP. Because of the configuration of the summation nodes, the two inputs to this function are the number of effective bids that are equal to i's bid of b and the number that are greater than or equal. The payoff function for any action node in a pay-perimpression GFP is given by</p><formula xml:id="formula_7">γ 1,I i,b (e, g) = 1 e min(g,k) j=g−e+1 (Pj,iVj,i − b).</formula><p>Similarly, the payoff function for any action node in a payper-click GFP is given by</p><formula xml:id="formula_8">γ 1,C i,b (e, g) = 1 e min(g,k) j=g−e+1 Pj,i(Vj,i − b).</formula><p>This representation results in a graph containing nm action nodes, each of which has an in-degree of two. Each node has a payoff table with at most O(n 2 ) relevant entries. Thus, this representation requires O(n 3 m) space.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Representing GSPs as AGGs</head><p>GSPs are similar to GFPs in that each agent's payoff depends on a small number of values. To determine the position (or range of positions), we use the same graph structure as for GFPs. However, we need to augment the graph to capture the pricing rule of GSPs. This is done by adding "price nodes", function nodes that identify the next-highest bid. We use the term argmax node to refer to a function node whose value is equal to the largest in-arc carrying a non-zero value (based on some fixed ordering of the in-arcs). By ordering action nodes according to the value of their effective bids, an argmax node identifies the highest effective bid among the subset of action nodes connected to it. After running Algorithm 1, we add argmax nodes as shown in Algorithm 2. An example of the resulting action graph is illustrated in <ref type="figure" target="#fig_1">Figure 3</ref>. Note that although the in-degree of the argmax nodes can get large (O(nm)), the computational complexity of solving an AGG only depends on the in-degree of the action nodes.</p><p>foreach effective bid e ∈ E do create an argmax function node, (p, e) representing the next highest effective bid below e; foreach action node a with effective bid e do if e' &lt; e then add an arc from a to (p, e); if e' = e then add an arc from (p, e) to a;</p><p>Algorithm 2: An algorithm for converting an auction setting into an action graph representing a GSP.</p><p>As in the case of GSP, we must define a payoff function for each action node. Now, we have a third input (p), which identifies the next-highest effective bid. Let Ep denote this value. The payoff function for any action node in a pay-perimpression GSP is</p><formula xml:id="formula_9">γ 2,I i,b (e, g, p) = 1 e min(g−1,k) j=g−e+1 (Pj,iVj,i − b)</formula><p>+δ(g ≤ k)(Pg,iVg,i − max{1, Ep })/e, <ref type="figure" target="#fig_1">Figure 3</ref>: To represent a GSP as an AGG, we add price nodes (argmax nodes denoted by hexagons) to a GFP representation. For clarity only one price node is pictured, while a full GSP representation requires one price node for each effective bid.</p><p>where δ(x) = 1 iff x is true. Similarly, the payoff function for any action node in a pay-per-click GSP is given by</p><formula xml:id="formula_10">γ 2,C i,b (e, g, p) = 1 e min(g−1,k) j=g−e+1 Pj,i(Vj,i − b) +δ(g ≤ k)Pg,i(Vg,i − max{1, Ep })/e.</formula><p>This representation results in a graph containing nm action nodes, each of which has an in-degree of three. Each node has a payoff table with at most O(n 2 |E|) relevant entries (where |E| ≤ nm). Thus, this representation requires O(n 4 m 2 ) space. As with GFPs, we can produce an unweighted auction by simply replacing β with a vector of ones. As an aside, we can also derive AGG representations of Lahaie and Pennock's family of ranking rules <ref type="bibr" target="#b24">[25]</ref> by adjusting the values of β appropriately. Although these techniques can represent many different position auctions, in this paper we focus on the ones used in practice: GFP, uGSP and wGSP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5">Removal of Dominated Strategies</head><p>For tractability, we removed weakly dominated strategies while generating action graph games. The strategies we removed fall into two classes. The first class is strategies that require a bidder to bid higher than his maximum value in any position. The second class is strategies where the agent bids the larger of two values that always result in the same allocation, i.e., where every bid by any other agent is either strictly greater than the larger bid or strictly less than the smaller bid. This second class occurs often when bidders have very different weights.</p><p>In general, it is well-known that removing weakly dominated strategies can remove some Nash equilibria. We consider whether that happens here. For the first class, we do lose Nash equilibria, but only ones in which at least one agent plays the obviously-dominated strategy of bidding above his value. For the second class, we do not remove any Nash equilibria from GFP auctions, because the dominance is always strict: by bidding the higher of the two values, the bidder gets the same outcome but pays a strictly higher price. However, for GSP auctions removing the second class of dominated strategies does remove some Nash equilibria. Fortunately, these equilibria are redundant from perspective of auction analysis. If the removed strategy is played in a Nash equilibrium, there must be a corresponding equilibrium where the bidder plays the dominating strategy, and where each equilibrium leads to the same outcome (or distribution over outcomes in the case of ties or mixed strategies).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">METHOD</head><p>Broadly speaking, the method of this paper is to generate many specific preference-profile instances from each of the preference models, build an AGG encoding the corresponding perfect-information auction problem, solve the AGG computationally, and then compare the outcomes against both each other and VCG.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Problem instances</head><p>We generated our preference profiles by (i) imposing a probability distribution over the preference-models, and then (ii) drawing instances from those distributions. For the EOS, V, and BHN preference models we used a probability distribution that was as uniform as possible over the space of possible preferences.</p><p>Specifically, for EOS, each bidder's value was drawn from a uniform [0, 1] distribution. The position-specific clickthrough rate was drawn from a uniform distribution over the allowed range (at least zero, and at most the click probability of the position immediately above).</p><p>For V, the distribution was the same as for EOS, except that each bidder-specific click-through rate factor was drawn from a uniform distribution on [0, 1].</p><p>For BHN, the distribution was the same as for V, except that the position-specific click-value factor was drawn from a uniform distribution over the allowed range (at least the value per-click of the position immediately above, at most a value per-click that results in the same value per-impression as the position immediately above).</p><p>We handled BSS differently, because in addition to their model, the authors also provided an explicit preference distribution of their own. We followed that model, which we summarize here (a more thorough description is provided in <ref type="bibr" target="#b5">[6]</ref>). Click-through rate decreases exponentially. With probability 0.5, a bidder's peak position is drawn from uniform [0.8, 1.0]; otherwise this value is drawn from uniform [0.4, 0.6]. Conversion probabilities fall off exponentially from the peak. Value per conversion is drawn from uniform <ref type="bibr" target="#b29">[30,</ref><ref type="bibr">150]</ref> while each click costs 1.</p><p>In every case, we normalized the values so that the highest value was equal to the highest possible bid, to ensure that the full number of bid increments was potentially useful.</p><p>We instantiated our preference profiles to generate games at four problem sizes: To allow direct study of the effect of discretization, we generated the medium, large and extra-large problem instances to be identical up to a normalizing constant. For each preference model and size, we generated 100 preference-profile instances, and then generated games for each of the three position-auction types, GFP, uGSP and wGSP (4800 games, in all).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Computation</head><p>Our experiments were performed using a cluster of 55 machines with dual Intel Xeon 3.2GHz CPUs, 2MB cache and 2GB RAM, running Suse Linux 10.1 (Linux kernel 2.6.16.54-0.2.5-smp).</p><p>To compute Nash equilibria, we used "simpdiv" and "gnm," the simplicial subdivision <ref type="bibr" target="#b32">[33]</ref> and global Netwon method <ref type="bibr" target="#b18">[19]</ref> implementations provided by Gambit <ref type="bibr" target="#b27">[28]</ref>, extended to use AGGs and the dynamic programming algorithm of <ref type="bibr" target="#b19">[20]</ref>. <ref type="bibr" target="#b4">5</ref> For each game, we ran simpdiv from ten different purestrategy-profile starting points, chosen uniformly at random. We also ran gnm ten times, with random seeds one through ten. Each run was limited to five CPU minutes. simpdiv took 895.1 CPU hours and found solutions to 4230 of the 4800 games. gnm took 1402.1 CPU hours and found solutions to 3775 games.</p><p>To improve the statistical reliability of our results, we did not drop individual games that were not solved within our chosen time cutoff. This is because we worried that the very features that made instances hard to solve could also make their equilibrium outcomes qualitatively different from those of easier-to-solve games. Instead, we split (preferencemodel,size,auction) triples into two groups. For those on which we had solved nearly every instance, we re-ran our solvers until an equilibrium was found. On the other hand, some triples had been too hard to solve reliably; these we abandoned. They were all GFP auctions at large or extra- </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Equilibrium selection</head><p>Starting from some arbitrary equilibrium of a GSP, it will often be the case that one or more agents can vary their bids within ranges that do not affect the outcome (the ranking of the ads), but that do affect the amounts that the bidders above must pay <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b35">36]</ref>. Thus, while social welfare is relatively stable in GSPs, equilibrium revenue depends on which strategy each agent chooses from a set of weak best responses.</p><p>We approached this equilibrium selection problem as a constrained optimization problem: maximizing or minimizing revenue subject to being in a Nash equilibrium. We solved this optimization problem using a local search through strategy-profile space. Our neighborhood relation was strategies that differ by shifting probability mass from one bid to an adjacent one. Our algorithm was randomized hillclimbing: accepting the first improving move that does not violate an equilibrium constraint. We restarted twice from each equilibrium found by simpdiv or gnm. Note that the final maximum or minimum thus found was not guaranteed to be a global optimum.</p><p>For consistency, we also used the same local search procedure with GFP problems, and in all auctions when evaluating <ref type="bibr" target="#b4">5</ref> The AGG extensions of Gambit can be obtained from http://agg. cs.ubc.ca. social welfare as well as revenue.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Benchmarks: VCG and Discretized VCG</head><p>As well as comparing GSP and GFP to each other, we also compared these position auctions to VCG. There are two ways of doing this. First, we used the actual (i.e., nondiscretized) preferences of the agents, and computed the truthful equilibrium of VCG. However, when making such a comparison, it is not possible to determine whether differences arise because of the auction mechanism or because of discretization. To answer this question, we also compared to a discretized version of VCG. Bids were discretized to the same number of increments as in the position auctions. We assume that bidders report the discrete value nearest to their true value. (All bidders bidding in this way is an -Nash equilibrium, where is equal to half of one bid increment.)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5">Statistical Methods</head><p>To test whether one auction achieved statistically significantly better performance than another according to a given metric (e.g., revenue), we used a blocking, means-of-means, bootstrapping test <ref type="bibr" target="#b12">[13]</ref>. We performed the test as follows:</p><p>1. For each setting instance, find the difference in the metric across that pair of auctions on that instance. Each value is normalized by the achievable social welfare in that instance. Call this set of values S.</p><p>2. Draw |S| samples from S (with replacement), and compute the mean. Perform this procedure 20,000 times. Let M denote the set of means thus computed.</p><p>3. Our estimated performance difference is the mean of M (the mean-of-means of S).</p><p>4. This difference has significance level α if the α th quantile of M is weakly greater than zero.</p><p>For our hypothesis tests, we use * to denote that a result has a significance level of α = 0.05 and * * to denote that a result has a significance level of α = 0.01. For each group of data points (i.e., for a specific size and preference model) we must perform 80 simultaneous tests: we compare revenue and welfare in the best and worst equilibrium, from each auction to every other. With this many tests, we must use some multiple-comparison correction. (Otherwise, while every individual significance test will be sound with marginal probability ≥ 0.95, the joint probability of them all being sound could be much lower.) We use a Bonferroni correction (effectively, dividing the desired significance level by the number of tests performed) <ref type="bibr" target="#b29">[30]</ref>. Thus, when reporting results for groups of data points, we use * to indicate that a result is individually significant for α = 0.000625 and * * to indicate that a result is individually significant for α = 0.000125.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">EXPERIMENTAL RESULTS</head><p>We had two main goals: answering the four questions posed in the introduction, and assessing whether wGSP achieved superior performance in equilibrium, as compared to the auctions that it has replaced in widespread practice. This section is structured around the preference models that each question uses. For each model, we answer our corresponding question, and then quantify wGSP's performance compared to that of the other auctions. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Edelman, Schwarz, Ostrovsky model</head><p>Recall that Edelman et al. proved that in "locally envy-free equilibra" wGSP is weakly better than VCG in revenue and welfare <ref type="bibr" target="#b14">[15]</ref>. Our question was:</p><p>Question 1: Under EOS preferences, how often does wGSP have efficient, VCG-revenue-dominating Nash equilibria? What happens in other equilibria?</p><p>We found that wGSP approximated efficiency very well: although wGSP was inefficient (significant * * at every size), the welfare loss was small relative to the size of the bid increment. As discretizations got finer, wGSP appeared to approach efficiency (see <ref type="figure">Figure 4)</ref>.</p><p>On the other hand, our revenue results ran counter to the prediction made by Edelman et al, that wGSP would revenuedominate VCG. Although wGSP had multiple equilibria with different revenues (see <ref type="figure">Figure 5</ref>), even in its most favorable equilibria wGSP achieved less expected revenue than VCG (see <ref type="figure">Figure 6</ref>, significant * * at every size). There are a number of reasons that this could have occurred. First, Edelman et al.'s prediction concerns only envy-free equilibria. These equilibria arise when bidders bid within an interval that may be empty <ref type="bibr" target="#b35">[36]</ref>; given instances may therefore have no such equilibria. Second, discretization means that even when the interval is non-empty, it could fall between two bid increments. Third, the only discrete bids on this interval could be higher than the bidder's value, and therefore would removed as weakly dominated.</p><p>From the perspective of practice, our efficiency results seem to support Yahoo!'s 2002 decision to switch from GFP to uGSP: uGSP was more efficient (see <ref type="figure">Figure 7</ref>, significant * * at small and medium sizes for best and worst equilibria. GFP was too difficult to solve at larger sizes.) Our revenue results were ambiguous: we did not observe a significant revenue difference between GFP and uGSP. Another interesting practical conclusion is that the use of $0.01 bid increments is (µ =0.0233) 40 incr.  In V, wGSP's revenue was very equilibrium-selection sensitive (medium size, 10 increments).</p><p>not innocuous. For keywords where values per click is small, this amounts to a coarse discretization, which could harm revenue and welfare.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Varian model</head><p>Recall that Varian proved that in "symmetric equilibria" wGSP achieves weakly better performance than VCG according to both revenue and welfare <ref type="bibr" target="#b35">[36]</ref>. Our question was:</p><p>Question 2: Under V preferences, how often does wGSP have efficient, VCG-revenue-dominating Nash equilibria? What happens in other equilibria?</p><p>As with the EOS model, we found that that even in the worst equilibria, wGSP approximated efficiency very well. 95% confidence intervals on the mean welfare loss ranged from [0.36%, 1.47%] for the extra-large cases to [1.40%, 4.94%] for the small cases.</p><p>Unlike in the case of EOS, our revenue findings were consistent with Varian's. wGSP's best Nash equilibrium did gener- ate more revenue than VCG (significant * * for small, medium and large games, not significant for extra-large games). Interestingly, the magnitude of this effect got smaller for finer discretizations (see <ref type="figure" target="#fig_8">Figure 8</ref>). Also as with uGSP in EOS, revenue was very sensitive to equilibrium selection (see <ref type="figure" target="#fig_9">Figure 9</ref>). wGSP clearly dominated GFP and uGSP in terms of efficiency (see <ref type="figure" target="#fig_0">Figure 10</ref>, significant * * at every scale at which data was present). Again, revenue results were ambiguous: wGSP's revenue was only significantly greater than GFP or uGSP for medium-sized instances. Interestingly, finer discretization seemed to help efficiency, but to hurt best-case revenue. welfare is lost?</p><formula xml:id="formula_11">GFP (µ =0.7725) uGSP (µ =0.8008) wGSP (µ =0.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Blumrosen, Hartline, Nong model</head><p>Our efficiency results in this setting were especially interesting. We found that wGSP had frequent, complete failures of efficiency (see <ref type="figure" target="#fig_0">Figure 11)</ref>. Surprisingly, discretized VCG also had massive failures of efficiency. These effects seemed to arise from the fact that the top position, with the highest value-per-impression (and hence then largest contribution to social welfare), had the smallest value-per-click and was therefore very prone to being distorted by discretization.</p><p>Despite this, wGSP had higher expected welfare than GFP and uGSP (see <ref type="figure" target="#fig_0">Figure 12</ref>, significant * * for all sizes with sufficient data). Again, revenue results were ambiguous: although wGSP often had higher revenue (see <ref type="figure" target="#fig_0">Figure 13</ref>), this difference was not always significant.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4">Benisch, Sadeh, Sandholm model</head><p>Benisch et al. proved the negative result that sometimes wGSP has no efficient Bayes-Nash equilibrium. Quantitatively, they were able to upper-bound social welfare between 70% and 98% depending on bidder values, for instances with three and four bidders.</p><p>Question 4: Under BSS preferences, how often does wGSP have no efficient perfect-information Nash equilibrium? How much social welfare is lost?</p><p>Despite our very different game model (perfect-information, discrete bids), we observed failures of efficiency of comparable magnitude, for five-bidder and ten-bidder instances. Overall, wGSP was more efficient than GFP (see <ref type="figure" target="#fig_0">Figure 14</ref>, significant * * for all sizes with sufficient data).</p><p>Revenue was ambiguous in this setting: both GFP and wGSP were very sensitive to equilibrium selection. Significant differences only existed for the smallest instances, where GFP achieved better revenue than wGSP (see <ref type="figure" target="#fig_0">Figure 15</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">CONCLUSIONS</head><p>From a theoretical perspective, we were able to quantify the magnitude of predicted effects and to quantify their sensitivity to equilibrium selection. We found that (in all its equilibria) wGSP was consistently approximately efficient in the models (V and EOS) for which it was already known to (sometimes) have efficient equilibria. However, we found that wGSP's revenue was very equilibrium-selection sensitive; furthermore, even in the best equilibria, it did not consistently beat VCG. For models where wGSP has been shown to (sometimes) be inefficient-BHN and BSS-we showed that wGSP was often inefficient, and often by a large margin.</p><p>From a practical perspective, we found that even in settings where it was inefficient, wGSP was consistently more efficient than uGSP or GFP. This supports Google and Microsoft's decision to adopt this format, and Yahoo!'s choice to switch to it in 2007. wGSP was a less clear winner in terms of revenue: we did not consistently observe that its best equilibria were significantly better than those of the other auctions.</p><p>There is opportunity for future work both on preferences and on computational methods. Better distributions of preferences could be learned from real-world data. AGGs (or some other compact representation) may also be applicable to richer preference models, like the cascade model. Better computational methods could also improve our approach: by using an equilibrium-finding algorithm that finds all equilibria (such as the support enumeration methods of <ref type="bibr" target="#b31">[32]</ref>), we could make quantitative claims about equilibrium-selection (e.g. what fraction of pure strategy equilibria had revenue greater than VCG?)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">ACKNOWLEDGMENTS</head><p>This work was supported by a grant under Microsoft's "Beyond Search" program.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Definition 1 (</head><label>1</label><figDesc>Ad auction setting). An ad auction setting is given by a 6-tuple (N, K, M, P, V, β): 1. N is the set of bidders (n = |N |); 2. K is the set of possible positions (k = |K|); 3. M is the set of possible bids;</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 :</head><label>3</label><figDesc>AGG representation of the ice cream vendor game s are of two kinds, chocoanilla) vendors are negaf other chocolate (vanilla) ing locations, and are siby the presence of nearby te that this game exhibits ithout any strict indepenre is independent of n.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 1 :</head><label>1</label><figDesc>The ice cream vendor game as an AGG (from<ref type="bibr" target="#b19">[20]</ref>). Chocolate and vanilla ice-cream vendors must choose which block to open their stores on, given that their payoffs will depend on how many other vendors are within one block of their location. (Circular nodes represent actions, dotted boxes represent action sets for a group of players and arcs represent payoff dependencies.)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 2 :</head><label>2</label><figDesc>A weighted GFP represented as an AGG. (Square nodes represent summation function nodes.)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head></head><label></label><figDesc>small: 5 bidders, 3 positions, 5 non-zero bid increments; medium: 10 bidders, 8 positions, 10 non-zero bid increments; large: 10 bidders, 8 positions, 20 non-zero bid increments; extra large: 10 bidders, 8 positions, 40 non-zero bid increments.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head></head><label></label><figDesc>large sizes: (V, large, GFP), (EOS, large, GFP), (V, extra large, GFP), (EOS, extra large, GFP) and (BSS, extra large, GFP).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 4 :Figure 5 :</head><label>45</label><figDesc>In EOS, wGSP approximated efficiency well, even in the worst observed equilibria. Finer discretization lead to more social welfare. In EOS, wGSP's expected revenue was very sensitive to equilibrium selection (extra large size, 40 increments).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 6 :Figure 7 :</head><label>67</label><figDesc>In EOS, even in the best equilibria we found wGSP's did not beat VCG (extra large size, 40 increments). In EOS, uGSP and wGSP are strategically equivalent and were more efficient than GFP, in the worst (shown above) and best equilibria (medium size, 10 increments).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 8 :</head><label>8</label><figDesc>In V, wGSP got more revenue than VCG. As discretization got finer, wGSP's expected revenue gains over VCG got smaller.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 9 :</head><label>9</label><figDesc>Figure 9: In V, wGSP's revenue was very equilibrium-selection sensitive (medium size, 10 increments).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 10 :Figure 11 :</head><label>1011</label><figDesc>In V, wGSP was more efficient than uGSP and GFP (medium size, 10 increments). In BHN, wGSP and discretized VCG both have serious failures of efficiency (large size, 20 increments).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 12 :Figure 13 :</head><label>1213</label><figDesc>Blumrosen et al. proved the negative result that sometimes wGSP has no efficient equilibrium.Question 3: Under BHN preferences, how often does wGSP have no efficient Nash equilibrium? How much social In BHN, wGSP was more efficient than GFP or uGSP (large size, 20 increments). In BHN, wGSP got more expected revenue than GFP or uGSP (large size, 20 increments).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 14 :Figure 15 :</head><label>1415</label><figDesc>In BSS, wGSP was inefficient, but more efficient than GFP (small size, 5 increments). In small BSS problems, GFP generated more revenue than wGSP (small size, 5 increments).</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2">We introduced this representation in a previous workshop paper<ref type="bibr" target="#b34">[35]</ref>. Section 2 essentially follows that earlier work (albeit incorporating some new advances). Otherwise, the results in the current paper are entirely new.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">Implementations of these algorithms are available at http: //research.cs.ubc.ca/position_auctions/.</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Optimal delivery of sponsored search advertisements subject to budget constraints</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Z</forename><surname>Abrams</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Mendelevitch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Tomlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="272" to="278" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Sponsored search auctions with markovian users</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Aggarwal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Feldman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Muthukrishnan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Pal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM EC Workshop on Advertisement Auctions</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Truthful auctions for pricing search keywords</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Aggarwal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Goel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Motwani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="1" to="7" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Bidding patterns in search engine auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Asdemir</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Second Workshop on Sponsored Search Auctions</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Mediators in position auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Ashlagi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Monderer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Tennenholtz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="279" to="287" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The cost of inexpressiveness in advertisement auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Benisch</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Sadeh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Sandholm</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM EC Workshop on Advertisement Auctions</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Computing Nash equilibria of Action-Graph Games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Bhat</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI: Proceedings of the Conference on Uncertainty in Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="35" to="42" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Position auctions and non-uniform conversion rates</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Blumrosen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hartline</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Nong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM EC Workshop on Advertisement Auctions</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Equilibrium bids in auctions of sponsored links: Theory and evidence</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Borgers</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">J</forename><surname>Cox</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Pesendorfer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Petricek</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006-11" />
+			<pubPlace>as of</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Dynamics of bid optimization in online advertisement auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Borgs</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Chayes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Immorlica</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Jain</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Etesami</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Mahdian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">WWW &apos;07: Proceedings of the 16th international conference on World Wide Web</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="531" to="540" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Online primal-dual algorithms for maximizing ad-auctions revenue</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Buchbinder</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Jain</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Naor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 15th Annual European Symposium on Algorithms</title>
+		<meeting>the 15th Annual European Symposium on Algorithms</meeting>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Greedy bidding strategies for keyword auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Cary</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Das</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Edelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Giotis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Heimerl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">R</forename><surname>Karlin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Mathieu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schwarz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="262" to="271" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Bootstrap Methods, A practitioner&apos;s guide</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">R</forename><surname>Chernick</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999" />
+			<publisher>Wiley</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Strategic bidder behavior in sponsored search auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Edelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Ostrovsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Decis. Support Syst</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="192" to="198" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Internet advertising and the generalized second price auction: Selling billions of dollars worth of keywords</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Edelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Ostrovsky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schwarz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="242" to="259" />
+			<date type="published" when="2007-03" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Comparison of allocation rules for paid placement advertising in search engines</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">K</forename><surname>Bhargava</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Pennock</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="294" to="299" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Implementing sponsored search in web search engines: Computational evaluation of alternative mechanisms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">K</forename><surname>Bhargava</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">M</forename><surname>Pennock</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">INFORMS J. on Computing</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="137" to="148" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Externalities in online-advertising</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Ghosh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Mahdian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">WWW: International World Wide Web Conference</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Essential equilibria</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Govindan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Wilson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the National Academy of Sciences USA</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="page" from="15706" to="15711" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A polynomial-time algorithm for Action-Graph Games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<meeting>the AAAI Conference on Artificial Intelligence</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="679" to="684" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Graphical models for game theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kearns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Littman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Singh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI: Proceedings of the Conference on Uncertainty in Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A cascade model for externalities in sponsored search</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Kempe</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Mahdian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM EC Workshop on Advertisement Auctions</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A formal analysis of search auctions including predictions on click fraud and bidding tactics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Kitts</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Laxminarayan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Leblanc</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Meech</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Sponsored Search Auctions</title>
+		<imprint>
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">An analysis of alternative slot auction designs for sponsored search</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Lahaie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="218" to="227" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Revenue analysis of a family of ranking rules for keyword auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Lahaie</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">M</forename><surname>Pennock</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Sponsored search auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Lahaie</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">M</forename><surname>Pennock</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Saberi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Vohra</surname></persName>
+		</author>
+		<imprint>
+			<biblScope unit="page" from="699" to="719" />
+		</imprint>
+	</monogr>
+	<note>In Nisan et al. [31], chapter 28</note>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Allocating online advertisement space with unreliable estimates</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Mahdian</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Nazerzadeh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Saberi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="288" to="294" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Gambit: Software tools for game theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">D</forename><surname>Mckelvey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">M</forename><surname>Mclennan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">L</forename><surname>Turocy</surname></persName>
+		</author>
+		<ptr target="http://econweb.tamu.edu/gambit" />
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Adwords and generalized on-line matching</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Mehta</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Saberi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">U</forename><surname>Vazirani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Vazirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">FOCS &apos;05: Proceedings of the 46th Annual IEEE Symposium on Foundations of Computer Science</title>
+		<meeting><address><addrLine>Washington, DC, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>IEEE Computer Society</publisher>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="264" to="273" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<monogr>
+		<title level="m" type="main">Simultaneous Statistical Inference</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">G J</forename><surname>Miller</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1981" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Nisan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Roughgarden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Tardos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Vazirani</surname></persName>
+		</author>
+		<title level="m">Algorithmic Game Theory</title>
+		<meeting><address><addrLine>Cambridge, UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Simple search methods for finding a Nash equilibrium</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Porter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<meeting>the AAAI Conference on Artificial Intelligence</meeting>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="664" to="669" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">The approximation of fixed points of continuous mappings</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Scarf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal of Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="1328" to="1343" />
+			<date type="published" when="1967" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A mathematical theory of communication</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Shannon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bell System Technical Journal</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="379" to="423" />
+			<date type="published" when="1948" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Tractable computational methods for finding Nash equilibria of perfect-information position auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">R M</forename><surname>Thompson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM EC Workshop on Advertisement Auctions</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Position auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Varian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Industrial Organization</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1163" to="1178" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

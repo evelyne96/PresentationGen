@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis of the LNS Implementation of the Fast
+Affine Projection algorithms 
+.=</p>
+<p>ESPRIT HSLA PROJECT Felix Albu, Anthony Fagan UCD
+Jiri Kadlec, Antonin Hermanek UTIA
+Nick Coleman Univ. of Newcastle.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Table of Contents
+.=</p>
+<p>• Acoustic Echo Cancellation 
+• Logarithmic number system
+• Fast Affine Projection (FAP) algorithms
+• Conjugate Gradient Fast Affine
+.=</p>
+<p>Projection (CGFAP) Algorithm
+• Simulations
+• Conclusions.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Acoustic echo cancellation
+.=</p>
+<p>• Loudspeaker-enclosure-microphone (LEM)  with 
+an echo-cancellation filter (ECF) 
+.=</p>
+<p>From 
+Far-End Local Speech 
+Speaker Signal
+.=</p>
+<p>ECF LEM
+.=</p>
+<p>To 
+Far-End 
+Speaker
+.=</p>
+<p>Local Noise.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Acoustic echo cancellation
+.=</p>
+<p>• The echo path is very long (~125 ms)
+• The echo path may rapidly change at any time
+• The impulse response varies with ambient 
+.=</p>
+<p>temperature, pressure, humidity, movement of 
+objects.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Acoustic echo cancellation
+.=</p>
+<p>• The room impulse response.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Acoustic echo cancellation
+.=</p>
+<p>• The car impulse response.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Logarithmic number system.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FAP Algorithms
+.=</p>
+<p>Affine Projection Algorithm (APA) is a 
+generalisation of the NLMS algorithm
+.=</p>
+<p>t
+1) e n = s n − X n h n −1
+.=</p>
+<p>[X t X I ]− 12) ε n = n n + δ e n
+3) h n = h n−1 + µA Xn εn
+.=</p>
+<p>The complexity of APA is   2 L  N   +  O   ( N  2  ) where L
+is the length of the adaptive filter, N is the size 
+of the projection . .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FAP Algorithms
+0 )  In itia liza tion :  a 0 = [1, 0 t ]t , b = [0 t0 ,1]t ,  E a , n = E b , n = δ
+.=</p>
+<p>1 )  U se s lid in g  w in d ow ed  F T F  a lg o r ith m  to  u p d a te  E a , n , E b , n , a n , and  b n  1 0 N
+.=</p>
+<p>2 )  ~r xx ,n = ~r xx ,n −1 + x n α~ n − x ~n − L α n − L 2 N
+.=</p>
+<p>3 )  ê tn = s n − x n ĥ n −1 L
+.=</p>
+<p>4 )  e n = ê ~
+t
+.=</p>
+<p>n − µ r xx , n E n −1 N
+.=</p>
+<p>e
+5 )  ⎡ ⎤e = n⎢
+.=</p>
+<p>⎣(1 − µ )e ⎥
+N
+.=</p>
+<p>n −1 ⎦
+.=</p>
+<p>0
+6 )  ⎡ ⎤ 1ε = t⎢~ ⎥ + a n a n e 2 N
+.=</p>
+<p>⎣ ε n ⎦ E a ,n
+.=</p>
+<p>ε
+7 )  ⎡ n ⎤ 1= ε − b b t⎢ e 2 N
+.=</p>
+<p>⎣0
+⎥ n E n n n⎦ b ,n
+.=</p>
+<p>⎡0 ⎤
+8 )  E n = ⎢ ⎥ + ε n N
+.=</p>
+<p>⎢⎣E n −1 ⎥⎦
+.=</p>
+<p>9 )  ĥ n = ĥ n −1 + µ x n − ( N −1) E N −1,n L
+.=</p>
+<p>Total : 2L + 20N
+1 0 ) εˆ n +1 = (1 − µ )ε n N.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CGFAP Algorithm
+.=</p>
+<p>Initialisation (Conjugate Gradient FAP algorithm)
+.=</p>
+<p>0. V (−1) = 0, η(−1) = 0, s(−1) = 0, R(−1) = δI, α = 1, P(−1) = b /δ
+.=</p>
+<p>Processing in sampling interval n
+1)  R (n ) = R (n − 1)+ ξ (n )ξ T (n )− ξ (n − L )ξ T (n − L )
+2 )  g (n ) = R (n )P (N − 1)− b
+.=</p>
+<p>g T( ) (n )R (n − 1)s(n − 1)3)  γ n =
+sT (n − 1)R (n − 1)s(n − 1)
+.=</p>
+<p>4)  s(n ) = γ (n )s(n − 1)− g (n )
+T
+.=</p>
+<p>( ) ( ) g (n )s (n )5 )  P n = P n − 1 − s (n )
+s T (n )R (n )s (n )
+.=</p>
+<p>6)   V (n ) = V (n − 1)+ αη N −1(N − 1)X (n − N )
+7)  y (n ) = V T (n )X ( Tn )+ αη (n − 1)R~ (n )
+8)  e (n ) = d (n )− y (n )
+9 )   ε = e (n )P (n )
+.=</p>
+<p>⎡ 0 ⎤
+10 )   η (n ) = ⎢
+.=</p>
+<p>⎣η (n − 1 )
+⎥ + ε (n )
+⎦
+.=</p>
+<p>2
+Total : 2L + 2N + 9N +1 (1 division).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulations
+.=</p>
+<p>The learning curves for 32-bit FLOAT, 32-bit and 20-bit LNS 
+implementations of CGFAP algorithm (32-bit curves almost co-
+incidental) and DOUBLE NLMS algorithm (L=1000, N=10).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulations
+.=</p>
+<p>Convergence of 20-bit LNS CGFAP implementation for different 
+values of p (L=256, N=10).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulations
+.=</p>
+<p>The error norm between the exact solution (double precision) and
+the iterated solution of the linear system for different values of p 
+(p=1 and p=5).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulations
+.=</p>
+<p>Convergence of 32-bit LNS FAP implementation versus 20-bit 
+FLOAT FAP implementation, Float is unstable after about 1600 
+iterations (L=256, N=10, k=100).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulations
+.=</p>
+<p>• Convergence of 32-bit LNS CGFAP implementation versus 32-bit 
+FLOAT FAP implementation, Float is unstable after about 2200 
+iterations (L=256, N=10, k=5).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulations
+.=</p>
+<p>We can update  P  ( n )  less frequently without affecting too much the 
+output error. Therefore, the average number of MACs is 
+.=</p>
+<p>2L+2N2 / p+(4+5/ p)N−1+2/ p
+.=</p>
+<p>If  L=1000 and N=10,  NLMS needs 2025 MACs (assuming 25
+MACs for a division)
+.=</p>
+<p>-FAP needs 2265 FAPs (2 L + 20N , 5 divisions)
+.=</p>
+<p>- CGFAP needs 2316 MACs (  2 L   +   2  N  2   +  9  N   +   1  , 1 division)
+.=</p>
+<p>- SCGFAP needs 2108 MACs ( 2 L  +   2 N   2 /  p  +   ( 4  +  5  / p  ) N   −  1  +  2  / p   , p=4).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulations
+.=</p>
+<p>Real time requirements of 3 Fast Affine Projection algorithms .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>• [1] J.N. Coleman, E.I.Chester, 'A 32-bit Logarithmic Arithmetic Unit and Its Performance Compared to Floating-Point', 14th Symposium on Computer 
+Arithmetic', Adelaide, April 1999
+.=</p>
+<p>• [2] C. Breining, P. Dreitseitel, E. Hansler, A. Mader, B. Nitsch, H. Pudeer, T. Scheirtler, G. Schmidt, and J.Tilp, ' Acoustic echo control- An application 
+of very high order adaptive filters,' IEEE Signal Processing Magazine, pp. 42-69, July 1999
+.=</p>
+<p>• [3] K. Ozeki, T. Umeda, 'An adaptive Filtering Algorithm Using an Orthogonal Projection to an Affine Subspace and its Properties,' Electronics and 
+Communications in Japan, Vol. 67-A, No.5, 1984
+.=</p>
+<p>• [4] S. Gay, S. Tavathia, 'The Fast Affine Projection Algorithm', pp. 3023–3026, ICASSP’95 Proceedings 
+• [5] S. Gay, J. Benesty, editors, 'Acoustic Signal Processing for Telecommunication', Kluwer Academic Publishers, 2000
+• [6] Y. Kaneda, M. Tanaka, J. Kojima, 'An Adaptive Algorithm with Fast Convergence for Multi-input Sound Control', Active95, pp. 993-1004, Newport 
+.=</p>
+<p>Beach, California, USA
+• [7] Q.G. Liu, B. Champagne, and K. C. Ho, " On the use of a modified FAP algorithm in subbands for acoustic echo cancellation," in Proc. 7th IEEE DSP 
+.=</p>
+<p>Workshop, Loen, Norway, 1996, pp. 2570-2573
+• [8] M. Ghanassi, B. Champagne, "On the Fixed-Point Implementation of a Subband Acoustic Echo Canceler Based on a Modified FAP Algorithm", 1999 
+.=</p>
+<p>IEEE Workshop on Acoustic Echo and Noise Control, Pocono Manor, Pennsylvania, USA pp. 128-131
+• [9] Heping Ding, “A stable fast affine projection adaptation algorithm suitable for low-cost processors”, ICAASP 2000, Turkey, pp. 360-363
+• [10] David Luenberger, “Linear and Non-linear Programming”, 2nd Edition, Addison-Wesley, 1984
+• [11] J.N.Coleman, E.Chester, C.Softley and J.Kadlec, "Arithmetic on the European Logarithmic Microprocessor", IEEE Trans. Comput. Special
+• Edition on Computer Arithmetic, July 2000, vol. 49, no. 7, pp. 702-715; and erratum October 2000, vol. 49, no. 10, p.1152.
+• [12] Erwin Kreyszig, ‘Advanced Engineering mathematics’, 7th edition, John Wiley & Sons, 1993
+• [13] R.Barrett, M. Berry, T. Chan, J. Demmel, J. Donato, J. Dongarra, V. Eijkhout, R. Pozo, C. Romine, H. van der Vorst, ‘Templates for the
+• solutions of linear systems: Building blocks for iterative methods’, SIAM, 1994
+• [14] F. Albu, J. Kadlec, C. Softley, R. Matousek, A. Hermanek, N. Coleman, A. Fagan, “Implementation of (Normalised) RLS Lattice on Virtex”, 
+.=</p>
+<p>FPL2001, pp. 91-100, Belfast, UK..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>• The SCGFAP Algorithm is a stable FAP 
+algorithm. It is only marginally complex 
+than NLMS, but achieves substantial 
+improvements.
+.=</p>
+<p>• Its 32-bit and 20-bit LNS are easy to 
+implement. Also, it is suitable to implement 
+with most commercial DSPs because of its 
+reduced memory requirements and low 
+complexity (just 1 division).   
+.=</p>
+<p>• SCGFAP algorithm is a good candidate for 
+different voice applications..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Questions ?
+.=</p>
+<p>• HSLA project website 
+http://napier.ncl.ac.uk/hsla
+.=</p>
+<p>• UCD’s DSP Group website 
+http://dsp.ucd.ie.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

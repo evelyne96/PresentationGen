@@ -1,0 +1,990 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description
+</p>
+<p>Analysis of the results
+Conclusions
+</p>
+<p>University of the Basque Country (EHU)
+Systems for the NIST 2011 LRE
+</p>
+<p>Mikel Penagarikano, Amparo Varona, Luis Javier Rodŕıguez-Fuentes,
+Mireia Diez, Germán Bordel
+</p>
+<p>GTTS, Dept. Electricity and Electronics
+University of the Basque Country (EHU)
+</p>
+<p>Leioa, Spain
+</p>
+<p>mikel.penagarikano@ehu.es
+</p>
+<p>NIST 2011 LRE Workshop
+Atlanta (Georgia), USA
+</p>
+<p>December 6-7, 2011
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description
+</p>
+<p>Analysis of the results
+Conclusions
+</p>
+<p>Outline
+</p>
+<p>1 Train and development data
+New target languages
+Data partitioning
+</p>
+<p>2 System description
+Short description
+Phonotactic subsystems
+Acoustic subsystems
+Backend & Fusion
+Submission
+</p>
+<p>3 Analysis of the results
+Subsystem comparison
+Post-eval analisys
+</p>
+<p>4 Conclusions
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description New target languages
+</p>
+<p>Analysis of the results Data partitioning
+Conclusions
+</p>
+<p>New target languages
+</p>
+<p>9 new target languages: Arabic Iraqi, Arabic Levantine, Arabic Maghrebi,
+Arabic MSA, Czech, Lao, Panjabi, Polish, Slovak.
+</p>
+<p>NIST data: 100 30-second segments per new language. Randomly split in
+two halves:
+</p>
+<p>lre11-train, for training
+lre11-dev, for development/test
+</p>
+<p>Aditional data used by BLZ consortium (BLZ-train)1:
+Arabic Iraqi: CTS from LDC2006S45
+Arabic Levantine: CTS from LDC2006S29
+Arabic Maghrebi: BN speech from Arrabia TV (Morocco)
+Arabic MSA: BN speech from Kalaka-2 (Al Jazeera)
+Czech:
+</p>
+<p>BN speech from the COST278 BN database
+Telephone speech from LDC2000S89 and LDC2009S02
+</p>
+<p>Lao: Telephone speech from VOA3 (LRE09)
+Panjabi: no data
+Polish: BN speech from Telewizja Polska
+Slovak: BN speech from the COST278 BN database
+</p>
+<p>1Broadcast news speech was downsampled to 8 kHz and applied the Filtering
+and Noise Adding Tool (FANT) to simulate a telephone channel.
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description New target languages
+</p>
+<p>Analysis of the results Data partitioning
+Conclusions
+</p>
+<p>Data partitioning
+</p>
+<p>Development: restricted to segments audited by NIST.
+</p>
+<p>The evaluation set of NIST 2007 LRE
+</p>
+<p>The evaluation set of NIST 2009 LRE
+</p>
+<p>lre11-dev
+</p>
+<p>8500 30-second segments
+</p>
+<p>Train: 66 training subsets, including target and non-target languages:
+</p>
+<p>CTS from previous LREs (18 subsets)
+</p>
+<p>Narrow-band speech (telephone speech?) from VOA/LRE2009 (30 subsets)
+</p>
+<p>lre11-train (9 subsets)
+</p>
+<p>BLZ-train (9 subsets)
+</p>
+<p>35000 long (>30-second) segments
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Short description
+Train and development data
+</p>
+<p>Phonotactic subsystems
+System description
+</p>
+<p>Acoustic subsystems
+Analysis of the results
+</p>
+<p>Backend & Fusion
+Conclusions
+</p>
+<p>Submission
+</p>
+<p>Short description
+</p>
+<p>High-level subsystems (phonotactic):
+</p>
+<p>Czech phone-lattice phonotactic SVM
+</p>
+<p>Hungarian phone-lattice phonotactic SVM
+</p>
+<p>Russian phone-lattice phonotactic SVM
+</p>
+<p>Low-level subsystems (acoustics):
+</p>
+<p>Linearized Eigenchannel GMM (Dot-Scoring) with channel compensated
+statistics
+</p>
+<p>Generative iVectors
+</p>
+<p>Optional ZT-norm
+</p>
+<p>Generative backend
+</p>
+<p>Multiclass linear logistic regression
+</p>
+<p>Minimum expected cost Bayes decision
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Short description
+Train and development data
+</p>
+<p>Phonotactic subsystems
+System description
+</p>
+<p>Acoustic subsystems
+Analysis of the results
+</p>
+<p>Backend & Fusion
+Conclusions
+</p>
+<p>Submission
+</p>
+<p>Disk failure
+</p>
+<p>Two weeks before the submission deadline, and due to a mechanical
+failure of a disk we lost the LRE11 data:
+</p>
+<p>Indexes (VOA time marks)
+Speech wave files
+Baum-Welch statistics
+Expected counts of n-grams (up to 4-grams)
+</p>
+<p>No time to start again (nor money for professional data recovery)
+</p>
+<p>We found partial copies of:
+Channel-compensated Baum-Welch statistics
+Expected counts of 3-grams
+</p>
+<p>The submission was adapted to use the available data (speech signals,
+statistics, etc.)
+</p>
+<p>Phonotactic subsystem was limited to 3-grams.
+iVectors were computed on the compensated sufficient statistics space
+</p>
+<p>See: Stuck inside of a disk failure
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Short description
+Train and development data
+</p>
+<p>Phonotactic subsystems
+System description
+</p>
+<p>Acoustic subsystems
+Analysis of the results
+</p>
+<p>Backend & Fusion
+Conclusions
+</p>
+<p>Submission
+</p>
+<p>Phonotactic subsystems
+</p>
+<p>Common approach to SVM-based phonotactic language recognition
+</p>
+<p>Phone → Phone-state → → Expected counts → SVM-basedLattice
+Decoder Posteriors of n-grams Language Models
+</p>
+<p>Freely available software was used in all the stages:
+</p>
+<p>Phone Decoders: TRAPS/NN phone decoders developed by BUT for
+Czech (CZ), Hungarian (HU) and Russian (RU).
+</p>
+<p>Phone-state Posteriors & Lattice: HTK along with the BUT recipe
+</p>
+<p>Expected counts of n-grams: The lattice-tool from SRILM
+</p>
+<p>SVM modeling: LIBLINEAR (a fast linear-only version of libSVM).
+Modified by adding some lines of code to get the regression values
+(instead of class labels).
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Short description
+Train and development data
+</p>
+<p>Phonotactic subsystems
+System description
+</p>
+<p>Acoustic subsystems
+Analysis of the results
+</p>
+<p>Backend & Fusion
+Conclusions
+</p>
+<p>Submission
+</p>
+<p>Experimental setup
+</p>
+<p>An energy-based voice activity detector is applied to split and remove
+long-duration non-speech segments from signals.
+</p>
+<p>Non-phonetic units: int (intermittent noise), pau (short pause) and spk
+(non-speech speaker noise) are mapped to a single non-phonetic unit.
+</p>
+<p>A ranked (frequency-based) sparse representation, which involved only the
+M most frequent features (unigrams + bigrams + . . . + n-grams) is used
+</p>
+<p>SVM vectors consist of expected counts of phone n-grams extracted from
+</p>
+<p>the lattices, converted to frequencies and weighted with regard to their
+</p>
+<p>background probabilities as:
+</p>
+<p>w 1i = √
+p(di |background)
+</p>
+<p>The SVM language models are trained using a L2-regularized L1-loss
+support vector classification solver.
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Short description
+Train and development data
+</p>
+<p>Phonotactic subsystems
+System description
+</p>
+<p>Acoustic subsystems
+Analysis of the results
+</p>
+<p>Backend & Fusion
+Conclusions
+</p>
+<p>Submission
+</p>
+<p>Acoustic subsystems
+</p>
+<p>Both systems have in common the acoustic parameters:
+</p>
+<p>7MFCC + SDC (7-2-3-7) & gender independent 1024 mixture GMM
+</p>
+<p>Dot-Scoring
+</p>
+<p>Statistics extraction → Channel compensation → Dot-Scoring
+</p>
+<p>Channel matrix:
+</p>
+<p>estimated using only target languages data
+</p>
+<p>500 channels
+</p>
+<p>10 ML-MD iterations
+</p>
+<p>Generative iVector subsystem
+</p>
+<p>→ Generative GaussianiVector extraction
+Language Models
+</p>
+<p>Total variability matrix:
+</p>
+<p>estimated using only target languages data
+</p>
+<p>500 dimensions
+</p>
+<p>10 ML-MD iterations
+EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Short description
+Train and development data
+</p>
+<p>Phonotactic subsystems
+System description
+</p>
+<p>Acoustic subsystems
+Analysis of the results
+</p>
+<p>Backend & Fusion
+Conclusions
+</p>
+<p>Submission
+</p>
+<p>Backend & Fusion
+</p>
+<p>An independent backend and fusion was estimated for each nominal
+duration (3, 10 and 30 sec). Both the backend and the fusion were
+estimated with the FoCal toolkit.
+</p>
+<p>A ZT-norm was optionally applied to the scores prior to the backend
+</p>
+<p>Each subsystem produced 66 scores that were mapped to 24 target
+languages by means of a generative Gaussian backend
+</p>
+<p>Discriminative Gaussian backends were tried but showed no improvement at
+development.
+</p>
+<p>Multiclass linear logistic regression based fusion was applied
+</p>
+<p>Pairwise and language family-wise regressions were tried but showed no
+improvement at development.
+</p>
+<p>Minimum expected cost Bayes decisions were made
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Short description
+Train and development data
+</p>
+<p>Phonotactic subsystems
+System description
+</p>
+<p>Acoustic subsystems
+Analysis of the results
+</p>
+<p>Backend & Fusion
+Conclusions
+</p>
+<p>Submission
+</p>
+<p>Submission
+</p>
+<p>One primary and three contrastive systems were submitted.
+</p>
+<p>The 5 subsystems were included in each submission.
+</p>
+<p>Submissions differ in the use of ZT-norm and the development subsets
+used for the estimation of fusion and calibration parameters of test signals
+with nominal duration of 10 and 3 seconds.
+</p>
+<p>Table: Main features of the EHU primary and contrastive systems.
+</p>
+<p>Backend & Fusion Train Dataset
+System zt-norm
+</p>
+<p>30s 10s 3s
+</p>
+<p>Primary No dev30 dev10 dev03
+</p>
+<p>Contrastive 1 No dev30 dev10+dev30 dev03+dev10+dev30
+</p>
+<p>Contrastive 2 Yes dev30 dev10 dev03
+</p>
+<p>Contrastive 3 Yes dev30 dev10+dev30 dev03+dev10+dev30
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description Subsystem comparison
+</p>
+<p>Analysis of the results Post-eval analisys
+Conclusions
+</p>
+<p>Subsystem comparison - 30 seconds
+</p>
+<p>0.6
+</p>
+<p>0.5
+</p>
+<p>0.4
+</p>
+<p>0.3
+</p>
+<p>0.2
+</p>
+<p>0.1
+</p>
+<p>0
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)
+</p>
+<p>blz_contrast3 0.0763
+</p>
+<p>0.0774
+</p>
+<p>0.0786
+</p>
+<p>0.0796
+</p>
+<p>0.0805
+</p>
+<p>0.0826
+</p>
+<p>0.0839
+</p>
+<p>0.0841
+</p>
+<p>0.0847
+</p>
+<p>blz_primary blz 0.0884
+</p>
+<p>ehu_contrast1 0.0895
+</p>
+<p>ehu_primary eehhuu 0.0895
+</p>
+<p>ehu_contrast3 0.0907
+</p>
+<p>ehu_contrast2 0.0909
+</p>
+<p>blz_contrast2 0.0914
+</p>
+<p>blz_contrast1 0.0919
+</p>
+<p>0.0933
+</p>
+<p>0.1
+</p>
+<p>0.1033
+</p>
+<p>0.1034
+</p>
+<p>0.1074
+</p>
+<p>0.1121
+</p>
+<p>i3a_contrast3 0.1268
+</p>
+<p>i3a_contrast1 0.1279
+</p>
+<p>00..11339999
+</p>
+<p>i3a_primary i3a 0.1464
+</p>
+<p>i3a_contrast2 00..11449922
+</p>
+<p>l2f_primary l2f 0.1539
+</p>
+<p>l2f_contrast2 00..11557711
+</p>
+<p>00..11557799
+</p>
+<p>l2f_contrast1 00..11667744
+</p>
+<p>00..11668855
+</p>
+<p>00..11668899
+</p>
+<p>0.1877
+</p>
+<p>0.193
+</p>
+<p>0.1976
+</p>
+<p>0.1991
+</p>
+<p>0.1995
+</p>
+<p>0.2036
+</p>
+<p>0.2065
+</p>
+<p>0.2072
+</p>
+<p>0.2204
+</p>
+<p>0.2444
+</p>
+<p>0.2504
+</p>
+<p>0.3755
+</p>
+<p>0.3858
+</p>
+<p>0.4431
+</p>
+<p>0.4572
+</p>
+<p>0.4965
+</p>
+<p>0.5206</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description Subsystem comparison
+</p>
+<p>Analysis of the results Post-eval analisys
+Conclusions
+</p>
+<p>Subsystem comparison - 10 seconds
+</p>
+<p>0.6000
+</p>
+<p>0.5000
+</p>
+<p>0.4000
+</p>
+<p>0.3000
+</p>
+<p>0.2000
+</p>
+<p>0.1000
+</p>
+<p>0.0000
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)
+</p>
+<p>0.1196
+</p>
+<p>0.1210
+</p>
+<p>0.1220
+</p>
+<p>0.1244
+</p>
+<p>00..11228855
+</p>
+<p>blz_contrast3_llr 00..11330099
+</p>
+<p>00..11331166
+</p>
+<p>blz_contrast1_llr 00..11332277
+</p>
+<p>blz_primary_llr blz 0.1343
+</p>
+<p>00..11334455
+</p>
+<p>00..11334477
+</p>
+<p>ehu_contrast3_llr 00..11443366
+</p>
+<p>ehu_contrast1_llr 00..11445555
+</p>
+<p>ehu_contrast2_llr 00..11446688
+</p>
+<p>ehu_primary_llr ehu 0.1477
+</p>
+<p>blz_contrast2_llr 00..11550066
+</p>
+<p>00..11553322
+</p>
+<p>00..11553344
+</p>
+<p>00..11664444
+</p>
+<p>00..11667744
+</p>
+<p>00..11770055
+</p>
+<p>00..11775511
+</p>
+<p>0.1978
+</p>
+<p>i3a_contrast3_llr 0.2009
+</p>
+<p>i3a_contrast1_llr 0.2115
+</p>
+<p>0.2119
+</p>
+<p>l2f_contrast2_llr 0.2127
+</p>
+<p>l2f_primary_llr l2f 0.2151
+</p>
+<p>l2f_contrast1_llr 0.2184
+</p>
+<p>i3a_contrast2_llr 0.2235
+</p>
+<p>0.2368
+</p>
+<p>i3a_primary_llr i3a 0.2385
+</p>
+<p>0.2483
+</p>
+<p>0.2484
+</p>
+<p>0.2492
+</p>
+<p>0.2561
+</p>
+<p>0.2580
+</p>
+<p>0.2595
+</p>
+<p>0.2597
+</p>
+<p>0.2650
+</p>
+<p>0.2787
+</p>
+<p>0.2872
+</p>
+<p>0.2954
+</p>
+<p>0.3061
+</p>
+<p>0.3930
+</p>
+<p>0.4143
+</p>
+<p>0.4371
+</p>
+<p>0.4379
+</p>
+<p>0.4821
+</p>
+<p>0.4963</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description Subsystem comparison
+</p>
+<p>Analysis of the results Post-eval analisys
+Conclusions
+</p>
+<p>Subsystem comparison - 3 seconds
+</p>
+<p>0.6000
+</p>
+<p>0.5000
+</p>
+<p>0.4000
+</p>
+<p>0.3000
+</p>
+<p>0.2000
+</p>
+<p>0.1000
+</p>
+<p>0.0000
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)
+</p>
+<p>0.2163
+</p>
+<p>0.2280
+</p>
+<p>0.2291
+</p>
+<p>0.2332
+</p>
+<p>0.2351
+</p>
+<p>0.2378
+</p>
+<p>0.2411
+</p>
+<p>0.2419
+</p>
+<p>blz_contrast1_llr 0.2475
+</p>
+<p>ehu_contrast3_llr 0.2528
+</p>
+<p>ehu_contrast1_llr 0.2534
+</p>
+<p>0.2541
+</p>
+<p>blz_contrast2_llr 0.2571
+</p>
+<p>0.2638
+</p>
+<p>blz_primary_llr blz 0.2642
+</p>
+<p>0.2650
+</p>
+<p>0.2683
+</p>
+<p>ehu_contrast2_llr 0.2705
+</p>
+<p>ehu_primary_llr ehu 0.2725
+</p>
+<p>0.2769
+</p>
+<p>0.2780
+</p>
+<p>l2f_primary_llr l2f 0.2862
+</p>
+<p>blz_contrast3_llr 0.2865
+</p>
+<p>l2f_contrast1_llr 0.2896
+</p>
+<p>l2f_contrast2_llr 0.2905
+</p>
+<p>0.3157
+</p>
+<p>0.3371
+</p>
+<p>0.3379
+</p>
+<p>0.3398
+</p>
+<p>0.3405
+</p>
+<p>0.3426
+</p>
+<p>0.3452
+</p>
+<p>i3a_contrast3_llr 0.3467
+</p>
+<p>0.3478
+</p>
+<p>0.3479
+</p>
+<p>0.3488
+</p>
+<p>0.3507
+</p>
+<p>0.3526
+</p>
+<p>i3a_contrast1_llr 0.3551
+</p>
+<p>i3a_contrast2_llr 0.3606
+</p>
+<p>i3a_primary_llr i3a 0.3614
+</p>
+<p>0.3651
+</p>
+<p>0.3664
+</p>
+<p>0.3898
+</p>
+<p>0.4214
+</p>
+<p>0.4323
+</p>
+<p>0.4411
+</p>
+<p>0.4539
+</p>
+<p>0.4876
+</p>
+<p>0.4937</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description Subsystem comparison
+</p>
+<p>Analysis of the results Post-eval analisys
+Conclusions
+</p>
+<p>ZT-norm & generative/discriminative backend - 30 seconds
+</p>
+<p> 	
+  			
+ 
+
+ 
+</p>
+<p> 
+
+</p>
+<p> 	
+ 	
+	
+ 	
+
+ 	
+ 	
+  	
+ 	
+	
+ 	
+
+ 	
+ 	
+
+ 	
+  			
+   
+</p>
+<p>
+ 	
+ 	
+	
+ 	
+
+ 	
+ 	
+  	
+ 	
+	
+ 	
+
+ 	
+ 	
+
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description Subsystem comparison
+</p>
+<p>Analysis of the results Post-eval analisys
+Conclusions
+</p>
+<p>Phonotactic vs. Acoustic - 30 seconds
+</p>
+<p>$! 
+
+%
+ 
+
+
+
+
+
+	
+
+
+
+ 	
+"&	#'
+	 
+
+
+
+
+
+
+
+ 
+
+
+
+
+</p>
+<p>
+
+
+
+ 
+
+
+  
+  
+
+</p>
+<p>
+
+
+
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description Subsystem comparison
+</p>
+<p>Analysis of the results Post-eval analisys
+Conclusions
+</p>
+<p>Greedy selection - 30 seconds
+</p>
+<p>	
+  
+
+</p>
+<p>    
+EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description
+</p>
+<p>Analysis of the results
+Conclusions
+</p>
+<p>Conclusions
+</p>
+<p>A very competitive submission was obtained based on state of the art
+language recognition technology.
+</p>
+<p>Data collection may have been the key.
+</p>
+<p>For 3-second tests, using a larger development set (3, 10 and 30-second
+segments) increased the robustness of the system.
+</p>
+<p>Unlike the BLZ submision, the ZT-norm didn’t provide any improvement.
+</p>
+<p>The discriminative backend improved only the Dot-Scoring system.
+</p>
+<p>Third participation, with a great performance improvement. In 2007,
+avgCost was around 0,30 and in 2009 it was around 0,07.
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Train and development data
+System description
+</p>
+<p>Analysis of the results
+Conclusions
+</p>
+<p>Thank you!
+</p>
+<p>EHU Systems for LRE11 (Atlanta, December 6-7 2011)</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

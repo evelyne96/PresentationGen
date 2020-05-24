@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A PROPORTIONATE AFFINE PROJECTION ALGORITHM USING FAST RECURSIVE FILTERING AND DICHOTOMOUS COORDINATE DESCENT ITERATIONS</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Felix</forename><surname>Albu</surname></persName>
+							<email>felix_albu@ieee.org</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University Politehnica of Bucharest</orgName>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="institution">Valahia University of Targoviste</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A PROPORTIONATE AFFINE PROJECTION ALGORITHM USING FAST RECURSIVE FILTERING AND DICHOTOMOUS COORDINATE DESCENT ITERATIONS</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>echo cancellation, adaptive filter</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recently, a new proportionate-type APA called MIPAPA was developed, taking into account the "history" of the proportionate factors. The use of a fast recursive filtering procedure together with the dichotomous coordinate descent (DCD) method is proposed for MIPAPA. Simulation results indicate that the proposed algorithm has similar performance as the original algorithm with minimum performance losses.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>The main part of the echo cancellation application can be interpreted as a system identification problem, where an adaptive filter is used to identify an unknown system, i.e., the echo path. Numerous proportionate-type affine projection algorithms (see <ref type="bibr" target="#b0">[1]</ref><ref type="bibr" target="#b1">[2]</ref><ref type="bibr" target="#b2">[3]</ref>) were proposed. The common idea of this kind of algorithms is to update each coefficient of the filter independently of the others, by adjusting the adaptation step-size in proportion to the magnitude of the estimated filter coefficient. One of the first proportionate-type algorithms was the proportionate normalized least-mean-square (PNLMS) algorithm proposed by Duttweiler <ref type="bibr" target="#b0">[1]</ref>, in the context of network echo cancellation. Following this approach, several versions of the PNLMS algorithm were developed (e.g., see <ref type="bibr" target="#b1">[2]</ref><ref type="bibr" target="#b2">[3]</ref> and the references therein), some of them being suitable for both network and acoustic echo cancellation, e.g., the improved PNLMS (IPNLMS) algorithm <ref type="bibr" target="#b2">[3]</ref>. Besides, since the affine projection algorithm (APA) <ref type="bibr" target="#b3">[4]</ref> and different versions of it are frequently used for echo cancellation <ref type="bibr" target="#b4">[5]</ref>- <ref type="bibr" target="#b7">[8]</ref>. Proportionate-type APAs were a natural extension of PNLMS algorithms and were attractive mainly for their fast convergence rate and tracking. Recently, new proportionate-type APA were proposed, called "memory"-IPAPA (MIPAPA) <ref type="bibr" target="#b8">[9]</ref> and AMIPAPA respectively <ref type="bibr" target="#b9">[10]</ref>. In Section 2 a presentation of the dichotomous coordinate descent (DCD) method is made. The DCD method was first time used in an affine projection algorithm proposed in 2005 <ref type="bibr" target="#b6">[7]</ref>. Three years later, a fast recursive filtering proved useful in reducing the complexity of the affine projection algorithm <ref type="bibr" target="#b7">[8]</ref>. In this paper, a proportionate APA using previously mentioned fast recursive filtering and DCD methods, called FMIPAPA-DCD, is presented in Section 3. Simulation re-sults are presented in Section 4. The conclusions are given in Section 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">THE DICHOTOMOUS COORDINATE DESCENT</head><p>The original DCD algorithm updates a solution of a linear system of equations in directions of Euclidian coordinates in the cyclic order and with a step size α that takes one of (number of bits) predefined values corresponding to a binary representation bounded by an interval <ref type="bibr">-8]</ref>. The algorithm starts the iterative search from the most significant bits of the solution and continues until the least significant bits were updated (the pseudo-code can be found in <ref type="bibr" target="#b6">[7]</ref>). The algorithm complexity is limited by , the maximum number of "successful" iterations. It can be seen that if H is a power of 2, the multiplications are replaced by bit shifts. The algorithm has only shift and accumulate operations (SAC) and no divisions <ref type="bibr" target="#b6">[7]</ref>. It will be shown in the next section that the DCD method approximates very well the exact solution of a linear system if enough DCD iterations are executed. The maximum complexity of DCD part for our cases is </p><formula xml:id="formula_0">b M [ ] H H , − [7</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">FMIPAPA-DCD ALGORITHM</head><p>The following vectors and matrices are defined in the following lines: d(n) = X(n)ĥ(n), where d(n) = [d(n), d(n-1),…, d(n-p+1)] T is the desired response vector of length p with p denoting the projection order; the step-size parameter is µ, the regularization constant is δ; e(n) = [e(n), e(n-1),…, e(n-p+1)] T is the error signal vector of length p,</p><formula xml:id="formula_1">X(n) = [x(n), x(n-1),…, x(n-p+1)] is the input signal matrix; x(n) = [x(n), x(n-1),…, x(n-L+1)]</formula><p>T is a real-valued vector containing the L most recent samples of the input signal (i.e., farend signal), e(n) = d(n) -ĥ T (n -1)x(n) is the error signal where d(n) denotes the desired response. Let us consider an echo canceller configuration, where an adaptive filter defined by ĥ(n) = [ĥ 0 (n), ĥ 1 (n),…, ĥ L-1 (n)] T is used to model the echo path. Superscript T denotes transposition, L is the length of the adaptive filter, and n is the time index. The filter output and the output error vectors are given by the next two equations, respectively</p><formula xml:id="formula_2">(1) ( ) ( ) ( ) 1 T n n n = y X h − n n ⎤ ⎦ ' ⎤ ⎥ ⎦ ) (2) ( ) ( ) ( ) n n = − e d y</formula><p>The general update of MIPAPA is <ref type="bibr" target="#b10">[11]</ref> ( ) ( )</p><formula xml:id="formula_3">( ) ( ) ( ) ( ) 1 ' 'ˆ1 T p n n n n n µ δ − ⎡ = − + + ⎣ h h P I X P e (3)</formula><p>where the matrix</p><formula xml:id="formula_4">(4) ( ) ( ) ( ) ( ) ' 1 1 1 n n n n − ⎡ ⎤ = − − ⎣ ⎦ P g x P with (5) ( ) ( ) ( ) ( ) ( ) ' 1 2 1 . . . 1 1 n n n n p n p − ⎡ − − − = ⎢ − − + ⎢ ⎥ ⎣ g x P g x</formula><p>contains the first p -1 columns of and the operator denotes the Hadamard product. The g vector coefficients are defined as in <ref type="bibr" target="#b8">[9]</ref> and <ref type="bibr" target="#b9">[10]</ref> (</p><formula xml:id="formula_5">' 1 n − P ( ) ( ) ( ) ( ) 1 0ˆ1 1 1 1 22 1 l l L i i h n g n L h n α α ε − = − − − = + + − + ∑ (6)</formula><p>where -1 ≤ α &lt; 1 and the small positive constant ε avoids division by zero (especially at the beginning of the adaptation when all the filter taps are initialized to zero). A recursive filtering approach similar to that of <ref type="bibr" target="#b7">[8]</ref> can exploit the time-shift property of . The following equation is obtained: </p><formula xml:id="formula_6">( ) ' n P ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )</formula><formula xml:id="formula_7">− − = − − ⎡ − − − − ⎢ ⎣ ⎡ − − − ⎢ ⎣ y X h x h x h ⎤ ⎥ ⎦ ⎤ ⎥ ⎦ ) 2 1 − p ⎤ ⎥ ⎦ ⎤ ⎥ ⎦ − = − = h ( ) ( ) 1 , ' 1 − = − = x 0P 0 ⎤ ⎥ ⎥ ⎦ −<label>(7)</label></formula><p>where . Also, we obtain: </p><formula xml:id="formula_8">⎡ − − + − ⎢ ⎣ ⎡ − − − ⎢ ⎣ z X h x h x h x h</formula><p>The proposed FMIPAPA-DCD algorithm equations are: </p><formula xml:id="formula_9">Initialization ε ( ) ( ) 1 0, 1 0,<label>(10)</label></formula><formula xml:id="formula_10">( ) ( ) ( ) (ˆ1 ' n n n µ = − + h h P ε ) n .<label>(17)</label></formula><p>It can be seen that only need to be com- . The FMIPAPA-DCD algorithm solves the linear system of (16) with DCD iterations. Usually we have p L &lt;&lt; and therefore, the DCD part complexity is smaller than that of the main filtering part of the algorithms. If the linear system is solved with a direct method in double precision, FMIPAPA provides identical results with the original MIPAPA <ref type="bibr" target="#b8">[9]</ref> and almost identical results with AMIPAPA as shown in <ref type="bibr" target="#b9">[10]</ref>. The fast filtering procedure cannot be applied to the simpler AMIPAPA algorithm due to its special updating matrix autocorrelation procedure. Therefore, the influence of the DCD method is under scrutiny in the Simulations section. Otherwise, the algorithm retains the fast convergence, and good tracking abilities of the MIPAPA/AMIPAPA.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">SIMULATIONS</head><p>Simulations were performed in the context of network echo cancellation. The echo path has 512 coefficients (the sampling frequency is 8 kHz); it is the first impulse response from ITU-T G168 Recommendation <ref type="bibr" target="#b10">[11]</ref> (padded with zeros). The same length is used for the adaptive filter. The input signal is either a white Gaussian noise or a speech signal. <ref type="figure" target="#fig_5">Figure 1a</ref> shows the echo path, while <ref type="figure" target="#fig_5">Figure 1b</ref> shows the variable background noise and <ref type="figure" target="#fig_5">Figure 1c</ref> shows the speech signal. The output of the echo path is corrupted by an independent white Gaussian noise with different values of the signal-to-noise ratio (SNR). The performance measure is the normalized misalignment (in dB), defined as 20log 10 (||h -ĥ(n)|| 2 /||h|| 2 ), where h denotes the true impulse response of the echo path; the results are averaged over 30 independent trials. The MIPAPA algorithm has been chosen as the reference and was compared with the proposed version. Both algorithms use the same values for their parameters, i.e., the step-size is µ = 0.2, the regularization constant is δ = 40σ x 2 /2L (where σ x 2 is the input signal variance), and α = 0. The misalignment difference between the original algorithms and their DCD based counterparts were plotted separately. The closer to zero are the misalignment difference curves, the better approximation of the DCD versions is obtained of the original algorithms behavior ( b M was 16 in our simulations).</p><p>First, the performance of the algorithm is evaluated for different values of the projection order and different values of SNR. In next two figures the input signal is a white Gaussian noise with SNR=10 dB, p = 2, and an abrupt change of the echo path was introduced at time 0.5, by shifting the impulse response to the right by 12 samples.  iterations are sufficient if less than 0.5 dB from the ideal solution performance is sought. The performance improvement obtained with more DCD iterations can be explained by examining the error norm between the exact solution and the solution obtained with different number of DCD iterations. As expected, and proved in other applications of the DCD method ( <ref type="bibr" target="#b6">[7]</ref><ref type="bibr" target="#b7">[8]</ref>), the error norm between the exact solution and the solution obtained with DCD iterations decreases with increased number of iterations. It can be seen from <ref type="figure" target="#fig_8">Figure 3</ref> that the error norm with one DCD iteration is much higher than that obtained with 8 DCD iterations. The same conclusions can be obtained in other situations considered in <ref type="bibr" target="#b8">[9]</ref><ref type="bibr" target="#b9">[10]</ref> such us variable background noise SNR. In <ref type="figure" target="#fig_9">Figure 4</ref>, a variation of the background noise is considered (see <ref type="figure" target="#fig_5">Figure 1b)</ref>; in this scenario, the SNR decreases from 20 dB to 10 dB between times 0.25 and 0.5. The input signal is a white Gaussian noise and the projection order is p = 2. The number of DCD iterations is increased to 16. It can be seen from <ref type="figure" target="#fig_9">Figure 4</ref> that, apart from the initial converging part from the first 1000 samples, the error norm increases in the region with more background noise (between samples 2000 and 4000). Also, 16 DCD iterations lead to a very small error norm. Finally, a speech sequence (see <ref type="figure" target="#fig_5">Figure 1c</ref>) is used as input in <ref type="figure" target="#fig_9">Figure 4</ref>, SNR = 20 dB, and echo path changes), p = 8. It can be noticed that more DCD iterations are needed in case of using speech as input signal. One DCD iteration is clearly not a choice for the investigated situation. If less than 1.5 dB misalignment difference is allowed, 8 DCD iterations are enough for the DCD based algorithm. In case of using 16 DCD iterations in FMIPAPA-DCD the misalignment difference is smaller than 1 dB. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">CONCLUSIONS</head><p>A proportionate affine version using fast recursive filtering and dichotomous coordinate descent iterations is proposed. Simulations of FMIPAPA-DCD in the context of network echo cancellation proved that the use of at least 8 DCD iterations only slightly alter the properties of the original algorithm.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head></head><label></label><figDesc>Also, only the first row and first column of ( ) n F needs to be computed at each iteration. The rest of the matrix elements are the</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 1 .</head><label>1</label><figDesc>a) The echo path; b) the variable background noise; c) the speech signal</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 2 .</head><label>2</label><figDesc>Misalignment difference between MIPAPA and FMIPAPA-DCD with different number of DCD iterations (1 and 8 respectively).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 2</head><label>2</label><figDesc>shows the misalignment difference between the misalignment curves of the original algorithms and their DCD based counterparts for two particular values of ( and ). It can be seen that this alignment difference decreases with an increased value of and 8</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 3 :</head><label>3</label><figDesc>The Error Norm for different number of DCD iterations for FMIPAPA-DCD. The input signal is a white Gaussian noise.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 4 .</head><label>4</label><figDesc>The Error Norm for different number of DCD iterations of FMIPAPA-DCD in case of variable background noise (SNR decreases from 20 dB to 10 dB between samples 2000 and 4000).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 4 .</head><label>4</label><figDesc>Misalignment difference between MIPAPA and FMIPAPA-DCD with different number of DCD iterations.</figDesc></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Proportionate normalized leastmean-squares adaptation in echo cancellers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">L</forename><surname>Duttweiler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Speech Audio Process</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="508" to="518" />
+			<date type="published" when="2000-09" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Proportionate adaptive algorithms for network echo cancellation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Doroslovački</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Signal Process</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1794" to="1803" />
+			<date type="published" when="2006-05" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">An improved PNLMS algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Benesty</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">L</forename><surname>Gay</surname></persName>
+		</author>
+		<idno>II-1881-II- 1884</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. IEEE ICASSP</title>
+		<meeting>IEEE ICASSP</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">An adaptive filtering algorithm using an orthogonal projection to an affine subspace and its properties</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Ozeki</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Umeda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electron. Commun. Jpn</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="19" to="27" />
+			<date type="published" when="1984-05" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A fast converging, low complexity adaptive filtering algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">L</forename><surname>Gay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Third International Workshop on Acoustic Echo Control</title>
+		<imprint>
+			<biblScope unit="page" from="223" to="226" />
+			<date type="published" when="1993" />
+		</imprint>
+	</monogr>
+	<note>Plestin les Greves</note>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Fast block exact Gauss-Seidel pseudo affine projection algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Albu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">K</forename><surname>Kwan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Electronics Letters</title>
+		<imprint>
+			<date type="published" when="2004-10" />
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page">22</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Coordinate descent iterations in fast affine projection algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Zakharov</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Albu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Signal Processing Letters</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="353" to="356" />
+			<date type="published" when="2005-05" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Low complexity implementation of the affine projection algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Zakharov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Signal Processing Letters</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="557" to="560" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">An Efficient Proportionate Affine Projection Algorithm for Echo Cancellation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Paleologu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Ciochina</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Benesty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Signal Processing Letters</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="165" to="168" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A low complexity proportionate affine projection algorithm for echo cancellation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Albu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Paleologu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Benesty</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Ciochina</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. EUSIPCO, Aalborg</title>
+		<meeting>EUSIPCO, Aalborg<address><addrLine>Denmark</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2010-08" />
+			<biblScope unit="page" from="6" to="10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title/>
+	</analytic>
+	<monogr>
+		<title level="j">Digital Network Echo Cancellers, ITU-T Rec. G</title>
+		<imprint>
+			<biblScope unit="volume">168</biblScope>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

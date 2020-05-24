@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Towards a 
+Universal Test Suite
+for Combinatorial Auctions
+</p>
+<p>Kevin Leyton-Brown
+Mark Pearson
+Yoav Shoham
+</p>
+<p>Department of Computer Science
+Stanford University
+</p>
+<p>* Thanks to Shobha Venkataraman</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combinatorial Auctions
+CA’s: mechanisms that allow bidders to explicitly 
+indicate complementarities and substitutabilities
+</p>
+<p>many goods are auctioned simultaneously
+goods may be indivisible (single-unit) 
+or divisible (multi-unit)
+</p>
+<p>bids name an arbitrary bundle and a price offer
+bidders may submit multiple bids
+bidders can indicate substitutabilities between bids 
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Winner Determination
+Given a set of bids, find the revenue-maximizing subset 
+of these bids in which no more than the maximum 
+number of units for each good is allocated
+In the past few years, computer scientists have done a 
+lot of work on the CA winner determination problem
+</p>
+<p>special-purpose CA algorithms, mixed-integer formulations
+approximation techniques, tractable cases, preprocessing, etc…
+</p>
+<p>However, it is hard to compare these approaches
+no test sets have been universally agreed-upon
+problems have been found with some widely-used test sets 
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Testing CA’s: Past Work
+1. Experiments with human subjects
+</p>
+<p>good for understanding how real people bid;
+less good for examining computational characteristics
+valuation functions hand-crafted 
+untrained human subjects may be overwhelmed by 
+large problems
+</p>
+<p>2. Analysis of particular problems to which 
+CA’s are well-suited
+</p>
+<p>generally propose alternate (restricted) mechanisms
+useful for learning about problem domains
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3. Artificial Distributions
+Advantage: easy to generate any number of datasets 
+parameterized by the desired number of bids, goods
+</p>
+<p>Disadvantages: don’t explicitly model bidders; 
+lack a real-world economic motivation
+</p>
+<p>all bundles requesting same number of goods are equally likely
+</p>
+<p>price offers are unrelated to which goods requested
+</p>
+<p>price offers usually not superadditive in number of goods
+</p>
+<p>no meaningful way to construct sets of substitutable bids
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combinatorial Auction 
+Test Suite (CATS)
+Our goal: create a test suite for the combinatorial 
+auction winner determination problem that will be of use 
+to other researchers
+</p>
+<p>today I’ll present our proposal
+we hope this will be the beginning of a collaborative effort
+</p>
+<p>please give us your feedback if you are interested
+</p>
+<p>Start with a domain, basic bidder preferences
+Derive an economic motivation for:
+</p>
+<p>goods in bundle
+valuation* of a bundle
+* we assume incentive compatibility
+</p>
+<p>what bundles form sets of substitutable bids
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CATS Distributions
+Test distributions motivated by real-world 
+problems, where complementarity arises from:
+1. Paths in space
+2. Proximity in space
+3. Arbitrary relationships
+4. Temporal Separation (matching)
+5. Temporal Adjacency (scheduling)
+Disclaimer: 
+</p>
+<p>simplified distributions today, for time reasons
+though I’ll give some details, I’ll focus on the big picture
+</p>
+<p>full details can be found in our paper and online
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Paths in Space
+Real-world domains:
+</p>
+<p>railroad network
+truck shipping, network bandwidth allocation, natural gas pipeline
+</p>
+<p>e.g., see Brewer & Plott, 1996; Sandholm 1993; Rassenti et. al. 1994
+</p>
+<p>Problem:
+goods are edges in a graph
+bidder: acquire a path from a to b by buying a set of edges
+</p>
+<p>Procedure:
+generate a random graph
+</p>
+<p>why not use a real railroad (etc.) map? Scaling the number of goods.
+</p>
+<p>generate bids for each bidder
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generate Random Graph
+</p>
+<p>nodes connected to 2 nearest neighbors
+repeat:
+</p>
+<p>compare the best path between two random nodes 
+with paths that can found after creating one or more 
+new edges 
+</p>
+<p>taking into account a penalty for edge creation
+</p>
+<p>if a new path is better, add the new edge(s)
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sample Graph
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generate Bids 
+Basic bidder preferences: desired start and end cities
+Valuation for route:
+</p>
+<p>proportional to distance along path
+superadditive in number of edges
+random noise
+</p>
+<p>Substitutable bids 
+bundles for which valuation - cost of shipping > 0
+</p>
+<p>cost of shipping is distance along path
+</p>
+<p>price offer: valuation – cost
+</p>
+<p>…while more bids desired, repeat for a new bidder
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proximity in Space
+Real-world domain: real estate
+</p>
+<p>e.g., see Quan, 1994.
+</p>
+<p>Problem:
+goods are nodes in a graph
+edges indicate adjacency between goods
+bidder: buy a set of adjacent nodes
+</p>
+<p>according to common and private values
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generate a Graph
+Simple graph:
+</p>
+<p>fixed number of neighbors per node
+place nodes on a grid
+edges connect horizontally- and vertically-adjacent nodes
+</p>
+<p>More complex graph:
+allow a variable number of neighbors per node
+follow the simple technique above, but:
+</p>
+<p>with probability p1, omit a horizontal or vertical edge
+with probability p2, add a diagonal edge
+</p>
+<p>Associate a common value with each good
+represents appraised/market/expected resale value
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sample Graph
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generate Bids
+1. Basic bidder preferences:
+</p>
+<p>private values for each good
+2. Pick one good at random, weighted by private values
+3. Add another good with probability p.  Which good?
+</p>
+<p>consider only bids adjacent to already-chosen good(s)
+weighted by # adjacent goods, bidder’s preferences
+</p>
+<p>4. Set price offer: depends on common value and 
+private value; superadditive in number of goods
+</p>
+<p>5. Generate additional bids substitutable with this bid
+sharing at least one good with this bid
+based on same private values
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Arbitrary Relationships
+Some goods do not give rise to a notion of adjacency, but 
+regularity in complementarity relationships can still exist
+</p>
+<p>e.g., physical objects: collectables, semiconductors, …
+Problem:
+</p>
+<p>goods are nodes in a fully-connected graph
+edges weighted with probability that the pair of goods will appear 
+together in a bid
+</p>
+<p>Procedure:
+generate a fully connected graph with random weights, CV’s
+generate sets of bids for each bidder
+</p>
+<p>bias the likelihood that a good will be added to a bid according to the 
+weights of the edges it shares with goods already in the bid
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generate Bids
+Generalization of bid-generation technique 
+from previous section
+</p>
+<p>basic bidder preferences are private values
+choose a first good, biased by private values
+repeatedly decide whether to keep adding goods
+</p>
+<p>add one good
+</p>
+<p>Choosing which good to add
+likelihood of adding good x to bundle B depends on:
+</p>
+<p>sum of edge weights between x and other goods in B
+private value of x
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Temporal Matching
+Real-world domain:
+</p>
+<p>corresponding time slices must be secured 
+on multiple resources
+e.g., aircraft take-off and landing rights
+</p>
+<p>e.g., see Rassenti et. al., 1982; Grether et. al. 1989.
+</p>
+<p>Airport map
+goods are time slots, not nodes or edges 
+</p>
+<p>thus, a random graph is not needed for scalability
+we use the map of airports for which take-off and 
+landing rights are actually sold
+</p>
+<p>the four busiest airports in the USA
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Airport Map
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generate Bids
+Basic bidder preferences: preferred departure time and 
+flight duration
+</p>
+<p>airline gets utility umax for securing these time slots
+Other slots less desirable—utility falls exponentially as:
+</p>
+<p>the arrival time increases (plane gets later)
+the flight duration increases (flight gets longer)
+0 utility for arrival time or flight duration > maximums
+</p>
+<p>Substitutable bid for every pair of time slots having 
+positive utility
+</p>
+<p>price offer = utility
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Temporal Scheduling
+Real-world domain: distributed job-shop 
+scheduling with one resource
+</p>
+<p>e.g., see Wellman et. al., 1998.
+</p>
+<p>Bidders:
+want to use resource for a given number of time units
+one or more deadlines having different values to them
+</p>
+<p>Assumptions:
+all jobs are eligible to start in the first time-slot
+each job is allocated continuous time on resource
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bid Generation
+Basic bidder preferences:
+</p>
+<p>a set of deadlines d1, …, dn
+value of job finished by d1 is v1
+</p>
+<p>Set of substitutable bids:
+Bid vi for a job that finishes on or before di, after di-1
+vi = (d1 / di) · v1
+</p>
+<p>decrease in value is proportional to increase in lateness
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Legacy Distributions
+CA algorithm researchers have compared 
+performance using each other’s distributions
+</p>
+<p>e.g., Andersson et. al., Boutilier et. al., de Vries & 
+Vohra, Fujishima et. al., Parkes, Sandholm, others…
+despite the drawbacks discussed earlier, these 
+distributions will remain important for comparing new 
+work to previously published work
+</p>
+<p>CATS has a legacy distributions section to 
+facilitate future testing
+</p>
+<p>if we left something out, we’ll add it!
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An Aside:
+Experimental Results
+</p>
+<p>We have done some preliminary testing of our 
+first-generation CA algorithm (CASS) vs. the new 
+CPLEX 7.0 on distributions presented here
+</p>
+<p>we were competitive with the previous CPLEX version
+CPLEX 7.0 is much faster
+</p>
+<p>on some problem sets CASS is as fast as CPLEX
+on others, we have observed CPLEX to be as much as two 
+orders of magnitude faster
+test your CA algorithms against this new version of CPLEX!
+</p>
+<p>a conversion utility is available on the CATS website
+</p>
+<p>results will be available on my web page (soon)
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future Work
+Update CATS according to your questions, 
+criticisms and suggestions for improvement
+TAC distribution (arbitrary relationships)
+Add new multi-unit real-world domains:
+</p>
+<p>bandwidth allocation, commodity flow (paths in space)
+spectrum auctions (proximity in space)
+multi-unit pollution rights (arbitrary relationships)
+power generation (temporal scheduling)
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 25</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusion
+CATS is a test suite for combinatorial auction winner 
+determination algorithms
+It represents a step beyond current CA testing techniques 
+because distributions:
+</p>
+<p>model real-world problems
+model bidders explicitly
+are economically motivated
+</p>
+<p>We hope that, with your contributions and feedback, 
+CATS will evolve into a universal test suite for 
+combinatorial auctions!
+</p>
+<p>please see http://robotics.stanford.edu/CATS
+</p>
+<p>Wed October 18, 2000 EC'00, Minneapolis 26</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

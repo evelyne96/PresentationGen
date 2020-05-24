@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Evaluation of Spoken Language Recognition Technology Using Broadcast Speech: Performance and Challenges</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Luis</forename><forename type="middle">J</forename><surname>Rodríguez-Fuentes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group</orgName>
+								<orgName type="institution">University of the Basque Country UPV/EHU</orgName>
+								<address>
+									<postCode>48940</postCode>
+									<settlement>Leioa</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amparo</forename><surname>Varona</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group</orgName>
+								<orgName type="institution">University of the Basque Country UPV/EHU</orgName>
+								<address>
+									<postCode>48940</postCode>
+									<settlement>Leioa</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mireia</forename><surname>Diez</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group</orgName>
+								<orgName type="institution">University of the Basque Country UPV/EHU</orgName>
+								<address>
+									<postCode>48940</postCode>
+									<settlement>Leioa</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikel</forename><surname>Penagarikano</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group</orgName>
+								<orgName type="institution">University of the Basque Country UPV/EHU</orgName>
+								<address>
+									<postCode>48940</postCode>
+									<settlement>Leioa</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Germán</forename><surname>Bordel</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group</orgName>
+								<orgName type="institution">University of the Basque Country UPV/EHU</orgName>
+								<address>
+									<postCode>48940</postCode>
+									<settlement>Leioa</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Barrio</forename><surname>Sarriena</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="laboratory">Software Technologies Working Group</orgName>
+								<orgName type="institution">University of the Basque Country UPV/EHU</orgName>
+								<address>
+									<postCode>48940</postCode>
+									<settlement>Leioa</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Evaluation of Spoken Language Recognition Technology Using Broadcast Speech: Performance and Challenges</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spoken Language Recognition (SLR) technology has remarkably improved in the last years, partly thanks to NIST Language Recognition Evaluations (LRE), which have become standard benchmarks for testing new approaches. NIST evaluations focus on narrow-band conversational telephone speech and deal with some specific target languages. Recent efforts to expand the scope of SLR technology assessment include the Albayzin 2008 and 2010 LRE, which deal with wide-band TV broadcast speech. In this work, a SLR system based on state-of-the-art approaches is developed and evaluated on the Albayzin 2008 and 2010 LRE datasets, looking to identify those conditions that make the task challenging and eventually to guide the design of future evaluations using the same kind of data. We present and analyse system performance under different conditions, regarding: (1) the set of target languages (including details about the confusion of languages with each other) and the amount of data available to estimate models; and (3) the presence of background noise.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>The development of Spoken Language Recognition (SLR) technology has been largely boosted by NIST Language Recognition Evaluations (LRE) <ref type="bibr" target="#b0">[1]</ref>, held in 1996 and every two years since 2003. As a result, the datasets produced and distributed for such evaluations have become standard benchmarks to prove the usefulness of new approaches. NIST LRE datasets consist of narrow-band (8 kHz) conversational telephone speech (in all LRE) and narrow-band (mostly telephone speech) segments from worldwide Voice of America broadcasts (only in 2009 and 2011 LRE). The number of target languages ranges from 7 in NIST 2005 LRE to 24 in NIST 2011 LRE. There seems to be a symbiotic relationship between the research community that provides the algorithms and the government agencies that support the production of data. This fruitful collaboration also features some issues: (1) NIST LRE focus on telephone speech for a specific type of applications (large-scale verification of telephone conversations in some interesting target languages); <ref type="bibr" target="#b1">(2)</ref> NIST LREs have undoubtly helped improve SLR technology also for wide-band speech (16 kHz and above), but there is a This work has been partially supported by the University of the Basque Country, under grant GIU10/18 and project US11/06, by the Government of the Basque Country, under program SAIOTEK (project S-PE11UN065), and the Spanish MICINN, under Plan Nacional de I+D+i (project TIN2009-07446, partially financed by FEDER funds). Mireia Diez is supported by a research fellowship from the Department of Education, Universities and Research of the Government of the Basque Country.</p><p>lack of resources to objectively assess such improvement; and (3) by developing technology based on NIST LRE datasets, we may be addressing challenges specific to that kind of signals (narrow-band, single-speaker, etc.) and limiting potential improvements that may be accomplished by using other datasets.</p><p>Recently, aiming to expand the scope of SLR technology assessment, we organized the Albayzin 2008 and 2010 Language Recognition Evaluations <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b2">3]</ref>, both supported by the Spanish Thematic Network on Speech Technologies <ref type="bibr" target="#b3">[4]</ref> and the ISCA Special Interest Group on Iberian Languages (SIG-IL). These evaluations were inspired by the NIST 2007 LRE <ref type="bibr" target="#b4">[5]</ref> (same task definition, test procedures, performance measures, file formats, etc.), but featured a number of differences: <ref type="bibr" target="#b0">(1)</ref> speech signals were extracted from wide-band (16 kHz) TV broadcasts involving multiple speakers; (2) the set of target languages was relatively small (compared to the sets used in the last NIST LREs) though quite challenging due to acoustic, phonetic and lexical similarities; and (3) the target application was Spoken Document Retrieval (SDR). It is worth noting that the Albayzin 2010 LRE dataset has been recently used as benchmark <ref type="bibr" target="#b5">[6]</ref> <ref type="bibr" target="#b6">[7]</ref>.</p><p>In this work, a spoken language recognition system based on state-of-the-art approaches is developed and evaluated on the Albayzin 2008 and 2010 LRE datasets, looking to identify those conditions that make the task challenging and eventually to guide the design of future evaluations using the same kind of data. System performance is compared with regard to the set of target languages and the amount of training data available, including details about the confusion of languages with each other. Performance degradation as a consequence of the presence of background noise is also evaluated. By the way, since the same system was previously applied to the NIST 2011 LRE <ref type="bibr" target="#b7">[8]</ref>, yielding high performance, results reported in this paper support the use of Albayzin LRE datasets as alternative or complementary benchmarks for the assessment of SLR technology, specially when dealing with wide-band speech for SDR applications.</p><p>The rest of the paper is organized as follows. The main features of the Albayzin LREs are briefly outlined in Section 2. Section 3 describes the Albayzin LRE datasets used for the experiments reported in this paper. Section 4 describes the acoustic and phonotactic subsystems and the backend and fusion strategy applied to get the final (fused) scores. System performance on different tracks, either within a single evaluation or across the two evaluations, is presented and discussed in Section 5, including a detailed analysis on the confusion of target languages with each other. Finally, the most challenging conditions according to the obtained results and different setups for future evaluations are discussed in Section 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">The Albayzin Language Recognition Evaluations: An Overview</head><p>As for NIST evaluations <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b8">9]</ref>, the task defined for the Albayzin LRE consisted on deciding (by computational means) whether or not a target language was spoken in a test utterance, which is usually known as language detection or language verification. Performance was computed by presenting the system a set of trials and comparing system decisions with the right ones (stored in a keyfile). Each trial comprised a segment of audio containing speech in a single language and the identity of the target language. For each trial, the system was required to output a hard decision about whether the target language was spoken in the segment, and a score such that the highest the score the most likely the target language was spoken in the segment. The four official languages spoken in Spain: Basque, Catalan, Galician and Spanish, were used as target languages in the Albayzin 2008 LRE. Though small, this set was expected to be challenging, due to the potential confusability of languages with each other. The set of Iberian languages was completed in the Albayzin 2010 LRE by adding Portuguese as target language. Due to its international relevance and its pervasiveness in broadcast news, English was also added as target language in the Albayzin 2010 LRE (it was long after the evaluation that we realized that English can be also regarded as Iberian, since it is the official language in Gibraltar). In both evaluations, speech segments in other (Out-Of-Set, OOS) languages were also included to allow open-set verification trials. In fact, systems could be specifically tuned for either closed-set or open-set verification, since separate tracks were defined to evaluate performance under both conditions. Following the NIST LRE protocol, separate tracks were also defined to evaluate system performance on speech segments of three nominal durations (30, 10 and 3 seconds).</p><p>In the Albayzin 2008 LRE, two separate tracks were defined depending on the materials used for training: (1) restricted development, for which only the data provided for the evaluation could be used to train models; and free development, for which any available data could be used to train models. By restricting system development to the training materials provided for the evaluation, we wanted to remove the relative advantage of some groups having many available data for training, to focus the challenge on the modeling and classification approaches and also to measure the dependence of system performance on the availability of training data.</p><p>In the Albayzin 2010 LRE there was no limitation regarding the training materials, but two additional tracks were also defined, depending on the presence of background noise. The first one, defined for reference (though somewhat unrealistic), considered only clean-speech segments, whereas the second one considered all (clean-speech and noisy-speech) segments, aiming to reflect more closely the kind of resources that SDR applications must commonly deal with. Besides clean-speech data, speech segments featuring background noise, music and/or conversations (overlapped speech) were separately provided in the Albayzin 2010 LRE for training, development and evaluation. Each segment contained a single language, which also applied to segments with background conversations, except for the case of segments in OOS languages, which might contain speech in two or more languages, provided that none of them were target languages. By providing noisy speech data, systems could be trained, tuned and evaluated also for the noisy-speech condition. This was a relevant move with regard to the Albayzin 2008 LRE, where only clean-speech segments were processed.</p><p>In both evaluations, system performance was primarily measured by means of the well-known average cost Cavg (pooled across target languages), which is a combination of two basic error rates: the fraction of target trials that are rejected (miss rate, Pmiss) and the fraction of impostor trials that are accepted (false alarm rate, P f a ):</p><formula xml:id="formula_0">Cavg = 1 L L i=1</formula><p>{Cmiss · Ptarget · Pmiss(i)</p><formula xml:id="formula_1">+ L j=1 j =i C f a · Pnon−target · P f a (i, j) + C f a · POOS · P f a (i, 0)}<label>(1)</label></formula><p>where L is the number of target languages and Cmiss, C f a , Ptarget, Pnon−target and POOS are cost model (application dependent) parameters. For these evaluations, the same values used in NIST 2007 and 2009 LRE were applied:</p><formula xml:id="formula_2">Cmiss = C f a = 1 Ptarget = 0.5 POOS = 0.0 closed-set condition 0.2 open-set condition Pnon−target = 1 − Ptarget − POOS L − 1</formula><p>Detection Error Tradeoff (DET) curves <ref type="bibr" target="#b9">[10]</ref> were also used to compare the global performance of different systems for a given test condition. NIST software <ref type="bibr" target="#b10">[11]</ref> was used to generate DET curves, including marks for the operation point given by system decisions (actual Cavg) and the operation point corresponding to the optimal threshold (minimum Cavg).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">The Albayzin LRE Datasets</head><p>Two databases, KALAKA and KALAKA-2, were created to support the Albayzin 2008 and 2010 LRE, respectively. Both included separate subsets of speech segments for training, development and evaluation. In this section we just provide their most relevant features (for further details, see <ref type="bibr" target="#b11">[12]</ref>[13]).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Shared Features</head><p>All the speech signals of KALAKA and KALAKA-2 were digitally recorded from TV broadcast shows (news, debates, interviews, talk shows, etc.) using a Roland Edirol R-09 recorder. Most recordings involved several speakers, sometimes featuring various dialects, linguistic competence levels and/or speech modalities (planned speech, spontaneous speech, etc.) and diverse environment conditions. Audio signals were stored in WAV files (uncompressed PCM, 16 kHz, single channel, 16 bits/sample).</p><p>In both cases, the sets of TV shows posted to training, development and evaluation were forced to be disjoint, meaning that any show appearing in one set did not appear in the other two. This restriction was imposed as an attempt to achieve speaker independence.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">The Albayzin 2008 LRE Datasets</head><p>To build KALAKA, which featured 4 target languages (Basque, Catalan, Galician and Spanish), TV broadcast recordings were audited in order to filter out segments containing background noise, music, speech overlaps, etc. Clean-speech segments of a wide range of lengths (each spoken in a single language by one or more speakers) were collected this way. No further processing was applied to speech segments posted to the training set (see <ref type="table" target="#tab_0">Table 1</ref>). Segments posted to the development and evaluation sets (featuring both target and OOS languages) were taken as source to automatically extract segments of fixed durations (30, 10 and 3 seconds). The development dataset consists of 1800 speech segments, distributed in three subsets, each containing 600 segments with nominal durations of 30, 10 and 3 seconds, respectively. Each subset consists of 120 segments per target language and 120 additional segments in OOS languages. The evaluation dataset has the same structure, except for the distribution of OOS languages (see <ref type="table" target="#tab_1">Table 2</ref>). KALAKA amounts to around 50 hours of speech, 36 for training (around 9 hours per target language), 7.7 hours for development and 7.7 hours for evaluation (both distributed the same way: more than 90 minutes of speech per target language and more than 90 minutes of speech for OOS languages all together).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">The Albayzin 2010 LRE Datasets</head><p>KALAKA-2 was designed as an extension of KALAKA, including two additional target languages (Portuguese and English) and extended datasets. To reduce development costs, all the materials of KALAKA were recycled for KALAKA-2. New TV broadcasts were also recorded, selected and classified, specially for Portuguese and English and for OOS languages. In particular, the evaluation dataset of KALAKA-2 was completely new and independent of KALAKA.</p><p>The train dataset of KALAKA-2 contains at least 10 hours (in most cases, around 11 hours) of clean speech and at least 2 hours (in some cases, more than 3 hours) of noisy speech per target language, amounting to around 82 hours of speech. The distribution of training data is shown in <ref type="table" target="#tab_2">Table 3</ref>.</p><p>The development and evaluation datasets are identical in size and characteristics, except for the distribution of OOS languages and the proportion of clean and noisy speech. Both datasets contain segments with nominal durations of 30, 10 and 3 seconds, with at least 150 speech segments per target language and nominal duration. Clean-speech segments were extracted by completely automatic means, as for KALAKA. In the case of noisy speech, segments lasting from 30 to 35 seconds were manually selected by experts. Then, 10-and 3-second noisy- speech segments were automatically extracted from them, the same way as for clean speech.</p><p>The development set consists of 4950 speech segments, 3492 containing clean speech and 1458 containing noisy speech, their total duration being 21.24 hours (70% of the time corresponding to clean speech and 30% to noisy speech). The evaluation set consists of 4992 speech segments, 3345 containing clean speech and 1647 containing noisy speech, their total duration being 21.43 hours (67% of the time corresponding to clean speech and 33% to noisy speech). The distribution of segments per language is shown in <ref type="table" target="#tab_3">Table 4</ref>. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">The SLR System</head><p>The spoken language recognition system developed for this work resembles almost exactly that presented by our research group to the NIST 2011 LRE (under different backend/fusion configurations) <ref type="bibr" target="#b7">[8]</ref>, yielding very competitive performance (fourth best primary system): Cavg = 0.0892 for the 24 worst performing language pairs and Cavg = 0.0169 when the average was computed over all the pairs. In the following paragraphs, we provide a brief description of the component subsystems and the backend and fusion configuration.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Acoustic Subsystems</head><p>For the acoustic subsystems, the concatenation of 7 Mel-Frequency Cepstral Coefficients (MFCC) and the Shifted Delta Cepstrum (SDC) coefficients under a 7-2-3-7 configuration, were used as acoustic features. A gender independent 1024mixture GMM (Universal Background Model, UBM) was estimated by Maximum Likelihood on the training dataset, using binary mixture splitting, orphan mixture discarding and variance flooring. Finally, zero-order and centered and normalized first-order Baum-Welch statistics were computed for each input utterance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.1.">Dot-Scoring Subsystem</head><p>The Linearized Eigenchannel GMM (LE-GMM) subsystem, that we briefly call Dot-Scoring subsystem, makes use of a linearized procedure to score test segments against target models <ref type="bibr" target="#b13">[14]</ref>. The log-likelihood ratio between the target model and the UBM used for scoring can be approximated as follows:</p><formula xml:id="formula_3">score (f, l) = log P (f |λ l ) P (f |λ ubm ) ≈m t l ·x f<label>(2)</label></formula><p>wherem l denotes the centered and normalized channelcompensated MAP-means corresponding to language l, computed as follows:m</p><formula xml:id="formula_4">l = (τ I + diag(n l )) −1x l<label>(3)</label></formula><p>where τ = 16 is the relevance factor, n l are the zeroorder statistics for language l andx l andx f are the channelcompensated first-order statistics corresponding to language l and target signal f , respectively. Channel compensation was performed by using Niko Brümmer's recipe <ref type="bibr" target="#b14">[15]</ref>. The channel matrix was estimated using only data from target languages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.2.">iVector Generative Subsystem</head><p>The estimation of the total variability matrix T , the computation of iVectors and the estimation of the generative Gaussian models were performed as in <ref type="bibr" target="#b15">[16]</ref>. The total variability matrix was estimated using only data from target languages. The iVector scores were computed as follows:</p><formula xml:id="formula_5">score (f, l) = N (w f ; µ l , Σ)<label>(4)</label></formula><p>where w f is the iVector for target signal f , µ l is the mean iVector for language l and Σ is a common (shared by all languages) within-class covariance matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Phonotactic Subsystems</head><p>Three phonotactic subsystems were developed under a phonelattice-SVM approach. Given an input signal, an energy-based voice activity detector was applied in first place, which split and removed long-duration non-speech segments. Then, the Temporal Patterns Neural Network (TRAPs/NN) phone decoders developed by the Brno University of Technology (BUT) for Czech (CZ), Hungarian (HU) and Russian (RU) <ref type="bibr" target="#b16">[17]</ref>, were applied to perform phone tokenization. Regarding channel compensation, noise reduction, etc. the three subsystems relied on the acoustic front-end provided by BUT decoders. BUT decoders were configured to produce phone posteriors that were converted to phone lattices by means of HTK <ref type="bibr" target="#b17">[18]</ref> along with the BUT recipe, on which expected counts of phone n-grams were computed using the lattice-tool of SRILM <ref type="bibr" target="#b18">[19]</ref>. Finally, a Support Vector Machine (SVM) classifier was applied, SVM vectors consisting of counts of features representing the phonotactics of an input utterance. In this work, phone n-grams up to n = 3 were used, weighted as in <ref type="bibr" target="#b19">[20]</ref>. L2regularized L1-loss support vector classification was applied, by means of LIBLINEAR <ref type="bibr" target="#b20">[21]</ref>, whose source code was slightly modified to get regression values.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">Backend and Fusion</head><p>Backend and fusion parameters were optimized in preliminary experiments on the development set of the Albayzin 2010 LRE, and then applied for the experiments in both the Albayzin 2008 and 2010 LRE evaluation datasets. In particular, it was found that applying a backend to subsystem scores improved performance only in the open-set verification condition. So, for the closed-set verification experiments, the raw subsystem scores were used. Regarding the backend approach, best results were found when using a (generative) Gaussian backend.</p><p>Therefore, in the open-set condition a Gaussian backend was applied to the L scores provided by each subsystem, and L + 1 log-likelihoods were output (one per target language plus an additional log-likelihood for OOS languages, estimated based on the scores for the L target languages). The resulting 5 × (L + 1) log-likelihood values were fused by applying linear logistic regression under a multiclass paradigm, obtaining L+1 calibrated scores. Finally, a minimum expected cost Bayes decision was made based on these scores, according to applicationdependent language priors and costs. The same procedure was applied in the closed-set condition, but using 5 × L raw scores. The FoCal toolkit was used to estimate and apply the backend and calibration/fusion models <ref type="bibr" target="#b21">[22,</ref><ref type="bibr" target="#b22">23]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Performance: Analysis and Discussion</head><p>In this section, we present system performance under two different setups. In the first one, the Albayzin LRE tasks are compared on the free-development clean-speech test condition, which is common to both evaluations.  <ref type="table" target="#tab_4">Table 5</ref> presents system performance for the free-development clean-speech closed-set (CC) test condition on the evaluation datasets of Albayzin 2008 and 2010 LRE: eval2008 and eval2010. DET curves for the CC-30s condition are shown in <ref type="figure" target="#fig_2">Figure 1</ref>. In both cases, to allow a more detailed study of the factors that may explain performance results, a subset of the Albayzin 2010 evaluation dataset has been defined (eval2010 (4L)), which includes only the trials corresponding to the 4 target languages of the Albayzin 2008 LRE. This way, we can compare the suitability of the training sets defined in 2008 and 2010 for those languages, and on the other hand, get an estimate of the difficulty of the 2008 and 2010 tasks, by using the same models (estimated on the 2008 training set) to process eval2008 and eval2010 (4L).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">Comparing Albayzin LRE Tasks on Clean Speech</head><p>Results suggest that the 2008 task is more difficult than the 2010 task. As shown in the first and fourth lines of <ref type="table" target="#tab_4">Table 5</ref>, Cavg in the 2008 task is around 8, 3 and 2 times higher than that found in the 2010 task, for the subsets of 30-, 10-and 3-second segments, respectively. Note also how the red (2008) and blue (2010) DET curves in <ref type="figure" target="#fig_2">Figure 1</ref> are remarkably far apart from   each other. This may be due in part to the different amount of training data used to estimate models: in KALAKA there are less than 9 hours per target language, whereas in KALAKA-2 all the target languages have at least 10 hours, and some of them more than 12 hours of training data. It could be also explained by the two additional target languages introduced in 2010: Portuguese and English may be less confused with other languages than the average and make the pooled Cavg fall down. Finally, the 2008 task (i.e. the set of evaluation segments supplied for the Albayzin 2008 LRE) could be intrinsically more difficult than the 2010 task, for different reasons: use of regional dialects, high acoustic variability, lack of coverage for some speakers, etc. In particular, the criteria applied to filter out noisy speech segments were not so strict in 2008 as in 2010, so there could be significant differences in this regard.</p><p>Probably, as performance results in <ref type="table" target="#tab_4">Table 5</ref> and DET curves in <ref type="figure" target="#fig_2">Figure 1</ref> suggest, a mix of the above arguments may explain the differences. The different amount of training data is the argument behind the difference between the purple and green DET curves, both computed on the eval2010 (4L) dataset, but using models estimated on the 2008 and 2010 training datasets, respectively. The corresponding costs are shown in the second and third lines of <ref type="table" target="#tab_4">Table 5</ref>. Note that, though there is a large difference in the CC-30s condition (around 50% cost reduction, from 0.0275 when using train2008 to 0.0133 when using train2010), differences are much smaller for the CC-10s and CC-3s conditions (8% and 4.5% cost reductions, respectively).</p><p>The new target languages introduced in 2010 (Portuguese and English) explain the difference between the green (4 target languages) and blue (6 target languages) DET curves (see the corresponding costs in the third and fourth lines of <ref type="table" target="#tab_4">Table 5</ref>), since the same system (built on the Albayzin 2010 LRE training and development datasets) is being applied to two sets of segments: eval2010 and eval2010 (4L), that are identical except for the fact that eval2010 (4L) excludes segments corresponding to Portuguese and English.</p><p>Finally, the instrinsic difficulty of the 2008 task comes to explain the difference between the red (eval2008) and purple (eval2010 (4L)) DET curves, since the same system (built on the Albayzin 2008 LRE training and development sets) is applied to process both datasets. Note that on the CC-30s condition, the Cavg for eval2008 is almost twice the Cavg for eval2010 (4L). Again, differences are smaller on the CC-10s and CC-3s conditions.</p><p>The confusion of target languages with each other (miss and false alarm probabilities) on the CC-3s condition of Albayzin 2010 LRE is shown in <ref type="table">Table 6</ref>. Clearly, system performance was not homogeneous when disaggregated for all the target languages. The lowest error rates were obtained for Portuguese, English and Basque. On the other hand, Spanish and Galician were highly confused between each other, also showing significant miss rates, which was also observed for the Albayzin 2008 LRE <ref type="bibr" target="#b1">[2]</ref>. These results may be partly explained by the fact that most of the target languages (Catalan, Galician, Portuguese and Spanish) are Romance languages, whereas English is a Germanic language and Basque, though influenced by Romance languages (specially by Spanish and French), has completely different roots and its lexicon is quite different from those of the other languages. <ref type="table">Table 6</ref>: Error probabilities per target language: Basque (eu), Catalan (ca), English (en), Galician (gl), Portuguese (pt) and Spanish (es), for the closed-set clean-speech 3-second test condition (CC-3s) of the Albayzin 2010 LRE. Miss probability is shown in the diagonal and false alarm probability out of the diagonal. The low confusion rates for Portuguese, compared to the high confusion of the other Romance languages with each other, may probably come from the coexistence of speakers of Catalan, Galician and Spanish, specially in the last century (nowadays, most Catalan and Galician speakers also speak Spanish in their normal life), whereas Portuguese speakers have historically had little contact with speakers of the other languages. In any case, it is surprising the low confusion between Portuguese and Galician, despite being quite close in many of their features. A reasonable explanation for this and, by the way, for the high confusion between Galician and Spanish, could be that many of the Galician speakers were in fact Spanish speakers having Galician as their second language.</p><p>For the open-set clean speech (OC) condition, the system developed and evaluated using the Albayzin 2010 LRE datasets achieved better performance than that developed and evaluated using the Albayzin 2008 LRE datasets. Relative cost reductions of 77%, 64% and 45% were obtained on the OC-30s, OC-10s and OC-3s conditions, respectively (see <ref type="table" target="#tab_6">Table 7</ref>). Again, these results may be explained in various ways, including a larger training dataset, less confusable target languages (on average), etc. The confusion of languages with each other (miss and false alarm probabilities) on the OC-3s condition of the Albayzin 2010 LRE is shown in <ref type="table">Table 8</ref>. The presence of impostor trials with OOS languages (see the last line of <ref type="table">Table 8</ref>) had a strong impact on the false alarm rates for all the target languages. The origin of OOS languages is diverse: Romanian and French are Romance languages whereas German is a Germanic language and Arabic is Semitic. This diversity may be behind the high confusion rates of OOS languages with all the target languages. In relative terms, the impact was more noticeable for Portuguese and English, compared to the closed-set condition shown in Table 6, where they accumulated low false alarm probabilities. In absolute terms, the highest confusion with OOS trials was found for Catalan (0.304) and Spanish (0.210). Overall, best performance (the lowest error probabilities) was found for English, Portuguese and Basque. As for the CC-3s condition, the highest confusion was found between Spanish and Galician, with false alarm probabilities of 0.616 and 0.587. <ref type="table">Table 8</ref>: Error probabilities per target language: Basque (eu), Catalan (ca), English (en), Galician (gl), Portuguese (pt) and Spanish (es), for the closed-set clean-speech 3-second test condition (OC-3s) of the Albayzin 2010 LRE. Miss probability is shown in the diagonal and false alarm probability out of the diagonal. Error probabilities for OOS segments are shown too. To provide a complete picture of performance on clean speech, <ref type="figure" target="#fig_3">Figure 2</ref> shows DET curves on the CC-30s and OC-30s conditions for systems developed and evaluated on the Al- bayzin 2008 and 2010 LRE datasets. Note that the difference in performance between the closed-set and open-set conditions is similar for both datasets. Note also that the difference in performance for equivalent tasks defined on the Albayzin 2008 and 2010 LRE datasets, using the same state-of-the-art SLR system, is around 5 points in terms of Equal Error Rate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">Performance on Noisy Speech</head><p>A SLR system was built based on the training and development (clean and noisy) speech signals provided for the Albayzin 2010 LRE. Note that a system built this way is not specially optimized to deal with noisy speech, but just enabled to deal with any kind of speech signals. This system was applied on the closed-set noisy-speech (CN) and open-set noisy-speech (ON) conditions of the Albayzin 2010 LRE, to check performance degradation when the evaluation set includes not only clean but also noisy speech segments. Results are shown in <ref type="table" target="#tab_8">Table 9</ref>. Performance for the noisy-speech condition was far worse than that found for the clean-speech condition. In particular, the Cavg for the CN condition was 2.81, 2.28 and 1.66 times higher than that reported for the CC condition on 30-, 10-and 3-second segments, respectively (see <ref type="table" target="#tab_4">Table 5</ref>). By the way, it is worth noting that noisy speech produced higher degradation than OOS trials (open-set condition, see <ref type="table" target="#tab_6">Table 7</ref>). This is graphically shown in <ref type="figure" target="#fig_4">Figure 3</ref>, with DET curves corresponding to two systems, built on clean speech (CC-30s and OC-30s conditions) and both clean and noisy speech (CN-30s and ON-30s conditions) from the Albayzin 2010 LRE datasets. Finally, the Cavg for the ON condition was 6.19, 3.30 and 1.96 times higher than that reported for the CC condition on 30-, 10-and 3-second segments, respectively. As expected, the worst performance in all experiments on the Albayzin 2010 LRE was achieved for the ON-3s condition, with Cavg = 0.1740.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusions and Challenges for Future Evaluations</head><p>The work presented in this paper involved the development and evaluation of a state-of-the-art spoken language recognition system on the Albayzin 2008 and 2010 LRE datasets, with the purpose of identifying the most challenging conditions, which may support design decisions in future evaluations. It was found that the tasks defined for the Albayzin 2008 LRE were more challenging than those defined for the Albayzin 2010 LRE. Based on results on clean-speech data, three possible explanations were proposed: (1) the different amount of training and development data available to estimate models and tune system parameters; (2) the newly added target languages in 2010 (Portuguese and English), which were less confusable with other languages than the average and might push the average cost down; and (3) intrinsic features of the evaluation datasets, probably related to the presence of background noise in speech data tagged as clean that were provided for the Albayzin 2008 LRE.</p><p>A detailed analysis of the confusion of target languages with each other was performed, both in closed-set and open-set conditions, revealing that closely related languages (e.g. Romance languages in Spain) tend to be the most confused. When including OOS trials, target languages for which low confusion rates had been found in the closed-set condition, featured much higher error rates, due to the confusion with some similar OOS languages.</p><p>Finally, though reasonably good performance was attained even on noisy speech by using all the available data (clean and noisy speech) to train and calibrate systems, the highest degradation was found when dealing with noisy speech.</p><p>Future evaluations should address increasingly challenging tasks that make SLR technology progress and be useful in realistic applications. Attending to the results obtained using the Albayzin 2008 and 2010 LRE datasets, the most challenging conditions for a SLR system are related to: (1) the presence of background noise, music and/or conversations (which is common in many realistic aplications); (2) the acoustic, phonetic and lexical similarity of target languages (due to common roots or close evolution) and the need to reject OOS languages, which in some cases may be similar to target languages; and (3) the amount of speech available to make decisions (short segments). Besides them, the lack of training and development data could be also regarded as a challenging condition, as is frequently the case of low-resource target languages.</p><p>Taking these considerations into account, we propose three possible setups for future language recognition evaluations (not necessarily carried out by us):</p><p>• Dialect recognition. This task is intrinsically difficult, since dialects are variants of the same language (e.g. Spanish dialects). Dialect recognition has become an interesting application in the last years. In fact, the NIST 2011 LRE already addressed it as a pairwise language detection task. OOS languages should be provided to avoid the system to erroneously recognize a foreign language as a dialect. Speech segments of different durations and with diverse background conditions should be considered to match a realistic application, though each of them would probably involve a single speaker.</p><p>• Large-scale European language recognition. This task would involve many (30-50) European languages, as well as other OOS languages, and would basically extend the concept applied to design the Albayzin LREs so far. The high number of target languages is a challenging condition, since the confusion will probably increase as more target languages are considered. Speech data would be preferably recorded from the media (broadcast TV, internet TV, etc.), with the purpose of supporting language recognition for multilingual spoken document indexing and retrieval in multimedia resources. Speech data would include segments of different durations, featuring various speakers, diverse environment conditions, etc. Data collection would require the collaboration of research groups throughout Europe, and previous work should be done to define the protocols, copyright issues, data distribution, etc.</p><p>• Language recognition in the wild. This task would process uncontrolled resources in the internet, such as youtube videos, and would involve a small set of target languages, for which there could be many, few or no training data at all. Audio files would be required to include a minimum amount of speech (thus having a minimum duration), but they may also include music, animal sounds and whatever other non-speech sounds, and their quality would be diverse (from clean studio quality to outside far-field microphone recordings).</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>Results are compared with regard to the set of target languages and the available amount of training and development data on the closed-set test condition, with a detailed analysis of the confusion of target languages with each other. Results are then presented for the open-set test condition, comparing performance degradation on the 2008 and 2010 evaluation datasets and analysing the confusion of OOS languages with target languages and of target languages with each other on the open-set condition of the Albayzin 2010 LRE. The second set of experiments aims to evaluate performance degradation when dealing with noisy speech, based on the Albayzin 2010 LRE datasets.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 1 :</head><label>1</label><figDesc>Pooled DET curves for the Albayzin 2008 and 2010 LRE in the clean-speech closed-set 30-second test condition (CC-30s). To allow significant comparisons, DET curves on the evaluation set of Albayzin 2010 LRE using only the trials corresponding to the 4 target languages of Albayzin 2008 LRE (eval2010 (4L)) are also shown.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 2 :</head><label>2</label><figDesc>Pooled DET curves computed on the CC-30s and OC-30s test conditions, for systems developed and evaluated on the Albayzin 2008 and 2010 LRE datasets.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 3 :</head><label>3</label><figDesc>Pooled DET curves for two systems built on the Albayzin 2010 LRE datasets: a system built on clean speech (CC-30s and OC-30s conditions) and a system built on both clean and noisy speech (CN-30s and ON-30s conditions).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="true"><head>Table 1 :</head><label>1</label><figDesc>Distribution of training segments per target language in the Albayzin 2008 LRE: number of segments (# seg), total duration (T ) and average segment duration (Tseg).</figDesc><table>Spanish Catalan Basque Galician 
+# seg 
+282 
+278 
+342 
+401 
+
+T (min) 
+529 
+538 
+531 
+532 
+
+Tseg (sec) 
+112,55 
+116,12 
+93,16 
+79,60 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head>Table 2 :</head><label>2</label><figDesc>Distribution of segments (the same for each duration) for OOS languages in the development and evaluation datasets of the Albayzin 2008 LRE.</figDesc><table>French Portuguese English German 
+Devel 
+70 
+10 
+40 
+0 
+
+Eval 
+10 
+70 
+0 
+40 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="true"><head>Table 3 :</head><label>3</label><figDesc>Distribution of training segments per target language for clean and noisy speech in the Albayzin 2010 LRE: number of segments (#) and total duration (T , in minutes).</figDesc><table>Clean speech 
+Noisy speech 
+# 
+T (minutes) 
+# 
+T (minutes) 
+Basque 
+406 
+644 
+112 
+135 
+Catalan 
+341 
+687 
+107 
+131 
+English 
+249 
+731 
+136 
+152 
+Galician 
+464 
+644 
+125 
+134 
+Portuguese 387 
+665 
+160 
+197 
+Spanish 
+342 
+625 
+133 
+222 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="true"><head>Table 4 :</head><label>4</label><figDesc>Distribution of segments per language (the same for each duration) in the development and evaluation datasets of the Albayzin 2010 LRE.</figDesc><table>Devel 
+Eval 
+clean noisy clean noisy 
+Basque 
+146 
+29 
+130 
+74 
+Catalan 
+120 
+47 
+149 
+55 
+Target 
+English 
+133 
+60 
+135 
+69 
+languages Galician 
+137 
+60 
+121 
+83 
+Portuguese 
+164 
+77 
+146 
+58 
+Spanish 
+136 
+83 
+125 
+79 
+Arabic 
+100 
+25 
+115 
+22 
+OOS 
+French 
+120 
+32 
+70 
+34 
+languages German 
+108 
+73 
+13 
+32 
+Romanian 
+0 
+0 
+111 
+43 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head>Table 5 :</head><label>5</label><figDesc>Performance (Cavg) for the Albayzin 2008 and 2010 LRE in the clean-speech closed-set (CC) test condition. To allow significant comparisons, the performance on the evaluation set of Albayzin 2010 LRE using only the trials corresponding to the 4 target languages of Albayzin 2008 LRE (eval2010 (4L)) is also shown.</figDesc><table>CC-30s CC-10s CC-3s 
+train2008 + eval2008 
+0.0514 
+0.0761 
+0.1722 
+train2008 + eval2010 (4L) 
+0.0275 
+0.0552 
+0.1535 
+train2010 + eval2010 (4L) 
+0.0133 
+0.0506 
+0.1466 
+train2010 + eval2010 
+0.0063 
+0.0263 
+0.0888 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6" validated="false"><head>Table 7 :</head><label>7</label><figDesc>Performance (Cavg) for the Albayzin 2008 and 2010 LRE in the open-set clean-speech (OC) test condition.</figDesc><table>OC-30s OC-10s OC-3s 
+Albayzin 2008 LRE 
+0.0759 
+0.1211 
+0.2004 
+Albayzin 2010 LRE 
+0.0171 
+0.0437 
+0.1094 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_8" validated="false"><head>Table 9 :</head><label>9</label><figDesc>Performance (Cavg) for the Albayzin 2010 LRE on the closed-set noisy-speech (CN) and open-set noisy-speech (ON) test conditions. LREON-30s ON-10s ON-3s</figDesc><table>CN-30s CN-10s CN-3s 
+0.0177 
+0.0599 
+0.1476 
+Albayzin 2010 0.0390 
+0.0867 
+0.1740 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Nist Lre</surname></persName>
+		</author>
+		<ptr target="http://www.itl.nist.gov/iad/mig/tests/lre/" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">The Albayzin 2008 Language Recognition Evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">J</forename><surname>Rodriguez-Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Bordel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Varona</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Odyssey 2010: The Speaker and Language Recognition Workshop</title>
+		<meeting>Odyssey 2010: The Speaker and Language Recognition Workshop<address><addrLine>Brno, Czech Republic</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2010-07-01" />
+			<biblScope unit="page" from="172" to="179" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">The Albayzin 2010 Language Recognition Evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Luis</forename><forename type="middle">Javier</forename><surname>Rodriguez-Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikel</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amparo</forename><surname>Varona</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mireia</forename><surname>Diez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">German</forename><surname>Bordel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech<address><addrLine>Firenze, Italia</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="1529" to="1532" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title/>
+		<ptr target="http://lorien.die.upm.es/∼lapiz/rtth/" />
+	</analytic>
+	<monogr>
+		<title level="j">Spanish Network on Speech Technology, Web (in Spanish</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">NIST 2007 language recognition evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alvin</forename><forename type="middle">F</forename><surname>Martin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Audrey</forename><forename type="middle">N</forename><surname>Le</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Odyssey 2008 -The Speaker and Language Recognition Workshop</title>
+		<meeting>Odyssey 2008 -The Speaker and Language Recognition Workshop</meeting>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="page">1</biblScope>
+		</imprint>
+	</monogr>
+	<note>paper 016</note>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">I3A Language Recognition System for Albayzin 2010 LRE</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Martínez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Villalba</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Miguel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Ortega</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Lleida</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech<address><addrLine>Firenze, Italy</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="849" to="852" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Multi-site Heterogeneous System Fusions for the Albayzin 2010 Language Recognition Evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Luis</forename><surname>Javier Rodríguez-Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikel</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amparo</forename><surname>Varona</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mirieia</forename><surname>Díez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Germán</forename><surname>Bordel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><surname>Martínez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jesús</forename><surname>Villalba</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antonio</forename><surname>Miguel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alfonso</forename><surname>Ortega</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Eduardo</forename><surname>Lleida</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alberto</forename><surname>Abad</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Oscar</forename><surname>Koller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Isabel</forename><surname>Trancoso</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Paula</forename><surname>Lopez-Otero</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Laura</forename><surname>Docio-Fernandez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Carmen</forename><surname>Garcia-Mateo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Rahim</forename><surname>Saeidi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mehdi</forename><surname>Soufifar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Tomi</forename><surname>Kinnunen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Torbjørn</forename><surname>Svendsen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pasi</forename><surname>Frånti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the IEEE Automatic Speech Recognition and Understanding Workshop (ASRU)</title>
+		<meeting>the IEEE Automatic Speech Recognition and Understanding Workshop (ASRU)<address><addrLine>Hawaii, USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011-12" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">University of the Basque Country (EHU) Systems for the 2011 NIST Language Recognition Evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mikel</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Amparo</forename><surname>Varona</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Luis</forename><forename type="middle">J</forename><surname>Rodriguez-Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mireia</forename><surname>Diez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">German</forename><surname>Bordel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the NIST 2011 Language Recognition Evaluation (LRE) Workshop</title>
+		<meeting>the NIST 2011 Language Recognition Evaluation (LRE) Workshop<address><addrLine>Atlanta (USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011-12" />
+			<biblScope unit="page" from="6" to="7" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The 2009 NIST language recognition evaluation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alvin</forename><surname>Martin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Craig</forename><surname>Greenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Odyssey 2010 -The Speaker and Language Recognition Workshop</title>
+		<meeting><address><addrLine>Brno, Czech Republic</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2010" />
+			<biblScope unit="page" from="165" to="171" />
+		</imprint>
+	</monogr>
+	<note>paper 030</note>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">The DET Curve in Assessment of Detection Task Performance</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Martin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Doddington</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Kamm</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Ordowski</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Przybocki</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Eurospeech</title>
+		<meeting>Eurospeech</meeting>
+		<imprint>
+			<date type="published" when="1997" />
+			<biblScope unit="page" from="1985" to="1988" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+				<ptr target="http://www.itl.nist.gov/iad/mig/tools/DET-ware_v2.1.targz.htm" />
+		<title level="m">NIST DET-Curve Plotting software for use with MAT-LAB</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">KALAKA: A TV broadcast speech database for the evaluation of language recognition systems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">J</forename><surname>Rodriguez-Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Bordel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Varona</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Diez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 7th International Conference on Language Resources and Evaluation (LREC 2010)</title>
+		<meeting>the 7th International Conference on Language Resources and Evaluation (LREC 2010)<address><addrLine>Valleta, Malta</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2010-05" />
+			<biblScope unit="page" from="1678" to="1685" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">KALAKA-2: a TV broadcast speech database for the recognition of Iberian languages in clean and noisy environments</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">J</forename><surname>Rodriguez-Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Varona</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Diez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Bordel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 8th International Conference on Language Resources and Evaluation (LREC 2012)</title>
+		<meeting>the 8th International Conference on Language Resources and Evaluation (LREC 2012)<address><addrLine>Istanbul, Turkey</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2012-05" />
+			<biblScope unit="page" from="23" to="25" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Strasheim</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Niko</forename><surname>Brümmer</surname></persName>
+		</author>
+		<title level="m">NIST Speaker Recognition Evaluation Workshop Booklet</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+	<note>SUNSDV system description: NIST SRE</note>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Discriminative Acoustic Language Recognition via Channel-Compensated GMM Statistics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Strasheim</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Hubeika</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Matejka</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Glembek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech<address><addrLine>Brighton, UK</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2009" />
+			<biblScope unit="page" from="2187" to="2190" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Language Recognition in iVectors Space</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Martínez</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Plchot</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Glembek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Matejka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech<address><addrLine>Firenze, Italy</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="861" to="864" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Phoneme recognition based on long temporal context</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Petr</forename><surname>Schwarz</surname></persName>
+		</author>
+		<ptr target="http://www.fit.vutbr.cz/" />
+		<imprint>
+			<date type="published" when="2008" />
+			<pubPlace>Brno, Czech Republic</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Faculty of Information Technology, Brno University of Technology</orgName>
+		</respStmt>
+	</monogr>
+	<note>Ph.D. thesis</note>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Steve</forename><surname>Young</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Gunnar</forename><surname>Evermann</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mark</forename><surname>Gales</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Thomas</forename><surname>Hain</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Dan</forename><surname>Kershaw</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Xunying</forename><surname>Lui</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Gareth</forename><surname>Moore</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Julian</forename><surname>Odell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Dave</forename><surname>Ollason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Dan</forename><surname>Povey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Valtcho</forename><surname>Valtchev</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Phil</forename><surname>Woodland</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006" />
+			<publisher>The HTK Book</publisher>
+			<pubPlace>Entropic, Ltd., Cambridge, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">SRILM -an extensible language modeling toolkit</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Andreas</forename><surname>Stolcke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Interspeech</title>
+		<meeting>Interspeech</meeting>
+		<imprint>
+			<date type="published" when="2002-11" />
+			<biblScope unit="page" from="257" to="286" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Language recognition with discriminative keyword selection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Richardson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Campbell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICASSP</title>
+		<meeting>ICASSP</meeting>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="page" from="4145" to="4148" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">LIBLINEAR: A library for large linear classification</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kai-Wei</forename><surname>Rong-En Fan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Cho-Jui</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Xiang-Rui</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Chih-Jen</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Lin</surname></persName>
+		</author>
+		<ptr target="http://www.csie.ntu.edu.tw/∼cjlin/liblinear" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="1871" to="1874" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">On calibration of language recognition scores</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">A</forename><surname>Van Leeuwen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Odyssey -The Speaker and Language Recognition Workshop</title>
+		<meeting>Odyssey -The Speaker and Language Recognition Workshop</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="1" to="8" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Fusion of heterogeneous speaker recognition systems in the STBU submission for the NIST speaker recognition evaluation 2006</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Brümmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Cernocky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Glembek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Grezl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Karafiat</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Van Leeuwen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Matejka</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Schwarz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Strasheim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Audio, Speech and Language Processing</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="2072" to="2084" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

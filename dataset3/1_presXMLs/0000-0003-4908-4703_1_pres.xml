@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Enumeration of Simple Complete Topological Graphs
+</p>
+<p>Jan Kynčl
+</p>
+<p>Charles University, Prague</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>( )
+</p>
+<p>Graph: G = (V, E), |V | < ∞, E ⊆ V2
+Topological graph: a drawing of a graph in the plane
+</p>
+<p>vertices = points
+</p>
+<p>edges = simple curves
+</p>
+<p>- edges do not pass through any vertices other than
+their end-points
+</p>
+<p>- any two edges have only finitely many common points
+</p>
+<p>- any intersection point of two edges is either a common
+end-point or a crossing (no touching allowed)
+</p>
+<p>- at most two edges can intersect in one crossing</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>simple: any two edges have at most one common point
+( )
+</p>
+<p>complete: E = V2
+</p>
+<p>topological graph simple complete topological graph</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Topological graphs G, H are
+</p>
+<p>isomorphic if there exists a homeomorphism (of the
+sphere) which maps G onto H
+</p>
+<p>weakly isomorphic if the same pairs of edges cross in G
+and in H</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>T (n) = number of isomorphism classes
+</p>
+<p>Tw(n) = number of weak isomorphism classes
+</p>
+<p>of simple complete topological graphs on n vertices
+</p>
+<p>Theorem [J. Pach, G. Tóth, 2004]:
+Ω(n2) ≤ ≤ O(n22 T (n) 2 log n)w
+</p>
+<p>Theorem 1:
+4
+</p>
+<p>T (n) = 2Θ(n )
+</p>
+<p>Lower bounds are attained even for extendable graphs
+</p>
+<p>Remark: The number of weak isomorphism classes of
+complete geometric graphs on n vertices is 2O(n log n)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Graphs with maximum number of crossings
+</p>
+<p>Tmaxw (n) = number of weak isomorphism classes of
+( )
+</p>
+<p>simple complete topological graphs on n vertices with n4
+crossings
+</p>
+<p>Theorem [H. Harborth, I. Mengersen, 1992]:
+√
+</p>
+<p>Tmaxw (n) ≥ ec n
+</p>
+<p>Theorem 2:
+</p>
+<p>Tmaxw (n) ≥ 2n(log n−O(1))</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proof of Theorem 1
+4
+</p>
+<p>Lower bound: T (n) ≥ 2Ω(n )
+</p>
+<p>V2 V1
+</p>
+<p>C2 C1
+C
+</p>
+<p>V 0 V3 0
+</p>
+<p>V4 V5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4
+</p>
+<p>Upper bound: T (n) ≤ 2O(n )
+</p>
+<p>Proposition: There is a two-to-one correspondence
+between rotation systems and weak isomorphism classes
+of simple complete topological graphs.
+</p>
+<p>star-cut representation:
+</p>
+<p>′
+v
+</p>
+<p>2
+</p>
+<p>w3 ′
+w ′
+</p>
+<p>2 w1
+</p>
+<p>w4 v
+</p>
+<p>′ ′
+v
+</p>
+<p>3 v1
+</p>
+<p>′
+w
+</p>
+<p>′ 4
+w
+</p>
+<p>w2 w1 3
+′
+</p>
+<p>v
+4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4
+</p>
+<p>Upper bound: T (n) ≤ 2O(n )
+</p>
+<p>Proposition: There is a two-to-one correspondence
+between rotation systems and weak isomorphism classes
+of simple complete topological graphs.
+</p>
+<p>star-cut representation:
+</p>
+<p>w3
+</p>
+<p>w4 v
+</p>
+<p>w2 w1
+</p>
+<p>′
+v
+</p>
+<p>2
+</p>
+<p>′
+w ′
+</p>
+<p>2 w1
+</p>
+<p>′ ′
+v
+</p>
+<p>3 v1
+</p>
+<p>′
+w
+</p>
+<p>′ 4
+w
+</p>
+<p>3
+′
+</p>
+<p>v
+4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4
+</p>
+<p>Upper bound: T (n) ≤ 2O(n )
+</p>
+<p>Proposition: There is a two-to-one correspondence
+between rotation systems and weak isomorphism classes
+of simple complete topological graphs.
+</p>
+<p>star-cut representation:
+′
+</p>
+<p>v
+2
+</p>
+<p>w3 ′
+w ′
+</p>
+<p>2 w1
+</p>
+<p>w4 v
+</p>
+<p>′ ′
+v
+</p>
+<p>3 v1
+</p>
+<p>′
+w
+</p>
+<p>′ 4
+w
+</p>
+<p>w2 w1 3
+′
+</p>
+<p>v
+4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proposition: The number of non-isomorphic simple
+arrangements of n pseudochords with fixed perimetric
+order inducing k crossings is at most 2k.
+</p>
+<p>2O(n
+2 log n) weak isomorphism classes
+</p>
+<p>O(n3) pseudochords
+</p>
+<p>⇒ O(n32 log n) perimetric orders
+O(n4) crossings
+</p>
+<p>⇒ 2O(n4) arrangements
+⇒ 42O(n ) isomorphism classes</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

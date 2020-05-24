@@ -1,0 +1,1762 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>KALAKA-2
+A TV Broadcast Speech Database for the Recognition of
+.=</p>
+<p>Iberian Languages in Clean and Noisy Environments
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes, Mikel Penagarikano, Amparo Varona,
+Mireia Diez, Germán Bordel,
+.=</p>
+<p>Software Technologies Working Group (http://gtts.ehu.es)
+.=</p>
+<p>Department of Electricity and Electronics, University of the Basque Country
+.=</p>
+<p>Barrio Sarriena s/n, 48940 Leioa, Spain
+.=</p>
+<p>email: luisjavier.rodriguez@ehu.es
+.=</p>
+<p>LREC 2012, Istanbul, Turkey
+May 23, 2012
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Contents
+.=</p>
+<p>1 Introduction
+Motivation
+Database features (in brief)
+.=</p>
+<p>2 Design issues
+.=</p>
+<p>3 Recording setup
+.=</p>
+<p>4 Creating the database
+Classification of recordings
+Selection of speech segments
+Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>5 Database evaluation
+The Albayzin 2010 LRE
+System development and evaluation based on KALAKA-2
+.=</p>
+<p>6 Conclusions and future work
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>To provide a multilingual speech database specifically designed for
+language recognition applications featuring Iberian languages as target
+languages (including Portuguese and English).
+.=</p>
+<p>To measure the performance of state-of-the-art language recognition
+systems when dealing with noisy/overlapped speech, and compare it to
+the performance on clean speech.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To support the Albayzin 2010 Language Recognition Evaluation,
+organized by the Spanish Network on Speech Technologies, from May to
+November 2010 (second edition).
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>To measure the performance of state-of-the-art language recognition
+systems when dealing with noisy/overlapped speech, and compare it to
+the performance on clean speech.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To support the Albayzin 2010 Language Recognition Evaluation,
+organized by the Spanish Network on Speech Technologies, from May to
+November 2010 (second edition).
+.=</p>
+<p>To provide a multilingual speech database specifically designed for
+language recognition applications featuring Iberian languages as target
+languages (including Portuguese and English).
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To support the Albayzin 2010 Language Recognition Evaluation,
+organized by the Spanish Network on Speech Technologies, from May to
+November 2010 (second edition).
+.=</p>
+<p>To provide a multilingual speech database specifically designed for
+language recognition applications featuring Iberian languages as target
+languages (including Portuguese and English).
+.=</p>
+<p>To measure the performance of state-of-the-art language recognition
+systems when dealing with noisy/overlapped speech, and compare it to
+the performance on clean speech.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Out-Of-Set (OOS) languages, to allow open-set tests: Arabic, French,
+German and Romanian.
+.=</p>
+<p>Speech signals extracted from TV shows, including planned and
+spontaneous speech involving a varying number of speakers.
+.=</p>
+<p>Two types of speech signals: clean (mostly studio conditions) and noisy
+(noise, music or speech in the background, or overlapped speech)
+.=</p>
+<p>Database size: around 125 hours (5 DVD, by request to authors)
+.=</p>
+<p>Training dataset: 82 hours (more than 13 hours per target language,
+80% clean + 20% noisy)
+.=</p>
+<p>Development dataset: 21,5 hours (4950 segments, 3 nominal durations,
+target and OOS languages, 70% clean + 30% noisy)
+.=</p>
+<p>Evaluation dataset: 21,5 hours (4992 segments, 3 nominal durations,
+target and OOS languages, 67% clean + 33% noisy)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Six target languages: Basque, Catalan, English, Galician, Portuguese and
+Spanish.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Speech signals extracted from TV shows, including planned and
+spontaneous speech involving a varying number of speakers.
+.=</p>
+<p>Two types of speech signals: clean (mostly studio conditions) and noisy
+(noise, music or speech in the background, or overlapped speech)
+.=</p>
+<p>Database size: around 125 hours (5 DVD, by request to authors)
+.=</p>
+<p>Training dataset: 82 hours (more than 13 hours per target language,
+80% clean + 20% noisy)
+.=</p>
+<p>Development dataset: 21,5 hours (4950 segments, 3 nominal durations,
+target and OOS languages, 70% clean + 30% noisy)
+.=</p>
+<p>Evaluation dataset: 21,5 hours (4992 segments, 3 nominal durations,
+target and OOS languages, 67% clean + 33% noisy)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Six target languages: Basque, Catalan, English, Galician, Portuguese and
+Spanish.
+.=</p>
+<p>Out-Of-Set (OOS) languages, to allow open-set tests: Arabic, French,
+German and Romanian.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two types of speech signals: clean (mostly studio conditions) and noisy
+(noise, music or speech in the background, or overlapped speech)
+.=</p>
+<p>Database size: around 125 hours (5 DVD, by request to authors)
+.=</p>
+<p>Training dataset: 82 hours (more than 13 hours per target language,
+80% clean + 20% noisy)
+.=</p>
+<p>Development dataset: 21,5 hours (4950 segments, 3 nominal durations,
+target and OOS languages, 70% clean + 30% noisy)
+.=</p>
+<p>Evaluation dataset: 21,5 hours (4992 segments, 3 nominal durations,
+target and OOS languages, 67% clean + 33% noisy)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Six target languages: Basque, Catalan, English, Galician, Portuguese and
+Spanish.
+.=</p>
+<p>Out-Of-Set (OOS) languages, to allow open-set tests: Arabic, French,
+German and Romanian.
+.=</p>
+<p>Speech signals extracted from TV shows, including planned and
+spontaneous speech involving a varying number of speakers.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Database size: around 125 hours (5 DVD, by request to authors)
+.=</p>
+<p>Training dataset: 82 hours (more than 13 hours per target language,
+80% clean + 20% noisy)
+.=</p>
+<p>Development dataset: 21,5 hours (4950 segments, 3 nominal durations,
+target and OOS languages, 70% clean + 30% noisy)
+.=</p>
+<p>Evaluation dataset: 21,5 hours (4992 segments, 3 nominal durations,
+target and OOS languages, 67% clean + 33% noisy)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Six target languages: Basque, Catalan, English, Galician, Portuguese and
+Spanish.
+.=</p>
+<p>Out-Of-Set (OOS) languages, to allow open-set tests: Arabic, French,
+German and Romanian.
+.=</p>
+<p>Speech signals extracted from TV shows, including planned and
+spontaneous speech involving a varying number of speakers.
+.=</p>
+<p>Two types of speech signals: clean (mostly studio conditions) and noisy
+(noise, music or speech in the background, or overlapped speech)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Six target languages: Basque, Catalan, English, Galician, Portuguese and
+Spanish.
+.=</p>
+<p>Out-Of-Set (OOS) languages, to allow open-set tests: Arabic, French,
+German and Romanian.
+.=</p>
+<p>Speech signals extracted from TV shows, including planned and
+spontaneous speech involving a varying number of speakers.
+.=</p>
+<p>Two types of speech signals: clean (mostly studio conditions) and noisy
+(noise, music or speech in the background, or overlapped speech)
+.=</p>
+<p>Database size: around 125 hours (5 DVD, by request to authors)
+.=</p>
+<p>Training dataset: 82 hours (more than 13 hours per target language,
+80% clean + 20% noisy)
+.=</p>
+<p>Development dataset: 21,5 hours (4950 segments, 3 nominal durations,
+target and OOS languages, 70% clean + 30% noisy)
+.=</p>
+<p>Evaluation dataset: 21,5 hours (4992 segments, 3 nominal durations,
+target and OOS languages, 67% clean + 33% noisy)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-2 is a major update of KALAKA:
+Two new target languages: Portuguese and English
+.=</p>
+<p>KALAKA materials fully recycled:
+KALAKA train + dev → KALAKA-2 train
+KALAKA eval → KALAKA-2 dev
+.=</p>
+<p>New recordings (specially for Portuguese, English and OOS languages)
+.=</p>
+<p>Disjoint subsets of TV shows assigned to train, dev and eval
+.=</p>
+<p>Evaluation dataset entirely built on new recordings
+.=</p>
+<p>Segment duration:
+train: no constraints
+dev and eval: three nominal durations of 30, 10 and 3 seconds
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Design issues
+.=</p>
+<p>Basic design criteria:
+Single recording setup (devices, connectors, audio conversions, etc.)
+.=</p>
+<p>All the materials classified into: (1) clean or (2) noisy/overlapped
+.=</p>
+<p>Other sources of variability (speakers, etc.): as much diversity as possible
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Segment duration:
+train: no constraints
+dev and eval: three nominal durations of 30, 10 and 3 seconds
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Design issues
+.=</p>
+<p>Basic design criteria:
+Single recording setup (devices, connectors, audio conversions, etc.)
+.=</p>
+<p>All the materials classified into: (1) clean or (2) noisy/overlapped
+.=</p>
+<p>Other sources of variability (speakers, etc.): as much diversity as possible
+.=</p>
+<p>KALAKA-2 is a major update of KALAKA:
+Two new target languages: Portuguese and English
+.=</p>
+<p>KALAKA materials fully recycled:
+KALAKA train + dev → KALAKA-2 train
+KALAKA eval → KALAKA-2 dev
+.=</p>
+<p>New recordings (specially for Portuguese, English and OOS languages)
+.=</p>
+<p>Disjoint subsets of TV shows assigned to train, dev and eval
+.=</p>
+<p>Evaluation dataset entirely built on new recordings
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Design issues
+.=</p>
+<p>Basic design criteria:
+Single recording setup (devices, connectors, audio conversions, etc.)
+.=</p>
+<p>All the materials classified into: (1) clean or (2) noisy/overlapped
+.=</p>
+<p>Other sources of variability (speakers, etc.): as much diversity as possible
+.=</p>
+<p>KALAKA-2 is a major update of KALAKA:
+Two new target languages: Portuguese and English
+.=</p>
+<p>KALAKA materials fully recycled:
+KALAKA train + dev → KALAKA-2 train
+KALAKA eval → KALAKA-2 dev
+.=</p>
+<p>New recordings (specially for Portuguese, English and OOS languages)
+.=</p>
+<p>Disjoint subsets of TV shows assigned to train, dev and eval
+.=</p>
+<p>Evaluation dataset entirely built on new recordings
+.=</p>
+<p>Segment duration:
+train: no constraints
+dev and eval: three nominal durations of 30, 10 and 3 seconds
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Recording setup (I)
+.=</p>
+<p>Cable TV: easy access to audio in different languages
+.=</p>
+<p>Roland Edirol R-09 ultra-light audio recorder
+.=</p>
+<p>CD quality (16 bit / 44.1 kHz / stereo) recordings
+.=</p>
+<p>Audio signals downsampled to 16 kHz, single channel, by means of SoX
+.=</p>
+<p>Three recording times:
+October-November 2008 (Arabic, Romanian and English)
+.=</p>
+<p>April-May 2010 (Arabic, German, French, Romanian, English and Portuguese)
+.=</p>
+<p>August-September 2010 (Basque, Catalan, Galician and Spanish)
+.=</p>
+<p>Recorded time: 257 hours (more than 2 times the size of KALAKA-2)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Recording setup (II)
+.=</p>
+<p>TV channels and recorded time (in minutes) for each language in KALAKA-2
+.=</p>
+<p>Language TV Channels Recorded time
+Basque ETB1, ETBSat 1996
+Catalan TVCi 1842
+.=</p>
+<p>English DWTV, BBCWorld, 2705
+CNN, Bloomberg
+.=</p>
+<p>Galician TVG 2240
+Portuguese RTPi 2608
+.=</p>
+<p>TVE1, La 2,
+La Sexta, Cuatro, Tele5,
+.=</p>
+<p>Spanish Antena3, ETB2, TV Canaria 2090
+Sat, AndalućıaTV,
+TeleMadrid, ExtremaduraTV,
+CNNPlus
+.=</p>
+<p>Arabic Al Jazeera 497
+French TV5Monde Europe 499
+German DWTV 431
+Romanian PROTV 552
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Database evaluation
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings
+.=</p>
+<p>Task: distribute TV shows into training, development and evaluation
+.=</p>
+<p>Two basic criteria:
+independence: a given TV show is always posted to the same dataset
+diversity: similar proportions of show types in all datasets
+.=</p>
+<p>Different distributions of OOS languages for development and evaluation,
+to avoid tuning systems to reject specific OOS languages.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Database evaluation
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Selection of speech segments (I)
+.=</p>
+<p>Task: to extract speech segments from the recorded materials, by listening
+and looking at audio signals.
+.=</p>
+<p>Criteria:
+Multiple speakers allowed
+.=</p>
+<p>Single (nominal) language
+.=</p>
+<p>Clean/Noisy classification relaxed: mostly clean and mostly noisy segments
+.=</p>
+<p>Discarded: (1) narrow-band (telephone-channel) speech and
+(2) fragments with multiple languages (even in the background)
+.=</p>
+<p>Exception: two or more OOS languages may appear in the same segment
+.=</p>
+<p>Tools: Wavesurfer and CoolEdit
+.=</p>
+<p>Results:
+clean speech: segments of any length greater than 30 seconds
+noisy/overlapped speech: segments of length between 30 and 35 seconds
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Database evaluation
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Selection of speech segments (II) - Training dataset
+.=</p>
+<p>No further processing was applied to segments posted to training.
+.=</p>
+<p>Training data ONLY for target languages.
+.=</p>
+<p>More than 10 hours of clean speech and more than 2 hours of noisy
+speech per target language.
+.=</p>
+<p>Distribution of training segments per target language in KALAKA-2, for clean
+and noisy speech: number of segments (#) and total duration (T , in minutes).
+.=</p>
+<p>Clean speech Noisy speech
+# T (minutes) # T (minutes)
+.=</p>
+<p>Basque 406 644 112 135
+Catalan 341 687 107 131
+English 249 731 136 152
+Galician 464 644 125 134
+Portuguese 387 665 160 197
+Spanish 342 625 133 222
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Noisy-speech fragments of 30-35 seconds stored as 30-second segments.
+.=</p>
+<p>Greedy algorithm applied to extract 10- and 3-second noisy segments.
+.=</p>
+<p>Development and evaluation datasets:
+Same size and characteristics, except for the distribution of OOS languages
+and the proportion of clean and noisy speech.
+.=</p>
+<p>At least 150 segments per target language and nominal duration.
+.=</p>
+<p>Around 450 OOS segments per nominal duration.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Database evaluation
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments (I)
+.=</p>
+<p>Segments of fixed nominal duration (30, 10 and 3 seconds) extracted from
+clean-speech fragments posted to dev and eval.
+.=</p>
+<p>Single-pass greedy algorithm:
+Segments enclosed by a certain amount of silence.
+.=</p>
+<p>A 30-second segment is validated if and only if it contains a valid 10-second
+segment. Similarly, a 10-second segment is validated if and only if it
+contains a 3-second segment.
+.=</p>
+<p>Segments can be slightly longer than their nominal duration.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Development and evaluation datasets:
+Same size and characteristics, except for the distribution of OOS languages
+and the proportion of clean and noisy speech.
+.=</p>
+<p>At least 150 segments per target language and nominal duration.
+.=</p>
+<p>Around 450 OOS segments per nominal duration.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Database evaluation
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments (I)
+.=</p>
+<p>Segments of fixed nominal duration (30, 10 and 3 seconds) extracted from
+clean-speech fragments posted to dev and eval.
+.=</p>
+<p>Single-pass greedy algorithm:
+Segments enclosed by a certain amount of silence.
+.=</p>
+<p>A 30-second segment is validated if and only if it contains a valid 10-second
+segment. Similarly, a 10-second segment is validated if and only if it
+contains a 3-second segment.
+.=</p>
+<p>Segments can be slightly longer than their nominal duration.
+.=</p>
+<p>Noisy-speech fragments of 30-35 seconds stored as 30-second segments.
+.=</p>
+<p>Greedy algorithm applied to extract 10- and 3-second noisy segments.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Database evaluation
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments (I)
+.=</p>
+<p>Segments of fixed nominal duration (30, 10 and 3 seconds) extracted from
+clean-speech fragments posted to dev and eval.
+.=</p>
+<p>Single-pass greedy algorithm:
+Segments enclosed by a certain amount of silence.
+.=</p>
+<p>A 30-second segment is validated if and only if it contains a valid 10-second
+segment. Similarly, a 10-second segment is validated if and only if it
+contains a 3-second segment.
+.=</p>
+<p>Segments can be slightly longer than their nominal duration.
+.=</p>
+<p>Noisy-speech fragments of 30-35 seconds stored as 30-second segments.
+.=</p>
+<p>Greedy algorithm applied to extract 10- and 3-second noisy segments.
+.=</p>
+<p>Development and evaluation datasets:
+Same size and characteristics, except for the distribution of OOS languages
+and the proportion of clean and noisy speech.
+.=</p>
+<p>At least 150 segments per target language and nominal duration.
+.=</p>
+<p>Around 450 OOS segments per nominal duration.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Database evaluation
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments (II)
+.=</p>
+<p>Distribution of segments per language (the same for each nominal duration)
+in the development and evaluation datasets of KALAKA-2.
+.=</p>
+<p>Devel Eval
+clean noisy clean noisy
+.=</p>
+<p>Basque 146 29 130 74
+Catalan 120 47 149 55
+.=</p>
+<p>Target English 133 60 135 69
+languages Galician 137 60 121 83
+.=</p>
+<p>Portuguese 164 77 146 58
+Spanish 136 83 125 79
+.=</p>
+<p>Arabic 100 25 115 22
+OOS French 120 32 70 34
+.=</p>
+<p>languages German 108 73 13 32
+Romanian 0 0 111 43
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Test conditions:
+clean-speech vs. noisy-speech
+closed-set vs. open-set evaluation
+30-, 10- and 3-second test segments
+.=</p>
+<p>Primary performance measure: average cost Cavg
+Combination of miss and false alarm error rates, pooled across target
+languages, according to language priors (Ptarget , Pnon−target and POOS) and
+application dependent costs (Cmiss and Cfa).
+.=</p>
+<p>DET curves: to compare the global performance of two systems.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: conditions
+.=</p>
+<p>Task: deciding by computational means whether or not a target language
+was spoken in a test utterance.
+.=</p>
+<p>Trial = speech segment + target language
+Required system output: hard decision + likelihood score
+Performance measured by presenting a set of trials and comparing system
+decisions with the ground truth.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Primary performance measure: average cost Cavg
+Combination of miss and false alarm error rates, pooled across target
+languages, according to language priors (Ptarget , Pnon−target and POOS) and
+application dependent costs (Cmiss and Cfa).
+.=</p>
+<p>DET curves: to compare the global performance of two systems.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: conditions
+.=</p>
+<p>Task: deciding by computational means whether or not a target language
+was spoken in a test utterance.
+.=</p>
+<p>Trial = speech segment + target language
+Required system output: hard decision + likelihood score
+Performance measured by presenting a set of trials and comparing system
+decisions with the ground truth.
+.=</p>
+<p>Test conditions:
+clean-speech vs. noisy-speech
+closed-set vs. open-set evaluation
+30-, 10- and 3-second test segments
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: conditions
+.=</p>
+<p>Task: deciding by computational means whether or not a target language
+was spoken in a test utterance.
+.=</p>
+<p>Trial = speech segment + target language
+Required system output: hard decision + likelihood score
+Performance measured by presenting a set of trials and comparing system
+decisions with the ground truth.
+.=</p>
+<p>Test conditions:
+clean-speech vs. noisy-speech
+closed-set vs. open-set evaluation
+30-, 10- and 3-second test segments
+.=</p>
+<p>Primary performance measure: average cost Cavg
+Combination of miss and false alarm error rates, pooled across target
+languages, according to language priors (Ptarget , Pnon−target and POOS) and
+application dependent costs (Cmiss and Cfa).
+.=</p>
+<p>DET curves: to compare the global performance of two systems.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clean-speech, closed-set, 30-second segments: Cavg × 100 = 1.81
+Performance comparable to that obtained in similar tasks of NIST LRE.
+Much better than in Albayzin 2008 LRE (Cavg × 100 = 5.52): technology
+improvements, more training data and less confusable target languages
+(Portuguese and English).
+.=</p>
+<p>Dependence on nominal duration: Cavg (3s) ≈ 2 · Cavg (10s) and
+Cavg (10s) ≈ 2 · Cavg (30s)
+Clean-speech, open-set, 30-second segments: Cavg × 100 = 2.96
+.=</p>
+<p>63.5% cost increase (smaller for 10- and 3-second segments)
+False alarms related to OOS languages
+.=</p>
+<p>Dealing with noisy speech: cost increase ranging from 40% to 80%
+.=</p>
+<p>Noisy-speech, open-set, 3-second segments: Cavg × 100 = 15.51
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: summary of results (I)
+.=</p>
+<p>State-of-the-art language recognition systems
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dependence on nominal duration: Cavg (3s) ≈ 2 · Cavg (10s) and
+Cavg (10s) ≈ 2 · Cavg (30s)
+Clean-speech, open-set, 30-second segments: Cavg × 100 = 2.96
+.=</p>
+<p>63.5% cost increase (smaller for 10- and 3-second segments)
+False alarms related to OOS languages
+.=</p>
+<p>Dealing with noisy speech: cost increase ranging from 40% to 80%
+.=</p>
+<p>Noisy-speech, open-set, 3-second segments: Cavg × 100 = 15.51
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: summary of results (I)
+.=</p>
+<p>State-of-the-art language recognition systems
+.=</p>
+<p>Clean-speech, closed-set, 30-second segments: Cavg × 100 = 1.81
+Performance comparable to that obtained in similar tasks of NIST LRE.
+Much better than in Albayzin 2008 LRE (Cavg × 100 = 5.52): technology
+improvements, more training data and less confusable target languages
+(Portuguese and English).
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clean-speech, open-set, 30-second segments: Cavg × 100 = 2.96
+63.5% cost increase (smaller for 10- and 3-second segments)
+False alarms related to OOS languages
+.=</p>
+<p>Dealing with noisy speech: cost increase ranging from 40% to 80%
+.=</p>
+<p>Noisy-speech, open-set, 3-second segments: Cavg × 100 = 15.51
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: summary of results (I)
+.=</p>
+<p>State-of-the-art language recognition systems
+.=</p>
+<p>Clean-speech, closed-set, 30-second segments: Cavg × 100 = 1.81
+Performance comparable to that obtained in similar tasks of NIST LRE.
+Much better than in Albayzin 2008 LRE (Cavg × 100 = 5.52): technology
+improvements, more training data and less confusable target languages
+(Portuguese and English).
+.=</p>
+<p>Dependence on nominal duration: Cavg (3s) ≈ 2 · Cavg (10s) and
+Cavg (10s) ≈ 2 · Cavg (30s)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dealing with noisy speech: cost increase ranging from 40% to 80%
+.=</p>
+<p>Noisy-speech, open-set, 3-second segments: Cavg × 100 = 15.51
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: summary of results (I)
+.=</p>
+<p>State-of-the-art language recognition systems
+.=</p>
+<p>Clean-speech, closed-set, 30-second segments: Cavg × 100 = 1.81
+Performance comparable to that obtained in similar tasks of NIST LRE.
+Much better than in Albayzin 2008 LRE (Cavg × 100 = 5.52): technology
+improvements, more training data and less confusable target languages
+(Portuguese and English).
+.=</p>
+<p>Dependence on nominal duration: Cavg (3s) ≈ 2 · Cavg (10s) and
+Cavg (10s) ≈ 2 · Cavg (30s)
+Clean-speech, open-set, 30-second segments: Cavg × 100 = 2.96
+.=</p>
+<p>63.5% cost increase (smaller for 10- and 3-second segments)
+False alarms related to OOS languages
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: summary of results (I)
+.=</p>
+<p>State-of-the-art language recognition systems
+.=</p>
+<p>Clean-speech, closed-set, 30-second segments: Cavg × 100 = 1.81
+Performance comparable to that obtained in similar tasks of NIST LRE.
+Much better than in Albayzin 2008 LRE (Cavg × 100 = 5.52): technology
+improvements, more training data and less confusable target languages
+(Portuguese and English).
+.=</p>
+<p>Dependence on nominal duration: Cavg (3s) ≈ 2 · Cavg (10s) and
+Cavg (10s) ≈ 2 · Cavg (30s)
+Clean-speech, open-set, 30-second segments: Cavg × 100 = 2.96
+.=</p>
+<p>63.5% cost increase (smaller for 10- and 3-second segments)
+False alarms related to OOS languages
+.=</p>
+<p>Dealing with noisy speech: cost increase ranging from 40% to 80%
+.=</p>
+<p>Noisy-speech, open-set, 3-second segments: Cavg × 100 = 15.51
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2010 LRE: summary of results (II)
+.=</p>
+<p>Best primary systems in the 30s tracks of Albayzin 2010 LRE
+.=</p>
+<p>Albayzin 2010 LRE  30s
+ 
+.=</p>
+<p>  40   closed  clean
+ open  clean
+ closed  noisy
+ open noisy
+.=</p>
+<p>  20  
+.=</p>
+<p>  10  
+.=</p>
+<p>  5   
+.=</p>
+<p>  2   
+.=</p>
+<p>  1   
+.=</p>
+<p> 0.5  
+.=</p>
+<p>  0.2 
+.=</p>
+<p>  0.1  
+  0.1   0.2  0.5    1     2     5     10    20    40  
+.=</p>
+<p>False Alarm probability (in %)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages
+.=</p>
+<p>Miss probability (in %).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>...except for the phone decoders.
+.=</p>
+<p>Same system submitted to NIST 2011 LRE (with very competitive
+performance).
+.=</p>
+<p>Discriminative fusion of two acoustic and three phonotactic subsystems:
+LE-GMM and generative iVectors
+Phone-Lattice-SVM using BUT decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Two sets of models, estimated on the training dataset, using:
+clean speech segments (for the clean-speech condition)
+the whole training dataset (for the noisy-speech condition)
+.=</p>
+<p>Generative Gaussian backend and discriminative fusion models estimated
+on development data, by means of the FoCal toolkit, using:
+.=</p>
+<p>segments containing target languages (for the closed-set condition)
+all the development segments (for the open-set condition)
+.=</p>
+<p>See the paper for more details and references
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>System built based exclusively on KALAKA-2...
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Same system submitted to NIST 2011 LRE (with very competitive
+performance).
+.=</p>
+<p>Discriminative fusion of two acoustic and three phonotactic subsystems:
+LE-GMM and generative iVectors
+Phone-Lattice-SVM using BUT decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Two sets of models, estimated on the training dataset, using:
+clean speech segments (for the clean-speech condition)
+the whole training dataset (for the noisy-speech condition)
+.=</p>
+<p>Generative Gaussian backend and discriminative fusion models estimated
+on development data, by means of the FoCal toolkit, using:
+.=</p>
+<p>segments containing target languages (for the closed-set condition)
+all the development segments (for the open-set condition)
+.=</p>
+<p>See the paper for more details and references
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>System built based exclusively on KALAKA-2...
+...except for the phone decoders.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two sets of models, estimated on the training dataset, using:
+clean speech segments (for the clean-speech condition)
+the whole training dataset (for the noisy-speech condition)
+.=</p>
+<p>Generative Gaussian backend and discriminative fusion models estimated
+on development data, by means of the FoCal toolkit, using:
+.=</p>
+<p>segments containing target languages (for the closed-set condition)
+all the development segments (for the open-set condition)
+.=</p>
+<p>See the paper for more details and references
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>System built based exclusively on KALAKA-2...
+...except for the phone decoders.
+.=</p>
+<p>Same system submitted to NIST 2011 LRE (with very competitive
+performance).
+.=</p>
+<p>Discriminative fusion of two acoustic and three phonotactic subsystems:
+LE-GMM and generative iVectors
+Phone-Lattice-SVM using BUT decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generative Gaussian backend and discriminative fusion models estimated
+on development data, by means of the FoCal toolkit, using:
+.=</p>
+<p>segments containing target languages (for the closed-set condition)
+all the development segments (for the open-set condition)
+.=</p>
+<p>See the paper for more details and references
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>System built based exclusively on KALAKA-2...
+...except for the phone decoders.
+.=</p>
+<p>Same system submitted to NIST 2011 LRE (with very competitive
+performance).
+.=</p>
+<p>Discriminative fusion of two acoustic and three phonotactic subsystems:
+LE-GMM and generative iVectors
+Phone-Lattice-SVM using BUT decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Two sets of models, estimated on the training dataset, using:
+clean speech segments (for the clean-speech condition)
+the whole training dataset (for the noisy-speech condition)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>See the paper for more details and references
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>System built based exclusively on KALAKA-2...
+...except for the phone decoders.
+.=</p>
+<p>Same system submitted to NIST 2011 LRE (with very competitive
+performance).
+.=</p>
+<p>Discriminative fusion of two acoustic and three phonotactic subsystems:
+LE-GMM and generative iVectors
+Phone-Lattice-SVM using BUT decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Two sets of models, estimated on the training dataset, using:
+clean speech segments (for the clean-speech condition)
+the whole training dataset (for the noisy-speech condition)
+.=</p>
+<p>Generative Gaussian backend and discriminative fusion models estimated
+on development data, by means of the FoCal toolkit, using:
+.=</p>
+<p>segments containing target languages (for the closed-set condition)
+all the development segments (for the open-set condition)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>System built based exclusively on KALAKA-2...
+...except for the phone decoders.
+.=</p>
+<p>Same system submitted to NIST 2011 LRE (with very competitive
+performance).
+.=</p>
+<p>Discriminative fusion of two acoustic and three phonotactic subsystems:
+LE-GMM and generative iVectors
+Phone-Lattice-SVM using BUT decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Two sets of models, estimated on the training dataset, using:
+clean speech segments (for the clean-speech condition)
+the whole training dataset (for the noisy-speech condition)
+.=</p>
+<p>Generative Gaussian backend and discriminative fusion models estimated
+on development data, by means of the FoCal toolkit, using:
+.=</p>
+<p>segments containing target languages (for the closed-set condition)
+all the development segments (for the open-set condition)
+.=</p>
+<p>See the paper for more details and references
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2010 LRE
+Creating the database System development and evaluation based on KALAKA-2
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Results
+.=</p>
+<p>Albayzin 2010 LRE − 30s
+ 
+.=</p>
+<p>  40  closed clean
+closed noisy
+open clean
+open noisy
+.=</p>
+<p>  20  
+.=</p>
+<p>Cavg performance
+  10  
+.=</p>
+<p>30s 10s 3s
+CC 0.0063 0.0263 0.0888   5   
+OC 0.0171 0.0437 0.1094
+CN 0.0177 0.0599 0.1476   2   
+.=</p>
+<p>ON 0.0390 0.0867 0.1740   1   
+.=</p>
+<p> 0.5  
+.=</p>
+<p>  0.2 
+.=</p>
+<p>  0.1  
+  0.1   0.2  0.5    1     2     5     10    20    40  
+.=</p>
+<p>False Alarm probability (in %)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages
+.=</p>
+<p>Miss probability (in %).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>It allows to develop and evaluate language recognition systems for
+Iberian languages + English.
+.=</p>
+<p>Average costs using state-of-the-art technology are high enough to
+allow further (statistically significant) improvements in all the tracks,
+except for the easiest one (closed-set, clean-speech, 30s segments).
+.=</p>
+<p>Currently, KALAKA-2 is distributed in 5 DVD after direct request to
+authors.
+.=</p>
+<p>We have contacted ELRA to manage licensing issues with the TV
+broadcast providers.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>KALAKA-2: a database containing clean and noisy/overlapped
+speech from wide-band TV broadcasts is available for your use.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Average costs using state-of-the-art technology are high enough to
+allow further (statistically significant) improvements in all the tracks,
+except for the easiest one (closed-set, clean-speech, 30s segments).
+.=</p>
+<p>Currently, KALAKA-2 is distributed in 5 DVD after direct request to
+authors.
+.=</p>
+<p>We have contacted ELRA to manage licensing issues with the TV
+broadcast providers.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>KALAKA-2: a database containing clean and noisy/overlapped
+speech from wide-band TV broadcasts is available for your use.
+.=</p>
+<p>It allows to develop and evaluate language recognition systems for
+Iberian languages + English.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Currently, KALAKA-2 is distributed in 5 DVD after direct request to
+authors.
+.=</p>
+<p>We have contacted ELRA to manage licensing issues with the TV
+broadcast providers.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>KALAKA-2: a database containing clean and noisy/overlapped
+speech from wide-band TV broadcasts is available for your use.
+.=</p>
+<p>It allows to develop and evaluate language recognition systems for
+Iberian languages + English.
+.=</p>
+<p>Average costs using state-of-the-art technology are high enough to
+allow further (statistically significant) improvements in all the tracks,
+except for the easiest one (closed-set, clean-speech, 30s segments).
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We have contacted ELRA to manage licensing issues with the TV
+broadcast providers.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>KALAKA-2: a database containing clean and noisy/overlapped
+speech from wide-band TV broadcasts is available for your use.
+.=</p>
+<p>It allows to develop and evaluate language recognition systems for
+Iberian languages + English.
+.=</p>
+<p>Average costs using state-of-the-art technology are high enough to
+allow further (statistically significant) improvements in all the tracks,
+except for the easiest one (closed-set, clean-speech, 30s segments).
+.=</p>
+<p>Currently, KALAKA-2 is distributed in 5 DVD after direct request to
+authors.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>KALAKA-2: a database containing clean and noisy/overlapped
+speech from wide-band TV broadcasts is available for your use.
+.=</p>
+<p>It allows to develop and evaluate language recognition systems for
+Iberian languages + English.
+.=</p>
+<p>Average costs using state-of-the-art technology are high enough to
+allow further (statistically significant) improvements in all the tracks,
+except for the easiest one (closed-set, clean-speech, 30s segments).
+.=</p>
+<p>Currently, KALAKA-2 is distributed in 5 DVD after direct request to
+authors.
+.=</p>
+<p>We have contacted ELRA to manage licensing issues with the TV
+broadcast providers.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Support for the Albayzin 2012 Language Recognition Evaluation:
+June to October 2012, results presented at IberSpeech 2012,
+to be held in Madrid (Spain) in November 2012.
+.=</p>
+<p>Besides including all the materials of KALAKA-2, which will be reused for
+training, development and evaluation data will consist of any kind of
+speech found in the Internet (YouTube videos), 4 new target languages
+will be added: French, German, Greek and Italian, and many other OOS
+languages will be also recorded.
+.=</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+.=</p>
+<p>You are all invited to participate !!!
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-3
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Besides including all the materials of KALAKA-2, which will be reused for
+training, development and evaluation data will consist of any kind of
+speech found in the Internet (YouTube videos), 4 new target languages
+will be added: French, German, Greek and Italian, and many other OOS
+languages will be also recorded.
+.=</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+.=</p>
+<p>You are all invited to participate !!!
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-3
+.=</p>
+<p>Support for the Albayzin 2012 Language Recognition Evaluation:
+June to October 2012, results presented at IberSpeech 2012,
+to be held in Madrid (Spain) in November 2012.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>development and evaluation data will consist of any kind of
+speech found in the Internet (YouTube videos), 4 new target languages
+will be added: French, German, Greek and Italian, and many other OOS
+languages will be also recorded.
+.=</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+.=</p>
+<p>You are all invited to participate !!!
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-3
+.=</p>
+<p>Support for the Albayzin 2012 Language Recognition Evaluation:
+June to October 2012, results presented at IberSpeech 2012,
+to be held in Madrid (Spain) in November 2012.
+.=</p>
+<p>Besides including all the materials of KALAKA-2, which will be reused for
+training,
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4 new target languages
+will be added: French, German, Greek and Italian, and many other OOS
+languages will be also recorded.
+.=</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+.=</p>
+<p>You are all invited to participate !!!
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-3
+.=</p>
+<p>Support for the Albayzin 2012 Language Recognition Evaluation:
+June to October 2012, results presented at IberSpeech 2012,
+to be held in Madrid (Spain) in November 2012.
+.=</p>
+<p>Besides including all the materials of KALAKA-2, which will be reused for
+training, development and evaluation data will consist of any kind of
+speech found in the Internet (YouTube videos),
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>and many other OOS
+languages will be also recorded.
+.=</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+.=</p>
+<p>You are all invited to participate !!!
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-3
+.=</p>
+<p>Support for the Albayzin 2012 Language Recognition Evaluation:
+June to October 2012, results presented at IberSpeech 2012,
+to be held in Madrid (Spain) in November 2012.
+.=</p>
+<p>Besides including all the materials of KALAKA-2, which will be reused for
+training, development and evaluation data will consist of any kind of
+speech found in the Internet (YouTube videos), 4 new target languages
+will be added: French, German, Greek and Italian,
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+.=</p>
+<p>You are all invited to participate !!!
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-3
+.=</p>
+<p>Support for the Albayzin 2012 Language Recognition Evaluation:
+June to October 2012, results presented at IberSpeech 2012,
+to be held in Madrid (Spain) in November 2012.
+.=</p>
+<p>Besides including all the materials of KALAKA-2, which will be reused for
+training, development and evaluation data will consist of any kind of
+speech found in the Internet (YouTube videos), 4 new target languages
+will be added: French, German, Greek and Italian, and many other OOS
+languages will be also recorded.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>You are all invited to participate !!!
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-3
+.=</p>
+<p>Support for the Albayzin 2012 Language Recognition Evaluation:
+June to October 2012, results presented at IberSpeech 2012,
+to be held in Madrid (Spain) in November 2012.
+.=</p>
+<p>Besides including all the materials of KALAKA-2, which will be reused for
+training, development and evaluation data will consist of any kind of
+speech found in the Internet (YouTube videos), 4 new target languages
+will be added: French, German, Greek and Italian, and many other OOS
+languages will be also recorded.
+.=</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Database evaluation
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-3
+.=</p>
+<p>Support for the Albayzin 2012 Language Recognition Evaluation:
+June to October 2012, results presented at IberSpeech 2012,
+to be held in Madrid (Spain) in November 2012.
+.=</p>
+<p>Besides including all the materials of KALAKA-2, which will be reused for
+training, development and evaluation data will consist of any kind of
+speech found in the Internet (YouTube videos), 4 new target languages
+will be added: French, German, Greek and Italian, and many other OOS
+languages will be also recorded.
+.=</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+.=</p>
+<p>You are all invited to participate !!!
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA-2: Broadcast Speech for Iberian Languages.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

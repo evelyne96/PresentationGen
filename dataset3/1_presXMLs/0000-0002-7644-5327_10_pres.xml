@@ -1,0 +1,1322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Computational Analysis of
+Perfect-Information Position Auctions
+</p>
+<p>Kevin Leyton-Brown
+</p>
+<p>joint work with David Robert Martin Thompson
+</p>
+<p>INFORMS: October 12, 2009
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Now consider game theory, especially in the context of our focus
+today on sponsored search auctions:
+</p>
+<p>Expressive models
+</p>
+<p>Rich theoretical tools
+</p>
+<p>Few computational techniques
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Operations Research Analogy
+</p>
+<p>Consider mathematical programming:
+</p>
+<p>LP, MIP, QP (...) models of many interesting problems
+</p>
+<p>Many theoretical tools for analyzing these models
+</p>
+<p>General, computational solvers complement the theory
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Operations Research Analogy
+</p>
+<p>Consider mathematical programming:
+</p>
+<p>LP, MIP, QP (...) models of many interesting problems
+</p>
+<p>Many theoretical tools for analyzing these models
+</p>
+<p>General, computational solvers complement the theory
+</p>
+<p>Now consider game theory, especially in the context of our focus
+today on sponsored search auctions:
+</p>
+<p>Expressive models
+</p>
+<p>Rich theoretical tools
+</p>
+<p>Few computational techniques
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>General equilibrium concept
+</p>
+<p>beyond e.g., locally envy-free; PSNE
+</p>
+<p>Can handle reserve prices
+</p>
+<p>Can answer quantitative questions
+</p>
+<p>e.g., what fraction of optimal social welfare?
+e.g., which auction design achieves higher revenue?
+</p>
+<p>(Potential) drawbacks:
+</p>
+<p>Results tied to specific valuation distributions
+</p>
+<p>Discrete (rounding and tie-breaking)
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>What if we could analyze auctions computationally?
+</p>
+<p>Advantages:
+</p>
+<p>General valuation distribution
+</p>
+<p>beyond e.g., strong monotonicity assumptions about value per
+click across slots
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Can handle reserve prices
+</p>
+<p>Can answer quantitative questions
+</p>
+<p>e.g., what fraction of optimal social welfare?
+e.g., which auction design achieves higher revenue?
+</p>
+<p>(Potential) drawbacks:
+</p>
+<p>Results tied to specific valuation distributions
+</p>
+<p>Discrete (rounding and tie-breaking)
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>What if we could analyze auctions computationally?
+</p>
+<p>Advantages:
+</p>
+<p>General valuation distribution
+</p>
+<p>beyond e.g., strong monotonicity assumptions about value per
+click across slots
+</p>
+<p>General equilibrium concept
+</p>
+<p>beyond e.g., locally envy-free; PSNE
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Can answer quantitative questions
+</p>
+<p>e.g., what fraction of optimal social welfare?
+e.g., which auction design achieves higher revenue?
+</p>
+<p>(Potential) drawbacks:
+</p>
+<p>Results tied to specific valuation distributions
+</p>
+<p>Discrete (rounding and tie-breaking)
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>What if we could analyze auctions computationally?
+</p>
+<p>Advantages:
+</p>
+<p>General valuation distribution
+</p>
+<p>beyond e.g., strong monotonicity assumptions about value per
+click across slots
+</p>
+<p>General equilibrium concept
+</p>
+<p>beyond e.g., locally envy-free; PSNE
+</p>
+<p>Can handle reserve prices
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(Potential) drawbacks:
+</p>
+<p>Results tied to specific valuation distributions
+</p>
+<p>Discrete (rounding and tie-breaking)
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>What if we could analyze auctions computationally?
+</p>
+<p>Advantages:
+</p>
+<p>General valuation distribution
+</p>
+<p>beyond e.g., strong monotonicity assumptions about value per
+click across slots
+</p>
+<p>General equilibrium concept
+</p>
+<p>beyond e.g., locally envy-free; PSNE
+</p>
+<p>Can handle reserve prices
+</p>
+<p>Can answer quantitative questions
+</p>
+<p>e.g., what fraction of optimal social welfare?
+e.g., which auction design achieves higher revenue?
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Discrete (rounding and tie-breaking)
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>What if we could analyze auctions computationally?
+</p>
+<p>Advantages:
+</p>
+<p>General valuation distribution
+</p>
+<p>beyond e.g., strong monotonicity assumptions about value per
+click across slots
+</p>
+<p>General equilibrium concept
+</p>
+<p>beyond e.g., locally envy-free; PSNE
+</p>
+<p>Can handle reserve prices
+</p>
+<p>Can answer quantitative questions
+</p>
+<p>e.g., what fraction of optimal social welfare?
+e.g., which auction design achieves higher revenue?
+</p>
+<p>(Potential) drawbacks:
+</p>
+<p>Results tied to specific valuation distributions
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>What if we could analyze auctions computationally?
+</p>
+<p>Advantages:
+</p>
+<p>General valuation distribution
+</p>
+<p>beyond e.g., strong monotonicity assumptions about value per
+click across slots
+</p>
+<p>General equilibrium concept
+</p>
+<p>beyond e.g., locally envy-free; PSNE
+</p>
+<p>Can handle reserve prices
+</p>
+<p>Can answer quantitative questions
+</p>
+<p>e.g., what fraction of optimal social welfare?
+e.g., which auction design achieves higher revenue?
+</p>
+<p>(Potential) drawbacks:
+</p>
+<p>Results tied to specific valuation distributions
+</p>
+<p>Discrete (rounding and tie-breaking)
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Outline
+</p>
+<p>1 Position Auctions
+</p>
+<p>2 Action Graph Game Representation
+</p>
+<p>3 Experimental Setup
+</p>
+<p>4 Results
+</p>
+<p>5 Conclusion
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Question
+</p>
+<p>Is wGSP better than GFP and uGSP?
+</p>
+<p>Better by what metric?
+</p>
+<p>revenue
+efficiency
+</p>
+<p>What valuation model(s) should we consider?
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Types of position auctions
+</p>
+<p>GFP: Yahoo! and Overture 1997–2002
+</p>
+<p>uGSP: Yahoo! 2002–2007
+</p>
+<p>wGSP: Google, MSN Live, Yahoo! 2007–present
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Better by what metric?
+</p>
+<p>revenue
+efficiency
+</p>
+<p>What valuation model(s) should we consider?
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Types of position auctions
+</p>
+<p>GFP: Yahoo! and Overture 1997–2002
+</p>
+<p>uGSP: Yahoo! 2002–2007
+</p>
+<p>wGSP: Google, MSN Live, Yahoo! 2007–present
+</p>
+<p>Question
+</p>
+<p>Is wGSP better than GFP and uGSP?
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Types of position auctions
+</p>
+<p>GFP: Yahoo! and Overture 1997–2002
+</p>
+<p>uGSP: Yahoo! 2002–2007
+</p>
+<p>wGSP: Google, MSN Live, Yahoo! 2007–present
+</p>
+<p>Question
+</p>
+<p>Is wGSP better than GFP and uGSP?
+</p>
+<p>Better by what metric?
+</p>
+<p>revenue
+efficiency
+</p>
+<p>What valuation model(s) should we consider?
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Edelman, Ostrovsky & Schwarz (2007)
+</p>
+<p>1 
+</p>
+<p>0.9 
+</p>
+<p>0.8 
+</p>
+<p>0.7 
+</p>
+<p>0.6 
+</p>
+<p>0.5 
+Clicks / Impression 
+</p>
+<p>0.4  1's Value / Impression 
+</p>
+<p>0.3  2's Value / Impression 
+</p>
+<p>0.2 
+</p>
+<p>0.1 
+</p>
+<p>0 
+</p>
+<p>One click-through rate for everyone
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>Posi1on 1 
+</p>
+<p>Posi1on 2 
+</p>
+<p>Posi1on 3 
+</p>
+<p>Posi1on 4 
+</p>
+<p>Posi1on 5 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Varian (2007)
+</p>
+<p>1 
+</p>
+<p>0.9 
+</p>
+<p>0.8 
+</p>
+<p>0.7 
+</p>
+<p>0.6 
+</p>
+<p>0.5  1's Clicks / Impression 
+</p>
+<p>1's Value / Impression 
+0.4 
+</p>
+<p>2's Clicks / Impression 
+0.3  2's Value / Impression 
+</p>
+<p>0.2 
+</p>
+<p>0.1 
+</p>
+<p>0 
+</p>
+<p>Click-through rates for different bidders are proportional
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>Posi1on 1 
+</p>
+<p>Posi1on 2 
+</p>
+<p>Posi1on 3 
+</p>
+<p>Posi1on 4 
+</p>
+<p>Posi1on 5 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Blumrosen, Hartline & Nong (2008)
+</p>
+<p>1 
+</p>
+<p>0.9 
+</p>
+<p>0.8 
+</p>
+<p>0.7 
+</p>
+<p>0.6 
+1's Clicks / Impression 
+</p>
+<p>0.5  1's Conversions / Click 
+</p>
+<p>1's Value / Impression 
+0.4 
+</p>
+<p>2's Clicks / Impression 
+0.3  2's Conversions / Click 
+</p>
+<p>0.2  2's Value / Impression 
+</p>
+<p>0.1 
+</p>
+<p>0 
+</p>
+<p>Proportional, per-bidder click-through rates
+</p>
+<p>Proportional, per-bidder conversion rates
+</p>
+<p>Fewer clicks, higher conversion rate in lower slots
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>Posi1on 1 
+</p>
+<p>Posi1on 2 
+</p>
+<p>Posi1on 3 
+</p>
+<p>Posi1on 4 
+</p>
+<p>Posi1on 5 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Benisch, Sadeh & Sandholm (2008)
+</p>
+<p>1 
+</p>
+<p>0.9 
+</p>
+<p>0.8 
+</p>
+<p>0.7 
+</p>
+<p>0.6 
+Clicks / Impression 
+</p>
+<p>0.5 
+1's Conversions / Click 
+</p>
+<p>0.4  1's Value / Impression 
+</p>
+<p>0.3  2's Conversions / Click 
+</p>
+<p>2's Value / Impression 
+0.2 
+</p>
+<p>0.1 
+</p>
+<p>0 
+</p>
+<p>One click-through rate for everyone
+</p>
+<p>Conversion rates are single-peaked, not proportional
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>Posi1on 1 
+</p>
+<p>Posi1on 2 
+</p>
+<p>Posi1on 3 
+</p>
+<p>Posi1on 4 
+</p>
+<p>Posi1on 5 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Outline
+</p>
+<p>1 Position Auctions
+</p>
+<p>2 Action Graph Game Representation
+</p>
+<p>3 Experimental Setup
+</p>
+<p>4 Results
+</p>
+<p>5 Conclusion
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Problem: it’s a really big normal-form game:
+</p>
+<p>e.g., 10 bidders, 8 slots, bids in {0, 1, . . . , 40}: ∼700,000TB
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Analyzing Position Auctions as Games
+</p>
+<p>Most existing literature analyzes position auctions as
+unrepeated, perfect-information interactions
+</p>
+<p>unrepeated: probability one user will click on an ad is
+independent of the probability for the next user
+perfect info: bidders can probe each others’ values
+</p>
+<p>Given a valuation model for each advertiser and a fixed
+number of bid increments, we have a big normal-form game.
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Analyzing Position Auctions as Games
+</p>
+<p>Most existing literature analyzes position auctions as
+unrepeated, perfect-information interactions
+</p>
+<p>unrepeated: probability one user will click on an ad is
+independent of the probability for the next user
+perfect info: bidders can probe each others’ values
+</p>
+<p>Given a valuation model for each advertiser and a fixed
+number of bid increments, we have a big normal-form game.
+</p>
+<p>Problem: it’s a really big normal-form game:
+</p>
+<p>e.g., 10 bidders, 8 slots, bids in {0, 1, . . . , 40}: ∼700,000TB
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Representational savings:
+</p>
+<p>Exponentially smaller
+Even smaller using function nodes (e.g. sum, max)
+</p>
+<p>Computational savings:
+</p>
+<p>Exponential speedup in expected utility calculations
+Implies exponential speedup in
+</p>
+<p>simpdiv [Scarf, 1967];
+gnm [Govindan, Wilson, 2005]
+both are implemented in Gambit [McKevley et al, 2006]
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Action Graph Games [Bhat, L-B, 2004; Jiang, L-B, 2006]
+</p>
+<p>A compact representation for perfect-information,
+simultaneous-move games
+</p>
+<p>Like Bayes nets or graphical games: big table → directed
+graph and small tables
+Nodes correspond to actions. Table gives utility for playing a
+given action based on number of agents playing each
+neighboring action.
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Action Graph Games [Bhat, L-B, 2004; Jiang, L-B, 2006]
+</p>
+<p>A compact representation for perfect-information,
+simultaneous-move games
+</p>
+<p>Like Bayes nets or graphical games: big table → directed
+graph and small tables
+Nodes correspond to actions. Table gives utility for playing a
+given action based on number of agents playing each
+neighboring action.
+</p>
+<p>Representational savings:
+</p>
+<p>Exponentially smaller
+Even smaller using function nodes (e.g. sum, max)
+</p>
+<p>Computational savings:
+</p>
+<p>Exponential speedup in expected utility calculations
+Implies exponential speedup in
+</p>
+<p>simpdiv [Scarf, 1967];
+gnm [Govindan, Wilson, 2005]
+both are implemented in Gambit [McKevley et al, 2006]
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position depends on number of higher/equal bids
+</p>
+<p>add 2 sum nodes per action
+GSP price depends on next highest bid
+</p>
+<p>add 1 max node per action
+utility tables for each action:
+</p>
+<p>GFP: O(n2) (# possible tuples from sum nodes)
+wGSP: O(n3m) (also includes values of max node, which
+depends on both per-bidder weight and amount)
+</p>
+<p>Overall: AGGs are O(n4m2), vs NFGs O(nmn)
+10 bidders, 8 slots, bids in {0, 1, . . . , 40}
+</p>
+<p>NFGs: ∼700,000TB, vs. AGGs: <80MB
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Representing Position Auctions as AGGs
+</p>
+<p>n bidders, m bid increments
+</p>
+<p>nm actions
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GSP price depends on next highest bid
+</p>
+<p>add 1 max node per action
+utility tables for each action:
+</p>
+<p>GFP: O(n2) (# possible tuples from sum nodes)
+wGSP: O(n3m) (also includes values of max node, which
+depends on both per-bidder weight and amount)
+</p>
+<p>Overall: AGGs are O(n4m2), vs NFGs O(nmn)
+10 bidders, 8 slots, bids in {0, 1, . . . , 40}
+</p>
+<p>NFGs: ∼700,000TB, vs. AGGs: <80MB
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Representing Position Auctions as AGGs
+</p>
+<p>n bidders, m bid increments
+</p>
+<p>nm actions
+</p>
+<p>Position depends on number of higher/equal bids
+</p>
+<p>add 2 sum nodes per action
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>utility tables for each action:
+</p>
+<p>GFP: O(n2) (# possible tuples from sum nodes)
+wGSP: O(n3m) (also includes values of max node, which
+depends on both per-bidder weight and amount)
+</p>
+<p>Overall: AGGs are O(n4m2), vs NFGs O(nmn)
+10 bidders, 8 slots, bids in {0, 1, . . . , 40}
+</p>
+<p>NFGs: ∼700,000TB, vs. AGGs: <80MB
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Representing Position Auctions as AGGs
+</p>
+<p>n bidders, m bid increments
+</p>
+<p>nm actions
+</p>
+<p>Position depends on number of higher/equal bids
+</p>
+<p>add 2 sum nodes per action
+GSP price depends on next highest bid
+</p>
+<p>add 1 max node per action
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>10 bidders, 8 slots, bids in {0, 1, . . . , 40}
+NFGs: ∼700,000TB, vs. AGGs: <80MB
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Representing Position Auctions as AGGs
+</p>
+<p>n bidders, m bid increments
+</p>
+<p>nm actions
+</p>
+<p>Position depends on number of higher/equal bids
+</p>
+<p>add 2 sum nodes per action
+GSP price depends on next highest bid
+</p>
+<p>add 1 max node per action
+utility tables for each action:
+</p>
+<p>GFP: O(n2) (# possible tuples from sum nodes)
+wGSP: O(n3m) (also includes values of max node, which
+depends on both per-bidder weight and amount)
+</p>
+<p>Overall: AGGs are O(n4m2), vs NFGs O(nmn)
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Representing Position Auctions as AGGs
+</p>
+<p>n bidders, m bid increments
+</p>
+<p>nm actions
+</p>
+<p>Position depends on number of higher/equal bids
+</p>
+<p>add 2 sum nodes per action
+GSP price depends on next highest bid
+</p>
+<p>add 1 max node per action
+utility tables for each action:
+</p>
+<p>GFP: O(n2) (# possible tuples from sum nodes)
+wGSP: O(n3m) (also includes values of max node, which
+depends on both per-bidder weight and amount)
+</p>
+<p>Overall: AGGs are O(n4m2), vs NFGs O(nmn)
+10 bidders, 8 slots, bids in {0, 1, . . . , 40}
+</p>
+<p>NFGs: ∼700,000TB, vs. AGGs: <80MB
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Outline
+</p>
+<p>1 Position Auctions
+</p>
+<p>2 Action Graph Game Representation
+</p>
+<p>3 Experimental Setup
+</p>
+<p>4 Results
+</p>
+<p>5 Conclusion
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Specifying details
+</p>
+<p>Game size: 10 bidders, 8 slots, values in [0,40]1
+</p>
+<p>Game instances: 100 draws from each model
+</p>
+<p>assuming a uniform distribution on all free model parameters
+normalizing the highest value to be equal to the highest bid
+amount, so that all increments are potentially useful
+</p>
+<p>Discretization: ties broken randomly, prices rounded up, 1
+increment reserve price
+</p>
+<p>Multiple runs: 10 runs each of simpdiv and gnm, randomized
+starting points
+</p>
+<p>1We also considered three other sizes in our paper.
+Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How?
+Remove bids above value (always dominated)
+</p>
+<p>Thus we restrict to conservative Nash equilibria
+[Paes Leme and Tardos, 2009]
+</p>
+<p>Multiple runs
+SLS through equilibrium space
+</p>
+<p>maximize/minimize revenue/welfare
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Equilibrium selection
+</p>
+<p>We need to decide which equilibria to report.
+</p>
+<p>Why?
+</p>
+<p>Our solvers return arbitrary equilibria; many exist.
+GSP best response set is interval (sets price for bidder above)
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Equilibrium selection
+</p>
+<p>We need to decide which equilibria to report.
+</p>
+<p>Why?
+</p>
+<p>Our solvers return arbitrary equilibria; many exist.
+GSP best response set is interval (sets price for bidder above)
+</p>
+<p>How?
+Remove bids above value (always dominated)
+</p>
+<p>Thus we restrict to conservative Nash equilibria
+[Paes Leme and Tardos, 2009]
+</p>
+<p>Multiple runs
+SLS through equilibrium space
+</p>
+<p>maximize/minimize revenue/welfare
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Statistical methods
+</p>
+<p>Goal: Quantitative, comparisons across mechanisms
+</p>
+<p>Is A better than B?
+</p>
+<p>Problem: Possibly insignificant conclusions.
+</p>
+<p>Solution: A conservative, nonparametric statistical test, with
+multiple testing correction.
+</p>
+<p>∗∗ denotes significance at or above p = 0.01
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Outline
+</p>
+<p>1 Position Auctions
+</p>
+<p>2 Action Graph Game Representation
+</p>
+<p>3 Experimental Setup
+</p>
+<p>4 Results
+</p>
+<p>5 Conclusion
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem (Paes Leme & Tardos, 2009)
+</p>
+<p>In EOS and V models, wGSP is 1.62-efficient in every conservative
+Nash equilibrium.2
+</p>
+<p>Theorem (Blumrosen, Hartline & Nong, 2008)
+</p>
+<p>There are cases in the BHN model where wGSP is not efficient in
+any pure-strategy Nash equilibrium.
+</p>
+<p>Theorem (Benisch, Sadeh & Sandholm, 2008)
+</p>
+<p>There are cases in the BSS model where wGSP is not efficient in
+any pure-strategy Bayes-Nash equilibrium.2
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Efficiency: what is known theoretically?
+</p>
+<p>Theorem (Edelman, Ostrovsky & Schwarz, 2007; Varian, 2007)
+</p>
+<p>In EOS and V models, wGSP is efficient in every envy-free Nash
+equilibrium.2
+</p>
+<p>2Caveat: these results apply to continuous case without reserve price.
+Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem (Blumrosen, Hartline & Nong, 2008)
+</p>
+<p>There are cases in the BHN model where wGSP is not efficient in
+any pure-strategy Nash equilibrium.
+</p>
+<p>Theorem (Benisch, Sadeh & Sandholm, 2008)
+</p>
+<p>There are cases in the BSS model where wGSP is not efficient in
+any pure-strategy Bayes-Nash equilibrium.2
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Efficiency: what is known theoretically?
+</p>
+<p>Theorem (Edelman, Ostrovsky & Schwarz, 2007; Varian, 2007)
+</p>
+<p>In EOS and V models, wGSP is efficient in every envy-free Nash
+equilibrium.2
+</p>
+<p>Theorem (Paes Leme & Tardos, 2009)
+</p>
+<p>In EOS and V models, wGSP is 1.62-efficient in every conservative
+Nash equilibrium.2
+</p>
+<p>2Caveat: these results apply to continuous case without reserve price.
+Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem (Benisch, Sadeh & Sandholm, 2008)
+</p>
+<p>There are cases in the BSS model where wGSP is not efficient in
+any pure-strategy Bayes-Nash equilibrium.2
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Efficiency: what is known theoretically?
+</p>
+<p>Theorem (Edelman, Ostrovsky & Schwarz, 2007; Varian, 2007)
+</p>
+<p>In EOS and V models, wGSP is efficient in every envy-free Nash
+equilibrium.2
+</p>
+<p>Theorem (Paes Leme & Tardos, 2009)
+</p>
+<p>In EOS and V models, wGSP is 1.62-efficient in every conservative
+Nash equilibrium.2
+</p>
+<p>Theorem (Blumrosen, Hartline & Nong, 2008)
+</p>
+<p>There are cases in the BHN model where wGSP is not efficient in
+any pure-strategy Nash equilibrium.
+</p>
+<p>2Caveat: these results apply to continuous case without reserve price.
+Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Efficiency: what is known theoretically?
+</p>
+<p>Theorem (Edelman, Ostrovsky & Schwarz, 2007; Varian, 2007)
+</p>
+<p>In EOS and V models, wGSP is efficient in every envy-free Nash
+equilibrium.2
+</p>
+<p>Theorem (Paes Leme & Tardos, 2009)
+</p>
+<p>In EOS and V models, wGSP is 1.62-efficient in every conservative
+Nash equilibrium.2
+</p>
+<p>Theorem (Blumrosen, Hartline & Nong, 2008)
+</p>
+<p>There are cases in the BHN model where wGSP is not efficient in
+any pure-strategy Nash equilibrium.
+</p>
+<p>Theorem (Benisch, Sadeh & Sandholm, 2008)
+</p>
+<p>There are cases in the BSS model where wGSP is not efficient in
+any pure-strategy Bayes-Nash equilibrium.2
+</p>
+<p>2Caveat: these results apply to continuous case without reserve price.
+Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Efficiency: Experimental Questions
+</p>
+<p>Question
+</p>
+<p>When we go beyond restricted equilibrium families (e.g.,
+envy-free), what happens?
+</p>
+<p>Question
+</p>
+<p>How common are efficiency failures, and how severe are they?
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Results: Efficiency
+</p>
+<p>VCG
+</p>
+<p>Broad conclusion: {uGSP,GFP} ≤∗∗ wGSP ≤∗∗ VCG
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Question
+</p>
+<p>When we go beyond envy-free equilibria, does this result still hold?
+</p>
+<p>Question
+</p>
+<p>How do different auction designs compare in terms of revenue?
+</p>
+<p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Revenue: Theoretical Predictions and Questions
+</p>
+<p>Theorem (Edelman, Ostrovsky & Schwarz, 2007; Varian, 2007)
+</p>
+<p>In EOS and V models, wGSP generates more revenue than VCG in
+every “envy-free” Nash equilibrium.
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Revenue: Theoretical Predictions and Questions
+</p>
+<p>Theorem (Edelman, Ostrovsky & Schwarz, 2007; Varian, 2007)
+</p>
+<p>In EOS and V models, wGSP generates more revenue than VCG in
+every “envy-free” Nash equilibrium.
+</p>
+<p>Question
+</p>
+<p>When we go beyond envy-free equilibria, does this result still hold?
+</p>
+<p>Question
+</p>
+<p>How do different auction designs compare in terms of revenue?
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>EOS: revenue range
+</p>
+<p>0.2
+</p>
+<p>0.1
+</p>
+<p>0.0
+</p>
+<p>0.1
+</p>
+<p>0.2
+</p>
+<p>0.3
+</p>
+<p>0.4
+Lowest NE Highest NE
+</p>
+<p>(µ=-0.1054) (µ=-0.0187)
+</p>
+<p>EOS: Without envy-free restriction but with restriction to
+conservative equilibria:
+</p>
+<p>expected worst wGSP revenue <∗∗ expected VCG revenue
+</p>
+<p>expected best wGSP revenue <∗∗ expected VCG revenue
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>∆ Revenue (wGSP-VCG)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>V: revenue range
+</p>
+<p>0.2
+</p>
+<p>0.1
+</p>
+<p>0.0
+</p>
+<p>0.1
+</p>
+<p>0.2
+</p>
+<p>0.3
+</p>
+<p>0.4
+Low High
+</p>
+<p>(µ=-0.1425) (µ=0.0057)
+</p>
+<p>V: Without envy-free restriction but with restriction to
+conservative equilibria:
+</p>
+<p>expected worst wGSP revenue <∗∗ expected VCG revenue
+</p>
+<p>expected best wGSP revenue >∗∗ expected VCG revenue
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>∆ Revenue (wGSP-VCG)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>V: best-case revenue
+</p>
+<p>1.0
+</p>
+<p>0.8
+</p>
+<p>0.6
+</p>
+<p>0.4
+</p>
+<p>0.2
+</p>
+<p>0.0
+GFP uGSP wGSP
+</p>
+<p>(µ=0.6019) (µ=0.6066) (µ=0.6671)
+</p>
+<p>No significant revenue difference between the mechanisms.
+Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>Revenue</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>V: best-case revenue
+</p>
+<p>1
+</p>
+<p>0.9
+</p>
+<p>0.8
+</p>
+<p>0.7
+</p>
+<p>0.6
+</p>
+<p>0.5
+</p>
+<p>0.4
+</p>
+<p>0.3
+</p>
+<p>0.2
+</p>
+<p>0.1
+</p>
+<p>0
+</p>
+<p>0 0.2 0.4 0.6 0.8 1
+</p>
+<p>wGSP Revenue
+</p>
+<p>No significant revenue difference between the mechanisms.
+Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>uGSP Reevenue</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>BHN: revenue comparison
+</p>
+<p>1.0
+GFP (µ=0.3354)
+uGSP (µ=0.3772)
+</p>
+<p>0.8 wGSP (µ=0.4073)
+</p>
+<p>0.6
+</p>
+<p>0.4
+</p>
+<p>0.2
+</p>
+<p>0.0
+0.0 0.2 0.4 0.6 0.8 1.0
+</p>
+<p>Revenue
+</p>
+<p>Expected wGSP revenue >∗∗ expected GFP/uGSP revenue
+</p>
+<p>not significant at all problem sizes we studied
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>Cumulative  Probability</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>BSS: revenue comparison
+</p>
+<p>1.0
+</p>
+<p>0.8
+</p>
+<p>0.6
+</p>
+<p>0.4
+</p>
+<p>0.2
+</p>
+<p>0.0
+GFP wGSP
+</p>
+<p>(µ=0.5149) (µ=0.4554)
+</p>
+<p>Expected GFP revenue >∗∗ expected uGSP/wGSP revenue
+</p>
+<p>not significant at all problem sizes we studied
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson
+</p>
+<p>Revenue</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Outline
+</p>
+<p>1 Position Auctions
+</p>
+<p>2 Action Graph Game Representation
+</p>
+<p>3 Experimental Setup
+</p>
+<p>4 Results
+</p>
+<p>5 Conclusion
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Conclusion
+</p>
+<p>This approach is possible and yields real economic insights!
+</p>
+<p>Efficiency: wGSP is more efficient (even in difficult models)
+and very robust to equilibrium selection.
+</p>
+<p>Revenue: Ranking is unclear. Equilibrium selection and
+instance details have large impact.
+</p>
+<p>Code and data are available at:
+http://www.cs.ubc.ca/research/position_auctions/
+</p>
+<p>This work was supported by Microsoft’s Beyond Search program.
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Position Auctions AGGs Experimental Setup Results Conclusion
+</p>
+<p>Future work
+</p>
+<p>Learning distributions from real-world data
+</p>
+<p>Generalize representation to other models (e.g. cascade)
+</p>
+<p>Better game solving techniques (e.g. provable bounds on
+revenue and welfare)
+</p>
+<p>Computational Analysis of Position Auctions Kevin Leyton-Brown, joint work with David R.M. Thompson</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

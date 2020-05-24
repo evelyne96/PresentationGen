@@ -1,0 +1,1277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Pure Strategy Nash Equilibria in
+Compact Symmetric Games
+.=</p>
+<p>Christopher Thomas Ryan,
+Albert Xin Jiang, Kevin Leyton-Brown
+.=</p>
+<p>University of British Columbia, Vancouver, Canada
+.=</p>
+<p>1 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Pure Strategy Nash Equilibria (PSNE)
+.=</p>
+<p>2 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Pure Strategy Nash Equilibria (PSNE)
+.=</p>
+<p>◮ Computational questions: How hard is it to decide if a game
+has a PSNE? How hard is it to find one? etc.
+.=</p>
+<p>2 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Pure Strategy Nash Equilibria (PSNE)
+.=</p>
+<p>◮ Computational questions: How hard is it to decide if a game
+has a PSNE? How hard is it to find one? etc.
+.=</p>
+<p>◮ Answer: depends on the input.
+◮ Polynomial time when input is in normal form.
+.=</p>
+<p>◮ size exponential in the number of players
+.=</p>
+<p>2 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Pure Strategy Nash Equilibria (PSNE)
+.=</p>
+<p>◮ Computational questions: How hard is it to decide if a game
+has a PSNE? How hard is it to find one? etc.
+.=</p>
+<p>◮ Answer: depends on the input.
+◮ Polynomial time when input is in normal form.
+.=</p>
+<p>◮ size exponential in the number of players
+.=</p>
+<p>◮ Potentially difficult (NP-complete, PLS-complete) when input
+is “compact”.
+.=</p>
+<p>◮ Congestion games [Fabrikant, Papadimitriou & Talwar, 2004;
+Ieong et al., 2005]
+.=</p>
+<p>◮ Graphical games [Gottlob, Greco & Scarcello 2005]
+◮ Action graph games [Jiang & Leyton-Brown, 2007;
+.=</p>
+<p>Daskalakis, Schoenebeck, Valiant & Valiant 2009]
+.=</p>
+<p>2 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetric Games
+.=</p>
+<p>◮ We focus on
+◮ Symmetric games: all players are identical and
+.=</p>
+<p>indistinguishable.
+◮ Fixed number of actions m, varying number of players n.
+◮ Utilities are integers.
+.=</p>
+<p>3 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetric Games
+.=</p>
+<p>◮ We focus on
+◮ Symmetric games: all players are identical and
+.=</p>
+<p>indistinguishable.
+◮ Fixed number of actions m, varying number of players n.
+◮ Utilities are integers.
+.=</p>
+<p>◮ Define configuration:
+.=</p>
+<p>x = (xa : a ∈ A)
+.=</p>
+<p>where xa is the number of players playing action a.
+.=</p>
+<p>3 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetric Games
+.=</p>
+<p>◮ We focus on
+◮ Symmetric games: all players are identical and
+.=</p>
+<p>indistinguishable.
+◮ Fixed number of actions m, varying number of players n.
+◮ Utilities are integers.
+.=</p>
+<p>◮ Define configuration:
+.=</p>
+<p>x = (xa : a ∈ A)
+.=</p>
+<p>where xa is the number of players playing action a.
+.=</p>
+<p>◮ Sufficient to specify utility function ua(x) for each action a
+and each configuration x.
+.=</p>
+<p>( )
+.=</p>
+<p>There are n+m−1◮ 1 = Θ(n
+m−1) distinct configurations.
+.=</p>
+<p>m−
+.=</p>
+<p>3 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetric Games
+.=</p>
+<p>◮ We focus on
+◮ Symmetric games: all players are identical and
+.=</p>
+<p>indistinguishable.
+◮ Fixed number of actions m, varying number of players n.
+◮ Utilities are integers.
+.=</p>
+<p>◮ Define configuration:
+.=</p>
+<p>x = (xa : a ∈ A)
+.=</p>
+<p>where xa is the number of players playing action a.
+.=</p>
+<p>◮ Sufficient to specify utility function ua(x) for each action a
+and each configuration x.
+.=</p>
+<p>( )
+.=</p>
+<p>◮ There are n+m−11 = Θ(n
+m−1) distinct configurations.
+.=</p>
+<p>m−
+◮ In previous studies [e.g. Brandt, Fischer & Holzer, 2009;
+.=</p>
+<p>Roughgarden & Papadimitriou, 2005], utility values are given
+explicitly.
+.=</p>
+<p>3 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetric Games
+.=</p>
+<p>◮ We focus on
+◮ Symmetric games: all players are identical and
+.=</p>
+<p>indistinguishable.
+◮ Fixed number of actions m, varying number of players n.
+◮ Utilities are integers.
+.=</p>
+<p>◮ Define configuration:
+.=</p>
+<p>x = (xa : a ∈ A)
+.=</p>
+<p>where xa is the number of players playing action a.
+.=</p>
+<p>◮ Sufficient to specify utility function ua(x) for each action a
+and each configuration x.
+.=</p>
+<p>( )
+.=</p>
+<p>There are n+m−1 = Θ(nm−1◮ 1 ) distinct configurations.m−
+◮ In previous studies [e.g. Brandt, Fischer & Holzer, 2009;
+.=</p>
+<p>Roughgarden & Papadimitriou, 2005], utility values are given
+explicitly.
+.=</p>
+<p>◮ Compute PSNE in poly time by enumerating configurations
+.=</p>
+<p>3 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More compact representations of ua
+.=</p>
+<p>◮ We focus on compact representations of ua: those requiring
+only poly(log n) bits.
+.=</p>
+<p>4 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More compact representations of ua
+.=</p>
+<p>◮ We focus on compact representations of ua: those requiring
+only poly(log n) bits.
+.=</p>
+<p>◮ Sanity check:
+◮ Specifying input: need only m log n bits.
+.=</p>
+<p>{ }
+.=</p>
+<p>( )
+.=</p>
+<p>◮ Specifying output: can map utilities to 1 2 n+m−1, , . . . ,
+m−1
+.=</p>
+<p>while preserving PSNE, thus need only O(log n) bits.
+.=</p>
+<p>4 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More compact representations of ua
+.=</p>
+<p>◮ We focus on compact representations of ua: those requiring
+only poly(log n) bits.
+.=</p>
+<p>◮ Sanity check:
+◮ Specifying input: need only m log n bits.
+.=</p>
+<p>{ }
+.=</p>
+<p>( )
+.=</p>
+<p>◮ Specifying output: can map utilities to 1 2 n+m−1, , . . . ,
+m−1
+.=</p>
+<p>while preserving PSNE, thus need only O(log n) bits.
+.=</p>
+<p>◮ Computing PSNE: with such a compact representation, is it
+even in NP?
+.=</p>
+<p>4 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More compact representations of ua
+.=</p>
+<p>◮ We focus on compact representations of ua: those requiring
+only poly(log n) bits.
+.=</p>
+<p>◮ Sanity check:
+◮ Specifying input: need only m log n bits.
+.=</p>
+<p>{ }
+.=</p>
+<p>( )
+.=</p>
+<p>◮ Specifying output: can map utilities to 1 n+m−1, 2, . . . ,
+m−1
+.=</p>
+<p>while preserving PSNE, thus need only O(log n) bits.
+.=</p>
+<p>◮ Computing PSNE: with such a compact representation, is it
+even in NP?
+.=</p>
+<p>◮ To check if x is in N , the set of of PSNE configurations, only
+need to check for each pair of actions a and a′, whether there
+is a profitable deviation from playing a to playing a′.
+.=</p>
+<p>◮ Checking whether x ∈ N is in P (thus computing PSNE in NP)
+if the utility functions can be evaluated in poly time.
+.=</p>
+<p>4 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Circuit Symmetric Games
+.=</p>
+<p>◮ How hard can it get?
+◮ Represent each ua by a Boolean circuit
+.=</p>
+<p>◮ general method for representing utility functions; complexity
+for other circuit-based models studied in e.g. [Schoenebeck &
+Vadhan, 2006]
+.=</p>
+<p>◮ Compact when number of gates is poly(log n)
+.=</p>
+<p>5 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Circuit Symmetric Games
+.=</p>
+<p>◮ How hard can it get?
+◮ Represent each ua by a Boolean circuit
+.=</p>
+<p>◮ general method for representing utility functions; complexity
+for other circuit-based models studied in e.g. [Schoenebeck &
+Vadhan, 2006]
+.=</p>
+<p>◮ Compact when number of gates is poly(log n)
+.=</p>
+<p>Theorem (Circuit symmetric games)
+.=</p>
+<p>◮ When utilities are represented by Boolean circuits, and m ≥ 3,
+deciding if a PSNE exists is NP-complete.
+.=</p>
+<p>◮ When m = 2, there exists at least one PSNE and a sample
+PSNE can be found in poly time.
+.=</p>
+<p>◮ existence of PSNE for the m = 2 case was proved by [Cheng, Reeves,
+Vorobeychik & Wellman 2004]; also follows from the fact that such a
+game is a potential game.
+.=</p>
+<p>5 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Piecewise-linear symmetric games
+.=</p>
+<p>◮ We can do better by considering a natural subclass:
+piecewise-linear functions.
+.=</p>
+<p>6 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Piecewise-linear symmetric games
+.=</p>
+<p>◮ We can do better by considering a natural subclass:
+piecewise-linear functions.
+.=</p>
+<p>Theorem (Informal version)
+.=</p>
+<p>When utilities are expressed as piecewise-linear functions, there
+.=</p>
+<p>exist polynomial time algorithms to decide if a PSNE exists and
+.=</p>
+<p>find a sample equilibrium.
+.=</p>
+<p>6 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PWL symmetric game
+.=</p>
+<p>7 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PWL symmetric game
+.=</p>
+<p>◮ Domain of utility functions:
+configurations
+.=</p>
+<p>{ }
+.=</p>
+<p>∑
+.=</p>
+<p>D = mx ∈ Z : x xa = n, x ≥ 0 3
+.=</p>
+<p>a∈A
+n
+.=</p>
+<p>D
+.=</p>
+<p>n x2
+.=</p>
+<p>n x1
+.=</p>
+<p>7 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PWL symmetric game
+.=</p>
+<p>◮ Domain of utility functions:
+configurations
+.=</p>
+<p>{ }
+.=</p>
+<p>∑
+.=</p>
+<p>= ∈ mD x Z : xa = n, x ≥ 0
+a∈A
+.=</p>
+<p>D
+.=</p>
+<p>7 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PWL symmetric game
+.=</p>
+<p>◮ Domain of utility functions:
+configurations
+.=</p>
+<p>{ }
+.=</p>
+<p>∑
+.=</p>
+<p>D = x ∈ mZ : xa = n, x ≥ 0
+a∈A
+.=</p>
+<p>◮ Piecewise linear utilities: For
+each a ∈ A:
+.=</p>
+<p>⊎
+.=</p>
+<p>D = ( mPa j ∩ Z ),
+Pa j∈P, a
+.=</p>
+<p>Paj
+.=</p>
+<p>7 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PWL symmetric game
+.=</p>
+<p>◮ Domain of utility functions:
+configurations
+.=</p>
+<p>{ }
+.=</p>
+<p>∑
+.=</p>
+<p>m f (x)
+D = x ∈ Z : xa = n, x ≥ 0
+.=</p>
+<p>aj
+.=</p>
+<p>a∈A
+.=</p>
+<p>◮ Piecewise linear utilities: For
+each a ∈ A:
+.=</p>
+<p>⊎
+.=</p>
+<p>D = (Pa j ∩
+m
+.=</p>
+<p>Z )
+,
+.=</p>
+<p>Pa ∈P,j a
+.=</p>
+<p>Paj
+.=</p>
+<p>◮ Over each cell Pa ∩
+m
+.=</p>
+<p>Z there
+,j
+.=</p>
+<p>is an affine function
+fa j (x) = αa j · x+ β ., , a,j
+.=</p>
+<p>7 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PWL symmetric game
+.=</p>
+<p>◮ Domain of utility functions:
+configurations
+.=</p>
+<p>{ }
+.=</p>
+<p>∑
+.=</p>
+<p>m u (x)
+D = x ∈ Z : xa = n, x ≥ 0
+.=</p>
+<p>a
+.=</p>
+<p>a∈A
+.=</p>
+<p>◮ Piecewise linear utilities: For
+each a ∈ A:
+.=</p>
+<p>⊎
+.=</p>
+<p>= ( ∩ mD Pa j Z ),
+Pa j∈P, a
+.=</p>
+<p>◮ Over each cell P ma j ∩ Z there,
+is an affine function
+fa j (x) = αa j · x+ β, , a j .,
+.=</p>
+<p>◮ Piecing them together:
+.=</p>
+<p>m
+ua(x) = fa j (x) for x ∈ Pa j ∩Z, ,
+.=</p>
+<p>◮ Compact when number of
+pieces |Pa| is poly(log n).
+.=</p>
+<p>7 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem (Formal version)
+.=</p>
+<p>Consider a symmetric game with PWL utilities
+.=</p>
+<p>given by the following input:
+.=</p>
+<p>◮ the binary encoding of the number n of
+.=</p>
+<p>players;
+.=</p>
+<p>◮ for each a ∈ A, the utility function ua(x)
+represented as the binary encoding of the ua(x)
+.=</p>
+<p>inequality description of each Paj and
+.=</p>
+<p>affine functions faj .
+.=</p>
+<p>8 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem (Formal version)
+.=</p>
+<p>Consider a symmetric game with PWL utilities
+.=</p>
+<p>given by the following input:
+.=</p>
+<p>◮ the binary encoding of the number n of
+.=</p>
+<p>players;
+.=</p>
+<p>◮ for each a ∈ A, the utility function ua(x)
+represented as the binary encoding of the ua(x)
+.=</p>
+<p>inequality description of each Paj and
+.=</p>
+<p>affine functions faj .
+.=</p>
+<p>Then, when the number of actions m is fixed,
+.=</p>
+<p>and even when the number of pieces are
+.=</p>
+<p>poly(log n), there exists
+.=</p>
+<p>1. a polynomial-time algorithm to compute
+the number of PSNE
+.=</p>
+<p>2. a polynomial-time algorithm to find a
+sample PSNE
+.=</p>
+<p>3. a polynomial-space, polynomial-delay
+enumeration algorithm to enumerate all
+.=</p>
+<p>PSNE.
+.=</p>
+<p>8 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tool of analysis
+◮ Encode the set of PSNE by a rational generating function.
+.=</p>
+<p>◮ Leverage theory from encoding sets of polytopal lattice points.
+.=</p>
+<p>◮ previously applied in combinatorics, optimization, compiler
+design [e.g. De Loera et al. 2007]
+.=</p>
+<p>9 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tool of analysis
+◮ Encode the set of PSNE by a rational generating function.
+.=</p>
+<p>◮ Leverage theory from encoding sets of polytopal lattice points.
+.=</p>
+<p>◮ previously applied in combinatorics, optimization, compiler
+design [e.g. De Loera et al. 2007]
+.=</p>
+<p>x3
+.=</p>
+<p>n
+D
+.=</p>
+<p>n x2
+.=</p>
+<p>n x1
+.=</p>
+<p>9 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generating function encoding
+.=</p>
+<p>◮ Given S ⊆ nZ we represent the points as a generating
+function:
+.=</p>
+<p>∑
+.=</p>
+<p>g(S ,w) = wa1 a2 an1 w2 · · ·wn
+a∈S
+.=</p>
+<p>10 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generating function encoding
+.=</p>
+<p>◮ Given S ⊆ nZ we represent the points as a generating
+function:
+.=</p>
+<p>∑
+.=</p>
+<p>g(S w) = wa1wa2 · · ·wa, n1 2 n
+a∈S
+.=</p>
+<p>◮ wi are complex variables
+.=</p>
+<p>◮ Point (2,−3) is encoded as monomial w2 −31w2 .
+.=</p>
+<p>10 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generating function encoding
+.=</p>
+<p>Given S ⊆ n◮ Z we represent the points as a generating
+function:
+.=</p>
+<p>∑
+.=</p>
+<p>g(S ,w) = wa1wa21 2 · · ·w
+an
+n
+.=</p>
+<p>a∈S
+.=</p>
+<p>◮ wi are complex variables
+.=</p>
+<p>◮ Point (2,−3) is encoded as monomial w21w
+−3
+2 .
+.=</p>
+<p>Example
+.=</p>
+<p>◮ S = {0, 1, . . . , 1000}
+.=</p>
+<p>10 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generating function encoding
+.=</p>
+<p>◮ Given S ⊆ nZ we represent the points as a generating
+function:
+.=</p>
+<p>∑
+.=</p>
+<p>g(S ,w) = wa1 a2 an1 w2 · · ·wn
+a∈S
+.=</p>
+<p>◮ wi are complex variables
+.=</p>
+<p>◮ Point (2,−3) is encoded as monomial w2w−31 2 .
+.=</p>
+<p>Example
+.=</p>
+<p>◮ S = {0, 1, . . . , 1000}
+.=</p>
+<p>◮ g(S ,w) = 1 + w + w2 + · · ·+ w1000
+.=</p>
+<p>10 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generating function encoding
+.=</p>
+<p>◮ Given S ⊆ nZ we represent the points as a generating
+function:
+.=</p>
+<p>∑
+.=</p>
+<p>g(S ,w) = wa11 w
+a2 an
+2 · · ·wn
+.=</p>
+<p>a∈S
+.=</p>
+<p>◮ wi are complex variables
+.=</p>
+<p>◮ Point (2,−3) is encoded as monomial w2w−31 2 .
+.=</p>
+<p>Example
+.=</p>
+<p>◮ S = {0, 1, . . . , 1000}
+.=</p>
+<p>g(S ,w) = 1 + w + w2 + · · ·+ w1000◮
+1001
+.=</p>
+<p>◮ g(S ,w) = 1 w1 −−w 1−w
+.=</p>
+<p>10 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Barvinok’s result (1994)
+.=</p>
+<p>Theorem
+.=</p>
+<p>Let P be a rational convex polytope, i.e. P = {x ∈ mR : Ax ≤ b}.
+There is a polynomial time algorithm which computes a short
+.=</p>
+<p>rational generating function:
+.=</p>
+<p>c
+∑ w j
+.=</p>
+<p>g(P ∩ mZ ;w) = γj ,
+(1− wdj1)(1− wdj2) . . . (1− wdjm)
+.=</p>
+<p>j∈J
+.=</p>
+<p>of the lattice points inside P when the dimension m is fixed. The
+.=</p>
+<p>number of terms in the sum is polynomially bounded and
+.=</p>
+<p>γj ∈ {−1, 1}.
+.=</p>
+<p>11 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A Tale of Two Representations
+.=</p>
+<p>Lattice points: S
+.=</p>
+<p>12 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A Tale of Two Representations
+.=</p>
+<p>Inequality
+.=</p>
+<p>representation:
+.=</p>
+<p>{x : Ax ≤ b n, x ∈ Z }
+.=</p>
+<p>Data: A, b
+.=</p>
+<p>Lattice points: S
+.=</p>
+<p>12 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A Tale of Two Representations
+.=</p>
+<p>Gen. Function
+Inequality Representation:
+representation:
+.=</p>
+<p>∑ wcj
+γj ∏n d
+.=</p>
+<p>{x : Ax ≤ b, x ∈ nZ } (1 − w jk )j∈J k=1
+.=</p>
+<p>Data: A, b Data: cj , djk
+.=</p>
+<p>Lattice points: S
+.=</p>
+<p>12 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Accessing the points in a generating function encoding
+.=</p>
+<p>13 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Accessing the points in a generating function encoding
+.=</p>
+<p>◮ Count the number of integer points in S in polynomial time.
+[Barvinok, 1994]
+.=</p>
+<p>13 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Accessing the points in a generating function encoding
+.=</p>
+<p>◮ Count the number of integer points in S in polynomial time.
+[Barvinok, 1994]
+.=</p>
+<p>Example
+.=</p>
+<p>◮ S = {0, 1, . . . , 1000}
+.=</p>
+<p>13 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Accessing the points in a generating function encoding
+.=</p>
+<p>◮ Count the number of integer points in S in polynomial time.
+[Barvinok, 1994]
+.=</p>
+<p>Example
+.=</p>
+<p>◮ S = {0, 1, . . . , 1000}
+◮ g(S ,w) = 1 + w + w 2 + · · ·+ w 1000.
+.=</p>
+<p>Count: substitute w = 1, get g(S , 1) = 1001.
+.=</p>
+<p>13 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Accessing the points in a generating function encoding
+.=</p>
+<p>◮ Count the number of integer points in S in polynomial time.
+[Barvinok, 1994]
+.=</p>
+<p>Example
+.=</p>
+<p>◮ S = {0, 1, . . . , 1000}
+◮ g(S ,w) = 1 + w + w 2 + · · ·+ w 1000.
+.=</p>
+<p>Count: substitute w = 1, get g(S , 1) = 1001.
+1001
+.=</p>
+<p>◮ g(S ,w) = 11 −
+w
+.=</p>
+<p>−w 1 .−w
+Count: take limit as w → 1, get limw→1 g(S ,w) = 1001.
+.=</p>
+<p>13 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Accessing the points in a generating function encoding
+.=</p>
+<p>◮ Count the number of integer points in S in polynomial time.
+[Barvinok, 1994]
+.=</p>
+<p>Example
+.=</p>
+<p>◮ S = {0, 1, . . . , 1000}
+◮ g(S ,w) = 1 + w + w 2 + · · ·+ w 1000.
+.=</p>
+<p>Count: substitute w = 1, get g(S , 1) = 1001.
+.=</p>
+<p>g(S w) = 1 − w
+1001
+.=</p>
+<p>◮ , 1−w 1 .−w
+Count: take limit as w → 1, get limw→1 g(S ,w) = 1001.
+.=</p>
+<p>◮ Enumerate the elements of S : There exists a polynomial-delay
+enumeration algorithm which outputs the elements of S . [De
+Loera et al. 2007]
+.=</p>
+<p>13 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More ways to encode (Barvinok-Woods, 2003)
+.=</p>
+<p>14 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More ways to encode (Barvinok-Woods, 2003)
+.=</p>
+<p>Boolean combinations:
+.=</p>
+<p>S2
+.=</p>
+<p>   
+.=</p>
+<p>      
+.=</p>
+<p>     
+.=</p>
+<p>     
+.=</p>
+<p>   
+.=</p>
+<p>S1
+.=</p>
+<p>14 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More ways to encode (Barvinok-Woods, 2003)
+.=</p>
+<p>Boolean combinations:
+.=</p>
+<p>  
+.=</p>
+<p>   
+.=</p>
+<p>     
+.=</p>
+<p>     
+.=</p>
+<p>   
+.=</p>
+<p>S1 \ S2
+.=</p>
+<p>14 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More ways to encode (Barvinok-Woods, 2003)
+.=</p>
+<p>Boolean combinations: Disjoint unions:
+.=</p>
+<p>S1 S2
+.=</p>
+<p>  
+.=</p>
+<p>   
+.=</p>
+<p>     
+.=</p>
+<p>     
+.=</p>
+<p>   
+.=</p>
+<p>S1 \ S2
+g(S1 ∪ S2,w) = g(S1,w) + g(S2,w)
+.=</p>
+<p>14 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Key insight into proof: Express PSNE via polytopes
+.=</p>
+<p>◮ Want to encode N, the set of
+PSNE configurations
+.=</p>
+<p>x ∈ N ⇐⇒ ∀a ∈ A : (xa = 0) OR (∀a
+′ ∈ A, ua(x) ≥ ua′ (x+ea′−ea))
+.=</p>
+<p>◮ D is the set of configurations and
+candidate equilibria: x2
+.=</p>
+<p>  
+.=</p>
+<p> 
+{ }
+.=</p>
+<p>∑  
+.=</p>
+<p>D = x ∈ mZ : xa = n, x ≥ 0  
+a∈A  
+.=</p>
+<p>D
+ 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p> 
+ 
+.=</p>
+<p>x1
+.=</p>
+<p>15 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Key insight into proof: Express PSNE via polytopes
+.=</p>
+<p>◮ Want to encode N, the set of
+PSNE configurations
+.=</p>
+<p>x ∈ N ⇐⇒ ∀a ∈ A : (xa = 0) OR (∀a
+′ ∈ A, ua(x) ≥ ua′ (x+ea′−ea))
+.=</p>
+<p>◮ D is the set of configurations and
+candidate equilibria: x2
+.=</p>
+<p>  
+.=</p>
+<p> 
+{ }
+.=</p>
+<p>∑  
+.=</p>
+<p>D = x ∈ mZ : xa = n, x ≥ 0 Da,a′ 
+a∈A  
+.=</p>
+<p> 
+.=</p>
+<p>◮ Da,a′ those configurations where it  
+ 
+.=</p>
+<p>is profitable for a player playing  
+ 
+.=</p>
+<p>action a to deviate. x1
+.=</p>
+<p>15 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Key insight into proof: Express PSNE via polytopes
+.=</p>
+<p>◮ Want to encode N, the set of
+PSNE configurations
+.=</p>
+<p>x ∈ N ⇐⇒ ∀a ∈ A : (xa = 0) OR (∀a
+′ ∈ A, ua(x) ≥ ua′ (x+ea′−ea))
+.=</p>
+<p>◮ D is the set of configurations and
+candidate equilibria: x2
+.=</p>
+<p>  
+.=</p>
+<p>{ }
+.=</p>
+<p>∑  
+.=</p>
+<p>D = x ∈ mZ : xa = n, x ≥ 0
+a∈A
+.=</p>
+<p>N
+ 
+.=</p>
+<p>◮ Da,a′ those configurations where it
+ 
+.=</p>
+<p>is profitable for a player playing
+action a to deviate. x1
+.=</p>
+<p>⋃
+.=</p>
+<p>N = D \ Da,a′
+.=</p>
+<p>a,a′∈A
+.=</p>
+<p>15 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Expressing Da,a′
+.=</p>
+<p> 
+.=</p>
+<p>x ∈ D : xa ≥ 1, x ∈ P a,j , 
+⊎ ⊎
+.=</p>
+<p>D ′a a′ = x = x+ ea′ − ea ∈ P, a′ j′,
+ 
+.=</p>
+<p>Pa j∈Pa Pa′ j′∈Pa′ fa j(x) ≤ fa′ j′(x
+′)− 1
+.=</p>
+<p>,
+, , ,
+.=</p>
+<p>16 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Expressing Da,a′
+.=</p>
+<p> 
+.=</p>
+<p>x ∈ D : x
+ a ≥ 1, x ∈ Pa , ,j
+.=</p>
+<p>⊎ ⊎
+.=</p>
+<p>Da a′ = x
+′ = x+ ea′ − ea ∈ Pa′ j′, ,
+.=</p>
+<p> 
+.=</p>
+<p>Pa j∈Pa Pa′ j′∈Pa′ fa j(x) ≤ f
+′
+.=</p>
+<p>′ ′(x )− 1
+,
+.=</p>
+<p>, , a ,j
+.=</p>
+<p>◮ Polynomial number of disjoint unions
+.=</p>
+<p>◮ Once the pieces Pa,j and Pa′,j ′ fixed, can formulate profitable
+deviation as a set of linear constraints
+.=</p>
+<p>16 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Expressing Da,a′
+.=</p>
+<p> 
+.=</p>
+<p>x ∈ D : xa ≥ 1, x ∈ P a,j , 
+⊎ ⊎
+.=</p>
+<p>D ′a a′ = x = x+ ea′ − ea ∈ P, a′ ′,j
+ ′ 
+.=</p>
+<p>Pa j∈Pa Pa′ j′∈P, a′ f, a (x) ≤ f,j a′ j′(x )− 1,
+.=</p>
+<p>◮ Polynomial number of disjoint unions
+.=</p>
+<p>◮ Once the pieces Pa,j and Pa′,j ′ fixed, can formulate profitable
+deviation as a set of linear constraints
+.=</p>
+<p>◮ xa ≥ 1: at least one player chose a
+.=</p>
+<p>16 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Expressing Da,a′
+.=</p>
+<p> 
+.=</p>
+<p>x ∈ D : xa ≥ 1, x ∈ Pa j , ,
+⊎ ⊎
+.=</p>
+<p>D ′a a′ = x = x+ ea′ − ea ∈ Pa′ j′, ,
+ 
+.=</p>
+<p>Pa j∈Pa Pa′ j′∈Pa′ fa (x) ≤ f
+′
+.=</p>
+<p>′ ′(x )− 1
+,
+.=</p>
+<p>, ,j a ,j
+.=</p>
+<p>◮ Polynomial number of disjoint unions
+.=</p>
+<p>◮ Once the pieces Pa,j and Pa′,j ′ fixed, can formulate profitable
+deviation as a set of linear constraints
+.=</p>
+<p>◮ xa ≥ 1: at least one player chose a
+′ ′
+.=</p>
+<p>◮ x = x+ ea′ − ea: result of deviating from a to a
+.=</p>
+<p>16 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Expressing Da,a′
+.=</p>
+<p> 
+.=</p>
+<p>x ∈ D : xa ≥ 1, x ∈ P a , ,j
+⊎ ⊎
+.=</p>
+<p>Da a′ = x
+′ = x+ ea′ − ea ∈ Pa′ ′, ,j
+.=</p>
+<p> 
+.=</p>
+<p>Pa j∈Pa Pa′ j′∈Pa′ fa j(x) ≤ fa′ j′(x
+′)− 1
+.=</p>
+<p>,
+, , ,
+.=</p>
+<p>◮ Polynomial number of disjoint unions
+.=</p>
+<p>◮ Once the pieces Pa,j and Pa′,j ′ fixed, can formulate profitable
+deviation as a set of linear constraints
+.=</p>
+<p>◮ xa ≥ 1: at least one player chose a
+x′◮ = x+ ea′ − ea: result of deviating from a to a
+.=</p>
+<p>′
+.=</p>
+<p>′
+◮ fa j(x) ≤ fa′ j′(x )− 1: since utilities are integers, equivalent to, ,
+.=</p>
+<p>fa j(x) < f
+′
+.=</p>
+<p>a′ j′(x ), ,
+.=</p>
+<p>16 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Expressing Da,a′
+.=</p>
+<p> 
+.=</p>
+<p>x ∈ D : xa ≥ 1, x ∈ Pa j , ,
+⊎ ⊎
+.=</p>
+<p>Da a′ = x
+′ = x+ ea′ − ea ∈ Pa′ j′, ,
+.=</p>
+<p> 
+.=</p>
+<p>Pa j∈Pa Pa′ j′∈Pa′ fa (x) ≤ f
+′
+.=</p>
+<p>′ ′(x )− 1
+,
+.=</p>
+<p>, ,j a ,j
+.=</p>
+<p>◮ Polynomial number of disjoint unions
+.=</p>
+<p>◮ Once the pieces Pa,j and Pa′,j ′ fixed, can formulate profitable
+deviation as a set of linear constraints
+.=</p>
+<p>◮ xa ≥ 1: at least one player chose a
+′
+.=</p>
+<p>◮ x = x+ ea′ − ea: result of deviating from a to a
+′
+.=</p>
+<p>◮ fa j(x) ≤ f
+′
+.=</p>
+<p>a′ j′(x )− 1: since utilities are integers, equivalent to, ,
+f ′a j(x) < fa′ j′(x ), ,
+.=</p>
+<p>◮ Therefore N can be expressed as a short rational generating
+function
+.=</p>
+<p>16 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Expressing Da,a′
+.=</p>
+<p> 
+.=</p>
+<p>x ∈ D : xa ≥ 1, x ∈ Pa j , ,
+⊎ ⊎
+.=</p>
+<p>D ′a a′ = x = x+ ea′ − ea ∈ Pa′ j′, ,
+ 
+.=</p>
+<p>Pa j∈Pa Pa′ j′∈Pa′ f (x) ≤ f ′ ′(x
+′)− 1
+.=</p>
+<p>,
+, a,j a ,j
+.=</p>
+<p>◮ Polynomial number of disjoint unions
+.=</p>
+<p>◮ Once the pieces Pa,j and Pa′,j ′ fixed, can formulate profitable
+deviation as a set of linear constraints
+.=</p>
+<p>◮ xa ≥ 1: at least one player chose a
+◮ x′ = x+ e ′a′ − ea: result of deviating from a to a
+◮ f (x) ≤ f (x′a j a′ j′ )− 1: since utilities are integers, equivalent to, ,
+.=</p>
+<p>fa j(x) < f
+′
+.=</p>
+<p>a′ j′(x ), ,
+.=</p>
+<p>◮ Therefore N can be expressed as a short rational generating
+function
+.=</p>
+<p>◮ Can check existence of PSNE via counting operation; find a
+sample PSNE via enumeration operation.
+.=</p>
+<p>16 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Other results
+.=</p>
+<p>◮ Find a PSNE that approximately optimizes the sum of the
+utilities (FPTAS).
+.=</p>
+<p>◮ Encode the PSNEs of a parameterized family of symmetric
+games with utility pieces:
+.=</p>
+<p>fa,j(x,p) = αa,j · x+ βa,j · p,
+.=</p>
+<p>where p is a fixed dimensional integer vector of parameters
+inside a polytope.
+.=</p>
+<p>17 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Other results
+.=</p>
+<p>◮ Find a PSNE that approximately optimizes the sum of the
+utilities (FPTAS).
+.=</p>
+<p>◮ Encode the PSNEs of a parameterized family of symmetric
+games with utility pieces:
+.=</p>
+<p>fa,j(x,p) = αa,j · x+ βa,j · p,
+.=</p>
+<p>where p is a fixed dimensional integer vector of parameters
+inside a polytope.
+.=</p>
+<p>◮ Answer questions about PSNEs of the family of games without
+solving each game
+.=</p>
+<p>◮ e.g. finding parameter p that optimizes some objective.
+.=</p>
+<p>17 / 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusion
+.=</p>
+<p>◮ computing PSNE for symmetric games with fixed number of
+actions, focusing on compact representations of utility:
+poly(log n) bits
+.=</p>
+<p>◮ circuit symmetric games: NP-complete when at least 3 actions
+.=</p>
+<p>◮ symmetric games with piecewise-linear utility:
+polynomial-time algorithms
+.=</p>
+<p>◮ encode set of PSNE as a rational generating function
+.=</p>
+<p>Thanks!
+.=</p>
+<p>18 / 18.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Characterizing Chronic Disease and
+Polymedication Prescription Patterns from
+</p>
+<p>Electronic Health Records
+</p>
+<p>Martí Zamora, Manel Baradad, Marta Arias, Ricard Gavaldà
+Universitat Politècnica de Catalunya, Barcelona
+</p>
+<p>Ester Amado, Silvia Cordomí, Esther Limón, Juliana Ribera
+Institut Català de la Salut, Barcelona
+</p>
+<p>2nd IEEE DSAA, Paris, October 2015
+Contact: gavalda@cs.upc.edu
+</p>
+<p>1 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context
+</p>
+<p>Catalan Institute of Health - ICS
+</p>
+<p>I Provides primary healthcare for 80% of 7.5M people
+</p>
+<p>I Hospitalary healthcare for about 20%
+</p>
+<p>I Electronic Health Records almost fully digital since 2009
+</p>
+<p>2 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context
+</p>
+<p>The concerns:
+</p>
+<p>I 5% of patients use 50% resources
+</p>
+<p>I Aging
+</p>
+<p>I Complex, chronic disease
+</p>
+<p>I Polymedication
+</p>
+<p>I Increasingly heterogeneous population
+</p>
+<p>3 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Project and Intended Users
+</p>
+<p>Health managers and planners at ICS:
+</p>
+<p>1. Understand “the landscape” of complex, chronic disease
+</p>
+<p>2. and polymedication - prescription patterns
+</p>
+<p>3. Rationalize prescription patterns - costs and patient safety
+</p>
+<p>4. Analyze diversity, find outliers
+I geography, demography, among healthcare centers . . .
+</p>
+<p>5. Plan: Define indicators and policies, assess costs, allocate
+resources, make projections to future scenarios
+</p>
+<p>4 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Project and Intended Users
+</p>
+<p>Healthcare researchers:
+</p>
+<p>1. Support hypothesis generation and intuition
+</p>
+<p>2. Discover and explore subpopulations of interest
+</p>
+<p>3. Mine interesting rules and interactions among variables
+</p>
+<p>4. Create predictive and explanatory models
+</p>
+<p>5 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Project and Intended Users
+</p>
+<p>First-line clinicians and prescribers:
+</p>
+<p>1. Alert of unusual diagnostic/prescription combinations
+</p>
+<p>2. Support case-based reasoning
+I Retrieve patients similar to this one
+I Get recommendations for diagnostic & treatment
+</p>
+<p>6 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Dataset
+</p>
+<p>I ICS primary care visits, Barcelona, 2013
+I 3 tables: patient basic info, health annotations,
+</p>
+<p>prescriptions
+I 1.6M potential patients, 0.5M actually present
+I 12M health annotations (diagnostics, tests, findings)
+I 7M medication prescriptions
+</p>
+<p>Limitations:
+</p>
+<p>I Only primary care, no hospital data
+I Only public network, no private care
+I Only one year
+I Potential inconsistencies - e.g. open episodes
+</p>
+<p>7 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Project. Novelty
+</p>
+<p>I Unfocused, exploratory. Many studies focus on one
+research problem
+</p>
+<p>I predicting one disease, cluster patients for one goal, find
+drug side-effects, . . .
+</p>
+<p>I Tripartite graph patients - diagnostics - medications
+I other studies used e.g. diagnostics and genes
+</p>
+<p>I k -ary, not binary, associations – Hypergraphs, not graphs
+</p>
+<p>I Hierarchical itemsets - diagnostic codes and medications
+</p>
+<p>I Detection of open episodes
+</p>
+<p>8 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Prototype so Far
+</p>
+<p>I Generate k -ary diagnostic combinations
+I Generate rules diagnostics - prescriptions
+I Flag patients with unusual (alarming?) combinations
+I Flag open episodes or prescription errors
+I Navigate hypergraph of diagnostics and prescriptions
+I First try at automatic predictor building
+</p>
+<p>9 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Prototype - Workflow
+Itemset = Subset of diagnostics ∪ Prescriptions
+Maintain frequent itemsets of current subpopulation
+</p>
+<p>10 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Exploring the Hypergraph
+</p>
+<p>Nodes: Sets of diagnostics and medications
+</p>
+<p>Edges: Strength of association; Pointwise Mutual Information
+</p>
+<p>Pr(A ∧ B)
+PMI(A,B) = log10 Pr(A)Pr(B)
+</p>
+<p>Nodes can be collapsed (set union)
+</p>
+<p>11 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Exploring the Hypergraph
+Graph around K20 (Esophagitis)
+</p>
+<p>12 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Exploring the Hypergraph
+Graph around K20-K29 (Esophagitis + Gastritis/Duodenitis)
+</p>
+<p>13 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Exploring the Hypergraph
+Graph around K20-K29-Q40
+(Esophagitis + Gastritis/Duodenitis +
+Other malformations of upper GI tract)
+</p>
+<p>14 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Implementation
+</p>
+<p>I Client - server
+I Borgelt’s Apriori to find itemsets
+I Custom association rule finder on top
+</p>
+<p>I Two implementations of patient/diagnostic/prescription DB
+I RAM
+I Sparksee graph database
+</p>
+<p>I But itemsets and hypergraph always in RAM
+</p>
+<p>15 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Some Results
+</p>
+<p>With support 0.05% ' 800 patients, confidence 0.1,
+I Hypergraph with 918 diagnostics and 268 medications
+I 4051 diagnostic-to-medication rules
+I 2253 medication-to-diagnostic rules
+I Prescriptions without diagnostics for about 10% of patients
+</p>
+<p>I Lower than expected: application does not require
+diagnostic for prescription
+</p>
+<p>I Diagnostics without usual medications for about 16%
+patients
+</p>
+<p>I Many are indeed open episodes
+</p>
+<p>16 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clinical Significance
+</p>
+<p>Under evaluation. 3 types of “discoveries”
+I Well known, not surprising, but reassuring the program
+</p>
+<p>found them
+(Diabetes↔ retinopathy)
+(Omeprazol for most everything)
+</p>
+<p>I Unnoticed before, but believable
+(Bedsores for advanced Alzheimer)
+</p>
+<p>I Unnoticed and surprising
+(Retinopathy more strongly associated to hypertension than
+to diabetes)
+</p>
+<p>17 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>First Prediction Trial
+</p>
+<p>(not in proceedings)
+</p>
+<p>Factors that predict Hip Fracture
+</p>
+<p>I Linear regression and odds ratio
+I 7 out of 10 highest scorers reported in specialized literature
+</p>
+<p>18 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>I System is well able to interactively find associations
+diagnostics / medications
+</p>
+<p>I Clinicians satisfied with initial interactions
+I Detailed clinical study in course
+</p>
+<p>I There’s no such thing as “user-friendly enough”
+</p>
+<p>19 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future Work (lots!)
+</p>
+<p>I Improve rule pruning
+I Improve interpretation of rule exceptions
+I Taxonomies of diagnostics and medications
+I Temporal evolution. Trajectories
+I Predictive model building
+I Patient clustering
+I Differential analysis (geographic, demographic)
+I Retrieve similar cases
+I Suggest diagnostic/treatment
+I Privacy, information sharing
+</p>
+<p>20 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Advertising
+</p>
+<p>Looking for:
+</p>
+<p>I Research partners
+I Data partners
+I Project partners
+</p>
+<p>21 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Characterizing Chronic Disease and
+Polymedication Prescription Patterns from
+</p>
+<p>Electronic Health Records
+</p>
+<p>Martí Zamora, Manel Baradad, Marta Arias, Ricard Gavaldà
+Universitat Politècnica de Catalunya, Barcelona
+</p>
+<p>Ester Amado, Silvia Cordomí, Esther Limón, Juliana Ribera
+Institut Català de la Salut, Barcelona
+</p>
+<p>2nd IEEE DSAA, Paris, October 2015
+Contact: gavalda@cs.upc.edu
+</p>
+<p>22 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Rule Mining
+</p>
+<p>Find all rules
+A1 . . .Ak → B1 . . .B`
+</p>
+<p>with given support and confidence
+</p>
+<p>Heuristics to purge rules (improvable):
+I Low lift: remove AB → C if A→ C same confidence
+I Implied by transitivity:
+</p>
+<p>remove A→ C/(σ1 · σ2) if A→ B/σ1 and B → C/σ2
+</p>
+<p>I Removals make sense to clinicians
+</p>
+<p>23 / 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Open Episodes and Unusual Patients
+</p>
+<p>From the rules we find patients with:
+</p>
+<p>I Medication not justified by recorded diagnostics
+I Diagnostics without any of its usual medication
+</p>
+<p>I Open episode?
+Recording error?
+Clinician error?
+Conscious clinician decision?
+</p>
+<p>I More heuristics and larger timespan data to decide
+</p>
+<p>24 / 24</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

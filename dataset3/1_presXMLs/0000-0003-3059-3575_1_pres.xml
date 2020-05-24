@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>A Demand-Response Framework in Balance Groups
+through Direct Battery-Storage Control
+</p>
+<p>G. Chasparis M. Pichler T. Natschläger
+</p>
+<p>Software Competence Center Hagenberg GmbH, Austria
+</p>
+<p>Naples, Italy
+26th June 2019
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Demand Response in Residential Buildings
+</p>
+<p>• Recently, we observe
+</p>
+<p>- A constant increase in the number of battery storage systems.
+- A need for larger absorption rates of renewable energy
+</p>
+<p>• We need:
+</p>
+<p>- to incentivize users to provide “flexibility”
+- to effectively coordinate flexibility extraction
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Demand-Response Approaches
+</p>
+<p>• Commitment-based approaches
+</p>
+<p>- The users commit to reduce load during peak-hours
+- The operator distributes the desired aggregated demand to the users
+</p>
+<p>(e.g., Ruiz et al (2009), Chen et al. (2014))
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Demand-Response Approaches
+</p>
+<p>• Commitment-based approaches
+</p>
+<p>- The users commit to reduce load during peak-hours
+- The operator distributes the desired aggregated demand to the users
+</p>
+<p>(e.g., Ruiz et al (2009), Chen et al. (2014))
+</p>
+<p>• Incentive-based approaches:
+</p>
+<p>- The users provide preferences over availability and cost functions
+- The operator computes optimal flexibility extraction that minimize cost
+</p>
+<p>(e.g., Herter (2007), Triki & Violi (2009), Xu et al (2016))
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Demand-Response Approaches
+</p>
+<p>• Commitment-based approaches
+</p>
+<p>- The users commit to reduce load during peak-hours
+- The operator distributes the desired aggregated demand to the users
+</p>
+<p>(e.g., Ruiz et al (2009), Chen et al. (2014))
+</p>
+<p>• Incentive-based approaches:
+</p>
+<p>- The users provide preferences over availability and cost functions
+- The operator computes optimal flexibility extraction that minimize cost
+</p>
+<p>(e.g., Herter (2007), Triki & Violi (2009), Xu et al (2016))
+</p>
+<p>• Combination of the two (demand-response aggregation)
+</p>
+<p>- The operator directly extracts flexibility when necessary
+- In return, the operator offers to the owners a compensation
+</p>
+<p>(e.g., Parvania et al (2013), Iria et al (2017), Nan et al (2018))
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Demand-Response Aggregation: Requirements & Objective
+</p>
+<p>• Features/requirements:
+• optimizing flexibility extraction
+• optimizing over a future time horizon
+• optimizing over multiple households
+</p>
+<p>• Objective
+• Respond to load reduction/increase goals
+</p>
+<p>• Participate in a wholesale electricity
+spot-market (e.g., Day-ahead, Intra-day)
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Demand-Response Aggregation: State-of-the-art & Challenges
+</p>
+<p>• So far, analysis
+• is primarily restricted to single households
+</p>
+<p>(e.g., Mohsenian-Rad (2016), He et al (2016), Jiang & Power (2016))
+</p>
+<p>• includes detailed modeling of the battery and
+cycle costs
+(e.g., He et al (2016))
+</p>
+<p>• has taken into account uncertainty and
+imperfect forecasts
+(e.g., Jiang & Power (2016))
+</p>
+<p>• Challenges,
+• computationally efficient methods for a
+</p>
+<p>coordinated response of a pool of
+battery-storage systems
+</p>
+<p>• dynamic-programming scheduling problem
+with equilibrium constraints
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Setup and Goal of this paper
+</p>
+<p>• Austrian market organization
+• balance-group (BG) organization
+• every prosumer is part of a BG
+• feed-in and off-take are cleared in 15min
+</p>
+<p>• Incentives for strategic behavior
+(O1) Market participation: The BG may exchange
+</p>
+<p>electricity in a spot-market
+</p>
+<p>(O2) Imbalance optimization: Reduce current
+imbalances to zero, or generate imbalances
+</p>
+<p>• Goal of this paper:
+• formalize these two (instantaneous)
+</p>
+<p>optimization problems
+</p>
+<p>• provide building blocks for a large scale
+dynamic optimization
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Energy Potential
+</p>
+<p>3 Activation Costs
+</p>
+<p>4 Centralized Optimal Activation
+</p>
+<p>5 Summary & Future Work
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Energy Potential
+</p>
+<p>3 Activation Costs
+</p>
+<p>4 Centralized Optimal Activation
+</p>
+<p>5 Summary & Future Work
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Energy Potential
+</p>
+<p>Energy Potential
+Energy potential or flexibility of a household i, for a time interval ∆T, is defined as the
+amount of energy that can be “charged” to or “discharged” from the household.
+</p>
+<p>• Charging (power) potential:
+V .c,i(t) = Pg,i(t)− Pg,i(t) ≥ 0
+</p>
+<p>• Pg,i(t) : maximum (positive) power from the grid
+</p>
+<p>• Pg,i(t) : power from the grid under baseline operation
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Energy Potential
+</p>
+<p>Energy Potential
+Energy potential or flexibility of a household i, for a time interval ∆T, is defined as the
+amount of energy that can be “charged” to or “discharged” from the household.
+</p>
+<p>• Discharging (power) potential:
+</p>
+<p>V .d,i(t) = Pg,i(t)− Pg,i(t) ≤ 0
+</p>
+<p>• Pg,i(t) : maximum (negative) power to the grid
+</p>
+<p>• Pg,i(t) : power from the grid under normal operation
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Energy Potential
+</p>
+<p>Energy Potential
+Energy potential or flexibility of a household i, for a time interval ∆T, is defined as the
+amount of energy that can be “charged” to or “discharged” from the household.
+</p>
+<p>• Example: When the battery is currently charging with rate ci(t) ≥ 0, the charging
+(energy) potential is:
+</p>
+<p>Vc,i(t) = ︸cmax,i ·min{︷∆︷ T∗c,i(t),∆T}︸− c︸i(t) ·min{∆︷︷Tc,i(t),∆T}︸
+maximum charging energy current charging energy
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Energy Potential
+</p>
+<p>3 Activation Costs
+</p>
+<p>4 Centralized Optimal Activation
+</p>
+<p>5 Summary & Future Work
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Opportunity Costs
+</p>
+<p>Opportunity Costs
+Independently of the way that the BRP is currently utilizing the battery, the opportunity
+costs of activation can be defined as follows:
+</p>
+<p>Cact,i(P′ ∗g,i(t)) = ︸Uba︷se︷,i(t︸) − ︸UBRP,i︷(︷P′g,i(t)︸)
+optimal baseline operation BRP intervention
+</p>
+<p>under the selected by the BRP power exchange with the grid.
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Opportunity Costs (cont.)
+</p>
+<p>Opportunity Costs: Revenues under Baseline Operation
+What would have been the revenue when the user maximizes its own utility:
+</p>
+<p>U∗base,i(t) = max Ubase,i(Pg,i)
+Pg,i∈[Pg,i,Pg,i]
+</p>
+<p>where
+</p>
+<p>U∗ .base,i(Pg, i) = Ue.sell,i(Pg,i) + Ub.store,i(Pg,i)−
+Ce.buy,i(Pg,i)− Cb.loss,i(Pg,i)− Cb.wear,i(t)(Pg,i).
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Opportunity Costs (cont.)
+</p>
+<p>Opportunity Costs: Revenues under BRP intervention
+What is the revenue of the household when the BRP intervenes:
+</p>
+<p>U ′ ′ ′BRP,i(Pg,i) = Ue.sell,i(Pg,i) + Ub.store,i(Pg,i)−
+C ′e.buy,i(Pg,i))− Cb.loss,i(P′g,i)− C ′b.wear,i(Pg,i),
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Generic Activation Costs
+</p>
+<p>Generic Activation Costs
+The user submits a linear activation curve that values its own preferences over the use
+of the battery. For example, when the BRP wants to establish a positive imbalance:
+</p>
+<p>Cact,i(t) = αi(t) · Vc,i(t) · βc,i(t)
+</p>
+<p>under the selected by the BRP power exchange with the grid, for some positive
+constant βi(t) and activation parameter αi(t) ∈ [0, 1].
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Energy Potential
+</p>
+<p>3 Activation Costs
+</p>
+<p>4 Centralized Optimal Activation
+</p>
+<p>5 Summary & Future Work
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Generic Activation Costs
+</p>
+<p>Market Participation
+We need to compute the optimal subset of participants and their schedules to generate
+a specific commitment E(t) > 0 at time interval t. In the case of generic costs,
+</p>
+<p>min zc(t)Ta
+s.t. Vc(t)Ta = E(t)
+var. a ∈ [0, 1]N
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Market Participation Optimization (cont.)
+</p>
+<p>Optimal activation for E(t) > 0
+</p>
+<p>1: procedure OPTIMALACTIVATION(Vc, zc, E(t))
+2: order participants i = 1, 2, ...,N as follows
+</p>
+<p>βc,1 ≤ βc,2 ≤ ... ≤ βc,N
+3: for i = 1, 2, ...,N do
+4: if i ≤ k∗ then
+5: α∗i = 1
+6: else
+7: if i = k∗ +(1 then∑ )
+8: α∗ i−1i = E(t)− j=1 Vc,j /Vc,i
+9: else
+</p>
+<p>10: α∗i = 0
+11: return a∗
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Imbalance Optimization
+</p>
+<p>Market Participation
+We need to compute the optimal subset of participants to minimize a current
+imbalance, say ∆BG > 0 ( )
+</p>
+<p>min −zd(t)Ta + λimb(t) ∆BG(t) + Vd,i(t)Ta
+var. a ∈ [0, 1]N
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Energy Potential
+</p>
+<p>3 Activation Costs
+</p>
+<p>4 Centralized Optimal Activation
+</p>
+<p>5 Summary & Future Work
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Summary
+</p>
+<p>Summary:
+</p>
+<p>• We described a framework for activation optimization in balance groups.
+• Essential building blocks:
+</p>
+<p>• energy potential calculation
+• opportunity/activation costs
+</p>
+<p>• Recall: This is an optimization that applies to single interval ∆T.
+</p>
+<p>Future Work:
+</p>
+<p>• Day-ahead optimization for spot-market participation
+• Upcoming paper in DACH+ Energy Informatics 2019
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Energy Potential Activation Costs Centralized Optimal Activation Summary & Future Work
+</p>
+<p>Snap-shot of Day-ahead Optimization
+Optimal commitment under perfect forecasts
+</p>
+<p>·104
+</p>
+<p>4
+</p>
+<p>2
+</p>
+<p>0
+</p>
+<p>−2
+</p>
+<p>−4 Actual charging potential
+0 5 10 15 20 25 30 35 40 45 50 55 60 65 Act7u0al dis7c5hargi8n0g pot8e5ntial90 95 100
+</p>
+<p>Optimal commitment under perfect forecasts
+time interval
+</p>
+<p>Optimal commitment under imperfect forecasts
+·104
+</p>
+<p>4
+</p>
+<p>2
+</p>
+<p>0
+</p>
+<p>−2
+</p>
+<p>−4 Actual charging potential
+Actual discharging potential
+</p>
+<p>0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100
+Optimal commitment under imperfect forecasts
+</p>
+<p>time interval
+</p>
+<p>Cumulative Revenues under Perfect and Imperfect Forecasts
+</p>
+<p>20
+</p>
+<p>10
+</p>
+<p>0
+</p>
+<p>− Cumulative revenues under perfect forecasts10
+Cumulative revenues under imperfect forecasts
+</p>
+<p>−20
+0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100
+</p>
+<p>time interval
+</p>
+<p>DA price
+</p>
+<p>70
+</p>
+<p>60
+</p>
+<p>50
+</p>
+<p>40
+0 5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95 100
+</p>
+<p>time interval
+</p>
+<p>DR Framework in BGs through Battery-Storage Control G. Chasparis et al. (SCCH) 25
+</p>
+<p>Euros/MWh Euros Wh Wh</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

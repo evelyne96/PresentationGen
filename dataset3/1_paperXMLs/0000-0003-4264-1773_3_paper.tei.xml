@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Assessment of Peri-Articular Implant Fitting Based on Statistical Finite Element Modeling</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2008-07-31">July 31, 2008</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Serena</forename><surname>Bonaretti</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MEM Research Center</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<postCode>3014</postCode>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Nils</forename><surname>Reimers</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Stryker Osteosynthesis</orgName>
+								<address>
+									<settlement>Kiel</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mauricio</forename><surname>Reyes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MEM Research Center</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<postCode>3014</postCode>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Andrei</forename><surname>Nikitsin</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MEM Research Center</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<postCode>3014</postCode>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anders</forename><surname>Joensson</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Stryker Osteosynthesis</orgName>
+								<address>
+									<settlement>Kiel</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lutz-Peter</forename><surname>Nolte</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MEM Research Center</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<postCode>3014</postCode>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Philippe</forename><surname>Büchler</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory">MEM Research Center</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<postCode>3014</postCode>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Assessment of Peri-Articular Implant Fitting Based on Statistical Finite Element Modeling</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2008-07-31">July 31, 2008</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We present a framework for statistical finite element analysis allowing the statistical evaluation of biomechanical performance of peri-articular implants across a given population. In this paper, we focus on the design of orthopaedic implants that fit a maximum percentage of the target population, both in terms of geometry and biomechanical stability. A statistical shape model of left tibia was built and used to automatically create fractures at the same anatomical site. An automatic implant fitting algorithm was developed as well to optimize implant position to best fit the bone surface. Afterwards finite element analysis is performed to analyze the biomechanical performance of the bone/implant construct. The mechanical behavior of different PCA bone instances is compared for tibia representing the Asian and Caucasian populations.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Current design processes for orthopedic implants rely on very limited information about the shape of the target bone. Such information may be in the form of a small set of shape parameters (e.g. lengths and angles) derived from the existing literature, which fails to capture the complexity of real anatomical shapes. Alternatively, tests on cadaver bones can be performed. However, extrapolating the findings reached by such tests to the whole target population can lead to implants that may fit some patients, but not others.</p><p>For this reason, the current project uses novel population-based design methods to develop marketspecific trauma implants. Our technology allows a compact model that represents the range of shape variation encountered in a given population. The model is computed on a large collections of CT scans, using statistical analysis techniques to determine the average bone shape, as well as the shape distribution around this average in the form of principal components of shape variation. Once the model is built, it allows generating as many bone instances as required to accurately represent the population. Finite element calculations are used to evaluate the biomechanical properties of the generated bone instances. By doing so, we are able to reconstruct the statistical distribution of bone biomechanical properties across the population. Initial evaluations focused on bone strength.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Statistical Model of the Tibia</head><p>Two input datasets composed respectively by 43 Caucasian left tibia CT sets (23 males and 20 females) and 47 Asian left tibia CT sets (28 males and 19 females) were used. The size of each image was 120x130x140 voxels, with an image resolution of 1mm 3 .</p><p>All the input images were pre-processed: after their manual segmentation executed with Amira 4.1.1, they were first rigidly registered and then non-rigidly registered using the methodology presented in <ref type="bibr" target="#b3">[4]</ref>.</p><p>Bone creation was implemented in Matlab 7.0. New shape instances were created using Principal Component Analysis (PCA) <ref type="bibr" target="#b1">[2]</ref> applying the following formula:</p><formula xml:id="formula_0">∑ + = i i i b x x φ (1)</formula><p>where x contains the coordinates of the new shape, x contains the coordinates of the mean one, i φ is the eigenvector and i b is the shape parameter:</p><formula xml:id="formula_1">i i b λ 3 | | ± ≤</formula><p>, with i λ as eigenvalue. As shown in <ref type="figure">Figure 1</ref> from the shape statistical model, 13 new instances were created for each ethnic group combining the first mode and second mode that represent about 75% of the total variance. Grey level intensities were created warping the mean intensity distribution on each bone.</p><p>Finally these new instances were used to simulate bone fractures, implant fitting and to study biomechanical properties of the bone-implant structure. <ref type="figure">Figure 1</ref> Map of the 13 bones created for each ethnic group through shape PCA. Axes correspond to the first and second mode of variation. Each point represents a bone created using the first (red points) and the second mode (blue points) or combining them (green points). The black point represents the mean bone.</p><formula xml:id="formula_2">-3 -2 -1 0 1 2 3 -3 -2 -1 0 1 2 3 λ 1 λ 2 Mean λ 1 λ 2 λ 1 + λ 2</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Fracture Generation and Propagation</head><p>The type of fracture used for the simulation was 41-B1, according to the A.O. group classification <ref type="bibr" target="#b2">[3]</ref>. It is a partially articular fracture in which the lateral condyle is split from the rest of the tibia by an almost vertical cut. This kind of fracture shape allowed us to both simulate a situation that is close to reality and to implement calculations with a reduced computational effort. All the implementation was done with Matlab 7.0.</p><p>The fracture was created in the same way for Asian and Caucasian image sets. In each group and for the mean bone, the fracture was conceived as an exact vertical cut (below called "reference fracture"). The reference fracture was then propagated to all the instances created through PCA in order to obtain "equivalent" fractures -located at the same anatomical site for all the bones (the fractures created in this way will be called "propagated fractures"). The reference fracture was created simply changing to black all the voxels belonging to the same sagittal slice for both Asian and Caucasian <ref type="figure" target="#fig_0">(Figure 2a</ref>). The creation of the propagated fractures was implemented in an automatic way. The deformation fields obtained after non-rigid registration and used to establish points correspondences for the PCA model, were added to the mean bone fracture coordinates in order to obtain the position of the fracture in the current instance. Differently from the reference fracture, each propagated fracture was not positioned just on one single slice, but it involved modification on more slices (up to 4). Moreover the propagated fractures were not created as a black continuous but as black points spread in few slices ( <ref type="figure" target="#fig_0">Figure 2b</ref>). This is due to the discrete nature of images and deformation fields. In order to perform the following biomechanical analysis the fracture should be continuous, i.e. the bone had to be completely split into two separated parts to create two different meshes. To create a continuous fracture the first approach involved morphological operators (based on connectivity). The obtained results were not satisfactory in terms of fracture thickness. Better results were achieved with an approach that considers the fracture as a continuous surface, created as a Delaunay triangulation, which splits the bone in exactly two parts without any links between them. The black voxels generated through the deformation fields were considered as vertices of the triangles ( <ref type="figure" target="#fig_1">Figure 3a</ref>). Then all the voxels still belonging to the bone that were crossed by a triangle were turned to black and the complete fracture was created, as shown in <ref type="figure" target="#fig_0">Figure 2c</ref>. However, as it can be seen in <ref type="figure" target="#fig_0">Figure 2c</ref>, it could happen that at the edges of the fracture there were a few voxels still linking the two parts of the bone. To solve this last issue another triangulation was created with all the black surface voxels as vertices <ref type="figure" target="#fig_1">(Figure 3b</ref>). This second surface was expanded one voxel outwards, i.e. turning to black all the voxels that were in the same sagittal slice as the surface edge voxels and next to them. With this last operation the fractures were completed and the bones exactly split into two parts <ref type="figure" target="#fig_0">(Figure 2d</ref>). </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Implant Fitting</head><p>The constrained ICP algorithm was used to determine the optimal implant placement on the bone surface.</p><p>The objective is to minimize the bone/implant distance while taking into account different constraints given by the experience of the implant manufacturer and physical considerations, such as surface collision. The algorithm is based on the optimization of the following functional:</p><formula xml:id="formula_3">∑ ⋅ i i i e W min arg ,<label>(2)</label></formula><p>where i W and i e are the corresponding weight and distance error for point i in the implant mesh model, respectively.</p><p>The weights i W are computed as a linear combination of constraint-specific weights for collision, implant-bone co-linearity and tibia plateau. The last two constraints come from the implant manufacturer and have been established to favour implant fitting:</p><formula xml:id="formula_4">p i i C i i W W W W + + = || .</formula><p>(3)</p><p>The collision weight C i W is computed as follows:</p><formula xml:id="formula_5">   ∈ ∉ = in i i c i in i C i V p e k V p W 1 .<label>(4)</label></formula><p>To detect if a point i p is inside or outside the bone model, the sign of the dot product between the normal vector on the bone surface closest to i p and the vector formed by i p and its closest point on the bone surface is computed.</p><p>In order to avoid biases due to the number of points inside and outside the volume, the variable c i k in Eq. 4 was analytically found to be:</p><formula xml:id="formula_6">k i c ≥ (N tot − N in ) e i i ∈V in ∑ ,<label>(5)</label></formula><p>with N tot the number of points of the implant mesh, N in , the number of points falling inside the bone model, and in V the 3-D space inside the bone model.</p><p>We have found that adjusting the weight </p><formula xml:id="formula_7">W i || = 1 α ≤ α th k || α th − α α &gt;α th    (6)    Γ ∉ − Γ ∈ = i p i p i i p i p z p k p W 1<label>(7)</label></formula><p>Where α is the angle between the implant main axis and the bone main axis, th α is a threshold angle chosen by the user to set together with the weighting factor || k , the sensitivity of the parallelism constraint. The scalar value p z is the z-coordinate of the plateau region interface, and Γ is the 3-D space above the bone plateau. For the computation of α the main axis of the implant model and the bone are required. This is performed through an Oriented-Bounding-Box (OBB) decomposition of both shapes. Furthermore, for the implant model, only the lower region is used in order to improve the alignment between the bone shaft and the implant. <ref type="figure" target="#fig_3">Figure 4a</ref> shows a 4-level OBB decomposition of the implant, while <ref type="figure" target="#fig_3">Figure 4b</ref> shows the aligned bounding-box to the main axis of the implants' lower region.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Biomechanical FE Simulations</head><p>Finite Element (FE) analysis is a numerical technique to solve partial differential equations over domains of complex shapes. FE techniques find a natural application in biomechanical studies, such as for structural analysis of orthopaedic implants. FE models are useful to assess the design, position and fixation of new implants <ref type="bibr" target="#b0">[1]</ref>.</p><p>A technique to generate FE models representing the target population in terms of shape and mechanical properties is proposed in this study. The statistical models obtained in the former step, average and modes of variation are used to create 3D bone solids representing instances of the population. The obtained bone geometries (both parts of the fractured tibia) are then meshed with a finite number (about 100'000) of 3D tetrahedrons. 10-nodes elements with quadratic shape functions were used to ensure good quality to the results.</p><p>The mechanical properties used in the model are inhomogeneous and depend on the bone density distribution. Since calibrated CT scans were used for the construction of the statistical model, instances of the model will maintain a proportional relationship between the bone relative density and the grey level (Hounsfield Units) in the images. It has been shown that the bone's Young's modulus can be obtained directly from the bone density <ref type="bibr" target="#b4">[5]</ref>:</p><formula xml:id="formula_8">E = 6.95ρ 1.49 (8)</formula><p>where E is the Young's modulus in GPa and ρ is the bone relative density (g/cm3). The Poisson ratio is chosen equal to 0.3 because this parameter is not dependent on bone density.</p><p>The implant was also discretized with finite elements. The position of the implant on the bone surface was defined by the fitting algorithm described previously. The implant mechanical properties were E = 110 000 Mpa and a Poisson's ratio of 0.3 corresponding to titanium. 3D beam elements were used to fix the implant to the bone. Six beams were used in total -3 in the proximal part of the bone and 3 in the distal part. The cross section of the beam was assumed circular with a radius of 3.3 mm, which correspond to the diameter of the fixation screws. The attachment of the beam to the bone was performed using an embedded element technique. The embedded element technique is used to specify that an element or group of elements is embedded in "host" elements. In our situation the beam elements (modeling the screws) are embedded in the bone. If a node of an embedded element lies within a host element, the translational degrees of freedom at the node are eliminated and the node becomes an "embedded node." The translational degrees of freedom of the embedded node are constrained to the interpolated values of the corresponding degrees of freedom of the host element.</p><p>The loading conditions correspond to a 1600 N force (2 times body weight) on the tibia plateau while the distal part of the bone is maintained fixed. A frictionless unilateral contact law was use to account for the interactions between both bone fragments. In the simulations, locking screws were considered. The locking of the screw on the plate avoids any relative motion between theses two parts and also avoids the compression of the plate on the bone; therefore no contact was considered at the bone/plate interface. In total 26 FE models were built. Only small deformations and displacements were expected, therefore a geometrically linear solver was used for the calculations. The commercial finite element package ABAQUS was used for the simulations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Results</head><p>The quality of the implant fitting was evaluated on each of the bone generated with the statistical model. Results show that the implant better fits the Caucasian population than the Asian group <ref type="table">(Table 1)</ref>. For the Asian bones, the maximal bone/implant distance was found to be up to 7mm. The difference between the two populations was expected since the implant was first designed to target the Caucasian market.</p><p>Asian Caucasian Asian Caucasian <ref type="figure">Figure 6</ref> Maximal (right) and average (left) distance map for the Asian and Caucasian bone populations.</p><p>Red indicated a small distance (0mm) and blue indicates a large bone/implant distance -up to 7mm for the maximal distance in the Asian population.</p><p>Once the optimal position for the implant has been found, biomechanical simulations are used to evaluate the mechanical behavior of the implant for the different populations. For the simple fracture considered in this study, stresses in the implant remain far below Yield stress. However, some differences were visible between the two populations ( <ref type="table">Table 1</ref>). The stresses calculated in the plate as well as in the screws are significantly higher (p &lt; 0.05) for the Asian than for the Caucasian population. However, no statistical difference was found for the fitting distance in the two populations. Even if the average distance between the bone and the implant was larger for the Asian bones than for the Caucasian bones, the quality of the fit was statistically identical. This result highlights the importance of including biomechanical simulations in the optimization process and that optimization based on the geometrical fitting of the plate is not enough to capture the complexity of the implant biomechanics.</p><p>Stresses in the implant also correlate to the bone size in the Asian population. A linear correlation (R 2 higher than 0.6) was found between the length of the bone and the maximum von Mises stress in the plate. Higher stresses were calculated for the short bones than for the long one. On the other hand, no correlation was found for the Caucasian bones. This observation indicates that probably more care is required to account for implant size scaling in the Asian bones than for the Caucasian bones.  <ref type="table">Table 1</ref> Comparison of the biomechanical and geometrical variables between the Asian and the Caucasian models. The first row shows the average of the maximal bone/implant distance calculated using the image-based method described in sections 2-4, while the other two rows contain the average of the maximal von Mises stress in the plate and maximal principle stress in the screws. Variations are given in %.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Discussion</head><p>We presented a framework for statistical biomechanical assessment including a combined statistical model of shape and finite element analysis. The application of our methods for modelling bone shape and mechanical behaviour has been shown for the evaluation of a given peri-articular plate.</p><p>The statistical model construction and fracture propagation are based on non-rigid registration. This has the advantage that no landmarks or parametric representations need to be defined and the fractures can be placed automatically at the same anatomical site. Future developments will combine shape and intensity information into the statistical model; the model contains information about the correlation between shape and density. This could allow predicting bone density when only shape is known, and this is one of our directions of future work.</p><p>The FE analysis shown in this work could be improved by addressing a set of experiment setup issues. For example, bone screws were modeled with simple beams embedded in the bone. Obviously, the screw/bone interactions are more complex than this idealized model. Hence, accuracy of this approximation needs to evaluated and validated. Further, the bone geometries were meshed independently from each other, resulting in different FE meshes for the different bones. This leads to difficulties in the direct comparison of the stress distribution between the different bone shapes under consideration, as well as discrepancies in the location of the loading forces applied. The alternative is to deform a pre-defined mesh, such as was done by Yeoh et al in 2000 <ref type="bibr" target="#b5">[6]</ref>. However, it is extremely difficult to ensure the validity of the mesh for further FEA under arbitrary deformations.</p><p>The target application is orthopaedic implant design. Virtual testing of new implants will in the future replace cadaver testing. Furthermore, being able to study the whole range of bone shapes and densities of the target population will lead to better fitting implants, as well as a considerable cost reduction in the design process. In order to assess the appropriateness of an implant, further development should be done to define the different scenarios of the implant, in terms of positions were the implant is likely to be placed and the force loading conditions. A complementary application of these techniques will be the patient-specific pre-clinical evaluation of an implant; taking into account the particular skeletal anatomy, bone quality, and implant position to assess the biomechanical performance of the implant on the patient.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2</head><label>2</label><figDesc>Fracture generation and propagation. (a) Fracture generated as a black sagittal slice in the mean bone. (b) Propagation of the reference fracture to a bone instance using deformation fields. Notice the incomplete fracture. (c) Fracture surface created with Delaunay triangulation; a few voxels are still linked at the edge of the fracture. (d) Elimination of the linking voxels and creation of two completely split bone parts.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3</head><label>3</label><figDesc>Delaunay triangulations. (a) Triangulation generated with the black voxels obtained through the deformation fields as vertices. (b) Triangulation generated with the surface voxels as vertices.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>avoid biases due to the variations on the number of points inside and outside the bone volume, as the iterations proceed.Similarly as for the collision constraint</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4</head><label>4</label><figDesc>Oriented Bounding Box (OBB) decomposition of the implant shape used to measure deviation of the angle between the main axis of the bone and the lower part of the implant shape. Figure (a) shows a 4-level decomposition and figure (b) shows the main axis of the lower part of the implant obtained after applying a further OBB decomposition of the lower part of the implant.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5</head><label>5</label><figDesc>Finite element mesh of the bone (including the fracture) with the implant. Beam elements used to model the screws are shown as blue lines. These elements are "embedded" within the bone elements.</figDesc></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>This research has been supported by the NCCR Co-Me of the Swiss National Science Foundation and the Swiss Innovation Promotion Agency, CTI.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Benefits of an Anatomical Reconstruction of the Humeral Head Using Shoulder Arthroplasty: A Finite Element Analysis</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Büchler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Farron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Clinical Biomechanics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="16" to="23" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Statistical Models of Appearance for Computer Vision</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">F</forename><surname>Cootes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">J</forename><surname>Taylor</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+		<respStmt>
+			<orgName>University of Manchester</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Manual of Internal Fixation: Technique Recommended by the A.O. Group</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">E</forename><surname>Müller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Allgower</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Schneider</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1979" />
+			<publisher>Springer-Verlag</publisher>
+			<pubPlace>New-York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A Generic Framework for Non-Rigid Registration Based on Non-Uniform Multi-Level Free-Form Deformations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">A</forename><surname>Schnabel</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Rueckert</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Quist</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">M</forename><surname>Blackall</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Castellano</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">D</forename><surname>Hartkens</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Penney</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">P</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">A</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Truwit</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">L</forename><surname>Gerritsen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><forename type="middle">A</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">L G</forename><surname>Hawkes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Fourth Int. Conf. on Medical Image Computing and Computer-Assisted Intervention</title>
+		<meeting><address><addrLine>Utrecht, NL</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="573" to="581" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">The Material Mapping Strategy Influences the Accuracy of CT-based Finite Element Models of Bones: An Evaluation Against Experimental Measurements</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Helgason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Cristofolini</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Engineering &amp; Physics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="973" to="982" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Tetrahedral Mesh Modeling of Density Data for Anatomical Atlases and Intensity-Based Registration</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Taylor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Third International Conference on Medical Image Computing and Computer-Assisted Intervention</title>
+		<meeting>the Third International Conference on Medical Image Computing and Computer-Assisted Intervention<address><addrLine>Pittsburgh, PA, USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="531" to="540" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multi-agent reinforcement learning
+.=</p>
+<p>Schnebli Zoltán 1
+.=</p>
+<p>1Babeş-Bolyai University, Faculty of Mathematics and Computer Science.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>∙ Motivation?
+.=</p>
+<p>∙ Automatization
+.=</p>
+<p>∙ Robotics
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reinforcement learning
+.=</p>
+<p>Working principle:
+.=</p>
+<p>∙ Agent
+∙ Environment
+∙ Action - State
+∙ Reward
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reinforcement learning
+.=</p>
+<p>Exploration vs. exploitation
+.=</p>
+<p>∙ ϵ - greedy strategy
+∙ ϵ - decay
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Single agent environment
+.=</p>
+<p>Markov decision process
+.=</p>
+<p>∙ ⟨S,A,P.(·, ·),R.(·, ·), γ⟩
+.=</p>
+<p>∙ S - set of states
+.=</p>
+<p>∙ A - set of actions
+.=</p>
+<p>∙ Pa(s, s′) - probability of reaching state s’
+.=</p>
+<p>∙ R (s, s′a ) - value of the reward if we go to s’
+.=</p>
+<p>∙ γ - discount factor
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Single agent environment
+.=</p>
+<p>Partially observable Markov decision process
+.=</p>
+<p>∙ ⟨S,A,P.(·, ·),R.(·, ·), γ,Ω,O(·, ·)⟩
+.=</p>
+<p>∙ S, A, T, R, γ
+.=</p>
+<p>∙ Ω - set of all observations
+.=</p>
+<p>∙ Oa(o, s′) - probability of getting observation o
+.=</p>
+<p>5.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multi agent environment
+.=</p>
+<p>Markov games
+.=</p>
+<p>∙ N agents
+.=</p>
+<p>∙ A := {A1,A2, ...,An}
+.=</p>
+<p>∙ O := {O1,O2, ...,On}
+.=</p>
+<p>∙ It is the most general modell
+.=</p>
+<p>6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recent research results
+.=</p>
+<p>Deep deterministic policy gradient algorithm with generative
+cooperative policy network
+.=</p>
+<p>∙ Every agent has 3 policies
+.=</p>
+<p>∙ Q-network -> optimal action during execution
+.=</p>
+<p>∙ Greedy policy network -> maximizes the global objective based on the
+local actions
+.=</p>
+<p>∙ Generative cooperative policy newtork -> learn other agents policies
+during training
+.=</p>
+<p>∙ pro: cooperativeness
+.=</p>
+<p>∙ con: extra policies to train
+.=</p>
+<p>7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recent research results
+.=</p>
+<p>Experiment - Compared algorithms
+.=</p>
+<p>∙ CF - shared
+∙ FDMARL - individual
+∙ DDPG
+∙ DDPG-GCPN
+∙ DDPG-GCPN with random
+GCPNs in
+sample-generating
+.=</p>
+<p>8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recent research results
+.=</p>
+<p>Experiment - Results
+.=</p>
+<p>2 reward functions
+.=</p>
+<p>∙ shared reward (a)
+.=</p>
+<p>∙ individual (b)
+.=</p>
+<p>9.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recent research results
+.=</p>
+<p>Emergent Complexity via Multi-Agent Competition
+.=</p>
+<p>∙ goal: get complex agent behavior from simple environments
+.=</p>
+<p>∙ ideea: self-play
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recent research results
+.=</p>
+<p>Environments
+.=</p>
+<p>∙ Run to Goal
+.=</p>
+<p>∙ You Shall Not Pass
+.=</p>
+<p>∙ Sumo
+.=</p>
+<p>∙ Kick and Defend
+.=</p>
+<p>11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recent research results
+.=</p>
+<p>Experiment - Results
+.=</p>
+<p>∙ opponent sampling - random old opponent better
+.=</p>
+<p>∙ exploration curriculum - dense reward at the beginning to learn
+basic motor skills faster
+.=</p>
+<p>∙ interesting behaviors: blocking, rising arms, charging, kicking high,
+etc.
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thanks for watching
+.=</p>
+<p>13.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

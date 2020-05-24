@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Modeling and Monitoring Crop Disease in Developing Countries</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">John</forename><forename type="middle">A</forename><surname>Quinn</surname></persName>
+							<email>jquinn@cit.mak.ac.ug</email>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Computer Science</orgName>
+								<orgName type="department" key="dep2">Department of Computer Science</orgName>
+								<orgName type="institution">Makerere University</orgName>
+								<address>
+									<country key="UG">Uganda</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ernest</forename><surname>Mwebaze</surname></persName>
+							<email>emwebaze@cit.mak.ac.ug</email>
+							<affiliation key="aff2">
+								<orgName type="institution">Makerere University</orgName>
+								<address>
+									<country key="UG">Uganda</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Modeling and Monitoring Crop Disease in Developing Countries</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:32+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Information about the spread of crop disease is vital in developing countries, and as a result the governments of such countries devote scarce resources to gathering such data. Unfortunately, current surveys tend to be slow and expensive, and hence also tend to gather insufficient quantities of data. In this work we describe three general methods for improving the use of survey resources by performing data collection with mobile devices and by directing survey progress through the application of AI techniques. First, we describe a spatial disease density model based on Gaussian process ordinal regression, which offers a better representation of the disease level distribution, as compared to the statistical approaches typically applied. Second, we show how this model can be used to dynamically route survey teams to obtain the most valuable survey possible given a fixed budget. Third, we demonstrate that the diagnosis of plant disease can be automated using images taken by a camera phone, enabling data collection by survey workers with only basic training. We have applied our methods to the specific challenge of viral cassava disease monitoring in Uganda, for which we have implemented a real-time mobile survey system that will soon see practical use.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The economies of many developing countries are dominated by an agricultural sector in which small-scale and subsistence farmers are responsible for most production, utilizing relatively low levels of agricultural technology. As a result, disease among staple crops presents a serious risk, with the potential for devastating consequences. It is therefore critical to monitor the spread of crop disease, allowing targeted interventions and foreknowledge of famine risk. Currently, teams of trained agriculturalists are sent to visit areas of cultivation across the country and make assessments of crop health. A combination of factors conspire to make this process expensive, untimely and inadequate, including the scarcity of suitably trained staff, the logistical difficulty of transport, and the time required to coordinate paper reports.</p><p>Although computers remain a rarity in much of the developing world, the near-ubiquity of mobile telephony has brought low-cost and reliable wireless internet services to broad regions that still lack electricity, running water and paved roads. Among other benefits, the prevalence of mobile computing devices at last offers a feasible alternative to paper-based data gathering.</p><p>Copyright c 2011, Association for the Advancement of Artificial Intelligence (www.aaai.org). All rights reserved. This paper describes three innovations. First, we show how accurate response surface models of disease incidence and prevalence can be built using limited data, collected according to existing survey techniques. One challenge arising from the need to cohere with existing practices is that the levels of disease severity across the spatial field must be expressed as ordinal values, requiring the use of ordinal regression techniques. Second, we show how these models can be used in an active learning framework, determining in real time where survey workers should gather their next samples. This approach has workers gather data non-uniformly in order to maximize the value of the information gathered, as measured by a utility function elicited from domain experts. Because workers follow fixed circuits, our active learning task is an online optimization problem: each field must either be surveyed immediately or passed by. Finally, we present computer vision techniques for using camera-enabled mobile devices to make disease diagnoses directly, allowing reliance on survey workers with lower levels of training, and hence reducing survey costs. Specifically, given expert-annotated images of single cassava leaves, we demonstrate classification based on color and shape information.</p><p>We have applied these ideas to the domain of viral cassava disease monitoring in Uganda. Cassava is the third largest source of carbohydrates for human consumption worldwide, providing more food calories per cultivated acre than any other staple crop. It is an extremely robust plant which tolerates drought and low quality soil. The foremost cause of yield loss for this crop is viral disease (Otim-Nape, Alicai, and Thresh 2005), a major factor keeping East African farmers trapped in poverty <ref type="bibr">(The Economist, 2011</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Spatial density estimation</head><p>In a crop disease survey, each plant is assigned a disease level y i ∈ {d 1 , ..., d D }, usually by visual inspection of the aerial parts of the plant. A two-class survey might be done, where d 1 and d 2 represent healthy and diseased plants respectively; though often for cassava, disease levels are assigned categories from d 1 (entirely healthy) to d 5 (very severe disease, Note that without further information we should deal with these as ordinal categories, d 1 &lt; d 2 &lt; · · · &lt; d D , and not code them as numbers: we do not have a principled way of mapping these categories to the real line, for example. Surveyors deal with single fields of plants at a time, and report two statistics, severity and incidence of disease. Incidence is the proportion of infected plants P (y i &gt; 1|x), where x ∈ R 2 is the location. Severity is the mean disease level of any non-healthy plants found in the field. <ref type="figure" target="#fig_0">Figure 1</ref> shows an example of an incidence map for cassava brown streak disease in Uganda, produced by NACRRI to summarize the findings of its 2009 survey.</p><p>Models of crop disease are used for understanding the spread or severity of an epidemic, predicting the future spread of infection, and choosing disease management strategies. Common to all of these problems is the notion of spatial interpolation. Observations are made at a few sample sites, and from these we infer the distribution across the entire spatial field of interest. Standard approaches to this problem <ref type="bibr">(reviewed in (van Maanen and Xu 2003)</ref>) include the use of differential equations, spatial autocorrelation, or kriging (Gaussian process regression) <ref type="bibr" target="#b4">(Nelson, Orum, and Jaime-Garcia 1999)</ref>. Under these schemes, summary statistics such as incidence or severity are interpolated. Note that the observations contain more information than these models use; under an incidence regression, we simplify the raw observation data to an aggregate across some area. Here we describe a way to adapt the geospatial statistical approach in order to directly model the quantity which is being surveyed: the distribution over disease levels, given observations of individual plants.</p><p>Given a number of point observations, we would like to predict disease characteristics across the map. The observed data is of the form D = {x i , y i |i = 1, . . . , N } such that each individual observation consists of a location within a spatial region of interest S, with x i ∈ S ∈ R 2 , and a disease level y i ∈ {d 1 , ..., d D }. We take d 1 to represent an entirely healthy plant, and d D to represent a plant with the highest category of disease damage. We would like to infer P (y * |x * , D), the expected distribution over disease levels at a location x * given a set of labelled observations D. We use a Gaussian process (GP) approach for this ordinal regression, using the formulation of <ref type="bibr" target="#b2">Chu and Ghahramani (2005)</ref>. Ordinal regression is more appropriate than classification, because the latter treats all classes equally; in our case we know that d 1 is closer to d 2 than d 5 , even though we lack a quantitative cost matrix. We did not use ordinary (i.e., real-valued) regression for two reasons. First, although we could represent the categories with real numbers d 1 = 1, d 2 = 2 etc., we have no basis for making an assumption about the relative similarities of different classes (e.g., it may be that d 1 and d 2 are extremely different, but d 2 and d 3 are relatively similar). Second, we have limits on the domain (d 1 ≤ y i ≤ d D ), whereas most regression models cannot be restricted to an interval.</p><p>The GP approach to ordinal regression can be summarised as follows. A function f (x i ) ∈ R is introduced as an intermediate quantity to relate x i and y i . This function is taken to be a zero-mean Gaussian process with covariance</p><formula xml:id="formula_0">Cov (f (x i ), f (x j )) specified by a Gaussian kernel K(x i , x j ) = exp − κ 2 (x i,1 − x j,1 ) 2 + (x i,2 − x j,2 ) 2 (1) with parameter κ &gt; 0. To relate f (x i ) and y i , we split the real line up into D intervals given the thresholds b 0 = −∞, b D = ∞, b i|0&lt;i&lt;D ∈ R, then formulate a likelihood P (y i |f (x i )), which is high when b yi−1 &lt; f (x i ) &lt; b yi and low otherwise.</formula><p>Our goal is then to integrate out f to obtain our estimate of y * at a novel location x * ,</p><formula xml:id="formula_1">P (y * |x * , D) =ˆP y * |f (x * ) ,θ P f (x * ) |D,θ df (x * )</formula><p>whereθ is a set of optimal parameters learnt from the data. Learning the parameters and calculating this distribution exactly is intractable in general, but following <ref type="bibr" target="#b2">Chu and Ghahramani (2005)</ref>, predictions can be obtained by applying the Laplace approximation (Rasmussen and Williams 2006, §3.4), yielding</p><formula xml:id="formula_2">P (y * |x * , D) ≈ Θ by−µ √ σ 2 +σ 2 x − Θ by−1−µ √ σ 2 +σ 2 x , (2) Θ(z) =´z −∞ (2π) 1 2 exp − 1 2 x 2 dx, µ = k(x) Σ −1 f MAP , σ 2 x = K(x, x) − k Σ + Λ −1 MAP −1 k(x), where Σ is an N × N covariance matrix with its ijth element defined as in Eq. (1), k(x) is a vector [K(x, x 1 ), . . . , K(x, x D )] , the quantity f MAP is the value of f = {f (x i )|i = 1, . . . , N } which maximises P (f |D),</formula><p>found with a suitable numerical optimisation method, and Λ MAP is a diagonal matrix of second derivatives of the log likelihood, with the ith diagonal element given by</p><formula xml:id="formula_3">∂(− ln P (yi|fMAP(xi))) ∂ 2 fMAP(xi)</formula><p>. The posterior distribution of disease levels over space can be updated whenever new observations are received. <ref type="figure" target="#fig_1">Figure  2</ref> shows an example of inference in this model. Given observations of the disease levels of individual plants, we are able to infer distributions of disease levels at any location. <ref type="figure" target="#fig_2">Figure 3</ref> illustrates the variance on these estimates; note low variance where observations have been made, as expected. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Adaptive selection of survey sites</head><p>Besides summarizing the findings of a survey, our models can be used to guide surveyors to collect more valuable data, holding fixed their budgeted number of samples. Based on our interviews with surveyors from NACRRI, we assume that survey teams follow a network of roads to conduct their surveys, and to take measurements from farms near the road.</p><p>In rural parts of the developing world, the road network is extremely sparse. This makes it reasonable to assume that survey teams will follow a set route, corresponding to a one dimensional manifold R within the spatial field. NACRRI's current survey methodology is to sample uniformly along R. With a survey budget allowing k stops, we are interested in finding a set of points along R that maximises the expected utility of the survey. (For now, we simply presume the existence of some utility function; we provide such a function for our cassava domain in the Experimental Evaluation section below.) Because we propose the collection of data with mobile devices, we can calculate in real time the best place for a survey team to go next, every time a new observation is made.</p><p>The simplest survey scheme would be for the surveyors to complete a single tour, returning to their headquarters afterwards. However, it can still be practical for a survey team to complete their tour more than once. In such a scenario, the first circuit can be used to explore disease levels across the region, and subsequent circuits can use the remaining budget to focus on the areas of greatest interest. We assume that each survey follows a tour that can be repeated t times (t ≥ 0; in practice, we expect t ≤ 3), that there is a limit of N samples which can be taken in total by any survey team,  <ref type="figure" target="#fig_1">Figure 2</ref>; crosses indicate the location of observations (left). Screenshot of our mobile data collection system (right). For each plant being surveyed, the system collects an expert diagnosis, leaf image, and GPS coordinates. and that p i % of the budget must be used on the i th circuit.</p><p>Our goal is to use our model to determine the locations that a survey team should visit, in a way that outperforms the simple uniform sampling strategy currently used by NACRRI. Such an "active learning" problem is straightforward when there is no constraint on the order in which observations can be obtained. In our setting, however, we face the constraint that the tour can be repeated at most t times, and hence will often prefer to sample a nearby point before sampling a distant point, even if the latter is expected to be more informative. The intuition behind our algorithm is to leverage a traditional, unconstrained active learning framework to identify a distribution of k-tuples of points that are expected to yield high-value observations (where on the i th tour, k is initialized to p i N ), and then to select the nearest point (formally, the first order statistic) from this distribution. Then we obtain an observation at that point, update the model, and repeat the process with k ← k − 1.</p><p>More formally, Algorithm 1 gives the details of our sampling strategy. At each point it greedily selects the point along the current route with the largest expected utility, and then repeatedly samples from the model at that point to "hallucinate" different potential observations that could be obtained. We update the model based on these hallucinated observations, and then look for the next most utility-increasing point. The function ExpectedU tilityGain(r, u y , P (y|x, D * )) quantifies the amount by which the utility u y of the current density model P (y|x, D * ) would be expected to increase if observations were provided at location r. If the utility is neutral with respect to disease levels, this is the standard active learning setting where we choose the point with the highest uncertainty in the current model. If the utility is weighted according to the true disease level (see next section for an example), then we can weight the uncertainty to account for this, according to the current disease level estimates. This procedure results in a set of k points along the current route (represented as the distances along the route from the last stopping location). We can repeat this many times and take the mean of the first order statistic of these sets. We take this mean as our next survey location.</p><p>Algorithm 1: Survey route optimisation.</p><p>Input: S ∈ R 2 , spatial field of interest. R, the remaining route, a 1D manifold in S. D = {x (i) ∈ S, y (i) |i = 1, . . . , N }, previous samples. k, the number of stops remaining. Output: dnext, distance to travel along R before the next stop. S ←− ∅ # Sample many sets of stopping points for i = 1 : </p><formula xml:id="formula_4">N samples do A ←− ∅ D * ←− D for j = 1 : k do x ←− arg maxr∈R ExpectedU tilGain(r, uy, P (y|x, D * )) Append DistanceAlongRoute(x, R) to A Sample observations from P (y|x, D * ) Append sampled observations to D * end Append A (1) to S end dnext = 1 N samples i Si</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Image-based diagnosis of crop disease</head><p>One reason that crop disease surveys in the developing world tend to be under-resourced is a scarcity of expert surveyors. Reliable automatic methods for performing surveys therefore offer the possibility of extending the scope of disease surveillance. The ubiquity of camera phones in even the most rural parts of many developing countries introduces the possibility of survey by non-expert workers, who submit images of crops that are then automatically classified.</p><p>We consider two types of features from these images, following the approach taken in previous work on visual cassava disease diagnosis (Aduwo, Mwebaze, and Quinn 2010). The first is normalised histograms of hue (within the yellow/green range) using 50 histogram bins. The second is local image gradient information, represented using Scale Invariant Feature Transform (SIFT) descriptors <ref type="bibr" target="#b3">(Lowe 2004)</ref>. Whereas SIFT features are often used in object detection, we used them here to create a texture model of each image. Specifically, we calculate SIFT descriptors across each image (each descriptor being a 128-dimensional vector), summarizing each with a mean vector µ i and a covariance Σ i .</p><p>To classify images, we use simple k-nearest-neighbor classification, using Kullback-Leibler divergence as a measure of distance between images for each of the features. For the hue histogram features, this is simply the weighted log difference of the histogram bins,</p><formula xml:id="formula_5">D KL (h 1 , h 2 ) = i h 1,i log h 1,i h 2,i .</formula><p>To conveniently calculate a distance between images given first and second moments of the SIFT descriptors in those images, we assume they follow a multivariate Gaussian distribution. KL divergence with Gaussian densities is</p><formula xml:id="formula_6">D KL (µ 1 , Σ 1 , µ 2 , Σ 2 ) = 1 2 trace Σ 1 Σ −1 2 +Σ 2 Σ −1 1 −2I+ Σ −1 1 + Σ −1 2 (µ 1 − µ 2 ) (µ 1 − µ 2 ) .</formula><p>We use a combination of the two features for classification, implemented by rank-weighting under the two distance measures to get a single set of k neighbours.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Experimental Evaluation</head><p>We expect that our system will ultimately be used in an upcoming crop survey by NACRRI. In the absence of the real data that we will obtain through such a survey, we conducted computational experiments with artificial data to demonstrate the promise of our approach.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Utility function</head><p>To quantitatively evaluate the quality of our models, we need a utility function that scores how effectively a given model captures a true underlying distribution. For our example of cassava disease in Uganda, we interviewed the director of NACRRI to elicit a utility function expressing the relative importance of learning different kinds of information. His responses indicated that: 1) it is better to make small errors (e.g., predicting a disease level of 4 when the true level is 5) than big errors (e.g., predicting 2 when the true level is 5); 2) it is considerably more important to correctly assess whether a region is diseased or not than to correctly determine the specific level of disease in a diseased region; 3) being wrongly optimistic-under-predicting the incidence of disease-is about twice as bad as being wrongly pessimistic. We formalized these principles as follows. First, consider a single point in space; let y denote its true disease level, and letŷ denote its predicted disease level. The utility function is defined as follows, recalling that D denotes the number of disease levels and where, based on our interview with the NACRRI director, we set α = .5 and β = 2:</p><p>Error(y,ŷ) = |y −ŷ| D − 1 ;</p><p>DiseaseP enalty(y,ŷ) = α y = 1 XORŷ = 1 0 otherwise;</p><p>OptimismF actor(y,ŷ) = β y &gt;ŷ 1 otherwise.</p><p>Our utility function is u y (ŷ) = −OptimismF actor(y,ŷ) · (Error(y,ŷ) + DiseaseP enalty(y,ŷ)). The Error, DiseaseP enalty and OptimismF actor functions capture our expert's responses 1-3 respectively. Observe that Error is a utility penalty for misclassification normalized to the range [0, 1], that α (intended to be a value from [0, 1]) expresses an additional penalty in the same units, and that the total penalty is multiplied by β (intended to be greater than 1) in the event that the prediction is optimistic.</p><p>We can determine the expected utility of predicting a distribution over disease levelsP (y) given a true distribution over disease levels P (y) by taking straightforward expectations, where Dom(P ) denotes the domain of P :</p><formula xml:id="formula_7">u P (P ) = y∈Dom(P ) P (y) ŷ∈Dom(P )P (ŷ)u y (ŷ).</formula><p>Finally, we can further extend our definition of expected utility to true and predicted stochastic processes M andM that predict different distributions at predefined points in a spatial region. Let X denote a set of points of interest, let M x denote the true distribution over disease levels at point x ∈ X, and letM x denote the predicted distribution at x. Then the expected utility is</p><formula xml:id="formula_8">u M (M ) = 1 |X| x∈X u Mx (M x ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Spatial density estimation</head><p>To compare the effectiveness of our density estimation method against the existing aggregation method used to create the map in <ref type="figure" target="#fig_0">Figure 1</ref>, we simulated a number of ground truth incidence distributions and sets of observations, and evaluated the expected utility achieved by the two methods. Simulation of disease levels was done by sampling a grid of uniform random values across the spatial field, and then convolving this matrix with a Gaussian smoothing kernel. The effect of this convolution was to filter out high-frequency components in the noise, leaving a smooth distribution, as illustrated in <ref type="figure">Figure 6</ref> (left). The resulting values were normalised to the range [0, 1]. We simulated I(x) 500 times, and from each simulation sampled 150 observations amongst 5 disease levels at uniformly random locations. With these observations, we used both methods to estimate the incidence.</p><p>To evaluate the aggregative model, we split the spatial field into n × n cells, and counted the proportion of diseased observations in each cell. (For comparison, the maps currently made of disease in Uganda (as in <ref type="figure" target="#fig_0">Figure 1</ref>) aggregate at the district level which is around around 80 regions across the country.) <ref type="figure">Figure 5</ref> shows the relative utility, varying n, when the two density estimation models are applied to the same set of observations. We show the ratio of utility from the GP inference to the utility from simple aggregation. Using a bootstrap test we find that the mean utility for GP inference is lower than the mean utility for the aggregate model for every n at a significance level of p = 0.01. It is therefore clear that it consistently and significantly outperforms the aggregative density model on this utility function.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Adaptive selection of survey sites</head><p>We compared the quality of inferences made under our adaptive survey strategy to those made when survey stops were made at regular intervals along each survey route. We did this by randomly generating many survey routes and "ground truth" disease distributions, applying both survey strategies to each problem instance, and then scoring the models obtained by each strategy using our utility function.</p><p>To sample trajectories amongst a number of survey groups, we uniformly sampled a set of 2D points, then finding the permutation which minimised the total tour distance. A sample of three survey trajectories is shown in <ref type="figure">Figure 6</ref> (right).</p><p>We evaluated the resulting survey utility with both regular survey locations and our adaptive survey location strategy. <ref type="figure">Figure 7</ref> shows examples of the placement of survey sites along a single tour. When the utility function was modified to be neutral with respect to disease level (α = 0, β = 1), the effect of the optimisation was to space the sample sites widely apart in areas of maximum uncertainty. When the utility function was set to reward discovery of diseased areas, survey locations were moved closer to areas of high disease incidence. <ref type="figure" target="#fig_5">Figure 8</ref> shows survey utility as a function of budget. When the budget was low (very sparse sample sites), optimising survey location made little difference due to lack of information on which to base the adaptation. As the budget increased, the utility achieved with optimisation increased significantly compared to regular sampling.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Image-based diagnosis of crop disease</head><p>We collected a set of 469 images of healthy cassava plants (53%) and those with cassava mosaic disease (47%). We cal-w(I(x)) =1 w(I(x)) =I(x) +c <ref type="figure">Figure 7</ref>: Stopping locations where the utility function is unbiased towards disease incidence (left), linearly correlated with underlying incidence (right). The background heatmap indicates true underlying disease incidence. Where the utility function rewards discovery of diseased regions (right), survey points are more concentrated in the regions of high incidence. culate classification performance using leave-one-out crossvalidation (LOO-CV). Classification with the combination of both features for 6 ≤ k ≤ 12 achieved AUC in the range 0.959-0.961, and error rate 0.078-0.083.</p><p>In <ref type="figure">Figure 9</ref>, we put together all of the methods described in this paper. Specifically, we compare the quality of the models achieved using adaptive site selection and automatic image classification to the quality of the models achieved using adaptive site selection and expert image labeling. When both methods are given equal amounts of data (leftmost point in <ref type="figure">Figure 9</ref>) we achieve somewhat worse performance with automatic classification, due to classification error. However, our motivation for proposing the automatic method was that it would allow us to collect more data by freeing us from dependence on scarce expert surveyors. As the amount of data collected by the automatic method increases (moving right along the x axis), we observe that its relative performance improves, reaching the same level of performance as expert labeling when 80% more data is collected, and exceeding it beyond that point. Note that in these last experiments we only use two disease levels, corresponding to the image training data we have available.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions</head><p>We have demonstrated three computational techniques for modeling and monitoring crop disease in developing coun-  <ref type="figure">Figure 9</ref>: Comparison of utility in "automatic" classification mode (a random 8% of labels are incorrect) and "expert" mode (all labels are correct). The x axis gives the proportion of additional data available to the automatic method. The mean utility of the automated system becomes equivalent to that of the expert system when around 70-80% extra data is available.</p><p>tries: first, a rich and flexible modeling approach that allows spatial interpolation of ordinal response values; second, a method for adaptively deciding which data to collect in order to maximise survey utility; and third, an application of computer vision that reduces the need for skilled experts.</p><p>Many interesting avenues of work remain open. One intriguing idea is to solicit ad-hoc data from agricultural extension workers, setting dynamic prices for surveys according to the expected values of different locations. It would also be useful to explicitly incorporate temporal dynamics by using the history of disease density from previous years, and knowledge of the mechanisms of disease spread</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Incidence map of cassava brown streak disease in Uganda, 2009 (NACCRI). causing dieback), where intermediate categories are characterised by the extent of disease on different parts of the plant.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>Example ordinal regression of disease levels across a spatial field given sample observations. The panel on the left shows example disease level observations (numbers with dark backgrounds), and contour lines indicate the mean predicted disease level. The three insets show the predicted distribution of disease levels at locations A, B and C respectively.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Variance of the predictions across the spatial field from</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 :</head><label>4</label><figDesc>Examples of healthy leaves (left) and those infected with cassava mosaic disease (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 :Figure 6 :</head><label>56</label><figDesc>Comparison of GP ordinal regression density model and simple aggregation, over 500 simulations with aggregations made on a n×n grid. A utilityratio of less than 1 means that the GP model outperformed the aggregation model (since our utilities are negative numbers). The error bars show standard deviations.I(x) P(y =d 2 |x,D) Heatmap showing simulated true disease incidence, where lighter colours denote higher incidence (left); Sampled trajectories of three survey groups, with survey sites at regular distances (right); heatmap shows estimated probability of disease given observations at survey locations.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 8 :</head><label>8</label><figDesc>Average utility of simulated survey results, for regular and optimised sampling positions, as a function of the sample budget. Error bars show standard deviations. Beyond the smallest number of survey locations the mean utility using optimisation is significantly better (at p = 0.05 for all numbers of survey locations at least 8).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>). We have developed a mobile survey system (see screenshot in Figure 3) which is currently being field trialled in partnership with Uganda's National Crops Resources Research Institute (NACRRI), and expect this to be used in their upcoming crop survey. Source code and survey data are available at http://cropmonitoring.appspot.com.</figDesc><table></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>This work was funded by a Google Research Award. Particular thanks to Titus Alicai at NACRRI. Also thanks to Chris Williams for discussions, Jennifer Aduwo for practical assistance, and to the anonymous reviewers.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Automated vision based diagnosis of cassava mosaic disease</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Aduwo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Mwebaze</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Quinn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc ICDM Workshop on Data Mining in Agriculture</title>
+		<meeting>ICDM Workshop on Data Mining in Agriculture</meeting>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Second helpings of tapioca pudding: a crucial crop in new trouble. The Economist</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Anonymous</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011-01-27" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Gaussian processes for ordinal regression</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Chu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Z</forename><surname>Ghahramani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="1019" to="1041" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Distinctive Image Features from Scale-Invariant Keypoints</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Lowe</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Computer Vision</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="91" to="110" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Applications of geographic information systems and geostatistics in plant disease epidemiology and management</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">R</forename><surname>Nelson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">V</forename><surname>Orum</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jaime-Garcia</forename></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Plant Disease</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="page" from="308" to="319" />
+			<date type="published" when="1999" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Changes in the incidence and severity of cassava mosaic virus disease, varietal diversity and cassava production in Uganda</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Otim-Nape</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Alicai</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Thresh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Applied Biology</title>
+		<imprint>
+			<biblScope unit="volume">138</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="313" to="327" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Gaussian Processes for Machine Learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Rasmussen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Van Maanen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X.-M</forename><surname>Xu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Plant Pathology</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="page" from="669" to="682" />
+			<date type="published" when="2003" />
+			<publisher>MIT Press</publisher>
+		</imprint>
+	</monogr>
+	<note>Modelling plant disease epidemics</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

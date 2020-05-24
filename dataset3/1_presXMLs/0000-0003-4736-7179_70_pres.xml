@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Power-aware Multi-DataCenter 
+Management using Machine Learning 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 
+</p>
+<p> 
+2nd Intl. Workshop on Power-aware Algorithms, Systems, and 
+</p>
+<p>Architectures 2013 
+</p>
+<p>October 1st – Lyon (France) 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 1 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context: Energy, Quality of Service and Self-Management 
+</p>
+<p>• Scenario: Multi-Datacenter Network 
+</p>
+<p>– Achieve allocation of virtualized web-services 
+</p>
+<p>– … keeping good Quality of Service 
+</p>
+<p>– … reducing energy costs 
+</p>
+<p>– … and doing this “automatically” 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 2 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context: Autonomic Computing and Machine Learning 
+</p>
+<p>• Keywords: 
+</p>
+<p>– Autonomic Computing (AC): Automation of management 
+</p>
+<p>– Machine Learning (ML): Learning patterns and predict them 
+</p>
+<p> 
+</p>
+<p>• Applying AC to energy control: 
+</p>
+<p>1. Self-management must include energy policies 
+</p>
+<p>2. Optimization mechanisms are becoming more complex 
+</p>
+<p>3. Decision makers can be improved through adaption over time 
+</p>
+<p> 
+</p>
+<p>• Modeling and prediction: 
+</p>
+<p>– Obtain a predictive model from the system from the past 
+</p>
+<p>– …using minimal expert knowledge 
+</p>
+<p> 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 3 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction 
+</p>
+<p>• Energy Saving in Cloud Self-management: 
+– Apply the well-known consolidation strategy 
+</p>
+<p> 
+</p>
+<p> 
+</p>
+<p> 
+</p>
+<p> 
+</p>
+<p>• Challenges: 
+– How do we consolidate? Optimal place for a job/VM 
+</p>
+<p>– How much resources used? Required resources for the job/VM 
+</p>
+<p>– Resulting QoS / Energy cost in the new placement? 
+</p>
+<p> 
+</p>
+<p>• Contributions: 
+– Apply ML to learn about resource performance 
+</p>
+<p>– On a mathematical model for a multi-DC (Benefit-Cost optimization) 
+</p>
+<p>– Also include elements of geographical location (and their properties) 
+</p>
+<p> 
+Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 4 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multi-DataCenter Business Model 
+</p>
+<p>• Specific Case of Study: 
+</p>
+<p>– Transactional jobs, Quality of Service (i.e. “Response Time”) 
+</p>
+<p> 
+</p>
+<p>• Problem: 
+</p>
+<p>– As a provider: Schedule properly VMs to PMs 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 5 
+ </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multi-DataCenter Scenario 
+</p>
+<p>• Network of DataCenters 
+</p>
+<p>– Each location has its own energy prices 
+</p>
+<p>– Each client connects to our DC network through the closest DC 
+</p>
+<p>– Each VM may have clients  from around the world 
+</p>
+<p>– Each location clients have different “timetables” 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 6 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Problem parts… 
+</p>
+<p>1. Model the multi-datacenter 
+– Create a mathematical model to represent the multi-DataCenter 
+</p>
+<p> 
+</p>
+<p>2. Fit the model to observations: 
+– Relevant variables only available a posteriori 
+</p>
+<p>– ML creates a model from past examples 
+</p>
+<p> 
+Training Dataset 
+(posteriori data) 
+</p>
+<p>Tagged Ele ments ML 
+</p>
+<p> 
+</p>
+<p> 
+Data to Predict Estimates 
+</p>
+<p> Data for the new New Element Model Element 
+</p>
+<p> 
+</p>
+<p>3. Solving the optimization problem 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 7 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Modeling the Multi-DataCenter 
+</p>
+<p>• Mathematical Model: Find VMs  (hosts × resources) 
+</p>
+<p>– Profit = Benefits for running VMs – QoS penalties – power costs 
+</p>
+<p>– Outputs: Schedule optimizing profit 
+</p>
+<p>– Constraints: maintaining the consistence of M-DC and operations 
+</p>
+<p> 
+</p>
+<p>• Quality of Service 
+</p>
+<p>– RT = RTprocess + RTtransport  (“Latencies”) 
+</p>
+<p> 
+</p>
+<p>• Subject to: 
+</p>
+<p>– VM requirements, depending on load 
+</p>
+<p>– Power functions, depending on resources and locations 
+</p>
+<p>– Migration penalties, on distances and VM volumes 
+</p>
+<p>– QoS, depending on resource competence and client distance 
+</p>
+<p> 
+Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 8 
+</p>
+<p> </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Modeling the Multi-DataCenter 
+</p>
+<p>• Mathematical Model: Find VMs  (hosts × resources) 
+</p>
+<p>– Profit = Benefits for running VMs – QoS penalties – power costs 
+</p>
+<p>– Outputs: Schedule optimizing profit 
+</p>
+<p>– Constraints: maintaining the consistence of M-DC and operations 
+</p>
+<p> 
+</p>
+<p>• Quality of Service 
+</p>
+<p>– RT = RT Machine process + RTtransport  (“Latencies”) 
+Learning 
+</p>
+<p> 
+</p>
+<p>• Subject to: 
+</p>
+<p>– VM requirements, depending on load 
+</p>
+<p>– Power functions, depending on resources and locations 
+</p>
+<p>– Migration penalties, on distances and VM volumes 
+</p>
+<p>– QoS, depending on resource competence and client distance 
+</p>
+<p> 
+Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 9 
+</p>
+<p> </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Learning and Prediction 
+</p>
+<p>• Applying modeling and prediction 
+– How much CPU/Mem/IO… will each VM demand? 
+</p>
+<p>– How good will each VM behave? 
+</p>
+<p> 
+</p>
+<p>• Learning on the given scenario 
+– Apply ML modeling techniques for VM CPU/MEM/IO 
+</p>
+<p>– Also: learn PM CPU aggregate 
+</p>
+<p>– Also: learn QoS as “RT” or “SLA” 
+</p>
+<p> 
+</p>
+<p>• Benefits: 
+– When changing machines, we only need to re-learn ML models 
+</p>
+<p>– We discover the bottlenecks of the system 
+</p>
+<p> 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 10 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments 
+</p>
+<p>• Intra-DataCenter comparatives 
+</p>
+<p>– Using approximate algorithms (ordered best-fit): 
+</p>
+<p> 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 11 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments 
+</p>
+<p>• Inter-DataCenter results 
+</p>
+<p>– In a dynamic context, energy savings may increase when 
+consolidating spare VMs 
+</p>
+<p> 
+– Average SLA increases 
+</p>
+<p> when migration costs are 
+smaller than benefit 
+improvements 
+</p>
+<p> 
+</p>
+<p>– When no load, VMs are 
+sent to cheapest place to 
+stay parked 
+</p>
+<p> 
+</p>
+<p>– ML models detect QoS 
+violations better than no 
+ML 
+</p>
+<p> 
+</p>
+<p> 
+Josep Ll. B erral, Ricard Gavaldà, Jordi Torres 12 
+</p>
+<p> </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Energy/QoS/Load Trade-offs 
+</p>
+<p>• Trade-off between energy consumption and SLA (QoS) 
+</p>
+<p> 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 13 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Summary 
+</p>
+<p>• Focus the “VMs × PMs” allocation problem : 
+– With mathematical modeling on multi-datacenter systems 
+</p>
+<p>– Focused on energy consumption and quality of service 
+</p>
+<p>– Usage of automatic modeling through machine learning 
+</p>
+<p> 
+</p>
+<p>• Contributions: 
+– Introduce localization variables to a DC management model  
+</p>
+<p>– Studied learning models on different kind of machines and views of QoS 
+</p>
+<p>– Trade-off between SLA fulfillment and energy for transactional jobs 
+</p>
+<p> 
+</p>
+<p>• Learning and Experimentation Results 
+– When having different energy prices, de-location becomes a good option 
+</p>
+<p> 
+</p>
+<p>• Future work: 
+– Study new relevant variables to the multi-DC model, and other kind of jobs 
+</p>
+<p>and web-services 
+</p>
+<p> 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 14 </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thank you for your attention 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 
+berral@ac.upc.edu 
+</p>
+<p>(also jlberral@lsi.upc.edu) 
+</p>
+<p> 
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 15 </p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

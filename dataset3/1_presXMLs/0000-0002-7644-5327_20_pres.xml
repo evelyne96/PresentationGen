@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hierarchical Hardness Models 
+for SAT
+</p>
+<p>Lin Xu, Holger H. Hoos 
+and Kevin Leyton-Brown 
+</p>
+<p>University of British Columbia
+</p>
+<p>{xulin730, hoos, kevinlb}@cs.ubc.ca
+1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07
+Old SATzilla [Nudelman, et. al, 2003 ]
+</p>
+<p>2nd Random
+2nd Handmade (SAT)
+3rd  Handmade
+</p>
+<p>SATzilla-07 [Xu, et. al, 2007]
+1st Handmade
+1st Handmade (UNSAT)
+1st Random
+2nd Handmade (SAT)
+3rd Random (UNSAT)
+</p>
+<p>2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+</p>
+<p>Introduction
+Predicting the satisfiability of SAT 
+instances
+Hierarchical Hardness Models
+Conclusions and future work
+</p>
+<p>3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical Hardness Model (EHM)
+</p>
+<p>Predicting algorithm’s runtime based on 
+poly-time computable features
+</p>
+<p>Features: anything can characterize the problem 
+instance and can be represented by a real number
+</p>
+<p>9 category features [Nudelman, et al, 2004]
+</p>
+<p>Prediction: any machine learning technique 
+can return prediction of a continuous value
+</p>
+<p>Linear basis function regression 
+[Leyton-Brown et al, 2002; Nudelman, et al, 2004]
+</p>
+<p>5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Linear Basis Function Regression
+</p>
+<p>fw(Φ) = wT Φ
+• 23.34
+</p>
+<p>• 7.21
+</p>
+<p>• …
+</p>
+<p>• …
+</p>
+<p>Features (Φ) Runtime (y)
+</p>
+<p>P(y |Φ) = N (y | wTΦ,β )
+6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Previous work [Nudelman, et al, 2004]
+Msat/MMunusnacto:n df.o:c Tursaeidn eodn  oonn em tixytpuer eo fo ifn isntsatnacnecses
+</p>
+<p>Solver: satelite; Dataset: Quasi-group completion problem 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Key Idea
+</p>
+<p>Knowing satisfiability of an instance allows 
+better prediction
+</p>
+<p>Problem: the only way to know this is to 
+solve the instance!
+</p>
+<p>Idea: predict satisfiability
+even though such a classifier can’t be 
+</p>
+<p>100% accurate, maybe it can be accurate 
+enough to help
+</p>
+<p>8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Cost of Using the Wrong Model
+</p>
+<p>Only use SAT model Only use UNSAT model
+</p>
+<p>Solver: satelite; Dataset: Quasi-group completion problem
+</p>
+<p>9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Predicting Satisfiability of 
+SAT Instances
+</p>
+<p>10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance of Classification
+</p>
+<p>Classifier: SMLR
+Features: same as [Krishnapuram, et al. 2005]
+regression
+</p>
+<p>Dataset Classification 
+Datasets Accuracy
+</p>
+<p>rand3sat-var sat. unsat. overall
+</p>
+<p>rand3sat-fix rand3sat-var 0.979 0.989 0.984
+</p>
+<p>QCP rand3sat-fix 0.848 0.881 0.865
+</p>
+<p>SW-GCP QCP 0.980 0.932 0.960
+SW-GCP 0.752 0.711 0.734
+</p>
+<p>11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance of Classification (QCP)
+</p>
+<p>12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hierarchical Hardness 
+Models
+</p>
+<p>13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Improve EHM by using classification
+</p>
+<p>Key idea: use prediction of satisfiability to 
+improve runtime prediction
+</p>
+<p>Does this mean that I just use the (eg) unsat
+model if the instance is predicted to be unsat?
+NO! need to consider the error distribution
+</p>
+<p>Note: best performance would be achieved by 
+model selection oracle!
+Question: How to approximate model 
+selection oracle based on features
+</p>
+<p>14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hierarchical Hardness Models
+</p>
+<p>Φ, s Z y
+Features & Model selection
+</p>
+<p>Classifier output oracle Runtime
+s: P(sat)
+</p>
+<p>P(y |Φ, s) = ∑ P(z |Φ, s)N (y | wTz Φ,β z )
+z∈{sat ,unsat}
+</p>
+<p>Mixture of experts problem with fixed experts,
+</p>
+<p>use EM to find the parameters for z [Murphy, 2001]
+15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Importance of Classifier’s Output
+</p>
+<p>A+B
+Two ways:
+A: Using 
+</p>
+<p>classifier’s A
+</p>
+<p>output as a 
+feature
+</p>
+<p>B: Using 
+classifier’s 
+output for EM      B
+</p>
+<p>initialization 
+</p>
+<p>16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Big Picture of HHM Performance
+</p>
+<p>Oracular Uncond. Hier. Oracular Uncond. Hier.
+</p>
+<p>Solver RMSE (rand3-var) RMSE (rand3-fix)
+</p>
+<p>satz 0.329 0.358 0.344 0.343 0.420 0.413
+</p>
+<p>march_dl 0.283 0.396 0.306 0.444 0.542 0.533
+</p>
+<p>kcnfs 0.294 0.373 0.312 0.397 0.491 0.486
+</p>
+<p>Oksolver 0.356 0.443 0.378 0.479 0.596 0.587
+</p>
+<p>Solver RMSE (QCP) RMSE (SW-GCP)
+</p>
+<p>Zchaff 0.303 0.675 0.577 0.657 0.993 0.983
+</p>
+<p>Minisat 0.305 0.574 0.500 0.682 1.022 1.024
+</p>
+<p>Satzoo 0.240 0.397 0.334 0.384 0.581 0.581
+</p>
+<p>Satelite 0.247 0.426 0.372 0.618 0.970 0.978
+</p>
+<p>Sato 0.375 0.711 0.635 0.723 1.352 1.345
+</p>
+<p>oksolver 0.427 0.548 0.506 0.601 1.337 1.331
+</p>
+<p>17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Example for rand3-var (Solver: satz)
+</p>
+<p>Left: unconditional model                 Right: hierarchical model
+</p>
+<p>18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Example for rand3-fix (solver: satz)
+</p>
+<p>Left: unconditional model                 Right: hierarchical model 
+</p>
+<p>19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Example for QCP (solver: satelite)
+</p>
+<p>Left: unconditional model                 Right: hierarchical model 
+</p>
+<p>20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Example for SW-GCP (solver: zchaff)
+</p>
+<p>Left: unconditional model                 Right: hierarchical model 
+</p>
+<p>21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Correlation Between Prediction Error 
+and Classifier’s Confidence
+</p>
+<p>Left: Predicted P(sat.) vs Right: Predicted P(sat.) 
+runtime prediction error vs RMSE
+</p>
+<p>Solver: satelite; Dataset: QCP
+</p>
+<p>22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions and Future 
+Work
+</p>
+<p>23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>Models conditioned on SAT/UNSAT have much 
+better runtime prediction accuracies.
+</p>
+<p>A classifier can be used to distinguish 
+SAT/UNSAT with high accuracy.
+</p>
+<p>Conditional models can be combined into 
+hierarchical model with better 
+performance.
+</p>
+<p>Classifier’s confidence correlates with 
+prediction error.
+</p>
+<p>24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future Work
+</p>
+<p>Better features for SW-GCP
+</p>
+<p>Test on more real world problems
+</p>
+<p>Extend underlying experts beyond 
+satisfiability
+</p>
+<p>25</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

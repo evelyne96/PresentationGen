@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive XML Tree Mining on Evolving Data Streams
+.=</p>
+<p>Albert Bifet Ricard Gavaldà
+.=</p>
+<p>Laboratory for Relational Algorithmics, Complexity and Learning LARCA
+Departament de Llenguatges i Sistemes Informàtics
+.=</p>
+<p>Universitat Politècnica de Catalunya
+.=</p>
+<p>ECML-PKDD 2009
+Bled, september 8th, 2009.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Pattern Mining in Data Streams
+.=</p>
+<p>Our setting
+.=</p>
+<p>Patterns: Objects where
+.=</p>
+<p>“p subpattern of q”
+.=</p>
+<p>makes sense (partial order)
+.=</p>
+<p>Sets, sequences, trees, graphs
+.=</p>
+<p>Mining frequent patterns
+.=</p>
+<p>Classifying patterns
+.=</p>
+<p>In a data stream that changes over time
+.=</p>
+<p>2 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>XML Trees
+.=</p>
+<p><?xml version=" 1.0 " ?>
+<?xml−s t y l eshee t type=" t e x t / x s l " h re f = " movie1 . x s l " ?>
+< f i l m l i b r a r y >
+.=</p>
+<p><name>Class ic Fi lms< / name>
+<movie>
+.=</p>
+<p>< t i t l e >The B icyc le Th ie f < / t i t l e >
+<genre>Soc ia l Drama< / genre>
+<language> I t a l i a n < / language>
+<year>1948< / year>
+< leng th>90 Min . < / leng th>
+< f i l m t y p e >BW< / f i l m t y p e >
+< c r e d i t s >
+.=</p>
+<p>< d i r e c t o r > V i t t o r i o de Sica< / d i r e c t o r >
+< s to r y >Gennarino B a r t o l i n i < / s t o r y >
+<cinematography>Carlo Montuor i< / cinematography>
+.=</p>
+<p>< / c r e d i t s >
+< / movie>
+.=</p>
+<p>< / f i l m l i b r a r y >
+.=</p>
+<p>3 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Issues
+.=</p>
+<p>Pattern Classification
+.=</p>
+<p>Mapping patterns→ features
+.=</p>
+<p>Frequent patterns, closed patterns, generators, . . .
+.=</p>
+<p>Data stream classification
+.=</p>
+<p>Highly sublinear memory (in #items seen)
+.=</p>
+<p>Low processing time per item
+.=</p>
+<p>Tolerate distribution & concept change
+.=</p>
+<p>4 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our Work
+.=</p>
+<p>To our knowledge, first tree pattern classifier in data streams
+.=</p>
+<p>Builds features by mining frequent closed subtrees or maximal
+subtrees
+.=</p>
+<p>Miner is interesting in itself / competititve with state-of-the art
+.=</p>
+<p>Uses recently proposed ensemble methods for classification
+.=</p>
+<p>Implementation over the MOA framework
+.=</p>
+<p>5 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tree (Pattern) Mining
+.=</p>
+<p>Task occurs in chemistry, computer vision, text retrieval
+bioinformatics, Web analysis, XML queries, . . .
+.=</p>
+<p>A transaction supports a tree if the tree is a subtree of the
+transaction
+.=</p>
+<p>Support of a tree is the number of transactions that support it
+.=</p>
+<p>Given a dataset of trees and value min_support, find
+.=</p>
+<p>Frequent Tree mining (FT):
+.=</p>
+<p>all trees whose support is no less than min_support
+.=</p>
+<p>Closed Frequent Tree mining (CT):
+.=</p>
+<p>+ no super-tree with the same support
+.=</p>
+<p>6 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Previous Work
+.=</p>
+<p>[Zaki-Agrawal] Classifier from frequent sets + Bayesian rules
+.=</p>
+<p>[Kudo et al.] Classifier from “significant” frequent trees +
+boosting
+.=</p>
+<p>[Collins et al.,Kashima et al.] SVM’s, tree kernels; feature space
+= frequent trees
+.=</p>
+<p>CMTreeMiner [Chi et al.], [Termier et al.] Dryade: Closed
+frequent tree miners without computing all frequent trees
+.=</p>
+<p>[Li et al 06] Frequent subtree miner for XML data streams
+.=</p>
+<p>[Bifet-G 08] Frequent closed pattern miner in data streams,
+unlabelled trees
+.=</p>
+<p>7 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Closure Operator on Trees
+.=</p>
+<p>D : the finite input dataset of trees
+.=</p>
+<p>T : the (infinite) set of all trees
+.=</p>
+<p>Definition
+We define the following Galois connection pair:
+.=</p>
+<p>For finite A⊆D
+σ(A) is the set of subtrees of the∣A trees in T
+.=</p>
+<p>σ(A) = {t ∈T ∣ ∀ t ′ ∈ A(t  t ′)}
+For finite B ⊂T
+.=</p>
+<p>τD (B) is the set of supertrees of t∣he B trees in D
+τ (B) = {t ′ ∈D ∣D ∀ t ∈ B (t  t ′)}
+.=</p>
+<p>8 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Closure Operator on Trees (2)
+.=</p>
+<p>Closure Operator
+The composition CD = σ ◦ τD is a closure operator
+.=</p>
+<p>Characterizing closed trees
+A tree t is closed (no supertree with same support) in D
+.=</p>
+<p>iff
+CD(t) = {t}
+.=</p>
+<p>9 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Closure Operator on Trees (3)
+.=</p>
+<p>Rules for adding and removing patterns to datasets [Bifet-G 08]:
+.=</p>
+<p>Theorem
+Let D1 and D2 be two datasets of patterns. A pattern t is
+closed for D1∪D2 if and only if
+.=</p>
+<p>t is a closed pattern for D1, or
+.=</p>
+<p>t is a closed pattern for D2, or
+.=</p>
+<p>t is a subpattern of a closed pattern in D1 and of a closed
+pattern in D2 and CD1∪D2({t}) = {t}.
+.=</p>
+<p>Theorem
+Let D be a pattern dataset. A pattern t is closed for D if and
+only if the intersection of all its closed superpatterns is t.
+.=</p>
+<p>10 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Incremental Algorithm
+.=</p>
+<p>Computing the lattice of frequent trees
+.=</p>
+<p>Construct empty lattice L;
+.=</p>
+<p>Repeat
+.=</p>
+<p>Collect batch of B trees;
+.=</p>
+<p>Build closed tree lattice for B, L2;
+.=</p>
+<p>L := merge(L,L2) (using addition rule)
+.=</p>
+<p>Memory & time depend on lattice size (number of closed trees)
+not on DB size!
+.=</p>
+<p>Efficient ops. using the representation for trees by
+[Balcázar-Bifet-Lozano]
+.=</p>
+<p>11 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dealing with time changes
+.=</p>
+<p>Keep a window on recent stream elements
+.=</p>
+<p>Actually, just its lattice of closed sets!
+.=</p>
+<p>Keep track of number of closed trees in lattice, N
+.=</p>
+<p>Use some change detector on N
+.=</p>
+<p>When change is detected:
+.=</p>
+<p>Drop stale part of the window
+Update lattice to reflect this deletion, using deletion rule
+.=</p>
+<p>Alternatively, sliding window of some fixed size
+.=</p>
+<p>12 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Miner is interesting in itself
+.=</p>
+<p>Can also be used for static databases
+For small number of labels:
+.=</p>
+<p>slightly faster than CMTreeMiner
+.=</p>
+<p>significantly less memory than CMTreeMiner
+.=</p>
+<p>(CMTreeMiner keeps all dataset in memory)
+.=</p>
+<p>T8M synthetic dataset [Zaki02]:
+100 labels, mother tree size 10,000, DBsize 8M
+.=</p>
+<p>13 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Maximal Trees
+.=</p>
+<p>Maximal Trees
+A tree is maximal if no supertree of t is frequent
+All maximal trees are closed
+.=</p>
+<p>Non-maximal closed patterns can be derived from maximal ones
+.=</p>
+<p>. . . but not their supports
+.=</p>
+<p>Are they still enough for classification?
+.=</p>
+<p>14 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>XML Tree Classification
+on evolving data streams
+.=</p>
+<p>D D D D
+.=</p>
+<p>B B B B B B B
+.=</p>
+<p>C C C C C C
+.=</p>
+<p>A A
+.=</p>
+<p>CLASS1 CLASS2 CLASS1 CLASS2
+.=</p>
+<p>D
+.=</p>
+<p>Figure: A dataset example
+.=</p>
+<p>15 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>XML Tree Classification
+on evolving data streams
+.=</p>
+<p>Closed Maximal
+Trees Trees
+.=</p>
+<p>Id Tree c1 c2 c3 c4 c1 c2 c3 Class
+1 1 1 0 1 1 1 0 CLASS1
+2 0 0 1 1 0 0 1 CLASS2
+3 1 0 1 1 1 0 1 CLASS1
+4 0 1 1 1 0 1 1 CLASS2
+.=</p>
+<p>16 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>XML Tree Framework on evolving data
+streams
+.=</p>
+<p>Two components:
+.=</p>
+<p>An XML closed frequent tree miner
+.=</p>
+<p>A Data stream classifier algorithm, which we will feed with tuples
+to be classified online.
+.=</p>
+<p>Attributes in these tuples represent the occurrence of the
+current closed trees in the originating tree, although the
+classifier algorithm need not be aware of this.
+.=</p>
+<p>17 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WEKA: the bird
+.=</p>
+<p>18 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>MOA: the bird
+.=</p>
+<p>The Moa (another native NZ bird) is not only flightless, like the
+Weka, but also extinct.
+.=</p>
+<p>19 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>MOA: the software
+.=</p>
+<p>{M}assive {O}nline {A}nalysis is a framework for online learning
+from data streams.
+http://www.cs.waikato.ac.nz/∼abifet/MOA/
+.=</p>
+<p>It is closely related to WEKA
+.=</p>
+<p>It includes a collection of offline and online algorithms and tools
+for evaluation:
+.=</p>
+<p>Hoeffding Trees, Hoeffding option trees
+Boosting and bagging. In particular:
+Adaptive-Size Hoeffding Tree bagging & boosting [Bifet et al.,
+KDD09]
+.=</p>
+<p>with and without Naïve Bayes classifiers at the leaves.
+.=</p>
+<p>20 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments: Synthetic datasets
+.=</p>
+<p>Zaki’s tree dataset generator
+.=</p>
+<p>2 mother trees, 2 classes, depth and fanout 10
+.=</p>
+<p>1M samples, node labels change every 250,000 trees
+.=</p>
+<p>Bagging Time Acc. Mem.
+.=</p>
+<p>AdaTreeMiner 161.61 80.06 4.93
+IncTreeMiner 212.75 65.73 4.4
+.=</p>
+<p>21 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments: Real dataset
+.=</p>
+<p>LOGML files [Zaki 02]
+describing 3 weeks of user sessions logs, each as XML file
+classes = .edu vs. non-.edu visitors
+.=</p>
+<p>Maximal Closed
+.=</p>
+<p># Trees Att. Acc. Mem. Att. Acc. Mem.
+.=</p>
+<p>CSLOG12 15483 84 79.64 1.2 228 78.12 2.54
+CSLOG23 15037 88 79.81 1.21 243 78.77 2.75
+CSLOG31 15702 86 79.94 1.25 243 77.60 2.73
+CSLOG123 23111 84 80.02 1.7 228 78.91 4.18
+.=</p>
+<p>22 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>A tree / XML tree stream classifier system
+.=</p>
+<p>Frequent closed / maximal trees as features
+.=</p>
+<p>Frequent closed tree miner based on closure operators
+.=</p>
+<p>That reacts quickly to distribution / label changes
+.=</p>
+<p>Maximal trees may suffice
+.=</p>
+<p>23 / 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future Work
+.=</p>
+<p>More experiments for better understanding of behavior
+.=</p>
+<p>Especially, comparison with CMTreeMiner
+.=</p>
+<p>Deletion of obsolete attributes
+.=</p>
+<p>Use generators instead of closed / maximal
+.=</p>
+<p>XML mining in data streams when #labels is large
+.=</p>
+<p>24 / 24.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

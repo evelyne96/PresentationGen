@@ -1,0 +1,999 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Level-0 Meta-Models for Predicting Human
+Behavior in Games
+</p>
+<p>James Wright & Kevin Leyton-Brown
+University of British Columbia
+</p>
+<p>June 12, 2014 (EC’14)
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Not reliably, as demonstrated by a large body of experiments
+</p>
+<p>Behavioral game theory: Aims to model actual human
+behavior in games
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Behavioral Game Theory
+</p>
+<p>Many of game theory’s recommendations are counterintuitive
+</p>
+<p>Do people actually follow them?
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Behavioral Game Theory
+</p>
+<p>Many of game theory’s recommendations are counterintuitive
+</p>
+<p>Do people actually follow them?
+</p>
+<p>Not reliably, as demonstrated by a large body of experiments
+</p>
+<p>Behavioral game theory: Aims to model actual human
+behavior in games
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clearly Nash equilibrium is not the whole story
+</p>
+<p>Behavioral game theory proposes a number of models to
+better explain human behavior
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Nash equilibrium and human subjects
+</p>
+<p>Nash equilibrium often makes counterintuitive predictions
+</p>
+<p>In Traveler’s Dilemma: The vast majority of human players
+choose 97–100. The Nash equilibrium is 2
+</p>
+<p>Modifications to a game that don’t change Nash equilibrium
+predictions at all can cause large changes in how human
+subjects play the game [Goeree & Holt 2001]
+</p>
+<p>In Traveler’s Dilemma: When the penalty is large, people play
+much closer to Nash equilibrium
+But the size of the penalty does not affect equilibrium
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Nash equilibrium and human subjects
+</p>
+<p>Nash equilibrium often makes counterintuitive predictions
+</p>
+<p>In Traveler’s Dilemma: The vast majority of human players
+choose 97–100. The Nash equilibrium is 2
+</p>
+<p>Modifications to a game that don’t change Nash equilibrium
+predictions at all can cause large changes in how human
+subjects play the game [Goeree & Holt 2001]
+</p>
+<p>In Traveler’s Dilemma: When the penalty is large, people play
+much closer to Nash equilibrium
+But the size of the penalty does not affect equilibrium
+</p>
+<p>Clearly Nash equilibrium is not the whole story
+</p>
+<p>Behavioral game theory proposes a number of models to
+better explain human behavior
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Quantal cognitive hierarchy is the current state of the art
+model.
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>BGT State of the art
+</p>
+<p>In previous work [Wright & Leyton-Brown, 2010; 2014a], we
+compared several behavioral models’ predictive performance.
+</p>
+<p>1040
+Nash w/error
+</p>
+<p>1035 Lk
+Poisson-CH
+</p>
+<p>1030 QRE
+QLk
+</p>
+<p>1025 QCH-sp-uniform
+QCH5-uniform
+</p>
+<p>1020
+</p>
+<p>1015
+</p>
+<p>1010
+</p>
+<p>105
+</p>
+<p>100
+COMBO9
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Likelihood improvement over uniform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>BGT State of the art
+</p>
+<p>In previous work [Wright & Leyton-Brown, 2010; 2014a], we
+compared several behavioral models’ predictive performance.
+</p>
+<p>Quantal cognitive hierarchy is the current state of the art
+model.
+</p>
+<p>1040
+Nash w/error
+</p>
+<p>1035 Lk
+Poisson-CH
+</p>
+<p>1030 QRE
+QLk
+</p>
+<p>1025 QCH-sp-uniform
+QCH5-uniform
+</p>
+<p>1020
+</p>
+<p>1015
+</p>
+<p>1010
+</p>
+<p>105
+</p>
+<p>100
+COMBO9
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Likelihood improvement over uniform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Iterative reasoning
+</p>
+<p>Quantal cognitive hierarchy is an iterative model:
+</p>
+<p>1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Iterative reasoning
+</p>
+<p>Quantal cognitive hierarchy is an iterative model:
+</p>
+<p>1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Iterative reasoning
+</p>
+<p>Quantal cognitive hierarchy is an iterative model:
+</p>
+<p>1 Level 1
+1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>0
+A B C
+</p>
+<p>1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Iterative reasoning
+</p>
+<p>Quantal cognitive hierarchy is an iterative model:
+</p>
+<p>1 Level 1
+1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>0
+A B C
+</p>
+<p>$4.01 $4.00 $0.25
+</p>
+<p>1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Iterative reasoning
+</p>
+<p>Quantal cognitive hierarchy is an iterative model:
+</p>
+<p>1 Level 2
+1 Level 1
+</p>
+<p>1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>0
+A B C
+</p>
+<p>$4.01 $4.00 $0.25
+</p>
+<p>0
+A B C
+</p>
+<p>$7.54 $3.25 $0.05
+</p>
+<p>1 Level 1
+1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>0
+A B C
+</p>
+<p>$4.01 $4.00 $0.25
+</p>
+<p>1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Quantal cognitive hierarchy (QCH)
+</p>
+<p>Agents’ levels drawn from a distribution g
+</p>
+<p>An agent of level m responds to the truncated, true
+distribution of levels from 0 to m− 1
+Agents quantally respond to their beliefs
+</p>
+<p>πi,0(ai) = |A |−1i ,
+πi,m(ai) = Q∑BRi(π−i,0:m−1;λ)∑m−1`=0 πi,`g(`)πi,0:m−1 = m−1
+</p>
+<p>`=0 g(`)
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Take modeling level-0 behavior more seriously?
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Level-0
+</p>
+<p>1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>Uniform randomization (the usual assumption) is implausible
+</p>
+<p>And yet best performing parameters for QCH suggest large
+numbers of level-0 agents
+</p>
+<p>Level-0 agents’ actions influence every other level
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Level-0
+</p>
+<p>1 Level 0
+</p>
+<p>?
+0
+</p>
+<p>A B C
+</p>
+<p>$??? $???? $????
+</p>
+<p>Uniform randomization (the usual assumption) is implausible
+</p>
+<p>And yet best performing parameters for QCH suggest large
+numbers of level-0 agents
+</p>
+<p>Level-0 agents’ actions influence every other level
+</p>
+<p>Take modeling level-0 behavior more seriously?
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Level-0 meta-model
+</p>
+<p>Define a level-0 meta-model:
+</p>
+<p>A mapping from an (arbitrary) game to a (potentially
+nonuniform) level-0 distribution over that game’s actions
+Leverage some of what we know about how people reason
+nonstrategically about games
+The meta-model can have its own parameters
+</p>
+<p>Use an existing iterative model (quantal cognitive hierarchy)
+on top of the improved level-0 model to make predictions
+</p>
+<p>What distinguishes level-0 from level-1?
+</p>
+<p>Our line in the sand: no explicit beliefs about how other
+agents will play
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Features
+</p>
+<p>Five binary features of each action:
+1 Minmin Unfairness
+</p>
+<p>Does this action contribute to the least unfair outcome?
+</p>
+<p>2 Maxmax payoff (“Optimistic”)
+</p>
+<p>Does this action contribute to my own highest-payoff outcome?
+</p>
+<p>3 Maxmin payoff (“Pessimistic”)
+</p>
+<p>Is this action best in the (deterministic) worst case?
+</p>
+<p>4 Minimax regret
+</p>
+<p>Does this action have the lowest maximum regret?
+</p>
+<p>5 Efficiency (Total payoffs)
+</p>
+<p>Does this action contribute to the social-welfare-maximizing
+outcome?
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Linear meta-model
+</p>
+<p>We say that a feature is informative if it can distinguish at least
+one pair of actions.
+</p>
+<p>For each action, compute a sum of weights for features that are
+both informative and that “fire”, plus a noise weight.
+</p>
+<p>∑
+prediction for ai ∝ w0 + I[f is informative] · I[f(ai) = 1] · wf
+</p>
+<p>f∈F
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>e.g., Player 1 plays X; if Player 2 plays C, his regret is 60
+</p>
+<p>Minimax regret is not informative: 60 for all actions
+</p>
+<p>50, 49 is the fairest outcome, so Y is minmin unfair
+</p>
+<p>Y and Z maximize minimum payoff (40 vs. 10 for X)
+</p>
+<p>Y leads to the highest sum of utilities (90 + 70 = 160)
+</p>
+<p>X has the highest best-case utility (100)
+</p>
+<p>Action X’s weight: w0 + wmaxmax
+Action Y ’s weight: w0 + wminmin + wtotal + wfairness
+Action Z’s weight: w0 + wminmin
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Example: Consider Player 1
+</p>
+<p>A B C
+X 100, 20 10, 67 30, 40
+Y 40, 35 50, 49 90, 70
+Z 41, 21 42, 22 40, 23
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>50, 49 is the fairest outcome, so Y is minmin unfair
+</p>
+<p>Y and Z maximize minimum payoff (40 vs. 10 for X)
+</p>
+<p>Y leads to the highest sum of utilities (90 + 70 = 160)
+</p>
+<p>X has the highest best-case utility (100)
+</p>
+<p>Action X’s weight: w0 + wmaxmax
+Action Y ’s weight: w0 + wminmin + wtotal + wfairness
+Action Z’s weight: w0 + wminmin
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Example: Consider Player 1
+</p>
+<p>A B C
+X 100, 20 10, 67 30, 40
+Y 40, 35 50, 49 90, 70
+Z 41, 21 42, 22 40, 23
+</p>
+<p>Minimax regret is not informative: 60 for all actions
+</p>
+<p>e.g., Player 1 plays X; if Player 2 plays C, his regret is 60
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Y and Z maximize minimum payoff (40 vs. 10 for X)
+</p>
+<p>Y leads to the highest sum of utilities (90 + 70 = 160)
+</p>
+<p>X has the highest best-case utility (100)
+</p>
+<p>Action X’s weight: w0 + wmaxmax
+Action Y ’s weight: w0 + wminmin + wtotal + wfairness
+Action Z’s weight: w0 + wminmin
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Example: Consider Player 1
+</p>
+<p>A B C
+X 100, 20 10, 67 30, 40
+Y 40, 35 50, 49 90, 70
+Z 41, 21 42, 22 40, 23
+</p>
+<p>Minimax regret is not informative: 60 for all actions
+</p>
+<p>e.g., Player 1 plays X; if Player 2 plays C, his regret is 60
+</p>
+<p>50, 49 is the fairest outcome, so Y is minmin unfair
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Y leads to the highest sum of utilities (90 + 70 = 160)
+</p>
+<p>X has the highest best-case utility (100)
+</p>
+<p>Action X’s weight: w0 + wmaxmax
+Action Y ’s weight: w0 + wminmin + wtotal + wfairness
+Action Z’s weight: w0 + wminmin
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Example: Consider Player 1
+</p>
+<p>A B C
+X 100, 20 10, 67 30, 40
+Y 40, 35 50, 49 90, 70
+Z 41, 21 42, 22 40, 23
+</p>
+<p>Minimax regret is not informative: 60 for all actions
+</p>
+<p>e.g., Player 1 plays X; if Player 2 plays C, his regret is 60
+</p>
+<p>50, 49 is the fairest outcome, so Y is minmin unfair
+</p>
+<p>Y and Z maximize minimum payoff (40 vs. 10 for X)
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>X has the highest best-case utility (100)
+</p>
+<p>Action X’s weight: w0 + wmaxmax
+Action Y ’s weight: w0 + wminmin + wtotal + wfairness
+Action Z’s weight: w0 + wminmin
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Example: Consider Player 1
+</p>
+<p>A B C
+X 100, 20 10, 67 30, 40
+Y 40, 35 50, 49 90, 70
+Z 41, 21 42, 22 40, 23
+</p>
+<p>Minimax regret is not informative: 60 for all actions
+</p>
+<p>e.g., Player 1 plays X; if Player 2 plays C, his regret is 60
+</p>
+<p>50, 49 is the fairest outcome, so Y is minmin unfair
+</p>
+<p>Y and Z maximize minimum payoff (40 vs. 10 for X)
+</p>
+<p>Y leads to the highest sum of utilities (90 + 70 = 160)
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Action X’s weight: w0 + wmaxmax
+Action Y ’s weight: w0 + wminmin + wtotal + wfairness
+Action Z’s weight: w0 + wminmin
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Example: Consider Player 1
+</p>
+<p>A B C
+X 100, 20 10, 67 30, 40
+Y 40, 35 50, 49 90, 70
+Z 41, 21 42, 22 40, 23
+</p>
+<p>Minimax regret is not informative: 60 for all actions
+</p>
+<p>e.g., Player 1 plays X; if Player 2 plays C, his regret is 60
+</p>
+<p>50, 49 is the fairest outcome, so Y is minmin unfair
+</p>
+<p>Y and Z maximize minimum payoff (40 vs. 10 for X)
+</p>
+<p>Y leads to the highest sum of utilities (90 + 70 = 160)
+</p>
+<p>X has the highest best-case utility (100)
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Example: Consider Player 1
+</p>
+<p>A B C
+X 100, 20 10, 67 30, 40
+Y 40, 35 50, 49 90, 70
+Z 41, 21 42, 22 40, 23
+</p>
+<p>Minimax regret is not informative: 60 for all actions
+</p>
+<p>e.g., Player 1 plays X; if Player 2 plays C, his regret is 60
+</p>
+<p>50, 49 is the fairest outcome, so Y is minmin unfair
+</p>
+<p>Y and Z maximize minimum payoff (40 vs. 10 for X)
+</p>
+<p>Y leads to the highest sum of utilities (90 + 70 = 160)
+</p>
+<p>X has the highest best-case utility (100)
+</p>
+<p>Action X’s weight: w0 + wmaxmax
+Action Y ’s weight: w0 + wminmin + wtotal + wfairness
+Action Z’s weight: w0 + wminmin
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Performance results
+</p>
+<p>1045
+Uniform L0
+</p>
+<p>1040 Weighted Linear
+</p>
+<p>1035
+</p>
+<p>1030
+</p>
+<p>1025
+</p>
+<p>1020
+</p>
+<p>1015
+</p>
+<p>1010
+</p>
+<p>105
+</p>
+<p>100
+QCH Lk CH
+</p>
+<p>Three iterative models: Two level-0 meta-models:
+</p>
+<p>1 Quantal Cognitive Hierarchy 1 Uniform L0
+</p>
+<p>2 Level-k 2 Weighted Linear
+</p>
+<p>3 Cognitive Hierarchy
+EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Likelihood improvement over uniform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Performance results
+</p>
+<p>1045
+Uniform L0
+</p>
+<p>1040 Weighted Linear
+</p>
+<p>1035
+</p>
+<p>1030
+</p>
+<p>1025
+</p>
+<p>1020
+</p>
+<p>1015
+</p>
+<p>1010
+</p>
+<p>105
+</p>
+<p>100
+QCH Lk CH
+</p>
+<p>Weighted linear meta-model for level-0 agents dramatically
+improved the performance of all three iterative models.
+</p>
+<p>Almost erases the difference between the models themselves.
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Likelihood improvement over uniform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Bayesian parameter analysis
+</p>
+<p> 1
+</p>
+<p> 0.8
+</p>
+<p> 0.6
+</p>
+<p> 0.4
+</p>
+<p> 0.2
+</p>
+<p>fairness
+maxmax
+maxmin
+</p>
+<p>regret
+total
+</p>
+<p> 0
+ 0  0.2  0.4  0.6  0.8  1
+</p>
+<p>feature weight
+</p>
+<p>Fairness is by far the highest-weighted feature
+All the features quite well identified
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>cumulative probability</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Parameter analysis: Levels
+</p>
+<p> 1
+Uniform L0
+</p>
+<p> 0.8 Weighted linear
+</p>
+<p> 0.6
+</p>
+<p> 0.4
+</p>
+<p> 0.2
+</p>
+<p> 0
+ 0  0.1  0.2  0.3  0.4  0.5  0.6
+</p>
+<p> 1
+</p>
+<p> 0.8
+</p>
+<p> 0.6
+</p>
+<p> 0.4
+</p>
+<p> 0.2
+</p>
+<p> 0
+ 0  0.05  0.1  0.15  0.2  0.25
+</p>
+<p> 1
+</p>
+<p> 0.8
+</p>
+<p> 0.6
+</p>
+<p> 0.4
+</p>
+<p> 0.2
+</p>
+<p> 0
+ 0  0.05  0.1  0.15  0.2  0.25
+</p>
+<p>Weighted linear =⇒ much lower variance estimates
+Predicts that about half the population is level-0!
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Cumulative probability Cumulative probability Cumulative probability
+</p>
+<p>L2 L1 L0</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted linear meta-model for level-0 agents dramatically
+improved the performance of iterative models.
+Strong evidence for the existence of level-0 agents.
+</p>
+<p>For any meta-model, including uniform!
+Contrary to conventional wisdom.
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Conclusions
+</p>
+<p>1040
+Nash w/error
+</p>
+<p>1035 Lk
+Poisson-CH
+</p>
+<p>1030 QRE
+QLk
+</p>
+<p>1025 QCH-sp-uniform
+QCH5-uniform
+</p>
+<p>1020
+</p>
+<p>1015
+</p>
+<p>1010
+</p>
+<p>105
+</p>
+<p>100
+COMBO9
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Likelihood improvement over uniform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted linear meta-model for level-0 agents dramatically
+improved the performance of iterative models.
+Strong evidence for the existence of level-0 agents.
+</p>
+<p>For any meta-model, including uniform!
+Contrary to conventional wisdom.
+</p>
+<p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Conclusions
+</p>
+<p>1040
+Nash w/error
+</p>
+<p>1035 Lk
+Poisson-CH
+</p>
+<p>1030 QRE
+QLk
+</p>
+<p>1025 QCH-sp-uniform
+QCH5-uniform
+</p>
+<p>1020 QCH-sp-weighted
+</p>
+<p>1015
+</p>
+<p>1010
+</p>
+<p>105
+</p>
+<p>100
+COMBO9
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Likelihood improvement over uniform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Conclusions
+</p>
+<p>1040
+Nash w/error
+</p>
+<p>1035 Lk
+Poisson-CH
+</p>
+<p>1030 QRE
+QLk
+</p>
+<p>1025 QCH-sp-uniform
+QCH5-uniform
+</p>
+<p>1020 QCH-sp-weighted
+</p>
+<p>1015
+</p>
+<p>1010
+</p>
+<p>105
+</p>
+<p>100
+COMBO9
+</p>
+<p>Weighted linear meta-model for level-0 agents dramatically
+improved the performance of iterative models.
+Strong evidence for the existence of level-0 agents.
+</p>
+<p>For any meta-model, including uniform!
+Contrary to conventional wisdom.
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Likelihood improvement over uniform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation Level-0 Meta-Models Conclusions
+</p>
+<p>Thanks!
+</p>
+<p>1040
+Nash w/error
+</p>
+<p>1035 Lk
+Poisson-CH
+</p>
+<p>1030 QRE
+QLk
+</p>
+<p>1025 QCH-sp-uniform
+QCH5-uniform
+</p>
+<p>1020 QCH-sp-weighted
+</p>
+<p>1015
+</p>
+<p>1010
+</p>
+<p>105
+</p>
+<p>100
+COMBO9
+</p>
+<p>Weighted linear meta-model for level-0 agents dramatically
+improved the performance of iterative models.
+Strong evidence for the existence of level-0 agents.
+</p>
+<p>For any meta-model, including uniform!
+Contrary to conventional wisdom.
+</p>
+<p>EC’14: June 12, 2014 James Wright & Kevin Leyton-Brown
+</p>
+<p>Likelihood improvement over uniform</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

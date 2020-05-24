@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An Algebraic Perspective on Boolean Function Learning
+</p>
+<p>Ricard Gavaldà1 Denis Thérien2
+</p>
+<p>1LARCA research group
+Univ. Politècnica de Catalunya
+</p>
+<p>Barcelona, Spain
+</p>
+<p>2School of Computer Science
+McGill University
+Montréal, Canada
+</p>
+<p>ALT’09, Porto, october 5th 2009</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>We can learn boolean functions represented in many ways:
+</p>
+<p>Conjunctions, k -CNF, k -DNF, monotone DNF, Deterministic
+Finite Automata, k -term DNF, k -decision lists, read-once formulas,
+bounded rank decision trees, constant-degree polynomials, sparse
+polynomials, threshold gates, decision trees, CDNF formulas,
+multisymmetric concepts, conjunctions of Horn clauses, O(logn)-term DNF,
+nested subspaces, counter languages, OBDD, Multiplicity (Weighted) Automata, . . .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>Programs over monoids
+</p>
+<p>. . . yet another representation of boolean functions!!
+</p>
+<p>yes, but
+</p>
+<p>gives context: detailed, deep taxonomies of monoids
+highlights a few unnoticed learnable classes
+suggests limits of current techniques</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Summary
+</p>
+<p>Membership queries: algorithm for MODp ◦MODm circuits
+Equivalence queries: decision lists over constant-degree
+polynomials over Fp
+Membership + Equivalence:
+Maximal class of functions learnable as Multiplicity
+Automata
+</p>
+<p>Unifies many known results
+Does not capture: monotonicity, threshold circuits, read-k
+conditions, sensitivity to variable ordering</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Background: Algebra and circuits</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Semigroups
+</p>
+<p>A semigroup is set with a binary, associative operation
+A monoid is a semigroup with an identity
+A group is a monoid where each element has an inverse
+</p>
+<p>A monoid A divides a monoid B if A is a homomorphic
+image of a subsemigroup of B
+An aperiodic (aka group-free) monoid is one that is divided
+by no nontrivial group</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Monoid products
+</p>
+<p>The direct product of A and B, A×B is defined by
+</p>
+<p>(a1,b1) · (a2,b2) = (a1 ·a2,b1 ·b2)
+</p>
+<p>A semidirect product of A and B is defined by choosing a
+function f : A×B → A and
+</p>
+<p>(a1,b1) · (a2,b2) = (a1 · f (a2,b1),b1 ·b2)
+</p>
+<p>The wreath product of A and B, denoted A?B, generalizes
+semidirect product by accounting for all choices of f</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Decomposition theorem
+</p>
+<p>Theorem [Krohn-Rhodes 62]
+1. Every finite semigroup M divides a wreath product of finite
+simple groups and copies of the flip-flop monoid∗
+</p>
+<p>2. Only finite simple groups are required if M is a group
+</p>
+<p>3. Only flip-flop monoids are required if M is aperiodic
+</p>
+<p>∗ A particular 3-element aperiodic monoid</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Boolean functions
+</p>
+<p>Functions f : {0,1}n →{0,1}
+</p>
+<p>AND, OR, NOT, threshold gates
+Generalized MODm gates
+</p>
+<p>n
+MODAm(x1, . . . ,xn) = 1 iff (∑ xi) ∈ A
+</p>
+<p>i=1
+</p>
+<p>Decision lists, decision trees
+Deterministic Finite Automata
+Weighted Automata or Multiplicity Automata over rings
+M(x1, . . . ,xn) = sum over all paths consistent with x1 . . .xn
+</p>
+<p>of product of labels in path</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Programs over monoids
+</p>
+<p>An instruction over a monoid M is a triple (i ,u,v)
+Interpreted as “read xi and emit u if xi = 0, v if xi = 1”
+</p>
+<p>A program over M is a sequence of instructions
+L = (I1, . . . , Is) plus an accepting set A⊆M s
+</p>
+<p>1 if ∏ Ii(x) ∈ A,(L,A)(x) = i=10 otherwise.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Programs over monoids (2)
+</p>
+<p>Each program P over M computes a boolean function B(P)
+B(M) is the set of boolean functions computed by
+programs over M
+For a class of monoids M ⋃
+</p>
+<p>B(M ) = B(M)
+M∈M</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>From monoids to boolean functions
+</p>
+<p>Division: If M1 divides M2 then B(M1)⊆ B(M2)
+</p>
+<p>Direct product:
+</p>
+<p>B(M1×M2) ≡ boolean combinations of B(M1) and B(M2)
+≡ NC0 ◦ (B(M1)∪B(M2))
+</p>
+<p>Wreath product: For G a group,
+</p>
+<p>B(M ?G) = B(M)◦B(G)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Examples
+</p>
+<p>Classical examples [Barrington 87, Barrington-Thérien 89]:
+</p>
+<p>Monoidland Circuitland
+all monoids NC1
+</p>
+<p>any nonsolvable group NC1
+</p>
+<p>Abelian groups boolean combinations of MOD gates
+solvable groups poly-size, constant-depth circuits
+</p>
+<p>made of MOD gates
+aperiodic monoids poly-size constant-depth circuits
+</p>
+<p>made of AND, OR, NOT gates
+</p>
+<p>For learning we should remain well below NC1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dramatis personae, groups
+</p>
+<p>Group Description
+</p>
+<p>Abelian groups direct products cyclic groups
+</p>
+<p>Gp or p-groups groups of cardinality pk
+</p>
+<p>Nilpotent groups direct products of p-groups
+</p>
+<p>Solvable groups wreath product of cyclic groups</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dramatis personae, groups
+</p>
+<p>Groupland Circuitland
+Abelian groups MODm,
+</p>
+<p>degree 1 polynomials over Zm
+Gp or p-groups MODpk ◦NC
+</p>
+<p>0, MODp ◦NC0,
+constant degree polynomials over Fp
+</p>
+<p>Nilpotent groups MODm ◦NC0,
+constant degree polynomials over Zm
+</p>
+<p>Solvable groups constant-depth, poly-size modular circuits</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dramatis personae, aperiodic
+</p>
+<p>DA monoids: (stu)k t (stu)k = (stu)k for some k
+</p>
+<p>In circuitland [GT03]:
+</p>
+<p>⋃
+B(DA) = rank-k decision trees
+</p>
+<p>⋃k
+B(DA)◦NC0 = k -decision lists
+</p>
+<p>k
+</p>
+<p>Borderline of expressivity in several contexts (descriptive
+complexity, communication complexity)
+(Almost) nothing between B(DA) and DNF, in monoidland</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Membership queries</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Negative results
+</p>
+<p>Fact [GT06]
+Learning programs over M requires 2n Membership queries if
+</p>
+<p>M is not a group
+or M is a nonsolvable group
+</p>
+<p>Reason: Can compute singletons in polynomial size</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What about solvable groups?
+</p>
+<p>Two subclasses of solvable groups provably weaker than NC1:
+</p>
+<p>Nilpotent groups
+Equivalent to polynomials of constant degree over some Zm
+Includes Abelian groups and Gp
+</p>
+<p>Gp ?Abelian
+Equivalent to depth-2, MODp-of-MODm circuits</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Group lower bounds
+</p>
+<p>If G nilpotent, any two programs of length s over G differ on
+some assignment of weight cG [PT88]
+</p>
+<p>If G ∈Gp ?Abelian, any two programs of length s over G differ
+on some assignment of weight cG logs [BST89]
+</p>
+<p>Learning strategy:
+</p>
+<p>1 Ask Membership queries with all assignments of weight cG
+(or weight cG logs)
+</p>
+<p>2 Build unique program consistent with the answers
+</p>
+<p>Part 2 is a purely computational problem</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Abelian groups
+</p>
+<p>Theorem
+If G is Abelian, then B(G) is learnable from Membership
+queries in nO(1) time
+</p>
+<p>Equivalent to MODm gates and degree-1 polynomials over Zm
+</p>
+<p>Open: extend to degree-O(1) polynomials (= nilpotent groups)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Gp ?Abelian
+</p>
+<p>Theorem
+If G ∈Gp ?Abelian, then B(G) is learnable from Membership
+queries in nO(logs) time
+</p>
+<p>Equivalent to MODp-of-MODm circuits
+</p>
+<p>Known to be learnable in time (n +s)O(1) from Membership and
+Equivalence queries [BBTV97]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Equivalence queries</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>DL◦MODp ◦NC0
+</p>
+<p>Theorem [from known results]
+Decision lists having constant-degree polynomials over Fp at
+the nodes are learnable from nO(1) Equivalence queries
+</p>
+<p>Combine:
+Tricks to make MODp gates 0/1-valued [Fermat,BT94]
+Subspace learning algorithm [HSW87]
+Decision list / nested difference algorithm [R87,HSW87]
+Composition theorem</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>DL◦MODp ◦NC0
+</p>
+<p>DL◦MOD ◦NC0p subsumes:
+</p>
+<p>DL◦MODp: nested differences of linear subspaces of Fp
+DL◦NC0: k -DL, so rank-k DT’s, k -CNF and k -DNF
+MOD ◦NC0p : constant-degree polynomials over Fp
+strict width-2 branching programs [BBTV97]
+</p>
+<p>Note: All these classes are nonuniversal</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algebraic equivalent
+</p>
+<p>Theorem
+</p>
+<p>1. ⋃DL◦MOD ◦NC0p = B(DA?Gp)
+2. m DL◦MODm ◦NC
+</p>
+<p>0 = B(DA?Nilpotent)
+</p>
+<p>Hence B(DA?Gp) learnable from nO(1) Equivalence queries
+With Equivalence queries, B(DA?Abelian) learnable iff
+B(DA?Nilpotent) learnable</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What’s the ceiling?
+</p>
+<p>If M ∈ DA?Gp then M is not universal
+</p>
+<p>If M ∈6 DA?Nilpotent then M is universal 1
+</p>
+<p>For M in between, we don’t know; basic first question
+</p>
+<p>1subtle lie here; see proceedings</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Membership and Equivalence queries</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multiplicity Automata
+</p>
+<p>Theorem [BBBKV00]
+Functions Σ∗→ Fp computed by Multiplicity Automata over Fp
+are polynomial-time learnable from Membership and
+Equivalence queries.
+</p>
+<p>Subsumes, besides DFA:
+</p>
+<p>polynomials over Fp
+unambiguous DNF (hence decision trees and k -term DNF)
+MODp-of-MODm circuits</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algebraic characterization
+</p>
+<p>LGp©m Com [Weil 87]
+The value of m1 . . .ms can be determined by counting mod p
+the number of factorizations of the form a0La1La2 . . .ak−1Lak ,
+for L a commutative language (bool comb of)
+</p>
+<p>Theorem
+1. B(LGp©m Com) is polynomially simulated by MA over Fp
+2. unambiguous DNF, polynomials, and MODp-of-MODq
+circuits are polynomially simulated in B(LGp©m Com)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Order sensitivity
+</p>
+<p>Conjecture
+LGp©m Com is the largest class of monoids that is polynomially
+simulated by MA
+</p>
+<p>Intuition: If M 6∈ LGp©m Com there is a function f ∈ B(M) such
+that f has MA of size poly(n) but the smallest MA for some
+f (xπ(1), . . . ,xπ(n)) has size 2Ω(n)
+</p>
+<p>There is an explicit characterization [TT07] of monoids not in
+LGp©m Com</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In summary</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>Many learning results can be unified into 3 algorithms for
+learning large classes of monoids
+</p>
+<p>Extending to larger classes seems to require either proving
+new lower bounds or learning DNF
+</p>
+<p>Open problem: Efficiently learn one MODm ◦NC0 gate</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

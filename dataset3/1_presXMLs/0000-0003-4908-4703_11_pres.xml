@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The hamburger theorem
+</p>
+<p>Mikio Kano and Jan Kynčl
+</p>
+<p>EPFL</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Problem:
+Given n red and n blue points in the plane in general position, draw n
+noncrossing red-blue segments.
+</p>
+<p>Solution: take the shortest red-blue perfect matching.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem: (Akiyama and Alon, 1989)
+Given point sets X1,X2, . . . ,X dd ⊂ R in general position, with
+|X1| = |X2| = · · · = |Xd | = n, then there are n disjoint rainbow
+(d − 1)-dimensional simplices.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem: (Akiyama and Alon, 1989)
+Given point sets X ,X , . . . ,X ⊂ d1 2 d R in general position, with
+|X1| = |X2| = · · · = |Xd | = n, then there are n disjoint rainbow
+(d − 1)-dimensional simplices.
+</p>
+<p>Proof: recursive cutting by hyperplanes, using the discrete
+ham-sandwich theorem.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem: (Akiyama and Alon, 1989)
+Given point sets X1,X2, . . . ,X dd ⊂ R in general position, with
+|X1| = |X2| = · · · = |Xd | = n, then there are n disjoint rainbow
+(d − 1)-dimensional simplices.
+</p>
+<p>Proof: recursive cutting by hyperplanes, using the discrete
+ham-sandwich theorem.
+</p>
+<p>The discrete ham-sandwich theorem: (Stone and Tukey, 1942)
+If X1,X2, . . . ,Xd ⊂ dR are disjoint finite sets in general position, then
+there is a hyperplane that bisects each Xi exactly in half.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem: (Kano, Suzuki and Uno, 2014)
+Let R,G,B ⊂ 2R be sets of red, green and blue points in general
+position such that |R|+ |G|+ |B| = 2n and |R|, |G|, |B| ≤ n. Then
+there are n disjoint rainbow segments.
+</p>
+<p>Proof: using a special result for partitioning colored sets on a line
+</p>
+<p>Alternative solution: shortest rainbow perfect matching</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem: (Kano, Suzuki and Uno, 2014)
+Let R,G,B ⊂ 2R be sets of red, green and blue points in general
+position such that |R|+ |G|+ |B| = 2n and |R|, |G|, |B| ≤ n. Then
+there are n disjoint rainbow segments.
+</p>
+<p>Corollary: Given point sets X1,X2, . . . ,X 2r ⊂ R in general position
+such that |X1|+ |X2|+ · · ·+ |Xr | = 2n and |Xi | ≤ n for every
+i ∈ [d + 1], then there are n disjoint rainbow segments.
+</p>
+<p>Proof: merging the smallest sets:
+</p>
+<p>(4, 4, 3, 2, 1)→ (4, 4, 3, 3) → (4, 4, 6)
+</p>
+<p>(also shortest rainbow perfect matching)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conjecture: (Kano and Suzuki) Let r ≥ d ≥ 3 and n ≥ 1. Given
+point sets X1,X2, . . . ,Xr ⊂ dR in general position such that
+|X1|+ |X2|+ · · ·+ |Xr | = dn and |Xi | ≤ n for every i ∈ [r ], then there
+are n disjoint rainbow (d − 1)-dimensional simplices.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conjecture: (Kano and Suzuki) Let r ≥ d ≥ 3 and n ≥ 1. Given
+point sets X1,X d2, . . . ,Xr ⊂ R in general position such that
+|X1|+ |X2|+ · · ·+ |Xr | = dn and |Xi | ≤ n for every i ∈ [r ], then there
+are n disjoint rainbow (d − 1)-dimensional simplices.
+</p>
+<p>Theorem: The conjecture is true for d ≥ 2 and r = d + 1.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conjecture: (Kano and Suzuki) Let r ≥ d ≥ 3 and n ≥ 1. Given
+point sets X1,X2, . . . ,Xr ⊂ dR in general position such that
+|X1|+ |X2|+ · · ·+ |Xr | = dn and |Xi | ≤ n for every i ∈ [r ], then there
+are n disjoint rainbow (d − 1)-dimensional simplices.
+</p>
+<p>Theorem: The conjecture is true for d ≥ 2 and r = d + 1.
+</p>
+<p>Plan of proof: recursive cutting by a hyperplane, into a pair of
+balanced subsets; that is, for each of the two halfspaces H, we want
+</p>
+<p>r
+1 ∑
+</p>
+<p>|H ∩ Xi | ≤ |H ∩ Xj |.d
+j=1
+</p>
+<p>Moreover, the total number of points in H must be positive and
+divisible by d .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conjecture: (Kano and Suzuki) Let r ≥ d ≥ 3 and n ≥ 1. Given
+point sets X1,X2, . . . ,Xr ⊂ dR in general position such that
+|X1|+ |X2|+ · · ·+ |Xr | = dn and |Xi | ≤ n for every i ∈ [r ], then there
+are n disjoint rainbow (d − 1)-dimensional simplices.
+</p>
+<p>Theorem: The conjecture is true for d ≥ 2 and r = d + 1.
+</p>
+<p>Plan of proof: recursive cutting by a hyperplane, into a pair of
+balanced subsets; that is, for each of the two halfspaces H, we want
+</p>
+<p>r
+1 ∑
+</p>
+<p>|H ∩ Xi | ≤ |H ∩ X |.d j
+j=1
+</p>
+<p>Moreover, the total number of points in H must be positive and
+divisible by d .
+</p>
+<p>→ we need a generalization of the discrete ham-sandwich theorem
+to d + 1 sets in dR .
+First we show a continuous version, then discretize it.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definition:
+Let r ≥ d and let µ1, µ2, . . . , µr be finite Borel measures on dR . We
+say that µ1, µ2, . . . , µr are balanced in a subset X ⊆ dR if for every
+i ∈ [r ], we have
+</p>
+<p>r
+1 ∑
+</p>
+<p>µi(X ) ≤ · µj(X ).d
+j=1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The hamburger theorem:
+</p>
+<p>Let d ≥ 2, let µ1, µ2, . . . , µd+1 be absolutely continuous finite Borel
+measures on dR .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The hamburger theorem:
+</p>
+<p>Let d ≥ 2, let µ1, µ2, . . . , µd+1 be absolutely continuous finite Borel
+measures on dR . Let
+</p>
+<p>• ω := µ ( di i R ) for i ∈ [d + 1],
+</p>
+<p>• ω := min{ωi ; i ∈ [d + 1]},</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The hamburger theorem:
+</p>
+<p>Let d ≥ 2, let µ1, µ2, . . . , µd+1 be absolutely continuous finite Borel
+measures on dR . Let
+</p>
+<p>• ωi := µ (
+d
+</p>
+<p>i R ) for i ∈ [d + 1],
+</p>
+<p>• ω := min{ωi ; i ∈ [d + 1]},
+</p>
+<p>and assume that
+∑d+1
+</p>
+<p>• j 1 ωj = 1,=
+• µ1, µ2, . . . , µd+1 are balanced in dR .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The hamburger theorem:
+</p>
+<p>Let d ≥ 2, let µ1, µ2, . . . , µd+1 be absolutely continuous finite Borel
+measures on dR . Let
+</p>
+<p>• ω di := µi(R ) for i ∈ [d + 1],
+</p>
+<p>• ω := min{ωi ; i ∈ [d + 1]},
+</p>
+<p>and assume that
+∑d+1
+</p>
+<p>• j ω=1 j = 1,
+</p>
+<p>• µ1, µ
+d
+</p>
+<p>2, . . . , µd+1 are balanced in R .
+</p>
+<p>Then there exists a hyperplane h such that for each open halfspace
+H defined by h, the measures µ1, µ2, . . . , µd+1 are balanced in H and
+</p>
+<p>d+1 ( )
+∑ 1 1
+</p>
+<p>µj(H) ≥ min , 1 − dω ≥ .2 d + 1
+j=1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The hamburger theorem:
+</p>
+<p>Let d ≥ 2, let µ1, µ2, . . . , µd+1 be absolutely continuous finite Borel
+measures on dR . Let
+</p>
+<p>• ωi := µ
+d
+</p>
+<p>i(R ) for i ∈ [d + 1],
+</p>
+<p>• ω := min{ωi ; i ∈ [d + 1]},
+</p>
+<p>and assume that
+∑d+1
+</p>
+<p>• j ω=1 j = 1,
+</p>
+<p>• µ1, µ2, . . . , µd+1 are balanced in dR .
+</p>
+<p>Then there exists a hyperplane h such that for each open halfspace
+H defined by h, the measures µ1, µ2, . . . , µd+1 are balanced in H and
+</p>
+<p>d+1 ( )
+∑ 1 1
+</p>
+<p>µj(H) ≥ min , 1 − dω ≥ .2 d + 1
+j=1
+</p>
+<p>For ω = 0 we get exactly the ham-sandwich theorem.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• The lower bound 1/(d + 1) is tight:
+</p>
+<p>• discretization is nontrivial:</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proof of the hamburger theorem
+</p>
+<p>analogous to the proof of the ham-sandwich theorem:
+</p>
+<p>• parametrize half-spaces in dR by the points of
+Sd = {u = (u , u , . . . , u ) ∈ d+10 1 d R ; u2 20 + u1 + · · ·+ u
+</p>
+<p>2
+d = 1}:
+</p>
+<p>if |u0| < 1, then
+</p>
+<p>H−(u) := {(x d1, x2, . . . , xd) ∈ R ; u1x1 + u2x2 + · · ·+ udxd < u0},
+</p>
+<p>H+(u) := {(x1, x2, . . . , x ) ∈ dd R ; u1x1 + u2x2 + · · ·+ udxd > u0},</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proof of the hamburger theorem
+</p>
+<p>analogous to the proof of the ham-sandwich theorem:
+</p>
+<p>• parametrize half-spaces in dR by the points of
+Sd = {u = (u0, u1, . . . , u ) ∈ d+1 2 2 2d R ; u0 + u1 + · · ·+ ud = 1}:
+if |u0| < 1, then
+</p>
+<p>H−(u) := {(x1, x2, . . . , xd) ∈ dR ; u1x1 + u2x2 + · · ·+ udxd < u0},
+</p>
+<p>H+(u) := {(x1, x d2, . . . , xd) ∈ R ; u1x1 + u2x2 + · · ·+ udxd > u0},
+</p>
+<p>and
+</p>
+<p>H−(1, 0, 0, . . . , 0) := d , H+R (1, 0, 0, . . . , 0) := ∅,
+</p>
+<p>H−(−1, 0, 0, . . . , 0) := ∅, H+(−1, 0, 0, . . . , 0) := dR .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proof of the hamburger theorem
+</p>
+<p>analogous to the proof of the ham-sandwich theorem:
+</p>
+<p>• parametrize half-spaces in dR by the points of
+Sd = {u = (u0, u , . . . , u ) ∈ d+11 d R ; u20 + u
+</p>
+<p>2
+1 + · · ·+ u
+</p>
+<p>2
+d = 1}:
+</p>
+<p>if |u0| < 1, then
+</p>
+<p>H−(u) := {(x1, x2, . . . , xd) ∈ dR ; u1x1 + u2x2 + · · ·+ udxd < u0},
+</p>
+<p>H+(u) := {(x1, x2, . . . , xd) ∈ dR ; u1x1 + u2x2 + · · ·+ udxd > u0},
+</p>
+<p>and
+</p>
+<p>H−(1, 0, 0, . . . , 0) := dR , H+(1, 0, 0, . . . , 0) := ∅,
+</p>
+<p>H−(−1, 0, 0, . . . , 0) := ∅, H+(−1, 0, 0, . . . , 0) := dR .
+</p>
+<p>We have H−(u) = H+(−u) for every u ∈ Sd .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• define f = (f1, . . . , f dd+1) : S → d+1R by
+</p>
+<p>fi(u) := µ (H−i (u)).</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• define f = (f , . . . , f ) : Sd → d+11 d+1 R by
+</p>
+<p>fi(u) := µi(H−(u)).
+</p>
+<p>• f is continuous since µi(h) = 0 for every hyperplane h</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• define f = (f1, . . . , fd+1) : Sd → d+1R by
+</p>
+<p>fi(u) := µi(H−(u)).
+</p>
+<p>• f is continuous since µi(h) = 0 for every hyperplane h
+∏
+</p>
+<p>• f [Sd ] ⊆ B := d+1i 1 [0, ω= i ]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• define f = (f1, . . . , fd+1) : Sd → d+1R by
+</p>
+<p>fi(u) := µ −i(H (u)).
+</p>
+<p>• f is continuous since µi(h) = 0 for every hyperplane h
+∏
+</p>
+<p>• f [Sd ] ⊆ B := d+1i [0, ω ]=1 i
+• f (u) and f (−u) symmetric about the center b of B</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• define f = (f d d+11, . . . , fd+1) : S → R by
+</p>
+<p>fi(u) := µi(H−(u)).
+</p>
+<p>• f is continuous since µi(h) = 0 for every hyperplane h
+∏
+</p>
+<p>• f [Sd ] ⊆ B := d+1i 1 [0, ω= i ]
+• f (u) and f (−u) symmetric about the center b of B
+• our goal is to show that the image of f intersects the target
+</p>
+<p>polytope, determined by the conditions “balanced” and
+“nontrivial”
+</p>
+<p>ℓ
+(ω1, ω2, ω3)
+</p>
+<p>c
+</p>
+<p>B
+</p>
+<p>a
+</p>
+<p>(0, 0, 0)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ℓ
+(ω1, ω2, ω3)
+</p>
+<p>c
+</p>
+<p>B
+</p>
+<p>a
+</p>
+<p>(0, 0, 0)
+</p>
+<p>• assume ω = ωd+1
+( )
+</p>
+<p>• t := min 1 , 12d d − ω</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ℓ
+(ω1, ω2, ω3)
+</p>
+<p>c
+</p>
+<p>B
+</p>
+<p>a
+</p>
+<p>(0, 0, 0)
+</p>
+<p>• assume ω = ωd+1
+( )
+</p>
+<p>• t := min 12d ,
+1
+d − ω
+</p>
+<p>• a := (t , t , . . . , t , 0), b := (ω1/2, ω2/2, . . . , ωd+1/2),
+• c := (ω1 − t , ω2 − t , . . . , ωd − t , ωd+1)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ℓ
+(ω1, ω2, ω3)
+</p>
+<p>c
+</p>
+<p>B
+</p>
+<p>a
+</p>
+<p>(0, 0, 0)
+</p>
+<p>• assume ω = ωd+1
+( )
+</p>
+<p>• t := min 1 12d , d − ω
+• a := (t , t , . . . , t , 0), b := (ω1/2, ω2/2, . . . , ωd+1/2),
+• c := (ω1 − t , ω2 − t , . . . , ωd − t , ωd+1)
+• ℓ := line ac
+• πℓ := projection to a hyperplane orthogonal to ℓ
+• g(u) := πℓ(f (u)− b)
+</p>
+<p>g is antipodal map from Sd to dR . By the Borsuk–Ulam theorem,
+there exists u ∈ Sd such that g(u) = 0, which means that f (u) ∈ ℓ.</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

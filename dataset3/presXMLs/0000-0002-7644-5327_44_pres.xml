@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bidding Clubs
+a subset of a talk given at 
+Infonomics Workshop, Maastricht
+.=</p>
+<p>Kevin Leyton-Brown
+Yoav Shoham
+Moshe Tennenholtz.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What kind of intelligent system could 
+help bidders in an auction?
+.=</p>
+<p>proxy bidders (eBay, etc.)
+really just transform English into 2nd-price auction
+.=</p>
+<p>automation
+aggregation of information from different auctions
+bidding advice, decision support
+bidding clubs
+.=</p>
+<p>instead of helping one user, help a group
+aggregate bidders’ market power
+unlike “buyer clubs”, bidders’ interests not aligned
+.=</p>
+<p>self-enforcing collusive agreement: increase expected utility
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Collusion Example
+Imagine a first-price auction with 6 bidders, 
+3 of whom decide to collude in advance
+.=</p>
+<p>Is there a pre-agreement that can benefit some, 
+but penalize none?
+.=</p>
+<p>Naïve proposal: 
+each bidder submits her valuation
+the two low bidders drop out 
+the bidder with the highest valuation bids lower in the main 
+auction
+.=</p>
+<p>Bidders have an incentive to lie in the pre-auction!
+this is true even if the high bidder pays the other two to 
+drop out
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bidding Clubs
+* with Y. Shoham, M. Tennenholtz  (EC’00)
+.=</p>
+<p>Bidders:
+N = {1, 2, …, n}: a set of bidders who will 
+participate in an auction, A
+G ⊂ N: a set of bidders who are invited to 
+participate in a pre-auction
+.=</p>
+<p>Coordinator c:
+Can c hold a pre-auction that will benefit some of 
+G and penalize none?
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Assumptions: Coordinator
+The coordinator:
+.=</p>
+<p>invites some subset of bidders to participate
+non-binding invitation
+.=</p>
+<p>may enforce payments from, between bidders
+cannot cost money to operate
+acts only as a representative of bidders
+.=</p>
+<p>why can it be trusted to act reliably?
+one way of looking at it is that c combines with A
+to form a new mechanism
+c’s behavior is fully specified, common knowledge
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 5.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Assumptions: Bidders
+.=</p>
+<p>IPV model, no externalities
+.=</p>
+<p>IID from distribution F
+First-price auction equilibrium bid: 
+.=</p>
+<p>b(F, n, v)
+F regular: 
+.=</p>
+<p>b(F, n+1, vi) > b(F, n, vi), n ≥ 2
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Deviation from standard GT setting
+.=</p>
+<p>Uninvited agents are not aware of the 
+possibility of the existence of a coordinator
+.=</p>
+<p>they believe that each bid placed corresponds to a 
+single bidder
+.=</p>
+<p>they may be wrong about the number of bidders 
+“actually” participating in auction
+.=</p>
+<p>Is this realistic?  Maybe so for electronic auctions.
+.=</p>
+<p>Equilibrium concept
+“Bayes-Nash with misconceptions”
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bidding Club Protocol
+1. Coordinator c invites agents from G to 
+.=</p>
+<p>participate in a pre-auction
+2. Bidders decide whether to accept the invitation
+3. c asks agents for their valuations 
+.=</p>
+<p>agents may lie!
+.=</p>
+<p>4. c bids on behalf of some or all bidders in the 
+main auction
+.=</p>
+<p>5. c may impose monetary transfers between 
+and from bidding club members
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Problem Illustration
+(assuming all invited bidders participate in the pre-auction)
+.=</p>
+<p>b|G|+1 bn
+.=</p>
+<p>b1
+c submits a set 
+.=</p>
+<p>of bids based on bids in
+c’s the pre-auction Main
+.=</p>
+<p>Pre-Auction Auction
+.=</p>
+<p>b|G|
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 9.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Utility-Improving Coordinator
+.=</p>
+<p>1. Every agent in G who would have 
+participated in A will choose to 
+participate in the bidding club
+.=</p>
+<p>2. Each agents’ expected utility from 
+participating in the bidding club is 
+greater than his expected utility in A
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Second-Price Auction: Protocol
+* in the spirit of Graham & Marshall, 1987
+.=</p>
+<p>A utility-improving coordinator exists for second-price auctions.
+1. Agents from G submit valuations to coordinator c
+2. If any agent chose not to participate:
+.=</p>
+<p>submit a bid for each agent i who did elect to participate with 
+price offer vi, and end the protocol
+.=</p>
+<p>3. Let v1, v2 be the two highest valuations announced, by agent 1 and 
+agent 2 respectively
+.=</p>
+<p>4. Only agent 1 is represented in the main auction, with a bid of v1
+5. If agent 1 wins, he must pay vsec to the auctioneer and max(v2 –
+.=</p>
+<p>vsec , 0) to c
+6. c gives a payment of p to all agents in G
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Calculating p
+Assume agents truthful, participate
+.=</p>
+<p>Taking into account only n, |G|, F, it is possible for c
+to calculate his expected gain, g
+.=</p>
+<p>c gains whenever both the global highest and second-
+highest bids are members of the bidding club
+.=</p>
+<p>Pick any s ≥ |G|; set p = g/s
+On expectation c will:
+.=</p>
+<p>be budget balanced when s = |G|
+make a profit when s > |G|
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Why this works
+Incentive Compatibility:
+.=</p>
+<p>With p = 0, the allocation rule and payment rule are exactly 
+the same as in second-price auction
+.=</p>
+<p>the standard argument for incentive compatibility applies
+.=</p>
+<p>p does not depend on agents’ declarations, so this payment 
+does not affect agents’ strategies
+.=</p>
+<p>The bidding club increases agents’ expected gain
+Exactly the same outcome as in second-price auction
+.=</p>
+<p>But: all bidders receive an additional payment of p > 0
+Declining participation is not informative:
+.=</p>
+<p>All bidders from G will bid their valuations
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 13.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Observations
+.=</p>
+<p>The coordinator’s maximum loss in a given 
+round is |G|p = |G|g/s. 
+.=</p>
+<p>Since s may be arbitrarily big, maximum loss may 
+be set arbitrarily close to 0
+.=</p>
+<p>c keeps all but an arbitrarily small fraction of g
+Efficiency of the auction is preserved
+.=</p>
+<p>Revenue equivalence: doesn’t hold because a 
+bidder in G who bids 0 can still gain p
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>First-Price Auction: Protocol
+A utility-improving coordinator exists for first-price auctions
+.=</p>
+<p>1. Agents from G submit valuations to c
+2. If any agent declined to participate
+.=</p>
+<p>submit a bid for each agent i who did elect to participate 
+with price offer b(F, n, vi), and end the protocol
+.=</p>
+<p>3. Submit a bid for (only) the bidder from G with the 
+highest valuation, of b(F, m, v1), m = n - |G| + 1
+.=</p>
+<p>4. If he wins, his payment to c is b(F, n, v1) - b(F, m, v1)
+5. c gives a payment of p to all agents in G
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Calculating p
+Assume agents truthful, participate
+.=</p>
+<p>Taking into account only n, |G|, F, it is 
+possible for c to calculate his expected gain, g
+.=</p>
+<p>c gains b(F, n, v1) - b(F, m, v1) whenever the 
+globally highest bidder is a member of G
+.=</p>
+<p>Pick any s ≥ |G|; set p = g/s as before
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Why this works
+Incentive Compatibility:
+.=</p>
+<p>With p = 0, the allocation rule and payment rule are exactly 
+the same as in first-price auction
+.=</p>
+<p>c implements a revelation mechanism
+p does not depend on agents’ declarations, so this payment 
+does not affect agents’ strategies
+.=</p>
+<p>The bidding club increases agents’ expected gain
+Exactly the same outcome as in first-price auction
+.=</p>
+<p>But: all bidders receive an additional payment of p > 0
+Declining participation is not informative:
+.=</p>
+<p>Every agent in G will follow the equilibrium strategy
+.=</p>
+<p>The bidding club benefits agents outside G
+their equilibrium bids are reduced
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Other bidding club protocols
+.=</p>
+<p>I’ve described:
+Second-Price (/Japanese)
+First-price (/Dutch)
+.=</p>
+<p>Other protocols:
+General mechanisms
+.=</p>
+<p>with valuations drawn from a finite set
+.=</p>
+<p>N parallel 2nd-price auctions for substitute goods
+Two parallel auctions for complementary goods
+.=</p>
+<p>Friday, July 13, 2001 Infonomics Workshop, Maastricht 18.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

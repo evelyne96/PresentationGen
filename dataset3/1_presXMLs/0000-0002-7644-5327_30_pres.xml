@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>16th Annual Canadian 16ième conférence canadienne
+Conference on annuelle sur
+Intelligent Systems les systèmes intelligents
+</p>
+<p>Computers and Markets:
+Exploring the Intersection of 
+</p>
+<p>Computer Science, Microeconomics 
+and Game Theory
+</p>
+<p>Kevin Leyton-Brown
+University of British Columbia</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multi Agent Systems
+Interface between
+</p>
+<p>game theory/microeconomics
+computer science
+</p>
+<p>Defining characteristic:
+tackling both computational and incentive problems that arise when 
+multiple self-interested agents interact
+</p>
+<p>Constraints from Game Theory/Microeconomics
+Agents self-motivated
+</p>
+<p>Constraints from Computer Science
+Not enough time, storage, bandwidth, …</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This Talk
+Introduction to work in multi agent systems
+</p>
+<p>fielded applications
+core concepts
+recent and ongoing research problems
+</p>
+<p>Topics:
+1. Game-theoretic models of large-scale interactions
+2. Auctions (single-good; multiple-good)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Game Theory
+Mathematical study of interaction between 
+self-interested, rational agents
+</p>
+<p>Game:
+players/agents
+actions
+payoffs
+</p>
+<p>Strategies:
+pure strategy: picking a single action
+mixed strategy: randomizing over actions</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Game Theory
+Should you send your packets using correctly-implemented 
+TCP (which has a “backoff” mechanism) or using a defective
+implementation (which doesn’t)?
+</p>
+<p>Consider this situation as a two-player game:
+both use a correct implementation: both get 1 ms delay
+one correct, one defective: 4 ms delay for correct, 0 ms for defective
+both defective: both get a 3 ms delay.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analyzing Games
+TCP backoff game is a Prisoner’s Dilemma
+</p>
+<p>both players have a dominant strategy: defective
+if player 2 plays C, D is player 1’s best response
+if player 2 plays D, D is player 1’s best response
+likewise for player 2
+</p>
+<p>Not all games are so simple to analyze
+the best thing for one player to do can depend
+on what the other player does
+</p>
+<p>rock-paper-scissors
+poker
+</p>
+<p>What can we say about such games?</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Game Theory
+Key insight:
+</p>
+<p>don’t just think about single players’ actions
+find strategy profiles where all players 
+simultaneously play best responses
+</p>
+<p>Such a strategy profile is called a Nash equilibrium
+at least one Nash equilibrium exists in every finite game
+</p>
+<p>as long as agents are allowed to randomize their strategies
+best known algorithms for finding Nash equilibrium 
+require exponential time</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Scaling up
+When we use game theory to model real systems, 
+it’s usually necessary to consider many more than 
+two agents and actions
+</p>
+<p>Examples:
+routing on the internet
+commuters choosing the fastest route home
+users sharing files P2P
+students deciding which job skills to learn
+businesses choosing where to locate</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Action-Graph Games
+set of players: want to 
+open coffee shops
+</p>
+<p>actions: locations 
+where a shop could 
+be opened
+</p>
+<p>utility: profitability of 
+a location 
+</p>
+<p>depends only on 
+number of other 
+players who choose 
+same or adjacent 
+location</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Representation Size
+</p>
+<p>Coffee shop game, 5 × 5 grid
+NF grows exponentially; AGG grows polynomially</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Expected Payoff
+(largest NF game we
+could fit in memory)
+</p>
+<p>Coffee Shop Game, 5 × 5 grid, 1000 random strategy profiles
+NF grows exponentially; AGG grows polynomially</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This Talk
+Introduction to work in multi agent systems
+</p>
+<p>fielded applications
+core concepts
+recent and ongoing research problems
+</p>
+<p>Topics:
+1. Game-theoretic models of large-scale interactions
+2. Auctions (single-good; multiple-good)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Why auctions?
+Efficient resource allocation
+</p>
+<p>a core interest of computer science
+auctions solve this problem when agents are 
+self interested
+</p>
+<p>They’re big ($$$)
+and the internet is changing the way they’re used</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Auctions
+A broader category than often perceived
+Generally, auctions are markets in which:
+</p>
+<p>agents make binding declarations of interest in one or more resources
+these resources are allocated according to known rules
+payments to/from agents may be imposed
+</p>
+<p>Modeled using game theory. Some new wrinkles:
+infinite action space
+imperfect information about payoffs (other agents’ valuations)
+</p>
+<p>How do sellers choose the particular auctions they do?
+mechanism design: “inverse game theory”</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Second-Price Auctions
+An auction that might initially seem strange: second-price
+</p>
+<p>1. all bidders submit sealed bids
+2. the high bid wins
+3. the winner pays the second-highest bid amount
+</p>
+<p>Theorem: it is a dominant strategy in a second-price 
+auction to bid your true value for the good.
+Proof:
+</p>
+<p>Case 1: bidding truthfully would make you the high bidder
+you can’t gain by changing your bid
+</p>
+<p>Case 2: bidding truthfully would not make you the high bidder
+you can’t gain by changing your bid</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Second-Price Auctions
+Theorem: it is a dominant strategy in a second-
+price auction to bid your true value for the good.
+</p>
+<p>Case 1: bidding truthfully, you’re the high bidder
+$120 bid more: 
+</p>
+<p>true value
+$100 no difference
+</p>
+<p>$80 you pay
+winner pays (still win, pay same)
+</p>
+<p>$60
+</p>
+<p>$40 bid less:
+$20 1. no difference
+</p>
+<p>winner winner
+$0 2. you lose
+</p>
+<p>your bid next-highest bid</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Second-Price Auctions
+Theorem: it is a dominant strategy in a second-
+price auction to bid your true value for the good.
+</p>
+<p>Case 2: bidding truthfully, you’re not the high bidder
+$120 bid less: 
+$100 you pay no difference
+</p>
+<p>$80
+true value (still lose, pay nothing)
+</p>
+<p>$60
+</p>
+<p>$40 bid more:
+$20 1. no difference
+</p>
+<p>winner winner
+$0 2. you win, pay too much
+</p>
+<p>your bid highest bid</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Ranking: descending by (quality score) × (bid amount)
+quality score is click-through rate plus other 
+measures of advertisement relevance
+</p>
+<p>“The AdWords Discounter will charge you the lowest 
+CPC you can be charged while still maintaining your 
+position”</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Beyond Single-Good Auctions
+What if the seller has multiple distinct goods?
+</p>
+<p>ordinarily, sell them separately
+</p>
+<p>What if bidders value the goods more in groups
+than they value them individually?
+</p>
+<p>e.g., a TV and VCR are worth more together than 
+the sum of what they’re each worth on their own
+</p>
+<p>Let’s consider a practical example…</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Economic Areas from FCC’s Auction #30: 39 GHz Band</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Details of the FCC’s Auction #30 (simplified)
+175 economic areas, 14 licenses each: 2,450 goods
+“Simultaneous Multiple Round” auction:
+</p>
+<p>all licenses sold simultaneously
+multiple discrete rounds, in which bidders make bids on 
+one or more licenses
+after each round, provisionally winning bids announced
+when nothing changes, auction ends
+</p>
+<p>Held April – May 2000
+29 winning bidders, revenue of US $410,649,085
+many similar auctions held since; total revenue > $40B</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combinatorial Auctions
+Exposure problem
+</p>
+<p>bidders: may bid aggressively to win a bundle, but win 
+only some of the goods and thus pay too much
+seller: inefficient allocation of resources
+</p>
+<p>Solution: combinatorial auction
+sell all the goods in the same auction
+allow bidders to bid on arbitrary bundles
+winners: non-overlapping set of bundles with max value
+generalized version of second-price works here
+</p>
+<p>FCC planned to run a (small) CA, but it’s on hold…</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combinatorial Auctions: Ongoing Research
+Determining the winners of a CA
+</p>
+<p>NP-hard problem: weighted set packing. Approximation also hard.
+economic incentives change when sub-optimal solutions are possible
+</p>
+<p>Designing new CA mechanisms
+based on polynomial-time winner determination
+ascending (information revelation)
+revenue maximization
+</p>
+<p>Mitigating communication complexity
+bidding languages; query-based mechanisms
+</p>
+<p>Developing bidding strategies for complex environments</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+1. Game-theoretic models of large systems
+</p>
+<p>simulate user behaviour to understand how the 
+system will behave
+this should be part of the design process when a 
+system’s users are self-interested
+</p>
+<p>2. Resource allocation among self-interested agents
+auctions are a natural framework here
+when only one good is sold, pretty straightforward
+multiple goods: trickier to get right, but many benefits
+</p>
+<p>http://www.cs.ubc.ca/~kevinlb
+google://“Kevin Leyton-Brown”</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

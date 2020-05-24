@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive Learning from Evolving Data Streams
+</p>
+<p>Albert Bifet and Ricard Gavaldà
+</p>
+<p>Laboratory for Relational Algorithmics, Complexity and Learning, LARCA
+Departament de Llenguatges i Sistemes Informàtics
+</p>
+<p>Universitat Politècnica de Catalunya
+</p>
+<p>Intelligent Data Analysis (IDA’09), Lyon, august 2009</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Data Streams
+</p>
+<p>Data Streams
+Date items arrive in sequence
+Very long or infinite: Memory sublinear in # elements
+High speed of arrival: low processing time per item
+Anytime answers; OK if approximate
+</p>
+<p>Time Change
+Distribution or concept change
+Abrupt change or gradual change (drift)
+</p>
+<p>2 / 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Mining Data Streams with Concept Drift
+</p>
+<p>Extract information from
+potentially infinite sequence of data
+possibly varying over time
+using few resources
+</p>
+<p>Adaptively:
+no prior knowledge of type or rate of change
+ignorance does not penalize performance (much)
+</p>
+<p>3 / 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Decision Trees
+</p>
+<p>Widely used classifiers; many induction algorithms
+(Here) Discrete attributes and class
+</p>
+<p>4 / 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>VFDT
+</p>
+<p>Very Fast Decision Trees [Domingos,Hulten KDD’00]
+Stream-like, but does not handle change
+</p>
+<p>1. For every example x in stream do
+2. Sink x to its leaf
+3. Update counters for (attribute,value) at leaf
+4. if counter statistics tell “good enough” attribute a
+5. split leaf into node by a
+</p>
+<p>5 / 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>VFDT + change over time
+</p>
+<p>From time to time, see if change occurs at a node
+If so, create alternative tree
+From time to time, check if alternative better than current
+</p>
+<p>CVFDT [Hulten,Spencer,Domingos KKD’01]
+Concept-adapting Very Fast Decision Trees
+Parameters T0, T1, T2 quantify “from time to time”
+Window W of examples to label current leaves
+Best values depend on rate of change!
+</p>
+<p>6 / 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive Hoeffding Tree
+</p>
+<p>Monitor error rate at each node + change detector
+Keep updated statistics since last change
+</p>
+<p>“From time to time”: when change detector says so!
+Rebuild tree: from current statistics - no window
+</p>
+<p>7 / 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ADWIN, ADaptive WINdowing
+</p>
+<p>Change management primitive [Bifet-G SDM’06]
+Window of variable, optimal length W
+Memory, time O(logW )
+Change detection, CUSUM-like
+Estimate of average, EWMA-like
+No apriori assumptions on rate or nature of change
+Rigorous guarantees (theorem)
+</p>
+<p>8 / 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive Hoeffding Treevs. CVFDT
+</p>
+<p>- Slightly slower - continuous monitoring
+</p>
+<p>+ No apriori knowledge of change rate – parameterless
++ As accurate as CVFDT with best setting of CVFDT
++ Much more accurate than CVDT with wrong parameters
++ Less memory (no window) for realistic cases
++ Theoretical guarantees
++ Cleaner algorithm
+</p>
+<p>9 / 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In perspective
+</p>
+<p>Adaptive and parameter-free methods by
+replace frequency statistics counters by ADWIN
+encapsulate change detection and estimation in single
+module
+Parameterless, adaptive, accurate, clean algorithms
+</p>
+<p>Instances
+Naive Bayes, k -means clustering [Bifet-G, DS’06, SDM’07]
+Frequent tree mining [B-G, KDD’08, ECMLPKDD’09]
+Ensemble methods [B-H-P-K-G, KDD’09]
+Decision trees [Bifet-G, IDA’09]
+</p>
+<p>10 / 10</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

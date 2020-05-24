@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3:
+a database for the recognition
+of spoken European languages
+.=</p>
+<p>on YouTube audios
+Luis Javier Rodríguez-Fuentes, Mikel Penagarikano,
+.=</p>
+<p>Amparo Varona, Mireia Diez, Germán Bordel
+.=</p>
+<p>Grupo de Trabajo en Tecnologías Software (GTTS, http://gtts.ehu.es)
+University of the Basque Country UPV/EHU, Spain
+.=</p>
+<p>e-mail: luisjavier.rodriguez@ehu.es
+.=</p>
+<p>LREC 2014
+Reykjavik (Iceland)
+.=</p>
+<p>May 28-30 2014.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+• Spoken language recognition
+• Albayzin LRE 2012
+• KALAKA-3: main features
+• KALAKA-3: design and collection procedure
+• KALAKA-3: evaluation
+• Conclusions and future work
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spoken Language 
+Recognition
+.=</p>
+<p>• Is utterance X spoken in French?
+• Give me a score (the higher the score, 
+.=</p>
+<p>the higher the likelihood that X is 
+spoken in French)
+.=</p>
+<p>• To make a decision, apply a threshold 
+to the given score
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SLR Evaluation
+• Performance: decisions compared to ground-
+.=</p>
+<p>truth for a set of speech files and target languages
+.=</p>
+<p>• Types of tests: 
+- closed-set (known set of target languages) 
+- open-set (any language could be spoken)
+.=</p>
+<p>• Difficulty:
+- background and/or channel conditions
+- dialect variability
+- short utterances
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>International
+SLR Benchmarks
+.=</p>
+<p>• NIST LRE:1996, 2003, 2005, 2007, 2009 and 2011
+- Focused on telephone speech for large-scale filtering in 
+.=</p>
+<p>security applications, dealing with certain languages of 
+interest (for strategic reasons)
+.=</p>
+<p>• Albayzin LRE: 2008, 2010 and 2012
+- Initially dealing only with languages spoken in Spain,    
+.=</p>
+<p>then extended to other European languages
+.=</p>
+<p>- 2008 LRE run on clean Broadcast News (BN) speech
+- 2010 LRE run on BN speech with noisy segments
+- 2012 LRE run on unrestricted speech found in Internet 
+.=</p>
+<p>(YouTube audios)
+LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Albayzin 2012 LRE
+• Designed to address the conditions producing 
+.=</p>
+<p>variability or difficulty in previous evaluations
+- Unconstrained speech (background, channel, 
+.=</p>
+<p>dialect, amount of speech available, etc.)
+- Low-resource scenario (few data available)
+• Target application: indexing the spoken language   
+.=</p>
+<p>in multimedia contents
+.=</p>
+<p>• Task defined this way was of practical interest and 
+challenging enough to foster research
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: main features
+• Created to support the Albayzin 2012 LRE
+• Recycles BN speech from previous evaluations 
+.=</p>
+<p>(for training: 6 target languages)
+.=</p>
+<p>• Includes unconstrained speech signals from 
+YouTube videos (for tuning and testing)
+.=</p>
+<p>• Tasks:
+- Plenty-of-Training: 6 target languages
+- Empty-Training: 4 target languages
+• Open-set tests: 11 Out-Of-Set (OOS) languages
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: main features
+• Three datasets: Train, Dev and Eval
+• Train: 108 hours, 18 hours per target language 
+.=</p>
+<p>(80% clean, 20% noisy)
+.=</p>
+<p>• Dev/Eval: same size (+2000 YouTube audios), 
+target languages balanced, different distribution  
+of OOS languages
+.=</p>
+<p>• KALAKA-3: ~200 hours, currently distributed as    
+a set of tarballs (for downloading), after direct 
+request to authors
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: design
+• Goal:
+- 300 YouTube videos per target language    
+.=</p>
+<p>(150 Dev + 150 Eval)
+- 100 YouTube videos per OOS language
+• Dev/Eval datasets as independent as possible, 
+.=</p>
+<p>to avoid a biased benchmark
+.=</p>
+<p>• Duration: 30-120 seconds, including at least 5 
+seconds of speech
+.=</p>
+<p>• Audios with telephone speech discarded
+LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: collecting data
+• (1) Lists (spreadsheets) of candidate YouTube 
+.=</p>
+<p>videos automatically created for each language
+.=</p>
+<p>- list of language-specific keywords:
+✓ 2000 words (canonical forms) with 6 or more characters 
+.=</p>
+<p>randomly chosen from the aspell dictionary 
+✓ words in the aspell dictionary of other language excluded
+✓ only 1000 keywords retained per language
+.=</p>
+<p>- 6 YouTube categories most likely to contain speech: 
+Education, News, Entertainment, Howto, Nonprofit, Technology
+.=</p>
+<p>- For each (language, category), list of videos built by filtering 
+per category and duration and searching for keywords in 
+metadata, using YouTube API v2.0
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: collecting data
+.=</p>
+<p>• (2) Videos ranked in spreadsheets according to:
+• Creative Commons (CC) license (not many)
+• Geographical location (geographical metadata not always 
+.=</p>
+<p>available):
+.=</p>
+<p>• priority given to videos located within a certain distance  
+from a major city speaking the language of interest 
+.=</p>
+<p>• a small list of major cities defined for each language
+• distance depending on the size of the country (typically,      
+.=</p>
+<p>R = 200 km)
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: collecting data
+• (3) Validation
+.=</p>
+<p>- Each (language, category) spreadsheet scrolled through and 
+annotated with validation marks 
+.=</p>
+<p>- Videos listened to and subjectively judged by 5 human 
+auditors (2 months)
+.=</p>
+<p>- Videos validated in order, until the desired amount (55 for 
+target languages, 17 for OOS languages) is attained
+.=</p>
+<p>- A video is validated if and only if:
+✓ contains +5 seconds of speech
+✓ contains speech in a single language (for OOS languages, 
+.=</p>
+<p>several languages may appear, but not target languages)
+✓ background/channel conditions are admissible
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: collecting data
+.=</p>
+<p>• (4) Fetching and converting YouTube audios
+- Videos fetched using youtube-dl
+- Audio layer extracted using ffmpeg
+- Audio converted to single-channel 16-kHz 16-bit PCM 
+.=</p>
+<p>encoded WAV files using SoX
+.=</p>
+<p>- Filenames anonymized
+- The database provides no information about the original 
+.=</p>
+<p>videos (only the spoken language is given in the ground-
+truth files)
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: YouTube 
+video collection
+.=</p>
+<p>• 4168 audios validated out of 
+21860 audited
+.=</p>
+<p>• Dev: 2059 (News, 
+Education, Howto)
+.=</p>
+<p>• Eval: 2019 (Entertainment, 
+Nonprofit, Technology)
+.=</p>
+<p>• At least 150 videos per 
+target language
+.=</p>
+<p>• Different OOS distribution
+LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: evaluation
+• New metric: Fact (actual relative 
+.=</p>
+<p>confusion), ranging between 0 (perfect 
+system) and 1 (non-informative system)
+.=</p>
+<p>Albayzin 2012 LRE: Summary of results
+.=</p>
+<p>• Task reformulated: given an audio X 
+and N target languages, systems must 
+provide N+1 scores (for target and OOS 
+languages)
+.=</p>
+<p>• PO performance only slightly worse 
+than PC: low confusion between target 
+and OOS languages (design flaw)
+.=</p>
+<p>• EC/EO performance much worse than 
+PC/PO (late systems 1 and 6 used dev 
+data for training): lack of training data 
+is a challenging condition !!!
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA-3: evaluation
+• Acoustic SLR systems with 
+.=</p>
+<p>competitive performance on other 
+tasks (NIST LRE): MFCC/SDC-iVector 
+and PLLR-iVector
+.=</p>
+<p>• Basic Voice Activity Detection Results for two acoustic SLR 
+(VAD) based on PLLRs (could be systems and the fusion of them
+failing due to background music or 
+conversations)
+.=</p>
+<p>• 1/2 development data used for 
+training in the EC/EO tracks (note 
+that dev data were not intended for 
+training)
+.=</p>
+<p>• Performance comparatively good in 
+EC/EO, but not in PC/PO (VAD errors, 
+lack of phonotactic systems)
+.=</p>
+<p>LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions and 
+future work
+.=</p>
+<p>• KALAKA-3 provides challenging tasks for 
+the development of SLR technology
+.=</p>
+<p>• As far as we know, this is the first SLR 
+benchmark dealing with unconstrained 
+speech found in Internet (YouTube audios)
+.=</p>
+<p>• Already used by several research groups
+• We plan to license the Dev and Eval 
+.=</p>
+<p>datasets through LDC
+LREC 2014, Reykjavik, May28-30 2014                                         KALAKA3: DB for SLR of European languages on YouTube audios                                 Luis J. Rodriguez-Fuentes et al. UPV/EHU, Spain.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

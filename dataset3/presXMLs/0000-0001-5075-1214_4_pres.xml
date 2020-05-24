@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An Extension of the Burrows Wheeler 
+Transform and Applications to Sequence 
+.=</p>
+<p>Comparison and Data Compression 
+.=</p>
+<p>Sabrina Mantaci    Antonio Restivo   Giovanna Rosone    Marinella Sciortino 
+.=</p>
+<p>Università di Palermo .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline 
+.=</p>
+<p>• A short description of the Burrows Wheeler 
+Transform (BWT) 
+.=</p>
+<p>• Extension of the BWT to k words 
+.=</p>
+<p>• Sequences comparison by the extended BWT 
+.=</p>
+<p>• Simultaneous compression of k texts 
+.=</p>
+<p>• Experimental validation  
+.=</p>
+<p>– of similarity on biological sequences  
+.=</p>
+<p>– of compression on some files of the Calgary Corpus .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How does BWT work? 
+.=</p>
+<p>• INPUT:  w = abraca 
+.=</p>
+<p>• lexicographically sort all the cyclic shifts or conjugates of w 
+ 
+    F          L The following properties hold: 
+.=</p>
+<p>  • For all i  I, the character L[i] is 
+0   a a b r a c followed in w by F[i]; 
+1   a b r a c a I 
+2   a c a a b r • for any character ch, the i-th 
+3   b r a c a a occurrence of ch in F corresponds to 
+4   c a a b r a the i-th occurrence of ch in L.  
+5   r a c a a b 
+.=</p>
+<p> 
+• OUTPUT: BWT(w)=L=caraab and the index I=1, that denotes 
+the position of the original word w after the lexicographical 
+.=</p>
+<p>sorting of its conjugates.  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reversibility of the BWT 
+.=</p>
+<p>The Burrows-Wheeler Transform is reversible, in the sense that, given 
+BWT(w) and an index I, it is possible to recover the original word w. 
+.=</p>
+<p>Given L=BWT(w)=caraab and I=1: 
+.=</p>
+<p>• We co nstruct the first  column F, by alphabetically sorting the letters in L.  
+    F L 
+    0 1 2 3 4 5  
+0   a  c   0   =  =(1 3 5
+.=</p>
+<p>1 3 4 5 0 2    
+2 4 0) 
+.=</p>
+<p>I 1   a a   1  
+2   a r    2  
+.=</p>
+<p> :  
+3   b a   3  
+4   c  a   4  w= a b r a c a 
+.=</p>
+<p>5   r b   5  1 3 5 2 4 0 
+.=</p>
+<p>• A per mutation  is d efined on the set {0,1,…,n-1}, estabilishing a 
+correspondence between the positions of the same letter in F and in L; 
+.=</p>
+<p>• Starting from position I, we can recover w= F(0(I))F(1(I))… F(n-1(I))  
+   where 0(x)=x, i+1(x)= (i(x)) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Remarks 
+If we do not care about the index, the BWT defines a 
+correspondence between the set of conjugacy classes of 
+words over A and the set of words over A. In this sense we 
+have that: 
+.=</p>
+<p>1: The BWT is injective. Every conjugacy class have a  
+different transformation. 
+.=</p>
+<p>2: The Burrows-Wheeler transform is not surjective, in the 
+sense that there exist words in A* that are not image by the  
+BWT of any conjugacy class. Take for instance bccaaab. 
+.=</p>
+<p>3: The permutation defining the BWT is always a cycle with a 
+descent number less than or equal to the size of the alphabet 
+minus one. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The BWT and Combinatorics on words 
+.=</p>
+<p>• Relationship with Standard words. 
+[S. Mantaci, A. Restivo, M. Sciortino, “Burrows-Wheeler 
+Transform and Sturmian Words”, Information Processing 
+Letters, 2003]. 
+.=</p>
+<p> 
+.=</p>
+<p>• Relationship with combinatorics on permutations.  
+[M. Crochemore, J. Désarménien, D. Perrin, “A note on 
+the Burrows-Wheeler Transform”, Theoretical Computer 
+Science, 2005]; 
+[M. Gessel, C. Reutenauer, “Counting permutations with 
+given cycle structure and descent set”, J. Comb. Theory, 
+1993]. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A new order relation 
+.=</p>
+<p>Let A be a finite alphabet and let A* denote the set of the 
+words over A.  
+A word u in A* is primitive if the condition u=wn implies 
+u=w and n=1. 
+.=</p>
+<p>If u A* , we denote by uw=uuuu… 
+For every word v, there exists a unique primitive word w and 
+an integer k such that v=wk. By notation, w=root(v) and 
+k=exp(v) 
+.=</p>
+<p> 
+Definition: Let u and v be two primitive words. 
+.=</p>
+<p>{ exp(u)<exp(v) if root(u)=root(v) u≤wv   uw< w lexv otherwise 
+Where uw<lexv
+.=</p>
+<p>w  denotes the usual lexicographic order between 
+infinite words.   .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A new order relation 
+Notice that the <w order is different than the lexicographic 
+one. For instance ab<lexaba, but  aba≤wab , since  
+abaabaaba… <lexababab… 
+.=</p>
+<p>Proposition: Given two primitive words u and v,  
+u≤ w w  wv prefk(u )<lexprefk(v )
+.=</p>
+<p>where k=|u|+|v|-gcd(|u|,|v|). 
+ 
+The bound is tight: indeed abaababa≤wabaab  because 
+ 
+.=</p>
+<p>abaababaabab…  
+abaababaabaa… 
+.=</p>
+<p> 
+.=</p>
+<p>differ for the character in position 12=8+5-1. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The extended transform E 
+INPUT:  S={abac, cbab, bca, cba}. 
+.=</p>
+<p>a b a c a b … 1 a b a c  
+• Sort all the conjugates of  a b c a b c … 2 a b c  
+the words in S by the w a b c b a b … 3 a b c b 
+order relation; 
+• Consider the sequence of  a c a b a c … 4 a c a b  
+the sorted words and take  a c b a c b … 5 a c b 
+the word S’ obtained by  b a b c b a … 6 b a b c  
+concatenating the last letter  
+of each word; b a c a b a … 7 b a c a 
+• Take the set I containing b a c b a c … 8 b a c 
+the positions of the words  b c a b c a … 9 b c a 
+corresponding to the ones  
+in S;  b c b a b c … 10 b c b a 
+• The output of the E c a b a c a … 11 c a b a 
+transformation is the pair c a b c a b … 12 c a b 
+(S’,I). 
+.=</p>
+<p>c b a b c b … 13 c b a b 
+c b a c b a … 14 c b a  
+.=</p>
+<p>OUTPUT:  (ccbbbcacaaabba, {1,9,13,14}) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Properties of the E transform 
+INPUT:  S={abac, cbab, bca, cba}. 
+.=</p>
+<p>1 a b a c  
+2 a b c  
+3 a b c b 
+4 a c a b  
+5 a c b 
+6 b a b c  • In any row iI, the first symbol follows 
+.=</p>
+<p>7 b a c a the last one, in a word in S.  
+.=</p>
+<p>8 b a c • For each character, the i-th occurrence 
+9 b c a in the first column corresponds to the i-th 
+10 b c b a occurrence in the red column. 
+11 c a b a 
+12 c a b 
+13 c b a b 
+14 c b a  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The inverse transformation  
+.=</p>
+<p>Given E(S)=(ccbbbcacaaabba, {1,9,13,14}), the following 
+permutation is defined: 
+.=</p>
+<p>F= a    a     a    a     a    b    b   b    b    b     c     c     c     c 
+.=</p>
+<p>1    2    3    4     5    6    7    8    9   10   11   12   13   14 
+.=</p>
+<p>7   9   10   11   14   3    4    5   12   13   1     2     6    8 
+.=</p>
+<p>L=  c    c    b    b    b     c    a    c    a     a    a     b     b     a 
+.=</p>
+<p>Consider the cyclic decomposition of the permutation and read 
+the corresponding letters in F: 
+.=</p>
+<p>( 1  7  4  11)  (2  9  12)  (3  10  13  6)  (5  14  8) 
+a  b  a   c      a  b   c     a   b    c   b     a   c   b .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bijectivity 
+.=</p>
+<p>Let M be the family of multisets of conjugacy classes of 
+primitive words of A*. Then, if we don’t care about the indices 
+.=</p>
+<p>E: M       A* 
+.=</p>
+<p>Theorem: The transformation E is injective. 
+.=</p>
+<p>Theorem: For each word uA*, there exists a multiset S M  
+such that E(S)=u. 
+.=</p>
+<p>For instance, E(ab, abcac)=(bccaaab). 
+.=</p>
+<p>Theorem [Gessel-Reutenauer]:  There exists a bijection 
+between A* and the family of multisets of conjugacy classes 
+of primitive words in A*. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A distance measure between words 
+.=</p>
+<p>u=bcaa  v=ccbab 
+.=</p>
+<p>aabc  c u In general: 
+.=</p>
+<p>abca  a u g(u,v)=un1vn2un3…vnk 
+.=</p>
+<p>abccb  b v 
+.=</p>
+<p>babcc  c v 
+.=</p>
+<p>bcaa  a u Definition 
+.=</p>
+<p>bccba  a v k
+caab  b u d (u ,v )   (n 1)i
+.=</p>
+<p>i 1,
+n  0
+.=</p>
+<p>cbabc  c v i
+.=</p>
+<p>ccbab  b v 
+.=</p>
+<p>g(u,v)=u2v2uvuv2 
+.=</p>
+<p>d(u,v)=3 .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Properties of the distance measure d 
+.=</p>
+<p>• d(u,v)=d(v,u), that is the distance measure d is 
+.=</p>
+<p>symmetric. 
+.=</p>
+<p>• If u and v are conjugates, then d(u,v)=0. In fact in this 
+case g(u,v)=(uv)|u|, then ni=1 for all i=1,…,2|u|. 
+.=</p>
+<p>• If u’ is a conjugate of u and v’ is a conjugate of v, then 
+d(u,v)= d(u’,v’). Then, d is a similarity measure between 
+.=</p>
+<p>conjugacy classes. 
+.=</p>
+<p>• d(u,v)=0 does not imply that u and v are conjugate. For 
+instance, if u=aabc and v=abbc, g(u,v)=(uv)4. Then 
+d(u,v)=0.  
+.=</p>
+<p>• d does not satisfy the triangle inequality. For instance if 
+u=abaab, v=babab, z=abbba, we have d(u,v)=6, d(v,z)=3 
+and d(u,z)=2. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multiple sequence comparison 
+.=</p>
+<p>INPUT:  S={u=abac, v=cbab, w=bca, z=cba}. 
+.=</p>
+<p>a b a c  
+a b c  d(u,v)=0 
+a b c b 
+a c a b  
+.=</p>
+<p>d(u,w)=1 
+a c b 
+b a b c  
+.=</p>
+<p>d(u,z)=1 
+b a c a 
+b a c 
+b c a d(v,w)=1 
+.=</p>
+<p>b c b a 
+c a b a d(u,z)=1 
+.=</p>
+<p>c a b 
+c b a b d(w,z)=1 
+c b a  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multiple sequence comparison 
+.=</p>
+<p>• We can compute the distance d of all pairs taken out from a set S of k 
+sequences of length n by symultaneously applying the transformation 
+E to the entire set S. 
+.=</p>
+<p>• In order to obtain the kk-matrix of distances we can perform a single 
+sorting of kn sequences of length n instead of k2 sortings of 2n 
+sequences of length n. 
+.=</p>
+<p> 
+.=</p>
+<p>• We can define the notion of distance between sets 
+.=</p>
+<p> If S and T are two sets, we encode each conjugate of an element of S 
+and T by U and V, respectively. If g(S,T)=Un1Vn2Un3…Vnk is the 
+sequence so obtained, we define  
+.=</p>
+<p>k
+.=</p>
+<p>d (S,T )   (ni 1)
+i1,
+ni 0.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Comparison of biological sequences 
+.=</p>
+<p>• d is an example of alignment free distance measure. 
+.=</p>
+<p>• d  measures how dissimilar two conjugacy classes of 
+sequences are. 
+.=</p>
+<p>• In order to test our method we applied the normalized 
+version of our distance to the whole mitochondrial 
+genome  phylogeny. 
+.=</p>
+<p>• The results we have obtained are very close to the ones 
+derived, with other approaches in most of the papers in 
+which the considered species are the same.  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Evolutionary tree built from mtDNA sequences of 20 species  primates rodents ferungulates .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simultaneous compression of k texts 
+.=</p>
+<p>• The BWT was introduced as a tool in order to 
+get a word easier to compress. 
+.=</p>
+<p>• We use the transformation E as a preprocessing 
+for the simultaneous compression of a set  of k 
+texts.  
+.=</p>
+<p>• If {x1,x2,…,xk} is a multiset of words, we denote 
+by C (x1,x2,…,xk) the word obtained by applying 
+a compressor C to the output of E({x1,x2,…xk}). 
+.=</p>
+<p>• If  is a permutation on {1,…,k}, then  
+.=</p>
+<p>C (x1,…,xk)=C (x (1) ,x (2),…,x (k)) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simultaneous compression of k texts 
+.=</p>
+<p>• In most of practical cases, if X and Y are two multisets of 
+words, then 
+.=</p>
+<p>|C (XUY)|<|C (X)|+|C (Y)| 
+.=</p>
+<p> 
+.=</p>
+<p> This means that the simultaneous compression of 
+{x1,x2,…xk} by using E as preprocessing is better than 
+compressing each word xi separately and concatenating 
+the outputs of the compressed words. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An E-based compressor 
+.=</p>
+<p>C (w)= 
+HC 
+.=</p>
+<p>MTF 
+.=</p>
+<p>E 
+.=</p>
+<p>{ , , , , } 
+.=</p>
+<p>W= 
+.=</p>
+<p>BWT BWT BWT 
+.=</p>
+<p>BWT BWT 
+MTF 
+.=</p>
+<p>MTF MTF 
+.=</p>
+<p>MTF MTF 
+.=</p>
+<p>HC HC 
+HC 
+.=</p>
+<p>HC HC 
+.=</p>
+<p>A(w)= .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simultaneous compression of k texts 
+A is a BWT-based compressor (BWT+MTF+HC).  
+C  is the E-based compressor.  
+M and N are the size of the blocks and the whole text, respectively. 
+We compare the compression ratios (expressed as output bits per  
+input character) obtained with some files of the Calgary Corpus. 
+.=</p>
+<p>File Size(in bytes) Alg M=16K M=64K M=N 
+.=</p>
+<p>bib 111261 C 2.547 2.461 2.425 
+.=</p>
+<p>    A 3.204 2.634   
+.=</p>
+<p>obj1 21504 C 4.743   4.740 
+.=</p>
+<p>    A 5.076     
+.=</p>
+<p>paper2 82199 C 2.805 2.786 2.779 
+.=</p>
+<p>    A 3.330 2.917   
+.=</p>
+<p>progl 71646 C 2.145 2.138 2.131 
+.=</p>
+<p>    A 2.440 2.200   
+.=</p>
+<p>trans 93695 C 2.064 1.978 1.950 
+.=</p>
+<p>    A 2.667 2.123   .=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

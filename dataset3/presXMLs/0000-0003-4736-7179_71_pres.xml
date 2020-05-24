@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An Efficient Closed Frequent Itemset Miner
+for the MOA Stream Mining System
+.=</p>
+<p>Massimo Quadrana (UPC & Politecnico di Milano)
+Albert Bifet (Yahoo! Research)
+.=</p>
+<p>Ricard Gavaldà (UPC)
+.=</p>
+<p>CCIA 2013, Vic, oct. 24th
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 1 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Frequent Itemset Mining
+.=</p>
+<p>The model
+.=</p>
+<p>Fix a set of possible items
+.=</p>
+<p>An itemset is a set of items
+.=</p>
+<p>A sequence of itemsets is a transaction database
+.=</p>
+<p>The frequent itemset mining problem
+.=</p>
+<p>Given a transaction database, find all the itemsets appearing (as a subset
+of) at least x% of transactions
+.=</p>
+<p>E.g. In a supermarket, bread, butter, and jam often bought together
+x% = minimum support
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 2 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Formal Definition
+.=</p>
+<p>Transaction database D:
+.=</p>
+<p>trans. ID items Let I be the set of items and T be the set of
+1 abde transactions.
+2 bce
+.=</p>
+<p>A set X = {X1, . . . ,Xn}, X ⊆ I is called an
+3 abde
+.=</p>
+<p>itemset.
+4 abce
+5 abcde The fraction of transactions in D that contain
+6 bcd X is called its support.
+.=</p>
+<p>support(ab)=4/6, support(bcd)=2/6
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 3 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Examples of Application
+.=</p>
+<p>Market Basket Analysis: Placement in shelves, pricing policies
+.=</p>
+<p>Click-streams in web pages
+.=</p>
+<p>Credit card bank fraud detection
+.=</p>
+<p>Real-time failure detection in sensor networks
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 4 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>On Data Stream Mining
+.=</p>
+<p>Data arrive as a stream of itemsets at high speed
+.=</p>
+<p>Can’t store all of it, not even in secondary memory
+.=</p>
+<p>Each itemset can be processed once
+.=</p>
+<p>Needs to provide accurate answers at all times
+.=</p>
+<p>Data distribution evolves over time: Concept drift
+.=</p>
+<p>Mined itemsets must be created, revised, possibly dropped
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 5 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Goal of this project
+.=</p>
+<p>A robust, efficient algorithm for frequent itemset mining on streams
+.=</p>
+<p>Publicly available
+.=</p>
+<p>Usable for practical applications
+.=</p>
+<p>Reference for future research
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 6 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Massive Online Analysis (MOA)
+.=</p>
+<p>Open-source environment for stream mining
+http://moa.cms.waikato.ac.nz/
+.=</p>
+<p>Closely related to WEKA, also by U. of Waikato, New Zealand
+.=</p>
+<p>Java for portability and extendability
+.=</p>
+<p>Command line, GUI, and API interfaces
+.=</p>
+<p>Several classification and clustering algorithms over data streams
+.=</p>
+<p>No frequent pattern mining capabilities
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 7 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Frequent Closed Itemsets
+.=</p>
+<p>Definition A frequent itemset X is closed if it has no frequent superset
+with the same support.
+.=</p>
+<p>For example, for minsupp = 3/6,
+.=</p>
+<p>trans. ID items
+.=</p>
+<p>1 abde
+2 bce abde is a frequent closed itemset (support = 3)
+3 abde abd is frequent, but not closed (abde has the
+4 abce same support)
+5 abcde
+6 bcd
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 8 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Mining Frequent Closed Itemsets
+.=</p>
+<p>Closed itemsets are a complete and non-redundant representation
+.=</p>
+<p>Compact representation
+.=</p>
+<p>Reconstruct the support information of every itemset (also frequent)
+.=</p>
+<p>Less itemsets in output
+.=</p>
+<p>Save memory and computations in Frequent Itemset mining!!!
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 9 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithms considered
+.=</p>
+<p>Restricted to frequent closed itemset stream miners
+.=</p>
+<p>Exact MOMENT [Chi+ 06], NEWMOMENT [Li+ 09],
+CLOSTREAM [Yen+ 11]
+.=</p>
+<p>High computational cost for exactness
+.=</p>
+<p>Approximate IncMine [Cheng+ 08], CLAIM [Song+ 07]
+.=</p>
+<p>Maybe more efficient at the expense of false positives and/or
+negatives
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 10 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The IncMine Algorithm [Cheng,Ke,Ng 08]
+.=</p>
+<p>Some features:
+.=</p>
+<p>Approximate algorithm, controlled by relaxation parameter
+.=</p>
+<p>Drops non-promising itemsets: may have false negatives
+.=</p>
+<p>Inverted FCI index to keep updated itemsets within window
+.=</p>
+<p>Requires a batch method for finding FCI in new batch
+.=</p>
+<p>→ we chose CHARM [Zaki+ 02]
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 11 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Accuracy
+.=</p>
+<p>Precision and recall w.r.t. exact ECLAT [Zaki 00]
+T40I10D100K dataset. Sliding window of size 10 × and 500 trans./batch
+.=</p>
+<p>Figure: Fixed minsupp. Variable Figure: Variable minsupp. Fixed
+relaxation rate relaxation rate
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 12 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Throughput
+.=</p>
+<p>Average number of transactions processed per second
+IncMine (Java) is compared with MOMENT(C++)
+.=</p>
+<p>Figure: Fixed minsupp. Variable Figure: Variable minsupp. Fixed
+relaxation rate relaxation rate
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 13 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Memory usage
+.=</p>
+<p>Average memory consumption of the JVM
+.=</p>
+<p>Garbage collector skews results (no comparison with MOMENT)
+.=</p>
+<p>Lower minsupp, higher memory usage
+.=</p>
+<p>Larger window size, higher memory usage
+.=</p>
+<p>Static frequent closed itemset mining in batches is the most memory
+intensive task
+.=</p>
+<p>σ Total Memory Usage(MB) Data Structures Size(MB)
+.=</p>
+<p>0.02 225.2 23.1
+0.04 226.6 3.1
+0.06 217.8 0.9
+0.08 198.3 0.5
+0.10 187.2 0.3
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 14 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Concept Drift
+.=</p>
+<p>Concept Quantity we are going to mine (target variable)
+.=</p>
+<p>Drift Change over time in unforeseen ways
+.=</p>
+<p>Usually concept drifts are classified in:
+.=</p>
+<p>Sudden, or abrupt, drifts
+.=</p>
+<p>Gradual drifts
+.=</p>
+<p>Drift detected monitoring:
+.=</p>
+<p>The total number of frequent itemsets (in synthetic data streams)
+.=</p>
+<p>The number of added/removed frequent itemsets (in real data
+streams)
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 15 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introducing Concept Drift
+.=</p>
+<p>Given two concepts (streams), to introduce the drift we use a sigmoid
+probability function.
+.=</p>
+<p>Figure: f (t) = 1/(1 + e−s(t−t0))
+.=</p>
+<p>Probability that a new instance of the stream belongs to the second
+concept.
+.=</p>
+<p>t0 is the point of change
+.=</p>
+<p>s = 4/L, where L is the length of the change
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 16 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reaction to Sudden Drift
+.=</p>
+<p>T40I10kD1MP6 drifts to T50I10kD1MP6C05 dataset (Zaki’s IBM Datagen
+Software).
+.=</p>
+<p>Reaction time grows linearly with window size
+M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 17 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reaction to Gradual Drift
+.=</p>
+<p>Fast reaction with small windows
+.=</p>
+<p>Stable response with big windows
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 18 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analyzing MOVIELENS (I)
+.=</p>
+<p>About 10 million ratings over 10681 movies by 71567 users
+.=</p>
+<p>Static data set for movie rating (from 29 Jan 1996 to 15 Aug 2007)
+.=</p>
+<p>Movies grouped by rating time (every 5 minutes)
+.=</p>
+<p>Transactions passed in ascending time to create a stream
+.=</p>
+<p>Stream of 620,000 transactions with average length 10.4
+.=</p>
+<p>Results:
+.=</p>
+<p>Evolution of popular movies over time
+.=</p>
+<p>Unnoticed with static dataset analysis
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 19 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analyzing MOVIELENS (II)
+.=</p>
+<p>date Frequent Itemsets
+.=</p>
+<p>16 Jul 2001 Lord of the Rings: The Fellowship of the Ring, The (2001); Beautiful Mind, A (2001).
+.=</p>
+<p>Harry Potter and the Sorcerer’s Stone (2001); Lord of the Rings: The Fellowship of the Ring, The (2001).
+.=</p>
+<p>23 Jul 2002 Spider-Man (2002); Star Wars: Episode II - Attack of the Clones (2002).
+.=</p>
+<p>Bourne Identity, The (2002); Minority Report (2002).
+.=</p>
+<p>29 Dec 2002 Lord of the Rings: The Fellowship of the Ring, The (2001); Lord of the Rings: The Two Towers, The
+(2002).
+.=</p>
+<p>Minority Report (2002); Signs (2002).
+.=</p>
+<p>15 Jul 2003 Lord of the Rings: The Fellowship of the Ring, The (2001); Lord of the Rings: The Two Towers, The
+(2002).
+.=</p>
+<p>Lord of the Rings: The Two Towers, The (2002); Pirates of the Caribbean: The Curse of the Black Pearl
+(2003).
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 20 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>Perfect integration with MOA
+.=</p>
+<p>Good accuracies and performances compared with MOMENT
+.=</p>
+<p>Good throughput and reasonable memory consumption
+.=</p>
+<p>Good adaptivity to concept drift
+.=</p>
+<p>Usable in real contexts
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 21 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future Works
+.=</p>
+<p>Bypass memory consumption of frequent closed itemset batch mining
+.=</p>
+<p>Self-adaption: a general problem in Data Mining
+.=</p>
+<p>ADWIN [Bifet 07] to control window size
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 22 / 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An Efficient Closed Frequent Itemset Miner
+for the MOA Stream Mining System
+.=</p>
+<p>Massimo Quadrana (UPC & Politecnico di Milano)
+Albert Bifet (Yahoo! Research)
+.=</p>
+<p>Ricard Gavaldà (UPC)
+.=</p>
+<p>CCIA 2013, Vic, oct. 24th
+.=</p>
+<p>M. Quadrana, A. Bifet, R. Gavaldà () Frequent Itemset Mining in MOA CCIA 2013, Vic, oct. 24th 23 / 23.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

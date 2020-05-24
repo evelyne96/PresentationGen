@@ -1,0 +1,826 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Computing Pure Nash Equilibria
+in Symmetric Action Graph Games
+.=</p>
+<p>Albert Xin Jiang Kevin Leyton-Brown
+Department of Computer Science
+.=</p>
+<p>University of British Columbia
+{jiang;kevinlb}@cs.ubc.ca
+.=</p>
+<p>INFORMS: October 14, 2008
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Action Graph Games
+.=</p>
+<p>2 Computing Pure Nash Equilibria
+.=</p>
+<p>3 Computing Pure Equilibira in Symmetric AGGs
+.=</p>
+<p>4 Algorithm
+.=</p>
+<p>5 Conclusions
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Example: Location Game
+.=</p>
+<p>each of n agents wants to open a business
+.=</p>
+<p>actions: choosing locations
+.=</p>
+<p>utility: depends on
+.=</p>
+<p>the location chosen
+number of agents choosing the same location
+numbers of agents choosing each of the adjacent locations
+.=</p>
+<p>T 1 T 2 T 3 T 4 T 5 T 6 T 7 T 8
+.=</p>
+<p>B1 B2 B3 B4 B5 B6 B7 B8
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Game on a graph
+.=</p>
+<p>T 1 T 2 T 3 T 4 T 5 T 6 T 7 T 8
+.=</p>
+<p>B1 B2 B3 B4 B5 B6 B7 B8
+.=</p>
+<p>This can be modeled as a game played on a directed graph:
+.=</p>
+<p>each player has a token to put on one of the nodes;
+each player’s utility depends on:
+.=</p>
+<p>the node chosen
+configuration of tokens over neighboring nodes
+.=</p>
+<p>Action Graph Games (Bhat & Leyton-Brown 2004, Jiang &
+Leyton-Brown 2006)
+.=</p>
+<p>fully expressive, compact representation of games
+exploits anonymity, context specific independence
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definition (configuration)
+.=</p>
+<p>A configuration c is an |A|-tuple of integers (c[α])α∈A. c[α] is the
+number of agents who chose the action α ∈ A. For a subset of
+actions X ⊂ A, let c[X] denote the restriction of c to X. Let
+C[X] denote the set of restricted configurations over X.
+.=</p>
+<p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Definitions
+.=</p>
+<p>Definition (action graph)
+.=</p>
+<p>An action graph is a tuple (A, E), where A is a set of nodes
+corresponding to distinct actions and E is a set of directed edges.
+.=</p>
+<p>Each agent i’s set of available actions: Ai ⊆ A
+Neighborhood of node α: ν(α) ≡ {α′ ∈ A|(α′, α) ∈ E}
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Definitions
+.=</p>
+<p>Definition (action graph)
+.=</p>
+<p>An action graph is a tuple (A, E), where A is a set of nodes
+corresponding to distinct actions and E is a set of directed edges.
+.=</p>
+<p>Each agent i’s set of available actions: Ai ⊆ A
+Neighborhood of node α: ν(α) ≡ {α′ ∈ A|(α′, α) ∈ E}
+.=</p>
+<p>Definition (configuration)
+.=</p>
+<p>A configuration c is an |A|-tuple of integers (c[α])α∈A. c[α] is the
+number of agents who chose the action α ∈ A. For a subset of
+actions X ⊂ A, let c[X] denote the restriction of c to X. Let
+C[X] denote the set of restricted configurations over X.
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definition (symmetric AGG)
+.=</p>
+<p>An AGG is symmetric if all players have identical action sets,
+i.e. if Ai = A for all i.
+.=</p>
+<p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Action Graph Games
+.=</p>
+<p>Definition (Action Graph Game (AGG))
+.=</p>
+<p>An action graph game Γ is a tuple 〈N, (Ai)i∈N , G, u〉 where
+N is the set of agents
+.=</p>
+<p>Ai is agent i’s set of actions ⋃
+G = (A, E) is the action graph, where A = i∈N Ai is the
+set of distinct actions
+.=</p>
+<p>u = (uα)α∈A, where uα : C[ν(α)] 7→ R
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Action Graph Games
+.=</p>
+<p>Definition (Action Graph Game (AGG))
+.=</p>
+<p>An action graph game Γ is a tuple 〈N, (Ai)i∈N , G, u〉 where
+N is the set of agents
+.=</p>
+<p>Ai is agent i’s set of actions ⋃
+G = (A, E) is the action graph, where A = i∈N Ai is the
+set of distinct actions
+.=</p>
+<p>u = (uα) αα∈A, where u : C[ν(α)]→7 R
+.=</p>
+<p>Definition (symmetric AGG)
+.=</p>
+<p>An AGG is symmetric if all players have identical action sets,
+i.e. if Ai = A for all i.
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>AGG Properties
+.=</p>
+<p>AGGs are fully expressive
+.=</p>
+<p>Symmetric AGGs can represent arbitrary symmetric games
+.=</p>
+<p>Representation size ‖Γ‖ is polynomial if the in-degree I of G
+is bounded by a constant
+.=</p>
+<p>Any graphical game (Kearns, Littman & Singh 2001) can be
+encoded as an AGG of the same space complexity.
+.=</p>
+<p>AGG can be exponentially smaller than the equivalent
+graphical game & normal form representations.
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Action Graph Games
+.=</p>
+<p>2 Computing Pure Nash Equilibria
+.=</p>
+<p>3 Computing Pure Equilibira in Symmetric AGGs
+.=</p>
+<p>4 Algorithm
+.=</p>
+<p>5 Conclusions
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Pure Nash Equilibria
+.=</p>
+<p>Action profile: a = (a1, . . . , an)
+.=</p>
+<p>Definition (pure Nash equilibrium)
+.=</p>
+<p>An action profile a is a pure Nash equilibrium of the game Γ if for
+all i ∈ N , ai is a best response to a−i (i.e. for all a′i ∈ Ai,
+u (a , a ) ≥ u (a′i i −i i i, a−i)).
+.=</p>
+<p>not guaranteed to exist
+.=</p>
+<p>often more interesting than mixed Nash equilibria
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Consider the restriction to symmetric AGGs.
+.=</p>
+<p>Theorem (Conitzer, personal communication; also proven
+independently in (Daskalakis et al. 2008))
+.=</p>
+<p>The problem of determining whether a pure Nash equilibrium exists
+in a symmetric AGG is NP-complete, even when the in-degree of
+the action graph is at most 3.
+.=</p>
+<p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Complexity of Finding Pure Equilibria
+.=</p>
+<p>Checking every action profile:
+.=</p>
+<p>linear time in normal form size
+.=</p>
+<p>worst-case exponential time in AGG size
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Complexity of Finding Pure Equilibria
+.=</p>
+<p>Checking every action profile:
+.=</p>
+<p>linear time in normal form size
+.=</p>
+<p>worst-case exponential time in AGG size
+.=</p>
+<p>Consider the restriction to symmetric AGGs.
+.=</p>
+<p>Theorem (Conitzer, personal communication; also proven
+independently in (Daskalakis et al. 2008))
+.=</p>
+<p>The problem of determining whether a pure Nash equilibrium exists
+in a symmetric AGG is NP-complete, even when the in-degree of
+the action graph is at most 3.
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Related Work:
+.=</p>
+<p>finding pure equilibria in graphical games
+.=</p>
+<p>(Gottlob, Greco, & Scarcello 2003) and (Daskalakis &
+Papadimitriou 2006)
+.=</p>
+<p>finding pure equilibria in simple congestion games
+.=</p>
+<p>(Ieong, McGrew, Nudelman, Shoham, & Sun 2005)
+.=</p>
+<p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Our Contribution
+.=</p>
+<p>We provide an algorithm that is tractable for symmetric AGGs with
+bounded treewidth
+.=</p>
+<p>the algorithm can also be applied to other settings
+.=</p>
+<p>Specifically, we propose a dynamic programming approach:
+.=</p>
+<p>partition action graph into subgraphs (via tree decomposition)
+.=</p>
+<p>construct equilibria of the game from equilibria of games
+played on subgraphs
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Our Contribution
+.=</p>
+<p>We provide an algorithm that is tractable for symmetric AGGs with
+bounded treewidth
+.=</p>
+<p>the algorithm can also be applied to other settings
+.=</p>
+<p>Specifically, we propose a dynamic programming approach:
+.=</p>
+<p>partition action graph into subgraphs (via tree decomposition)
+.=</p>
+<p>construct equilibria of the game from equilibria of games
+played on subgraphs
+.=</p>
+<p>Related Work:
+.=</p>
+<p>finding pure equilibria in graphical games
+.=</p>
+<p>(Gottlob, Greco, & Scarcello 2003) and (Daskalakis &
+Papadimitriou 2006)
+.=</p>
+<p>finding pure equilibria in simple congestion games
+.=</p>
+<p>(Ieong, McGrew, Nudelman, Shoham, & Sun 2005)
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Action Graph Games
+.=</p>
+<p>2 Computing Pure Nash Equilibria
+.=</p>
+<p>3 Computing Pure Equilibira in Symmetric AGGs
+.=</p>
+<p>4 Algorithm
+.=</p>
+<p>5 Conclusions
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Restricted Game
+.=</p>
+<p>To derive an algorithm that builds up from partial solutions, we
+must define the concept of a restricted game
+.=</p>
+<p>game played by a subset of players: n′ ≤ n
+actions restricted to R ⊆ A
+utility functions same as in original AGG
+.=</p>
+<p>need to specify configuration of neighboring nodes not in R
+.=</p>
+<p>T1 T2 T3 T4 T5 T6 T7 T8
+.=</p>
+<p>B1 B2 B3 B4 B5 B6 B7 B8
+.=</p>
+<p>restricted game Γ(n′, R, c[ν(R)])
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Partial Solution
+.=</p>
+<p>We want to use equilibria of restricted games as building blocks
+.=</p>
+<p>T1 T2 T3 T4 T5 T6 T7 T8
+.=</p>
+<p>B1 B2 B3 B4 B5 B6 B7 B8
+.=</p>
+<p>Definition (partial solution)
+.=</p>
+<p>A partial solution on a restricted game Γ(n′, X, c[ν(X)]) is a
+configuration c[X ∪ ν(X)] such that c[X] is a pure NE of Γ.
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Extending partial solutions
+.=</p>
+<p>Problem: combining two partial solutions on two
+non-overlapping restricted games does not necessarily produce
+an equilibrium of the combined game
+.=</p>
+<p>configurations may be inconsistent, or
+player might profitably deviate from playing in one restricted
+game to another
+.=</p>
+<p>keeping all partial solutions: impractical as sizes of restricted
+games grow
+.=</p>
+<p>we would like sufficient statistics that summarize partial
+solutions as compactly as possible
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Sufficient statistic
+.=</p>
+<p>T1 T2 T3 T4 T5 T6 T7 T8
+.=</p>
+<p>B1 B2 B3 B4 B5 B6 B7 B8
+.=</p>
+<p>Sufficient Statistic: a tuple consisting of
+.=</p>
+<p>1. configuration over
+.=</p>
+<p>outside neighbours: ν(X)
+inside nodes that are neighbors of outside nodes: ν(X)
+.=</p>
+<p>2. number of agents playing in X
+.=</p>
+<p>3. Uw, utility of the worst-off player in X \ ν(X).
+4. Ub, best utility an outside player can get by playing in
+X \ ν(X).
+.=</p>
+<p>Number of distinct tuples: polynomial for action graphs of
+bounded treewidth
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Combining sufficient statistics
+.=</p>
+<p>Given two sets of such tuples, summarizing partial solutions on
+X,Y ⊂ A, we can compute the set of sufficient statistics for the
+combined restricted game X ∪ Y
+.=</p>
+<p>start with all consistent configurations
+.=</p>
+<p>analogous to database join of the two sets of tuples
+.=</p>
+<p>discard those with profitable X→Y deviations (& vice versa)
+easy: discard when Uw from X is worse than Ub from Y
+trickier: checking deviations from X ∩ ν(Y ) to ν(Y )
+.=</p>
+<p>utilities in ν(Y ) change when c[ν(Y )] changes, so checking
+these deviations is more costly
+solution: augment our sufficient statistics to keep track of the
+configuration of the neighborhood of ν(Y ), in order to
+compute these utilities on the fly
+luckily, for graphs of bounded treewidth, this implies storing a
+small amount of additional information
+.=</p>
+<p>overall: all profitable deviations can be discarded efficiently
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Action Graph Games
+.=</p>
+<p>2 Computing Pure Nash Equilibria
+.=</p>
+<p>3 Computing Pure Equilibira in Symmetric AGGs
+.=</p>
+<p>4 Algorithm
+.=</p>
+<p>5 Conclusions
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem
+For symmetric AGGs with bounded treewidth, our algorithm determines
+existence of pure Nash equilibria in polynomial time.
+.=</p>
+<p>Recover a PSNE from the SS’s: downwards pass on the tree
+.=</p>
+<p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Algorithm
+.=</p>
+<p>1 Construct the primal graph of the action graph.
+.=</p>
+<p>2 Build a tree decomposition of this primal graph.
+.=</p>
+<p>3 Partition the AGG according to the tree decomposition.
+.=</p>
+<p>4 Find all sufficient statistics1 corresponding to partial solutions of
+games restricted to each partition.
+.=</p>
+<p>5 Working up the tree, combine adjacent nodes together.
+.=</p>
+<p>6 When root is reached, return whether the game has a PSNE.
+.=</p>
+<p>1Augment sufficient statistics to include configurations over additional actions that
+belong to the decomposition’s tree node that is closest to the root.
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Algorithm
+.=</p>
+<p>1 Construct the primal graph of the action graph.
+.=</p>
+<p>2 Build a tree decomposition of this primal graph.
+.=</p>
+<p>3 Partition the AGG according to the tree decomposition.
+.=</p>
+<p>4 Find all sufficient statistics1 corresponding to partial solutions of
+games restricted to each partition.
+.=</p>
+<p>5 Working up the tree, combine adjacent nodes together.
+.=</p>
+<p>6 When root is reached, return whether the game has a PSNE.
+.=</p>
+<p>Theorem
+For symmetric AGGs with bounded treewidth, our algorithm determines
+existence of pure Nash equilibria in polynomial time.
+.=</p>
+<p>Recover a PSNE from the SS’s: downwards pass on the tree
+.=</p>
+<p>1Augment sufficient statistics to include configurations over additional actions that
+belong to the decomposition’s tree node that is closest to the root.
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>An Example
+.=</p>
+<p>** 8?>9A=:<; oo // ?89>B:=<;
+OO jj
+.=</p>
+<p>8?9>=:;<		 8?>9:=<;		  		 		E oo // D oo // ?8>9C=:;< oo // 8?>9F:=;< oo // ?8>9G:=<;
+Two players
+Utility functions:
+.=</p>
+<p>start with payoff of 0
++1 reward if playing action F or D
+−2 penalty if another player selected an action with an
+incoming edge
+.=</p>
+<p>For C, this means a neighboring action (since C does not
+have a self-edge)
+Otherwise, this means the same or a neighboring action
+.=</p>
+<p>Pure Nash equilibria:
+One player chooses D, the other chooses F
+Both players choose C
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>1. Construct Primal Graph
+.=</p>
+<p>Action graph:
+.=</p>
+<p>** 8?9>A=:<; oo // ?8>9B=:;<
+OO jj
+.=</p>
+<p>?89>=:;<		 8?9>=:;<		 8?9>:=<; ?89>=:<;		 ?89>:=;<		E oo // D oo // C oo // F oo // G
+Primal graph: make each neighborhood a clique
+.=</p>
+<p>8?>9A:=<; 8?9>B:=<;@@ @@ ~ @
+?89>=:<; 8?>9:=<; ~@~
+.=</p>
+<p>~ @@8?9>=:;< @~ @ @~ @E D C 8?>9F:=<; 8?>9G:=<;
+Pure Nash Equilibria in AGGs Jiang & Leyton-Brown
+.=</p>
+<p>1
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>2. Construct Tree Decomposition
+.=</p>
+<p>A tree where each node is labeled with one or more nodes from the
+primal graph, where
+.=</p>
+<p>every label is used at least once
+.=</p>
+<p>for every edge in the primal graph from α1 to α2, there is a
+node in the tree labeled with both α1 and α2
+.=</p>
+<p>if a label occurs in two nodes x1, x2 in the tree, it also
+occurs on all paths between x1 and x2.
+.=</p>
+<p>?8>9A=:;< 8?>9B:=<;@@ ~ @@ X1={A,B,C}@~ @
+?89>E=:;< 8?>9:=;<
+.=</p>
+<p>@~
+~~
+.=</p>
+<p>~@@8?9> @@@D C:=;< ?8>9F:=;< ?8>9G:=;< X3={C,D,E} X2={B,C,D,F} X4={C,F,G}
+If treewidth of the AGG is bounded by a constant, the primal
+graph’s tree decomposition can be computed in polynomial time.
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown
+.=</p>
+<p>1
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>3. Partition the AGG According to the Tree Decomposition
+.=</p>
+<p>By construction: for each node α in the action graph, there always
+exists a tree node in the decomposition of the primal graph that
+contains α and its neighbors in the action graph.
+.=</p>
+<p>The tree decomposition therefore induces the following partition on
+the AGG:
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>4. Compute Sufficient Statistics for Partial Solutions on
+Each Partition
+.=</p>
+<p>X1={A,B,C}
+.=</p>
+<p>X3={C,D,E} X2={B,C,D,F} X4={C,F,G}
+.=</p>
+<p>For restricted game on {C}: For restricted game on {F,G}:
+n′ c[B,C,D, F ] Uw(∅) Ub(∅) n′ c[C,F,G] Uw(G) Ub(G)
+0 0,0,0,0 ∞ −∞ 0 0,0,0 ∞ 0
+0 1,0,0,0 ∞ −∞ 0 1,0,0 ∞ 0
+· · · · · · ∞ −∞ 0 2,0,0 ∞ 0
+1 0,1,0,0 ∞ −∞ 1 0,1,0 ∞ −2
+1 1,1,0,0 ∞ −∞ 1 1,0,1 0 −2
+· · · · · · ∞ −∞ 2 0,1,1 −2 −∞
+2 0,2,0,0 ∞ −∞
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>5. Working up the Tree, Combine Restricted Games
+.=</p>
+<p>Combine restricted games in bottom-up order: from leaves to root.
+.=</p>
+<p>X1={A,B,C}
+.=</p>
+<p>X3={C,D,E} X2={B,C,D,F} X4={C,F,G}
+.=</p>
+<p>Combine {C} and {F,G} to create table for restricted game on
+{C,F,G}:
+.=</p>
+<p>n′ c[B,C,D, F ] Uw(G) Ub(G)
+.=</p>
+<p>0 0,0,0,0 ∞ 0
+0 1,0,0,0 ∞ 0
+· · · · · · ∞ 0
+1 0,0,0,1 ∞ −2
+1 1,0,0,1 ∞ −2
+1 0,0,1,1 ∞ −2
+2 0,1,0,0 0 −∞
+2 0,2,0,0 ∞ −∞
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>5. Working up the Tree, Combine Restricted Games
+.=</p>
+<p>Combine restricted games in bottom-up order: from leaves to root.
+.=</p>
+<p>X1={A,B,C}
+.=</p>
+<p>X3={C,D,E} X2={B,C,D,F} X4={C,F,G}
+.=</p>
+<p>Combine {D,E} and {C,F,G} to create table for {C,D,E,F,G}:
+.=</p>
+<p>n′ c[B,C,D, F ] Uw(E,G) Ub(E,G)
+.=</p>
+<p>0 0,0,0,0 ∞ 0
+0 1,0,0,0 ∞ 0
+0 2,0,0,0 ∞ 0
+1 0,0,1,0 ∞ 0
+1 1,0,1,0 ∞ 0
+1 0,0,0,1 ∞ 0
+1 1,0,0,1 ∞ 0
+2 0,0,1,1 ∞ −∞
+2 0,2,0,0 ∞ −∞
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>5. Working up the Tree, Combine Restricted Games
+.=</p>
+<p>Combine restricted games in bottom-up order: from leaves to root.
+.=</p>
+<p>X1={A,B,C}
+.=</p>
+<p>X3={C,D,E} X2={B,C,D,F} X4={C,F,G}
+.=</p>
+<p>Combine {A,B} and {C,D,E,F,G}:
+.=</p>
+<p>n′ c[A,B,C] Uw(D,E, F,G) Ub(D,E, F,G)
+2 0,0,0 1 −∞
+2 0,0,2 ∞ −∞
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>6. Top-Down Pass to Compute PNSE
+.=</p>
+<p>n′ c[A,B,C] Uw(D,E, F,G) Ub(D,E, F,G)
+2 0,0,0 1 −∞
+2 0,0,2 ∞ −∞
+.=</p>
+<p>To compute a PSNE, start from the root and work down. At each
+node, pick a row from the table of sufficient statistics that is
+consistent with earlier picks.
+.=</p>
+<p>If we start with row 1, we select an equilibrium in which one
+player chooses D, one player chooses F
+.=</p>
+<p>If we start with row 2, we select an equilibrium in which both
+players choose C
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Action Graph Games
+.=</p>
+<p>2 Computing Pure Nash Equilibria
+.=</p>
+<p>3 Computing Pure Equilibira in Symmetric AGGs
+.=</p>
+<p>4 Algorithm
+.=</p>
+<p>5 Conclusions
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computing Pure Nash Equilibria Symmetric AGGs Algorithm Conclusions
+.=</p>
+<p>Conclusions & Beyond Symmetric AGGs
+.=</p>
+<p>dynamic programming approach for computing pure equilibria
+in AGGs
+.=</p>
+<p>poly-time algorithm for symmetric AGGs with bounded
+treewidth
+.=</p>
+<p>our approach can be extended to general AGGs
+different set of sufficient statistics
+.=</p>
+<p>when the game is k-symmetric (i.e. has k distinct action
+sets), use k-configuration (k-tuple of configurations, one for
+each equivalence class of players), and similarly use k-tuples of
+Uw, Ub
+for subgraphs in which only k′ of the k classes of players
+participate, only need to keep track of the sufficient statistics
+for those k′ classes.
+.=</p>
+<p>related algorithms for graphical games (Daskalakis &
+Papadimitriou 2006) and simple congestion games (Ieong et al
+2005) become special cases of our approach
+.=</p>
+<p>Pure Nash Equilibria in AGGs Jiang & Leyton-Brown.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

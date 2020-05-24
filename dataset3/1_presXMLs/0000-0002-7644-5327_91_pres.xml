@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Diffusing Focused Loads in 
+Networks using Pricing
+</p>
+<p>Balaji Prabakar
+Kevin Leyton-Brown
+</p>
+<p>Ryan Porter
+Yoav Shoham
+</p>
+<p>Shobha Venkataraman
+</p>
+<p>Computer Science Department
+Stanford University</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Focused Loading
+• Many users demand network resources at some focal 
+</p>
+<p>time, predictable in advance
+• Canonical example: long distance phone
+</p>
+<p>– people want to talk as early as possible, minimize cost 
+– utility maximized when rates drop at 5 PM: 
+</p>
+<p>network demand spikes
+</p>
+<p>• Computer networks: load can be even more focused
+– sudden onset: TicketMaster server as tickets go on sale
+– deadline: IRS server just before taxes are due
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Managing Network Congestion
+• Share bandwidth fairly, even when agents may act 
+</p>
+<p>selfishly to maximize bandwidth available to them
+• Technological: isolate packet flows
+</p>
+<p>– problem: difficult to implement
+</p>
+<p>• Economic: give agents incentives
+– Smart Market: use bids to set price for network usage at 
+</p>
+<p>each time slot [MacKie-Mason and Varian; Gibbens, Kelly, Key]
+– Paris Metro Pricing: partitions of the network that differ 
+</p>
+<p>only in price [Odlyzko; Altmann’s system from 1st talk]
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Diffusing Focused Loads
+• Existing schemes are not designed to deal gracefully with 
+</p>
+<p>sudden changes in load
+– technological: queues may be overwhelmed, leading to many dropped 
+</p>
+<p>packets and degraded service for everyone 
+– Smart Market will suddenly charge unpredictably higher prices
+– Paris Metro Pricing assumes that users have enough information 
+</p>
+<p>about current load to choose the right class of service
+</p>
+<p>• Rather than trying to decide which packets to drop, 
+give an incentive for smoothing out the demand
+– possible because focused loads are predictable by definition
+– knowledge about utility functions means more revenue; 
+</p>
+<p>more modest computational demands
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+1. Our game-theoretic model
+2. A simple mechanism: “Matching Pennies”
+3. A more complex mechanism: “Collective Reward”
+4. Future directions
+</p>
+<p>Warning: the length of this talk forces me to gloss over 
+many details.  More formal models and analysis are 
+provided in our paper.
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our Model
+• Network use is divided into t timeslots 
+• n risk-neutral agents will use the network 
+</p>
+<p>for one time slot each
+• Each slot has a fixed usage cost m
+• Agent ai’s valuation for slot s is given by vi(s)
+• d(s) is the number of agents who choose slot s
+• Give agents an incentive to balance load
+</p>
+<p>– waive the usage fee for slot s with probability p(s) 
+– agents made aware of the mechanism, including how p is 
+</p>
+<p>calculated, but not of the actual draws from p
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Agents, Equilibria
+• Agents act to maximize their own utility
+</p>
+<p>– agent’s action: choosing a slot
+– agent’s strategy: a probability distribution over slot choices
+– ai’s utility for choosing slot s is ui(s) = vi(s) - (1-p(s))m
+– only consider mechanisms where participation is rational for all agents
+</p>
+<p>• Nash equilibrium for a mechanism Φ:
+– a set of strategies for the agents participating in Φ where no single 
+</p>
+<p>agent ai can benefit from changing his strategy, given that all other 
+agents’ strategies as fixed
+</p>
+<p>– strict equilibrium: ai is always worse off changing strategy
+– weak equilibrium: ai is never better off changing strategy
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Mechanism Evaluation, Optimality
+• Mechanism Φ has two goals:
+</p>
+<p>1. balance load caused by the agents’ selection of slots
+– g(d): the monetary value of d to the network
+2. maximize expected revenue
+– depends on Φ and d:  E[R|Φ,d]
+</p>
+<p>• Trade-off between load balancing and revenue
+– load balancing is achieved by offering free slots 
+– z(Φ,d) = g(d) + E[R|Φ,d]
+</p>
+<p>• Optimality of a mechanism-equilibrium pair
+– z maximal as compared to z for all other equilibria of 
+</p>
+<p>other mechanisms (constant n, participation rational)
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our Mechanisms
+• I’ll describe two in some detail; two more in our paper
+• Why more than one mechanism?  Many variables:
+</p>
+<p>Type of equilibrium or strategy Payment only after all slots?
+Time cost of coordination phase Non-optimal equilibria exist?
+Time cost after coordination Revenue increases if agents deviate?
+Storage cost Harmful collusion?
+Communication cost Irrational actions harm other agents?
+Requires agent names? Agents may have different v functions?
+</p>
+<p>• To begin with, I’ll add two assumptions:
+1. all agents have the same preferences for slots
+2. mechanism designer knows these preferences
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>“Matching Pennies”
+1. Decide if each slot will be free according to p
+2. Each agent chooses a slot
+</p>
+<p>Select p so that agents are indifferent 
+between all time slots:
+– i.e., E[ui] constant for all slots
+– we’ll call this probability distribution p*
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>MP: Equilibria
+• Any set of strategies is a weak equilibrium, e.g.:
+</p>
+<p>– agents randomize (load balancing)
+– agents pick the “best” slots deterministically: maximize z
+</p>
+<p>• this is a weak, optimal equilibrium
+</p>
+<p>– agents pick same slot deterministically: focused loading!
+</p>
+<p>• Theorem: if 
+– agents have identical utility functions
+– payoffs are independent of agents’ moves
+</p>
+<p>then a strict, optimal equilibrium does not exist.
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>“Collective Reward”
+1. The mechanism assigns agents “names” corresponding to 
+</p>
+<p>slot numbers
+2. Each agent chooses a slot
+3. The mechanism computes p, and determines which 
+</p>
+<p>slots will actually be free
+</p>
+<p>• count(s): the number of agents given name s
+• d+(s) = |count(s) – d(s)|
+• S: the set of slots which minimize d+
+</p>
+<p>{p*(s) s∈Sp(s) =
+0 s∉S
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CR: Equilibrium ϕ
+• A strict equilibrium: ai chooses slot name(i)
+• All other agents play this strategy—ai could:
+</p>
+<p>1. play the strategy too
+• d+ is minimized by all slots
+• ai gets the same utility regardless of her name
+</p>
+<p>2. select a different slot
+• ai’s slot will never be free
+• if expected utility for cooperation exceeds v(bestslot), 
+</p>
+<p>deviation is unprofitable, and ϕ is a strict equilibrium
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CR: Choosing Names, Optimality
+• Problem: we want to assign names to agents before 
+</p>
+<p>we know how many agents will participate
+• Theorem: assigning each agent the name that 
+</p>
+<p>greedily improves z gives rise to optimal d
+• Theorem: (CR, ϕ) is optimal
+</p>
+<p>– an optimal distribution of agents may be achieved 
+– agents can be paid the minimum needed to make deviation 
+</p>
+<p>unprofitable
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CR: Bounds on Utility Functions
+• Relax our assumptions:
+</p>
+<p>1. agents have different preferences for slots 
+2. mech. doesn’t know agents’ preferences, knows bounds: vl and vu
+</p>
+<p>– impossible to construct optimal mechanisms in this case
+</p>
+<p>• k-Optimality of a mechanism-equilibrium pair
+– z is no further than kn from its maximal value
+</p>
+<p>• CR is k-optimal, k = maxs(vu(s) - vl(s))
+– participation rational for all agents
+</p>
+<p>• expected cost of each slot less than vl
+</p>
+<p>– deviation unprofitable 
+• expected utility for each slot must exceed vu(bestslot)
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two More Mechanisms
+• “Bulletin Board”
+</p>
+<p>– agents coordinate with each other by broadcasting their 
+intended slot choice
+</p>
+<p>– agents get free slots according to p* iff their distribution is 
+optimal; otherwise no slots are free
+</p>
+<p>– strict, optimal equilibrium
+</p>
+<p>• “Discriminatory”
+– agents are assigned slots by the system
+– each agent gets the slot free according to p* iff he chose 
+</p>
+<p>the assigned slot; otherwise he pays m
+– dominant strategy: unique, optimal equilibrium
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future Work
+• Theoretical:
+</p>
+<p>– consider other cases where agents’ valuations not known
+• e.g., mechanism announces price of next slot, retroactive payment of 
+</p>
+<p>agents not allowed
+• can we achieve a bound on optimality here?
+</p>
+<p>• Practical:
+– apply one of our mechanisms in a real system
+– beginning to work with Stanford student housing system, which 
+</p>
+<p>experiences focused loads on application deadlines
+• their database can accommodate only 40 simultaneous users
+• this year they were forced to extend the application deadline because of 
+</p>
+<p>system unavailability
+</p>
+<p>• For the whole story, please see our paper: 
+available at http://robotics.stanford.edu/~kevinlb 
+</p>
+<p>Thursday August 23, 2001 ITCom 2001 17</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

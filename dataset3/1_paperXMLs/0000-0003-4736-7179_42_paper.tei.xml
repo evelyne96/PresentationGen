@@ -1,0 +1,1104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Adaptive Scheduling on Power-Aware Managed Data-Centers using Machine Learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Josep</forename><forename type="middle">Ll</forename><surname>Berral</surname></persName>
+							<email>berral@ac.upc.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya and Barcelona Supercomputing Center</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<email>gavalda@lsi.upc.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya and Barcelona Supercomputing Center</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jordi</forename><surname>Torres</surname></persName>
+							<email>torres@ac.upc.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya and Barcelona Supercomputing Center</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Adaptive Scheduling on Power-Aware Managed Data-Centers using Machine Learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Index Terms-Data centers</term>
+					<term>Energy</term>
+					<term>Heuristics</term>
+					<term>Machine Learning</term>
+					<term>Scheduling</term>
+					<term>SLA</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Energy-related costs have become one of the major economic factors in IT data-centers, and companies and the research community are currently working on new efficient poweraware resource management strategies, also known as "Green IT". Here we propose a framework for autonomic scheduling of tasks and web-services on cloud environments, optimizing the profit taking into account revenue for task execution minus penalties for service-level agreement violations, minus power consumption cost. The principal contribution is the combination of consolidation and virtualization technologies, mathematical optimization methods, and machine learning techniques. The data-center infrastructure, tasks to execute, and desired profit are casted as a mathematical programming model, which can then be solved in different ways to find good task schedulings. We use an exact solver based on mixed linear programming as a proof of concept but, since it is an NP-complete problem, we show that approximate solvers provide valid alternatives for finding approximately optimal schedules. The machine learning is used to estimate the initially unknown parameters of the mathematical model. In particular, we need to predict a priori resource usage (such as CPU consumption) by different tasks under current workloads, and estimate task service-level-agreement (such as response time) given workload features, host characteristics, and contention among tasks in the same host. Experiments show that machine learning algorithms can predict system behavior with acceptable accuracy, and that their combination with the exact or approximate schedulers manages to allocate tasks to hosts striking a balance between revenue for executed tasks, quality of service, and power consumption.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Abstract-Energy-related costs have become one of the major economic factors in IT data-centers, and companies and the research community are currently working on new efficient poweraware resource management strategies, also known as "Green IT". Here we propose a framework for autonomic scheduling of tasks and web-services on cloud environments, optimizing the profit taking into account revenue for task execution minus penalties for service-level agreement violations, minus power consumption cost. The principal contribution is the combination of consolidation and virtualization technologies, mathematical optimization methods, and machine learning techniques. The data-center infrastructure, tasks to execute, and desired profit are casted as a mathematical programming model, which can then be solved in different ways to find good task schedulings. We use an exact solver based on mixed linear programming as a proof of concept but, since it is an NP-complete problem, we show that approximate solvers provide valid alternatives for finding approximately optimal schedules. The machine learning is used to estimate the initially unknown parameters of the mathematical model. In particular, we need to predict a priori resource usage (such as CPU consumption) by different tasks under current workloads, and estimate task service-level-agreement (such as response time) given workload features, host characteristics, and contention among tasks in the same host. Experiments show that machine learning algorithms can predict system behavior with acceptable accuracy, and that their combination with the exact or approximate schedulers manages to allocate tasks to hosts striking a balance between revenue for executed tasks, quality of service, and power consumption.</p><p>Index Terms-Data centers, Energy, Heuristics, Machine Learning, Scheduling, SLA</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>I. INTRODUCTION</head><p>Nowadays the concept of Cloud has become one dominating paradigm in the externalization of information and IT resources for people and enterprises. The possibility of offering "everything as a service" (platform, infrastructure and services) has allowed companies to move their IT, previously in private, owned data-centers, to external hosting. As a consequence, the Cloud led to the creation of computingresource provider companies, starting a data-center race offering computing and storage resources at low prices. The data-center administration will essentially try to maximize its revenue by executing as many hosted services as possible, but is constrained by the its infrastructure: If too many services are accepted, quality of service will degrade, leading to immediate penalties as per service-level-agreements, and eventually to prestige and customer satisfaction losses. Additionally, power consumption costs are becoming a growing portion of the operationg costs, besides increasing societal and environmental concerns. Naturally, high job throughput and user-satisfaction can be obtained by deploying a large amount of resources, but this incurs in high power cost. The aim of this paper is to propose a method for adaptively remaining at the sweet spot where enough resources (hosts -hence electrical power) are deployed to achieve almost maximal throughput and usersatisfaction.</p><p>Here we propose a methodology of autonomic energyaware scheduling that dynamically adapts to varying task types and workloads, and even to varying infrastructure. The main contribution is the combination of technologies such as virtualization and consolidation (to move tasks between hosts), mathematical programming (to create and solve models of tasks, hosts, and constraints), and machine learning and data mining (to build these models from examples of past behaviors). While all these techniques have been employed in the past for autonomic resource allocation in data-centers, we are not aware that they have been used together, and less in the context of energy-aware allocation.</p><p>The proposed methodology models a grid based data-center as a set of resources and as a set of jobs (web services), each with its energy requirements or load per time unit, involving a consumption cost and an execution reward, focusing the schedule on revenue maximization and power saving. The approach takes advantage of virtualization, which lets datacenters to allocate several but isolate jobs in the same physical machine isolating them and, most importantly, migrate running jobs between machines. Here we make extensive use of this latter possibility by shutting down inactive physical machines and fully using those that remain active; this consolidation strategy is well-known for maximizing resource usage while reducing power consumption. The challenge is how to do that while executing a maximal number of jobs without compromising QoS or performance. We solve this challege by formulating it as a mathematical optimization problem specified by a function to be optimized plus a number of constraints describing the correct and acceptable data center behavior.</p><p>The machine learning component is required because many of the parameters and functions in the optimization problem above are unknown a priori. One can view machine learning (ML) as the ability to create models from past experience, as opposed to explicit modelling by human experts. Roughly speaking, in our methodology, we use initial data to create a model for each element in the system (an application type, a workload, a physical machine, a high-level service requirement). These models can be further updated from new test or real runs. The system can then use these models to make informed choices towards optimizing some externally defined criterion. For example, for a given task type (application, service), models can predict features such as minimum CPU usage and dependence on workload volume. For Quality of Service elements, such as response time, the model can predict their dependence on the resources allocated to the task and the low-level monitored quantities. All in all, the problem to solve at any given time is to decide which resources are assigned to each job, while maximizing a function result of the profit obtained by the job revenues, the power costs and the penalties due to QoS loss or SLA violation. Scheduling rounds are performed periodically to take into account changes in workloads and tasks entering or leaving the system. Modelbuilding (training) phases can be carried out either on-line less frequently, or offline (as we do in this paper, for the time being).</p><p>In a scheduling phase, the task is to solve (find an optimal solution) to the mathematical program made up from the parameters provided by the models of the data center elements. Solving such constraint optimization models exactly is often computationally expensive: it is in fact NP-complete in general for the so-called Integer Linear Programs (ILP) that we obtain. We report experiments with exact, off-the-shelf ILP solvers, but view as one of the main contributions of this work the observation that heuristics such as Best-Fit seem to find almost-optimal solutions in very reasonable time and memory. This is key if one wants to allow frequent scheduling rounds with low overhead on the whole system. We also observe that our framework is flexible enough to incorporate new constraints or policies as parts of the models to be solved. As an example, we show how to further schedule tasks so as to prefer schedules with few running-job migrations, in addition to concerns about revenue, SLA, and power consumption.</p><p>This work is organized as follows: Section II presents previous work in this area. Section III describes the approach, the prediction models, the ILP data-center model, and the solving methods. Section IV presents the evaluation of the method and discusses the results. Finally, Section V summarizes the conclusions and future work. NOTE: Some experimental results and discussions are omitted in this version due to the page limit. A full version is available from the first author homepage (http://www.lsi.upc.edu/∼jlberral).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>II. RELATED WORK</head><p>The advantages of consolidation using virtualization were pointed out, e.g., Vogels et al. <ref type="bibr" target="#b23">[24]</ref>, while e.g. Nathuji et al. <ref type="bibr" target="#b17">[18]</ref> widely explored its advantages from a power efficiency point of view. Petrucci et al. <ref type="bibr" target="#b18">[19]</ref> proposed a dynamic configuration approach for power optimization in virtualized server clusters and outlines an algorithm to dynamically manage it. VM migration and VM placement optimization are studied by Liu et al. <ref type="bibr" target="#b16">[17]</ref>, in order to improve the VM placement and consolidate in a better way. Based on these works, Goiri et al. <ref type="bibr" target="#b9">[10]</ref>, <ref type="bibr" target="#b10">[11]</ref> introduce the SLA-factor into the self-managing virtualized resource policies. Our work is based on the advantages of these technologies, in order to build the mathematical model, and in order to build upon it the machine learning mechanisms.</p><p>Another key technique related with virtualization and consolidation is the ability to determine when to turn on and off physical machines. E.g. Goiri, Fitó et al. <ref type="bibr" target="#b10">[11]</ref>, <ref type="bibr" target="#b7">[8]</ref> show that decreasing the number of on-line machines obviously decreases power consumption, but impacts the ability to service workloads appropriately, so a compromise between the number of on-line machines and energy saving must be found. This turning on-off technique is also applied in by Kamitsos et al. <ref type="bibr" target="#b15">[16]</ref>, which sets unused hosts to a low consumption state in order to save energy.</p><p>Previous works use machine learning in order to take benefit from the system information. Our previous work <ref type="bibr" target="#b3">[4]</ref>, based on Goiri et al. <ref type="bibr" target="#b10">[11]</ref>, proposed a framework that provides a consolidation methodology using turning on/off machines, power-aware consolidation algorithms, and machine learning techniques to deal with uncertain information while maximizing performance. Other approaches like Tan et al. <ref type="bibr" target="#b20">[21]</ref> and G.Tesauro et al. <ref type="bibr" target="#b21">[22]</ref> proposed managing power and resources allocation using reinforcement learning algorithms. The proposed techniques use learners like Q-learning, Sarsa and Markovian Decision Processes algorithms <ref type="bibr" target="#b19">[20]</ref>, focusing the decision making on the policies to be applied at each time. Other works applying machine learning to control resources and power, like G.Dhiman et al. <ref type="bibr" target="#b6">[7]</ref>, focus on policies for specific resources like hard disk and network states. As we reach to know, all the current approaches using ML for power and resource management are oriented towards the selection of policies and learning the relation system state vs. specific policy. In this work we are applying the ML techniques over the direct learning of resources/power vs. load behavior, to supply information to a more complex model, also made by us, representing the system.</p><p>Work done by J.S.Chase et al. present the MUSE framework <ref type="bibr" target="#b4">[5]</ref>, a framework for modeling and autonomically control hosting centers and its policies. They present an economical managing approach for scheduling jobs to resources, where hosts and jobs bid for resources, and elasticity is allowed taking into account penalties for not fully attended resources. The mathematical model presented here follows the same outline and basic concepts they used, with the addition of our own policies and the machine learning contribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>III. FRAMEWORK ARCHITECTURE A. Management strategy</head><p>A cloud can be viewed as a set of jobs or tasks to be distributed along a set of resources, so the main decisions to make are what resources are given to what jobs, assuring that each job receives enough resources to be executed properly with respect to global goals and customer requirements.</p><p>In order to make this management more efficient, here we employ methods from Machine Learning. This is a subfield of the data mining area in charge of modeling systems from real examples of their past behavior. These models can then be used to predict future behaviors. The advantage of Machine Learning, compared to explicit expert modeling, is that it applies when systems are complex enough that no human expert can explore all relevant model possibilities, or in domains when no experts exist, or when the system is so changing over time that models have to be rebuilt autonomously over time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Consolidation Strategy</head><p>As shown in our previous work <ref type="bibr" target="#b3">[4]</ref> for the case of CPU, the relation between resource usage and power grows nonproportionally and sub-lineally. This explains the potential for power saving by consolidation. E.g. in a Intel Xeon 4-CPU machine, the power consumption (Watts/hour) when in all CPU's are IDLE is 235, when only 1 CPU is active is 267.8, and when 2, 3, and 4 CPU's are active, the power consumption is respectively 285.5, 302.5, and 317.9. This implies that two such machines using one processor each consume much more energy than a single machine executing the same work on two (or even four) processors and shutting down the second one.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C. Web Service Modeling</head><p>Each job has its own behavior and resource requirements. Often these requirements are not known in advance, so the system manages the amount of resources at each scheduling round taking as valid values the previous monitored demand. In other situations the user providing the job (customer) provides a guess on average or maximum requirements, and either the system trusts the (often inaccurate) customer advice, or else overbooks resources. In this work we focus on web services, as their requirements are more sensitive towards volume of load than other high-performance tasks, and tend to change unpredictably in time. The methodology proposed in this work includes learning to predict, for each kind of job entering the system, the amount of required resources as a function of the kind of load it is receiving.</p><p>When a new kind of job arrives we train a model mapping load to resources for that particular kind. A load is specified as a vector of load attributes determined beforehand (such as requests per second, bytes transfered per request or processing time per request). Given such a load, the model provides a vector describing the predicted usage of a number of resources (CPU, memory, bandwidth. . . ). Kinds of jobs could be web services running on specific software packages like Apache v.X, Tomcat v.Y, with attached modules like PHP or MySQL DB services. Each execution of the job provides pairs of workload attributes, resources used that can be used for (further) training the model describing this kind of job.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D. Prediction on Scheduling</head><p>Once in the scheduling phase, the goal is to assign as few resources as possible to running jobs keeping user satisfaction but reducing power usage. We assume in this work that the notion of user-satisfaction is captured by Service Level Agreements (SLA) for each job, that is an agreement between customer and provider about the quality of service (QoS) that the provider assures the job will offer externally.</p><p>For a web service, and for this case of study, a relevant SLA term is the maximum response time (RT) the service will provide per request. A commonly used form of SLA function for response time SLA(Job i ) = max(min <ref type="bibr">(</ref></p><formula xml:id="formula_0">1 − α RT −RT0 RT0 , 1), 0)</formula><p>where RT 0 is the response time desired by the customer, and the SLA level goes from 1 to 0 when the provided RT surpasses the desired time, with 0 fulfillment at β times RT 0 (where α = 1 β−1 ). For our purposes, this SLA fulfillment function has the advantage of being piecewise linear, and so can be easily integrated into a linear programming model. This response time factor can be obtained a posteriori, by monitoring clients requests and times for responses, but often the scheduler is interested in predict this information a priori. For a given application and system a behavior model can also be learned from a training run, adding different kinds of stress to the execution, in order to learn the relation between amount of load, amount of required resources, amount of given resources and response time. This learned function allows the scheduler to predict response times by trying different amounts of resource allocations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>E. Mathematical model of the Data-Center</head><p>A grid based data-center can be modeled as a set of resources, each one with a consumption cost, and a set of jobs to be executed with a set of resource requirements, profits and execution penalties. At each scheduling round what resources are assigned to each job must be decided, depending always in the requirements and conditions established by each SLA. The best solution will be that one that maximizes or minimizes a target function, usually describing the profit of the solution.</p><p>Basically the solution defined here is a mathematical model for scheduling a binary matrix H × J, where H and J are the sets of (indexes of) hosts and jobs, and where each position [h, j] indicates whether job j is or not in host h. A valid solution must satisfy the condition that a job must be run entirely in one and only one host, as (by assumption at this stage) it can not be split in different hosts. Each job needs a certain amount of resources to run properly at each moment, such as CPU quota, memory space and I/O access, predicted by the learned functions. Also each host has available a set of resources that can not be overloaded, with an associated function relating usage to power consumption. The model is: </p><formula xml:id="formula_1">Maximize: P rof it = frevenue(Job i , SLA(Job i )) −</formula><formula xml:id="formula_2">(1) ∀i ∈ J : h∈H Schedule[h, i] = 1 (2) ∀h ∈ H : i∈J GivenRes[i] · Schedule[h, i] ≤ Resources(h) (3) P ower = h∈H f P wr i runs in h GivenRes[i] (4) ∀i ∈ J : f M inRes (i) ≤ GivenRes[i] ≤ f ReqRes (i) (5) ∀i ∈ J :RT i = f RT (Load i , ReqRes i , GivenRes i ) (6) ∀i ∈ J : SLA(i) = f SLA (RT i , RT i,0 , α)</formula><p>Its meaning in words is:</p><p>• The function to be maximized is the profit obtained from the revenue per each executed job according to their SLA fulfillment level f revenue (Job i , SLA(Job i )), minus the power consumption f powercost (P ower), all in euros.  <ref type="formula">(1)</ref> and <ref type="formula">(2)</ref> ensure the coherence of the datacenter system, avoiding jobs present in no host or two hosts, and overloading a host resource. • Constraint (3) computes the power consumption of a machine; at this stage we assume it depends solely on the number of processors used to execute its assigned jobs, following the example discussed in Section III-B. • Constraint (4) bound the resource given to each job in its tentative host, bounds set by the predictions of our trained function relating job load with required resources. Constraint (5) is the function relating load, resources given, resources needed with response time. This function is the second to be learned, as explained in next section. Finally constraint (6) represents the SLA function for each job given their expected response time. This model describes which settings of the output variables are acceptable solutions and their respective values. Also the model is open to addition of new constraints, prices, costs or penalties; in case of improvement of the number or characteristics of the components of the data-center, the agreements between the provider and customers, or new features. An example is seen in the next section IV where we introduce an added cost for job migrations. Now, the problem is how to solve it, and how to find an optimal or near-optimal solution, given a specific scenario and specific functions.</p><p>Note: More about the model can be found in the technical report <ref type="bibr" target="#b1">[2]</ref>, where a first approach to the model, represented as an Integer Linear Program has been previously validated and tested using different policies, such as economic maximization and power-consumption or migration reduction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>F. Schedule Solving</head><p>In our scenario, the functions of revenue, power cost, power, SLA are linear functions, and we manage for the learned functions of resources and response time to be also linear. This makes the mathematic model to be solved by an Integer Linear Program (ILP) solver. Solving ILPs is well-known to be a NPcomplete problem, and therefore exhaustive search algorithms are the only ones guaranteed to find the optimal solution. But heuristic approaches with often good performance are known, and also local-search methods can be very appropriate in a case as ours when we may have a fairly good solution from the previous scheduling round.</p><p>Here we faced the possibility of using an exact solver and different heuristics and ad-hoc solvers. We used GUROBI <ref type="bibr" target="#b11">[12]</ref> ILP solver and two classical heuristics (First-fit and ordered Best-fit) in order to compare optimal values and cost in time.</p><p>We also used the ad-hoc λ-Round Robin <ref type="bibr" target="#b3">[4]</ref>, a power-aware greedy algorithm which computes the approximate resources needed for each job, setting up just enough machines in this amount plus a λ percentage, and shutting down the rest of them. The λ-RR schedules the jobs over the active, nonfull machines in a sequential order. Besides the fact that they are faster than exact solvers, an additional advantage of such heuristics is that they can deal with possibly non-linear constraints, hence opening the possibility in future work for dealing with non-linearities in constraints (4) (power consumption), (5) (predictive models) and (6) (SLA). Algorithms are shown in Algorithms 1, 2, 3. For more details in the classical and approximate algorithms, and their sub-optimal grants, consult the works of T.H.Cormen et al. <ref type="bibr" target="#b5">[6]</ref> and V.Vazirani <ref type="bibr" target="#b22">[23]</ref>.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>IV. EXPERIMENTS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Environment and Workload</head><p>The experiments to test this approach have been performed obtaining data from real workloads applied to real hosting machines, and then using this information in a simulated a data-center in order to check the scalability of the method. The information about behaviors and response times, corresponding to the learning executions, has been obtained from the execution of the test workloads (explained in detail later) on a Intel Xeon 4 Core running at 3Ghz and with 16Gb RAM, running jobs of kind [Apache v2 + PHP + MySQL v5] in a virtualized environment [Ubuntu Linux 10.10 Server Edition + VirtualBox v3.1.8]. Then a full scalability test has been performed using the workloads against simulated data-center, recreated in a R <ref type="bibr" target="#b13">[14]</ref> version of the cloud simulator EEFSIM made by Nou et al. <ref type="bibr" target="#b8">[9]</ref>, <ref type="bibr" target="#b14">[15]</ref> and being programmed with the properties of the real model machines.</p><p>The simulated data-center contains a set of 20 machines, representing copies of the model machine, each containing 4 processors -20 × 4CPU's. We thus do not fully use the potential of our model to deal with heterogeneous data-centers with several machine kinds. The power consumption is also determined in EEFSIM, where the real power consumption is measured using different workloads in a 4-CPU computer whose kernel includes some energy efficiency policies.</p><p>The workload used corresponds to the Li-BCN Workload 2010 <ref type="bibr" target="#b2">[3]</ref>, a collection of traces from different real hosted web-sites offering services from file hosting to forum services (deployed on a Apache v2.1 with an hybrid architecture) with different input loads and with different processing units. These web-applications correspond to a set of customers who run their services and web-sites on top of the provider, in a virtualized environment. The model for these test web-sites, as proposed in <ref type="bibr" target="#b14">[15]</ref>, is focused on the response time high-level metric and, relating this metric with both incoming users load and CPU/MEM/BWD usage of the server. The following stress experiments represent a run of these workload pieces during 4 days (monday to thursday).</p><p>In order to set the economic values of each involved element, the EEFSIM and its related works established that providers behave as a cloud provider similar to Amazon EC2, where users will rent some VMs in order to run their tasks. The pricing system for the VMs is similar to the one EC2 uses and medium instances with high CPU load are assumed. We fixed their cost to 0.17 euro/hour (current EC2 pricing in Europe). Also we fixed the power cost to 0.09 euro/KWh, the current average in Spain <ref type="bibr" target="#b0">[1]</ref>.</p><p>As a parameter defining the Quality of Service, the response time at the data-center output is used. As a case of study a penalization of SLA(job) · Revenue(job) (price of job per hour) is applied in order to add a profit factor. The jobs on workload have as RT 0 the values of 0.004s or 0.008 (each job can have different SLA terms), as experiments with the Xeon test machine shown that it is a reasonable response value obtained by the web service without stress or important interferences. The initial α parameter is set to 1 (SLA fulfillment is 0 if RT exceeds 2RT 0 ). Besides these basic settings, job pricing, power pricing, and the SLAα parameter have been set to other values in some of the experiments.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Learning Process and Validation</head><p>The usual Data Mining methodology to create and validate models is to run a validation test to check how the model adapts to data, and a final test using brand new data not seen at any time during the model building. The data sets used for learning are two example executions of 2 hours length from different days, stressing in the proper way the real web site, and monitoring the relevant data to work with. This data, referred as input variables, are the following: the number of requests, bytes per request, CPU and MEM consumed by the job inside the VM, CPU and MEM demanded by the VM, CPU and MEM consumed in the whole system, use of the network, average time per request consumed by the web service job, and response time obtained at the network gateway.</p><p>The first model is trained to predict the usage of two most obvious resources, CPU and memory, and is called as an oracle when building the ILP to provide the f M inRes function in constraint (4) of the model. However, experiments have revealed that while CPU can be related directly with load in a given time unit, predicting the necessary memory must take into account not only the current observable state of the system, but also its past history due to the memory bloating, which in this case web servers experiment due to data cache, client and session pools, etc. For the experiments reported here, we address CPU prediction and leave the more complex study of memory model to future works.</p><p>To obtain this relation load ∼ CPU, the job model must learn without stress of external factors, so the web service job is run inside a VM without any other job running on the virtual or physical machine. The output variable, the value to be predicted, is the CPU consumed by the web service inside the VM, as observing the data obtained from the data collection the VM demands CPU to the physical machine according to its internal demand with the addition of a small overhead around the 10% of CPU. In the workbench scenario built to collect data from the job, CPU is the critical resource disposing of enough memory and bandwidth, so the relevant data describing the usage of CPU is reduced to requests per second, average bytes per request and average processing time per request.</p><p>The chosen learning method, demonstrated in previous works and experiments to work for piecewise linear functions, is a regression tree algorithm M5P from the popular machine learning package WEKA <ref type="bibr" target="#b12">[13]</ref>. The M5P algorithm builds a decision tree with a linear regression model at each leaf and has a good compromise between accuracy and computation cost. The mean squared error of the model so built is around 9.9%CPU during the model selection test and 12%CPU for the validation test, each one with around 3000 instances (two different subsets of the workload). This amount of accuracy should suffice for useful prediction.</p><p>The second model to obtain is the relation among Response Time (RT) ∼ load, resources needed and resources obtained, and constitutes the f RT function in constraint <ref type="bibr" target="#b4">(5)</ref>, and derives the f ReqRes in constraint (4) as finding the minimum resources to accomplish a given RT. Here the objective is to learn how the web service jobs RT behaves in front of stress, so we can predict RTs for different possible job schedules. After a feature selection process, the most relevant attributes selected to predict the RT for this situation are the four load attributes (requests per second, bytes per request, network speed in Mbps and time per request on web service), plus the total used CPU from physical machine, the given CPU to the VM and the required CPU from the web service job. Note that the memory attributes do not appear this time, as memory becomes a non-critical resource for the experiments done with the Xeon machine, while in previous experiments using a non-HPC machine (Celeron M, single core @ 2Ghz, 512Mb RAM) the RAM memory became a critical resource and it was present during the prediction process. Next and future work will focus the behavior of memory and its modeling and usage prediction. As a learning method, we simply used linear regression because it gave reasonably good results and is conveniently linear to be plugged in constraint <ref type="bibr" target="#b4">(5)</ref>. The selected algorithm is the linear regression method. With this model, the mean squared error obtained from the predictions is around 2.374979 · 10 − 5s (stdev 0.004), each one with around 3000 instances (another two different subsets of the workload).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C. ILP and Algorithms testing</head><p>Once it can predict the amount of CPU and RT of jobs conditioned to their environment, the scheduler can now test different scheduling configurations before applying one. Next, the ILP solver and the mentioned heuristic methods are run on the workload explained above for comparison.</p><p>After performing some complete experiments, we found that given our scenario 4 minutes are enough to find the optimal solution, but still leaving part of the search space without exploring (with no better solution). So for the current input, we set a time limit of 4 minutes for the ILP solver. Further, for these experiments the λ for the Round Robin is set to 30 because the study in <ref type="bibr" target="#b3">[4]</ref> seemed to indicate it is optimal for settings similar to ours. Also, the best-fit algorithm uses as input the jobs ordered by descending minimum CPU required (learned f M inRes function). <ref type="table">Tables II and I show the result  for the run of all algorithms with</ref>  As can be seen here, the exhaustive (sub)-optimal solution obtains higher profit than the other methods, as its solution is (with the required time) complete and exhaustive. The ordered best-fit solution, however, is very close -often by less than 1%. Furthermore, it is far faster -it requires only 4 seconds instead of 4 minutes in this example. Additionally, as discussed before, it can potentially accommodate non-linear constraints better than ILP. It is thus a strong candidate to replace the exhaustive search method in future work. <ref type="figure" target="#fig_2">Figure 1</ref> shows dynamically the comparative of power and SLA fulfillment level over time for the different used schedulers.</p><p>In order to test how changing power price or SLA function thresholds affects the solution, some long runs have been performed changing the price of power in front of a constant revenue per job. <ref type="table">Table III</ref> shows the results of the different experiments, indicating the power consumed, the profit to be maximized, the levels of QoS obtained, the average computational time spent (limited to 4 minutes), the gap between the solution found and the lower bound obtained by the solver within allowed time, and the sum used CPUs and hosts.</p><p>As expected, increasing the cost of power makes the model use less of it and compress jobs in fewer active CPUs. Also the profit drops down as power cost rises. The average RT is also degraded as the number of CPUs decreases. Remember that all jobs must be run, so when power surpasses the revenue, profit eventually becomes negative, which means there would be no business for the data-center company. Note that when power cost is reduced to zero, some jobs still have punctually low SLA fulfillments due to high loads in the given workload, surpassing the capabilities of a full host. In this case, the provider cannot be held responsible for the service degradation, and the customer should have asked for either  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D. Reducing migrations</head><p>Once seen that the model is able to schedule following a set of policies depending on the values for each involved factor (service level agreement fulfillment or power cost) using the exhaustive or the approximate algorithms, a problem that could arise in a real system is the amount of migrations done. Some migration processes can be expensive in time or produce small downtimes in the migrated service, and so they should be avoided if possible. However, the model presented here does not care about the number of migrations, as the solution found may by chance turn the previous schedule upside down -even if a conservative solution exists with exactly the same profit! As a proof of concept, suppose that migrating a VM can last up to 5 minutes, and in this time the service may stop responding. The SLA fulfillment would then be 0 for this interval. A way to maximize the profit considering that each migration can imply zero revenue during X minutes is to add a penalty for each migration up to the revenue of the given job in the migration time. E.g. when a job with an income of 0.17 euros/hour is migrated (max 5 minutes), the service provider grants the customer a discount of 0.014 euros for it, covering a priori the chance of service degradation during migration. With this idea, we modify the model as shown next. Note that the constraint is linear as one of the arguments of the "xor" is a parameter, not a variable.  <ref type="table">Table IV</ref> shows the results for the migration-aware versions of the exhaustive solver and BestFit. Comparing with <ref type="table">Table I</ref>, it can be seen that migrations are drastically reduced, with only a small profit loss. <ref type="table">Table V</ref> shows that applying the new policy, the sensitivity to job price and power costs still applies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>V. CONCLUSIONS AND FUTURE WORK</head><p>Nowadays optimizing the management of data-centers to make them efficient, not only in economic values but also in power consumption, requires the automation of several systems such as job scheduling and resource management. And automation needs knowledge about the system to act in an "intelligent" way. As shown here machine learning can provide this knowledge and intelligence, as well as adaptivity.</p><p>Compared to previous works, we have shown here that it is possible to model jobs and system behaviors towards resources and SLA metrics in an automatic manner through machine learning, and apply them to full-scale data-center models, letting schedulers more adjusted estimation functions a priori, to make better their decisions for each system and kind of job.</p><p>Also, by focusing the data-center model towards factors to be optimized (economics, service quality to clients, and energy-related ones), a mathematical model can be built and solved by different methods. Allocation problems like the presented job×host scheduling are NP-hard problems, so solving them with exact methods can be intractable given (not so) high sizes or problem dimensions. Experiments have shown that our model can find optimal solutions according to the introduced policies, but paying a high cost in computation time. For this reason, heuristics and approximate algorithms can be applied over the same model, obtaining, in the case of the Best Fit, solutions enough close to the optimal in extremely low time.</p><p>Future work includes examining scenarios where the CPU and Memory are not the only critical resources, so the ML methods have to deal with a more complex space of attributes, identifying different situations. The effects of the memory behavior of web server platforms will be studied to model and predict that factors affecting the memory occupation. Complementing the learned models revealing new hidden factors will make the model easier to handle and solve. Finally, new heuristics and approx. algorithms will be studied to solve the ILP model without applying solvers with high cost in time.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>•</head><label></label><figDesc>The output elements are the H × J schedule and the amount of resources given to each job. • The parameters are the specifications per host, the load received per job, the function of power f P wr (h), and the expected maximum and minimum resource usage of each job f ReqRes (i) and f M inRes (i). The resource usage functions come from a learned function, explained in next section. • Constraints</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Algorithm</head><label></label><figDesc></figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 1 .</head><label>1</label><figDesc>Power and SLA Comparative on the Schedulers more powerful machines or more of them and use content distribution mechanisms.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>it = P rof it − f penalty (M igrations(Job i )) Parameters: oldsched[Hosts, Jobs], as the last schedule for current j ∈oldsched (schedule[h, j] ⊕ oldsched[h, j])</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>fpowercost(P ower) Output: Schedule[H, J], Integer Binary ; the Schedule GivenRes[J], Integer; resources for Job iParameters:Resources(h), CPUs, Memory, etc. existing in host h RT i,0 and α, agreed RT and α for job i to fully satisfy its SLA Load i , requests per second, bytes per request, etc. for job i f P wr (h), power consumption function of h depending on its resource use f ReqRes (i), max required resources for a job i given its load f M inRes (i), min required resources for a job i given its load Subject To:</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>1 First Fit algorithm</figDesc><table>for each job i: 
+get_data(i); 
+/ * from learned function RT() * / 
+cpu_quota[i] &lt;-get_estimate_max_cpu(i); 
+end for 
+for each job i: 
+c_host &lt;-1; 
+while (not fit(cpu_quota[i],c_host) or c_host&lt;=maxHosts) 
+c_host &lt;-c_host + 1; 
+done 
+update_candidate_host(c_host,cpu_quota[i],i); 
+end for 
+
+Algorithm 2 λ-Round Robin algorithm 
+
+for each job i: 
+get_data(i); 
+/ * from learned function RT() * / 
+cpu_quota[i] &lt;-get_estimate_max_cpu(i); 
+end for 
+numHosts &lt;-calculateNumHosts(cpu_quota[],lambda); 
+c_host &lt;-1; 
+for each job i: 
+visited &lt;-0; 
+while (not fit(cpu_quota[i],c_host) or visited&lt;=numHosts) 
+c_host &lt;-(c_host + 1) % numHosts; 
+visites &lt;-visited + 1; 
+done 
+if (visited &lt;= numHosts) : 
+update_candidate_host(c_host,cpu_quota[i],i); 
+else : 
+cpu_quota[i] &lt;-0; 
+update_candidate_host(null_host,cpu_quota[i],i); 
+end if 
+end for 
+
+Algorithm 3 Descending Best-Fit algorithm 
+
+for each job i: 
+get_data(i); 
+/ * from learned functions CPU() and RT() * / 
+min_q &lt;-get_estimate_min_cpu(i); 
+max_q &lt;-get_estimate_max_cpu(i); 
+end for 
+reorder(jobs,decreasing); 
+for each job i: 
+best_profit_aux &lt;-0; 
+best_quota_aux &lt;-0; 
+candidate_host &lt;-0; 
+for each host h: 
+&lt;profit_aux,q_aux&gt; &lt;-golden_search(i,h,max_q,min_q); 
+if (profit_aux &gt; best_profit_aux) : 
+best_profit_aux &lt;-profit_aux; 
+best_quota_aux &lt;-q_aux; 
+candidate_host &lt;-h; 
+end if 
+end for 
+update_candidate_host(candidate_host,best_quota,i); 
+end for 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>different parameters, and its statistic information from running each method 10 times. STATISTICAL ANALYSIS FOR EACH ALGORITHM AND METRIC.</figDesc><table>Avg QoS Power 
+Profit Migs 
+Hosts 
+mean 
+0.6047 
+294.5 210.349 1488 
+934 
+FF 
+stdev 
+0.0060 
+2.807 2.47682 
+16 
+9.404 
+max 
+0.6176 
+298.4 215.592 1513 
+947 
+min 
+0.5975 
+289.9 207.181 1465 
+919 
+mean 
+0.7136 
+355.1 240.232 
+523 
+1228 
+λ-RR 
+stdev 
+0.0059 
+2.946 2.34982 
+10 
+9.555 
+max 
+0.7232 
+359.8 244.184 
+536 
+1245 
+min 
+0.7054 
+351.7 236.839 
+506 
+1214 
+mean 
+0.8649 
+204.4 320.363 1688 
+663 
+BF 
+stdev 
+0.0013 
+1.677 0.52711 
+23 
+5.926 
+max 
+0.8669 
+206.8 321.123 1717 
+671 
+min 
+0.8631 
+201.7 319.562 1652 
+653 
+mean 
+0.8772 
+173.8 327.406 1988 
+586 
+ILP 
+stdev 
+0.0018 
+3.887 0.78141 
+20 14.792 
+Solver max 
+0.8782 
+179.2 328.767 2012 
+605 
+min 
+0.8740 
+169.8 326.849 1963 
+571 
+Power Cost = 0.09e/Kwh, Job Revenue = 0.17e, MaxRT = 2·RT0 
+
+Table I 
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head></head><label></label><figDesc>Table II SCHEDULING COMPARATIVE BETWEEN TECHNIQUES Euro/Kwh Power (Kw) Migs Profit (euro) AvgQoS MaxQoS MinQoS TimeSpent Gap LB UsedCPU UsedHosts Power Cost = variable, Job Revenue = 0.17e, MaxRT = 2 · RT0 Table III SCHEDULING ILP SOLVER WITH DIFFERENT ELECTRIC COSTS</figDesc><table>Parameters 
+
+Method 
+Power (Kw) Migs 
+Profit AvgQoS MaxQoS MinQoS UsedCPU UsedHosts 
+FirstFit 
+290.2 1421 177.290 
+0.519 
+0.524 
+0.514 
+3523 
+921 
+Power Cost: 0.09 e/Kwh λ-RR 
+358.9 
+520 241.048 
+0.716 
+1 
+0.001 
+3917 
+1237 
+Job Revenue: 0.17 e 
+Desc. BestFit 
+203.4 1665 321.002 
+0.866 
+1 
+0.321 
+2230 
+660 
+MaxRT: 2 · RT0 
+ILP Solver 
+169.8 1963 326.935 
+0.878 
+1 
+0.348 
+1568 
+571 
+FirstFit 
+293.2 1491 
+69.871 
+0.515 
+0.520 
+0.510 
+3567 
+930 
+Power Cost: 0.45 e/Kwh λ-RR 
+230.7 
+519 132.610 
+0.604 
+1 
+0.001 
+3985 
+1161 
+Job Revenue: 0.17 e 
+Desc. BestFit 
+139.8 1634 255.980 
+0.818 
+1 
+0.166 
+1504 
+456 
+MaxRT: 2 · RT0 
+ILP Solver 
+151.3 1998 270.543 
+0.862 
+1 
+0.304 
+1483 
+503 
+FirstFit 
+289.8 1513 310.569 
+0.859 
+0.861 
+0.857 
+3529 
+919 
+Power Cost: 0.09 e/Kwh λ-RR 
+232.7 
+527 311.619 
+0.849 
+1 
+0.261 
+4077 
+1177 
+Job Revenue: 0.17 e 
+Desc. BestFit 
+155.7 1404 350.892 
+0.932 
+1 
+0.565 
+1777 
+508 
+MaxRT: 10 · RT0 
+ILP Solver 
+161.1 2007 354.891 
+0.852 
+1 
+0.276 
+1697 
+528 
+
+0.00 
+362.1 2025 
+345.425 
+0.883 
+1 
+0.376 
+117.162 
+0.093 
+4556 
+1139 
+0.01 
+185.1 1959 
+341.138 
+0.875 
+1 
+0.351 
+202.274 
+0.331 
+1595 
+630 
+0.09 
+174.4 1962 
+327.500 
+0.866 
+1 
+0.314 
+233.820 
+0.386 
+1570 
+589 
+0.14 
+172.4 1983 
+318.973 
+0.865 
+1 
+0.308 
+231.629 
+0.399 
+1590 
+581 
+0.45 
+151.3 2007 
+270.544 
+0.862 
+1 
+0.304 
+238.393 
+1.176 
+1483 
+503 
+0.90 
+138.6 1944 
+206.419 
+0.845 
+1 
+0.213 
+240.001 
+1.437 
+1384 
+459 
+1.80 
+128.2 2010 
+93.286 
+0.823 
+1 
+0.168 
+238.926 
+1.565 
+1315 
+422 
+3.60 
+119.5 1973 
+-125.868 
+0.776 
+1 
+0.140 
+240.001 
+1.965 
+1279 
+391 
+7.20 
+110.9 2000 
+-530.341 
+0.683 
+1 
+0.015 
+240.001 
+2.269 
+1261 
+357 
+14.40 
+110.3 2008 
+-1328.806 
+0.659 
+1 
+0.026 
+237.494 
+2.519 
+1255 
+355 
+28.80 
+110.7 1973 
+-2929.763 
+0.658 
+1 
+0.015 
+231.558 
+3.163 
+1253 
+357 
+Parameters: </table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="false"><head></head><label></label><figDesc>Power Cost = 0.09 euro/Kwh, Job Revenue = 0.17 euro, MaxRT = 2 · RT0, Migration Penalty = 0.014 euroTable IV SCHEDULING COMPARATIVE BETWEEN TECHNIQUES APPLYING MIGRATION PENALTIES Euro/Kwh Power (w) Migs Profit (euro) Power Cost = variable, Job Revenue = 0.17 euro, MaxRT = 2 · RT0, Migration Penalty = 0.014 euro Table V SCHEDULING ILP SOLVER WITH DIFFERENT ELECTRIC COSTS AND MIGRATION PENALTY</figDesc><table>Method 
+
+Power (w) Migs Profit (euro) 
+AvgQoS MaxQoS 
+MinQos UsedCPU 
+UsedHosts 
+Descending BestFit 
+203175.7 
+991 
+304.8858 0.860513 
+1 0.316643 
+2250 
+658 
+ILP Solver 
+194974.0 
+232 
+321.3193 0.877271 
+1 0.346642 
+1702 
+662 
+Parameters: AvgQoS MaxQoS 
+MinQoS 
+TimeSpent 
+Gap LB UsedCPU UsedHosts 
+0.00 
+365585.0 
+195 
+353.559632 0.883090 
+1 0.368497 
+94.885208 0.047113 
+4600 
+1150 
+0.01 
+242807.6 
+225 
+340.002485 0.879603 
+1 0.351277 115.189271 0.055512 
+1798 
+846 
+0.09 
+194974.0 
+232 
+321.319368 0.877271 
+1 0.346642 191.980312 0.213529 
+1702 
+662 
+0.14 
+170743.2 
+330 
+312.523225 0.878515 
+1 0.355842 216.122916 0.273056 
+1619 
+571 
+0.45 
+150265.3 
+445 
+264.770629 0.870027 
+1 0.310506 230.415729 0.637188 
+1492 
+498 
+0.90 
+137242.4 
+550 
+199.360765 0.857122 
+1 0.229214 234.020833 0.966561 
+1380 
+455 
+1.80 
+128062.9 
+600 
+81.188014 0.840108 
+1 0.190497 239.263333 1.574775 
+1327 
+422 
+3.60 
+120122.9 
+776 -136.816646 0.815860 
+1 0.155251 240.000312 1.964834 
+1285 
+392 
+7.20 
+115384.5 
+889 -559.543473 0.776640 
+1 0.101097 235.176979 2.647854 
+1274 
+374 
+14.40 
+110087.6 
+837 -1344.66673 0.737365 
+1 0.065805 232.421979 2.951466 
+1248 
+357 
+28.80 
+110451.0 
+913 -2933.12591 0.738801 
+1 0.085581 229.433333 3.560830 
+1251 
+356 
+Parameters: </table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ACKNOWLEDGMENTS Thanks toÍ.Goiri, F.Julià, R.Nou, J.O.Fitó and J.Guitart from UPC-BSC for lending us their testbed workbenches in order to evaluate our methods. This work has been supported by the Ministry of Science of Spain under contract TIN2008-06582-C03-01.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title/>
+		<ptr target="http://www.energy.eu" />
+	</analytic>
+	<monogr>
+		<title level="j">Europe&apos;s energy portal</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">An Integer Linear Programming Representation for DataCenter Power-Aware Management</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+		<ptr target="http://www.lsi.upc.edu/dept/techreps/llistatdetallat.php?id=1096" />
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Li-Bcn Workload</surname></persName>
+		</author>
+		<ptr target="http://www.lsi.upc.edu/jlberral/documents/libcn-2011.pdf" />
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Towards energy-aware scheduling in data centers using machine learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Í</forename><surname>Goiri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Nou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Julià</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Guitart</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavalda</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">1st International Conference on Energy-Efficient Computing and Networking (eEnergy&apos;10)</title>
+		<imprint>
+			<date type="published" when="2010" />
+			<biblScope unit="page" from="215" to="224" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Managing energy and server resources in hosting centers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">S</forename><surname>Chase</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">C</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">N</forename><surname>Thakar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">M</forename><surname>Vahdat</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">18th ACM Symposium on Operating System Principles (SOSP)</title>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="103" to="116" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">H</forename><surname>Cormen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">E</forename><surname>Leiserson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">L</forename><surname>Rivest</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Stein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+	<note>Introduction to algorithms, second edition</note>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Dynamic power management using machine learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Dhiman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE/ACM Intl. Conf. on Computer-Aided Design</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">SLA-driven Elastic Cloud Hosting Provider</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">O</forename><surname>Fitó</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Í</forename><surname>Goiri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Guitart</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Euromicro Conference on Parallel, Distributed and Network-based Processing (PDP&apos;10)</title>
+		<imprint>
+			<date type="published" when="2010" />
+			<biblScope unit="page" from="111" to="118" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Characterizing Cloud Federation for Enhancing Providers Profit</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Í</forename><surname>Goiri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Guitart</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">3rd International conference on Cloud Computing (CLOUD 2010)</title>
+		<imprint>
+			<date type="published" when="2010" />
+			<biblScope unit="page" from="123" to="130" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Introducing Virtual Execution Environments for Application Lifecycle Management and SLA-Driven Resource Distribution within Service Providers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Í</forename><surname>Goiri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Julià</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Ejarque</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>De Palol</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">M</forename><surname>Badia</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Guitart</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE International Symposium on Network Computing and Applications (NCA&apos;09)</title>
+		<imprint>
+			<date type="published" when="2009" />
+			<biblScope unit="page" from="211" to="218" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Energyaware Scheduling in Virtualized Datacenters</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Í</forename><surname>Goiri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Julià</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Nou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Guitart</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Torres</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">12th IEEE International Conference on Cluster Computing</title>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title/>
+		<ptr target="http://www.gurobi.com/" />
+	</analytic>
+	<monogr>
+		<title level="j">GUROBI. Gurobi optimization</title>
+		<imprint>
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">The weka data mining software: an update</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Frank</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Pfahringer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Reutemann</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">H</forename><surname>Witten</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIGKDD Explor. Newsl</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="10" to="18" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<monogr>
+		<title level="m" type="main">The R FAQ</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Hornik</surname></persName>
+		</author>
+		<idno>3-900051-08-9</idno>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Julià</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Roldàn</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Nou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Fitó</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">Í</forename><surname>Vaquè</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Berral</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">EEFSim: Energy Efficency Simulator</title>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Optimal Sleep Patterns for Serving Delay-Tolerant Jobs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Kamitsos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Chiang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">1st International Conference on Energy-Efficient Computing and Networking (eEnergy&apos;10)</title>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Green-Cloud: a New Architecture for Green Data Center</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">6th International Conference on Autonomic Computing and Communications</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Vpm tokens: virtual machine-aware power budgeting in datacenters</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Nathuji</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Schwan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Somani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Joshi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cluster Computing</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="189" to="203" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A Dynamic Configuration Model for Power-efficient Virtualized Server Clusters</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Petrucci</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Loques</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Mossé</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">11th Brazillian Workshop on Real-Time and Embedded Systems (WTR)</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<monogr>
+		<title level="m" type="main">Reinforcement Learning: An Introduction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">S</forename><surname>Sutton</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">G</forename><surname>Barto</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1998" />
+			<publisher>MIT Press</publisher>
+			<pubPlace>Cambridge, MA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Adaptive power management using reinforcement learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Tan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Qiu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Computer-Aided Design (ICCAD &apos;09)</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2009" />
+			<biblScope unit="page" from="461" to="467" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A hybrid reinforcement learning approach to autonomic resource allocation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tesauro</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">K</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Das</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">N</forename><surname>Bennani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of ICAC-06</title>
+		<meeting>of ICAC-06</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="65" to="73" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Approximation Algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><forename type="middle">V</forename><surname>Vazirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2001" />
+			<publisher>Springer-Verlag</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Beyond server consolidation. Queue</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Vogels</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="20" to="26" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

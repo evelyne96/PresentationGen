@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clustered planarity testing revisited
+.=</p>
+<p>Radoslav Fulek, Jan Kynčl, Igor Malinović and Dömötör Pálvölgyi
+.=</p>
+<p>Charles University, Prague
+.=</p>
+<p>and
+.=</p>
+<p>EPFL.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clustered planarity
+.=</p>
+<p>( )
+.=</p>
+<p>Graph: G = (V ,E), V finite, VE ⊆
+2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clustered planarity
+.=</p>
+<p>( )
+.=</p>
+<p>Graph: VG = (V ,E), V finite, E ⊆
+2
+.=</p>
+<p>Clustered graph: (G,T ) where T is a tree hierarchy of clusters.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clustered planarity
+.=</p>
+<p>Flat clustered graph: nontrivial clusters form a partition of V.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clustered planarity
+.=</p>
+<p>Clustered graph (G,T ) is clustered planar if there is
+.=</p>
+<p>• a plane embedding of G.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clustered planarity
+.=</p>
+<p>Clustered graph (G,T ) is clustered planar if there is
+.=</p>
+<p>• a plane embedding of G and
+• a representation of the clusters as topological discs
+.=</p>
+<p>such that
+.=</p>
+<p>• disjoint clusters are drawn as disjoint discs,
+• the containment among the clusters and vertices is preserved,
+.=</p>
+<p>and
+• every edge of G crosses the boundary of each cluster at most
+.=</p>
+<p>once.
+.=</p>
+<p>Such a representation is called a clustered embedding of (G,T )..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clustered planarity
+.=</p>
+<p>introduced by Feng, Cohen and Eades (1995)
+.=</p>
+<p>and also by Lengauer (1989) (“hierarchical planarity”)
+.=</p>
+<p>Problem: Is there a polynomial algorithm for testing clustered
+.=</p>
+<p>planarity?
+.=</p>
+<p>yes in special cases:
+.=</p>
+<p>• c-connected clustered graphs (Lengauer, 1989; Feng, Cohen
+.=</p>
+<p>and Eades, 1995; Cortese et al., 2008)
+.=</p>
+<p>• almost connected clustered graphs (Gutwenger et al., 2002)
+.=</p>
+<p>• extrovert clustered graphs (Goodrich, Lueker and Sun, 2006)
+.=</p>
+<p>• two clusters (Biedl, 1998; Gutwenger et al., 2002; Hong and
+.=</p>
+<p>Nagamochi, 2009)
+.=</p>
+<p>• cycles, clusters form a cycle (Cortese et al., 2005)
+.=</p>
+<p>• cycles, clusters form an embedded plane graph (Cortese et al.,
+.=</p>
+<p>2009).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• cycles and 3-connected graphs, clusters of size at most 3
+.=</p>
+<p>(Jelı́nková et al., 2009)
+.=</p>
+<p>• at most 4 outgoing edges (Jelı́nek et al., 2009a)
+.=</p>
+<p>• at most 5 outgoing edges (Bläsius and Rutter, 2014)
+.=</p>
+<p>• each cluster and its complement have at most two components
+.=</p>
+<p>(Bläsius and Rutter, 2014)
+.=</p>
+<p>• embedded graphs, each cluster has at most 2 components
+.=</p>
+<p>(Jelı́nek et al., 2009b)
+.=</p>
+<p>• embedded graphs with at most 5 vertices per face (Di Battista
+.=</p>
+<p>and Frati, 2007)
+.=</p>
+<p>• embedded graphs with at most 2 vertices per face and cluster
+.=</p>
+<p>(Chimani et al., 2014).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Main goal of our project
+.=</p>
+<p>• improve our theoretical insight into clustered planarity
+.=</p>
+<p>• obtain alternative, simpler algorithms
+.=</p>
+<p>We do NOT aim for optimizing the running time..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our main tool
+.=</p>
+<p>Hanani–Tutte theorem: (Hanani, 1934; Tutte, 1970)
+.=</p>
+<p>A graph is planar if and only if it has an independently even drawing
+.=</p>
+<p>in the plane; that is, every two non-adjacent edges cross an even
+.=</p>
+<p>number of times.
+.=</p>
+<p>In a drawing the following situations are forbidden:
+.=</p>
+<p>embedding = drawing with no crossings.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our main tool
+.=</p>
+<p>Hanani–Tutte theorem: (Hanani, 1934; Tutte, 1970)
+.=</p>
+<p>A graph is planar if and only if it has an independently even drawing
+.=</p>
+<p>in the plane; that is, every two non-adjacent edges cross an even
+.=</p>
+<p>number of times.
+.=</p>
+<p>Weak Hanani–Tutte theorem: (Cairns and Nikolayevsky, 2000;
+.=</p>
+<p>Pach and Tóth, 2000; Pelsmajer, Schaefer and Štefankovič, 2007)
+.=</p>
+<p>If a graph G has an even drawing D in the plane (every two edges
+.=</p>
+<p>cross an even number of times), then G is planar. Moreover, G has a
+.=</p>
+<p>plane embedding with the same rotation system as D.
+.=</p>
+<p>recommended reading:
+.=</p>
+<p>• M. Schaefer, Hanani-Tutte and related results (2011)
+.=</p>
+<p>• Fulek et al., Hanani-Tutte, Monotone Drawings, and
+.=</p>
+<p>Level-Planarity (2012)
+.=</p>
+<p>• M. Schaefer, Toward a theory of planarity: Hanani-Tutte and
+.=</p>
+<p>planarity variants (2013).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algebraic planarity algorithm
+.=</p>
+<p>(Tutte, 1970; Wu, 1985; Schaefer, 2011)
+.=</p>
+<p>given a graph G
+.=</p>
+<p>• draw an arbitrary drawing D of G
+• for every pair of independent edges e, f , define xD = 1 if e and f
+.=</p>
+<p>e,f
+.=</p>
+<p>cross oddly and xD = 0 if e and f cross evenly.
+e,f
+.=</p>
+<p>• by the Hanani–Tutte theorem, G is planar if and only if there is a
+′
+.=</p>
+<p>drawing D′ such that all xD = 0.
+e,f.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algebraic planarity algorithm
+.=</p>
+<p>(Tutte, 1970; Wu, 1985; Schaefer, 2011)
+.=</p>
+<p>given a graph G
+.=</p>
+<p>• draw an arbitrary drawing D of G
+• for every pair of independent edges De, f , define x = 1 if e and f
+.=</p>
+<p>e,f
+.=</p>
+<p>cross oddly and xD = 0 if e and f cross evenly.
+e,f
+.=</p>
+<p>• by the Hanani–Tutte theorem, G is planar if and only if there is a
+′
+.=</p>
+<p>drawing D′ such that all xD = 0.
+e,f
+.=</p>
+<p>• during a continuous deformation, the vector xD changes only
+.=</p>
+<p>when an edge passes over a vertex
+.=</p>
+<p>v
+.=</p>
+<p>e.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algebraic planarity algorithm
+.=</p>
+<p>(Tutte, 1970; Wu, 1985; Schaefer, 2011)
+.=</p>
+<p>given a graph G
+.=</p>
+<p>• draw an arbitrary drawing D of G
+• for every pair of independent edges e f , define xD, = 1 if e and f
+.=</p>
+<p>e,f
+.=</p>
+<p>cross oddly and xD = 0 if e and f cross evenly.
+e,f
+.=</p>
+<p>• by the Hanani–Tutte theorem, G is planar if and only if there is a
+′
+.=</p>
+<p>drawing D′ such that all xD = 0.
+e,f
+.=</p>
+<p>• during a continuous deformation, the vector xD changes only
+.=</p>
+<p>when an edge passes over a vertex
+• the edge-vertex switch is represented by a vector y(e,v) over Z2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algebraic planarity algorithm
+.=</p>
+<p>(Tutte, 1970; Wu, 1985; Schaefer, 2011)
+.=</p>
+<p>given a graph G
+.=</p>
+<p>• draw an arbitrary drawing D of G
+• for every pair of independent edges e, f , define xD = 1 if e and f
+.=</p>
+<p>e,f
+.=</p>
+<p>cross oddly and xD = 0 if e and f cross evenly.
+e,f
+.=</p>
+<p>• by the Hanani–Tutte theorem, G is planar if and only if there is a
+′
+.=</p>
+<p>drawing D′ such that all xD = 0.
+e,f
+.=</p>
+<p>• during a continuous deformation, the vector xD changes only
+.=</p>
+<p>when an edge passes over a vertex
+• the edge-vertex switch is represented by a vector y(e,v) over Z2
+• G is planar if and only if xD is a linear combination of the vectors
+.=</p>
+<p>y(e,v)
+.=</p>
+<p>• solve the linear system!.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algebraic algorithm for clustered planarity
+.=</p>
+<p>modifications:
+.=</p>
+<p>• start with a clustered drawing (with edge crossings)
+• assume a Hanani–Tutte theorem for the corresponding variant of
+.=</p>
+<p>clustered planarity
+• for every edge e = v1v2, we allow only those edge-vertex
+.=</p>
+<p>switches (e, v) and edge-cluster switches (e,C) such that v
+and C are children of some vertices of the shortest path
+.=</p>
+<p>between v1 and v2 in T .
+.=</p>
+<p>v1
+C
+.=</p>
+<p>v C v2
+e
+.=</p>
+<p>v v1 v2
+.=</p>
+<p>a different algorithm: Gutwenger, Mutzel and Schaefer (2014).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Main result
+.=</p>
+<p>Theorem: (Hanani–Tutte for two clusters)
+.=</p>
+<p>Let G = (G, (A,B)) be a flat clustered graph with two clusters A,B
+forming a partition of the vertex set. If G has an independently even
+.=</p>
+<p>clustered drawing in the plane, then G is clustered planar.
+.=</p>
+<p>- Hanani–Tutte for c-connected clustered graphs
+.=</p>
+<p>- weak Hanani–Tutte for two clusters
+.=</p>
+<p>- generalization: weak Hanani–Tutte for strip planarity (Fulek, 2014).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sketch of the proof
+.=</p>
+<p>given an independently even clustered embedding D of G = (G,A,B)
+.=</p>
+<p>• modify G and D:
+.=</p>
+<p>• create a cactus from each component of G[A] and G[B]
+• make all cycles in G[A] and G[B] vertex disjoint by splitting
+.=</p>
+<p>vertices (edge decontractions)
+• fill all cycles with wheels
+.=</p>
+<p>• apply the Hanani–Tutte theorem to the modified drawing
+.=</p>
+<p>• flip all you can to the outer face
+.=</p>
+<p>• remove the interiors of the wheels, contract the new edges, and
+.=</p>
+<p>draw the rest of G
+.=</p>
+<p>• draw two disjoint discs around A and B.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What about three clusters?.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Are there other counterexamples???.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

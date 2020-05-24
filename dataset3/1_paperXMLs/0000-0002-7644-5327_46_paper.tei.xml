@@ -1,0 +1,1421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Action-Graph Games</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><forename type="middle">Xin</forename><surname>Jiang</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Navin</forename><forename type="middle">A R</forename><surname>Bhat</surname></persName>
+						</author>
+						<title level="a" type="main">Action-Graph Games</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:32+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>game representations</term>
+					<term>graphical models</term>
+					<term>large games</term>
+					<term>computational techniques</term>
+					<term>Nash equilibria JEL classification codes: C63-Computational Techniques</term>
+					<term>C72-Noncooperative Games</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Representing and reasoning with games becomes difficult once they involve large numbers of actions and players, because the space requirement for utility functions can grow unmanageably. Action-Graph Games (AGGs) are a fully-expressive game representation that can compactly express utility functions with structure such as context-specific independence, anonymity, and additivity. We show that AGGs can be used to compactly represent all games that are compact when represented as graphical games, symmetric games, anonymous games, congestion games, and polymatrix games, as well as games that require exponential space under all of these existing representations. We give a polynomial-time algorithm for computing a player's expected utility under an arbitrary mixed-strategy profile, and show how to use this algorithm to achieve exponential speedups of existing methods for computing sample Nash equilibria. We present results of experiments showing that using AGGs leads to a dramatic increase in the size of games accessible to computational analysis. 1 (Current affiliation: BMO Capital Markets). nbhat@physics.utoronto.ca 1 We gratefully acknowledge Moshe Tennenholtz for his co-authorship of a paper on Local Effect Games <ref type="bibr" target="#b36">[Leyton-Brown &amp; Tennenholtz, 2003]</ref>, an action-centric graphical model for games that inspired our work on AGGs.</p><p>2 More complex games such as those involving time or uncertainty about payoffs can always be mapped to perfectinformation, simultaneous-action games by creating an action for every policy in the original game. This expansion is of primarily theoretical interest, however, as it tends to cause an explosion in the size of the game.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Simultaneous-action games have received considerable study, which is reasonable as these games are in a sense the most fundamental. 2 Most of the game theory literature presumes that simultaneousaction games will be represented in normal form. This is problematic because in many domains of interest the number of players and/or the number of actions per player is large. In the normal form representation, the game's payoff function is stored as a matrix with one entry for each player's payoff under each combination of all players' actions. As a result, the size of the representation grows exponentially with the number of players.</p><p>Fortunately, most large games of practical interest have highly-structured payoff functions, and thus it is possible to represent them compactly. Intuitively, this helps to explain why people are able to reason about these games in the first place: we understand the payoffs in terms of simple relationships rather than in terms of enormous lookup tables. One thread of recent work in the literature has explored game representations that are able to succinctly describe games of interest. In some sense, nearly every game form besides the normal form itself can be seen as such a compact representation. For example, the extensive form allows games with temporal structure to be encoded in exponentially less space than the normal form. In what follows, however, we concentrate on game representations that are compact even for simultaneous-move games of perfect information.</p><p>Perhaps the most influential class of compact game representations is that which exploits strict independencies between players' utility functions. This class includes graphical games <ref type="bibr" target="#b31">[Kearns et al., 2001;</ref><ref type="bibr" target="#b30">Kearns, 2007]</ref>, multi-agent influence diagrams <ref type="bibr" target="#b34">[Koller &amp; Milch, 2003]</ref>, and game nets <ref type="bibr" target="#b35">[LaMura, 2000]</ref>; we focus on the first of these. Consider a graph in which nodes correspond to agents and an edge from one node to another represents the proposition that the first agent is able to affect the second agent's payoff. If every node in the graph has a small indegree-that is, if each agent's payoff depends only on the actions of a small number of othersthen the graphical game representation is compact, by which we mean that it is exponentially smaller than its induced normal form. Of course, there are any number of ways of representing games compactly. For example, games of interest could be assigned short ID numbers. What makes graphical games important is the fact that computational questions about these games can be answered by algorithms whose running time depends on the size of the representation rather than the size of the induced normal form. (Note that this property does not hold for the naive ID number scheme.) To state one fundamental property <ref type="bibr" target="#b7">[Daskalakis et al., 2006a]</ref>, it is possible to compute an agent's expected utility under an arbitrary mixed strategy profile in time polynomial in the size of the graphical game representation. This property implies that a variety of algorithms for computing game-theoretic quantities of interest, such as sample Nash <ref type="bibr" target="#b18">[Govindan &amp; Wilson, 2003;</ref><ref type="bibr" target="#b58">van der Laan et al., 1987]</ref> and correlated equilibrium, can be made exponentially faster for graphical games without introducing any change in the algorithms' behavior or output <ref type="bibr" target="#b3">[Blum et al., 2006;</ref><ref type="bibr" target="#b45">Papadimitriou &amp; Roughgarden, 2008]</ref>. Furthermore, graphical games are also computationally well-behaved in other ways; efficient algorithms exist for computing other quantities of interest for certain subclasses of these games such as sample Nash equilibria <ref type="bibr" target="#b12">[Elkind et al., 2006]</ref> or Nash equilibria subject to a fairness criterion <ref type="bibr" target="#b13">[Elkind et al., 2007]</ref> on path graphs, pure Nash equilibrium on bounded-treewidth graphs <ref type="bibr" target="#b9">[Daskalakis &amp; Papadimitriou, 2006;</ref><ref type="bibr" target="#b17">Gottlob et al., 2005]</ref>, -Nash equilibrium <ref type="bibr" target="#b31">[Kearns et al., 2001;</ref><ref type="bibr" target="#b59">Vickrey &amp; Koller, 2002]</ref>, and evolutionary stable strategies <ref type="bibr" target="#b32">[Kearns &amp; Suri, 2006]</ref>.</p><p>A drawback of the graphical games representation is that it only helps when there exist agents who never affect some other agents' utilities. Unfortunately, many games of interest lack any structure of this kind. For example, nontrivial symmetric games are cliques when represented as graphical games. Another useful form of structure not generally captured by graphical games is dubbed anonymity; it holds when each agent's utility depends only on the number of agents who took each action, rather than on these agents' identities. <ref type="bibr">3</ref> Recently, researchers such as <ref type="bibr" target="#b45">Papadimitriou and Roughgarden [2008]</ref>, <ref type="bibr" target="#b29">Kalai [2005]</ref>, <ref type="bibr" target="#b10">Daskalakis and Papadimitriou [2007]</ref>, <ref type="bibr" target="#b4">Brandt et al. [2010]</ref> and <ref type="bibr" target="#b50">Ryan et al. [2010]</ref> have explored the representational, computational and strategic benefits that can be derived from symmetry and anonymity assumptions.</p><p>A weaker form of utility independence can usefully be combined with symmetry and anonymity. Specifically, utility functions exhibit context-specific independencies when the question of whether two agents are able to affect each other's utilities depends on the actions both agents choose. Congestion games <ref type="bibr" target="#b47">[Rosenthal, 1973]</ref> are a prominent game representation that can express contextspecific payoff independencies, anonymity, and symmetry. This representation has many advantages. First and most importantly, many realistic interactions-even involving very large numbers of players and actions-have compact representations as congestion games (see, e.g., <ref type="bibr" target="#b48">[Roughgarden &amp; Tardos, 2002]</ref>). Second, congestion games have attractive theoretical properties.</p><p>Most notably, they always have pure-strategy equilibria, and indeed always admit an exact potential function <ref type="bibr" target="#b41">[Monderer &amp; Shapley, 1996]</ref>. As a consequence, simple best-response dynamics are guaranteed to converge to a pure-strategy equilibrium. Finally, congestion games have attractive computational properties. For example, correlated equilibrium can be efficiently computed for congestion games <ref type="bibr" target="#b44">[Papadimitriou, 2005;</ref><ref type="bibr" target="#b45">Papadimitriou &amp; Roughgarden, 2008]</ref>, and purestrategy Nash equilibrium can be efficiently computed for restricted subclasses of congestion games (see, e.g., <ref type="bibr" target="#b22">[Ieong et al., 2005]</ref>).</p><p>Unfortunately, congestion games too have a catch. Unlike graphical games, congestion games are not a universal game representation: not every normal-form game can be encoded as a congestion game. Indeed, this problem should be obvious from the fact that congestion games always have pure-strategy equilibria. Congestion games require that agents' utility functions must be expressible as a sum of arbitrary functions of the numbers of agents who chose each of a set of resources, where each action is interpreted as the choice of one or more resources. This linearity assumption is restrictive. Thus, while congestion games constitute a useful model for reasoning about certain game-theoretic domains, they cannot serve as the basis for a set of general tools for representing and reasoning about games.</p><p>Action-graph games (AGGs) are a general game representation that can be understood as offering the advantages of-and, indeed, unifying-both graphical games and congestion games. Like graphical games, AGGs can represent any game, and important game-theoretic computations can be performed efficiently when the AGG representation is compact. Hence, AGGs offer a general representational framework for game-theoretic computation. Like congestion games, AGGs compactly represent context-specific independence, anonymity, and additivity, though unlike congestion games they do not require any of these. Finally, AGGs can also compactly represent many games that are not compact as either graphical games or as congestion games.</p><p>We begin this paper in Section 2 by defining action-graph games, including the basic representation and extensions with function nodes and additive utility functions, and characterizing their representation sizes. In Section 3 we provide several more examples of structured games which can be compactly represented as AGGs. Then we turn from representational to computational issues. In Section 4 we present a dynamic programming algorithm for computing an agent's expected utility under an arbitrary mixed-strategy profile, prove its complexity, and explore several elaborations. In Section 5 we show that (as a corollary of the polynomial complexity of our expected utility algorithm) the problem of finding an -Nash equilibrium of an AGG is in PPAD: a positive result, as AGGs can be exponentially smaller than normal-form games. We also show how to use our dynamic programming algorithm to speed up existing methods for computing sample -Nash and -correlated equilibria. Finally, in Section 6 we present the results of extensive experiments with some of these algorithms, demonstrating that AGGs can feasibly be used to reason about interesting games that were inaccessible to any previous techniques. The largest game that we tackled in our experiments had 20 agents and 13 actions per agent; we found its Nash equilibrium in 14.3 minutes. A normal form representation of this game would have involved 9.4 × 10 134 numbers, requiring an outrageous 7.5 × 10 126 gigabytes even to store.</p><p>Finally, let us describe the relationship between this paper and past work, mostly our own, on AGGs. <ref type="bibr" target="#b36">Leyton-Brown and Tennenholtz [2003]</ref> introduced local-effect games, which can be understood as symmetric AGGs in which utility functions are required to satisfy a particular linearity property. <ref type="bibr" target="#b1">Bhat and Leyton-Brown [2004]</ref> introduced the basic AGG representation and some of the computational ideas for reasoning with them. The dynamic programming algorithm was first proposed in <ref type="bibr" target="#b24">Jiang and Leyton-Brown [2006]</ref>, as was the idea of function nodes. The current paper substantially elaborates upon and extends the representations and methods from these two papers. Other new material includes the additive structure model and the encoding of congestion games, several of the examples, our computational methods for k-symmetric games and for additive structure, and our speedup of the simplicial subdivision algorithm. Furthermore, all experiments in this paper (Section 6) are new. Going beyond the work described here, in <ref type="bibr" target="#b25">Jiang and Leyton-Brown [2007]</ref> we gave a message-passing algorithm for computing pure-strategy equilibria of symmetric AGGs, in <ref type="bibr" target="#b55">Thompson et al. [2007]</ref> we explored the use of AGGs to model network congestion problems that cannot be captured as congestion games, in <ref type="bibr" target="#b56">Thompson and Leyton-Brown [2009]</ref> we used AGGs to compute the Nash equilibria of perfect-information advertising auction problems, and in <ref type="bibr" target="#b27">Jiang et al. [2009]</ref> and <ref type="bibr" target="#b26">Jiang and Leyton-Brown [2010]</ref> we extend our AGG framework to represent dynamic games and Bayesian games, respectively. <ref type="bibr" target="#b11">Daskalakis et al. [2009]</ref> (a separate group of researchers) recently considered the computation of -Nash equilibrium of AGGs, providing a fully polynomial time approximation scheme (FPTAS) for one family of AGGs and proving computational hardness results for other families.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Action Graph Games</head><p>This section has three parts, each of which defines a different AGG variant. In Section 2.1 we define the basic AGG representation (which we dub AGG-∅), characterize its representation size, and show how it can be used to represent normal-form, graphical, and symmetric games. In Section 2.2 we introduce the idea of function nodes, show how AGGs with function nodes (AGG-FNs) can capture additional structure in several example games, and show how to represent anonymous games as AGG-FNs. In Section 2.3 we introduce AGG-FNs with additive structure (AGG-FNA), which compactly represent additive structure in the utility functions of AGGs, and show how congestion games can be succinctly written as AGG-FNAs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Basic Action Graph Games</head><p>We begin with an intuitive description of basic action-graph games. Consider a directed graph with nodes A and edges E, and a set of agents N = {1, . . . , n}. Identical tokens are given to each agent i ∈ N . To play the game, each agent i simultaneously places her token on a node a i ∈ A i , where A i ⊆ A. Each node in the graph thus corresponds to an action choice that is available to one or more of the agents; this is where action-graph games get their name. Each agent's utility is calculated according to an arbitrary function of the node she chose and the numbers of tokens placed on the nodes that neighbor that chosen node in the graph. We will argue below that any simultaneous-move game can be represented in this way, and that action-graph games are often much more compact than games represented in other ways.</p><p>We now turn to a formal definition of basic action-graph games. Let N = {1, . . . , n} be the set of agents. Central to our model is the action graph.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 2.1 (Action graph) An action graph G = (A, E) is a directed graph where:</head><p>• A is the set of nodes. We call each node α ∈ A an action, and A the set of distinct actions.</p><p>For each agent i ∈ N , let A i be the set of actions available to i, with A = i∈N A i . <ref type="bibr">4</ref> We denote by a i ∈ A i one of agent i's actions. An action profile (or pure strategy profile) is a tuple a = (a 1 , . . . , a n ). Denote by A the set of action profiles. Then A = i∈N A i where is the Cartesian product.</p><p>• E is a set of directed edges, where self edges are allowed. We say α is a neighbor of α if there is an edge from α to α, i.e., (α , α) ∈ E. Let the neighborhood of α, denoted ν(α), be the set of neighbors of α, i.e., ν(α) ≡ {α ∈ A|(α , α) ∈ E}.</p><p>Given an action graph and a set of agents, we can further define a configuration, which is a feasible arrangement of agents across nodes in an action graph.</p><p>Definition 2.2 (Configuration) Given an action graph (A, E) and a set of action profiles A, a configuration c is a tuple of |A| non-negative integers (c(α)) α∈A , where c(α) is interpreted as the number of agents who chose action α ∈ A, and where there exists some a ∈ A that would give rise to c. Denote the set of all configurations as C. Let C : A → C be the function that maps from an action profile a to the corresponding configuration c. Formally, if c = C(a) then c(α) = |{i ∈ N : a i = α}| for all α ∈ A.</p><p>We can also restrict a configuration to a given node's neighborhood.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 2.3 (Configuration over a neighborhood)</head><p>Given a configuration c ∈ C and a node α ∈ A, let the configuration over the neighborhood of α, denoted c (α) , be the restriction of c to ν(α), i.e., c (α) = (c(α )) α ∈ν(α) . Similarly, let C (α) denote the set of configurations over ν(α) in which at least one player plays α. 5 Let C (α) : A → C (α) be the function which maps from an action profile to the corresponding configuration over ν(α). Now we can state the formal definition of basic action-graph games as follows.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 2.4 (Basic action-graph game) A basic action-graph game (AGG-∅) is a tuple (N,</head><formula xml:id="formula_0">A, G, u) where</formula><p>• N is the set of agents;</p><p>• A = i∈N A i is the set of action profiles;</p><p>• G = (A, E) is an action graph, where A = i∈N A i is the set of distinct actions;</p><p>• u is a tuple (u α ) α∈A , where each u α : C (α) → R is the utility function for action α.</p><p>Semantically, u α (c (α) ) is the utility of an agent who chose α, when the configuration over ν(α) is c (α) .</p><p>For notational convenience, we define u(α, c (α) ) ≡ u α (c (α) ) and u i (a) ≡ u(a i , C (ai) (a)). We also define A −i ≡ j =i A j as the set of action profiles of agents other than i, and denote an element of A −i by a −i .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.1">Example: Ice Cream Vendors</head><p>The following example helps to illustrate the elements of the AGG-∅ representation, and also exhibits context-specificity and anonymity in utility functions. This example would not be compact under the existing game representations discussed in the introduction. It was inspired by <ref type="bibr" target="#b21">Hotelling [1929]</ref>, and elaborates an example used in <ref type="bibr" target="#b36">Leyton-Brown and Tennenholtz [2003]</ref>. The AGG-∅ representation of this game is illustrated in <ref type="figure" target="#fig_9">Figure 1</ref>. As always, nodes represent actions and directed edges represent membership in a node's neighborhood. The dotted boxes represent the action sets for each group of players; for example, the ice cream vendors have action set A I . Note that this game exhibits context-specific independence without any strict independence, and that the graph structure is independent of n.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S1</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.2">Size of an AGG-∅ Representation</head><p>Intuitively, AGG-∅s capture two types of structure in games:</p><p>1. Shared actions capture the game's anonymity structure: agent i's utility depends only on her action a i and the configuration. Thus, agent i cares about the number of players that play each action, but not the identities of those players.</p><p>2. The (lack of) edges between nodes in the action graph expresses context-specific independencies of utilities of the game: for all i ∈ N , if i chose action α ∈ A, then i's utility depends only on the configuration over the neighborhood of α. In other words, the configuration over actions not in ν(α) does not affect i's utility.</p><p>We have claimed informally that action graph games provide a way of representing games compactly. But what exactly is the size of an AGG-∅ representation, and how does it grow with the number of agents n? In this subsection we give a bound on the size of an AGG-∅, and show that asymptotically it is never worse than the size of the equivalent normal form.</p><p>From Definition 2.4 we observe that to completely specify an AGG-∅ we need to specify (1) the set of agents, (2) each agent's set of actions, (3) the action graph, and (4) the utility functions. The first three can easily be compactly represented:</p><p>1. The set of agents N = {1, . . . , n} can be specified by the integer n.</p><p>2. The set of actions A can be specified by the integer |A|. Each agent's action set A i ⊆ A can be specified in O(|A|) space.</p><p>3. The action graph G = (A, E) can be straightforwardly represented as neighbor lists: for each node α ∈ A we specify its list of neighbors ν(α) ⊆ A. The space required is α∈A |ν(α)|, which is bounded by |A|I, where I = max α |ν(α)|, i.e., the maximum in-degree of G.</p><p>We observe that whereas the first three components of an AGG-∅ (N, A, G, u) can always be represented in space polynomial in n and |A i |, the size of the utility functions is worst-case exponential. So the size of the utility functions determines whether an AGG-∅ can be tractably represented. Indeed, for the rest of the paper we will refer to the number of payoff values stored as the representation size of the AGG-∅. The following proposition gives an upper bound on the number of payoff values stored.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proposition 2.6</head><p>Given an AGG-∅, the number of payoff values stored by its utility functions is at most |A| (n−1+I)! (n−1)!I! . If I is bounded by a constant as n grows, the number of payoff values is O(|A|n I ), i.e. polynomial with respect to n.</p><p>Proof. For each utility function u α : C (α) → R, we need to specify a utility value for each distinct configuration c (α) ∈ C (α) . The set of configurations C (α) can be derived from the action graph, and can be sorted in lexicographical order. Thus, we can just specify a list of |C (α) | utility values that correspond to the (ordered) set of configurations. 6 In general there is no closed form expression for |C (α) |, the number of distinct configurations over ν(α). Instead, we consider the operation of extending all agents' action sets via ∀i : A i → A. The number of configurations over ν(α) under the new action sets is an upper bound on |C (α) |. This is the number of (ordered) combinatorial compositions of n − 1 (since one player has already chosen α) into |ν(α)| + 1 nonnegative integers, which is n−1+|ν(α)| |ν(α)| = (n−1+|ν(α)|)! (n−1)!|ν(α)|! . Then the total space required for the utilities is bounded from above by |A| (n−1+I)! (n−1)!I! . If I is bounded by a constant as n grows, this grows like O(|A|n I ).</p><p>For each AGG-∅, there exists a unique induced normal form representation with the same set of players and |A i | actions for each i; its utility function is a matrix that specifies each player i's payoff for each possible action profile a ∈ A. This implies a space complexity of n n i=1 |A i |. When A i ≥ 2 for all i, the size of the induced normal form representation grows exponentially with respect to n. On the other hand, we observe that the number of payoff values stored in an AGG-∅ representation is always less than or equal to the number of payoff values in the induced normal form representation. Of course, the AGG-∅ representation has the extra overhead of representing the action graph, which is bounded by |A|I. But this overhead is dominated by the size of the induced normal form, n j |A j |. Thus, an AGG-∅'s asymptotic space complexity is never worse than that of its induced normal form game.</p><p>It is also possible to describe a reverse transformation that encodes any arbitrary game in normal form as an AGG-∅. Specifically, a unique node a i must be created for each action available to each agent i. Thus ∀α ∈ A, c(α) ∈ {0, 1}, and ∀i, α∈Ai c(α) must equal 1. The configuration simply indicates each agent's action choice, and expresses no anonymity or context-specific independence structure.</p><p>This representation is no more or less compact than the normal form. More precisely, the number of distinct configurations over ν(a i ) is the number of action profiles of the other players, which is j =i |A j |. Since i has |A i | actions, j |A j | payoff values are needed to represent i's payoffs. So in total n j |A j | payoff values are stored, exactly the number in the normal form.</p><p>One might ask whether AGG-∅s can compactly represent known classes of structured games. Consider the graphical game representation <ref type="bibr" target="#b31">[Kearns et al., 2001]</ref>. In a graphical game nodes denote agents, and there is an (undirected) edge connecting each agent i to each other agent whose actions can affect i's utility. Each agent then has a payoff matrix representing his local game with neighboring agents. Graphical games can be represented as AGG-∅s by replacing each node i in the graphical game by a distinct cluster of nodes A i representing the action set of agent i. If the graphical game has an edge from i to j, edges must be created in the AGG-∅ so that ∀a i ∈ A i , ∀a j ∈ A j , a i ∈ ν(a j ). The resulting AGG-∅s are as compact as the original graphical games. <ref type="figure" target="#fig_0">Figure 2</ref> shows the AGG-∅ representation of a graphical game having three nodes and two edges (i.e., player 1 and player 3 do not directly affect each others' payoffs).</p><p>Another important class of structured games are symmetric games. A symmetric game is one in which all players are identical and indistinguishable. Symmetric games exhibit anonymity structure: the utility of a player who chose a certain action depends only on the numbers of players who played each of the actions. An arbitrary symmetric game can be encoded as an AGG-∅ without an increase in asymptotic size. Specifically, let A i = A for all i ∈ N . The resulting action graph is a clique, i.e. ν(α) = A for all α ∈ A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">AGGs with Function Nodes</head><p>There are games with certain kinds of context-specific independence structures that AGG-∅s are not able to exploit (see, e.g., Example 2.7 below). In this section we extend the AGG-∅ representation by introducing function nodes, allowing us to exploit a much wider variety of utility structures. Of course, as always, compact representation is not interesting as an end in itself. In Section 4.2 we identify broad subclasses of AGG-FNs-indeed, rich enough to encompass all AGG-FN examples presented in this paper-which are amenable to efficient computation. The normal form representation of this game has size n|A| n = n(B + 1) n . Since there are no strict independencies in the utility function, the asymptotic size of the graphical game representation is the same. Let us now represent the game as an AGG-∅. We observe that if agent i chooses an action α corresponding to one of the B locations, then her payoff is affected by the configuration over all B locations. Hence, ν(α) must consist of B action nodes corresponding to the B locations, and so the action graph has in-degree I = B. Since the action sets completely overlap, the representation size is Θ(|A||C (α) |) = Θ B (n−1+B)! (n−1)!B! . If we hold B constant, this becomes Θ(Bn B ), which is exponentially more compact than the normal form and the graphical game representation. If we instead hold n constant, the size of the representation is Θ(B n ), which is only slightly better than the normal form and graphical game representations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.1">Examples: Coffee Shops and Parity</head><p>Intuitively, the AGG-∅ representation is able to exploit anonymity structure in this game. However, this game's payoff function also has context-specific structure that the AGG-∅ does not capture. Observe that u α depends only on three quantities: the number of players who chose the same block, the number of players who chose an adjacent block, and the number of players who chose another location. In other words, u α can be written as a function g of only three integers:</p><formula xml:id="formula_1">u α (c (α) ) = g(c(α), α ∈A c(α ), α ∈A c(α ))</formula><p>where A is the set of actions surrounding α and A the set of actions corresponding to other locations. The AGG-∅ representation is not able to exploit this context-specific information, and so duplicates some utility values.</p><p>There exist many similar examples in which the utility functions u α can be expressed as functions of a small number of intermediate parameters.</p><p>Here we give one more.</p><p>Example 2.8 (Parity game) In a "parity game", each u α depends only on whether the number of agents at neighboring nodes is even or odd, as follows:</p><formula xml:id="formula_2">u α = 1 if α ∈ν(α) c(α ) mod 2 = 0; 0 otherwise.</formula><p>Observe that in the Parity game u α can take just two distinct values; however, the AGG-∅ representation must specify a value for every configuration c (α) .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.2">Definition of AGG-FNs</head><p>Structure such as that in Examples 2.7 and 2.8 can be exploited within the AGG framework by introducing function nodes to the action graph G; intuitively, we use them to describe intermediate parameters upon which players' utilities depend. Now G's vertices consist of both the set of action nodes A and the set of function nodes P, i.e. G = (A∪P, E). We require that no function node p ∈ P can be in any player's action set: A ∩ P = {}. Thus, the total number of nodes in G is |A| + |P|. Each node in G can have action nodes and/or function nodes as neighbors. We associate a function f p : C (p) → R with each p ∈ P, where c (p) ∈ C (p) denotes configurations over p's neighbors. The configurations c are extended to include the function nodes by the definition c(p) ≡ f p (c (p) ). If p ∈ P has no neighbors, f p is a constant function. To ensure that the AGG is meaningful, the graph G restricted to nodes in P is required to be a directed acyclic graph (DAG). This condition ensures that for all α and p, c(α) and c(p) are well defined. To ensure that every p ∈ P is "useful", we also require that p has at least one outgoing edge. As before, for each action node α we define a utility function u α : C (α) → R. We call this extended representation an Action Graph Game with Function Nodes (AGG-FN), and define it formally as follows.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 2.9 (AGG-FN) An Action Graph Game with Function Nodes (AGG-FN) is a tuple</head><p>(N, A, P, G, f, u), where:</p><p>• N is the set of agents;</p><p>• A = i∈N A i is the set of action profiles;</p><p>• P is a finite set of function nodes;</p><p>• G = (A ∪ P, E) is an action graph, where A = i∈N A i is the set of distinct actions. We require that the restriction of G to the nodes P is acyclic and that for every p ∈ P there exists an m ∈ A ∪ P such that (p, m) ∈ E;</p><p>• f is a tuple (f p ) p∈P , where each f p : C (p) → R is an arbitrary mapping from neighbors of p to real numbers;</p><p>• u is a tuple (u α ) α∈A , where each u α : C (α) → R is the utility function for action α.</p><p>Given an AGG-FN, we can construct an equivalent AGG-∅ with the same players N and actions A and equivalent utility functions, but without any function nodes. We call this the induced AGG-∅ of the AGG-FN. There is an edge from α to α in the induced AGG-∅ either if there is an edge from α to α in the AGG-FN, or if there is a path from α to α through a chain consisting entirely of function nodes. From the definition of AGG-FNs, the utility of playing action α is uniquely determined by the configuration c (α) , which is uniquely determined by the configuration over the actions that are neighbors of α in the induced AGG-∅. As a result, the utility tables of the induced AGG-∅ can be filled in unambiguously. We observe that the number of utility values stored in an AGG-FN is no greater than the number of utility values in the induced AGG-∅. On the other hand, AGG-FNs have to represent the functions f p for each p ∈ P. In the worst case, these functions can be represented as explicit mappings similar to the utility functions u α . However, it is often possible to define these functions algebraically by combining elementary operations, as we do in most of the examples given in this paper. In this case the functions' representations require a negligible amount of space.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.3">Representation Size</head><p>What is the size of an AGG-FN (N, A, P, G, f, u)? The following proposition gives a sufficient condition for the representation size to be polynomial. Here we speak about a class of AGG-FNs because our statement is about the asymptotic behavior of the representation size. This is in contrast to Proposition 2.6, where we gave an exact bound on the size of an individual AGG-∅. Proposition 2.10 A class of AGG-FNs has representation size bounded by a function polynomial in n, |A| and |P| if the following conditions hold:</p><p>1. for all function nodes p ∈ P, the size of p's range |R(f p )| is bounded by a function polynomial in n, |A| and |P|; and 2. max m∈A∪P ν(m) (the maximum in-degree in the action graph) is bounded by a constant.</p><p>Proof. Given an AGG-FN (N, A, P, G, f, u), it is straightforward to check that all components except u and f are polynomial in n, |A| and |P|. First, consider an action node α ∈ A. Recall that the size of the utility function u α is C (α) . Partition ν(α), the set of α's neighbors, into ν A (α) = ν(α) ∩ A and ν P (α) = ν(α) ∩ P (neighboring action nodes and function nodes respectively). Since for each action α ∈ ν A (α), c(α ) ∈ {0, . . . , n}, and for each p ∈ ν P (α), c(p) ∈ R(f p ), then C (α) ≤ (n + 1) |νA(α)| p∈νP (α) |R(f p )|. This is polynomial because all action node in-degrees are bounded by a constant. Now consider a function node p ∈ P. Without loss of generality, assume that its function f p is represented explicitly as a mapping. (Any other representation of f p can be transformed into this explicit representation.) The representation size of f p is then C (p) . Using the same reasoning as above, we have C (p) ≤ (n + 1) |νA(p)| q∈νP (p) |R(f q )|, which is polynomial since all function node in-degrees are bounded by a constant.</p><p>When the functions f p do not have to be represented explicitly, we can drop the requirement on the in-degree of function nodes.</p><p>Corollary 2.11 A class of AGG-FNs has representation size bounded by a function polynomial in n, |A| and |P| if the following conditions hold:</p><p>1. for all function nodes p ∈ P, the function f p has a representation whose size is polynomial in n, |A| and |P|;</p><p>2. for each function node p ∈ P that is a neighbor of some action node α, the size of p's range |R(f p )| is bounded by a function polynomial in n, |A| and |P|; and 3. max α∈A ν(α) (the maximum in-degree among action nodes) is bounded by a constant.</p><p>A very useful type of function node is the simple aggregator.</p><p>Definition 2.12 (Simple aggregator) A function node p ∈ P is a simple aggregator if each of its neighbors ν(p) are action nodes and f p is the summation function: f p (c (p) ) = m∈ν(p) c(m).</p><p>Simple aggregator function nodes take the value of the total number of players who chose any of the node's neighbors. Since these functions can be specified in constant space, and since R(f p ) = {0, . . . , n} for all p, Corollary 2.11 applies. That is, the representation sizes of AGG-FNs whose function nodes are all simple aggregators are polynomial whenever the indegrees of action nodes are bounded by a constant. In fact, under certain assumptions we can prove an even tighter bound on the representation size, analogous to Proposition 2.6 for AGG-∅s. Intuitively, this works because both configurations on action nodes and configurations on simple aggregators count the numbers of players who behave in certain ways.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proposition 2.13</head><p>Consider a class of AGG-FNs whose function nodes are all simple aggregators. For each m ∈ A ∪ P, define the function</p><formula xml:id="formula_3">β(m) = m m ∈ A; ν(m) otherwise.</formula><p>Intuitively, β(m) is the set of nodes whose counts are aggregated by node m. If for each α ∈ A and for each m, m ∈ ν(α), β(m) ∩ β(m ) = {} unless m = m (i.e., no action node affects α in more than one way), then the AGG-FNs' representation sizes are bounded by |A| n−1+I I where I = max α∈A |ν(α)| is the maximum in-degree of action nodes.</p><p>Proof. Consider the utility function u α for an arbitrary action α. Each neighbor m ∈ ν(α) is either an action or a simple aggregator. Observe that a configuration c (α) ∈ C (α) is a tuple of integers specifying the numbers of players choosing each action in the set β(m) for each m ∈ ν(α). As in the proof of Proposition 2.6, we extend each player's set of actions to |A|, making the game symmetric. This weakly increases the number of configurations. Since the sets β(m) are non-overlapping, the number of configurations possible in the extended action space is equal to the number of (ordered) combinatorial compositions of n− 1 into |ν(α)|+ 1 nonnegative integers, which is n−1+|ν(α)| |ν(α)| . This includes one bin for each action or simple aggregator in ν(α), plus one bin for agents that take an action that is neither in ν(α) nor in the neighborhood of any simple aggregator in ν(α). Then the total space required for representing u is bounded by |A| n−1+I I where I = max α∈A |ν(α)|. Consider the Coffee Shop game from Example 2.7. For each action node α corresponding to a location, we introduce two simple aggregator function nodes, p α and p α . Let ν(p α ) be the set of actions surrounding α, and ν(p α ) be the set of actions corresponding to other locations. Then we set ν(α) = {α, p α , p α }, as shown in <ref type="figure" target="#fig_2">Figure 3</ref>. Now each c (α) is a configuration over only three nodes. Since each f p is a simple aggregator, Corollary 2.11 applies and the size of this AGG-FN is polynomial in n and A. In fact since the game is symmetric and the β()'s as defined in Proposition 2.13 are non-overlapping, we can calculate the exact value of |C (α) | as the number of compositions of n − 1 into four nonnegative integers, (n+2)! (n−1)!3! = n(n + 1)(n + 2)/6 = O(n 3 ). We must therefore store Bn(n+1)(n+2)/6 = O(Bn 3 ) utility values. This is significantly more compact than the AGG-∅ representation, which has a representation size of O(B (n−1+B)! (n−1)!B! ). We can represent the parity game from Example 2.8 in a similar way. For each action α we create a function node p α , and let ν(p α ) = ν(α). We then modify ν(α) so that it has only one member, p α . For each function node p we define f p as f p (c (p) ) = α∈ν(p) c(α) mod 2. Since R(f p ) = {0, 1}, Corollary 2.11 applies. In fact, each utility function just needs to store two values, and so the representation size is O(|A|) plus the size of the action graph.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">AGG-FNs with Additive Structure</head><p>So far we have assumed that the utility functions u α : C (α) → R are represented explicitly, i.e., by specifying the payoffs for all c (α) ∈ C (α) . This is not the only way to represent a mapping; the utility functions could be defined as analytical functions, decision trees, logic programs, circuits, or even arbitrary algorithms. These alternative representations might be more natural for humans to specify, and in many cases are more compact than the explicit representation. However, this extra compactness does not always allow us to reason more efficiently with the games. In this section, we look at utility functions with additive structure. These functions can be represented compactly and do allow more efficient computation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1">Definition of AGG-FNs with Additive Structure</head><p>We say that a multivariate function has additive structure if it can be written as a (weighted) sum of functions of subsets of the variables. This form is more compact because we only need to represent the summands, which have lower dimensionality than the entire function.</p><p>We extend the AGG-FN representation by allowing u α to be represented as a weighted sum of the configuration of the neighbors of α. 7</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 2.14 A utility function u α of an AGG-FN is</head><formula xml:id="formula_4">additive if for all m ∈ ν(α) there exist λ m ∈ R, such that u α (c (α) ) ≡ m∈ν(α) λ m c(m). (2.1)</formula><p>Such an additive utility function can be represented as the tuple (λ m ) m∈ν(α) . This is a very versatile representation of additivity, because the neighbors of α can be function nodes. Thus additive utility functions can represent weighted sums of arbitrary functions of configurations over action nodes. We now formally define an AGG-FN representation where some of the utility functions are additive. <ref type="bibr">Λ, u)</ref> where N, A, P, G, f are as defined in Definition 2.9, and</p><formula xml:id="formula_5">Definition 2.15 An AGG-FN with additive structure (AGG-FNA) is a tuple (N, A, P, G, f, A + ,</formula><p>• A + ⊆ A is the set of actions whose utility functions are additive;</p><formula xml:id="formula_6">• Λ = (λ α+ ) α+∈A+ , where each λ α+ = (λ α+ m ) m∈ν(α)</formula><p>is the tuple of coefficients representing the additive utility function u α+ ;</p><p>• u = (u α ) α∈A\A+ , where each u α is as defined in Definition 2.9. These are the nonadditive utility functions of the game, which are represented explicitly.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2">Representation Size</head><p>We only need |ν(α)| numbers to represent the coefficients of an additive utility function u α , whereas the explicit representation requires |C (α) | numbers. Of course we also need to take into account the sizes of the neighboring function nodes p ∈ ν(α) and their corresponding functions f p , which represent the summands of the additive functions. Each f p either has a simple description requiring negligible space, or is represented explicitly as a mapping. In the latter case its size can be analyzed the same way as utility functions on action nodes. That is, when the neighbors of p are all actions then Proposition 2.6 applies; otherwise the discussion in Section 2.2.3 applies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.3">Representing Congestion Games as AGG-FNAs</head><formula xml:id="formula_7">A congestion game is a tuple (N, M, (A i ) i∈N , (K jk ) j∈M,k≤n ), where N = {1, .</formula><p>. . , n} is the set of players, M = {1, . . . , m} is a set of facilities (or resources); A i is player i's set of actions; each action a i ∈ A i is a subset of the facilities: a i ⊂ M . K jk is the cost on facility j when k players have chosen actions that include facility j. For notational convenience we also define K j (k) ≡ K jk . Let #(j, a) be the number of players that chose facility j given the action profile a. The total cost, or disutility of player i under pure strategy profile a = (a i , a −i ) is the sum of the cost on each of the facilities in a i ,</p><formula xml:id="formula_8">Cost i (a i , a −i ) = −u i (a i , a −i ) = j∈ai K j (#(j, a)). (2.2)</formula><p>Congestion games exhibit a specific combination of anonymity and additive structure, which allows them to be represented compactly. Only nm numbers are needed to specify the costs (K jk ) j∈M,k≤n . The representation also needs to specify the i∈N |A i | actions, each of which we treat the common case of additivity separately because it is amenable to special-purpose computational methods (intuitively, leveraging the linearity of expectation; see Section 4.3). is a subset of M . If we use an m-bit binary string to represent each of these subsets, the total size of the congestion game representation is Θ(mn + m i∈N |A i |).</p><formula xml:id="formula_9">1 2 3 A2 B1 A1 B2 A1 A2 B1 B2 + + + + p 1 p 2 p 3 q 1 q 2 q 3</formula><p>An arbitrary congestion game can be encoded as an AGG-FNA with no loss of compactness, where all u α are represented as additive utility functions. Given a congestion game (N, M, (A i ) i∈N , (K jk ) j∈M,k≤n ), we construct an AGG-FNA with the same number of players and same number of actions for each player as follows.</p><p>• Create i∈N |A i | action nodes, corresponding to the actions in the congestion game. In other words, the action sets do not overlap.</p><p>• Create 2m function nodes, labeled (p 1 , . . . , p m , q 1 , . . . , q m ). For each j ∈ M , there is an edge from p j to q j . For all j ∈ M and for all α ∈ A, if facility j is included in action α in the congestion game, then in the action graph there is an edge from the action node α to p j , and also an edge from q j to α.</p><p>• For each p j , define c(p j ) ≡ α∈ν(j) c(α), i.e., p j is a simple aggregator. Since its neighbors are the actions that includes facility j, thus c(p j ) is the number of players that chose facility j, which is #(j, a).</p><p>• Assign each q j only one neighbor, namely p j , and define c(q j ) ≡ f qj (c(p j )) ≡ K j (c(p j )).</p><p>In other words, c(q j ) is exactly K j (#(j, a)), the cost on facility j.</p><p>• For each action node α, represent the utility function u α as an additive function with weight −1 for each of its neighbors,</p><formula xml:id="formula_10">u α (c (α) ) = j∈ν(α) −c(j) = − j∈ν(α) K j (#(j, a)). (2.3)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example 2.16 (Congestion game)</head><p>Consider the AGG-FNA representation of a two-player congestion game (see <ref type="figure" target="#fig_3">Figure 4</ref>). The congestion game has three facilities labeled {1, 2, 3}. Player A has actions A1={1} and A2={1, 2}; Player B has actions B1={2, 3} and B2={3}. Now let us consider the representation size of this AGG-FNA. The action graph has |A|+2m nodes and O(m|A|) edges; the function nodes p 1 , . . . , p m are simple aggregators and each only requires constant space; each f qj requires n numbers to specify so the total size of the AGG-FNA is Θ(mn + m|A|) = Θ(mn + m i∈N |A i |). Thus this AGG-FNA representation has the same space complexity as the original congestion game representation. One extension of congestion games is player-specific congestion games <ref type="bibr" target="#b39">[Milchtaich, 1996;</ref><ref type="bibr" target="#b40">Monderer, 2007]</ref>. Instead of all players having the same costs K jk , in these games each player has a different set of costs. This can be easily represented as an AGG-FNA by following the construction above, but using a different set of function nodes q i1 , . . . , q im for each player i.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Further Examples</head><p>In this section we provide several more examples of structured games that can be compactly represented as AGGs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">A Job Market</head><p>Here we describe a class of example games that can be compactly represented as AGG-∅s. Unlike the Ice Cream Vendor game, the following example does not involve choosing among actions that correspond to geographical locations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example 3.1 (Job Market game) Consider the individuals competing in a job market. Each player chooses a field of study and a level of education to achieve. The utility of player i is the sum of two terms: (a) a constant cost depending only on the chosen field and education level, capturing the difficulty of studies and the cost of tuition and forgone wages; and (b) a variable reward, depending on (i) the number of players who chose the same field and education level as</head><p>i, (ii) the number of players who chose a related field at the same education level, and (iii) the number of players who chose the same field at one level above or below i. <ref type="figure" target="#fig_4">Figure 5</ref> gives  choice of field. The maximum in-degree of the action graph is five, whereas a naive representation of the game as a symmetric game (see Section 2.1) would correspond to a complete action graph with in-degree 13. Thus this AGG-∅ representation is able to take advantage of anonymity as well as context-specific independence structure.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Representing Anonymous Games as AGG-FNs</head><p>One property of the AGG-∅ representation as defined in Section 2.1 is that utility function u α is shared by all players who have α in their action sets. What if we want to represent games with agent-specific utility functions, where utilities depend not only on α and c (α) , but also on the identity of the player playing α?</p><p>Researchers have studied anonymous games, which deviate from symmetric games by allowing agent-specific utility functions <ref type="bibr" target="#b28">[Kalai, 2004;</ref><ref type="bibr" target="#b29">Kalai, 2005;</ref><ref type="bibr" target="#b10">Daskalakis &amp; Papadimitriou, 2007]</ref>. To represent games of this type as AGGs, we cannot just let multiple players share action α, because that would force those players to have the same utility function u α . It does work to give agents non-overlapping action sets, replicating each action once for each agent. However, the resulting AGG-∅ is not compact; it does not take advantage of the fact that each of the replicated actions affects other players' utilities in the same way. Using function nodes, it is possible to compactly represent this kind of structure. We again split α into separate action nodes α i for each player i able to take the action. Now we also introduce a function node p with every α i as a neighbor, and define f p to be a simple aggregator. Now p gives the total number of agents who chose action α, expressing anonymity, and action nodes include p as a neighbor instead of each α i . This allows agents to have different utility functions without sacrificing representational compactness.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example 3.2 (Anonymous game)</head><p>Consider an anonymous game with two classes of players, each class sharing the same utility functions. The AGG-FN representation of the game is shown in <ref type="figure" target="#fig_5">Figure 6</ref>. Players from the first class have action set {A1, A2, A3}, and players from the second class have action set {B1, B2, B3}. Furthermore, the utility functions of the second class of players exhibit certain context-specific independence structure, which are expressed by the absence of some of the possible edges from function nodes to action nodes B1, B2, B3. <ref type="figure" target="#fig_1">Figure 7</ref>: AGG-FNA representation of a 3-player polymatrix game. Function node U AB represents player A's payoffs in his bimatrix game against B, U BA represents player B's payoffs in his bimatrix game against A, and so on. To avoid clutter we do not show the edges from the action nodes to the function nodes in this graph. Such edges exist from A and B's actions to U AB and U BA , from A and C's actions to U AC and U CA , and from B and C's actions to U BC and U CB .</p><formula xml:id="formula_11">B2 B1 C2 C1 A2 A1 S A S B S C U AB U BA U AC U CA U CB U BC + + + + + +</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Representing Polymatrix Games as AGG-FNAs</head><p>In a polymatrix game <ref type="bibr" target="#b60">[Yanovskaya, 1968]</ref>, each player's utility is the sum of utilities resulting from her bilateral interactions with each of the n − 1 other players. This can be represented by specifying for each pair of players i and j a bimatrix game (two-player normal form game) with set of actions A i and A j . A polymatrix game can be compactly represented as an AGG-FNA. The encoding is as follows. The AGG-FNA has non-overlapping action sets. For each pair of players (i, j), we create two function nodes to represent i and j's payoffs under the bimatrix game between them. Each of these function nodes has incoming edges from all of i's and j's actions. For each player i and each of his actions a i , there are incoming edges from the n − 1 function nodes representing i's payoffs in his bimatrix games against each of the other players. u ai is an additive utility function with weights equal to 1. Based on arguments similar to those in Section 2.1.2, this AGG-FNA representation has the same space complexity as the total size of the bimatrix games.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example 3.3 (Polymatrix game)</head><p>Consider the AGG-FNA representation of a three-player polymatrix game, given in <ref type="figure" target="#fig_1">Figure 7</ref>. Each player's payoff is the sum of her payoffs in 2 × 2 game with played with each of the other players; she is only able to choose her action once. This additive utility function can be captured by introducing a function node U ij to represent each player i's utility in the bimatrix game played with player j.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Congestion Games with Action-Specific Rewards</head><p>So far the only use we have shown for AGG-FNAs is bringing existing game representations into the AGG framework. Of course, another key advantage of our approach is the ability to compactly represent games that would not have been compact under these existing game representations. We now give such an example.</p><p>Example 3.4 (Congestion game with action-specific rewards) Consider the following game with n players. As in a congestion game, there is a set of facilities M , each action involves choosing a subset of the facilities, and the cost for facility j depends only on the number of players that chose facility j. Now further assume that, in addition to the cost of using the facilities, each player i also derives some utility R i depending only on her own action, i.e., the set of facilities she chose. This utility is not necessarily additive across facilities. That is, in general if A, B ∈ M and</p><formula xml:id="formula_12">A ∩ B = ∅, R i (A ∪ B) = R i (A) + R i (B). So i's total utility is u i (a) = R i (a i ) − j∈ai K j (#(j, a)). (3.1)</formula><p>This game can model a situation in which the players use the facilities to complete a task, and the utility of the task depends on the facilities chosen. Another interpretation is given by <ref type="bibr" target="#b0">Ben-Sasson et al. [2006]</ref>, in their analysis of "congestion games with strategy costs," which also have exactly this type of utility function. This work interpreted (the negative of) R i (a i ) as the computational cost of choosing the pure strategy a i in a congestion game. This game cannot be compactly represented as a congestion game or a player-specific congestion game, 8 but it can be compactly represented as an AGG-FNA. We create i |A i | action nodes, giving the agents nonoverlapping action sets. We have shown in Section 2.3.3 that we can use function nodes and additive utility functions to represent the congestion-game-like costs. Beyond this construction, we just need to create a function node r i for each player i and define</p><formula xml:id="formula_13">c(r i ) to be equal to R i (a i ). The neighbors of r i are i's entire action set: ν(r i ) = A i . Since the action sets do not overlap, there are only |A i | distinct configurations over A i . In other words, |C (ri) | = |A i | and we need only O(|A i |) space to represent each R i . The total size of the representation is O(mn + m i∈N |A i |).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Computing Expected Payoff with AGGs</head><p>Up to this point, we have concentrated on how AGGs may be used to compactly represent games of interest. But compact representation is only half the story, and indeed by itself is relatively easy to achieve. Our goal is to identify a compact representation that can be used directly (e.g., without conversion to its induced normal form) for the computation of game-theoretic quantities of interest. We now turn to this computational perspective, and show that we can indeed leverage AGG's representational compactness in the computation of game-theoretic quantities. In this section we focus on the computational task of computing an agent's expected payoff under a mixed strategy profile. While this quantity can be important in itself, it is even more important as an inner-loop problem in the computation of many game-theoretic quantities. Some examples include computing best responses, checking if a given mixed strategy profile is a Nash equilibrium, Govindan and Wilson's continuation methods for finding Nash equilibria <ref type="bibr" target="#b18">[Govindan &amp; Wilson, 2003;</ref><ref type="bibr" target="#b19">Govindan &amp; Wilson, 2004]</ref>, the simplicial subdivision algorithm for finding <ref type="bibr">Nash equilibria [van der Laan et al., 1987</ref>], Turocy's algorithm for computing quantal response equilibria <ref type="bibr" target="#b57">[Turocy, 2005]</ref>, and Papadimitriou and Roughgarden's algorithm for finding correlated equilibria <ref type="bibr" target="#b45">[Papadimitriou &amp; Roughgarden, 2008]</ref>. We discuss some of these applications in Section 5.</p><p>Our main result of this section is an algorithm that efficiently computes expected payoffs of AGGs by exploiting their context-specific independence, anonymity and additivity structure. In Section 4.1 we introduce our expected payoff algorithm for AGG-∅s, and show (in Theorem 4.1) that the algorithm runs in time polynomial in the size of the input AGG-∅. For the special case of symmetric strategies in symmetric AGG-∅s, we present a different algorithm in Section 4.1.4 which runs asymptotically faster than our general algorithm for AGG-∅s; in Section 4.1.5 we extend this approach to the broader class of k-symmetric AGG-∅s. Finally, in Sections 4.2 and 4.3 we extend our expected payoff algorithm to AGG-FNs and AGG-FNAs respectively, and identify (in Theorems 4.5 and 4.6) conditions under which these extended algorithms run in polynomial time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Computing Expected Payoff for AGG-∅s</head><p>We must begin by introducing some notation. Let ϕ(X) denote the set of all probability distributions over a set X. Define the set of mixed strategies for i as Σ i ≡ ϕ(A i ), and the set of all mixed strategy profiles as Σ ≡ i∈N Σ i . Denote an element of Σ i by σ i , an element of Σ by σ, and the probability that i plays action α as σ i (α). The support of a mixed strategy σ i is the set of pure strategies played with positive probability (i.e., pure strategies a i for which σ i (a i ) &gt; 0). Now we can write the expected utility to agent i for playing pure strategy a i , given that all other agents play the mixed strategy profile σ −i , as</p><formula xml:id="formula_14">V i ai (σ −i ) ≡ a−i∈A−i u i (a i , a −i ) Pr(a −i |σ −i ), (4.1) Pr(a −i |σ −i ) ≡ j =i σ j (a j ). (4.2)</formula><p>Note that Equation 4.2 gives the probability of a −i under the mixed strategy σ −i . In the rest of this section we focus on the problem of computing V i ai (σ −i ) given i, a i and σ −i . Having established the machinery to compute V i ai (σ −i ), we can then compute the expected utility of player i under a mixed strategy profile σ as ai∈Ai σ i (a i )V i ai (σ −i ). One might wonder why Equations (4.1) and (4.2) are not the end of the story. Notice that Equation (4.1) is a sum over the set A −i of action profiles of players other than i. The number of terms is j =i |A j |, which grows exponentially in n. If we were to use the normal form representation, there really would be |A −i | different outcomes to consider, each with potentially distinct payoff values. Thus, using normal form the evaluation of Equation (4.1) would be the best possible algorithm for computing V i ai . Since AGGs are fully expressive, the same is true for games without any structure represented as AGGs. However, what about games that are exponentially more compact when represented as AGGs than when represented in the normal form? For these games, evaluating Equation (4.1) amounts to an exponential-time algorithm.</p><p>In this section we present an algorithm that given any i, a i and σ −i , computes the expected payoff V i ai (σ −i ) in time polynomial in the size of the AGG-∅ representation. In other words, our algorithm is efficient if the AGG-∅ is compact, and requires time exponential in n if it is not. In particular, recall from Proposition 2.6 any AGG-∅ with maximum in-degree bounded by a constant has a representation size that is polynomial in n. As a result our algorithm is polynomial in n for such games.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.1">Exploiting Context-Specific Independence: Projection</head><p>First, we consider how to take advantage of the context-specific independence structure of an AGG-∅: the fact that i's payoff when playing a i only depends on configurations over the neighborhood of i. The key idea is that we can project other players' strategies onto a smaller action space that is strategically the same from the point of view of an agent who chose action a i . That is, we construct a graph from the point of view of a given agent, expressing his sense that actions that do not affect his chosen action are in a sense the "same action." This can be seen as inducing a context-specific graphical game. Formally, for every action α ∈ A define a reduced graph G (α) by including only the nodes ν(α) and a new node denoted ∅. The only edges included in G (α) are the directed edges from each of the nodes ν(α) to the node α. Player j's action a j is projected to a node a (α) j in the reduced graph G (α) by the mapping</p><formula xml:id="formula_15">a (α) j ≡ a j a j ∈ ν(α) ∅ a j ∈ ν(α) . (4.3)</formula><p>In other words, actions that are not in ν(α) (and therefore do not affect the payoffs of agents playing α) are projected onto a new action, ∅. The resulting projected action set A (α) j has cardinality at most min(|A j |, |ν(α)| + 1). This is illustrated in <ref type="figure" target="#fig_6">Figure 8</ref>, using the Ice Cream Vendor game described in Example 2.5.</p><p>We define the set of mixed strategies on the projected action set A</p><formula xml:id="formula_16">(α) j by Σ (α) j ≡ ϕ(A (α) j ). A mixed strategy σ j on the original action set A j is projected to σ (α) j ∈ Σ (α) j by the mapping σ (α) j (a (α) j ) ≡ σ j (a j ) a j ∈ ν(α) α ∈Aj \ν(α) σ j (α ) a (α) j = ∅ . (4.4)</formula><p>So given a i and σ −i , we can compute σ</p><p>−i in O(n|A|) time in the worst case. Now we can operate entirely on the projected space, and write the expected payoff as</p><formula xml:id="formula_18">V i ai (σ −i ) = a (a i ) −i ∈A (a i ) −i u a i , C (ai) (a i , a −i ) Pr a (ai) −i |σ (ai) −i , Pr a (ai) −i |σ (ai) −i = j =i σ (ai) j a (ai) j .</formula><p>The summation is over A</p><p>−i , which in the worst case has (|ν(a i )| + 1) (n−1) terms. So for AGG-∅s with strict or context-specific independence structure, computing V i ai (σ −i ) in this way is exponentially faster than doing the summation in (4.1) directly. However, the time complexity of this approach is still exponential in n.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.2">Exploiting Anonymity: Summing over Configurations</head><p>Next, we want to take advantage of the anonymity structure of the AGG-∅. Recall from our discussion of representation size that the number of distinct configurations is usually smaller than the number of distinct pure action profiles. So ideally, we want to compute the expected payoff V i ai (σ −i ) as a sum over the possible configurations, weighted by their probabilities:</p><formula xml:id="formula_20">V i ai (σ −i ) = c (a i ) ∈C (a i ,i) u i a i , c (ai) Pr c (ai) |σ (ai) ,<label>(4.</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>5)</head><p>Pr c (ai) |σ (ai) = a :</p><formula xml:id="formula_21">C (ai) (a) = c (ai) n j=1 σ j (a j ). (4.6) where σ (ai) ≡ (a i , σ<label>(ai)</label></formula><p>−i ) and Pr(c (ai) |σ (ai) ) is the probability of c (ai) given the mixed strategy profile σ <ref type="bibr">(ai)</ref> . Recall that C (ai,i) is the set of configurations over ν(a i ) given that i played a i . So Equation (4.5) is a summation of size |C (ai,i) |, the number of configurations given that i played a i , which is polynomial in n if |ν(a i )| is bounded by a constant. The difficult task is to compute Pr(c (ai) |σ (ai) ) for all c (ai) ∈ C (ai,i) , i.e., the probability distribution over C <ref type="bibr">(ai,i)</ref> induced by σ (ai) . We observe that the sum in Equation (4.6) is over the set of all action profiles corresponding to the configuration c (ai) . The size of this set is exponential in the number of players. Therefore directly computing the probability distribution using Equation (4.6) would take time exponential in n.</p><p>Can we do better? We observe that the players' mixed strategies are independent, i.e., σ is a product probability distribution σ(a) = i σ i (a i ). Also, each player affects the configuration c independently. This structure allows us to use dynamic programming (DP) to efficiently compute the probability distribution Pr(c (ai) |σ (ai) ). The intuition behind our algorithm is to apply one agent's mixed strategy at a time, effectively adding one agent at a time to the action graph. Let σ 1...k , and by P k [c] the probability of configuration c. At iteration k of the algorithm, we compute P k from P k−1 and σ (ai) k . After iteration n, the algorithm stops and returns P n . The pseudocode of our DP algorithm is shown as Algorithm 1, and our full algorithm for computing V i ai (σ −i ) is summarized in Algorithm 2. Each c (ai) k is represented as a sequence of integers, so P k is a mapping from sequences of integers to real numbers. We need a data structure to manipulate such probability distributions over configurations (sequences of integers) which permits quick lookup, insertion and enumeration. An efficient data structure for this purpose is a trie <ref type="bibr" target="#b15">[Fredkin, 1962]</ref>. Tries are commonly used in text processing to store strings of characters, e.g. as dictionaries for spell checkers. Here we use tries to store strings of integers rather than characters. Both lookup and insertion complexity is linear in |ν(a i )|. To achieve efficient enumeration of all elements of a trie, we store the elements in a list, in the order of their insertion. We omit the proof of correctness of our algorithm, which is relatively straightforward. It is given in Section 2.3.3 of <ref type="bibr" target="#b23">[Jiang, 2006]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.3">Complexity</head><p>Let C (ai,i) (σ −i ) denote the set of configurations over ν(a i ) that have positive probability of occurring under the mixed strategy (a i , σ −i ). In other words, this is the number of terms we Algorithm 1: Computing the induced probability distribution Pr(c (ai) |σ (ai) ).</p><p>Input: a i , σ (ai) Output: P n , which is the distribution Pr(c (ai) |σ (ai) ) represented as a trie. c Initialize P k to be an empty trie;</p><p>foreach c (ai)</p><formula xml:id="formula_22">k−1 from P k−1 do foreach a (ai) k ∈ A (ai) k such that σ (ai) k (a (ai) k ) &gt; 0 do c (ai) k = c (ai) k−1 ; if a (ai) k = ∅ then c (ai) k (a (ai) k ) += 1 ; // Apply action a (ai) k if P k [c (ai) k ] does not exist yet then P k [c (ai) k ] = 0.0; P k [c (ai) k ] += P k−1 [c (ai) k−1 ] × σ (ai) k (a (ai) k );</formula><p>return P n need to add together when doing the weighted sum in Equation (4.5). When σ −i has full support, Proof. Since looking up an entry in a trie takes time linear in the size of the key, which is |ν(a i )| in our case, the complexity of doing the weighted sum in Equation <ref type="formula" target="#formula_20">(4.5)</ref> is</p><formula xml:id="formula_23">C (ai,i) (σ −i ) = C (ai,i) .</formula><formula xml:id="formula_24">O(|ν(a i )||C (ai,i) (σ −i )|).</formula><p>Algorithm 1 requires n iterations; in iteration k, we look at all possible combinations of c </p><formula xml:id="formula_25">Θ(n|A| + n|ν(a i )| 2 |C (ai,i) (σ −i )|).</formula><p>Since |C (ai,i) (σ −i )| ≤ |C (ai,i) | ≤ |C (ai) |, and |C (ai) | is the number of payoff values stored in payoff function u ai , this means that expected payoffs can be computed in polynomial time with respect to the size of the AGG-∅. Furthermore, our algorithm is able to exploit strategies with small supports which lead to a small |C (ai,i) (σ −i )|. Since |C (ai) | is bounded by (n−1+|ν(ai)|)! (n−1)!|ν(ai)|! , this implies that if the in-degree of the graph is bounded by a constant, then the complexity of computing expected payoffs is O(n|A| + n I+1 ).</p><p>The proof of Theorem 4.1 shows that besides exploiting the compactness of the AGG-∅ representation, our algorithm is also able to exploit the cases where the mixed strategy profiles Algorithm 2 Computing expected utility V i ai (σ −i ), given a i and σ −i .</p><p>1. for each j = i, compute the projected mixed strategy σ (a i ) j using Equation (4.4):</p><formula xml:id="formula_26">σ (a i ) j (a (a i ) j ) ≡ σj(aj) aj ∈ ν(ai) α ∈A j \ν(a i ) σj (α ) a (a i ) j = ∅ .</formula><p>2. compute the probability distribution Pr(c (a i ) |ai, σ (a i ) −i ) by following Algorithm 1. 3. calculate the expected utility using the following weighted sum (Equation (4.5)):</p><formula xml:id="formula_27">V i a i (σ−i) = c (a i ) ∈C (a i ,i) ui ai, c (a i ) Pr c (a i ) |σ (a i ) .</formula><p>given have small support sizes, because the time complexity depends on |C (ai,i) (σ −i )| which is small when support sizes are small. This is important in practice, since we will often need to carry out expected utility computations for strategy profiles with small supports. <ref type="bibr" target="#b46">Porter et al. [2008]</ref> observed that quite often games have Nash equilibria with small support, and proposed algorithms that explicitly search for such equilibria. In other algorithms for computing Nash equilibria such as Govindan-Wilson and simplicial subdivision, it is also quite often necessary to compute expected payoffs for mixed strategy profiles with small support. Of course it is not necessary to apply the agents' mixed strategies in the order 1 . . . n. In fact, we can apply the strategies in any order. Although the number of configurations |C (ai,i) (σ −i )| remains the same, the ordering does affect the intermediate configurations C . We can use the following heuristic to try to minimize the number of intermediate configurations: sort the players in ascending order of the sizes of their projected action sets. This reduces the amount of work we do in earlier iterations of Algorithm 1, but does not change its overall complexity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.4">The Case of Symmetric Strategies in Symmetric AGG-∅s</head><p>As described in Section 2.1, if a game is symmetric it can be represented as an AGG-∅ with A i = A for all i ∈ N . Given a symmetric game, we are often interested in computing expected utilities under symmetric mixed strategy profiles, where a mixed strategy profile σ is symmetric if σ i = σ j ≡ σ * for all i, j ∈ N . In Section 5.2.2 we will discuss algorithms that make use of expected utility computation under symmetric strategy profiles to compute a symmetric Nash equilibrium of symmetric games.</p><p>To compute the expected utility V i ai (σ * ), we could use the algorithm we proposed for general AGG-∅s under arbitrary mixed strategies, which requires time polynomial in the size of the AGG-∅. But we can gain additional computational speedup by exploiting the symmetry in the game and the strategy profile.</p><p>As before, we want to use Equation (4.5) to compute the expected utility, so the crucial task is again computing the probability distribution over projected configurations, Pr(c (ai) |σ (ai) ). Recall that σ (ai) ≡ (a i , σ ), we can then compute the distribution Pr(c (ai) |σ (ai) ) straightforwardly by applying player i's strategy a i . In the rest of this section we focus on computing Pr(c (ai) |σ (ai) *</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>).</head><p>Define S(c (ai) ) to be the set containing all action profiles a (ai) such that C(a (ai) ) = c (ai) .</p><p>Since all agents have the same mixed strategies, each pure action profile in S(c (ai) ) is equally likely, so for any a (ai) ∈ S(c (ai) ) Pr c (ai) |σ</p><formula xml:id="formula_28">(ai) * = S(c (ai) ) Pr a (ai) |σ (ai) * ,</formula><p>(4.7)</p><p>Pr a (ai) |σ</p><formula xml:id="formula_29">(ai) * = α∈A (a i ) (σ (ai) * (α)) c (a i ) (α) . (4.8)</formula><p>The sizes of S(c (ai) ) are given by the multinomial coefficient</p><formula xml:id="formula_30">S c (ai) = (n − 1)! α∈A (a i ) c (ai) (α) ! .</formula><p>(4.9)</p><p>Better still, using a Gray code technique we can avoid reevaluating these equations for every c (ai) ∈ C (ai) . Denote the configuration obtained from c (ai) by decrementing by one the number of agents taking action α ∈ A (ai) and incrementing by one the number of agents taking action α ∈ A (ai) as c (ai) ≡ c (ai) (α→α ) . Then consider the graph H C (a i ) whose nodes are the elements of the set C (ai) , and whose directed edges indicate the effect of the operation (α → α ). This graph is a regular triangular lattice inscribed within a (|A (ai) | − 1)-dimensional simplex. Having computed P r(c (ai) |σ (ai) * ) for one node of H C (a i ) corresponding to configuration c (ai) , we can compute the result for an adjacent node in O(1) time,</p><formula xml:id="formula_31">Pr c (ai) (α→α ) |σ (ai) * = σ (ai) * (α )c (ai) (α) σ (ai) * (α) c (ai) (α ) + 1 Pr c (ai) |σ (ai) * .</formula><p>(4.10)</p><p>H C (a i ) always has a Hamiltonian path (attributed to an unpublished result of Knuth by Klingsberg <ref type="bibr">[1982]</ref>), so having computed Pr(c (ai) |σ (ai) * ) for an initial c (ai) using Equation (4.8), the results for all other projected configurations (nodes in H C (a i ) ) can be computed by using Equation (4.10) at each subsequent step on the path. Generating the Hamiltonian path corresponds to finding a combinatorial Gray code for compositions; an algorithm with constant amortized running time is given by <ref type="bibr" target="#b33">Klingsberg [1982]</ref>. Intuitively, it is easy to see that a simple, "lawnmower" Hamiltonian path exists for any lower-dimensional projection of H C (a i ) , with the only state required to compute the next node in the path being a direction value for each dimension.</p><p>Our algorithm for computing the distribution Pr c (ai) |σ (ai) * is summarized in Algorithm 3. For computing expected utility, we again use Algorithm 2, except with Algorithm 3 replacing Algorithm 1 as the subroutine for computing the distribution Pr c (ai) |σ (ai) * . Theorem 4.2 Computation of the expected utility V i ai (σ * ) under a symmetric strategy profile for symmetric action-graph games using Equations (4.5), (4.7), (4.8) and (4.10) takes time O(|A| + |ν(a i )| C (ai) (σ (ai) ) ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof. Projection to σ</head><p>(ai) * takes O(|A|) time since the strategies are symmetric. Equation (4.5) has C (ai) (σ (ai) ) summands. The probability for the initial configuration requires O(n) time. Using Gray codes the computation of subsequent probabilities can be done in constant amortized time for each configuration. Since each look-up of the utility function takes O(|ν(a i )|) time, the total complexity of the algorithm is O(|A| + |ν(a i )| C (ai) (σ (ai) ) ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Algorithm 3 Computing distribution Pr c (ai) |σ</head><formula xml:id="formula_32">(ai) * in a symmetric AGG-∅ 1. let c (a i ) = c (a i ) 0 , where c (a i ) 0</formula><p>is the initial node of a Hamiltonian path of H C (a i ) .</p><p>2. compute Pr c (a i ) |σ (a i ) * using Equation <ref type="formula" target="#formula_20">(4.7)</ref>:</p><formula xml:id="formula_33">Pr c (a i ) |σ (a i ) * = (n − 1)! α∈A (a i ) (c (a i ) (α))! α∈A (a i ) (σ (a i ) * (α)) c (a i ) (α) .</formula><p>3. While there are more configurations in C (a i ) :</p><p>(a) get the next configuration c (a i ) (α→α ) in the Hamiltonian path, using Klingsberg's algorithm <ref type="bibr" target="#b33">[Klingsberg, 1982]</ref>.</p><formula xml:id="formula_34">(b) compute Pr c (a i ) (α→α ) |σ (a i ) *</formula><p>using Equation (4.10):</p><formula xml:id="formula_35">Pr c (a i ) (α→α ) |σ (a i ) * = σ (a i ) * (α )c (a i ) (α) σ (a i ) * (α) (c (a i ) (α ) + 1) Pr c (a i ) |σ (a i ) * . (c) let c (a i ) = c (a i ) (α→α ) . 4. output Pr c (a i ) |σ (a i ) * for all c (a i ) ∈ C (a i ) .</formula><p>Algorithm 4 Computing the probability distribution Pr(c (ai) |σ (ai) ) in a k-symmetric AGG-∅ under a k-symmetric mixed strategy profile σ (ai) . N l , the partial strategy profile of players in N l . Since σ (a i ) N l is symmetric, this can be computed efficiently using Algorithm 3 as discussed in Section 4.1.4. 3. Combine the k probability distributions together using Algorithm 1, resulting in the distribution Pr(c (a i ) |σ (a i ) ).</p><p>Note that this is faster than our dynamic programming algorithm for general AGG-∅s under arbitrary strategies, whose complexity is Θ(n|A| + n|ν(a i )| 2 C (ai) (σ (ai) ) ) by Theorem 4.1. In the usual case where the second term dominates the first, the algorithm for symmetric strategies is faster by a factor of n|ν(a i )|.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.5">k-symmetric Games</head><p>We now move to a generalization of symmetry in games that we call k-symmetry. <ref type="figure" target="#fig_9">{N 1 , .</ref> . . , N k } of N such that for all l ∈ {1, . . . , k}, for all i, j ∈ N l , A i = A j .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 4.3 An AGG-∅ is k-symmetric if there exists a partition</head><p>Intuitively, k-symmetric AGG-∅s represent games with k classes of identical agents, where agents within each class are identical. Note that all games are trivially n-symmetric. The Ice Cream Vendor game of Example 2.5 is a nontrivial k-symmetric AGG-∅ with k = 3.</p><p>Given a k-symmetric AGG-∅ with partition {N 1 , . . . , N k }, a mixed strategy profile σ is ksymmetric if for all l ∈ {1, . . . , k}, for all i, j ∈ N l , σ i = σ j . We are often interested in computing expected utility under k-symmetric strategy profiles. For example in Section 5.2.2 we will discuss algorithms that make use of such expected utility computations to find k-symmetric Nash equilibria in k-symmetric games. To compute expected utility under a k-symmetric mixed strategy profile, we can use a hybrid approach when computing the probability distribution over configurations, shown in Algorithm 4. Observe that this algorithm combines our specialized Algorithm 3 for handling symmetric games from Section 4.1.4 with the idea of running Algorithm 1 on the joint mixed strategies of subgroups of agents discussed at the end of Section 4.1.3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Computing Expected Payoff with AGG-FNs</head><p>Algorithm 1 cannot be directly applied to AGG-FNs with arbitrary f p . First of all, projection of strategies does not work directly, because a player j playing an action a j ∈ ν(α) could still affect c (α) via function nodes. Furthermore, the general idea of using dynamic programming to build up the probability distribution by adding one player at a time does not work because for an arbitrary function node p ∈ ν(α), each player would not be guaranteed to affect c(p) independently. We could convert the AGG-FN to an AGG-∅ in order to apply our algorithm, but then we would not be able to translate the extra compactness of AGG-FNs over AGG-∅s into more efficient computation. In this section we identify two subclasses of AGG-FN for which expected utility can be efficiently computed. In Section 4.2.1 we show that when all function nodes belong to a restricted class of contribution-independent function nodes, expected utility can be computed in polynomial time. In Section 4.2.2 we reinterpret the expected utility problem as a Bayesian network inference problem, which can be computed in polynomial time if the resulting Bayesian network has bounded treewidth.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.1">Contribution-Independent Function Nodes</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 4.4 A function node p in an AGG-FN is contribution-independent (CI) if</head><p>• ν(p) ⊆ A, i.e., the neighbors of p are action nodes.</p><p>• There exists a commutative and associative operator * , and for each α ∈ ν(p) an integer w α , such that given an action profile a = (a 1 , . . . , a n ), c(p) = * i∈N :ai∈ν(p) w ai . • The running time of each * operation is bounded by a polynomial in n, |A| and |P|. Furthermore, * can be represented in space polynomial in n, |A| and |P|.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>An AGG-FN is contribution-independent if all its function nodes are contribution-independent.</head><p>Note that it follows from this definition that c(p) can be written as a function of c (p) by collecting terms: c(p) ≡ f p (c (p) ) = * α∈ν(p) ( * c(α) k=1 w α ). Simple aggregators can be represented as contribution-independent function nodes, with the + operator serving as * , and w α = 1 for all α. The Coffee Shop game is thus an example of a contribution-independent AGG-FN. For the parity game in Example 2.8, * is instead addition mod 2. An example of a non-additive CI function node arises in a perfect-information model of an (advertising) auction in which actions correspond to bid amounts <ref type="bibr" target="#b56">[Thompson &amp; Leyton-Brown, 2009</ref>]. Here we want c(p) to represent the amount of the winning bid, and so we let w α be the bid amount corresponding to action α, and * be the max operator.</p><p>The advantage of contribution-independent AGG-FNs is that for all function nodes p, each player's strategy affects c(p) independently. This fact allows us to adapt our algorithm to efficiently compute the expected utility V i ai (σ −i ). For simplicity we present the algorithm for the case where we have one operator * for all p ∈ P, but our approach can be directly applied to games with different operators and w α associated with different function nodes. We define the contribution of action α to node m ∈ A ∪ P, denoted δ α (m), as 1 if m = α,</p><formula xml:id="formula_36">0 if m ∈ A \ {α}, and * m ∈ν(m) ( * δα(m ) k=1 w α ) if m ∈ P.</formula><p>Then it is easy to verify that given an action profile a = (a 1 , . . . , a n ), c(α) = n j=1 δ aj (α) for all α ∈ A and c(p) = * n j=1 δ aj (p) for all p ∈ P. Given that player i played a i , and for all α ∈ A, we define the projected contribution of action α under a i , denoted δ (ai) α , as the tuple (δ α (m)) m∈ν(ai) . Note that different actions α may have identical projected contributions under a i . Player j's mixed strategy σ j induces a probability distribution over j's projected contributions, Pr(δ (ai) |σ j ) = aj :δ (a i ) a j =δ (a i ) σ j (a j ). Now we can operate entirely using the probabilities on projected contributions instead of the mixed strategy probabilities. This is analogous to the projection of σ j to σ (ai) j in our algorithm for AGG-∅s.</p><p>Algorithm 1 for computing the distribution Pr(c (ai) |σ) can be straightforwardly adopted to work with contribution-independent AGG-FNs. Whenever we apply player k's contribution δ </p><formula xml:id="formula_37">k (m) = δ (ai) a k (m) + c (ai) k−1 (m) if m ∈ A, and c (ai) k (m) = δ (ai) a k (m) * c (ai) k−1 (m) if m ∈ P.</formula><p>To analyze the complexity of computing expected utility, it is necessary to know the representation size of a contribution-independent AGG-FN. For each function node p we need to specify * and (w α ) α∈ν(p) instead of f p directly. Let * denote the representation size of * . Then the total size of a contribution-independent AGG-FN is O( α∈A |C (α) | + * ). As discussed in Section 2.2.3, this size is not necessarily polynomial in n, |A| and |P|; although when the conditions in Corollary 2.11 are satisfied, the representation size is polynomial. For AGG-FNs whose function nodes are all simple aggregators, each player's set of projected contributions has size at most |ν(a i ) + 1|, as opposed to |A| in the general case. This leads to a run time complexity of O(n|A| + n|ν(a i )| 2 |C (ai) |), which is better than the complexity of the general case proved in Theorem 4.5. Applied to the Coffee Shop game, since |C (α) | = O(n 3 ) and all function nodes are simple aggregators, our algorithm takes O(n|A| + n 4 ) time, which grows linearly in |A|.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.2">Beyond Contribution Independence</head><p>What about the case where not all function nodes are contribution-independent-is there anything we can do besides converting the AGG-FN into its induced AGG-∅? It turns out that by reducing the problem of computing expected utility to a Bayesian network inference problem, we can still efficiently compute expected utilities for certain additional classes of AGG-FNs.</p><p>Bayesian networks compactly represent probability distributions exhibiting conditional independence structure (see, e.g., <ref type="bibr" target="#b49">Russell and Norvig [2003]</ref>). A Bayesian network is a DAG in which nodes represent random variables and edges represent direct probabilistic dependence. Each node X is associated with a conditional probability distribution (CPD) specifying the probability of each realization of random variable X conditional on the realizations of its parent random variables.</p><p>A key step in our approach for computing expected utility in AGG-FNs is computing the probability distribution over configurations Pr(c (ai) |σ (ai) ). If we treat each node m's configuration c(m) as a random variable, then the distribution over configurations can be interpreted as the joint probability distribution over the set of random variables {c(m)} m∈ν(ai) . Given an AGG-FN, a player i and an action a i ∈ A i , we can construct an induced Bayesian network B i ai : • The nodes of B i ai consist of (i) one node for each element of ν(a i ); (ii) one node for each neighbor of a function node belonging to ν(a i ); and (iii) one node for each neighbor of a function node added in the previous step, and so on until no more function nodes are added. Each of these nodes m represents the random variable c(m). We further introduce another kind of node: (iv) n nodes σ 1 , . . . , σ n , representing each player's mixed strategy. The domain of each random variable σ i is A i . • The edges of B i ai are constructed by keeping all edges that go into the function nodes that are included in B, ignoring edges that go into action nodes. Furthermore for each player j, we create an edge from σ j to each of j's actions a j ∈ A j . • The conditional probability distribution (CPD) at each function node p is just the deterministic function f p . The CPD at each action node α is a deterministic function that returns the number of its parents (observe that these are all mixed strategy nodes) that take the value α . Mixed strategy nodes have no incoming edges; their (unconditional) probability distributions are the mixed strategies of the corresponding players, except for player i, whose node σ i takes the deterministic value a i .</p><p>It is straightforward to verify that B i ai is a DAG, and that the joint distribution on random variables {c(m)} m∈ν(α) is exactly the distribution over configurations Pr(c (ai) |(a i , σ (ai) −i )). This joint distribution can then be computed using a standard algorithm such as clique tree propagation or variable elimination. The running times of such algorithms are worst-case exponential; however, for Bayesian networks with bounded tree-width, their running times are polynomial.</p><p>Further speedups are possible at nodes in the induced Bayesian network that correspond to action nodes and contribution-independent function nodes. The deterministic CPDs at such nodes can be formulated using independent contributions from each player's strategy. This is an example of causal independence structure in Bayesian networks studied by <ref type="bibr" target="#b20">Heckerman and Breese [1996]</ref> and <ref type="bibr" target="#b61">Zhang and Poole [1996]</ref>, who proposed different methods for exploiting such structure to speed up Bayesian network inference. Such methods share the common underlying idea of decomposing the CPDs into independent contributions, which is intuitively similar to our approach in Algorithm 1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Computing Expected Payoff with AGG-FNAs</head><p>Due to the linearity of expectation, the expected utility of i playing an action a i with an additive utility function with coefficients (λ m ) m∈ν(ai) is</p><formula xml:id="formula_38">V i ai (σ −i ) = m∈ν(ai) λ m E[c(m)|a i , σ −i ],<label>(4.11)</label></formula><p>where E[c(m)|a i , σ −i ] is the expected value of c(m) given the strategy profile (a i , σ −i ). Thus we can compute these expected values for each m ∈ ν(a i ), then sum them up as in Equation (4.11) to get the expected utility. If m is an action node, then E[c(m)|a i , σ −i ] is the expected number of players that chose m, which is i∈N σ i (m). The more interesting case is when m is a function node. Recall that c(m) ≡ f m (c (m) ) where c (m) is the configuration over the neighbors of m. We can write the expected value of c(m) as</p><formula xml:id="formula_39">E[c(m)|a i , σ −i ] = c (m) ∈C (m) f m (c (m) ) Pr(c (m) |a i , σ −i ). (4.12)</formula><p>This has the same form as Equation (4.5) for the expected utility V i ai (σ −i ), except that we have f m instead of u α . Thus our results for the computation of Equation (4.5) also apply here. That is, if the neighbors of m are action nodes and/or contribution-independent function nodes, then E[c(m)|a i , σ −i ] can be computed in polynomial time. It is straightforward to verify that our AGG-FNA representations of polymatrix games, congestion games, player-specific congestion games and the game in Example 3.4 all satisfy the conditions of Theorem 4.6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 4.6 Suppose u α is represented as an additive utility function in a given AGG-FNA. If each of the neighbors of α is either (i) an action node, or (ii) a function node whose neighbors are action nodes and/or contribution-independent function nodes, then the expected utility</head><formula xml:id="formula_40">V i α (σ −i ) can</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Computing Sample Equilibria with AGGs</head><p>In this section we consider some theoretical and practical applications of our expected utility algorithm. In Section 5.1 we analyze the complexity of finding a sample -Nash equilibrium in an AGG and show that it is PPAD-complete. In Section 5.2 we extend our expected utility algorithm to the computation of payoff Jacobians, which is a key step in several algorithms for computing -Nash equilibria, including the Govindan-Wilson algorithm. In Section 5.3 we show that it can also speed up the simplicial subdivision algorithm, and in Section 5.4 we show that it can be used to find an -correlated equilibrium in polynomial time. 9</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Complexity of Finding a Nash Equilibrium</head><p>In this section we consider the complexity of finding a Nash equilibrium of an AGG. Since a Nash equilibrium for a game of more that two players may require irrational numbers in the probabilities, for practical computation it is necessary to consider approximations to Nash equilibria. Here we consider the frequently-used notion of -Nash equilibrium: <ref type="bibr">9</ref> Here we focus on the problems of finding a sample Nash or correlated equilibrium: in other words, identifying any single equilibrium. In games with multiple equilibria, it can be useful to find all equilibria or to find the "best" equilibrium according to some criterion. However, negative complexity results hold for both problems (see e.g. <ref type="bibr" target="#b6">[Conitzer &amp; Sandholm, 2008;</ref><ref type="bibr" target="#b45">Papadimitriou &amp; Roughgarden, 2008;</ref><ref type="bibr" target="#b53">Shoham &amp; Leyton-Brown, 2009]</ref>). For the case of bimatrix games, <ref type="bibr" target="#b37">Mangasarian [1964]</ref> proposed an algorithm for enumerating all <ref type="bibr">Nash equilibria, and Sandholm et al. [2005]</ref> proposed and evaluated a practical approach for computing optimal Nash equilibria using mixed-integer programming. Finding practical heuristic algorithms for these problems on n-player games remains an interesting open problem, but has received relatively little study to date.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 5.1 ( -Nash Equilibrium) A mixed strategy profile σ is an -Nash equilibrium for</head><formula xml:id="formula_41">some ≥ 0 if for all i ∈ N , for all a i ∈ A i , u i (σ) + ≥ u i (a i , σ −i )</formula><p>Intuitively, each player cannot gain more than by deviating from her mixed strategy. For any game representation, define its NASH problem to be the problem of finding an -Nash equilibrium of a game encoded in that representation, for some given as part of the input. A series of recent papers <ref type="bibr" target="#b5">[Chen &amp; Deng, 2006;</ref><ref type="bibr" target="#b16">Goldberg &amp; Papadimitriou, 2006;</ref><ref type="bibr" target="#b8">Daskalakis et al., 2006b]</ref> have shown that the NASH problem for n-player normal-form games with n ≥ 2 is complete for the complexity class PPAD, which is contained in NP but not known to be in P. Turning to compact representations, <ref type="bibr" target="#b7">Daskalakis et al. [2006a]</ref> showed that the complexity of computing expected utility plays a vital role in the complexity of finding an -Nash equilibrium.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 5.2 (Polynomial type [Daskalakis et al., 2006a])</head><p>A game representation has polynomial type if the number of agents n and the sizes of the action sets |A i | are bounded by a polynomial in the size of the representation.</p><p>All AGG variants have polynomial type, since action sets are represented explicitly.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 5.3 ([Daskalakis et al., 2006a]) If a game representation satisfies the following properties: (1) the representation has polynomial type, and (2) expected utility can be computed using an arithmetic binary circuit with polynomial length, with nodes evaluating to constant values or performing addition, substraction, or multiplication on their inputs, then the NASH problem for this representation can be polynomially reduced to the NASH problem for some two-player, normal-form game.</head><p>Since the NASH problem is in PPAD for two-player, normal-form games, the theorem implies that if the above properties hold, the NASH problem for such a compact game representation is in PPAD.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Corollary 5.4 The complexity of NASH for AGG-∅s is PPAD-complete.</head><p>Remark. It may not be clear why this would be surprising or encouraging; indeed, the PPADhardness part of the claim is neither. However, the PPAD-membership part of the claim is a positive result. Specifically, it implies that the problem of finding a Nash equilibrium in an AGG-∅ can be reduced to the problem of finding a Nash equilibrium in a two-player normalform game with size polynomial in the size of the AGG-∅. This is in contrast to the normal form representation of the original game, which can be exponentially larger than the AGG-∅. In other words, if we instead try to solve for a Nash equilibrium using the normal form representation of the original game, we would face a PPAD-complete problem with an input exponentially larger than the AGG-∅ representation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof sketch</head><p>We first show that the problem belongs to PPAD, by constructing a circuit that computes expected utility and satisfies the second condition of Theorem 5.3. 10 Recall that our expected utility algorithm consists of Equation (4.4), then Algorithm 1, and finally Equation (4.5). Equations (4.4) and (4.5) can be straightforwardly translated into arithmetic circuits using addition and multiplication nodes. Algorithm 1 involves for loops that cannot be directly translated to an arithmetic circuit, but we observe that we can unroll the for loops and still end up with a polynomial number of operations. The resulting circuit resembles a lattice with n levels; at the k-th level there are |C To show PPAD-hardness, we observe that an arbitrary graphical game can be encoded as an AGG-∅ without loss of compactness (see Section 2.1). Thus the problem of finding a Nash equilibrium in a graphical game can be reduced to the problem of finding a Nash equilibrium in an AGG-∅. Since finding a Nash equilibrium in a graphical game is known to be PPAD-hard, finding a Nash equilibrium in an AGG-∅ is PPAD-hard.</p><p>For AGG-FNs that satisfy the conditions for Theorem 4.5 or AGG-FNAs that satisfy Theorem 4.6, similar arguments apply, and we can prove PPAD-completeness for those subclasses of games if we make the reasonable assumption that the operator * used to define the CI function nodes can be implemented as an arithmetic circuit of polynomial length that satisfies the second condition of Theorem 5.3.</p><p>Although any Nash equilibrium is close to an -Nash equilibrium (in the space of mixed strategy profiles), a given -Nash equilibrium may be arbitrarily far from any Nash equilibrium of the game. <ref type="bibr" target="#b14">Etessami and Yannakakis [2007]</ref> considered the stricter notion of approximate Nash equilibrium in the sense of being close to an exact Nash equilibrium, and showed that the problem of finding such a solution given a normal-form game is complete for the complexity class FIXP, which is contained in PSPACE but not known to be in NP. The "weaker" notion of -Nash equilibrium that we consider here is more amenable to practical computation: the corresponding complexity class PPAD is in NP, implying that checking whether a mixed-strategy profile is an -Nash equilibrium is in P (e.g., for AGGs this can be done straightforwardly by computing best responses using the expected utility algorithm).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Computing a Nash Equilibrium: The Govindan-Wilson Algorithm</head><p>Now we move from the theoretical to the practical. The PPAD-hardness result of Corollary 5.4 implies that a polynomial-time algorithm for Nash equilibrium is unlikely to exist, and indeed known algorithms for identifying sample Nash equilibria have worst-case exponential running times. Nevertheless, we will show that our dynamic programming algorithm for expected utility can be used to achieve exponential speedups in such algorithms, as well as an algorithm for computing a sample correlated equilibrium. Specifically, we show how to speed up key computations in the inner loops of these algorithms.</p><p>First we consider <ref type="bibr" target="#b18">Govindan and Wilson's [2003]</ref> continuation method, a state-of-the-art method for finding mixed-strategy Nash equilibria in multi-player games. This algorithm starts by perturbing the payoffs to obtain a game with a known equilibrium. It then follows a path that is guaranteed to lead to at least one equilibrium of the original, unperturbed game. To take each step, we need to compute the payoff Jacobian under the current mixed strategy in order to get the direction of the path; we then take a small step along the path and repeat.</p><p>The payoff Jacobian under a mixed strategy σ is a <ref type="figure">C(a i , a i , a)</ref>) Pr(a|σ).</p><formula xml:id="formula_42">( i |A i |) × ( i |A i |) matrix with entries ∂V i ai (σ −i ) ∂σ i (a i ) ≡ ∇V i,i ai,a i (σ) (5.1) = a∈A u (a i ,</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(5.2)</head><p>Here an overbar is shorthand for the subscript −{i, i } where i = i are two players; e.g., a ≡ a −{i,i } . The rows of the matrix are indexed by i and a i while the columns are indexed by i and a i . Given entry ∇V i,i ai,a i (σ), we call a i its primary action node, and a i its secondary action node.</p><p>We note that efficient computation of the payoff Jacobian is important for more than simply Govindan and Wilson's continuation method. For example, the iterated polymatrix approximation (IPA) method <ref type="bibr" target="#b19">[Govindan &amp; Wilson, 2004]</ref> has the same computational problem at its core. At each step the IPA method constructs a polymatrix game that is a linearization of the current game with respect to the mixed strategy profile, the Lemke-Howson algorithm is used to solve this game, and the result updates the mixed strategy profile used in the next iteration. Though theoretically it offers no convergence guarantee, IPA is often much faster than the continuation method. Also, it can be used to give the continuation method a quick start. The payoff Jacobian may also be useful to multiagent reinforcement learning algorithms that perform policy search.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.1">Computing the Payoff Jacobian</head><p>Now we consider how the payoff Jacobian may be computed. Equation (5.2) shows that the ∇V i,i ai,a i (σ) element of the Jacobian can be interpreted as the expected utility of agent i when she takes action a i , agent i takes action a i , and all other agents use mixed strategies according to σ. So a straightforward-and quite effective-approach is to use our expected utility algorithm to compute each entry of the Jacobian.</p><p>However, the Jacobian matrix has certain extra structure that allows us to achieve further speedup. For example, observe that some entries of the Jacobian are identical. If two entries have the same primary action node α, then they are expected payoffs on the same utility function u α , and so have the same values if their induced probability distributions over C (α) are the same. We need to consider two cases:</p><p>1. The two entries come from the same row of the Jacobian, say player i's action a i . There are two sub-cases to consider:</p><p>(a) The columns of the two entries belong to the same player j, but different actions a j and a j . If a (ai) j = a (ai) j , i.e., a j and a j both project to the same projected action in a i 's projected action graph, 11 then ∇V i,j ai,aj = ∇V i,j ai,a j . This implies that when a j , a j ∈ ν(a i ), ∇V i,j ai,aj = ∇V i,j ai,a j .</p><p>(b) The columns of the entries correspond to actions of different players. We observe that for all j and a j such that σ (ai) (a (ai) j ) = 1, ∇V i,j ai,aj (σ) = V i ai (σ −i ). As a special case, if A (ai) j = {∅}, i.e., agent j does not affect i's payoff when i plays a i , then for all a j ∈ A j , ∇V i,j ai,aj (σ) = V i ai (σ −i ).</p><p>2. If a i and a j correspond to the same action node α (but owned by agents i and j respectively), thus sharing the same payoff function u α , then ∇V i,j ai,aj = ∇V j,i aj ,ai . Furthermore, if there exist a i ∈ A i , a j ∈ A j such that a i (α) = a j (α) (or δ A consequence of 1(a) is that any Jacobian of an AGG has at most i ai∈Ai (n−1)(ν(a i )+ 1) distinct entries. For AGGs with bounded in-degree, this is O(n i |A i |). For each set of identical entries, we only need to do the expected utility computation once. Even when two entries in the Jacobian are not identical, we can exploit the similarity of the projected strategy profiles (and thus the similarity of the induced distributions) between entries, reusing intermediate results when computing the induced distributions of different entries. Since computing the induced probability distributions is the bottleneck of our expected payoff algorithm, this provides significant speedup.</p><p>First we observe that if we fix the row (i, a i ) and the column's player j, then σ is the same for all secondary actions a j ∈ A j . We can compute the probability distribution Pr(c n−1 |a i , σ (ai) ), then for all a j ∈ A j , we just need to apply the action a j to get the induced probability distribution for the entry ∇V i,j ai,aj . Now suppose we fix the row (i, a i ). For two column players j and j , their corresponding strategy profiles σ −{i,j} and σ −{i,j } are very similar, in fact they are identical in n − 3 of the n − 2 components. For AGG-∅s, we can exploit this similarity by computing the distribution Pr(c n−1 |σ (ai) −i ), then for each j = i, we "undo" j's mixed strategy to get the distribution induced by σ −{i,j} , by treating distributions Pr(c n−1 |σ (ai) −i ) and σ j as coefficients of polynomials and computing their quotient using long division. (See Section 2.3.5 of <ref type="bibr" target="#b23">[Jiang, 2006]</ref> for a more detailed discussion of interpreting distributions over configurations as polynomials.) <ref type="bibr">Nash proved [1951]</ref> that all finite symmetric games have at least one symmetric Nash equilibrium. The Govindan-Wilson algorithm can be adapted to find symmetric Nash equilibria in symmetric AGG-∅s. The modified algorithm now operates in the space of symmetric mixed strategy profiles, and follows a path of symmetric equilibria of perturbed symmetric games to a symmetric equilibrium of the unperturbed game. The corresponding payoff Jacobian under σ * is now a |A| × |A| matrix whose entry at row α and column α is n − 1 multiplied by the expected utility of a player choosing action α, when another player is choosing action α and the rest of the players play mixed strategy σ * . Such an entry can be efficiently computed using the techniques for symmetric expected utility computation discussed in Section 4.1.4, which are faster than our expected utility algorithm for general AGGs. Techniques discussed in the current section can further be used to speed up the computation of Jacobians in the symmetric case. In particular, it is straightforward to check that the Jacobian has at most α∈A (ν(α) + 1) = O(|E|) identical entries, where E is the set of edges of the action graph.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.2">Finding equilibria of symmetric and k-symmetric games</head><p>A straightforward corollary of <ref type="bibr" target="#b42">Nash's [1951]</ref> proof is that any k-symmetric AGG-∅ has at least one k-symmetric Nash equilibrium. Relying on similar arguments as above, we can adapt the Govindan-Wilson algorithm to find k-symmetric equilibria in k-symmetric AGG-∅s. The bottleneck is the computation of the k-symmetric version of payoff Jacobians, the entries of which can be shown to be equal to constant multiples of certain expected utilities. Such expected utilities can be efficiently computed using the techniques discussed in Section 4.1.5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Computing a Nash Equilibrium: The Simplicial Subdivision Algorithm</head><p>Another algorithm for computing a sample Nash equilibrium is van der Laan, Talman &amp; van der Heyden's <ref type="bibr">[1987]</ref> simplicial subdivision algorithm, which is derived from <ref type="bibr" target="#b52">Scarf's [1967]</ref> algorithm for computing fixed points. At a high level, the algorithm does the following.</p><p>1. The space of mixed strategy profiles Σ = i Σ i is partitioned into a set of subsimplexes.</p><p>2. We assign labels to vertices of the subsimplexes, in a way such that a "completely labeled" subsimplex corresponds to an approximate Nash equilibrium.</p><p>3. The algorithm follows a path of "almost completely labeled" subsimplexes, and eventually reaches a "completely labeled" subsimplex.</p><p>4. Such an approximate equilibrium can be refined by restarting the algorithm near the approximate equilibrium using a finer grid.</p><p>At each step along the path, the algorithm needs to compute labels of the subsimplex, which in turn depends on computation of expected utilities under mixed strategy profiles. By using our AGG-based Algorithm 2 for computing expected utility, this step can be sped up exponentially, as compared to the normal-form-based implementation. <ref type="bibr" target="#b45">Papadimitriou and Roughgarden [2008]</ref> proposed a polynomial-time algorithm for computing a sample correlated equilibrium given a game representation with polynomial type and a polynomialtime subroutine for computing expected utility under mixed strategy profiles. Recently, <ref type="bibr" target="#b54">Stein et al. [2010]</ref> showed that Papadimitriou and Roughgarden's algorithm can fail to find an exact correlated equilibrium, and presented a slight modification of the algorithm that efficiently computes an -correlated equilibrium. (An -correlated equilibrium is an approximation of the correlated equilibrium solution concept, where measures the extent to which the incentive constraints for correlated equilibrium are violated.) Incorporating this fix, we have the following.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4">Computing a Correlated Equilibrium</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 5.5 ([Papadimitriou &amp; Roughgarden, 2008])</head><p>If a game representation has polynomial type, and has a polynomial algorithm for computing expected utility, then an -correlated equilibrium can be computed in time polynomial in log 1 and the representation size.</p><p>The reader might wonder why it is difficult to compute correlated equilibrium-even in exact form-given that there is a well-known linear programming formulation for computing a correlated equilibrium. The catch is that this LP has one variable for each action profile. Thus, while it amounts to a polynomial-time algorithm for games represented in normal form, its size is exponential in the size of any compact representation for which the simple algorithm for computing expected utility given by Equation 4.1 is inadequate. Indeed, in these cases even describing a correlated equilibrium using these probabilities of action profiles can require exponential space. Papadimitriou and Roughgarden's results are thus much deeper than they may first seem. The algorithm outputs an -correlated equilibrium represented as the mixture of a polynomial number of product distributions over action profiles. Since the theorem requires that the game representation has polynomial type, this polynomial mixture of product distributions can also be represented polynomially.</p><p>The second condition in this theorem involves the computation of expected utility. As a direct corollary of Theorem 5.5 and our own Theorem 4.1, there exists a polynomial algorithm for computing an -correlated equilibrium given an AGG-∅. Similarly, for AGG-FNs and AGG-FNAs for which the expected utility problem can be solved in polynomial time (see Theorems 4.5 and 4.6), -correlated equilibria can be computed in polynomial time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Experiments</head><p>Although our theoretical results show that there are significant benefits to working with AGGs, they might leave the reader with two worries. First, the reader might be concerned that while AGGs offer asymptotic computational benefits, they might not be practically useful. Second, even if convinced about the usefulness of AGGs, the reader might want to know the size of problems that can be tackled by the computational tools we have developed so far. We address both of these worries in this section, by reporting on the results of extensive computational experiments. Specifically, we compare the performance of the AGG representation and our AGG-based algorithms against normal-form-based solutions using the (highly optimized) GameTracer package <ref type="bibr" target="#b2">[Blum et al., 2002]</ref>. As benchmarks, we used AGG and normal-form representations of instances of Coffee Shop games, Job Market games, and symmetric AGG-∅s on random graphs. We compared the representation sizes of AGG and normal-form representations, and compared their performance resulting from using these representations to compute expected utility, to compute Nash equilibria using the Govindan-Wilson algorithm, and to compute Nash equilibria using the simplicial subdivision algorithm. Finally, we show how sample equilibria of these games can be visualized on action graphs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Software Implementation and Experimental Setup</head><p>We implemented our algorithms in a freely-available software package, in order to make it easy for other researchers to use AGGs to model problems of interest. Our software is capable of:</p><p>• reading in a description of an AGG;</p><p>• computing expected utility and Jacobian given mixed strategy profile;</p><p>• computing Nash equilibria by adapting GameTracer's <ref type="bibr" target="#b2">[Blum et al., 2002]</ref> implementation of <ref type="bibr" target="#b18">Govindan and Wilson's [2003]</ref> continuation method; and • computing Nash equilibria by adapting <ref type="bibr">GAMBIT's [McKelvey et al., 2006]</ref> implementation of the simplicial subdivision algorithm <ref type="bibr" target="#b58">[van der Laan et al., 1987]</ref>.</p><p>We extended GAMUT <ref type="bibr" target="#b43">[Nudelman et al., 2004]</ref>, a suite of game instance generators, by implementing generators of instances of AGGs including Ice Cream Vendor games (Example 2.5), Coffee Shop games (Example 2.7), Job Market games (Example 3.1) and symmetric AGG-∅s on a random action graph with random payoffs. Finally, with Damien Bargiacchi, we also developed a graphical user interface for creating and editing AGGs. All of our software is freely available at http://agg.cs.ubc.ca. When using Coffee Shop games in our experiments, we set payoffs randomly in order to test on a wide set of utility functions. For the visualization of equilibria in Section 6.7 we set the Coffee Shop game utility functions to be</p><formula xml:id="formula_43">u α (c(α), c(p α ), c(p α )) = 20 − [c(α)] 2 − c(p α ) − log(c(p α ) + 1),</formula><p>where p α is the function node representing the number of players choosing adjacent locations and p α is the function node representing the number of players choosing other locations.</p><p>When using Job Market games in our experiments, we set the utility functions to be</p><formula xml:id="formula_44">u α (c (α) ) = R α c(α) + α ∈ν(α)−{α} 0.1c(α ) − K α ,</formula><p>with R α set to 2, 4, 6, 8, 10 and K α set to 1, 2, 3, 4, 5 for the five levels from high school to PhD.</p><p>When using Ice Cream Vendor games for the visualization of equilibria in Section 6.7 we set the utilities so that for a player i choosing action α, each vendor choosing a location α ∈ ν(α) contributes w f w l utility to i. w f is -1 when α has the same food type as α, and 0.8 otherwise. w l is 1 when α and α correspond to the same location, and 0.6 when they correspond to different (but neighboring) locations. In other words, there is a negative effect from players choosing the same food type, and a weaker positive effect from players choosing a different food type. Furthermore, effects from neighboring locations are weaker than effects from the same location.</p><p>All our experiments were performed using a computer cluster consisting of 55 machines with dual Intel Xeon 3.2GHz CPUs, 2MB cache and 2GB RAM, running Suse Linux 10.1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Representation Size</head><p>First, we compared the representation sizes of AGG-FNs and their induced normal forms. For each game instance we counted the number of payoff values that needed to be stored.</p><p>We first looked at 5 × 5 block Coffee Shop games, varying the number of players. <ref type="figure" target="#fig_20">Figure 9</ref> (left) has a log-scale plot of the number of payoff values in each representation versus the number of players. The normal form representation grew exponentially with respect to the number of players, and quickly became impractical. The size of the AGG representation grew polynomially with respect to n. As we can see from <ref type="figure" target="#fig_20">Figure 9</ref> (right), even for a game instance with 80 players, the AGG-FN representation stored only about 2 million numbers. In contrast, the corresponding normal form representation would have had to store 1.2 × 10 115 numbers.</p><p>We then fixed the number of players at 4 and varied the number of actions; for ease of comparison we fixed the number of columns at 5 and only changed the number of rows. Recall from Section 2.2.1 that the representation size of Coffee Shop games-expressed both as AGGs and in the normal form-depends only on the number of players and number of actions, but not on the shape of the region. (Recall that the number of actions is B + 1, where B is the total number of blocks.) <ref type="figure" target="#fig_20">Figure 9</ref> (left) shows a log-scale plot of the number of payoff values versus the number of actions, and <ref type="figure" target="#fig_20">Figure 9</ref> (right) gives a plot for just the AGG-FN representation. The size of the AGG representation grew linearly with the number of rows, whereas the size of the normal form representation grew like a higher-order polynomial. For a Coffee Shop game with 4 players on an 80 × 5 grid, the AGG-FN representation stores only about 8000 numbers, whereas the normal form representation would have to store 1.0 × 10 11 numbers.</p><p>We also tested on Job Market games from Example 3.1, which have 13 actions. We varied the number of players from 3 to 24. The results are similar, as shown in <ref type="figure" target="#fig_9">Figure 11</ref> (left). This is consistent with our theoretical observation that the sizes of normal form representations grow exponentially in n while the sizes of AGG representations grow polynomially in n.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.3">Expected Utility Computation</head><p>We tested the performance of our dynamic programming algorithm for computing expected utilities in AGG-FNs against GameTracer's normal-form-based algorithm for computing expected utilities. For each game instance, we generated 1000 random strategy profiles with full support, and measured the CPU (user) time spent computing V n an (σ −n ) under these strategy profiles. Then we divided this measurement by 1000 to obtain the average CPU time.</p><p>We first looked at Coffee Shop games of different sizes. We fixed the size of blocks at 5 × 5 and varied the number of players. <ref type="figure" target="#fig_9">Figure 10</ref> shows plots of the results. For very small games the normal-form-based algorithm is faster due to its smaller bookkeeping overhead; as the number of players grows larger, our AGG-based algorithm's running time grows polynomially, while the normal-form-based algorithm scales exponentially. For more than five players, we were not able to store the normal form representation in memory. Meanwhile, our AGG-based algorithm scaled to much larger numbers of players, averaging about a second to compute an expected utility for an 80-player Coffee Shop game. Next, we fixed the number of players at 4 and the number of columns at 5, and varied the number of rows. Our algorithm's running time grew roughly linearly with the number of rows, while the normal-form-based algorithm grew like a higher-order polynomial. This was consistent with our theoretical observation that our algorithm takes O(n|A| + n 4 ) time for this class of games while normal-form-based algorithms take O(|A| n−1 ) time.</p><p>We also considered strategy profiles having partial support. While ensuring that each player's support included at least one action, we generated strategy profiles with each action included in the support with probability 0.4. GameTracer took about 60% of its full-support running times to compute expected utilities for the Coffee Shop game instances mentioned above, while our AGG-based algorithm required about 20% of its full-support running times.</p><p>We also tested on Job Market games, varying the numbers of players. The results are shown in <ref type="figure" target="#fig_9">Figure 11</ref> (right). The normal-form-based implementation ran out of memory for more than 6 players, while the AGG-based implementation averaged about a quarter of a second to compute expected utility in a 24-player game.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.4">Computing Payoff Jacobians</head><p>We ran similar experiments to investigate the computation of payoff Jacobians. As discussed in Section 5.2, the entries of a Jacobian can be formulated as expected payoffs, so a Jacobian can be computed by doing an expected payoff computation for each of its entries. In Section 5.2 we discussed methods that exploit the structure of the Jacobian to further speed up the computation. GameTracer's normal-form-based implementation also exploits the structure of the Jacobian by reusing partial results of expected payoff computations. When comparing our AGG-based Jacobian algorithm (as described in Section 5.2) to GameTracer's implementation, we observed results very similar to those for computing expected payoffs: our implementation scaled polyno- mially in n while GameTracer scaled exponentially in n. We instead focus on the question of how much speedup the methods in Section 5.2 provided, by comparing our algorithm in Section 5.2 against the algorithm that computes expected payoffs (using our AGG-based algorithm described in Section 4) for each of the Jacobian's entries. We tested on Coffee Shop games on a 5 × 5 grid with 3 to 10 players, as well as Coffee Shop games with 4 players, 5 columns and varying numbers of rows. For each instance of the game we randomly generated 100 strategy profiles with partial support. For each of these game instances, our algorithm as described in Section 5.2 was consistently about 50 times faster than computing expected payoffs for each of the Jacobian's entries. This confirms that the methods discussed in Section 5.2 provide significant speedup for computing payoff Jacobians.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.5">Finding a Nash Equilibrium using the Govindan-Wilson algorithm</head><p>Now we show experimentally that the speedup we achieved for computing Jacobians using the AGG representation led to a speedup in the Govindan-Wilson algorithm. We compared two versions of the Govindan-Wilson algorithm: one is the implementation in GameTracer, where the Jacobian computation is based on the normal-form representation; the other is identical to the GameTracer implementation, except that the Jacobians are computed using our algorithm for the AGG representation. Both techniques compute the Jacobians exactly. As a result, given an initial perturbation to the original game, these two implementations follow the same path and return exactly the same Nash equilibrium. Again, we tested the two algorithms on Coffee Shop games of varying sizes: first we fixed the sizes of blocks at 4×4 and varied the number of players; then we fixed the number of players at 4 and number of columns at 4 and varied the number of rows. For each game instance, we randomly generated 10 initial perturbation vectors, and for each initial perturbation we ran the two versions of the Govindan-Wilson algorithm. Although the algorithm can (sometimes) find more than one equilibrium, we stopped both versions of the algorithm after one equilibrium was found. Since the running time of the Govindan-Wilson algorithm is very sensitive to the initial perturbation, for each game instance the running times with different initial perturbations had large variance. To control for this, for each initial perturbation we looked at the ratio of running times between the normal-form implementation and the AGG implementation (i.e., a ratio greater than 1 means the AGG implementation ran more quickly than the normal form implementation). We present the results in <ref type="figure" target="#fig_0">Figure 12</ref> (left). We see that as the size of the games grew (either in the number of players or in the number of actions), the speedup of the AGG implementation over that of the normal-form implementation increased. The normal-form implementation ran out of memory for game instances with more than 5 players, preventing us from reporting ratios above n = 5. Thus, we ran the AGG-based implementation alone on game instances with larger numbers of players, giving the algorithm a one-day cutoff time. As shown by the log-scale boxplot of CPU times in <ref type="figure" target="#fig_0">Figure 12</ref> (top right), for game instances with up to 12 players, the algorithm terminated within one day for most initial perturbations. A normal form representation of such a game would have needed to store 7.0 × 10 15 numbers. <ref type="figure" target="#fig_0">Figure 12</ref> (bottom right) shows a boxplot of the CPU times for the AGG-based implementation, varying the number of actions while fixing the number of players at 4. For game instances with up to 49 actions (a 4 × 12 grid plus one action for not entering the market), the algorithm terminated within an hour.</p><p>We also tested on Job Market games with varying numbers of players. The results are shown in <ref type="figure" target="#fig_2">Figure 13</ref>. For the game instance with 6 players, the AGG-based implementation was about 100 times faster than the normal-form-based implementation. While the normal-form-based implementation ran out of memory for Job Market games with more than 6 players, the AGG-based implementation was able to solve games with 16 players in an average of 24 minutes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.6">Finding a Nash Equilibrium using Simplicial Subdivision</head><p>As discussed in Section 5.3, we can speed up the normal-form-based simplicial subdivision algorithm by replacing the subroutine that computes expected utility by our AGG-based algorithm. We have done so to GAMBIT's implementation of simplicial subdivision. As with the Govindan-Wilson algorithm, from a given starting point both the original version of simplicial subdivision and our AGG version follow a deterministic path to determine exactly the same equilibrium. Thus, all performance differences are due to the choice of representation. We compared the performance of AGG-based simplicial subdivision against normal-form-based simplicial subdivision on instances of Coffee Shop games as well as instances of randomly-generated symmetric AGG-∅s on small world graphs. We always started from the mixed strategy profile in which each player gives equal probability to each of her actions.</p><p>We first considered instances of Coffee Shop games with 4 rows, 4 columns and varying numbers of players. For each game size we generated 10 instances with random payoffs. <ref type="figure" target="#fig_3">Figure  14</ref> (left) gives a boxplot of the ratio of running times between the two implementations. The AGG-based implementation was about 3 times faster for the 3-player instances and about 30 times faster for the 4-player instances. We also tested on Coffee Shop games with 3 players, 3 columns and numbers of rows varying from 4 to 7, again generating 10 instances with random payoffs at each size. <ref type="figure" target="#fig_3">Figure 14</ref> (right) gives a boxplot of the ratio of running times. As expected, the AGG-based implementation was faster and the gap in performance widened as games grew.</p><p>We then investigated symmetric AGG-∅s on randomly generated small world graphs with random payoffs. The small world graphs were generated using GAMUT's implementation with parameters K = 1 and p = 0.5. For each game size we generated 10 instances. We first fixed the number of action nodes at 5 and varied the number of players. Results are shown in <ref type="figure" target="#fig_4">Figure 15 (top row)</ref>. While there was large variance in the absolute running times across different instances, the ratios of running times between normal-form-based and AGG-based implementations showed a clear increasing trend as the number of players increased. The normal-form-based implementation ran out of memory for instances with more than 5 players. Meanwhile, we ran the AGG-based implementation on larger instances with a one-day cutoff time. As shown by the boxplot, the AGG-based implementation solved most instances with up to 8 players within 24 hours. We then fixed the number of players at 4 and varied the number of action nodes from </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.7">Visualizing Equilibria on the Action Graph</head><p>Besides facilitating representation and computation, the action graph can also be used to visualize strategy profiles in a natural way. A strategy profile σ (e.g., a Nash equilibrium) can be visualized on the action graph by displaying the expected numbers of players that choose each of the actions. We call such a tuple the expected configuration under σ. This can be easily computed given σ: for each action node α, we sum the probabilities of playing α, i.e. E[c(α)] = i∈N σ i (α) where σ i (α) is 0 when α ∈ A i . When the strategy profile consists of pure strategies, the result is simply the corresponding configuration. The expected configuration often has natural interpretations. For example in Coffee Shop games and other scenarios where actions correspond to location choices, an expected configuration can be seen as a density map describing expected player locations. We illustrate using a 16-player Coffee Shop game on a 4 × 4 grid. We ran the (AGG-based) Govindan-Wilson algorithm, finding a Nash equilibrium in 77 seconds. The expected configuration of this (pure strategy) equilibrium is visualized in <ref type="figure" target="#fig_5">Figure 16</ref>.</p><p>We also examined a Job Market game with 20 players. A normal form representation of this game would have needed to store 9.4 × 10 134 numbers. We ran the AGG-based Govindan-Wilson algorithm, finding a Nash equilibrium in 860 seconds. The expected configuration of this equilibrium is visualized in <ref type="figure" target="#fig_1">Figure 17</ref> (left). Note that the equilibrium expected configuration on some of the nodes are non-integer values, as a result of mixed strategies by some of the players. We also visualize two players' mixed equilibrium strategies in <ref type="figure" target="#fig_1">Figure 17</ref> (right). Finally, we examined an Ice Cream Vendor game (Example 2.5) with 4 locations, 6 ice cream vendors, 6 strawberry vendors, and 4 west-side vendors. The Govindan-Wilson algorithm found an equilibrium in 9 seconds. The expected configuration of this (pure strategy) equilibrium is visualized in <ref type="figure" target="#fig_6">Figure 18</ref>. Observe that the west side is relatively denser due to the west-side vendors. The locations at the east and west ends were chosen relatively more often than the middle locations, because the ends have fewer neighbors and thus experience less competition.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusions</head><p>We proposed action-graph games (AGGs), a fully expressive game representation that can compactly express utility functions with structure such as context-specific independence and anonymity. We also extended the basic AGG representation by introducing function nodes and additive utility functions, allowing us to compactly represent a wider range of structured utility functions. We showed that AGGs can efficiently represent games from many previously studied compact classes including graphical games, symmetric games, anonymous games, and congestion games. We presented a polynomial-time algorithm for computing expected utilities in AGG-∅s and contribution-independent AGG-FNs. For symmetric and k-symmetric AGG-∅s, we gave more efficient, specialized algorithms for computing expected utilities under symmetric and ksymmetric strategy profiles respectively. We also showed how to use these algorithms to achieve exponential speedups of existing methods for computing a sample Nash equilibrium and a sample correlated equilibrium. We showed experimentally that using AGGs allows us to model and analyze dramatically larger games than can be addressed with the normal-form representation.</p><p>We briefly mention a few of our current and future research directions. We are currently exploring applications of AGGs for modeling and analyzing large real-world systems, and have preliminary results for network routing problems <ref type="bibr" target="#b55">[Thompson et al., 2007]</ref> and complete-information advertising auction problems <ref type="bibr" target="#b56">[Thompson &amp; Leyton-Brown, 2009</ref>]. Another interesting problem is the computation of pure-strategy Nash equilibria in AGG-∅s. While the problem is NPcomplete in general <ref type="bibr">(Conitzer, personal communication;</ref> independently proved by <ref type="bibr" target="#b11">Daskalakis et al. [2009]</ref>), in <ref type="bibr" target="#b25">Jiang and Leyton-Brown [2007]</ref> we presented a polynomial time algorithm for the class of symmetric AGG-∅s whose action graphs have bounded in-degree and bounded tree-width. We are currently extending this algorithm to classes of asymmetric AGG-∅s and AGG-FNs. Another line of research is to extend our AGG framework beyond complete-information simultaneous-move games. In <ref type="bibr" target="#b26">Jiang and Leyton-Brown [2010]</ref> we proposed Bayesian actiongraph games (BAGGs) for representing Bayesian games, and in <ref type="bibr" target="#b27">Jiang et al. [2009]</ref> we proposed temporal action-graph games (TAGGs) for representing imperfect-information dynamic games. In both cases, we showed that our representations can compactly represent games with anonymity or context-specific independencies; we also provided efficient algorithms for computing expected utility, which lead to speedups in the computation of Bayes-Nash equilibria and behavior-strategy Nash equilibria, respectively.  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2 :</head><label>2</label><figDesc>AGG-∅ representation of a 3-player, 3-action graphical game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Example 2. 7 (</head><label>7</label><figDesc>Coffee Shop game) Consider a game involving n players; each player plans to open a coffee shop in a downtown area, represented by a r × k grid. Each player can choose to open a shop located within any of the B ≡ rk blocks or decide not to enter the market. Conditioned on player i choosing some location α, her utility depends on the numbers of players who chose (i) the same block; (ii) any of the surrounding blocks; and (iii) any other location.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>A 5 × 6 Coffee Shop game: Left: the AGG-∅ representation without function nodes (looking at only the neighborhood of α). Middle: we introduce two function nodes, p (bottom) and p (top). Right: α now has only 3 neighbors.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 :</head><label>4</label><figDesc>Left: a two-player congestion game with three facilities. The actions are shown as ovals containing their respective facilities. Right: the AGG-FNA representation of the same congestion game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 :</head><label>5</label><figDesc>AGG-∅ representation of the Job Market game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 :</head><label>6</label><figDesc>AGG-FN representation of a game with agent-specific utility functions.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 8 :</head><label>8</label><figDesc>Projection of the action graph. Left: action graph of the Ice Cream Vendor game. Right: projected action graph and action sets with respect to the action C1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head></head><label></label><figDesc>..k denote the projected strategy profile of agents {1, . . . , k}. Denote by C (ai) k the set of configurations induced by actions of agents {1, . . . , k}. Similarly, write c</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head></head><label></label><figDesc>for k = 1 to n do</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Theorem 4. 1</head><label>1</label><figDesc>Given an AGG-∅ representation of a game, i's expected payoff V i ai (σ −i ) can be computed in Θ(n|A| + n|ν(a i )| 2 |C (ai,i) (σ −i )|) time, which is polynomial in the size of the representation. If I, the in-degree of the action graph, is bounded by a constant, V i ai (σ −i ) can be computed in time polynomial in n.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head></head><label></label><figDesc>and in each case do a trie look-up which costs Θ(|ν(a i )|). Since |A(ai) k | ≤ |ν(a i )| + 1, and |C (ai) k−1 | ≤ |C (ai,i) |, the complexity of Algorithm 1 is Θ(n|ν(a i )| 2 |C (ai,i) (σ −i )|). This dominates the complexity of summing up Equation (4.5). Adding the cost of computing σ (α) −i , we get the overall complexity of expected payoff computation</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head></head><label></label><figDesc>mixed strategy profile of players other than i, each playing the symmetric strategy σ (ai) * . Once we have the distribution Pr(c (ai) |σ (ai) *</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>1 .</head><label>1</label><figDesc>Partition the players according to {N1, . . . , N k }. 2. For each l ∈ {1, . . . , k}, compute Pr(c (a i ) |σ (a i ) N l ), the probability distribution induced by σ (a i )</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Theorem 4. 5</head><label>5</label><figDesc>Expected utility can be computed in time polynomial in the size of a contributionindependent AGG-FN. Furthermore, if the in-degrees of the action nodes are bounded by a constant and the sizes of ranges |R(f p )| for all p ∈ P are bounded by a polynomial in n, |A| and |P|, then expected utility can be computed in time polynomial in n, |A| and |P|. Proof Sketch. Following similar complexity analysis as Theorem 4.1, if an AGG-FN is contribution-independent, expected utility V i ai (σ −i ) can be computed in O(n|A||C (ai ) |(T * + |ν(a i )|)) time, where T * denotes the maximum running time of an * operation. Since T * is polynomial in n, |A| and |P| by Definition 4.4, the running time for computing expected utility is polynomial in the size of the AGG-FN representation. The second part of the theorem follows from a direct application of Corollary 2.11.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head></head><label></label><figDesc>be computed in time polynomial in the size of the representation. Furthermore, if the indegrees of the neighbors of α are bounded by a constant, and the sizes of ranges |R(f p )| for all p ∈ P are bounded by a polynomial in n, |A| and |P|, then the expected utility can be computed in time polynomial in n, |A| and |P|.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>|</head><label></label><figDesc>addition nodes. Each addition node corresponds to a configuration c (ai) k ∈ C (ai) k , and calculates P k [c (ai) k ] as in iteration k of Algorithm 1. Also there are |A</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head></head><label></label><figDesc>contribution-independent AGG-FNs, the condition becomes δ(a i ) a j = δ (a i ) a j, i.e., a j and a j have the same projected contribution under a i .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head>Corollary 5. 6</head><label>6</label><figDesc>Given a game represented as an AGG-∅, an -correlated equilibrium can be computed in time polynomial in log 1 and the size of the AGG-∅.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_20"><head>Figure 9 :</head><label>9</label><figDesc>Representation sizes of coffee shop games. Top left: 5×5 grid with 3 to 16 players (log scale). Top right: AGG only, 5 × 5 grid with up to 80 players (log scale). Bottom left: 4-player r × 5 grid, r varying from 3 to 15 (log scale). Bottom right: AGG only, up to 80 rows.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_21"><head>Figure 10 :Figure 11 :</head><label>1011</label><figDesc>Running times for payoff computation in the Coffee Shop game. Top left: 5 × 5 grid with 3 to 16 players. Top right: AGG only, 5 × 5 grid with up to 80 players. Bottom left: 4-player r × 5 grid, r varying from 3 to 15. Bottom right: AGG only, up to 80 rows. Job Market games, varying numbers of players. Left: comparing representation sizes. Right: running times for computing 1000 expected utilities.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_22"><head>Figure 12 :</head><label>12</label><figDesc>Govindan-Wilson algorithm; Coffee Shop game. Top row: 4 × 4 grid, varying number of players. Bottom row: 4-player r × 4 grid, r varying from 3 to 12. For each row, the left figure shows ratio of running times; the right figure shows logscale plot of CPU times for the AGGbased implementation. The dashed horizontal line indicates the one day cutoff time.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_23"><head>Figure 13 :Figure 14 :</head><label>1314</label><figDesc>Govindan-Wilson algorithm; Job Market games, varying numbers of players. Left: ratios of running times. Right: logscale plot of CPU times for the AGG-based implementation. Ratios of running times of simplicial subdivision algorithms on Coffee Shop games. Left: 4 × 4 grid with 3 to 4 players. Right: 3-player r × 3 grid, r varying from 4 to 7.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_24"><head>Figure 15 :</head><label>15</label><figDesc>Simplicial subdivision algorithm; symmetric AGG-∅s on small world graphs. Top row: 5 actions, varying number of players. Bottom row: 4 players, varying number of actions. The left figures show ratios of running times; the right figures show logscale plots of CPU times for the AGG-based implementation. The dashed horizontal line indicates the one day cutoff time.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_25"><head>Figure 16 :</head><label>16</label><figDesc>Visualization of a Nash equilibrium of a 16-player Coffee Shop game on a 4 × 4 grid. The function nodes and the edges of the action graph are not shown. The action node at the bottom corresponds to not entering the market.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_26"><head>Figure 17 :</head><label>17</label><figDesc>Visualization of a Nash equilibrium of a Job Market game with 20 players. Left: expected configuration of the equilibrium. Right: two mixed equilibrium strategies.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_27"><head>Figure 18 :</head><label>18</label><figDesc>Visualization of a Nash equilibrium of an Ice Cream Vendor game.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>Figure 1: AGG-∅ representation of the Ice Cream Vendor game. Example 2.5 (Ice Cream Vendor game) Consider a setting in which n vendors sell ice cream or strawberries, and must choose one of four locations along a beach. There are three kinds of vendors: n I ice cream vendors, n S strawberry vendors, and n W vendors who can sell both ice cream and strawberry, but only on the west side. Ice cream (strawberry) vendors are negatively affected by the presence of other ice cream (strawberry) vendors in the same or neighboring locations, and are simultaneously positively affected by the presence of nearby strawberry (ice cream) vendors.</figDesc><table>S3 
+
+I4 
+
+S4 
+S2 
+
+I3 
+I2 
+I1 
+
+A I 
+
+A S 
+
+A W 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>an action graph modeling one such job market scenario, in which there are three fields, Economics, Computer Science and Electrical Engineering . For each field there are four levels of postsecondary study: Diploma, Bachelor, Master and PhD. Economics and Computer Science are considered related fields, and so are Computer Science and Electrical Engineering. There is another action representing high school education, which does not require a</figDesc><table>A2 
+A1 
+A3 
+
+B2 
+B1 
+B3 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">Note that our definition of anonymity presumes that it makes sense to speak about two different agents having at least some of the same action choices. There are various ways of achieving this formally; for now, one can simply assume that anonymous games are also symmetric.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4">Different agents' action sets A i , A j may (partially or completely) overlap. The implications of this will become clear once we define the utility functions.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5">If action α is in multiple players' action sets (say players i, j), and these action sets do not completely overlap, then it is possible that the set of configurations given that i played α (denoted C (s,i) ) is different from the set of configurations given that j played α. C (α) is the union of these sets of configurations.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6">This is the most compact way of representing the utility functions, but does not provide easy random access to the utilities. Therefore, when we want to do computation using AGGs, we may convert each utility function u α to a data structure that efficiently implements a mapping from sequences of integers to (floating-point) numbers, (e.g. tries, hash tables or Red-Black trees), with space complexity O(I|C (α) |).</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7">Such a utility function could also be represented using standard function nodes representing summation. However,</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8">Interestingly,<ref type="bibr" target="#b0">Ben-Sasson et al. [2006]</ref> showed that this game belongs to the set of potential games, which implies that there exists an equivalent congestion game. However, building such a congestion game from the potential function following<ref type="bibr" target="#b41">Monderer and Shapley's [1996]</ref> construction yields an exponential number of facilities, meaning that this congestion game representation is exponentially larger than the AGG-FNA representation presented here.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10">Observe that the second condition in Theorem 5.3 implies that the expected utility algorithm must take polynomial time; however, some polynomial algorithms (e.g., those that rely on division) do not satisfy this condition.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4">to 16. Results are shown inFigure 15(bottom row). Again, while the actual running times on different instances varied substantially, the ratios of running times showed a clear increasing trend as the number of actions increased. The AGG-based implementation was able to solve a 16action instance in an average of about 3 minutes, while the normal-form-based implementation averaged about 2 hours.</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Ben-Sasson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Kalai</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Kalai</surname></persName>
+		</author>
+		<title level="m">An approach to bounded rationality. NIPS: Proceedings of the Neural Information Processing Systems Conference</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="145" to="152" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Computing Nash equilibria of action-graph games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Bhat</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI: Proceedings of the Conference on Uncertainty in Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="35" to="42" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Blum</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Shelton</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Koller</surname></persName>
+		</author>
+		<ptr target="http://dags.stanford.edu/Games/gametracer.html" />
+		<title level="m">Gametracer</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A continuation method for Nash equilibria in structured games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Blum</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Shelton</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Koller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">JAIR: Journal of Artificial Intelligence Research</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="457" to="502" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Equilibria of graphical games with symmetries. Theoretical Computer Science. Accepted subject to minor revisions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Brandt</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Fischer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Holzer</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Settling the complexity of 2-player Nash-equilibrium</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Deng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">FOCS: Proceedings of the Annual IEEE Symposium on Foundations of Computer Science</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="261" to="272" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">New complexity results about nash equilibria</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Conitzer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Sandholm</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Second World Congress of the Game Theory Society</title>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="621" to="641" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">The game world is flat: The complexity of Nash equilibria in succinct games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Daskalakis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Fabrikant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Papadimitriou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the International Colloquium on Automata, Languages and Programming</title>
+		<meeting>the International Colloquium on Automata, Languages and Programming</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="513" to="524" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The complexity of computing a Nash equilibrium</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Daskalakis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">W</forename><surname>Goldberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">H</forename><surname>Papadimitriou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">STOC: Proceedings of the Annual ACM Symposium on Theory of Computing</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="71" to="78" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Computing pure Nash equilibria via Markov random fields</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Daskalakis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Papadimitriou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="91" to="99" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Computing equilibria in anonymous games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Daskalakis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Papadimitriou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">FOCS: Proceedings of the Annual IEEE Symposium on Foundations of Computer Science</title>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="83" to="93" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">On the complexity of Nash equilibria of Action-Graph Games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Daskalakis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Schoenebeck</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Valiant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Valiant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SODA: Proceedings of the ACM-SIAM Symposium on Discrete Algorithms</title>
+		<imprint>
+			<date type="published" when="2009" />
+			<biblScope unit="page" from="710" to="719" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Nash equilibria in graphical games on trees revisited</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Elkind</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Goldberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Goldberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting>the ACM Conference on Electronic Commerce</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="100" to="109" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Computing good Nash equilibria in graphical games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Elkind</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Goldberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Goldberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting>the ACM Conference on Electronic Commerce</meeting>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="162" to="171" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">On the Complexity of Nash Equilibria and Other Fixed Points (Extended Abstract)</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Etessami</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Yannakakis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">FOCS: Proceedings of the Annual IEEE Symposium on Foundations of Computer Science</title>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="113" to="123" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Trie memory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Fredkin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Communications of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="490" to="499" />
+			<date type="published" when="1962" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">W</forename><surname>Goldberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">H</forename><surname>Papadimitriou</surname></persName>
+		</author>
+		<title level="m">Reducibility among equilibrium problems. STOC: Proceedings of the Annual ACM Symposium on Theory of Computing</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="61" to="70" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Pure Nash equilibria: Hard and easy games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Gottlob</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Greco</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Scarcello</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Artificial Intelligence Research</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="357" to="406" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A global Newton method to compute Nash equilibria</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Govindan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Wilson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Theory</title>
+		<imprint>
+			<biblScope unit="volume">110</biblScope>
+			<biblScope unit="page" from="65" to="86" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Computing Nash equilibria by iterated polymatrix approximation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Govindan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Wilson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Dynamics and Control</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="1229" to="1241" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Causal independence for probability assessment and inference using Bayesian networks</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Heckerman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">S</forename><surname>Breese</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Systems, Man and Cybernetics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="826" to="831" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Stability in competition</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Hotelling</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economic Journal</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="41" to="57" />
+			<date type="published" when="1929" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Fast and compact: A simple class of congestion games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Ieong</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Mcgrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI: Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="489" to="494" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Computational problems in multiagent systems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+		<respStmt>
+			<orgName>University of British Columbia</orgName>
+		</respStmt>
+	</monogr>
+	<note>Master&apos;s thesis</note>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A polynomial-time algorithm for Action-Graph Games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI: Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="679" to="684" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Computing pure Nash equilibria in symmetric Action-Graph Games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI: Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="79" to="85" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Bayesian action-graph games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NIPS: Proceedings of the Neural Information Processing Systems Conference</title>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+	<note>in press</note>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Pfeffer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<title level="m">Temporal Action-Graph Games: A new representation for dynamic games. UAI: Proceedings of the Conference on Uncertainty in Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Large robust games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Kalai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1631" to="1665" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Partially-specified large games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Kalai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Workshop on Internet and Network Economics</title>
+		<meeting>the Workshop on Internet and Network Economics</meeting>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="3" to="13" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Graphical games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kearns</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Algorithmic game theory</title>
+		<editor>N. Nisan, T. Roughgarden, E. Tardos and V. Vazirani</editor>
+		<meeting><address><addrLine>Cambridge, UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="159" to="180" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Graphical models for game theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kearns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Littman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Singh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI: Proceedings of the Conference on Uncertainty in Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="253" to="260" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Networks Preserving Evolutionary Stability and the Power of Randomization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kearns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Suri</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting>the ACM Conference on Electronic Commerce</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="200" to="207" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A Gray code for compositions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Klingsberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Algorithms</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="41" to="44" />
+			<date type="published" when="1982" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Multi-agent influence diagrams for representing and solving games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Koller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Milch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="181" to="221" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b35">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Lamura</surname></persName>
+		</author>
+		<title level="m">Game networks. UAI: Proceedings of the Conference on Uncertainty in Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="335" to="342" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Local-effect games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Tennenholtz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the International Joint Conference on Artificial Intelligence</title>
+		<meeting>the International Joint Conference on Artificial Intelligence</meeting>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="772" to="780" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Equilibrium points in bimatrix games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Mangasarian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Society for Industrial and Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="778" to="780" />
+			<date type="published" when="1964" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b38">
+	<monogr>
+		<title level="m" type="main">Gambit: Software tools for game theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">D</forename><surname>Mckelvey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">M</forename><surname>Mclennan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">L</forename><surname>Turocy</surname></persName>
+		</author>
+		<ptr target="http://econweb.tamu.edu/gambit" />
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Congestion games with player-specific payoff functions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Milchtaich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="111" to="124" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b40">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Monderer</surname></persName>
+		</author>
+		<title level="m">Multipotential games. IJCAI: Proceedings of the International Joint Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="1422" to="1427" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Potential games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Monderer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Shapley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="124" to="143" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Non-cooperative games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">F</forename><surname>Nash</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="286" to="295" />
+			<date type="published" when="1951" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Run the GAMUT: A comprehensive approach to evaluating game-theoretic algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Wortman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAMAS: Proceedings of the International Joint Conference on Autonomous Agents and Multiagent Systems</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="880" to="887" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Computing correlated equilibria in multiplayer games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Papadimitriou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">STOC: Proceedings of the Annual ACM Symposium on Theory of Computing</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="49" to="56" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Computing correlated equilibria in multi-player games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Papadimitriou</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Roughgarden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">14</biblScope>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Simple search methods for finding a nash equilibrium</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Porter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="642" to="662" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b47">
+	<analytic>
+		<title level="a" type="main">A class of games possessing pure-strategy Nash equilibria</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Rosenthal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Game Theory</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="65" to="67" />
+			<date type="published" when="1973" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b48">
+	<analytic>
+		<title level="a" type="main">How bad is selfish routing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Roughgarden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">É</forename><surname>Tardos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="236" to="259" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b49">
+	<monogr>
+		<title level="m" type="main">Artificial intelligence: A modern approach</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Russell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Norvig</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+			<publisher>Prentice Hall</publisher>
+			<pubPlace>Englewood Cliffs, NJ</pubPlace>
+		</imprint>
+	</monogr>
+	<note>2nd edition</note>
+</biblStruct>
+
+<biblStruct xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Computing pure strategy Nash equilibria in compact symmetric games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">T</forename><surname>Ryan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the ACM Conference on Electronic Commerce</title>
+		<meeting>the ACM Conference on Electronic Commerce</meeting>
+		<imprint>
+			<date type="published" when="2010" />
+			<biblScope unit="page" from="63" to="72" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Mixed-integer programming methods for finding Nash equilibria</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Sandholm</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Gilpin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Conitzer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI: Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="495" to="501" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b52">
+	<analytic>
+		<title level="a" type="main">The approximation of fixed points of a continuous mapping</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Scarf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal of Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="1328" to="1343" />
+			<date type="published" when="1967" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b53">
+	<monogr>
+		<title level="m" type="main">Multiagent systems: Algorithmic, game-theoretic, and logical foundations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009" />
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Exchangeable equilibria contradict exactness of the papadimitriou-roughgarden algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">D</forename><surname>Stein</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">A</forename><surname>Parrilo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Ozdaglar</surname></persName>
+		</author>
+		<idno>2852</idno>
+		<ptr target="http://arxiv.org/abs/1010.2871v1" />
+	</analytic>
+	<monogr>
+		<title level="m">MIT LIDS</title>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Game-theoretic analysis of network qualityof-service pricing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">R</forename><surname>Thompson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NET Conference</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Computational analysis of perfect-information position auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">R</forename><surname>Thompson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EC: Proceedings of the ACM Conference on Electronic Commerce</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b57">
+	<analytic>
+		<title level="a" type="main">A dynamic homotopy interpretation of the logistic quantal response equilibrium correspondence</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Turocy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Games and Economic Behavior</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="243" to="263" />
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Simplicial variable dimension algorithms for solving the nonlinear complementarity problem on a product of unit simplices using a general labelling</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Van Der Laan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Talman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Van Der Heyden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematics of Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="377" to="397" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Multi-agent algorithms for solving graphical games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Vickrey</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Koller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI: Proceedings of the AAAI Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="345" to="351" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Equilibrium points in polymatrix games (in Russian)</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Yanovskaya</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Litovskii Matematicheskii Sbornik</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="381" to="384" />
+			<date type="published" when="1968" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Exploiting causal independence in Bayesian network inference</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Poole</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">JAIR: Journal of Artificial Intelligence Research</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="301" to="328" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,779 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Improved Modeling of Cross-Decoder Phone Co-occurrences
+in SVM-based Phonotactic Language Recognition
+.=</p>
+<p>Mikel Penagarikano, Amparo Varona, Luis J. Rodŕıguez-Fuentes,
+Germán Bordel
+.=</p>
+<p>Software Technologies Working Group (http://gtts.ehu.es)
+.=</p>
+<p>Department of Electricity and Electronics, University of the Basque Country
+.=</p>
+<p>Barrio Sarriena s/n, 48940 Leioa, Spain
+.=</p>
+<p>email: mikel.penagarikano@ehu.es
+.=</p>
+<p>Odyssey 2010, Brno, Czech Republic
+July 1, 2010
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Baseline SVM-based Phonotactic System
+.=</p>
+<p>3 Cross-Decoder Phone Co-occurrences based System
+.=</p>
+<p>4 Experimental Setup
+.=</p>
+<p>5 Results
+.=</p>
+<p>6 Summary
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Motivation
+.=</p>
+<p>Most common approaches to phonotactic language recognition deal
+with several independent phone decodings.
+.=</p>
+<p>These decodings are processed and scored in a fully uncoupled way and
+no cross-decoder dependencies are exploited for language modeling,
+information being fused only at the score level.
+.=</p>
+<p>Certain sounds from languages not covered by (not matching) the
+decoders may be better represented by cross-decoder outputs.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Some years later, cross-stream dependencies were also used via
+multi-string alignments in a language recognition application
+.=</p>
+<p>Christopher White, Izhak Shafran, and Jean-Luc Gauvain, ”Discriminative
+.=</p>
+<p>classifiers for language recognition”, in Proceedings of ICASSP, 2006, pp.
+.=</p>
+<p>213-216.
+.=</p>
+<p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Background
+.=</p>
+<p>Cross-stream (cross-decoder) information previously applied for
+speaker recognition in the Johns Hopkins University (JHU) 2002
+Workshop, where two decoupled time and cross-stream systems were
+integrated at the score level.
+.=</p>
+<p>Q. Jin, J. Navratil, D.A. Reynolds, J.P. Campbell, W.D. Andrews, and J.S.
+.=</p>
+<p>Abramson, ”Combining cross-stream and time dimensions in phonetic
+.=</p>
+<p>speaker recognition”, in Proceedings of ICASSP, 2003, pp. 800-803.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Background
+.=</p>
+<p>Cross-stream (cross-decoder) information previously applied for
+speaker recognition in the Johns Hopkins University (JHU) 2002
+Workshop, where two decoupled time and cross-stream systems were
+integrated at the score level.
+.=</p>
+<p>Q. Jin, J. Navratil, D.A. Reynolds, J.P. Campbell, W.D. Andrews, and J.S.
+.=</p>
+<p>Abramson, ”Combining cross-stream and time dimensions in phonetic
+.=</p>
+<p>speaker recognition”, in Proceedings of ICASSP, 2003, pp. 800-803.
+.=</p>
+<p>Some years later, cross-stream dependencies were also used via
+multi-string alignments in a language recognition application
+.=</p>
+<p>Christopher White, Izhak Shafran, and Jean-Luc Gauvain, ”Discriminative
+.=</p>
+<p>classifiers for language recognition”, in Proceedings of ICASSP, 2006, pp.
+.=</p>
+<p>213-216.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Architecture
+.=</p>
+<p>Common approach to phonotactic language recognition:
+.=</p>
+<p>N Phone L SVM-based Gaussian Linear
++ + +
+.=</p>
+<p>Decoders Language Models Backend Fusion
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Introduction
+.=</p>
+<p>Exploit cross-decoder dependencies using time-synchronous (frame
+level) phone co-occurrences.
+.=</p>
+<p>In a two decoder scenario:
+.=</p>
+<p>In a D-decoder scenario:
+.=</p>
+<p>Build a single D-phone co-occurrence system
+.=</p>
+<p>Build D!/k!(D − k)! k-phone co-occurrence systems
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Approach 1: n-grams of phone co-occurrences
+.=</p>
+<p>First introduced in Penagarikano et al., ICASSP 2010.
+.=</p>
+<p>Get a frame-synchronous sequence of multi-phone (k-phone
+co-occurrence)
+.=</p>
+<p>Two type of sequence segments can be identified
+.=</p>
+<p>Stationary segments: relatively long portions of speech for which
+decoders keep the same labels
+.=</p>
+<p>Transitional segments: mainly appearing at phone borders
+(cross-decoder desynchronization)
+.=</p>
+<p>Transitional segments are removed and stationary segments are
+collapsed.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Approach 1: n-grams of phone co-occurrences
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Approach 1: n-grams of phone co-occurrences
+.=</p>
+<p>Standard phonotactic approach is performed on the resulting k-phone
+sequence.
+.=</p>
+<p>... not so standard
+.=</p>
+<p>Number of different k-phones (1-grams): 2500 (k = 2), 124000 (k = 3)
+.=</p>
+<p>The number of n-grams increases exponentially.
+.=</p>
+<p>A full bag of n-grams strategy is infeasible.
+.=</p>
+<p>Only the most frequent n-gram counts are included in the supervector.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Approach 2: co-occurrences of phone n-grams
+.=</p>
+<p>In the previous approach, cross-decoder desynchronization affects the
+time modeling (n-grams)
+.=</p>
+<p>Exploit cross-decoder dependencies using time-synchronous (frame
+level) phone n-gram co-occurrences.
+.=</p>
+<p>Directly compute the n-gram co-occurrence counts from the decodings.
+.=</p>
+<p>Each phone n-gram is counted once for each decoder, so its count is
+distributed among all the frames it spans.
+.=</p>
+<p>The contribution corresponding to a given phone n-gram at a given
+frame is distributed among all the co-occurrences.
+.=</p>
+<p>The sum of the counts of phone n-grams co-occurrences is equal to the
+average number of n-grams.
+.=</p>
+<p>Only the most frequent co-occurrence counts are included in the
+supervector.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Approach 2: co-occurrences of phone n-grams
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Training, development and test corpora
+.=</p>
+<p>Limited to those distributed by NIST to all LRE2007 participants
+.=</p>
+<p>Call-Friend Corpus
+.=</p>
+<p>OHSU Corpus provided by NIST for LRE05
+.=</p>
+<p>development corpus provided by NIST for LRE07
+.=</p>
+<p>10 conversations per language randomly selected for development
+purposes.
+.=</p>
+<p>Each development conversation was further split in segments
+containing 30 seconds of speech.
+.=</p>
+<p>Evaluation was carried out on the LRE07 evaluation corpus,
+specifically on the 30-second, closed-set condition.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We prefer Cllr (more precisely, Cmxe)
+.=</p>
+<p>It is used as an alternative performance measure in NIST evaluations.
+.=</p>
+<p>It evaluates the application independent system performance by means
+of a single numerical value (and appealing units: bits).
+.=</p>
+<p>∆ = log2 N − Cmxe gives the effective amount of information that the
+recognizer delivers to the user, given no prior information.
+.=</p>
+<p>The lower Cmxe is, the more informative our system is.
+.=</p>
+<p>However, we keept DET plots, EER and detection cost.
+.=</p>
+<p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Evaluation measures
+.=</p>
+<p>Most usual performance measures used in language recognition
+systems.
+.=</p>
+<p>DET plots & EER: not providing calibration information.
+.=</p>
+<p>Cavg & Cmin: application dependent costs.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>However, we keept DET plots, EER and detection cost.
+.=</p>
+<p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Evaluation measures
+.=</p>
+<p>Most usual performance measures used in language recognition
+systems.
+.=</p>
+<p>DET plots & EER: not providing calibration information.
+.=</p>
+<p>Cavg & Cmin: application dependent costs.
+.=</p>
+<p>We prefer Cllr (more precisely, Cmxe)
+.=</p>
+<p>It is used as an alternative performance measure in NIST evaluations.
+.=</p>
+<p>It evaluates the application independent system performance by means
+of a single numerical value (and appealing units: bits).
+.=</p>
+<p>∆ = log2 N − Cmxe gives the effective amount of information that the
+recognizer delivers to the user, given no prior information.
+.=</p>
+<p>The lower Cmxe is, the more informative our system is.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Evaluation measures
+.=</p>
+<p>Most usual performance measures used in language recognition
+systems.
+.=</p>
+<p>DET plots & EER: not providing calibration information.
+.=</p>
+<p>Cavg & Cmin: application dependent costs.
+.=</p>
+<p>We prefer Cllr (more precisely, Cmxe)
+.=</p>
+<p>It is used as an alternative performance measure in NIST evaluations.
+.=</p>
+<p>It evaluates the application independent system performance by means
+of a single numerical value (and appealing units: bits).
+.=</p>
+<p>∆ = log2 N − Cmxe gives the effective amount of information that the
+recognizer delivers to the user, given no prior information.
+.=</p>
+<p>The lower Cmxe is, the more informative our system is.
+.=</p>
+<p>However, we keept DET plots, EER and detection cost.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Software Components
+.=</p>
+<p>Freely available software was used in all the stages
+.=</p>
+<p>Phone Decoders: The TRAPS/NN phone decoders developed by the
+Brno University of Technology (BUT) for Czech (CZ), Hungarian (HU)
+and Russian (RU).
+.=</p>
+<p>SVM modeling: LIBLINEAR (a fast linear-only version of libSVM).
+Modified by adding some lines of code to get the regression values
+(instead of class labels).
+.=</p>
+<p>Gaussian Backend & Fusion: FoCal Multi-class toolkit by Niko
+Brummer.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>LIBLINEAR
+.=</p>
+<p>Phone sequences are modelled by means of Support Vector Machines
+.=</p>
+<p>SVM vectors consist of counts of phone n-grams (up to trigrams),
+converted to frequencies a(nd weighted with reg)ard to their background
+probabilities as wi = min C, √ 1 , with C = 300
+.=</p>
+<p>p(di|background)
+.=</p>
+<p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Configuration
+.=</p>
+<p>BUT TRAPS/NN CZ, HU & RU phone decoders
+.=</p>
+<p>Before doing phone tokenization, an energy-based voice activity
+detector is applied to split and remove non-speech segments.
+.=</p>
+<p>Non phonetic units (int, pau and spk) are mapped to silence (sil).
+.=</p>
+<p>Number of resulting phonemes: 43 (CZ), 59 (HU) and 49 (RU).
+.=</p>
+<p>1-best decoding.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Configuration
+.=</p>
+<p>BUT TRAPS/NN CZ, HU & RU phone decoders
+.=</p>
+<p>Before doing phone tokenization, an energy-based voice activity
+detector is applied to split and remove non-speech segments.
+.=</p>
+<p>Non phonetic units (int, pau and spk) are mapped to silence (sil).
+.=</p>
+<p>Number of resulting phonemes: 43 (CZ), 59 (HU) and 49 (RU).
+.=</p>
+<p>1-best decoding.
+.=</p>
+<p>LIBLINEAR
+.=</p>
+<p>Phone sequences are modelled by means of Support Vector Machines
+.=</p>
+<p>SVM vectors consist of counts of phone n-grams (up to trigrams),
+converted to frequencies a(nd weighted with reg)ard to their background
+probabilities as wi = min C, √ 1 , with C = 300
+.=</p>
+<p>p(di|background)
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Single Systems Performance
+.=</p>
+<p>EER CLLR
+CZ 5,67% 0,8259
+HU 5,10% 0,7434
+.=</p>
+<p>Baseline
+RU 5,64% 0,8016
+Fusion 2,69% 0,3981
+.=</p>
+<p>CZ-HU 4,07% 0,5661
+CZ-RU 4,53% 0,6526
+.=</p>
+<p>Approach 1 (k=2)
+HU-RU 3,79% 0,5109
+Fusion 2,27% 0,3393
+.=</p>
+<p>Approach 1 (k=3) CZ-HU-RU 4,34% 0,6500
+.=</p>
+<p>CZ-HU 3,32% 0,4506
+CZ-RU 3,58% 0,5276
+.=</p>
+<p>Approach 2 (k=2)
+HU-RU 2,75% 0,4140
+Fusion 2,24% 0,3223
+.=</p>
+<p>Approach 2 (k=3) CZ-HU-RU 3,90% 0,5724
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Fused Systems Performance
+.=</p>
+<p>Fused Systems EER CLLR
+.=</p>
+<p>Baseline 2,69% 0,3981
+.=</p>
+<p>A1 (k=2) 2,27% 0,3393
+.=</p>
+<p>A2 (k=2) 2,24% 0,3223
+.=</p>
+<p>A1 (k=3) 4,34% 0,6500
+.=</p>
+<p>A2 (k=3) 3,90% 0,5724
+.=</p>
+<p>A1 (k=2) + A1 (k=3) 2,21% 0,3388
+.=</p>
+<p>A2 (k=2) + A2 (k=3) 2,28% 0,3280
+.=</p>
+<p>Baseline + A1 (k=2) 1,92% 0,3054
+.=</p>
+<p>Baseline + A2 (k=2) 1,88% 0,3064
+.=</p>
+<p>Baseline + A1 (k=3) 2,38% 0,3472
+.=</p>
+<p>Baseline + A2 (k=3) 2,15% 0,3582
+.=</p>
+<p>Baseline + A1 (k=2) + A1 (k=3) 2,02% 0,3056
+.=</p>
+<p>Baseline + A2 (k=2) + A2 (k=3) 1,90% 0,3158
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>DET plots
+.=</p>
+<p>LRE2007 eval (30s, closed) LRE2007 eval (30s, closed)
+.=</p>
+<p>Approach 1 (k=3) Approach 2 (k=3)
+40 Baseline 40 Baseline
+.=</p>
+<p>Approach 1 (k=2) Approach 2 (k=2)
+Baseline + Approach 1 (k=2) Baseline + Approach 2 (k=2)
+.=</p>
+<p>20 20 
+.=</p>
+<p>10 10 
+.=</p>
+<p> 5  5 
+.=</p>
+<p> 2  2 
+.=</p>
+<p> 1  1 
+.=</p>
+<p>0.5 0.5
+.=</p>
+<p>0.2 0.2
+.=</p>
+<p>0.1 0.1
+.=</p>
+<p>0.1 0.2 0.5  1  2  5 10 20 40 0.1 0.2 0.5  1  2  5 10 20 40 
+.=</p>
+<p>False Alarm probability (in %) False Alarm probability (in %)
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences
+.=</p>
+<p>Miss probability (in %)
+.=</p>
+<p>Miss probability (in %).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Cavg relative improvement per target language
+.=</p>
+<p>Avg Cost relative improvement
+100,00%
+.=</p>
+<p>Approach 1
+80,00% Approach 2
+60,00%
+.=</p>
+<p>40,00%
+.=</p>
+<p>20,00%
+.=</p>
+<p>0,00%
+.=</p>
+<p>-20,00%
+.=</p>
+<p>-40,00%
+ARA BEN CHI ENG FAR GER HIN JAP KOR RUS SPA TAM THA VIE
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Summary
+.=</p>
+<p>Two approaches to the modeling of cross-decoder phone co-occurrences
+in SVM-based Phonotactic Language Recognition have been proposed
+and evaluated.
+.=</p>
+<p>Both approaches outperformed the baseline system when using
+combinations of k = 2 decoders.
+.=</p>
+<p>Co-occurrence information is more effectively extracted in 2-decoder
+configurations and recovered by means of fusion.
+.=</p>
+<p>Under 3-decoder configuration, both approaches showed a poor
+performance compared to the baseline system. This may reveal
+robustness issues related to: the higher amount of transitional
+segments and the huge number of phone co-occurrence combinations.
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Baseline SVM-based Phonotactic System
+.=</p>
+<p>Cross-Decoder Phone Co-occurrences based System
+Experimental Setup
+.=</p>
+<p>Results
+Summary
+.=</p>
+<p>Thank you!
+.=</p>
+<p>Mikel Penagarikano et al. Modeling of Cross-Decoder Phone Co-occurrences.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

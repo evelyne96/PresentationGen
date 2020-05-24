@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Automatic text summarization</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sütő</forename><surname>Evelyne</surname></persName>
+						</author>
+						<title level="a" type="main">Automatic text summarization</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The aim of this paper is to provide an overview of the different methods of summarization developed since it first appeared. Our main goal is to present these methods as an introduction to this vast topic, as a result we will try to cover the systems that have been used as a base for other more complicated models, approaches.</p><p>We will walk through the most important statistical approaches, then we will introduce the problem of text connectivity when generating coherent summaries and some possible solutions to avoid this problem, such as, lexical chains, Rhetorical structure theory, G-Flow. Afterwards we will see how summarization problems problem can be represented as a Graph to use graph based rankings for sentence extraction.As a possible abstract generation system we will explore the Encoder-Decoder model and how this should be altered for the summary generation problems.</p><p>In our final chapter we will see what evaluation metrics are mainly used to compare different summarization systems.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>The task of automatic document summarization has been an active research topic since the 1950's. The first research has been conducted in 1958 <ref type="bibr" target="#b8">[Luhn, 1958]</ref>, which had as its main purpose the generation of technical literature abstracts with the purpose of saving the time of the reader by providing them a short summary of the paper to decide if its useful for them.</p><p>However, since the appearance of the world wide web our society has been generating data in an alarmingly fast pace and it becomes challenging to search or process them. As a result, summarization systems which are designed to take a single document or a cluster of documents as input, and produce a concise and fluent summary conveying the most important information are used to provide timely access and processing for the exponentially growing data every day. <ref type="bibr" target="#b15">[Yao et al., 2017]</ref> The problem of document summarization is a very complex one and its an active research field today as well in machine learning and natural language processing. The approaches are changing as well, in the beginning the main goal was extract generation, but nowadays we are starting to look for solutions for abstract generation.</p><p>Extractive summarization produces summaries by concatenating several sentences taken exactly as they appear in the original documents being summarized. By contrast, abstractive summarization uses different words to describe the contents of the original documents rather than directly copying original sentences. <ref type="bibr" target="#b15">[Yao et al., 2017]</ref> The purpose of this paper is to present the theoretical background of text summarization, its recent advances and experimental results. Furthermore, since the evaluation of this problem is a challenging task in itself we would like to introduce the most used evaluation methods as well.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Extractive summarization</head><p>Let us first consider the extractive summary generation techniques and its advances. In extractive summarization we are mainly focused on calculating the importance of each sentence in our document, while still considering the grammatical correctness of the overall summary while choosing the most important sentences to represent the overall meaning of the text. As opposed to abstractive summary, where we need to comprehend the text that we are summarizing.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Word frequency and statistical methods</head><p>The first measurement in selecting which sentences should be present in the document extract was the word frequency and the relative position of words in a sentence. Of course, the researchers excluded the so called stop-words, which have little significance in the semantics of a sentence but appear very frequently such as "the, as" etc. Another assumption used in this approach was that the closer some words are associated the most probable that they will appear near to each other in a sentence, conveying important information of the subject. From these considerations a significance factor can be derived which reflects the number of occurrences of significant words within a sentence and the linear distance between them due to the intervention of non-significant words. <ref type="bibr" target="#b8">[Luhn, 1958]</ref> This intuitive idea was expanded, improved in later years. For example in <ref type="bibr" target="#b3">[Edmundson, 1969]</ref> they use four methods for sentence selection Cue, Key, Title and Location. The Cue method uses a cue word dictionary, where a cue word is considered to introduce important information in texts such as "significant", "important", "result" etc. This dictionary is defined by calculating word frequency, dispersion and selection ratio (ratio of number of occurrences in extractor-selected sentences to number of occurrences in all sentences of the corpus). Key words are used to consist of topic based words for the specific documents. The Title method is based on the assumption that significant words that are present in the title must be descriptive of the document's subject. The Location method relies on certain characteristics of document structures such as, topic sentences appear very early on in sections. This method can be described with a linear equations using the formula:</p><formula xml:id="formula_0">w 1 * C + w 2 * K + w 3 * T + w 4 * L</formula><p>Where the weights can be learned to maximise the performance of the method.</p><p>As a more sophisticated measurement we may use tf*idf weights as well, which uses a corpus from containing documents from the same genre as the document to be summarized in order to see the expected occurence probability of a word in the document. The tf*idf weights of words are good indicators of importance, and they are easy and fast to compute. <ref type="bibr" target="#b13">[Nenkova and McKeown, 2012]</ref> tf * idf = c(t) * log D d(t) where c(t) is the term frequency in the corpus, D is the number of documents and d(t) is number of document t occurred in.</p><p>Naturally when thinking of frequent words as a way of classifying important sentences we think of topic specific words. Topic signature is defined as a family of related terms, T S = topic, &lt; (t 1 , w 1 ), ..., (t n , w n ) &gt; where topic is the target concept and signature is a vector of related terms. Each t i is an term highly correlated to topic with association weight w i . The number of related terms n can be set empirically according to a cutoff associated weight. <ref type="bibr" target="#b6">[Lin and Hovy, 2000]</ref> These topic specific terms then can be used in the process of summarization to group related topic specific sentences together. The method for topic signature extraction in <ref type="bibr" target="#b6">[Lin and Hovy, 2000]</ref> assumes that semantically related terms cooccur. They use pre-classified texts with a set of relevant and a set of non-relevant texts, and assume that if the probability of a term occurring in the relevant or non relevant set is equal then the term is not descriptive H 1 : P (t|R) = P (t|B) = p , but if the probability of a term occurring in the relevant set is higher than the probability of occurrence in the non-relevant set it indicates strong relevance of the term.</p><formula xml:id="formula_1">H 2 : P (t|R) = p 1 P (t|B) = p 2 , p 1 &gt; p 2 Assuming binomial distribution, b(k, n, p) = n k p k (1 − p) ( n − k) we can calculate the −2logλ (where λ is the likelihood ratio, λ = b(k,n,p) b(k R ,n R ,pr)b(k B ,n B ,p B )</formula><p>) value for each term, determine a cutoff association weight and the number of terms to be extracted. As a result we can rank sentences by relevance to the signature topic of a document, rather than simple frequencies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Text connectivity</head><p>While the methods mentioned in 2.1 are good for extracting relevant sentences they can fail to convey text that is coherent. By simply choosing sentences with high "relevance" score we might generate parts of the document with anaphoric expressions (expressions, words which refer back to previously mentioned elements of the text), which out of context don't make sense semantically.</p><p>A lexical chain is a sequence of related words in writing, spanning short (adjacent words or sentences) or long distances (entire text). A chain is independent of the grammatical structure of the text and in effect it is a list of words that captures a portion of the cohesive structure of the text. Lexical chains as means of summary generation was introduced in <ref type="bibr" target="#b0">[Barzilay and Elhadad, 1999]</ref>. Lexical chain calculation algorithms rely on databases, such as Wordnet, in order to determine the relatedness of words. The vocabulary in Wordnet is represented in a hierarchical manner which models the connections between the meaning of the synsets (a synset is a collection of words such as synonyms, antonyms). Lexical chains are computed by selecting a group of candidate words, for each candidate find an appropriate chain relying on relatedness, if found update the chain by adding the candidate to it and updating each member's senses to make sure each word in the chain relates to the same sense. If no chain found we can create a new one. The relatedness can be calculated using the closeness of the words in the Wordnet hierarchical database. As shown in <ref type="bibr" target="#b0">[Barzilay and Elhadad, 1999]</ref>, the intuition for using lexical chains rather than frequency based methods is that writers tend to use multiple words for the same concept throughout a discourse in order to avoid repetition. This means that even if a concept does appear various times, since the author is using different words to describe it, the frequency of the specific words relevant to that concept might be low, which can re resolved using lexical chains instead. Another challenge in this area is to find a scoring system to select the most significant chain. The used scoring formula in their paper was:</p><formula xml:id="formula_2">Score(Chain) = Length(Chain) * Homogeneity</formula><p>After selecting the strongest chains, for each chain choose the sentence that contains the first appearance of a representative member of the chain in the text, where a representative member is defined as having a frequency greater than the average the average word frequency in the chain. While this method does have a better overall knowledge of the topic it does not resolve the problem of anaphoric expressions.</p><p>Another approach for extracting strongly connected summaries is to use Rhetorical structure Theory. Rhetorical structure theory is a descriptive theory of a major aspect of the organisation of a text. It identifies hierarchic structure in text, by providing the relations between text parts in functional terms, transitions of the relations and the extent of the items related to the relation. The theory depends on four objects: Relations, Schemas, Schema Applications, Structures. A relation identifies a particular relationship that can hold between two texts. Based on relations, schemas define patterns in which a particular span of text can be analysed in terms of other spans. The schema applications define a somewhat more flexible ways to initiate a schema. The structure of a text then can be described as a composition of schema applications. A relation is defined by a nuclei, which are the most important part of a text, and satellite which can be considered secondary and can even be viewed as incomprehensible without the nucleus in many instances. As a result, there is a possibility to use the structures given by rhetorical structure theory as summary generation method if we keep the nuclei sentences and remove all satellite texts. The relations are applied recursively, until all text units are classified as part of a relation. As a result we derive a tree representation of the discourse. For an extensive description of this method refer to the cited source. <ref type="bibr" target="#b10">[Mann and Thompson, 1988]</ref> Another approach to improve summary coherence is to use the G-Flow system. [Christensen et al., 2013] G-FLOWs core representation is a graph that approximates the discourse relations across sentences based on indicators including discourse cues, deverbal nouns, coreference, and more. This graph enables G-FLOW to estimate the coherence of a candidate summary. The main idea of the method is to use a directed graph where the nodes are sentences, and each edge represents a pairwise ordering constraint necessary for a coherent summary. By definition, any coherent summary must obey the constraints in this graph. By using this graph we can estimate how coherent our extracted text is. This method has been applied to multi-document summarization problems, but can be considered as an option in single document summarization as a way of improving coherence. It's also important to note that since the system incorporates other constraints as well other than coherence, like ordering, length, redundancy. In order to build the graph the researchers used deverbal noun references. A deverbal noun reference appears when an event is mentioned in a verbal phrase and subsequent references use deverbal nouns like "attacked" and "the attack". These pairs are identified with the help of Wordnet. For each word they determine potential noun references using a path length of up to two in WordNet. (A path length is defined by the "derivationally related" link.) After generating these pair they filter out the ones that are too generic by using a corpus on which the importance of these pairs can be calculated.</p><p>As an other indicator they use lexical chains to classify if sentences contain the same events as their topic, which can be used as a new relation. The system also identifies discourse markers like "however", "moreover" as a way of recognising relations. Co-referent mentions are also modelled as relations to avoid the extraction of sentences that need more context in order to be understood. The objective of the system is to maximise the next function:</p><formula xml:id="formula_3">Sal(X) + aCoh(X) − b|X| whith respect to N n=1 len(x i ) &lt; B redundant(x i , x j ) = 0, ∀x i , x j ∈ X</formula><p>The coherence function is derived from:</p><formula xml:id="formula_4">Coh(X) = n = 1 N −1 w G+ (x i , x i+1 + λw G− (x i , x i+1 )</formula><p>where: w G+ = positive edges</p><formula xml:id="formula_5">w G− = negative edges λ = tradeoff coefficient</formula><p>The salience can be calculated as the sum of all the salience values of each sentences that appear in the summary. As shown in the paper as well, this system is capable of generating promising summaries and the reason behind it is that it combines two important measures, salience and coherence, which are vital in readable, important text generation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Graph based methods</head><p>While the above mentioned (Section 2.2) system, G-Flow, can be considered a graph based method, we chose to include it in the text connectivity methods since it's main purpose is to improve the coherence and readability of summaries.</p><p>One of the used algorithms is called TextRank, which is a graph based ranking algorithm for sentence ranking which has been applied successfully for summary extraction. <ref type="bibr" target="#b11">[Mihalcea and Tarau, 2004]</ref> A graph-based ranking algorithm is a way of deciding on the importance of a vertex within a graph, by taking into account global information recursively computed from the entire graph, rather than relying only on local vertex-specific information. The basic idea implemented by a graph-based ranking model is that of voting or recommendation. Each link in the graph can be considered as a vote, the more link a vertex has the greater its importance is. We can also weigh the votes according to the voters, the higher the importance of a voter is the more that vote means. Each vertex has an initial score defined by:</p><formula xml:id="formula_6">S(V i ) = (1 − d) + d * j∈In(V i ) 1 |Out(V j )| S(V j )</formula><p>Where:</p><p>• In(V) = set of vertices pointing to V</p><p>• Out(V) = set of vertices to which V points to</p><p>• d = damping factor, probability of jumping from a given vertex to another random vertex, usually set to 0.85</p><p>The values of the vertices are assigned randomly at first and the algorithm runs until convergence is achieved. Since natural language texts might include multiple or partial links between the edges that are extracted from the text the authors of the paper introduced a new formula which includes the weights of the edges as well.</p><formula xml:id="formula_7">W S(V i ) = (1 − d) + d * j∈In(V i ) w j,i V k ∈Out(V j ) w j,k W S(V j )</formula><p>In order to convert the text into a graph we can use different text units, like words, sentences, phrases, and the relations can be modelled by lexical relations. For summary generation the chosen units are full sentences. As far as relationships between sentences go, the authors use a similarity measure to model groups of sentences that are referring to the same concepts, have overlaps between theirs subjects. So the recommendations are made based on how similar the concept that they describe is. The similarity of two sentences can be described with the equation:</p><formula xml:id="formula_8">Similarity(S i , S j ) = |w k |w k ∈ S i &amp;w k ∈ S j | log(|S i |) + log(|S j |)</formula><p>After the vertex values are calculated the resulting graph is a highly connected one, we apply the ranking algorithm on it until convergence is achieved, then we sort the edges according to their graph scores and extract the first n sentences based on the scores to achieve the extract. The TextRank algorithm successfully achieves a good summary of the text without having to pre-process any training data, which makes it a desirable for extract generation in languages without corpus for training. It's also important to mention that since the algorithm itself has a recursive step we are able to discover more complicated relationships in the text.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Sentence reformulation, post-processing</head><p>Since the methods mentioned earlier mainly focus on extractive summaries we might need to add an additional step of post-processing to get more informative, shorter, cohesive sentences.</p><p>In the last few years there have been increased interest in paraphrase generation due to the recent success of the encoder-decoder model in natural language processing tasks such as machine translation, speech recognition, abstract generation, language modelling etc., which we will cover as well. One method of paraphrase generation is the multi-pivoting method, which uses machine translation to translate a sentence into a chosen language and then translates it back from that language to the original, thus creating a paraphrase for the original sentence. <ref type="bibr" target="#b9">[Mallinson et al., 2017]</ref> As a possible improvement, paraphrase generation can be applied as a post-processing task to get closer to human abstracts.</p><p>The other big challenge is sentence reordering, which is mainly a problem in multidocument summarization, but it might appear as a room for improvement in single document summarization as well. Classic reordering approaches include inferring order from weighted sentence graph, or perform a chronological ordering algorithm that sorts sentences based on timestamp and position. <ref type="bibr" target="#b15">[Yao et al., 2017]</ref> 3 Abstractive summarization</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Towards end-to-end abstract generation systems</head><p>Abstractive summaries try to present a shorter version of the text input, based on deeper understanding of the conecpts being represented and it may contain newly added sentences, phrases as well to improve the generated abstract.</p><p>One of the promising approaches that has been researched as a possibility of fully abstractive summarization is the use of encoder-decoder models. One of its main advantages is that it only needs an input, which can be raw texts, without needing too much pre-processing, and the desired output in order to train it. Usually it is implemented with some kind of recurrent neural network as the encoder and decoder unit. As a result this model is very sensitive to exploding and vanishing gradients, making it challenging to train. As far as its success as an abstract generation model goes it is still very far from giving us state of the art results, but its successes in sentence and shorter text summarization makes it a worthy candidate for this task as well.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Encoder-decoder model</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.1">Basic elements of the model</head><p>This model is also referred to as the sequence to sequence model. One simple representation of this model can be seen on <ref type="figure">Figure 1</ref> Since the input can be of varying size which could not be modelled by a recurrent network a simple strategy is to map the input sequence to a fixed sized vector using one RNN and then map the vector to the output sentence with another RNN. Since this model might need to learn really long sentences we Long Short-Term Memory Networks are often used in these problems. The idea is to use an LSTM to read the input data one time step at a time to obtain a fixed dimensional vector representation, and then to use another LSTM to extract the output sequence from that vector. So the LSTM's goal will be to estimate the probability of P (y 1 , y 2 , .., y l |x 1 , x 2 , .., x t ) where x is the input sequence and y is the output <ref type="figure">Figure 1</ref>: Neural machine translation example of a deep recurrent architecture proposed by for translating a source sentence "I am a student" into a target sentence "Je suis tudiant". Here, "s" marks the start of the decoding process while "/s" tells the decoder to stop. Image source: https://github.com/lmthang/thesis/blob/master/thesis.pdf sequence whose length might be different. It is also required for the input sequence to end with a special Stop character. The model is based on two components: the first one for the input sequence the a second for the output sequence. <ref type="bibr" target="#b13">[Sutskever et al., 2014]</ref> It is also important to mention that the researchers in <ref type="bibr" target="#b13">[Sutskever et al., 2014]</ref> have found that reversing the source sentence can lead to better results even though they can't really explain why that might be.</p><p>The result of the second layer will be a matrix of probabilities from which we can decode our prediction using two approaches: maximum likelihood method and beam search algorithm which will be discussed in 3.2.2.</p><p>As we can see on <ref type="figure">Figure 1</ref> a conventional Encoder-Decoder model usually has an Embedding layer (in NLP problems) which translates the input sentence to a dense vector representation using the Vocabulary that we provide in the beginning. The output of the embedding is then fed to the encoder model which will return the input for the decoder. The output from the decoder layer then can be processed to retrieve the prediction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2">Decoding Algorithms</head><p>In the literature there is two main algorithms which are used to extract the output of the decoder.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.3">Greedy Decoding</head><p>Greedy decoding is one of the simplest approaches for decoding sentences and it is based on conditional possibility calculations.</p><p>In greedy decoding, we follow the conditional dependency path and pick the symbol with the highest conditional probability so far at each node. This is equivalent to picking the best Figure 2: Greedy decoding algorithm example of a deep recurrent architecture proposed by for translating a source sentence "I am a student" into a target sentence "moi suis etudiant" Image source: https://github.com/lmthang/thesis/blob/master/thesis.pdf symbol, one at a time, from left to right in conditional language modelling. <ref type="bibr" target="#b4">[Gu et al., 2017]</ref> However this does not give us the best results because it only takes into consideration the element at previous time step which means that if it makes a wrong prediction every prediction made after that will be based on false information.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.4">Beam-Search algorithm</head><p>Beam search keeps K &gt; 1 hypotheses, unlike greedy decoding which keeps only one during decoding. At each time step t, beam search picks K hypotheses with the highest scores t i=1 p(y t |y &lt; t, X) When all the hypotheses terminate (outputting the end-of-the sentence symbol), it returns the hypothesis with the highest log-probability. Despite its superior performance compared to greedy decoding, the computational complexity grows linearly with respect to the size of beam K, which makes it less preferable especially in the production environment. <ref type="bibr" target="#b4">[Gu et al., 2017]</ref> Now that we understand how the basic principle works in this model we can approach their usage in summary generation as well.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Abstract generation with encoder-decoder model</head><p>Now that we have seen the basic elements of the encoder-decoder model let us present some researches that use this approach to solve the problem of abstract generation.</p><p>The application of sequence to sequence models for abstract generation was done based on the success of neural machine translation. As it is stated in the research paper <ref type="bibr" target="#b12">[Nallapati et al., 2016]</ref> besides the similarities, such as sequential data mapping, the problem of abstract generation is very different from machine translation. This is because the model doesn't have the advantages of similar sequence lengths for the input and output, as we usually have for translation problems, summarization has to concentrate the main ideas of the text without loss of information, so we need to gasp the important parts rather than map each part directly. Another advantage that we have in translation is that this mapping is usually a one to one mapping with certain special cases where we need to reformulate the output, as a result it is easier for the model to find the patterns in the training data. In <ref type="bibr" target="#b12">[Nallapati et al., 2016]</ref> the researchers have addressed several problems. Their baseline model is identical with the one used for machine translation, containing a bi-directional GRU-RNN encoder and a uni-directional GRU-RNN decoder, and an attention mechanism over the sourcehidden states and a soft-max layer over target vocabulary to generate words. They also use the large vocabulary trick (LVT), by restricting the decoder's vocabulary of each mini-batch to words in the source documents of that batch. This trick speeds up the training and the decoding as well, and it is well suited for summarization. Since the most important keys of the specific topic needs to be identified as well, the reasearchers try to capture additional linguistic features such as parts-of-speech tags, named-entity tags, and TF and IDF statistics of the words. These are achieved by creating additional look-up based embedding matrices for the vocabulary of each tag-type, similar to the embeddings for words. For continuous features such as TF and IDF, they convert them into categorical values by discretizing them into a fixed number of bins, and use one-hot representations to indicate the bin number they fall into. This allows them to map them into an embeddings matrix like any other tag-type. They also solve the problem of rare or unseen words by using a switching generator-pointer. The main idea of this approach is to simply point to the location of the out of vocabulary words in the source document instead and use a copy mechanism for them when decoding the generated summary. While this paper has been published a few years ago, in 2016, when they did manage to generate state of the art results as far as the general evaluation, metrics such as Rough, is concerned, they do recognise that this model can fail to capture the essence of the input text, generating comic outputs. This model still can be considered as a very good baseline for future work in abstract generation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Evaluation metrics</head><p>In order to easily evaluate and compare the newly developed methods we need to use a widely accepted evaluation metric. This metric not only helps with the comparison, but it implements a way to fully automate the evaluation of the generated summaries. Currently the ROUGE (Recall-Oriented Understudy for Gisty Evaluation) <ref type="bibr" target="#b5">[Lin, 2004]</ref> metrics are the standard for automatic evaluation of summarization.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">N-gram Co-Occurrence Statistics</head><p>The first recall oriented evaluation metrics that has been introduced for summary evaluation was in 2003 in <ref type="bibr" target="#b7">[Lin and Hovy, 2003</ref>]. The paper uses N-gram co-occurrence statistics to evaluate the summaries. The researchers had as a starting point the BLEU score, which is successfully used for machine translation evaluation even today.</p><p>The main idea of BLEU is to measure the translation closeness between a candidate translation and a set of reference translations with a numerical metric. To achieve this goal, they used a weighted average of variable length n-gram matches between system translations and a set of human reference translations and showed that a weighted average metric, i.e. BLEU, correlating highly with human assessments. <ref type="bibr" target="#b7">[Lin and Hovy, 2003]</ref> The BLEU score calculates an N-gram precision using:</p><formula xml:id="formula_9">BLEU = BP exp( N n=1 w n log p n ) Where: p n = C∈{Candidates} n−gram∈C Count clip (n − gram) C∈{Candidates} n−gram∈C Count(n − gram) BP = 1, if |c| &gt; |r| e 1− |r| |c| , if |c| ≤ |r|</formula><p>Where Count clip (n-gram) is the maximum number of n-grams co-occurring in a candidate translation and a reference translation, and Count(n-gram) is the number of n-grams in the candidate translation. BP is a brevity penalty which prevents very short translations.</p><p>This BLEU score can easily be altered for summaries by using:</p><formula xml:id="formula_10">c n = C∈{Model Units} n−gram∈C Count match (n − gram) C∈{Model Units} n−gram∈C Count(n − gram)</formula><p>Where Count match (n-gram) is the maximum number of n-grams co-occurring in a peer summary and a model unit and Count(n-gram) is the number of n-grams in the model unit. c n can be seen as a recall metric, rather than a precision metric. They also introduce a brevity bonus, instead of brevity penalty, because in summarization if we express something in a shorter manner that should be awarded rather than penalised.</p><p>The resulting equation then becomes:</p><formula xml:id="formula_11">N gram(i, j) = BB exp( j n=i w n log c n )</formula><p>According to their experiments, the unigram co-occurrence statistics is a good automatic scoring metric. It consistently correlated highly with human assessments and had high recall and precision in significance test with manual evaluation results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">ROUGE</head><p>A year later the N-gram Co-occurence statistics evaluation metric has been used as the foundation for the Recaull Oriented Understudy for Gisting evaluation (ROUGE) package. <ref type="bibr" target="#b5">[Lin, 2004]</ref> Formally, ROUGE-N is an n-gram recall between a candidate summary and a set of reference summaries.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ROU GE</head><formula xml:id="formula_12">− N = S∈{Reference summary} n−gram∈S Count match (n − gram)</formula><p>S∈{Reference summary} n−gram∈S Count(n − gram) Where n stands for the length of the n-gram, and Count match (n-gram) is the maximum number of n-grams co-occurring in a candidate summary and a set of reference summaries. Note that the number of n-grams in the denominator of the ROUGE-N formula increases as we add more references. Which is understandable because there might exist multiple good summaries. Note that the numerator sums over all reference summaries. This effectively gives more weight to matching n-grams occurring in multiple references. Therefore a candidate summary that contains words shared by more references is favored by the ROUGE-N measure.</p><p>If we have multiple reference summaries we may use:</p><p>The researchers also introduce the ROU GE − L measure, which is based on the longest common subsequence. A sequence Z = [z 1 , z 2 , ..., z n ] is a subsequence of another sequence X = [x 1 , x 2 , ..., x m ], if there exists a strict increasing sequence [i 1 , i 2 , ..., i k ] of indices of X such that for all j = 1, 2, ..., k, we have x i,j = z j . Given two sequences X and Y, the longest common subsequence (LCS) of X and Y is a common subsequence with maximum length.</p><formula xml:id="formula_13">R LCS = LCS(X, Y ) m P LCS = LCS(X, Y ) n ROU GE − L = (1 + b 2 )R LCS P LCS R LCS + b 2 P LCS</formula><p>Notice that ROUGE-L is 1 when X = Y; while ROUGE-L is zero when LCS(X,Y) = 0. One advantage of using LCS is that it does not require consecutive matches but in-sequence matches that reflect sentence level word order as n-grams. The other advantage is that it automatically includes longest in-sequence common n-grams, therefore no predefined n-gram length is necessary. By only awarding credit to in-sequence unigram matches, ROUGE-L also captures sentence level structure in a natural way.</p><p>It has been proven that these measure correlate very well with the evaluation metrics given by human judgement of the summaries. It is also worth to mention that they work better if we have multiple references to calculate the ROUGE scores.</p><p>The package contains some other ROUGE measures as well, but since usually researches use the ROUGE-N and ROUGE-L measure we did not include those here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Conclusions</head><p>In this paper we have tried to include some different approaches that one could follow when trying to generate a summary.</p><p>As we have seen this research topic has improved a lot since its first appearance when the researchers have only used naive statistical computations to extract relevant knowledge from texts. We can see that in recent years researchers are trying to get away from the "simple" extractive summaries and try to include methods for abstractive summary generation as well. As a result, different machine learning approaches has been applied to this task, such as the use of neural networks. Another trending approach in the recent years have been to use reinforcement learning as well for coherent extractive summarisation. <ref type="bibr" target="#b14">[Wu and Hu, 2018]</ref> Even multi-agent systems have been introduced to solve this task. <ref type="bibr" target="#b1">[Celikyilmaz et al., 2018]</ref> These methods were not included in our survey because our goal was to introduce simpler methods in this paper, but it is very interesting to see that there are inifinite probabilities when approaching this specific problem, which might be the reason for its popularity as well.</p><p>We also introduced the most used evaluation metric in this paper for a better understanding of the reasearch results in this domain, but it is worth to mention that they do have their limitations. For example, ROUGE scores will remain unchanged after arbitrarily disordering the sentences in a summary, since ROUGE metrics are designed mostly for detecting information coverage rather than coherence or other important quality factors. Studies have shown that for lower-order ROUGE scores they tend to detect significant differences among systems, even though human judges find that they are actually comparable. <ref type="bibr" target="#b15">[Yao et al., 2017]</ref> As a conclusion we can state that document summarization remains an open problem in natural language processig, but we are getting closer to generating good quality results.</p></div>		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Using lexical chains for text summarization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Barzilay</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Elhadad</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in automatic text summarization</title>
+		<imprint>
+			<date type="published" when="1999" />
+			<biblScope unit="page" from="111" to="121" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Celikyilmaz</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1803.10357</idno>
+		<title level="m">Deep communicating agents for abstractive summarization</title>
+		<imprint>
+			<date type="published" when="2018" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Towards coherent multi-document summarization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Christensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2013 conference of the North American chapter of the association for computational linguistics: Human language technologies</title>
+		<meeting>the 2013 conference of the North American chapter of the association for computational linguistics: Human language technologies</meeting>
+		<imprint>
+			<date type="published" when="2013" />
+			<biblScope unit="page" from="1163" to="1173" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">New methods in automatic extracting</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">P</forename><surname>Edmundson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM (JACM)</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="264" to="285" />
+			<date type="published" when="1969" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Gu</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1702.02429</idno>
+		<title level="m">Trainable greedy decoding for neural machine translation</title>
+		<imprint>
+			<date type="published" when="2017" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Rouge: A package for automatic evaluation of summaries. Text Summarization Branches Out</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C.-Y</forename><surname>Lin ; Lin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The automated acquisition of topic signatures for text summarization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hovy ;</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C.-Y</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Hovy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 18th conference on Computational linguistics</title>
+		<meeting>the 18th conference on Computational linguistics</meeting>
+		<imprint>
+			<publisher>Association for Computational Linguistics</publisher>
+			<date type="published" when="2000" />
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="495" to="501" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Automatic evaluation of summaries using n-gram co-occurrence statistics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hovy ;</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C.-Y</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Hovy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2003 Human Language Technology Conference of the North American Chapter</title>
+		<meeting>the 2003 Human Language Technology Conference of the North American Chapter</meeting>
+		<imprint>
+			<publisher>Association for Computational Linguistics</publisher>
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The automatic creation of literature abstracts</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">P</forename><surname>Luhn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IBM Journal of research and development</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="159" to="165" />
+			<date type="published" when="1958" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Paraphrasing revisited with neural machine translation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Mallinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 15th Conference of the European Chapter</title>
+		<meeting>the 15th Conference of the European Chapter</meeting>
+		<imprint>
+			<date type="published" when="2017" />
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="881" to="893" />
+		</imprint>
+	</monogr>
+	<note>Long Papers</note>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Rhetorical structure theory: Toward a functional theory of text organization. Text-Interdisciplinary Journal for the Study of Discourse</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Mann</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">C</forename><surname>Thompson ; Mann</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">A</forename><surname>Thompson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1988" />
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="243" to="281" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Textrank: Bringing order into text</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Mihalcea</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Tarau</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2004 conference on empirical methods in natural language processing</title>
+		<meeting>the 2004 conference on empirical methods in natural language processing</meeting>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+	<note>Mihalcea and Tarau</note>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Abstractive text summarization using sequence-to-sequence rnns and beyond</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Nallapati</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1602.06023</idno>
+		<imprint>
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Sequence to sequence learning with neural networks</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Nenkova</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Mckeown ; Nenkova</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Mckeown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Sutskever</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in neural information processing systems</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2012" />
+			<biblScope unit="page" from="3104" to="3112" />
+		</imprint>
+	</monogr>
+	<note>Mining text data</note>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Learning to extract coherent summary via deep reinforcement learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hu ;</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Hu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Thirty-Second AAAI Conference on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2018" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Recent advances in document summarization</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Knowledge and Information Systems</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="297" to="336" />
+			<date type="published" when="2017" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

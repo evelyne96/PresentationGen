@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Monochromatic triangles in two-colored plane
+</p>
+<p>Vı́t Jelı́nek
+Jan Kynčl
+</p>
+<p>Rudolf Stolař
+Tomáš Valla</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Euclidean Ramsey theory
+</p>
+<p>X . . . a finite set of points in dE
+</p>
+<p>c . . . a finite number of colors
+</p>
+<p>Question: Does every coloring of dE with c colors
+contain a monochromatic copy of X?
+</p>
+<p>copy of X = congruent copy of X = set obtained from X
+by translations and rotations
+</p>
+<p>X ′ is monochromatic if all points of X ′ have the same
+color.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3
+E 2 colors YES
+</p>
+<p>1 1
+</p>
+<p>2
+1 E 2 colors NO
+</p>
+<p>1 2 2
+E 2 colors YES
+</p>
+<p>1 1 2
+E 2 colors ???
+</p>
+<p>1 1 n
+E 4 colors NO
+</p>
+<p>2
+E 3 colors YES
+</p>
+<p>2
+E 4 colors ???
+</p>
+<p>2
+E 5 colors ???
+</p>
+<p>2
+E 6 colors ???
+</p>
+<p>2
+E 7 colors NO</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>case d = 2, c = 2, |X| = 3
+</p>
+<p>triangle . . . a set of 3 points, including
+</p>
+<p>degenerate triangle . . . a set of 3 collinear points
+</p>
+<p>(a, b, c)-triangle . . . a triangle with sides of length a, b, c
+in counter-clockwise order
+</p>
+<p>unit triangle . . . a (1, 1, 1) triangle
+</p>
+<p>coloring . . . a partition of 2E into two sets, B (black) and
+W (white)
+</p>
+<p>Coloring χ contains a triangle T if there is a
+monochromatic copy of T , otherwise χ avoids T .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Examples of known results
+Theorem [Erdös et al., 1973; Shader, 1979]
+</p>
+<p>Every coloring contains every
+</p>
+<p>• triangle with a 30◦, 90◦ or 150◦ angle
+</p>
+<p>• triangle with a ratio between two sides equal to
+2 sin 15◦, 2 sin 36◦, 2 sin 45◦, 2 sin 60◦ or 2 sin 75◦
+</p>
+<p>• (a, 2a, 3a)-triangle
+</p>
+<p>• (a, b, c)-triangle satisfying c2 = a2 + 2b2
+◦
+</p>
+<p>30
+</p>
+<p>◦
+30</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Strip coloring avoiding a unit triangle:
+</p>
+<p>√
+</p>
+<p>3
+</p>
+<p>2
+</p>
+<p>Conjecture 1 [Erdös et al., 1973]
+</p>
+<p>Every coloring contains every non-equilateral triangle.
+</p>
+<p>Conjecture 2 [Erdös et al., 1973]
+</p>
+<p>The strip coloring is the only coloring avoiding any triangle
+(up to scaling and modification of colors on the boundaries
+of the strips).</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our results
+</p>
+<p>Theorem 1 Each coloring χ = (B,W), where B is a
+closed set (and W is open), contains every triangle.
+</p>
+<p>Theorem 2
+</p>
+<p>• Each polygonal coloring contains every non-equilateral
+triangle.
+</p>
+<p>• Characterization of all polygonal colorings avoiding an
+equilateral triangle
+</p>
+<p>• Conjecture 2 is false.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reduction to equilateral triangles
+</p>
+<p>Lemma [Erdös et al., 1973]
+</p>
+<p>Let χ be a coloring of the plane.
+</p>
+<p>1. If χ contains an (a, a, a)-triangle for some a > 0,
+then χ contains any (a, b, c)-triangle, where b, c > 0
+and a, b, c satisfy the (possibly degenerate) triangle
+inequality.
+</p>
+<p>2. If χ contains an (a, b, c)-triangle, then χ contains an
+(a, a, a), (b, b, b), or (c, c, c)-triangle.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>proof: (1)
+C ′
+</p>
+<p>′
+A′ B
+</p>
+<p>D′
+</p>
+<p>D
+</p>
+<p>c
+</p>
+<p>b
+</p>
+<p>B a A
+</p>
+<p>C</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>proof: (2)
+C ′
+</p>
+<p>′
+A′ B
+</p>
+<p>D′
+</p>
+<p>D
+</p>
+<p>c
+</p>
+<p>b
+</p>
+<p>B a A
+</p>
+<p>C</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Corollary:
+</p>
+<p>1. χ contains every triangle if and only if χ contains every
+equilateral triangle.
+</p>
+<p>2. χ contains every non-equilateral triangle if and only if
+there exists an a > 0 such that χ contains all
+equilateral triangles except of the (a, a, a)-triangle.
+</p>
+<p>3. χ contains an (a, b, c)-triangle if and only if χ contains
+a (b, a, c)-triangle.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Coloring by open and closed sets
+(proof of Theorem 1)
+</p>
+<p>- it satisfies to find a monochromatic unit triangle
+</p>
+<p>ε-almost unit triangle ...an (a, b, c)-triangle whose
+edge-lengths satisfy 1 − ε ≤ a, b, c ≤ 1 + ε
+</p>
+<p>Q(a)... a square [−a, a] × [−a, a]
+</p>
+<p>Proposition Let Q(3) = B ∪R be an arbitrary coloring
+of the square Q(3) avoiding the unit triangle. Then for
+every ε > 0 both B and R contain an ε-almost unit
+triangle.
+</p>
+<p>(if B is closed, then B3 is a compact set containing a
+sequence of 1 -almost unit triangles...)
+</p>
+<p>n</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>proof of the proposition:
+</p>
+<p>- given ε > 0 and a coloring χ = (B,R) of Q(3)
+</p>
+<p>- assume that χ avoids the unit triangle and that R does
+not contain any ε-almost unit triangle
+</p>
+<p>- in Q(1), find a red point R and a blue point S, such that
+|R − S| < ε
+</p>
+<p>- construct a circle C with the center S and radius 1
+</p>
+<p>- denote K(α) = S + (cos α, sin α)
+</p>
+<p>- K(α) and K(α + π) must have different color
+3
+</p>
+<p>- for every blue K(α), each K(β),
+|K(β) − K(α)| < ε, is also blue.
+</p>
+<p>⇒ whole C is blue, a contradiction. ¤</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Polygonal colorings
+A coloring χ = (B,W) is polygonal, if
+</p>
+<p>• each of the two sets B and W is contained in the
+closure of its interior
+</p>
+<p>• The boundary of χ (a common boundary of B and
+W ), is a union of straight line segments (called
+boundary segments), which can intersect only at their
+endpoints (boundary vertices) .
+</p>
+<p>• Every bounded region of the plane is intersected by
+only finitely many boundary segments.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem 2 Polygonal coloring χ avoids a unit triangle if
+and only if χ is zebra-like (up to modification of the colors
+on the boundary).
+</p>
+<p>Li+1
+</p>
+<p>L ~xi
+</p>
+<p>~y √
+~z 1= ~x 3+ ~y
+</p>
+<p>2 2
+</p>
+<p>Li−1 ~x
+</p>
+<p>|~x| = |~y| = 1, ~x ⊥ ~y
+</p>
+<p>Li = Li + ~x
+</p>
+<p>Li+1 = Li + ~z</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem 2 Polygonal coloring χ avoids a unit triangle if
+and only if χ is zebra-like (up to modification of the colors
+on the boundary).
+</p>
+<p>L ′i+1 A
+</p>
+<p>B1 B2
+Li B
+</p>
+<p>θAB
+</p>
+<p>Li−1 π/3 ~x
+</p>
+<p>A
+</p>
+<p>|AB| < 1 ⇔ θAB ∈ (π/3, 2π/3)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>proof of ’⇒’ (outline):
+</p>
+<p>- given a polygonal coloring χ = (B,W) with a boundary
+∆ avoiding the unit triangle.
+</p>
+<p>- C(A) . . . a unit circle centered at A
+</p>
+<p>- a boundary point A is feasible, if it is not a boundary
+vertex and C(A) does not contain any boundary vertex.
+Other boundary points are called infeasible.
+</p>
+<p>- orientation of boundary segments (white region on the
+left)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Local properties of χ
+</p>
+<p>Lemma: Let s be a (horizontal) boundary segment
+containing a feasible point A, let P (α) denote the point
+A + (cos α, sin α) on C(A). Let B = P (β) ∈ ∆ and
+let t be a segment passing through B. Then
+</p>
+<p>• s and t are parallel
+</p>
+<p>• AB is not perpendicular to t, i.e, β ∈/ {−π , π}.
+2 2
+</p>
+<p>• P (α) ∈ ∆ if and only if P (α + π) ∈ ∆.
+3
+</p>
+<p>• If β ∈ (π , 5π) or β ∈ (7π , 11π), then s and t have
+6 6 6 6
+</p>
+<p>opposite orientation. If |β| < π or |β − π| < π , then
+6 6
+</p>
+<p>s and t have the same orientation.
+</p>
+<p>• For every θ there is exactly one value of
+α ∈ [θ, θ + π) such that P (α) ∈ ∆.
+</p>
+<p>3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>P1(A)
+</p>
+<p>P2(A) P0(A)
+</p>
+<p>α
+</p>
+<p>A
+</p>
+<p>P3(A)
+</p>
+<p>P5(A)
+</p>
+<p>P4(A)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Global properties of χ
+</p>
+<p>Lemma: The size of the convex angle formed by two
+segments sharing an endpoint is greater than 2π .
+</p>
+<p>3
+</p>
+<p>⇒ No three boundary segments share a common
+endpoint.
+</p>
+<p>⇒ Every boundary component is a piecewise linear curve
+(closed or unbounded).
+</p>
+<p>Let A ∈ ∆. For t ∈ R let A(t) be a point on the same
+boundary component as A, such that the directed length
+of the boundary curve between A and A(t) is t.
+</p>
+<p>Let pi(t) = Pi(A(t)) (for feasible A(t)).
+</p>
+<p>Clearly, A(t) is a continuous function of t.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lemma: The functions pi(t) can be extended to
+continuous functions by defining Pi(A(t)) for infeasible
+points A(t).
+</p>
+<p>Lemma: Let A ∈ ∆ be an arbitrary boundary point. For
+each i = 0, 1, . . . , 5, all the unit segments of the form
+A(t)pi(t) have the same slope, independently of the
+choice of t.
+</p>
+<p>⇒ The translation by vector Pi(A) − A is ∆-invariant.
+</p>
+<p>Lemma: Infeasible boundary points A have similar local
+properties as feasible points (the circle C(A) can touch
+the boundary at points different from Pi(A)).</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lemma: Let A ∈ ∆ be an arbitrary boundary point. Then
+inside C(A), P1(A) is connected withP2(A), P0 with A,
+A with P3, and P4 with P5.
+</p>
+<p>P1(A)
+</p>
+<p>P2(A) P0(A)
+</p>
+<p>A
+</p>
+<p>P3(A)
+P5(A)
+</p>
+<p>P4(A)
+</p>
+<p>⇒ χ is zebra-like!</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Open problems
+</p>
+<p>• monochromatic triangles in colorings by regions with
+curved boundary
+</p>
+<p>• monochromatic triangles in measurable colorings
+</p>
+<p>• polygonal chromatic number of the plane
+</p>
+<p>(lower bound is 6 [Woodall, 1973])
+</p>
+<p>• measurable chromatic number of the plane
+</p>
+<p>(lower bound is 5 [Falconer, 1981])</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

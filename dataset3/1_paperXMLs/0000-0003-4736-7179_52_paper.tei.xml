@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">PAC-Learning of Markov Models with Hidden State</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Philipp</forename><forename type="middle">W</forename><surname>Keller</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Computer Science</orgName>
+								<orgName type="institution">McGill University</orgName>
+								<address>
+									<settlement>Montreal</settlement>
+									<region>QC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Joelle</forename><surname>Pineau</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Computer Science</orgName>
+								<orgName type="institution">McGill University</orgName>
+								<address>
+									<settlement>Montreal</settlement>
+									<region>QC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Doina</forename><surname>Precup</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Computer Science</orgName>
+								<orgName type="institution">McGill University</orgName>
+								<address>
+									<settlement>Montreal</settlement>
+									<region>QC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">PAC-Learning of Markov Models with Hidden State</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The standard approach for learning Markov Models with Hidden State uses the Expectation-Maximization framework. While this approach had a significant impact on several practical applications (e.g. speech recognition, biological sequence alignment) it has two major limitations: it requires a known model topology, and learning is only locally optimal. We propose a new PAC framework for learning both the topology and the parameters in partially observable Markov models. Our algorithm learns a Probabilistic Deterministic Finite Automata (PDFA) which approximates a Hidden Markov Model (HMM) up to some desired degree of accuracy. We discuss theoretical conditions under which the algorithm produces an optimal solution (in the PAC-sense) and demonstrate promising performance on simple dynamical systems.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Hidden Markov Models (HMMs) are widely used tools for prediction under uncertainty. Successful applications of these technologies include speech recognition <ref type="bibr" target="#b9">(Rabiner, 1989</ref>) and DNA sequence alignment <ref type="bibr" target="#b3">(Durbin et al, 1998)</ref>. In this paper, we address the issue of learning such models from data.</p><p>The standard approach at the moment is to estimate model parameters directly from trajectories of observations (or action-observation pairs) using Expectation-Maximization (EM) <ref type="bibr" target="#b9">(Rabiner, 1989)</ref>. This approach has proved successful in many applications, but it also has some significant drawbacks. First, it assumes a known set of "real" hidden states S. In many domains, in particular in physical systems, there is a natural state representation. For example, in speech recognition, the set of phonemes is the standard choice of state representation, and in computational biology, the type of the subsequence (e.g., gene or promoter) is a natural choice. However, there are many domains where the choice of states is not at all obvious. For example in dialogue modelling, the state representation must somehow capture the user's communication goals. Similarly, in medical diagnostic and adaptive treatment design, the state must capture complex information about the patient, his/her disease and treatment history. In these and similar cases, the state is best represented by summary statistics over the set of past observations. Some recent research has focused on modeling just the observed data <ref type="bibr">(Jaeger et al, 2006</ref><ref type="bibr" target="#b11">, Rosencrantz et al, 2004</ref><ref type="bibr" target="#b12">, Singh et al, 2003</ref>. In this case, knowing or defining hidden states ahead of time is not necessary. The algorithm we propose in this paper has a similar goal, although the methodology is different. We build a learning algorithm for probabilistic models which can simultaneously estimate a good state topology and a corresponding set of parameters.</p><p>The second drawback of EM is that it converges to a locally optimal solution, and there are no guarantees on the quality of the final solution. In some domains, this is very problematic. The algorithm we propose has PAC-style guarantees on the model learned, using a polynomial amount of data.</p><p>We use Probabilisitc Deterministic Finite Automata (PDFA), a standard tool in computational learning theory, as the basic representation to be learned. We show how PDFAs can approximate HMMs. Our algorithm is based on a state-splitting and merging technique, and is designed to be able to provide PAC guarantees. We illustrate the algorithm on some example problems, and show promising empirical results.</p><p>Some proofs and discussions are omitted in this version. More details can be found in the technical report version, available from the first author's homepage.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Background</head><p>We address the problem of learning the structure and parameters of a dynamical system, directly from observational data generated by the system. The data typically consists of a set of trajectories, D = {d 1 , d 2 , ..., d n }, each containing a finite sequence of observations d = σ 0 σ 1 ...σ k . Different models have been used to capture this type of data; in this paper, we focus on Hidden Markov Models and Probabilistic Finite Automata.</p><p>A probabilistic deterministic finite automaton (PDFA) is a tuple S, Σ, T, O, s 0 , where S is a finite set of states, Σ is a finite set of observations, T : S × Σ → S is the transition function O : S × Σ → [0, 1] defines the probability of emitting each observation from each state, O(s, σ) = P(σ t = σ|s t = s), and s 0 ∈ S is the initial state. Note that the transition to a new state is deterministic once an observation has been selected: T (s, σ) gives the next state s . A special symbol is reserved to mark the end of a string; alternatively, one can interpret this as a stop state with no outgoing edges. A probabilistic nondeterministic finite automaton (PNFA) is defined similarly except the transition function is stochastic: T : S × Σ× S → [0, 1], and T (s, σ, s ) = P(s t+1 = s |s t = s, σ t = σ).</p><p>Given an observation trajectory d = σ 0 σ 1 , ..., σ k emitted by a known PDFA, the state at each time step can be tracked by starting from the initial state s 0 and following the labelled transitions according to d. Also, the probability of generating a given trajectory d = σ 0 σ 1 , ..., σ k from a state s can be calculated recursively as follows:</p><formula xml:id="formula_0">O(s, σ 0 σ 1 ...σ k ) = O(s, σ 0 )O(T (s, σ 0 ), σ 1 ...σ k ).</formula><p>A Hidden Markov Model is a tuple S, Σ, T, O, b 0 , where S is a finite set of states, Σ is a finite set of observations, T (s, s ) = P(s t+1 = s |s t = s) defines the probability of transitioning between states, O(s, σ) = P(σ t = σ|s t = s) defines the emission probability of each observation on each state, and b 0 (s) = P(s 0 = s) is the initial state distribution. Given an observation trajectory d emitted by a known HMM, the probability distribution over states at any time b t+1 , can be estimated recursively by Bayesian updating:</p><formula xml:id="formula_1">b t+1 (s) ∝ Σ s ∈S b t (s )O(s , σ t )T (s , s)<label>(1)</label></formula><p>Several links have been established between HMMs and probabilistic automata; a comprehensive review is in <ref type="bibr" target="#b2">(Dupont et al., 2005)</ref>. From the point of view of this paper, it is most important to note that an HMM can be transformed into an equivalent PNFA with the same number of states. A PNFA can also be transformed into an HMM, but not necessarily with the same number of states. Any PDFA M = S, Σ, T, O, s 0 can be converted to an equivalent HMM M = S , Σ, T , O , b 0 . The states in S correspond to pairs of states in S among which a transition is possible:</p><formula xml:id="formula_2">S = {(s 1 , s 2 ) ∈ S × S|∃σ ∈ Σ s.t. T (s, σ) = s }.</formula><p>The probability distributions of the HMM are then built as follows:</p><formula xml:id="formula_3">b 0 ((s 0 , s )) = 1/|S| O ((s, s ), σ) = O(s, σ) ∑ σ =Σ O(s, σ ) T ((s, s ), (s , s )) = ∑ σ∈Σ O(s , σ)δ(T (s , σ), s )</formula><p>where δ is an indicator function. All other parameters are 0. It is easy to show that M defines a proper HMM, and that M and M generate the same probability distribution over observation trajectories. Unfortunately, the reverse is not true: there are finite HMMs that can only be converted into PDFAs of infinite size. However, we will now show that any HMM can be approximated with a finite PDFA up to any desired degree of precision.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Approximating HMMS with PDFAs</head><p>Recalling that every HMM is equivalent to a PNFA <ref type="bibr" target="#b2">(Dupont et al, 2005)</ref>, we show that every finite-size PNFA can be approximated by a finite-size PDFA. Theorem 1. Let N be a PNFA and L be the expected length of strings generated by N. Then there exists a PDFA of size at most L/ε 2 that generates a distribution over trajectories that is ε-close to the distribution generated by N, under the L ∞ distance.</p><p>Proof. Recall that L ∞ measures the maximum difference between the corresponding components of two vectors. Here, we will use it to measure the maximum difference between the probability assigned to the same string by two different distributions. Let S be the set of strings having probability at least ε in N. Note that there are at most 1/ε such strings, i.e., finitely many. It is easy to build a finite, tree-like PDFA M with |S| leaves that generates exactly the strings in S, each with the same probability as N, and no other string. Hence, the distributions of M and N are ε-close.</p><p>To explicitly bound the size of the tree, we observe that if u ∈ S, then necessarily |u| ≤ L/ε. Let S N be the random variable describing the string output by PNFA N. Then by Markov's inequality we have</p><formula xml:id="formula_4">ε ≤ Pr[S N = u] ≤ Pr[|S N | ≥ |u|] ≤ E[|S N |]/|u| ≤ L/|u| which completes the proof.</formula><p>This is a generic construction whose value is only to show that finite-size approximation of PNFA (and HMM) by PDFA is always possible. However, the machine we construct for the proof does not capture the internal structure of the PNFA/HMM. But the fact that PDFAs can be used to approximate HMMs suggests a new class of algorithms that could be used to learn HMMs. More precisely, one can think of trying to learn a PDFA that approximates an HMM. The size of the PDFA would depend on factors such as the desired degree of accuracy, and the amount of data available.</p><p>PDFAs and PNFAs have been studied extensively in computational learning theory, especially in the context of PAC-learning. In this context, the goal of learning is to find a model that approximates the true probability distribution over observation trajectories, P . A learning algorithm will produce a model which generates a distribution over observation trajectoriesP . A model, or hypothesis, is called ε-good, if the distance between m(P ,P ) &lt; ε, where m is a reasonable distance measure (e.g. L ∞ or the Kullback-Leibler divergence) and ε &gt; 0 is the desired precision. Given observation trajectories that are drawn i.i.d. from the system, an error parameter ε &gt; 0 and a confidence parameter δ ∈ (0, 1), a PAC-learning algorithm must output an ε-good model with probability at least 1 − δ. A class of machines is called efficiently PAC-learnable if there exists a PAC-learning algorithm whose time complexity is polynomial in 1/ε, 1/δ and the number of parameters of the target machine. A class of machines is polynomially PAC-learnable if the training sample (i.e. the number of trajectories needed) is polynomial in the same quantities.</p><p>Several PAC-style results have been established over the years on the topic of learning PDFAs and HMMs. (see <ref type="bibr" target="#b2">Dupont et al, 2005</ref> for a comprehensive discussion). Of particular relevance to our work is the result by <ref type="bibr">Kearns et al. (1994)</ref> establishing that the class of all PDFAs is in fact not efficiently PAC-learnable. However <ref type="bibr" target="#b10">Ron et al. (1995)</ref> argued that by restricting attention to the class of PDFAs that are acyclic and have a distinguishability criterion between states, PAC-learning is possible.</p><p>Definition 1. Let m be a measure of the difference between two probability distributions. A PDFA has distinguishability µ if for any two states s and s , the probability distributions over observation trajectories starting at s and s , P s and P s , differ by at least µ: m(P s , P s ) ≥ µ, ∀s, s ∈ S.</p><p>Intuitively, this class of machines does not have states that are "too similar" in terms of the probability distribution of trajectories following them. More recently, <ref type="bibr" target="#b1">Clark and Thollard (2004)</ref> provided an efficient PAC-learning algorithm for this subclass of PDFAs which requires an amount of data polynomial in the number of states in the target, the "distinguishability" of states and the expected length of strings generated from any state. In the next section, we build on their work to provide a learning algorithm for PDFAs/HMMs with PAC-style guarantees, then analyze this algorithm.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">A PAC-learning algorithm</head><p>The algorithm builds a graph whose nodes intuitively represent postulated states of the target machine. We call these nodes "safe states". The algorithm also maintains a list of "candidate states" that will eventually be merged with existing safe states or promoted to be new safe states.</p><p>The algorithm uses both state splitting and state merging operations. We begin by assuming that the initial model is a trivial graph with a single safe state representing the initial state of the target machine. In the induction step, we refine the graph by adding a new safe state sσ i , whenever the training data suggests that there is a sufficient difference between the probability distribution over the trajectories observed from sσ i and the distribution observed from any safe state s . Similarly. if the distribution of trajectories observed from sσ i and an existing safe state s are sufficiently similar, we merge (or identify) these states. The remainder of this section formalizes these basic ideas, including the precise criteria for creating new safe states and merging candidate states into existing safe states.</p><p>We assume that the set of possible observations Σ is known, and that we have a set of training trajectories D, with each trajectory being sampled i.i.d. from the correct target. The algorithm assumes the following input parameters: δ, n, µ where δ is the desired confidence (as in standard <ref type="bibr">PAC-learning (Valiant, 1984)</ref>), n is an upper bound on the number of states desired in the model, and µ is a lower bound on the distinguishability between any two states. We assume the L ∞ norm as the measure m (see Definition 1).</p><p>We begin by defining a single safe state S = {s 0 }, labeled with a null observation. Then we consider a set of candidate states s 0 σ for every observation σ ∈ Σ. With each safe and candidate state, we associate a multiset, D s and D sσ respectively, storing the suffixes of all training trajectories that pass through this state (or a sufficient statistic thereof).</p><p>For each given training trajectory d = σ 0 . . . σ i−1 σ i σ i+1 . . . σ k , we traverse the graph matching each observation σ i to a state until either (1) all observations in d have been exhausted (in which case we discard d and proceed to the next training trajectory), or (2) a transition to a candidate state is reached. This occurs when all transitions up to σ i−1 are defined and lead to a safe state s, but there is no transition out of s with observation σ i . In this case, we add the sub-trajectory {σ i+1 . . . σ k } to the multiset D sσ i . The next step is to decide what to do about candidate state sσ. There are three possibilities: (1) retain it as a candidate state; (2) merge it with an existing state s ∈ S;</p><p>(3) promote it to be a new state S = S ∪ {sσ}. This step is the core of the algorithm.</p><p>The decision of whether to merge, promote, or retain a candidate state depends on the content of its multiset D sσ . To better explain this step, we introduce some notation, which applies both for safe and candidate states. We denote by |D s | the cardinality of D s and by D s (d) the number of times trajectory d occurs in D s . We denote by |D s (σ)| the number of trajectories starting with observation σ in multiset D s . Note that |D s (d)|/|D s | can be regarded as an empirical approximation of the probability that trajectory d will be observed starting from state s.</p><p>The decision of whether to retain a candidate is taken first. If the state is not retained, we then consider whether to promote it or merge it with an existing state. A candidate state sσ is declared large when:</p><formula xml:id="formula_5">(largeness condition) |D sσ | ≥ 3(1 + µ/4) (µ/4) 2 · ln 2 δ<label>(2)</label></formula><p>where δ = δµ 2(n|Σ|+2) . When a candidate state is declared large, it will not be retained. Intuitively, in this case there is enough information to promote or merge it correctly.</p><p>Suppose state sσ has been declared large. If there exists some safe state s such that for every trajectory d we have</p><formula xml:id="formula_6">|D sσ (d)| |D sσ | − |D s (d)| |D s | ≤ µ/2,<label>(3)</label></formula><p>then we merge sσ and s : we therefore remove sσ as a candiate state, we create a transition from s to s labelled with σ, and increase the counts of |D s (d)| by those of |D sσ (d)|.</p><p>If, on the contrary, for every s there is a d such that</p><formula xml:id="formula_7">|D sσ (d)| |D sσ | − |D s (d)| |D s | &gt; µ/2</formula><p>then we promote sσ to be a new safe state; we add a transition from s to sσ labelled with σ and add candidate states sσσ for every observation σ ∈ Σ. All trajectories in D sσ are moved appropriately to these new candidate states, as if they had been observed from sσ. The graph built as described above can easily be transformed into a PDFA. Every safe state becomes a state of the automaton. The set of observations Σ is the same. The observation probability function O(s, σ) is calculated using the multiset statistics:</p><formula xml:id="formula_8">O(s, σ) = |D s (σ)| ∑ σ ∈Σ |D s (σ )| (1 − (|Σ| + 1)γ) + γ,<label>(4)</label></formula><p>where γ &lt; 1 |Σ|+1 is a small smoothing probability (which can be set to 0 if smoothing is not desired).</p><p>The only real question left is what to do about the candidate states. Given a candidate state sσ, we look for the safe state s that is most similar to it according to a chosen distance metric. E.g., assuming L ∞ , we have s = argmax s ∈S</p><formula xml:id="formula_9">|D sσ (d)| |D sσ | − |D s (d)| |D s | .</formula><p>We then add an edge from s to s with label σ to the automaton M and calculate the observation probability as in Equation 4. Finally, the transition function is T (s, σ) = sσ.   <ref type="formula" target="#formula_5">(2)</ref> Remove sσ fromS If ∃s ∈ S such that ∀d (3) is satisfied MERGING Add transition from s to s labelled by σ</p><formula xml:id="formula_10">D s = D s ∪ D sσ Else PROMOTING s = sσ S = S ∪ {s } D s = D sσ S =S ∪ {s σ |∀σ ∈ Σ} D s σ = {σ 2 . . . σ k |∃d ∈ D s , d = σσ 2 . . . σ k } End if</formula><p>End while Construct the output graph representing the learned PDFA. <ref type="table">Table 1</ref> summarizes the algorithm presented in this section. Note that, as presented here, the algorithm works in batch mode. As such, there will necessarily be a point at which no candidate state meets the largeness condition, and the algorithm terminates. However, it is easy to imagine implementing this as an incremental algorithm, in which the graph is restructured after each trajectory is received. In this case, the largeness condition will be checked every time a new trajectory is added to the multiset of a state. It is important to note that if the algorithm runs on-line, states can continue to become large as more data is gathered, and the machine will continue to grow. One possibility to stop this is to limit the number of acceptable states, using the parameter n.</p><p>In Appendix A, we discuss a different, sufficient termination condition for this case. It is based on using the precision ε desired in the approximation of the trajectory distribution, and provides a strong improvement over the bounds of <ref type="bibr" target="#b1">Clark &amp; Thollard (2004)</ref> .</p><p>It is in general not necessary to recover a true HMM from the learned PDFA; we will consider the learned PDFA to be an approximation of the HMM, which can be used to compute (approximately) the probabilities of different trajectories. Not that an HMM can be recoverred followinng the steps outlines in Sec. 2. It should be noted that this output HMM may be of larger size than the target machine.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Analysis</head><p>A full analysis of the algorithm should show that 1) after seeing a certain number of examples, the graph under construction becomes isomorphic to that of the target machine, except for low-probability states, and that 2) in addition, after some more examples, the edge probabilities are close enough to the target ones that the distance in the probability distribution over trajectories is small. In this section we present a sketch of these proofs, highlighting the differences with results by <ref type="bibr" target="#b1">Clark and Thollard (2004)</ref>.</p><p>We first state how long it takes for a candidate state to become large. Observe that the more frequent a state is, the sooner it will be identified. In contrast, typical PAC approaches require a lower bound on the desired frequency, P, and run in time polynomial in 1/P even if most states have frequency much larger than P. No such parameter is required by our algorithm. This adaptive behavior shows good potential for the practicality of our approach.</p><p>Let</p><formula xml:id="formula_11">|D s | denote E[|D s |] and |D s (d)| denote E[|D s (d)|].</formula><p>Theorem 2.</p><p>(1) Let s be a candidate or safe node. At the time when s is declared large we have ||D s | − |D s || ≤ |D s | · (µ/4) with probability 1 − δ . That is, |D s | is an approximation to |D s | up to a multiplicative factor of µ/4.</p><p>(2) Let sσ be a candidate node, and p · t be the expected value of |D sσ | at time t Then sσ is declared large at most</p><formula xml:id="formula_12">T = 3(1 + µ/4) (1 − µ/4)(µ/4) 2 p</formula><p>· ln 2 δ steps after it was created, with probability at least 1 − δ .</p><p>The proof is technically similar to some used in <ref type="bibr" target="#b7">(Lipton and Naughton, 1995)</ref> in the context of databases. The details are omitted here, but are presented in the associated technical report. <ref type="formula" target="#formula_5">(2)</ref> guarantees that, for any large state s,</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 3. The largeness condition in Equation</head><formula xml:id="formula_13">∀d |D s (d)| |D s | − |D s (d)| |D s | &lt; µ 4 (5)</formula><p>with probability 1 − δ.</p><p>The proof is essentially given in Section 6.1 of <ref type="bibr" target="#b1">(Clark and Thollard, 2004)</ref>. From this claim, one can argue that the decisions to merge and promote candidate states are correct with high probability. Indeed, suppose that at any point we decide to merge sσ with s . This is because sσ has become large and</p><formula xml:id="formula_14">∀d, |D sσ (d)| |D sσ| − |D s (d)| |D s | ≤ µ/2.</formula><p>Then by the claim and the triangle inequality we have</p><formula xml:id="formula_15">D sσ (d) |D sσ | −D s (d) |D s | &lt; µ.</formula><p>Under the assumption that any two states in the target machine are µ-distinguishable, we conclude that sσ and s indeed reach the same state in the target machine.</p><p>Similarly, suppose that we decide to promote sσ to be a new safe state. This is because for every s there is some d such that</p><formula xml:id="formula_16">|D sσ (d)| |D sσ| − |D s (d)| |D s | &gt; µ/2.</formula><p>Then by the claim and the triangle inequality we have</p><formula xml:id="formula_17">D sσ (d) |D sσ | −D s (d) |D s | &gt; 0.</formula><p>So, assuming µ-distinguishability, we know that sσ reaches a state not reached by any safe s in the target machine. Finally with these claims one can make the following argument: suppose that every state in the target machine can be reached by some path containing only transitions of probability ≥ p. Then, every candidate state will be either promoted or merged correctly in time T , where T is given by Theorem 2. Therefore, by time at most n ·T , no candidate state is left and the graph constructed is isomorphic to the graph of the target machine.</p><p>In other words, if any candidate states remain after time n · T , they should have probability less than p. Thus we can show that for sufficiently low p, these nonfrequent states can be ignored without introducing large errors.</p><p>Finally, putting all these steps together, we obtain the following result:</p><p>Theorem 4. For every PDFA M with n states, with distinguishabilty µ &gt; 0, such that the expected length of the string generated from every state is less than L, for any δ &gt; 0 and ε &gt; 0, the PDFA-Learn algorithm will output a hypothesis PDFA M such that, with probability greater than 1 − δ, the maximum difference in the probability assigned by the PDFA to any string is at most ε.</p><p>Using the previous result on approximating PNFAs with PDFAs, and the fact that HMMs can be mapped to PNFAs, we now have a PAC-learning algorithm which will enable us to learn a good approximation of an HMM.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Illustration</head><p>We consider a few examples to illustrate the empirical behaviour of the algorithm. Consider first a synthetic text generator with a simple alphabet Σ = {a, b, #}, which is designed to generate only three words d = {abb, aaa, bba} and where # indicates word termination. We can make a generative model for this text generator using an HMM as shown in <ref type="figure" target="#fig_0">Figure 1</ref>. All observations are deterministic, transitions are also deterministic, except from s10, and the initial state distribution is the same as transitions from s10. We generate a number of trajectories from this HMM and apply the algorithm presented in Section 4 (using δ = 0.05, n = 8, µ = 0.1). The right panel in <ref type="figure" target="#fig_0">Figure 1</ref> shows the model that is learned. Nodes represent safe states. Edges are annotated by an observation and its probability (zero probability observations are not shown).</p><p>We now modify the HMM to produce noisy observations and repeat the experiment. We assume each state in <ref type="figure" target="#fig_0">Figure 1</ref> generates the character shown with P = 0.9, and generates the other character (i.e. "b" instead of "a" and vice-versa) with P = 0.1. In this case, as shown in <ref type="figure" target="#fig_2">Figure 2</ref>, our algorithm learns a slightly more complex model to account for the greater number of possible trajectories. It is easy to verify that the models shown in <ref type="figure" target="#fig_0">Figures 1 and 2</ref> generate the observation strings with the same probability as the corresponding HMM.</p><p>The right panel in <ref type="figure" target="#fig_2">Figure 2</ref> shows the bound on the number of samples required as a function of the desired model precision. The increased data requirement with low ε values are natural, since the size of the model must grow to achieve this increased precision. As expected, greater amounts of data are required when learning with noisy observations.</p><p>Next, we learn a model for a maze navigation domain called Cheese, illustrated in the left panel of <ref type="figure" target="#fig_3">Figure 3</ref>. We modify the original problem slightly as follows. We assume the agent randomly starts in states s5 or s7. We assume a single action float which moves the agent to any adjacent cell with equal probability. The task resets whenever the agent gets to s10. Observations are generated deterministically and correspond to the number of walls in each state ("a"=1 wall, "b"=2 walls, "c"=3 walls), with the exception of s10 which produces a distinct terminal observation ("#"). The right panel of <ref type="figure" target="#fig_3">Figure 3</ref> shows the results of applying our learning algorithm. It is interesting to note the particular structure learned by our model. The states can be seen to represent core beliefs of the HMM after each float action (and before the observation is seen). For example, the states of the learned model in the figure represent the following: This confirms that the graph learned is not arbitrary and has a nice structural interpretation.</p><p>There is considerable literature devoted to learning for all of the models introduced above. In HMMs, most of the existing work uses expectation maximization, like the ones described in <ref type="bibr" target="#b9">(Rabiner, 1989)</ref> . In these algorithms, the number of hidden states is assumed known. The algorithm starts with a guess about the parameters of the model and modifies this guess in such a way as to improve the likelihood of the observed data.</p><p>Several papers have looked at removing assumptions about the model topology. State splitting/merging approaches exist for learning PDFAs <ref type="bibr" target="#b0">(Carrasco and Oncina, 1994;</ref><ref type="bibr">Ron et al, 2005;</ref><ref type="bibr" target="#b14">Thollard et al, 2000)</ref> and HMMs <ref type="bibr">(Stolcke et al, 1992</ref><ref type="bibr" target="#b8">, Ostendorf et al, 1997</ref>. However the criterion for splitting/merging is typically heuristic or Bayesian in nature and does not provide correcteness guarantees.</p><p>More recent procedures rely on finding a minimal linear basis for the space of possible trajectories, by using techniques similar to singular value decomposition or principal component analysis <ref type="bibr">(Jaeger et al, 2006</ref><ref type="bibr" target="#b12">,Singh et al, 2003</ref><ref type="bibr">, Rosencrantx et al, 2004</ref>. These procedures aim to find a globally or locally optimal solution in the sense of the L 2 norm. Usually, very large amounts of data are required for a good solution, and no PAC-style guarantees exist yet. A procedure very similar to the one we propose has been devised very recently by <ref type="bibr" target="#b4">Holmes and Isbell (2006)</ref>, but only for deterministic systems. In the future, we will explore more the connections with their work.</p><p>To summarize, we developed an algorithm that learns a PDFA that approximates an HMM. The algorithm addresses the problem of joint topology and parameter inference in Markov models with hidden state. We provided improved theoretical guarantees for PAC-learning of PDFAs from data, and described a natural extension to learning HMMs and POMDPs. This paper highlights important connections between the literature on learning automata and the problem of HMM and POMDP learning. Preliminary empirical results suggest that the algorithm learns correct models for simple HMMs. Further experiments will be conducted to better investigate generality and scalability of the approach.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>1 .</head><label>1</label><figDesc>Learning Algorithm M = PDFA-Learn (Σ, D, δ, n, µ) Initialize safe states S = {s 0 } INITIALIZING D s 0 = D Initialize candidatesS = {s 0 σ|∀σ ∈ Σ} D s 0 σ = {σ 2 . . . σ k |∃d ∈ D s 0 , d = σσ 2 . . . σ k } While ∃sσ ∈S which is large, as given by</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 1 .</head><label>1</label><figDesc>A simple text-generation HMM (left) and the learned model (right)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 2 .</head><label>2</label><figDesc>Learned model with noisy observations (left) and the number of samples predicted by the PAC bounds for achieving the desired model precision (right). The noisy observation case is in blue.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 3 .</head><label>3</label><figDesc>Cheese maze (left) and the corresponding learned model (right)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>N 0 :</head><label>0</label><figDesc>Pr(s5) = Pr(s7) = 0.5; N 1 : Pr(s8) = Pr(s0) = Pr(s4) = Pr(s9) = 0.25; N 2 : Pr(s5) = Pr(s1) = Pr(s3) = Pr(s7) = 0.25; N 3 : Pr(s8) = Pr(s9) = 0.125, Pr(s0) = Pr(s4) = Pr(s2) = 0.25; N 4 : Pr(s1) = Pr(s3) = Pr(s6) = 0.333; N 5 : Pr(s0) = Pr(s4) = Pr(s10) = 0.0833, Pr(s2) = 0.5; N 6 : end of trajectory.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>Table</head><label></label><figDesc></figDesc><table></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>Ricard Gavaldà was supported in part the EU PASCAL Network of Excellence, IST-2002-506778, and by MOISES-TA, TIN2005-08832-C03. Philipp Keller, Joelle Pineau, and Doina Precup were supported in part by grants from NSERC and CFI.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A: A termination condition for on-line learning</head><p>Suppose that the target model M * would not only let us sample trajectories d, but also provide their true probability of occurring, p M * (d). We can let the PDFA construction algorithm proceed until the distance between the target model M * and the current model M is estimated to be less than a desired error parameter ε. Clearly, this step, and hence the running time of the algorithm, depend on the chosen notion of distance.</p><p>We propose the following test, based on the L ∞ distance. For a suitably defined B, draw B trajectories from M * , and obtain their probabilities, p M * (d). For every trajectory d, compute its probability using the learned model so far, p M (d). If there is some d such that |p M (d) − p M * (d)| ≥ ε, consider that L ∞ (M, M * ) ≥ ε and let the learning continue. Otherwise, consider that L ∞ (M, M * ) ≤ ε and terminate.</p><p>We set B = 3 (ε/4) 2 · ln 8 δε . We will now show that this test gives the correct answer whenever L ∞ (M, M * ) ≤ ε/2 or L ∞ (M, M * ) ≥ 3ε/2, i.e., when the L ∞ is at a certain distance from ε either way.</p><p>Claim. Let D 1 and D 2 be the two probability distributions to which the test is applied. With probability 1 − δ, if L ∞ (D 1 , D 2 ) ≥ 3ε/2 then the test above says "distance greater than ε", and if if L ∞ (D 1 , D 2 ) ≤ ε/2 it says 'distance less than ε"</p><p>The proof is easy and omitted in this version. It can be furthermore shown as in <ref type="bibr" target="#b1">Clark and Thollard (2004)</ref> that the distance between hypothesis and target machines will be below ε in a number of steps polynomial in the parameters: 1/ε, 1/µ, ln(1/δ), n, as well as the expected length of strings generated at any step, L.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Learning stochastic regular grammars by means of a state merging method</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Carrasco</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Oncina</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994" />
+		</imprint>
+	</monogr>
+	<note>LNAI 862.</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">PAC-learnability of Probabilistic Deterministic Finite State Automata</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Thollard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Links between Probabilistic Automata and Hidden Markov Models</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Dupont</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Denis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Esposito</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pattern Recognition</title>
+		<imprint>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page">38</biblScope>
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Biological Sequence Analysis: Probabilistic Models of Proteins and Nucleic Acids</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Durbin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">R</forename><surname>Eddy</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Krogh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">J</forename><surname>Mitchison</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1998" />
+			<publisher>Cambridge University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Looping Suffix Tree-Based Inference of Partially Observable Hidden State</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Isbell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICML</title>
+		<meeting>ICML</meeting>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Efficient estimation of OOMs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Jaeger</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Kolling</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of NIPS</title>
+		<meeting>NIPS</meeting>
+		<imprint>
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">On the learnability of discrete distributions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kearns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Mansour</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Ron</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Rubinfeld</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">E</forename><surname>Schapire</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Sellie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM Symposium on the Theory of Computing</title>
+		<imprint>
+			<date type="published" when="1995" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Query size estimation by adaptive sampling</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">J</forename><surname>Lipton</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">F</forename><surname>Naughton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Computer and System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="page" from="18" to="25" />
+			<date type="published" when="1995" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">HMM topology design using maximum likelihood successive state splitting</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Ostendorf</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Singer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computer Speech and Language</title>
+		<imprint>
+			<biblScope unit="page">11</biblScope>
+			<date type="published" when="1997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A tutorial on Hidden Markov Models and Selected Applications in Speech Recognition</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">R</forename><surname>Rabiner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the IEEE</title>
+		<meeting>the IEEE</meeting>
+		<imprint>
+			<date type="published" when="1989" />
+			<biblScope unit="volume">77</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">On the learnability and usage of acyclic probabilistic finite automata</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Ron</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Singer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Tishby</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of COLT</title>
+		<meeting>COLT</meeting>
+		<imprint>
+			<date type="published" when="1995" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Learning Low Dimensional Predictive Representations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Rosencrantz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Gordon</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Thrun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICML</title>
+		<meeting>ICML</meeting>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Learning Predictive State Representations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">L</forename><surname>Littman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">K</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Pardoe</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Stone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICML</title>
+		<meeting>ICML</meeting>
+		<imprint>
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Hidden Markov Model Induction by Bayesian Model Merging</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Stolcke</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Omohundro</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of NIPS</title>
+		<meeting>NIPS</meeting>
+		<imprint>
+			<date type="published" when="1993" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Probabilistic DFA Inference using Kullback-Leibler Divergence and Minimality</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Thollard</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Dupont</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Higuera</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Valiant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICML</title>
+		<meeting>ICML</meeting>
+		<imprint>
+			<date type="published" when="1984" />
+			<biblScope unit="volume">27</biblScope>
+		</imprint>
+	</monogr>
+	<note>A theory of the learnable</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

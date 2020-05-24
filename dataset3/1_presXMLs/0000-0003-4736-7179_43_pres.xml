@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Improving Adaptive Bagging Methods
+for Evolving Data Streams
+</p>
+<p>A. Bifet, G. Holmes, B. Pfahringer, and R. Gavaldà
+</p>
+<p>University of Waikato
+Hamilton, New Zealand
+</p>
+<p>Laboratory for Relational Algorithmics, Complexity and Learning LARCA
+UPC-Barcelona Tech, Catalonia
+</p>
+<p>Nanjing, 4 November 2009
+1st Asian Conference on Machine Learning (ACML’09)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation
+</p>
+<p>MOA Software for Mining Data Streams
+Build a useful software mining for massive data sets
+</p>
+<p>Bagging for data streams
+Improve accuracy on classification methods for data
+streams
+</p>
+<p>2 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Data stream classification cycle
+</p>
+<p>1 Process an example at a time,
+and inspect it only once (at
+most)
+</p>
+<p>2 Use a limited amount of
+memory
+</p>
+<p>3 Work in a limited amount of
+time
+</p>
+<p>4 Be ready to predict at any
+point
+</p>
+<p>3 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Realtime analytics: from Databases to Dataflows
+</p>
+<p>Data streams
+Data streams are ordered datasets
+Not all datasets are data streams
+All dataset may be processed incrementally as a data
+stream
+</p>
+<p>MOA: Massive Online Analysis
+Faster Mining Software using less resources
+</p>
+<p>Instant mining: more for less
+</p>
+<p>4 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What is MOA?
+</p>
+<p>{M}assive {O}nline {A}nalysis is a framework for online learning
+from data streams.
+</p>
+<p>It is closely related to WEKA
+It includes a collection of offline and online as well as tools
+for evaluation:
+</p>
+<p>boosting and bagging
+Hoeffding Trees
+</p>
+<p>with and without Naïve Bayes classifiers at the leaves.
+</p>
+<p>5 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WEKA
+</p>
+<p>Waikato Environment for Knowledge Analysis
+Collection of state-of-the-art machine learning algorithms
+and data processing tools implemented in Java
+</p>
+<p>Released under the GPL
+Support for the whole process of experimental data mining
+</p>
+<p>Preparation of input data
+Statistical evaluation of learning schemes
+Visualization of input data and the result of learning
+</p>
+<p>Used for education, research and applications
+Complements “Data Mining” by Witten & Frank
+</p>
+<p>6 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WEKA: the bird
+</p>
+<p>7 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>MOA: the bird
+</p>
+<p>The Moa (another native NZ bird) is not only flightless, like the
+Weka, but also extinct.
+</p>
+<p>8 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Concept Drift Framework
+f (t) f (t)
+</p>
+<p>1
+</p>
+<p>α
+0.5
+</p>
+<p>α
+</p>
+<p>t t0
+W
+</p>
+<p>Definition
+Given two data streams a, b, we define c = a⊕Wt b as the data0
+stream built joining the two data streams a and b
+</p>
+<p>Pr[c(t) = b(t)] = 1/(1+ e−4(t−t0)/W ).
+Pr[c(t) = a(t)] = 1−Pr[c(t) = b(t)]
+</p>
+<p>9 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Concept Drift Framework
+f (t) f (t)
+</p>
+<p>1
+</p>
+<p>α
+0.5
+</p>
+<p>α
+</p>
+<p>t t0
+W
+</p>
+<p>Example
+</p>
+<p>(((a⊕W0 b)⊕W1 c)⊕W2t0 t1 t d) . . .2
+(((SEA ⊕W9 t SEA W W0 8)⊕2t SEA7)⊕0 3t SEA0 9.5)
+</p>
+<p>CovPokElec = (CoverType⊕5,000 Poker)⊕5,000581,012 1,000,000 ELEC2
+</p>
+<p>9 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>New Ensemble Methods For Evolving Data Streams
+</p>
+<p>New Ensemble Methods For Evolving Streams (KDD’09)
+a new experimental data stream framework for studying
+concept drift
+two new variants of Bagging:
+</p>
+<p>ADWIN Bagging
+Adaptive-Size Hoeffding Tree (ASHT) Bagging.
+</p>
+<p>an evaluation study on synthetic and real-world datasets
+</p>
+<p>10 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+</p>
+<p>1 Adaptive-Size Hoeffding Tree bagging
+</p>
+<p>2 ADWIN Bagging
+</p>
+<p>3 Empirical evaluation
+</p>
+<p>11 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive-Size Hoeffding Tree
+</p>
+<p>T1 T2 T3 T4
+</p>
+<p>Ensemble of trees of different size
+each tree has a maximum size
+after one node splits, it deletes some nodes to reduce its
+size if the size of the tree is higher than the maximum value
+</p>
+<p>12 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive-Size Hoeffding Tree
+</p>
+<p>T1 T2 T3 T4
+</p>
+<p>Ensemble of trees of different size
+smaller trees adapt more quickly to changes,
+larger trees do better during periods with little change
+diversity
+</p>
+<p>12 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive-Size Hoeffding Tree
+</p>
+<p>0,3 0,28
+</p>
+<p>0,29
+</p>
+<p>0,275
+0,28
+</p>
+<p>0,27
+0,27
+</p>
+<p>0,26
+</p>
+<p>0,25 0,265
+</p>
+<p>0,24
+</p>
+<p>0,26
+0,23
+</p>
+<p>0,22
+0,255
+</p>
+<p>0,21
+</p>
+<p>0,2 0,25
+</p>
+<p>0 0,1 0,2 0,3 0,4 0,5 0,6 0,1 0,12 0,14 0,16 0,18 0,2 0,22 0,24 0,26 0,28 0,3
+</p>
+<p>Kappa Kappa
+</p>
+<p>Figure: Kappa-Error diagrams for ASHT bagging (left) and bagging
+(right) on dataset RandomRBF with drift, plotting 90 pairs of
+classifiers.
+</p>
+<p>13 / 26
+</p>
+<p>Error
+</p>
+<p>Error</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Improvement for ASHT Bagging Method
+</p>
+<p>Improvement for ASHT Bagging ensemble method
+Bagging using trees of different size
+</p>
+<p>add a change detector for each tree in the ensemble
+DDM: Gama et al.
+EDDM: Baena, del Campo, Fidalgo et al.
+</p>
+<p>14 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+</p>
+<p>1 Adaptive-Size Hoeffding Tree bagging
+</p>
+<p>2 ADWIN Bagging
+</p>
+<p>3 Empirical evaluation
+</p>
+<p>15 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ADWIN Bagging
+</p>
+<p>ADWIN
+</p>
+<p>An adaptive sliding window whose size is recomputed online
+according to the rate of change observed.
+</p>
+<p>ADWIN has rigorous guarantees (theorems)
+On ratio of false positives and negatives
+On the relation of the size of the current window and
+change rates
+</p>
+<p>ADWIN Bagging
+When a change is detected, the worst classifier is removed and
+a new classifier is added.
+</p>
+<p>16 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Optimal Change Detector and Predictor
+ADWIN
+</p>
+<p>High accuracy
+Fast detection of change
+Low false positives and false negatives ratios
+Low computational cost: minimum space and time needed
+Theoretical guarantees
+No parameters needed
+Estimator with Memory and Change Detector
+</p>
+<p>17 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 1
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 1 W1 = 01010110111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 10 W1 = 1010110111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 101 W1 = 010110111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 1010 W1 = 10110111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 10101 W1 = 0110111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 101010 W1 = 110111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 1010101 W1 = 10111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111
+W0= 10101011 W1 = 0111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111 |µ̂W0− µ̂W1 | ≥ εc : CHANGE DET.!
+W0= 101010110 W1 = 111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 101010110111111 Drop elements from the tail of W
+W0= 101010110 W1 = 111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Example
+</p>
+<p>W= 01010110111111 Drop elements from the tail of W
+W0= 101010110 W1 = 111111
+</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪{xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0− µ̂W1 |< εc holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+</p>
+<p>18 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>Theorem
+At every time step we have:
+</p>
+<p>1 (False positive rate bound). If µt remains constant within
+W, the probability that ADWIN shrinks the window at this
+step is at most δ .
+</p>
+<p>2 (False negative rate bound). Suppose that for some
+partition of W in two parts W0W1 (where W1 contains the
+most recent items) we have |µW0−µW1 |> 2εc . Then with
+probability 1−δ ADWIN shrinks W to W1, or shorter.
+</p>
+<p>ADWIN tunes itself to the data stream at hand, with no need for
+the user to hardwire or precompute parameters.
+</p>
+<p>19 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm ADaptive Sliding WINdow
+ADWIN
+</p>
+<p>ADWIN using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(logW ) cutpoints
+uses O(1 logW ) memory words
+</p>
+<p>ε
+</p>
+<p>the processing time per example is O(logW ) (amortized
+and worst-case).
+</p>
+<p>Sliding Window Model
+</p>
+<p>1010101 101 11 1 1
+Content: 4 2 2 1 1
+Capacity: 7 3 2 1 1
+</p>
+<p>20 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ADWIN bagging using Hoeffding Adaptive Trees
+Decision Trees: Hoeffding Adaptive Tree
+</p>
+<p>CVFDT: Hulten, Spencer and Domingos
+No theoretical guarantees on the error rate of CVFDT
+Parameters needed : size of window, number of
+examples,...
+</p>
+<p>Hoeffding Adaptive Tree:
+replace frequency statistics counters by estimators
+</p>
+<p>don’t need a window to store examples
+</p>
+<p>use a change detector with theoretical guarantees to
+substitute trees
+</p>
+<p>Advantages:
+1 Theoretical guarantees
+2 No Parameters
+</p>
+<p>21 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+</p>
+<p>1 Adaptive-Size Hoeffding Tree bagging
+</p>
+<p>2 ADWIN Bagging
+</p>
+<p>3 Empirical evaluation
+</p>
+<p>22 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical evaluation
+</p>
+<p>Dataset Most Accurate Method
+Hyperplane Drift 0.0001 Bag10 ASHT W+R
+Hyperplane Drift 0.001 DDM Bag10 ASHT W
+SEA W = 50 BagADWIN 10 HAT
+SEA W = 50000 BagADWIN 10 HAT
+RandomRBF No Drift 50 centers Bag 10 HT
+RandomRBF Drift .0001 50 centers BagADWIN 10 HAT
+RandomRBF Drift .001 50 centers DDM Bag10 ASHT W
+RandomRBF Drift .001 10 centers BagADWIN 10 HAT
+Cover Type DDM Bag10 ASHT W
+Poker BagADWIN 10 HAT
+Electricity DDM Bag10 ASHT W
+CovPokElec BagADWIN 10 HAT
+</p>
+<p>23 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical evaluation
+</p>
+<p>SEA
+W= 50000
+</p>
+<p>Time Acc. Mem.
+BagADWIN 10 HAT 154.91 88.88 ± 0.05 2.35
+DDM Bag10 ASHT W 44.02 88.72 ± 0.05 0.65
+NaiveBayes 5.52 84.60 ± 0.03 0.00
+NBADWIN 12.40 87.83 ± 0.07 0.02
+HT 7.20 85.02 ± 0.11 0.33
+HT DDM 7.88 88.17 ± 0.18 0.16
+HAT 20.96 88.40 ± 0.07 0.18
+BagADWIN 10 HT 53.15 88.58 ± 0.10 0.88
+Bag10 HT 30.88 85.38 ± 0.06 3.36
+Bag10 ASHT W+R 33.56 88.51 ± 0.06 0.84
+</p>
+<p>24 / 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical evaluation
+</p>
+<p>Accuracy
+</p>
+<p>73,9
+</p>
+<p>73,4 BagAdwin HAT
+</p>
+<p>DDM BagHAST
+</p>
+<p>EDDM BagHast
+72,9
+</p>
+<p>DDM HT
+</p>
+<p>EDDM HT
+</p>
+<p>72,4 BagAdwin HT
+</p>
+<p>BagHAST
+</p>
+<p>71,9
+</p>
+<p>71,4
+</p>
+<p>10.000 140.000 270.000 400.000 530.000 660.000 790.000 920.000
+</p>
+<p>Instances
+</p>
+<p>Figure: Accuracy on dataset LED with three concept drifts.
+</p>
+<p>25 / 26
+</p>
+<p>Accuracy (%)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Summary
+</p>
+<p>http://www.cs.waikato.ac.nz/∼abifet/MOA/
+</p>
+<p>Conclusions
+New improvements for ensemble bagging methods:
+</p>
+<p>Adaptive-Size Hoeffding Tree bagging using change
+detection methods
+ADWIN bagging using Hoeffding Adaptive Trees
+</p>
+<p>MOA is easy to use and extend
+</p>
+<p>Future Work
+Extend MOA to more data mining and learning methods.
+</p>
+<p>26 / 26</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

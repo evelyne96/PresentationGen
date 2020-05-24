@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Computing Pure Nash Equilibria in Symmetric Action Graph Games</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><forename type="middle">Xin</forename><surname>Jiang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Computing Pure Nash Equilibria in Symmetric Action Graph Games</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We analyze the problem of computing pure Nash equilibria in action graph games (AGGs), which are a compact gametheoretic representation. While the problem is NP-complete in general, for certain classes of AGGs there exist polynomial time algorithms. We propose a dynamic-programming approach that constructs equilibria of the game from equilibria of restricted games played on subgraphs of the action graph. In particular, if the game is symmetric and the action graph has bounded treewidth, our algorithm determines the existence of pure Nash equilibrium in polynomial time.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Game-theoretic models have recently been very influential in the computer science community. Most of the game theoretic literature presumes that simultaneous-action games will be represented in normal form-i.e., that the game's payoff function is a matrix with one entry for each player's payoff under each combination of all players' actions. This is problematic because quite often games of interest have a large number of players and a large set of action choices, and the size of the normal form representation grows exponentially with the number of players. Fortunately, most large games of any practical interest have highly structured payoff functions. For example, if there exist strict payoff independencies between players, a game can be more compactly written as a graphical game <ref type="bibr" target="#b10">(Kearns, Littman, &amp; Singh 2001)</ref>. Such a game can be visualized using a graph whose vertices correspond to agents, and whose edges correspond to dependencies between agents' utility functions. If a game's structure takes the form of anonymity or contextspecific payoff independencies, it can be more compactly represented as an action graph game (AGG) <ref type="bibr" target="#b3">(Bhat &amp; Leyton-Brown 2004;</ref><ref type="bibr" target="#b9">Jiang &amp; Leyton-Brown 2006</ref>). An AGG can be visualized using a graph whose vertices correspond to actions, and whose edges correspond to dependencies between the utilities of agents who take these actions. AGGs are fully expressive, i.e. they can represent arbitrary games. AGGs are always at least as compact as graphical games, and can be exponentially more compact for certain structured games.</p><p>Nash equilibrium is the most important solution concept in game theory. Such equilibria come in two varieties. When <ref type="bibr">Copyright c 2007</ref>, American Association for Artificial Intelligence (www.aaai.org). All rights reserved.</p><p>we allow mixed-strategy equilibria, we know that every finite game has a Nash equilibrium <ref type="bibr" target="#b12">(Nash 1951)</ref>, and that computing such an equilibrium is PPAD-complete <ref type="bibr" target="#b5">(Chen &amp; Deng 2006)</ref>. Pure-strategy Nash equilibria are not guaranteed to exist, although they are often more interesting than their mixed-strategy cousins; for example, they can be easier to implement in practice. Various work has considered approaches for finding such equilibria under various game representations <ref type="bibr" target="#b7">(Gottlob, Greco, &amp; Scarcello 2003;</ref><ref type="bibr" target="#b6">Daskalakis &amp; Papadimitriou 2006;</ref><ref type="bibr" target="#b8">Ieong et al. 2005;</ref><ref type="bibr" target="#b4">Brandt, Fischer, &amp; Holzer 2007)</ref>.</p><p>In this paper, we analyze the problem of finding pure Nash equilibria in AGGs. While the problem is NP-compete in general, we identify classes of AGGs for which this problem is tractable. We propose a dynamic programming approach that uses tree decomposition techniques to break an action graph into subgraphs, and constructs equilibria of the game from equilibria of restricted games on the subgraphs. In particular, we show that if the AGG is symmetric and the action graph has bounded treewidth, our algorithm determines the existence of pure equilibria in polynomial time. Though space does not permit us to provide the results here, our result can also be extended beyond symmetric games. <ref type="bibr" target="#b7">Gottlob, Greco, &amp; Scarcello (2003)</ref> and <ref type="bibr" target="#b6">Daskalakis &amp; Papadimitriou (2006)</ref> both analyzed the problem of finding pure equilibria in graphical games, and proposed dynamic programming algorithms based on hypertree decomposition and tree decomposition, respectively. Our dynamic programming approach for AGGs similarly relies on tree decomposition, and indeed simplifies to the equivalent of Daskalakis &amp; Papadimitriou's algorithm on graphical games represented as AGGs. However, on general AGGs we face an additional difficulty, because an agent can deviate from playing an action in one part of the action graph to another. <ref type="bibr" target="#b8">Ieong et al. (2005)</ref> proposed a dynamic programming algorithm for finding pure equilibria in singleton congestion games. These games can be represented as AGGs with only self edges. Ieong et al.'s algorithm builds equilibria from restricted games played on subsets of actions. Our approach deals with agents' deviations (the problem mentioned above) in a way similar to Ieong et al., using the worst current utility and best entrant utility of restricted games. Action Graph Games Definition 1. An action graph game (AGG) is a tuple N, S, (S, E), u , where • N = {1, . . . , n} is the set of agents, • S = i∈N S i is the set of action profiles, where is the Cartesian product and S i is agent i's set of actions. We denote by s i ∈ S i one of agent i's actions, and s ∈ S an action profile. • Agents' action sets may partially or completely overlap.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Related Work</head><p>S is the set of distinct actions. In other words, S i ⊆ S for all i, and S = i∈N S i . </p><formula xml:id="formula_0">• G ≡ (S, E) is the action graph,</formula><formula xml:id="formula_1">X. • u is a |S|-tuple (u s ) s∈S , where each u s : ∆[ν(s)] → R is the utility function for s. Semantically, u s (D[ν(s)])</formula><p>is the utility of an agent who chose action s, when the configuration over ν(s) is D[ν(s)].</p><p>Let U be the set of distinct utilities of the game Γ. For notational convenience, let u i (s) denote agent i's utility under action profile s, i.e.</p><formula xml:id="formula_2">u i (s) = u si (D[ν(s i )]) where ∀x ∈ ν(s i ), D[x] = |{j ∈ N |s j = x}|.</formula><p>Let s −i denote the tuple of actions for agents other than i.</p><p>Intuitively, AGGs capture two types of structure in games:</p><p>1. Shared actions capture the game's anonymity structure: agent i's utility depends only on her action s i and the configuration (i.e. number of players that play each action), but not on the identities of the players.</p><p>2. The (lack of) edges between nodes in the action graph expresses context-specific independencies of utilities of the game: ∀i ∈ N , if i chose action s ∈ S, then i's utility depends only on the configuration over the neighborhood of s. In other words, the configuration over actions not in ν(s) does not affect i's utility.</p><p>Definition 2. An AGG is symmetric if all players have identical action sets, i.e. if S i = S for all i.</p><p>Note that in a symmetric AGG, all agents have the same utility functions, i.e., a symmetric AGG represents a symmetric game, in which all agents are identical.</p><p>Definition 3. An AGG is k-symmetric if there exists a partition {N 1 , . . . , N k } of N such that for all l ∈ {1, . . . , k}, for all i, j ∈ N l , S i = S j .</p><p>Intuitively, k-symmetric AGGs represent games having k classes of agents; agents within each class are identical.</p><p>The following are several properties of the AGG representation. Due to space constraints we omit the proofs of these facts and refer the readers to <ref type="bibr" target="#b9">(Jiang &amp; Leyton-Brown 2006)</ref>. • AGGs are fully expressive: any game can be represented as an AGG. • Symmetric AGGs can represent arbitrary symmetric games. • As with other game representations, the size of an AGG representation is dominated by the size of its utility functions. For all AGGs Γ, let ||Γ|| ≡ s∈S |∆[ν(s)]| denote the number of utility values the representation stores, then ||Γ|| ≤ |S| n−1+I I ≡ |S| (n−1+I)! (n−1)!I! , where I ≡ max s∈S |ν(s)| is the maximum in-degree of the action graph G. If I is bounded by a constant, ||Γ|| = O(|S|n I ).</p><p>• Any graphical game can be encoded as an AGG in which all action sets are disjoint. The transformation takes polynomial time and the resulting AGG has the same space complexity as the graphical game. The converse is not true: for certain AGGs, the equivalent graphical games are exponentially larger. In particular, for any symmetric AGG with at least one edge in its action graph, the equivalent graphical game is a clique and its size is no better than the normal form. Example 1. Suppose each of n agents is interested in opening a business, and can choose to locate in any block along either side of a road of length m. Multiple agents can choose the same block. Agent i's payoff depends on the number of agents who chose the same block as he did, as well as the numbers of agents who chose each of the adjacent blocks of land. This game can be compactly represented as a symmetric AGG, whose action graph is illustrated in <ref type="figure" target="#fig_0">Figure 1</ref>.</p><p>Notice that each node has at most four incoming edges, regardless of the length of the road m. Thus for all m, The AGG representation of a road game with length m stores only O(|S|n 4 ) = O(2mn 4 ) payoffs. Also notice that any pair of agents can potentially affect each other's payoffs by choosing adjacent locations. This means that the graphical game representation of this game is a clique, and its space complexity is the same as that of the normal form (exponential in n).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Complexity of Finding Pure Equilibria</head><formula xml:id="formula_3">An action profile s ∈ S is a pure Nash equilibrium of the game Γ if for all i ∈ N , for all s i ∈ S i , u i (s i , s −i ) ≥ u i (s i , s −i ).</formula><p>Intuitively, in a pure Nash equilibrium no agent can profitably deviate from her chosen action. An obvious algorithm for finding pure equilibria of a game is to check every possible action profile. This algorithm runs in linear time in the normal form representation of the game. However, since AGGs can be exponentially more compact than the normal form, the running time of this algorithm is worst-case exponential in the size of the AGG. Indeed, the problem becomes NP-complete when the input is an AGG. Theorem 1. The problem of determining whether a pure Nash equilibrium exists in an AGG is NP-complete.</p><p>Proof Sketch. It is straightforward to see that the problem is in NP, because given a pure strategy profile it takes polynomial time to verify whether it is a Nash equilibrium. NPhardness follows from the fact that any graphical game can be transformed (in poly-time) to an equivalent AGG of the same space complexity, and the fact that the problem of determining the existence of pure equilibrium in graphical games is NP-hard <ref type="bibr" target="#b7">(Gottlob, Greco, &amp; Scarcello 2003)</ref>.</p><p>Indeed, the problem remains hard even if we restrict the games to be symmetric. The proof 1 (a reduction from 3SAT) is omitted due to space constraints. Theorem 2. The problem of determining whether a pure Nash equilibrium exists in a symmetric AGG is NPcomplete, even when the in-degree of the action graph is at most 3.</p><p>Now we look at classes of AGGs in which |S|, the number of action nodes, is bounded by some constant. We show that in this case, the problem of finding pure equilibria can be solved in polynomial time. While this is a very restricted class of AGGs, we will use the results of this subsection as building blocks for our dynamic programming approach to solve more complex AGGs.</p><p>We first look at symmetric AGGs. The following Lemma allows us to consider only the configurations instead of all the pure strategy profiles. Lemma 3. Suppose Γ is a symmetric AGG. If s and s induce the same configuration, then s is a pure equilibrium of Γ iff s is a pure equilibrium of Γ.</p><p>We say a configuration D is a pure equilibrium of Γ if its corresponding pure strategies are pure equilibria. Given a configuration D, we can check whether it is a pure equilibrium in polynomial time. Theorem 4. The problem of determining whether a pure Nash equilibrium exists in a symmetric AGG with bounded |S| is in P .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof.</head><p>A polynomial algorithm is to check all configurations. Since |S| is bounded, the number of configurations</p><formula xml:id="formula_4">n+|S|−1 |S|−1 = O(n |S|−1 ) is polynomial.</formula><p>This can be easily extended to k-symmetric AGGs. Definition 5. Suppose Γ is a k-symmetric AGG with the partition {N 1 , . . . , N k } and the corresponding set of distinct action sets {S 1 , . . . , S k }. Then given a pure strategy profile s, its corresponding k-configuration is a tuple (D l ) 1≤l≤k where D l is the configuration over S l induced by the players in N l . In other words, for all s ∈ S l , D l [s] = |{i ∈ N l |s i = s}|.</p><p>Just as configurations capture all relevant information about pure strategy profiles in symmetric games, kconfigurations capture all relevant information about pure strategy profiles in k-symmetric games. Thus we can determine the existence of pure equilibrium by checking all <ref type="bibr" target="#b0">1</ref> The proof is based on unpublished personal communications with Vincent Conitzer. k-configurations. When k is bounded by a constant, there are polynomial number of k-configurations. Lemma 5. The problem of determining whether a pure Nash equilibrium exists in a k-symmetric AGG with bounded |S| and bounded k is in P .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof. A polynomial algorithm is to check all</head><formula xml:id="formula_5">k- configurations. Since |S| is bounded, for each l ∈ {1, . . . , k} the number of distinct D l is |N l |+|S l |−1 |S l |−1 = O(|N l | |S l |−1 ).</formula><p>Therefore the number of distinct kconfigurations is O(n k(|S|−1) ), which is polynomial when k is bounded. For each k-configuration, checking whether it is a Nash equilibrium takes polynomial time. Therefore the algorithm runs in polynomial time. Now consider the full class of AGGs with bounded |S|. Interestingly, our problem is remains easy to solve. Theorem 6. The problem of determining whether a pure Nash equilibrium exists in an arbitrary AGG with bounded |S| is in P .</p><p>Proof. Any AGG Γ is k-symmetric by definition, where k is the number of distinct action sets. Since S i ⊆ S for all i, the number of distinct nonempty action sets is at most 2 |S| − 2. Since |S| is bounded by a constant, there are a bounded number of distinct action sets. Thus Γ is k-symmetric with bounded k, and Lemma 5 applies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Dynamic Programming</head><p>We now consider classes of AGGs in which |S| is not bounded. Whereas enumerating the configurations works well for AGGs with bounded |S|, this approach is less effective in the general case with unbounded |S|: in a symmetric AGG, the number of configurations over S is n+|S|−1 |S|−1 , which is superpolynomial in ||Γ|| when I is bounded.</p><p>Our approach is to use dynamic programming to construct pure equilibria of the game from pure equilibria of games restricted to parts of the action graph. While the NPcompleteness results from the previous section imply that our approach is unlikely to be tractable for all AGGs, we identify classes of AGGs for which our approach does yield a polynomial algorithm.</p><p>For a set of actions R ⊂ S, let G R be the action graph G = (S, E) restricted to the action nodes R. Formally,</p><formula xml:id="formula_6">G R ≡ (R, {(s, t) ∈ E|s ∈ R, t ∈ R}).</formula><p>For a set of actions X ⊂ S, define ν(X) ≡ {s ∈ S \ X|∃x ∈ X such that (s, x) ∈ E}: the set of actions not in X that are neighbors of some action in X. Also define ν(X) ≡ {x ∈ X|∃s ∈ S \ X such that (x, s) ∈ E}, the set of actions in X that are neighbors of some action not in X.</p><formula xml:id="formula_7">Let ρ(X) ≡ ν(X) ∪ ν(X). Given a configuration D[X], let #D[X] ≡ x∈X D[x].</formula><p>Given a pure strategy profile s = (s 1 , . . . , s n ) and a set of actions R ⊂ S, the restricted strategy profile s| R is a tuple <ref type="figure">(N , s N )</ref> where N = {i ∈ N |s i ∈ R} is the set of players that chose actions in R and s N = (s i ) i∈N is the tuple of their actions. Now we introduce the concept of a restricted game on R ⊂ S, which intuitively is the game played by a subset N ⊆ N of players when we "restrict" them to the subgraph G R , i.e. require them to choose their actions from R. Of course, the utility functions of this restricted game are not defined until we specify a configuration on ν(R).</p><p>Definition 6. Given an AGG Γ, a set of actions R ⊂ S, a configuration D[ν(R)] and N ⊆ N , we define the restricted game Γ(N , R, D[ν(R)]) to be an AGG with the set N of players and with G R as the action graph. For each player i ∈ N , her action set is S i = S i ∩ R. Each action s ∈ R has the utility function u s | D[ν(R)] , which is the same as u s as defined in Γ except that the configuration of nodes outside R is assigned by</p><formula xml:id="formula_8">D[ν(R)]. Formally, Γ(N , R, D[ν(R)]) = N , i∈N (S i ∩ R), G R , u s | D[ν(R)] s∈R .</formula><p>It is easy to see that a pure equilibrium on Γ induces a pure equilibrium on the game restricted to G R . Lemma 7. Suppose s is a pure equilibrium of Γ, and its restricted profile on R ⊂ S is s| R = (N , s N ). Then s N is a pure equilibrium of the restricted game Γ(N , R, D[ν(R)]), where D is the configuration induced by s.</p><p>We want to use equilibria of restricted games as building blocks to construct equilibria of the entire game. Of course, a restricted game on R ⊂ S is not well-defined until we specify D[ν(R)]. Thus we define a partial solution, which describes a restricted game as well as a pure equilibrium of it, as follows.</p><p>Definition 7. For R ⊂ S, a partial solution on R is a restricted strategy profile on R ∪ ν(R), s| R∪ν(R) , such that its restriction on R, s| R = (N , s N ), is a pure equilibrium of the restricted game Γ(N , R, D[ν(R)]).</p><p>We say a partial solution s| R∪ν(R) can be extended if there exists a pure strategy profile s * such that s * is a pure equilibrium of Γ and s * | R∪ν(R) = s| R∪ν(R) .</p><p>In order to combine partial solutions to form a partial solution on a larger subgraph, we need to make sure that the result is a valid restricted strategy profile. We say two partial solutions s | X and s | Y are consistent if there exists a pure strategy profile s such that s| X = s | X and s| Y = s | Y . It is straightforward to see that two partial</p><formula xml:id="formula_9">solutions s | X = (N , s N ) and s | Y = (N , s N ) are consistent iff for all i ∈ N ∩ N , s i = s i .</formula><p>However, if we simply combine two consistent partial solutions that describe equilibria of restricted games on two disjoint sets X, Y ∈ S, the result would not necessarily induce an equilibrium of the restricted game on X ∪ Y . This is because an agent who was playing an action in X might profitably deviate by playing an action in Y , and vice versa.</p><p>We could deal with this problem by keeping track of all pure equilibria of each restricted game, and determine caseby-case whether two equilibria can be combined (by checking whether agents could profitably deviate from one restricted game to the other). But as we combine the restricted games to form larger restricted games and eventually the unrestricted game on the entire action graph G, the number of equilibria we would have to store could grow exponentially.</p><p>Perhaps we don't need to keep track of all partial solutions. Imagine we had a function ch that summarized them, i.e. it mapped each partial solution to a characteristic from a finite set C which is smaller than the set of partial solutions. For this characteristic function to be useful, it need to be equilibrium-preserving, defined as follows.</p><p>Definition 8. For X ⊂ S, a function ch() that maps partial solutions to their characteristics is equilibriumpreserving if for all pairs of partial solutions s| X , s | X , if ch(s| X ) = ch(s | X ) then (s| X can be extended) ⇔ (s | X can be extended).</p><p>Intuitively, an equilibrium-preserving characteristic function ch() induces a partition of the set of partial solutions into equivalence classes. All partial solutions with the same characteristic behave the same way, so we only need to consider the set of all distinct characteristics. For X ⊂ S, we define A X ⊂ C to be the set of characteristics of partial solutions on X. Formally, A X = {ch(s| X∪ν(X) ) | s| X∪ν(X) is a partial solution on X}.</p><p>Given such a function ch, a dynamic-programming algorithm for determining the existence of pure equilibria of Γ is:</p><p>1. Partition S into X = {X 1 , . . . , X m } such that the size of each X i is bounded by a constant. 2. For each X i ∈ X , compute A Xi , the set of characteristics of partial solutions on X i . 3. While |X | ≥ 2:</p><formula xml:id="formula_10">(a) Take X, Y ∈ X . Remove them from X . (b) Compute A X∪Y from A X and A Y . (c) Add X ∪ Y to X .</formula><p>4. Now X has only one member, S.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Return TRUE iff A S is not empty.</head><p>Since a partial solution on S is by definition a pure equilibrium of Γ, there exists a pure equilibrium of Γ if and only if A S is not empty. For this algorithm to run in polynomial time, the function ch() must satisfy the following properties:</p><p>Property 1: At all times during the algorithm, for all X ∈ X , the size of A X is polynomial. This is necessary since all restricted strategy profiles could potentially be partial solutions, and so A X could potentially be the set of all possible characteristics for X. Property 2: For each X i of bounded size, A Xi can be computed in polynomial time. Property 3: A X∪Y can be computed from A X and A Y in polynomial time.</p><p>The NP-Completeness results from the previous section imply that we will not find a ch() that satisfies the above for general AGGs unless P=NP. Nevertheless, in the following sections we show that for certain classes of AGGs there exist ch()'s that do satisfy the above properties, meaning that our dynamic programming algorithm determines the existence of pure Nash equilibrium in polynomial time for those classes of AGGs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Symmetric AGGs</head><p>Now we focus on applying our dynamic programming approach to symmetric AGGs. Since in this case all players have the same action set S, we can identify a symmetric AGG by the tuple n, G = (S, E), u . Similarly, given a symmetric AGG Γ, X ⊂ S, a configuration D[ν(X)] and n ≤ n, we define the restricted game Γ(n , X, D[ν(X)]) = n , G X , u x | D[ν(X)] x∈X . Lemma 3 tells us that we only need to consider configurations instead of strategy profiles. Likewise, for the subgraph restricted to X ⊂ S, instead of restricted strategy profiles we only need to consider restricted configurations D[X]. The following lemma is analogous to Lemma 7. Lemma 8. If D * is a pure equilibrium of Γ, then D * [X] is a pure equilibrium of the restricted game Γ(#D * [X], X, D * [ν(X)]).</p><p>We now adapt the relevant concepts introduced in the previous section to symmetric AGGs, so that we use configurations instead of strategy profiles. A partial solution on X ⊆ S is a configuration D[X ∪ ν(X)] such that D[X] is a pure equilibrium of the restricted game Γ <ref type="figure">(</ref> Recall that a partial solution on X can be combined with a partial solution on Y to form a partial solution on X ∪ Y if they are consistent, and if no player who plays an action in X can profitably deviate to an action in Y and vice versa. Definition 9. Given a restricted game Γ and an equilibrium D * of Γ , the worst current utility WCU(D * , Γ ) is the utility of the worst-off player, or ∞ if Γ has 0 players. The best entrance utility BEU(D * , Γ ) is the best payoff a player outside of Γ can get by playing an action in Γ , assuming the current players in Γ play D * . If Γ already has all n players, BEU(D * , Γ ) = −∞.</p><p>We observe that since all agents in a symmetric game are identical, to check whether agents could profitably deviate from one restricted game Γ currently in equilibrium D to another restricted game Γ in equilibrium D , we just need to check whether WCU(D , Γ ) is greater than BEU(D , Γ ). In other words, WCU(D , Γ ) and BEU(D , Γ ) can be used as sufficient statistics for checking existence of profitable deviations out of and into restricted game Γ . This allows us to use the following characteristic function. Then ch is equilibrium-preserving.</p><p>Intuitively, we need #D[X] and D[ν(X)] to identify the restricted game on X, so that we can solve the restricted game in polynomial time when |X| is bounded (Theorem 4). We need D[ρ(X)] and #D[X] to check if the partial solutions on X with this characteristic are consistent with partial solutions on another subgraph. Finally we need WCU and BEU to check whether agents can profitably deviate into or out of the restricted game Γ .</p><p>The following lemma shows how sets of characteristics from two disjoint subsets of S can be combined together.</p><p>Lemma 11. Suppose X and X are disjoint subsets of S, and X ∪ X = X. |X ∪ ν(X)|. However, as X gets larger ρ(X) could also grow. |ν(X)| is |X|I in the worst case, so the number of possible configurations over ν(X) is superpolynomial in ||Γ|| in the worst case. Since A X could potentially include every distinct tuple (D[ρ(X)], B, U c , U e ), the size of A X is superpolynomial in the worst case. Indeed, Theorem 2 showed that we will not find a poly-time algorithm for general symmetric AGGs unless P = NP. However, if the action graph G has certain structure and we could combine the restricted games in a way such that |ρ(X)| remains small as X grows, then ∀X, |A X | would remain polynomial in ||Γ||, and our algorithm would run in polynomial time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Action Graphs with Bounded Treewidth</head><p>One way to characterize this kind of structure is the concept of treewidth, introduced by <ref type="bibr" target="#b13">Robertson &amp; Seymour (1986)</ref>.</p><p>Given G = (S, E), define H(G) to be the hypergraph (S, E) with E = {{s} ∪ ν(s)|s ∈ S}. In other words, for each action s ∈ S, there is a hyperedge containing s and its neighbors. Duplicate hyperedges are removed.</p><p>Let G be the primal graph of the hypergraph H(G). G is a undirected graph on the same set of vertices, and there is an edge between two nodes if they are in some hyperedge in H(G). G = (S, {{u, v}|∃h ∈ E such that u, v ∈ h}).   Thus for each s ∈ S, s and its neighbors in G form a clique in G . In the Bayes net literature G is also known as the moral graph of G. For example, <ref type="figure" target="#fig_4">Figure 2</ref>   <ref type="figure">Figure 3</ref> shows G's primal graph G .</p><p>Definition 10. A tree decomposition of an undirected graph G = (V, E) is a pair (X , T ) with T = (I, F ) a tree (where I and F are the nodes and edges of the tree respectively), and X = {X i |i ∈ I} a family of subsets of V , one for each node of T , such that</p><formula xml:id="formula_11">• i∈I X i = V ,</formula><p>• for all edges {v, w} ∈ E there exists an i ∈ I with v ∈ X i and w ∈ X i , and • for all i, j, k ∈ I: if j is on the path from i to k in T , then</p><formula xml:id="formula_12">X i ∩ X k ⊆ X j .</formula><p>The width of a tree decomposition is max i∈I |X i | − 1. The treewidth tw(G ) of a graph G is the minimum width over all tree decompositions of G .</p><p>Let ({X i |i ∈ I}, T = (I, F )) be a tree decomposition of the primal graph G , with width w. <ref type="figure" target="#fig_7">Figure 4</ref> shows a tree decomposition of the primal graph G from <ref type="figure">Figure 3</ref>. Each node i ∈ I of the tree is labeled with X i .</p><p>Let the treewidth tw(Γ) of an AGG Γ be the treewidth of und(G), the undirected version of its action graph G (excluding self-edges). Then tw(Γ) ≤ tw(G ) because the nodes in the two graphs are the same, and the set of edges of und(G) is a subset of the set of edges of G . Our algorithm in this subsection is based on a tree decomposition of the primal graph G , and its running time directly depends on tw(G ). Nevertheless, in Theorem 15 we will link the complexity of our algorithm with tw(Γ).</p><p>The following is a well-known property of tree decompositions.</p><p>Lemma 12 (e.g. <ref type="bibr" target="#b11">Kloks (1994)</ref>). If X is a clique in G , then ∃i ∈ I such that X ⊆ X i .</p><p>Since s and its neighbors in G form a clique in G , this implies that for all s ∈ S, ∃i ∈ I such that {s} ∪ ν(s) ⊆ X i . Assign each s ∈ S to such a node i of the tree. Let R i be the set of actions assigned to i ∈ I. Then R i ∪ ν(R i ) ⊆ X i and {R i |i ∈ I} is a partition of S. Intuitively, this is why we work with a tree decomposition on the primal graph G instead of a tree decomposition on the action graph: a tree decomposition on G guarantees that we are able to partition S into {R i |i ∈ I} such that for each R i , all actions that affect the restricted game on R i are associated with the node i of the tree decomposition. For our tree decomposition in Pick an arbitrary node r ∈ I to be the root of T . We say node j is a descendant of node i (equivalently i is an ancestor of j) if i is on the path from r to j. Define Y i = {v ∈ R j |j = i or j is a descendant of i}. Then Y r ≡ S. Intuitively, when we combine the restricted games associated with node i and its descendants in T , we would get a restricted game on Y i . For each node i ∈ I with children c 1 , . . . , c m ∈ I, for each <ref type="figure" target="#fig_7">Figure 4</ref>, if we let node 1 to the the root, then</p><formula xml:id="formula_13">j ≤ m, define Z i,j = R i ∪ Y c1 ∪ . . . ∪ Y cj . This implies that Z i,m ≡ Y i . For our tree decomposition in</formula><formula xml:id="formula_14">Y 3 = R 3 , Y 4 = R 4 , Y 2 = R 2 ∪ R 3 ∪ R 4 = {C, D, E, F, G}, and Y 1 = S.</formula><p>Since node 2 has two children c 1 = 3 and c 2 = 4, then Z 2,1 = R 2 ∪ Y 3 = {C, D, E} and Z 2,2 = Y 2 .</p><p>Lemma 13. For all i ∈ I, the following holds in the action graph G: ρ(Y i ) ⊆ X i .</p><p>The fact that D[X i ] contains at least as much information as D[ρ(Y i )], together with Lemma 10, implies that the characteristic function ch</p><formula xml:id="formula_15">(D[Y i ∪ ν(Y i )]) = (D[X i ], #D[Y i ], WCU(D[Y i ], Γ ), BEU(D[Y i ], Γ ))</formula><p>is equilibrium-preserving. This is the characteristic function we use. We adapt our dynamic programming algorithm in the previous section so that {R i |i ∈ I} is the initial partition of S, and the order in which the partitions are combined is "guided" by the tree decomposition, from the leafs to the root. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Return TRUE iff A Yr is nonempty.</head><p>In each iteration of step 3 of the algorithm, we combine characteristics from restricted games on R i and Y c1 , . . . , Y cm to form a new set of characteristics on the restricted game on Y i . For the tree decomposition in <ref type="figure" target="#fig_7">Figure 4</ref> with node 1 being the root, our algorithm would start from the leaves 3 and 4, then compute A Z2,1 = A R2∪Y3 = A {C,D,E} by combining A R2 and A R3 , then compute A Y2 = A {C,D,E,F,G} by combining A Z2,1 and A R4 , and finally compute A Y1 by combining A R1 and A Y2 .</p><p>Theorem 14. Deciding the existence of pure equilibrium in a symmetric AGG with bounded treewidth is in P.</p><p>Proof. Suppose the treewidth of the AGG is bounded by a constant w. Then a tree decomposition of the action graph having width at most w can be constructed in time exponential only in w, i.e. polynomial time (see e.g. <ref type="bibr" target="#b11">(Kloks 1994)</ref>). <ref type="bibr" target="#b6">Daskalakis &amp; Papadimitriou (2006)</ref> showed that given such a tree decomposition, we can construct a tree decomposition of the primal graph G having width at most (w + 1)I − 1 in polynomial time.</p><p>It is straightforward to check that given a tree decomposition of G , our algorithm above correctly computes A Yi by applying Lemma 11. Since Y r ≡ S, the algorithm correctly determines the existence of pure equilibrium in Γ. The running time of the algorithm is polynomial in the size of the A Yi 's. The size of A Yi is bounded by n||Γ|| 2 |∆[X i ]|. Since the tree decomposition has width at most (w + 1)I − 1, |∆[X i ]| ≤ n+(w+1)I (w+1)I . The latter is the number of ordered combinatorial compositions of n into (w + 1)I + 1 nonnegative integers. An equivalent way of counting this number is as follows:</p><p>1. break n into w + 1 nonnegative integers, 2. then break each of the first w integers into I nonnegative parts, and the last one into I + 1 nonnegative parts.</p><p>There are n+w w different ways of carrying out step 1. Since each integer in step 2 is at most n, there are at most n+I I ways of breaking each integer. Therefore n+(w+1)I Since w is a constant, this is polynomial in ||Γ||. Hence our algorithm runs in polynomial time.</p><p>Road games (Example 1) have treewidth 2 for all m. Thus by Theorem 15 the existence of pure equilibria can be determined in polynomial time for these games.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Finding All Pure Equilibria</head><p>So far we have focused on the problem of deciding the existence of pure equilibria. Our dynamic programming approach can also be used to find these equilibria if they exist. After the bottom-up pass of the tree decomposition as discussed above, a top-down pass would then make sure that each A Xi contains exactly the set of extendable partial solutions. Although the number of pure equilibria of an AGG could be exponential in the representation size ||Γ||, the resulting set of A Xi along with the tree decomposition constitutes a succinct description <ref type="bibr" target="#b6">(Daskalakis &amp; Papadimitriou 2006)</ref> of the set of pure equilibria of the game. Given a symmetric AGG with bounded treewidth, such a succinct description can be computed in polynomial time. We omit detailed discussion due to space constraints.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions and Future Work</head><p>In this paper we analyzed the problem of computing pure Nash equilibria in AGGs. We proposed a dynamic programming algorithm and showed that for symmetric AGGs with bounded treewidth, our algorithm determines the existence of pure Nash equilibria in polynomial time.</p><p>Our approach for symmetric AGGs can be extended to general AGGs. Our approach can also be extended to the computation of the socially optimal equilibrium if one exists, as well as the computation of related solution concepts such as pure-strategy -Nash equilibrium and strict equilibrium. We will discuss these topics in detail in a future paper.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Action graph for the road game with m = 8.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>#D[X], X, D[ν(X)]). The following Lemma shows that it is simple to check whether D[X] and D [Y ] are consistent. Lemma 9. Given X, Y ⊆ S, D[X] is consistent with D [Y ] iff 1. for all s ∈ X ∩ Y , D[s] = D [s], and 2. Let n = #D[X] + #D [Y \ X], then n ≤ n. Furthermore, if X ∪ Y = S then n = n. For two configurations D[X], D [Y ] that are consistent with each other, we define D[X] ∪ D [Y ] to be the (unique) configuration on X ∪ Y that is consistent with both D[X] and D [Y ].</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Lemma 10 .</head><label>10</label><figDesc>Consider the characteristic function ch that maps a partial solution D[X ∪ν(X)] to ch(D[X ∪ν(X)])</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>For all D[ρ(X)], B ≤ n, and U c , U e ∈ U, (D[ρ(X)], B, U c , U e ) ∈ A X iff there exists some D [ρ(X )], D [ρ(X )], B , B ≤ B, and U c , U c , U e , U e ∈ U such that Let us now consider the size of A X . Since WCU(D , Γ ), BEU(D , Γ ) ∈ U for all D and Γ , each has at most |U| ≤ ||Γ|| distinct values. Also #D[X] ∈ {0, . . . , n} by definition. Furthermore, ρ(X) ⊆ X ∪ ν(X). So the number of distinct characteristics (D[ρ(X)], #D[X], WCU(D[X], Γ ), BEU(D[X], Γ )) can be much smaller than the number of corresponding partial solutions D[X ∪ ν(X)], especially if |ρ(X)|</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 2 :</head><label>2</label><figDesc>o G G ?&gt;=&lt; 89:; D Ù Ù o o G G ?&gt;=&lt; 89:; C o o G G ?&gt;=&lt; 89:; F Ù Ù o o G G ?&gt;=&lt; 89:; G Ù Ù An action graph.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 3 :Figure 4 :</head><label>34</label><figDesc>The Tree decomposition ofFigure 3.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head></head><label></label><figDesc>shows the action graph G of a symmetric AGG. Its hypergraph H(G) has the same set of vertices and the hyperedges {A, B}, {A, B, C}, {D, E}, {C, D, E}, {F, G}, {C, F, G}, and {B, C, D, E}.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 4 ,</head><label>4</label><figDesc>R 1 = {A, B}, R 2 = {C}, R 3 = {D, E} and R 4 = {F, G}.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>1 .</head><label>1</label><figDesc>For each R i , compute A Ri . This can be done by enumerating all possible configurations D[X i ] and keeping ones that constitutes a pure equilibrium of the restricted game on R i . 2. Initialize the set Done ⊆ S to contain the leaves of the tree T . 3. While ∃i ∈ I \ Done such that {j|j is a child of v} ⊆ Done: (a) Let A Zi,0 := A Ri (b) Let c 1 , . . . , c m be the children of i. (c) For j = 1 to m , let A Zi,j := {(D[X i ], B + B , min{U c , U c }, max{U e , U e }) |(D[X i ], B, U c , U e ) ∈ A Zi,j−1 , (D [X cj ], B , U c , U e ) ∈ A Yc j , D[X i ] and D [X cj ] are consistent, B + B ≤ n, B + B = n if (i = r and j = m) U c ≥ U e , U c ≥ U e } (d) A Yi := A Zi,m (e) Add i to Done.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>a directed graph with S as the set of vertices. We say s is a neighbor of s if (s , s) ∈ E. Let ν(s) denote the set of neighbors of s, i.e. ν(s) ≡ {s ∈ S|(s , s) ∈ E}. Let ∆ denote the set of configurations of agents over actions. A configuration D ∈ ∆ is an |S|-tuple of integers (D[s]) s∈S , where D[s] specifies the number of agents that chose action s ∈ S. For a subset of actions X ⊂ S, let D[X] denote the restriction of D over X, i.e. D[X] = (D[s]) s∈X . Similarly, let ∆[X] denote the set of restricted configurations over</figDesc><table></table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">U</forename></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">;</forename><surname>B , U C , U E ) ∈ A X</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+	<note>D [ρ(X ). U e ) ∈ A X , 2. (D [ρ(X )</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">}</forename><surname>B = B + B , 6. U C = Min{u C , U C</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Max{u E</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A sufficiently fast algorithm for finding close to optimal clique trees</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Becker</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Geiger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Artificial Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">125</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="3" to="17" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Computing Nash equilibria of action-graph games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Bhat</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI</title>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Symmetries and the complexity of pure Nash equilibrium</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Brandt</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Fischer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Holzer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">STACS</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Settling the complexity of 2-player Nash-equilibrium</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Deng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">FOCS</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Computing pure Nash equilibria via Markov random fields</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Daskalakis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Papadimitriou</surname></persName>
+		</author>
+		<editor>ACM-EC</editor>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Pure Nash equilibria: Hard and easy games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Gottlob</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Greco</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Scarcello</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">TARK</title>
+		<imprint>
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Fast and compact: A simple class of congestion games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Ieong</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Mcgrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Q</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI</title>
+		<imprint>
+			<date type="published" when="2005" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A polynomial-time algorithm for Action-Graph Games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">X</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Graphical models for game theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kearns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Littman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Singh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">UAI</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Kloks</surname></persName>
+		</author>
+		<title level="m">Treewidth: Computations and Approximations</title>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="1994" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Non-cooperative games</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Nash</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="286" to="295" />
+			<date type="published" when="1951" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Algorithmic aspects of tree-width</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Robertson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Seymour</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Algorithms</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="309" to="322" />
+			<date type="published" when="1986" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

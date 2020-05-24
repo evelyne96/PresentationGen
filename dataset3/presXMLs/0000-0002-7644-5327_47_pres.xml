@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Scaling Up Game Theory:  
+Representation and Reasoning  
+.=</p>
+<p>with Action Graph Games 
+.=</p>
+<p> 
+Kevin Leyton-Brown 
+.=</p>
+<p>Computer Science 
+.=</p>
+<p>University of British Columbia 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p>This talk is primarily based on papers with: 
+.=</p>
+<p> 
+Albert Xin Jiang Navin A.R. Bhat 
+.=</p>
+<p> 
+[AAAI 2006]  [UAI 2004] 
+.=</p>
+<p>a nd a joint paper [GEB, to appear 2010 ] 
+.=</p>
+<p> 
+.=</p>
+<p>and also touches on more recent joint work with  
+.=</p>
+<p>Albert Xin Jiang, David R.M. Thompson, 
+.=</p>
+<p>Avi Pfeffer, Damien Bargiacchi, and James Wright 
+.=</p>
+<p>TexPoint fonts used in EMF.  
+Read the TexPoint manual before you delete this box.: AAAAAAAAA .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Kind of Games Often Studied 
+.=</p>
+<p>„ e.g., Prisoner’s Dilemma: you and an accomplice are arrested. 
+Should you confess or stay silent? 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p> 
+ 
+.=</p>
+<p> 
+.=</p>
+<p>„ The analysis of such 2 £ 2 games has proven surprisingly 
+interesting, and has had a profound impact both on our 
+understanding of strategic situations and on popular culture 
+.=</p>
+<p> .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Kind of Games We’d Like to Study 
+.=</p>
+<p>„ In order to use game theory to model real systems, 
+we need to consider games with more than  
+two agents and two actions 
+.=</p>
+<p> 
+.=</p>
+<p>„ Some examples of the kinds of questions we would 
+like to be able to answer: 
+‟ How will heterogeneous users route their traffic in a network? 
+.=</p>
+<p>‟ How will advertisers bid in a sponsored search auction? 
+.=</p>
+<p>‟ Which job skills will students choose to pursue? 
+.=</p>
+<p>‟ Where in a city will businesses choose to locate? 
+.=</p>
+<p> 
+.=</p>
+<p>„ Most GT work is analytic, not computational 
+.=</p>
+<p>„ What’s holding us back? 
+‟ the size of classical game representations grows exponentially 
+.=</p>
+<p>in the number of players 
+.=</p>
+<p>„ this makes all but the simplest games infeasible to write down 
+.=</p>
+<p>‟ even when games can be represented, “fast” algorithms often 
+have worst-case performance exponential in the game's size .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Compact Representations 
+.=</p>
+<p>Research program for advancing the computational analysis of games: 
+.=</p>
+<p>1. find representations that can encode games of interest in 
+exponentially-less space than the normal form 
+.=</p>
+<p>2. find efficient algorithms for working with these representations 
+ 
+.=</p>
+<p>Key representations from the literature: 
+.=</p>
+<p>„ Graphical Games  [Kearns, Littman, Singh, 2001] 
+‟ utility functions exhibit strict independence 
+.=</p>
+<p>„ some pairs of agents have no (direct) effect on each other’s payoff 
+.=</p>
+<p>‟ many efficient algorithms 
+.=</p>
+<p>‟ however, none of the games discussed above are compact as GGs 
+ 
+.=</p>
+<p>„ Congestion Games  [Rosenthal, 1973; Monderer & Shapley, 1996] 
+‟ utility functions exhibit context-specific independence 
+.=</p>
+<p>„ whether agents affect each other’s payoffs can depend on the  
+action choices they each make 
+.=</p>
+<p>‟ good theoretical properties; some algorithmic results 
+.=</p>
+<p>‟ however, none of the games discussed above can be represented as CGs .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview of This Talk 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p>1. Basic AGGs: Definition and Examples 
+ 
+.=</p>
+<p>2. Analyzing and Extending the Representation 
+ 
+.=</p>
+<p>3. Computing Expected Utility 
+ 
+.=</p>
+<p>4. Recent Directions .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Basic Action-Graph Games 
+.=</p>
+<p>• set of players: want to 
+.=</p>
+<p>open coffee shops 
+ 
+.=</p>
+<p>• actions: choose a location 
+.=</p>
+<p>for your shop, or choose 
+.=</p>
+<p>not to enter the market 
+ 
+.=</p>
+<p>• utility: profitability of  
+.=</p>
+<p>a location  
+.=</p>
+<p>– some locations might have 
+.=</p>
+<p>more customers, and so 
+.=</p>
+<p>might be better ex ante  
+.=</p>
+<p>– utility also depends on the 
+.=</p>
+<p>number of other players 
+.=</p>
+<p>who choose the same or 
+.=</p>
+<p>an adjacent location 
+.=</p>
+<p> .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Formal Definitions .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Elaborated Ice Cream Vendor Problem 
+Inspired by [Hotelling, 1929] 
+.=</p>
+<p>n vendors sell either ice cream or strawberries 
+.=</p>
+<p>at one of four stations along a beach 
+.=</p>
+<p>–  nI ice cream (I) vendors; 
+.=</p>
+<p>–  nS strawberry (S) vendors;  
+.=</p>
+<p>–  nW can sell I/S, but only on the west side. 
+.=</p>
+<p>–  competition between nearby sellers of same 
+.=</p>
+<p> type; synergy between nearby different types 
+.=</p>
+<p>AI 
+.=</p>
+<p> Notes: 
+I1 I2 I3 I4 
+.=</p>
+<p>– graph structure independent of # agents 
+.=</p>
+<p>– overlapping action sets 
+AW – context-specific independence without 
+.=</p>
+<p>strict independence 
+.=</p>
+<p>S1 S2 S3 S4 
+.=</p>
+<p>AS .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Job Market Problem 
+.=</p>
+<p>Each player chooses a level of training 
+.=</p>
+<p>Players’ utilities are the sum of: Computer Electrical Economics Science Engineering 
+„ a constant cost:  
+.=</p>
+<p>PhD PhD PhD 
+‟ difficulty; tuition; foregone wages 
+.=</p>
+<p>„ a variable reward, depending on: 
+.=</p>
+<p>‟ How many jobs prefer workers with MSc MEng MEng 
+.=</p>
+<p>this training, and how desirable are the 
+.=</p>
+<p>jobs? 
+.=</p>
+<p>‟ How many other jobs are willing to BSc BEng BEng 
+.=</p>
+<p>take such workers as a second choice, 
+.=</p>
+<p>and how good are these jobs? 
+Dipl Dipl Dipl 
+.=</p>
+<p>„ Employers will take workers who are 
+.=</p>
+<p>overqualified, but only by one degree. 
+.=</p>
+<p>„ They will also interchange similar 
+.=</p>
+<p>degrees, but only at the same level. High 
+.=</p>
+<p>‟ How many other graduates want the 
+.=</p>
+<p>same jobs? .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview of This Talk 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p>1. Basic AGGs: Definition and Examples 
+ 
+.=</p>
+<p>2. Analyzing and Extending the Representation 
+ 
+.=</p>
+<p>3. Computing Expected Utility 
+ 
+.=</p>
+<p>4. Recent Directions .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analyzing the AGG-; Representation 
+.=</p>
+<p>AGG-;s can represent any game. 
+ 
+.=</p>
+<p>Overall, AGG-;s are more compact than the normal form when 
+the game exhibits either or both of the following properties: 
+.=</p>
+<p> 
+.=</p>
+<p>1. Context-Specific Independence:  
+.=</p>
+<p>„ pairs of agents can choose actions that are  
+.=</p>
+<p>not neighbors in the action graph 
+ 
+.=</p>
+<p>2. Anonymity:  
+.=</p>
+<p>„ multiple action profiles yield the same configuration 
+.=</p>
+<p> 
+.=</p>
+<p>When max in-degree I is bounded by a constant:   
+.=</p>
+<p>‟ polynomial size: O(|Amax|n
+I) 
+.=</p>
+<p>‟ in contrast, size of normal form is O(n|A nmax| ) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem Revisited 
+.=</p>
+<p>„ What if utility also depends on total # shops? 
+.=</p>
+<p>„ Now action graph has in-degree |A| 
+.=</p>
+<p>‟ NF & Graphical Game representations: O(|A|N) 
+.=</p>
+<p>‟ AGG-; representation:  O(N|A|) 
+.=</p>
+<p>‟ when |A| is held constant, the AGG-;  
+representation is polynomial in N 
+.=</p>
+<p>„ but still doesn’t effectively capture game structure 
+.=</p>
+<p>„ given i’s action, his payoff depends only on 3 quantities! 
+.=</p>
+<p>6 £ 5 Coffee Shop Problem: projected action graph at the red node .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG-FNs: Function Nodes 
+.=</p>
+<p>„ To exploit this structure, introduce function nodes: 
+.=</p>
+<p>‟ The “configuration” of a function node p is a (given) function of the 
+configuration of its neighbors: c[p] = fp(c[º(p)]) 
+.=</p>
+<p> 
+.=</p>
+<p>„ Coffee-shop example: for each action node s, introduce: 
+.=</p>
+<p>‟ a function node with adjacent actions as neighbors  
+.=</p>
+<p>„  c[p's] = total number of shops in surrounding nodes 
+.=</p>
+<p>‟ similarly, a function node with non-adjacent actions as neighbors 
+.=</p>
+<p>6 £ 5 Coffee Shop Problem: function nodes for the red node .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem 
+.=</p>
+<p>„ Now the red node has only three incoming edges:  
+.=</p>
+<p>‟ itself, the blue function node and the orange function node 
+.=</p>
+<p>‟ so, the action-graph now has in-degree three 
+ 
+.=</p>
+<p>„ Size of representation is now O(N3) 
+.=</p>
+<p> 
+.=</p>
+<p>6 £ 5 Coffee Shop Problem: projected action graph at the red node .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Example: Parallel Edges 
+Based on [Thompson, Jiang & LB, 2007]; inspired by [Odlyzko, 1998] 
+.=</p>
+<p>„ Network with one source, one 
+.=</p>
+<p>sink, two parallel edges 
+.=</p>
+<p>‟ both edges offer identical speed 
+.=</p>
+<p>‟ one is free, one costs $1 
+.=</p>
+<p>‟ latency is an additive function of 
+.=</p>
+<p>the number of users on an edge 
+.=</p>
+<p>„ Two classes of users 
+.=</p>
+<p>‟ 18 users pay $0.10/unit of delay 
+.=</p>
+<p>‟ 2 users pay $1.00/unit of delay 
+.=</p>
+<p>„ Which edge should users choose? 
+.=</p>
+<p>„ Example scales to longer paths 
+.=</p>
+<p>‟ not a congestion game because of 
+.=</p>
+<p>player-specific utility 
+.=</p>
+<p> .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Further Representational Results 
+.=</p>
+<p>„ Without loss of compactness, AGGs can also encode: 
+.=</p>
+<p>‟ Graphical games (AGG-;) 
+.=</p>
+<p>‟ Symmetric games (AGG-;) 
+.=</p>
+<p>‟ Anonymous games (AGG-FN) 
+.=</p>
+<p> 
+.=</p>
+<p>„ One other extension to AGGs: explicit additive  structure 
+.=</p>
+<p>„ Enables compact encoding of still other game classes: 
+.=</p>
+<p>‟ Congestion games (AGG-FNA) 
+.=</p>
+<p>‟ Polymatrix games (AGG-FNA) 
+.=</p>
+<p>‟ Local-Effect games (AGG-FNA) 
+.=</p>
+<p> 
+.=</p>
+<p>Conclusion: AGGs compactly encode all major compact classes 
+.=</p>
+<p>of simultaneous-move games, and also many new games that 
+.=</p>
+<p>are compact in none of these representations. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview of This Talk 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p>1. Basic AGGs: Definition and Examples 
+ 
+.=</p>
+<p>2. Analyzing and Extending the Representation 
+ 
+.=</p>
+<p>3. Computing Expected Utility 
+ 
+.=</p>
+<p>4. Recent Directions .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Expected Utility 
+.=</p>
+<p>Expected utility of agent i for playing (pure) action ai,  
+.=</p>
+<p>if other agents play according to mixed-strategy profile s : ‟i
+ 
+.=</p>
+<p> 
+.=</p>
+<p> 
+ 
+.=</p>
+<p> 
+.=</p>
+<p>             is an inner-loop problem in many game-theoretic algorithms: 
+.=</p>
+<p>• Best Response (e.g., for multiagent reinforcement learning) 
+.=</p>
+<p>• Govindan-Wilson Algorithm (Nash equilibrium) 
+.=</p>
+<p>• Simplicial Subdivision Algorithm (Nash equilibrium) 
+.=</p>
+<p>• Papadimitriou’s Algorithm (correlated Nash equilibrium) 
+.=</p>
+<p>• Turocy’s Path Tracing Algorithm (quantal response equilibrium) 
+.=</p>
+<p>• Predicted Action Distributions under Level-k; Cognitive Hierarchy .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGG-;s: Projection 
+.=</p>
+<p>I3 I4 
+.=</p>
+<p>; 
+.=</p>
+<p>S3 S4 
+I1 I2 I3 I4 
+.=</p>
+<p>S1 S2 S3 S4 I1 I2 
+.=</p>
+<p>; 
+.=</p>
+<p>S1 S2 .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGG-;s: Projection 
+.=</p>
+<p>„ Projection captures context-specific independence and strict 
+.=</p>
+<p>independence .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGG-;s: Anonymity 
+.=</p>
+<p>„ Writing in terms of the configuration captures anonymity .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dynamic Programming 
+.=</p>
+<p>„ Can we do better computing                        ? Note that 
+.=</p>
+<p>‟ the players’ mixed strategies are independent  
+.=</p>
+<p>„  s is a product probability distribution 
+.=</p>
+<p>‟ each player affects a configuration c independently 
+ 
+.=</p>
+<p>„ We can use dynamic programming to compute the 
+probability of a configuration: 
+.=</p>
+<p>‟ base case: zero agents and the mixed strategy s0: 
+.=</p>
+<p>„   C0 = {c0} 
+.=</p>
+<p>„  c0 = [0, …, 0] 
+.=</p>
+<p>„  P0(c0) = 1 
+.=</p>
+<p>‟ then add agents one by one: 
+.=</p>
+<p>„  Ck:  the set of configurations that can be built by adding any action from 
+the support of player k’s mixed strategy to any configuration from Ck-1 
+.=</p>
+<p>„  . 
+ .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGGs: Complexity 
+.=</p>
+<p>„ Complexity of our approach: 
+.=</p>
+<p> 
+.=</p>
+<p>„ Exponential speedup vs. standard approach:  
+.=</p>
+<p> 
+In AGG-FNs, players are no longer guaranteed to affect  
+.=</p>
+<p>c independently 
+.=</p>
+<p>„ but the DP algorithm still works when function nodes can be 
+.=</p>
+<p>expressed using some commutative, associative operator .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Expected Utility 
+.=</p>
+<p>             is an inner-loop problem in many game-theoretic algorithms: 
+.=</p>
+<p>• Best Response (e.g., for multiagent reinforcement learning) 
+.=</p>
+<p>• Govindan-Wilson Algorithm (Nash equilibrium) 
+.=</p>
+<p>• Simplicial Subdivision Algorithm (Nash equilibrium) 
+.=</p>
+<p>• Papadimitriou’s Algorithm (correlated Nash equilibrium) 
+.=</p>
+<p>• Turocy’s Path Tracing Algorithm (quantal response equilibrium) 
+.=</p>
+<p>• Predicted Action Distributions under Level-k; Cognitive Hierarchy 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p> Because we compute              exactly, our expected utility algorithm 
+.=</p>
+<p>yields an exponential speedup in every one of these algorithms,  
+.=</p>
+<p>whenever the AGG is exponentially smaller than the normal form. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview of This Talk 
+.=</p>
+<p> 
+.=</p>
+<p>1. Basic AGGs: Definition and Examples 
+ 
+.=</p>
+<p>2. Analyzing and Extending the Representation 
+ 
+.=</p>
+<p>3. Computing Expected Utility 
+ 
+.=</p>
+<p>4. Recent Directions 
+.=</p>
+<p>1. computing pure strategy equilibria 
+.=</p>
+<p>2. analyzing sponsored search auctions 
+.=</p>
+<p>3. temporal AGGs 
+.=</p>
+<p>4. Bayesian AGGs 
+.=</p>
+<p>5. free software tools 
+.=</p>
+<p> .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(1) Computing Pure-Strategy Equilibrium 
+.=</p>
+<p>„ Pure Nash equilibrium is often a more interesting solution 
+.=</p>
+<p>concept than mixed Nash equilibrium 
+.=</p>
+<p> 
+.=</p>
+<p>„ It also presents a very computationally different problem 
+.=</p>
+<p>‟ PSNE in normal form admits a very simple polytime algorithm 
+.=</p>
+<p>„ just check every action profile 
+.=</p>
+<p>‟ For AGG-;s the representation can be exponentially smaller 
+.=</p>
+<p>„ thus, the same algorithm is exponential time 
+.=</p>
+<p> 
+.=</p>
+<p>Theorem (Conitzer, personal communication; also proven 
+.=</p>
+<p>independently in (Daskalakis et al. 2008)):  The problem of 
+.=</p>
+<p>determining whether a pure Nash equilibrium exists in an  
+.=</p>
+<p>AGG-; is NP-complete, even when the AGG-; is symmetric  
+and has max in-degree of three. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(1) Computing PSNEs in AGG-;s 
+[Jiang & LB, 2007] 
+.=</p>
+<p> We propose a message passing algorithm: 
+.=</p>
+<p>– partition action graph into subgraphs (via tree decomposition) 
+.=</p>
+<p>– construct equilibria of the game from equilibria of games played on 
+.=</p>
+<p>subgraphs 
+.=</p>
+<p> 
+.=</p>
+<p> This algorithm finds PSNE in polynomial time for every 
+.=</p>
+<p>symmetric AGG-;  that has bounded treewidth. 
+.=</p>
+<p>‟ it can also be applied to other bounded-treewidth settings 
+.=</p>
+<p> 
+.=</p>
+<p>• Generalizes earlier algorithms 
+.=</p>
+<p>– finding pure equilibria in graphical games  
+[Gottlob, Greco, & Scarcello 2003; Daskalakis & Papadimitriou 2006] 
+.=</p>
+<p>– finding pure equilibria in simple congestion games  
+[Ieong, McGrew, Nudelman, Shoham, & Sun 2005] .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(2) Sponsored Search Auctions 
+[Thompson & LB, 2008; 2009] 
+.=</p>
+<p>„ Position auctions are used to sell $10Bs of keyword ads 
+.=</p>
+<p>„ Some theoretical analysis, but based on strong assumptions 
+.=</p>
+<p>‟ Unknown how different auctions compare in more general settings 
+.=</p>
+<p>„ Idea: analyze the auctions computationally 
+.=</p>
+<p>‟ Main hurdle: ad auction games are large; infeasible as normal form 
+.=</p>
+<p> Effective 
+Bid (ei)      0                2                 3               4                6                8                9               10
+.=</p>
+<p> Agent A
+0 1 2 3 4 5
+.=</p>
+<p>β=2
+.=</p>
+<p> 
+Agent B
+.=</p>
+<p>0 1 2 3 4 5
+.=</p>
+<p> β=2
+.=</p>
+<p> Agent C 0 1 2 3β=3
+.=</p>
+<p> 
+# # # # # # # #
+.=</p>
+<p> ei=0 ei=2 ei=3 ei=4 ei=6 ei=8 ei=9 ei=10
+.=</p>
+<p> 
+# # # # # # # #
+.=</p>
+<p> ei≥0 ei≥2 ei≥3 ei≥4 ei≥6 ei≥8 ei≥9 ei≥10
+.=</p>
+<p>AGG-FN representation of a Weighted, Generalized First-Price (GFP) Auction .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(2) Sponsored Search Auctions 
+[Thompson & LB, 2008; 2009] 
+.=</p>
+<p>„ Position auctions are used to sell $10Bs of keyword ads 
+.=</p>
+<p>„ Some theoretical analysis, but based on strong assumptions 
+.=</p>
+<p>‟ Unknown how different auctions compare in more general settings 
+.=</p>
+<p>„ Idea: analyze the auctions computationally 
+.=</p>
+<p>‟ Main hurdle: ad auction games are large; infeasible as normal form 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p> 
+ 
+.=</p>
+<p> 
+.=</p>
+<p> 
+.=</p>
+<p>Social welfare and revenue of EOS auction model .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(3) Temporal Action Graph Games 
+[Jiang, LB & Pfeffer, 2009] 
+.=</p>
+<p>Goal: extend AGGs to temporal settings 
+ 
+.=</p>
+<p>„ Model: An AGG-FN played over a series of discrete time steps 
+.=</p>
+<p>‟ at each time step, a subset of players move 
+.=</p>
+<p>‟ action counts on the action nodes grow over time 
+.=</p>
+<p> 
+.=</p>
+<p>„ Allow payoff uncertainty using random variables that are 
+.=</p>
+<p>realized at a given time step 
+ 
+.=</p>
+<p>„ Imperfect information: players may condition their actions 
+.=</p>
+<p> on a given set of observed previous actions, chance variables 
+.=</p>
+<p>and action counts  
+ 
+.=</p>
+<p>„ Utility functions: action-specific and time-specific .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(3) Properties of TAGGs 
+[Jiang, LB & Pfeffer, 2009] 
+.=</p>
+<p>„ Can compactly represent a wide range of 
+.=</p>
+<p>dynamic games, including: 
+.=</p>
+<p>‟ arbitrary MAIDs [Milch & Koller, 2001] 
+.=</p>
+<p>‟ games whose straightforward MAID 
+.=</p>
+<p>representations are not compact 
+ 
+.=</p>
+<p>„ Can be efficiently encoded as MAIDs by 
+.=</p>
+<p>introducing deterministic chance nodes  
+ 
+.=</p>
+<p>„ Efficient computation of expected utility 
+.=</p>
+<p>‟ exploit anonymity and context-specific 
+.=</p>
+<p>independence as in AGG-;s 
+.=</p>
+<p>‟ also exploit the temporal structure 
+.=</p>
+<p>‟ as with AGG-;s, can be leveraged to yield 
+exponential speedups in computation  
+.=</p>
+<p>(Nash equilibrium, etc.) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(4) Bayesian Games 
+.=</p>
+<p>„ TAGGs aren’t the most appropriate way of representing 
+.=</p>
+<p>simultaneous-move Bayesian games 
+.=</p>
+<p>‟ indeed, while such models are widely used (e.g., in auction theory), the setting 
+.=</p>
+<p>has largely been neglected by the computational game theory community 
+.=</p>
+<p>„ As far as we know, there are no representations or algorithms 
+.=</p>
+<p>targeting general BNE computation 
+ 
+.=</p>
+<p>„ This leaves two general approaches, both of which make use 
+.=</p>
+<p>of complete-information Nash algorithms: 
+.=</p>
+<p>1. Induced normal form 
+.=</p>
+<p>„ one action for each pure strategy (mapping from type to action) 
+.=</p>
+<p>„ set of players unchanged 
+.=</p>
+<p>2. Agent form 
+.=</p>
+<p>„ one player for each type of each of the BG's players 
+.=</p>
+<p>„ action space unchanged .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(4) Bayesian AGGs 
+ [Jiang & LB, work under review 2010] 
+.=</p>
+<p> Bayesian AGG: an AGG-like representation of a Bayesian game’s 
+.=</p>
+<p>utility functions, which compactly encodes its agent form: 
+.=</p>
+<p>‟ Bayesian network for the joint type distribution 
+.=</p>
+<p>‟ A (potentially separate) action graph for each type of each agent 
+.=</p>
+<p>‟ A utility function that depends on which types are realized and on 
+.=</p>
+<p>the actions taken by the other agents of the appropriate types 
+ 
+.=</p>
+<p>„ Representation size grows polynomially in |£|, |A|, n, when action 
+.=</p>
+<p>graph has constant-bounded in-degree 
+.=</p>
+<p>‟ Exponential savings over an unstructured Bayesian game 
+.=</p>
+<p>„ When types are independent, expected utility can be  
+.=</p>
+<p>computed in time polynomial in the size of the BAGG 
+.=</p>
+<p>„ When types are not independent, expected utility can still be 
+.=</p>
+<p>computed in polynomial time when an induced Bayesian network 
+.=</p>
+<p>has bounded treewidth. .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(5) Free Software Tools 
+[Jiang, Bargiacchi & LB, 2007‟2010] 
+.=</p>
+<p>„ Goal: make it easier for other researchers to use AGGs 
+.=</p>
+<p>„ Equilibrium computation algorithms: 
+.=</p>
+<p>‟ Govindan-Wilson (NE) 
+.=</p>
+<p>‟ Simplicial Subdivision (NE) 
+.=</p>
+<p>‟ Papadimitriou (CE) * in progress 
+.=</p>
+<p>‟ Turocy (QRE) * in progress 
+.=</p>
+<p>„ GAMUT:  
+.=</p>
+<p>‟ extended to support AGGs 
+.=</p>
+<p>„ Action Graph Game Editor: 
+.=</p>
+<p>‟ creates AGGs graphically 
+.=</p>
+<p>‟ facilitates entry of utility fns 
+.=</p>
+<p>‟ supports “player classes” 
+.=</p>
+<p>‟ auto creates game generators 
+.=</p>
+<p>‟ visualizes eq. on the action graph 
+.=</p>
+<p> .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions 
+.=</p>
+<p>„ AGGs compactly represent games exhibiting context-
+.=</p>
+<p>specific independence, anonymity and/or additive structure 
+ 
+.=</p>
+<p>„ Generalizes all major, existing compact representations of 
+.=</p>
+<p>simultaneous-move games 
+.=</p>
+<p>‟ graphical games, congestion games, many others 
+ 
+.=</p>
+<p>„ Recent directions: 
+.=</p>
+<p>‟ Polytime algorithm for computing pure  strategy Nash equilibrium 
+.=</p>
+<p>(bounded treewidth; symmetric AGG-;) 
+.=</p>
+<p>‟ modeling and comparing sponsored search auctions 
+.=</p>
+<p>‟ extending AGGs to temporal settings 
+.=</p>
+<p>‟ extending AGGs to Bayesian games 
+.=</p>
+<p>‟ developing free software tools 
+.=</p>
+<p> 
+.=</p>
+<p>http://www.cs.ubc.ca/~kevinlb                   google://“Kevin Leyton-Brown” .=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

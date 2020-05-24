@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A PROPORTIONATE AFFINE PROJECTION 
+.=</p>
+<p>ALGORITHM USING FAST RECURSIVE FILTERING 
+.=</p>
+<p>AND DICHOTOMOUS COORDINATE DESCENT 
+.=</p>
+<p>ITERATIONS   
+.=</p>
+<p>Felix Albu  
+ 
+.=</p>
+<p>Valahia University of Targoviste 
+.=</p>
+<p> 
+.=</p>
+<p> .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline 
+.=</p>
+<p>Motivation and objectives  
+.=</p>
+<p>Development of the algorithm 
+.=</p>
+<p>Simulation results 
+.=</p>
+<p>Conclusions .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation and objectives 
+  The proportionate affine projection algorithm (PAPA) has a good 
+.=</p>
+<p>convergence speed and low computational complexity. It is well known that it 
+has superior performance to APA. 
+.=</p>
+<p> 
+.=</p>
+<p>  Recently, two proportionate-type APA called MIPAPA was developed, 
+taking into account the “history” of the proportionate factors.  
+.=</p>
+<p>  It was shown that they have better performance than IPAPA  
+.=</p>
+<p>Objectives: 
+.=</p>
+<p> To obtain an efficient PAPA   
+.=</p>
+<p> To validate its performance and compare it with other algorithms 
+.=</p>
+<p> To identify the strengths and weaknesses of the algorithm  
+.=</p>
+<p> .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Development of the algorithm 
+.=</p>
+<p>The far-end signal goes through  the echo path h, providing the echo 
+signal. The echo signal is added with the near-end signal (which can 
+contain both the background noise and the near-end speech), resulting the 
+microphone signal. The adaptive filter aims to produce at its output an 
+estimate of the echo, while the error signal should contain an estimate of 
+the near-end signal.  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>APA 
+.=</p>
+<p>y n  TX nhˆ n1 (1) 
+.=</p>
+<p>en  dny n (2) 
+.=</p>
+<p>1
+hˆ n  hˆ n1  n   TX I p X nXn en  (3) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>IPAPA 
+.=</p>
+<p>   Ty n  X nhˆ n1 (1) 
+.=</p>
+<p>en  dny n (2) 
+.=</p>
+<p>ˆ
+1 hl n 1
+.=</p>
+<p>   gl n 1   1 2L L1 (3) 
+2 hˆi n 1 
+.=</p>
+<p>i0
+.=</p>
+<p>   Pn G nXn (4) 
+.=</p>
+<p>1
+hˆ n  hˆ n1 P n  I p 
+.=</p>
+<p>T
+X nP n en
+.=</p>
+<p>  (5) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FMIPAPA 
+.=</p>
+<p>   '  (1) P n  g n1 xn P'1 n1
+.=</p>
+<p>P'1 n1  gn2 xn1 gn p xn p1 (2) 
+.=</p>
+<p>   T Tn1  T n1 ˆ n 2=  T n1 ˆ n 2  ... T n p ˆ n 2 = y0 n1  y1 n1  ... y p1y X h x h x h n1  (3)     
+.=</p>
+<p>   y n  T TX nhˆ n1  z nX nP 'n1εˆ n1 (4) 
+.=</p>
+<p>T T
+z n  TX nhˆ n 2=  Tx nhˆ n 2...
+.=</p>
+<p>T
+x n p 1hˆ n 2   Tx n   h
+.=</p>
+<p>ˆ n 2  y0 n1   ... y p2 n1 (5) 
+   .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FMIPAPA-DCD 
+.=</p>
+<p>εˆ 1  0,hˆ 1  0, x1  0,P '1  0 (1) 
+.=</p>
+<p>T
+z n   Tx nhˆ n 2  y0 n1  ... y p2 n1  (2)  
+.=</p>
+<p>  
+Fn  TX nP 'n1 (3) 
+.=</p>
+<p>y n  z nFnεˆ n1 (4) 
+.=</p>
+<p>en  dny n (5) 
+.=</p>
+<p>              
+P' n  g n1 xn   P' 1 n1
+.=</p>
+<p> (6) 
+
+.=</p>
+<p>T
+Sn  I p X nP 'n (7) 
+.=</p>
+<p>      Solve  S    n   ε   n      e   n    using the DCD method (8) 
+.=</p>
+<p>hˆ n  hˆ n1 P 'nεˆ n (9) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Development of the algorithm 
+System to solve:  Rε  e
+.=</p>
+<p>Initialization: ε  0,  d  H ,  q  0
+.=</p>
+<p>For m 1: Mb
+.=</p>
+<p>d  d / 2
+.=</p>
+<p>(a) flag  0
+.=</p>
+<p>For p  0 : N 1
+.=</p>
+<p>if ep  d / 2R , thenp, p
+flag 1, q  q 1
+.=</p>
+<p> p   p  sgn ep  d
+e  e sgn ep  d R :, p
+if  q  Nu , then the algorithm stops
+.=</p>
+<p>End of the p -loop
+.=</p>
+<p>If flag 1 , then go to (a)
+.=</p>
+<p>End of the m -loop
+.=</p>
+<p>The dichotomous coordinate descent algorithm (DCD) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computational Complexity 
+.=</p>
+<p>Numerical complexity in terms of multiplications for two 
+situations: a) variable p, L=512; b) variable L, p=8  
+.=</p>
+<p>IPAPA L p2 3p1O p3  FMIPAPADCD 4L p 1 p2  2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation results 
+a) The echo path; b) the variable background noise; c) 
+the speech signal   .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation results 
+Misalignment difference between MIPAPA and FMIPAPA-DCD 
+.=</p>
+<p>with different number of DCD iterations (1 and 8 respectively). .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation results 
+The Error Norm for different number of DCD iterations for FMIPAPA-
+DCD. The input signal is a white Gaussian noise.  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation results 
+The Error Norm for different number of DCD iterations of 
+.=</p>
+<p>FMIPAPA-DCD in case of variable background noise (SNR 
+.=</p>
+<p>decreases from 20 dB to 10 dB between samples 2000 and 4000). .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation results 
+Misalignment of the IPAPA, and FMIPAPA-DCD. The input signal is a 
+speech sequence, p = 8, L = 512, and variable background noise (SNR 
+decreases from 30 dB to 10 dB between times 0.25 and 0.5, otherwise is 
+30 dB).  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation results 
+Misalignment difference between MIPAPA and FMIPAPA-DCD 
+.=</p>
+<p>with different number of DCD iterations .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation results 
+Misalignment of the IPAPA, MIPAPA, and FMIPAPA-DCD. The input 
+.=</p>
+<p>signal is a speech sequence, p = 8, L = 512, SNR = 20 dB, echo path 
+.=</p>
+<p>changes at time 0.5  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions 
+.=</p>
+<p>FMIPAPA-DCD has been proposed for echo cancellation. 
+.=</p>
+<p>It is improved version of IPAPA algorithm with reduced 
+.=</p>
+<p>numerical complexity. 
+.=</p>
+<p>A fast recursive filtering procedure is used. It exploits the 
+.=</p>
+<p>time-shifting property of  P 'n
+.=</p>
+<p>The influence of the number of DCD iterations on 
+.=</p>
+<p>algorithm performance is investigated. As expected, if 
+.=</p>
+<p>more DCD iterations are performed, better performances 
+.=</p>
+<p>are obtained   
+.=</p>
+<p>8 DCD iterations only slightly alter the properties of the 
+.=</p>
+<p>original algorithm  .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Relevant references 
+D. L. Duttweiler, “Proportionate normalized least-mean-squares adaptation in echo 
+.=</p>
+<p>cancellers,” IEEE Trans. Speech Audio Process., vol. 8, no. 5, pp. 508–518, Sept. 
+.=</p>
+<p>2000. 
+.=</p>
+<p>H. Deng and M. Doroslovački, “Proportionate adaptive algorithms for network echo 
+.=</p>
+<p>cancellation,” IEEE Trans. Signal Process., vol. 54, no. 5, pp. 1794–1803, May 2006. 
+.=</p>
+<p>J. Benesty and S. L. Gay, “An improved PNLMS algorithm,” in Proc. IEEE ICASSP, 
+.=</p>
+<p>2002, pp. II-1881–II-1884. 
+.=</p>
+<p>K. Ozeki and T. Umeda, “An adaptive filtering algorithm using an orthogonal projection 
+.=</p>
+<p>to an affine subspace and its properties,” Electron. Commun. Jpn., vol. 67-A, no. 5, pp. 
+.=</p>
+<p>19–27, May 1984. 
+.=</p>
+<p>F. Albu, H.K. Kwan, “Fast block exact Gauss-Seidel pseudo affine projection algorithm”, 
+.=</p>
+<p>Electronics Letters, Oct. 2004, pp. 1451-1453, Vol. 40, Issue:22 
+.=</p>
+<p>Y. Zakharov and F. Albu, “Coordinate descent iterations in fast affine projection 
+.=</p>
+<p>algorithm,” IEEE Signal Processing Letters, vol. 12, pp. 353–356, May 2005 
+.=</p>
+<p>Y. Zakharov, “Low complexity implementation of the affine projection algorithm”, IEEE 
+.=</p>
+<p>Signal Processing Letters, vol. 15, pp. 557-560, 2008 
+.=</p>
+<p>F. Albu, C. Paleologu, J. Benesty, and S. Ciochina, “A low complexity proportionate 
+.=</p>
+<p>affine projection algorithm for echo cancellation,” in Proc. EUSIPCO, Aalborg, 
+.=</p>
+<p>Denmark, August 2010, pp. 6-10 
+.=</p>
+<p> .=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

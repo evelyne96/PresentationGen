@@ -1,0 +1,1134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Mesh-based vs. Image-based Statistical Appearance Model of the Human Femur: A Preliminary Comparison Study for the Creation of Finite Element Meshes</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Serena</forename><surname>Bonaretti</surname></persName>
+							<email>serena.bonaretti@istb.unibe.ch</email>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Christof</forename><surname>Seiler</surname></persName>
+							<email>christof.seiler@istb.unibe.ch</email>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="laboratory">Asclepios Research Group</orgName>
+								<orgName type="institution">INRIA Sophia Antipolis</orgName>
+								<address>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Christelle</forename><surname>Boichon</surname></persName>
+							<email>christelle.boichon@ansys.com</email>
+							<affiliation key="aff2">
+								<orgName type="department">Ansys</orgName>
+								<address>
+									<settlement>Villeurbanne</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Philippe</forename><surname>Büchler</surname></persName>
+							<email>philippe.buechler@istb.unibe.ch</email>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mauricio</forename><surname>Reyes</surname></persName>
+							<email>mauricio.reyes@istb.unibe.ch</email>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Surgical Technology and Biomechanics</orgName>
+								<orgName type="institution">University of Bern</orgName>
+								<address>
+									<settlement>Bern</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Mesh-based vs. Image-based Statistical Appearance Model of the Human Femur: A Preliminary Comparison Study for the Creation of Finite Element Meshes</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Statistical models have been recently introduced in computational orthopaedics to investigate the bone mechanical properties across several populations. A fundamental aspect for the construction of statistical models concerns the establishment of accurate anatomical correspondences among the objects of the training dataset. Various methods have been proposed to solve this problem such as mesh morphing or image registration algorithms. The objective of this study is to compare a mesh-based and an image-based statistical appearance model approaches for the creation of finite element(FE) meshes. A computer tomography (CT) dataset of 157 human left femurs was used for the comparison. For each approach, 30 finite element meshes were generated with the models. The quality of the obtained FE meshes was evaluated in terms of volume, size and shape of the elements. Results showed that the quality of the meshes obtained with the image-based approach was higher than the quality of the mesh-based approach. Future studies are required to evaluate the impact of this finding on the final mechanical simulations.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Over the past years, statistical models have been introduced in computational orthopaedics as a useful investigation tool. They have been used for implant design evaluation <ref type="bibr" target="#b18">[19,</ref><ref type="bibr" target="#b3">4]</ref>, for fracture risk assessment <ref type="bibr" target="#b5">[6,</ref><ref type="bibr" target="#b24">25]</ref> and for the discrimination of pathological from non pathological subjects <ref type="bibr" target="#b4">[5]</ref>. The major advantage of statistical models consists in the ability of describing a dataset variations in terms of both shape and intensity. Moreover they allow creating new instances of the same dataset object, which belong to the same probability density function as the training dataset. This drives to the creation of a dense map of FE simulations and consequently a richer analysis of the bone mechanical behavior. These characteristics have allowed overcoming one of the limitations of the studies in the field, which have been mainly performed on a small amount of data <ref type="bibr" target="#b15">[16,</ref><ref type="bibr" target="#b12">13,</ref><ref type="bibr" target="#b22">23]</ref>, limiting the generalization of these models to a complete population.</p><p>The definition of accurate correspondences is crucial for the creation of reliable statistical models <ref type="bibr" target="#b8">[9]</ref>. For a correct modeling of both surface and volumetric information, correspondences have to be properly defined not only on the dataset object surface, but also inside the object volumes. Two different approaches exist to establish the anatomical correspondences: mesh morphing techniques and image registration techniques. In the first case, the dataset objects are represented as meshes and a chosen volume reference mesh is morphed to the other dataset <ref type="bibr" target="#b5">[6,</ref><ref type="bibr" target="#b13">14]</ref>. In the second case, the dataset objects are represented by volume images and they are registered to the one chosen as reference <ref type="bibr" target="#b19">[20,</ref><ref type="bibr" target="#b26">27]</ref>.</p><p>Both approaches have strong features and weaknesses. The mesh-based approach provides an output that is directly compatible with finite element (FE) calculations. However, the smoothing required for the creation of well-shaped elements can penalize the accuracy of the anatomical correspondences. On the other hand, the image-based approach has no constraints related to node positioning since the FE mesh is created after the instantiation of synthetic new images. Therefore the accuracy of the correspondence establishment is less problematic for FE simulations. However, due to the nature of these techniques, the correspondence establishment at the interface background-object is more sensitive to errors as compared to pure surface-based registration techniques. Volume meshes are created separately for each instance, implying the impossibility of comparing simulation results on a element-wise basis. Finally deformation vector fields have to be invertible for the creation of new instances. To the authors' knowledge there is no study that compares the two different approaches used by the community in order to determine which is the most suitable for the creation of FE meshes.</p><p>The purpose of the paper is therefore to compare two existing methodologies which aim to create FE meshes from statistical models of appearance <ref type="bibr" target="#b9">[10]</ref>. A comprehensive evaluation of surface or volumetric-based registration techniques is beyond the scope of this study. In the first part of this paper, we present the creation of two different pipelines, namely mesh-based and image-based. For each pipeline, starting from the same dataset, bone anatomical correspondences are determined, a statistical appearance model is built and new instances, which can be directly used for FE simulations, are created. In a second step, the quality of the FE meshes obtained with the two pipelines is compared based on common objective metrics.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Mesh-based and Image-based Pipelines for the Creation of FE Meshes</head><p>Two statistical appearance model approaches for the creation of finite element meshes are presented. The two approaches, namely mesh-based and image-based, had overlapping steps, as shown in <ref type="figure" target="#fig_0">Fig 1.</ref> The main difference between the two approaches consisted in a different representation of the dataset objects. In the mesh-based approach, the bone objects were considered as meshes from the first step of the pipeline, whereas in the image-based approach they were represented by volumetric images for the whole pipeline. In this case, the images were transformed to FE meshes in the very final step. For completeness and reproducibility purpose, details about data and implementation can be found in Appendix A. Segmented CT images were the input for both pipelines. Mesh morphing and image registration were used to find anatomical correspondences, respectively for the mesh-based and the image-based approaches. For both the mesh-based and the image-based pipelines, the same principals were used to calculate the statistical appearance models and to create new instances.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Segmented CT Images</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Mesh-based Pipeline</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Image-based Pipeline</head><p>Surface Mesh 1. Surface Mesh Creation. In the mesh-based pipeline, for each bone of the dataset a surface mesh was created following the steps shown in <ref type="figure" target="#fig_1">Fig. 2</ref>. From each segmented CT image <ref type="figure" target="#fig_1">(Fig. 2a)</ref>, a surface mesh was created using the marching cube algorithm <ref type="bibr" target="#b16">[17]</ref>  <ref type="figure" target="#fig_1">(Fig. 2b)</ref>. The obtained mesh resulted too dense and rough and could not be directly used for the following processing. Therefore, in order to improve the mesh quality, each mesh was decimated and smoothed using the Laplacian operator. Since in many cases the node removal caused the loss of mesh topology, node connections were reestablished using MRFSurface <ref type="bibr" target="#b17">[18]</ref>  <ref type="figure" target="#fig_1">(Fig. 2c)</ref>. 2. Finding Correspondences: Mesh Morphing and Image Registration. In order to find anatomical correspondences among the dataset objects, mesh morphing was used for the mesh-based pipeline, whereas image registration was performed for the image-based approach. In both cases, correspondences were calculated with respect to the same reference bone. The choice of the reference bone was done in the image-based pipeline using an iterative procedure. In the first step, one bone of the dataset was randomly picked as the reference and all the remaining bones of the dataset were registered to it. The average transformation was then calculated and the bone whose transformation was the closest to the average transformation was considered as the new reference femur. These steps were repeated until convergence.</p><p>The mesh morphing was performed using the algorithm developed by <ref type="bibr" target="#b14">[15]</ref> and extended by <ref type="bibr" target="#b2">[3]</ref>. First, a volumetric mesh was created for the reference bone. From the surface mesh, the volume mesh was created using NETGEN <ref type="bibr" target="#b23">[24]</ref>. The reference volumetric mesh was composed of 130000 quadratic tetrahedrons, in order to satisfy the necessary level of mesh refinement for femur FE simulations <ref type="bibr" target="#b27">[28]</ref>. Then, the reference bone volumetric mesh was warped to all dataset surface meshes to create iso-topological tetrahedral FE meshes. To compute the mesh morphing, 10 landmarks were manually selected on the surface of both the reference volume mesh and the bone dataset surfaces meshes, as shown in <ref type="figure" target="#fig_2">Fig. 3</ref>. Four landmarks were selected in correspondence to the main anatomical features of the femur head ( <ref type="figure" target="#fig_2">Fig. 3a</ref>) and 6 at easily detectable points in the condyle area <ref type="figure" target="#fig_2">(Fig. 3b)</ref>. The landmarks were used as constraints during the morphing computations. The mesh morphing was executed first on the surface mesh and then on the volume mesh. From the reference volume mesh, the surface mesh was extracted. For each bone, both the reference surface mesh and the current bone surface mesh were projected on a disc of unitary radius. The position of the bone landmarks with respect to the reference bone landmarks was used as constraint for the moving of all bone surface nodes. The new position of the femur surface nodes was then calculated using radial basis functions (RBF), where the center of the functions was represented by the landmarks. The bone surface nodes were then reprojected back from the parametric space to the physical space, and their positions smoothed. As second step, the reference volumetric mesh was morphed to the current bone new surface mesh. The position of the volumetric mesh inner nodes was calculated using RBF. In this case, the RBF center was represented by the just computed surface nodes. In the image-based pipeline, correspondences were detected using image registration. We used the Log-Domain Demons (LDD) registration algorithm regularized with a femur-specific polyaffine model <ref type="bibr" target="#b25">[26]</ref>. The LDD finds Deformation Vector Fields (DVF) which are smooth and invertible <ref type="bibr" target="#b26">[27]</ref>. This characteristic enables the creation of new instances, as explained in Section 2.4. In the LDD, DVF are generated through the exponential of Stationary Velocity Fields (SVF), which are the primary results of the registration process <ref type="bibr" target="#b1">[2]</ref>. The LDD iteratively minimizes the energy functional composed of two terms, namely the 'correspondence' term, which calculates the SVF and the 'regularization' term, which imposes smoothness on the SVF <ref type="bibr" target="#b6">[7]</ref>. In our case, the regularization term was replaced by a polyaffine model, which allowed us to capture the main anatomical variation of the femur. In the model, three regions were defined: femur head, shaft and condyle area. The parameters of the polyaffine model were jointly estimated using a closed form least square solution during each iteration step of the LDD.</p><p>3. Statistical Models. The statistical appearance model was created as a combination of the parameters obtained from the statistical shape model and the statistical intensity model <ref type="bibr" target="#b9">[10]</ref>.</p><p>In the mesh-based approach, the statistical shape model was computed on the volume mesh coordinates. In order to calculate the principal component analysis (PCA), the volume meshes were aligned to the average mesh using the Procrustes method <ref type="bibr" target="#b10">[11]</ref>. The model was then built on the aligned meshes <ref type="bibr" target="#b8">[9]</ref>. In the image-based approach, instead, the statistical shape model was computed as a statistical deformation model <ref type="bibr" target="#b20">[21]</ref>. Therefore PCA was directly calculated on the SVF obtained from the image registration process.</p><p>For the mesh-based approach, the statistical intensity model was created on the image intensity values at the corresponding mesh node positions. For the creation of valid FE meshes, the assignment of correct grey levels to the mesh nodes is crucial. In fact CT information and bone mechanical properties are strictly linked <ref type="bibr" target="#b21">[22]</ref>: CT image grey levels represent the bone mineral density <ref type="bibr" target="#b7">[8]</ref>, which is related to the Young's modulus through empirical relationships <ref type="bibr" target="#b11">[12]</ref>. One critical aspect affecting the Young's modulus assignment is the partial volume effect that occurs on the bone surface <ref type="bibr" target="#b12">[13]</ref>. Therefore the bone outer layer was first eroded to delete the partial volume effect area and then dilated to rebuild the canceled outer cortical bone. At each node of the mesh, intensities were calculated as a 26-voxel connectivity linear interpolation. The computed intensities were finally used for the PCA calculation. On the other side, for the image-based approach, the statistical intensity model was created through the calculation of the PCA on the original images warped to the reference bone in order to have spatial correspondence among the gray levels of the dataset images.</p><p>For both the mesh-based and the image-based approaches, the statistical appearance model was built on the combination of shape and intensity parameters, as shown in Eq. 1.</p><formula xml:id="formula_0">b = W s b s b g = W s Φ T s (x −x) Φ T g (g −ḡ) ,<label>(1)</label></formula><p>where b represents the combined parameters, composed by the shape parameters b s and the intensity parameters b g ; Φ T s and Φ T g represent respectively the transposition of the modes calculated from the statistical shape model and the statistical intensity model; x and g are the initial mesh coordinate and intensity dataset;x andḡ are the average shape and intensity, respectively. Since the shape and the intensity parameters were represented by different units, the shape parameters were multiplied by the matrix W s in order to make the parameters homogeneous. W s was calculated as W s = rI, where r is the square root of the ratio between the total variation obtained from the statistical intensity model and the total variation calculated from the statistical shape model, and I is the identity matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Instantiation of New Samples.</head><p>For both the mesh-based and the image-based pipelines, new instances were created from the statistical appearance model. The new shapex was created using Eq. 2 and the corresponding intensity distributiong using Eq. 3:</p><formula xml:id="formula_1">x =x + Φ s W −1 s Φ c,s c (2) g =ḡ + Φ g Φ c,g c,<label>(3)</label></formula><p>where</p><formula xml:id="formula_2">Φ c = Φ c,s Φ c,g ,<label>(4)</label></formula><p>represents the combined eigenvectors derived from the calculation of PCA on the combined parameters b, divided in its shape component Φ c,s and intensity component Φ c,g . The parameter c was calculated as −2 √ λ i ≤ c ≤ +2 √ λ i , where λ i is the current eigenvalue, whereas the weight between −2 and +2 was calculated using the latin hypercube sampling method.</p><p>In the mesh-based approach, the new shape was built assigning to the reference topology the new node coordinates. The calculated gray levels were then associated to the mesh nodes. In the image-based pipeline, the new image intensity were calculated in the reference shape. The obtained image was then warped to the new shape calculated, thanks to the invertibility of the Demons DVF.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Volume Mesh Creation.</head><p>At the end of the image-based approach, for each new instance, a FE mesh was created. Similar to the processing performed in steps 1 and 2, from each new image, a surface mesh was created using the marching cubes algorithm. To ensure good mesh quality, the mesh was then simplified and smoothed, and its topology reconstructed using MRFSurface. Finally from the obtained surface mesh, a tetrahedral quadratic FE mesh of about 130000 elements was created using NETGEN.</p><p>6. FE Mesh Quality Assessment. Three different criteria were used to evaluate the quality of the finite element meshes. We evaluated mesh elements in terms of volume, size and shape, using the following metrics: a Jacobian. It is a volume metric which describes the distortion of the element from the ideal shape. At its extremes, +1 and -1, the element shape was considered perfect and distorted, respectively; at 0 the element had null volume. b Edge ratio. It is a size metric which is calculated as the ratio between the longest and the shortest edge of the element. c Minimum angle. It is a shape metrics that evaluates the smallest angle of the element sides.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Experiments on Femur CTs</head><p>To compare the two pipelines, we conducted calculations on left femur bone CT images. In the following paragraphs we show the results that we obtained for the steps of the pipeline. The numbering of the steps refers to <ref type="figure" target="#fig_0">Fig 1.</ref> Finding Correspondences: Mesh Morphing and Image Registration (step 2). A total of 196 segmented CT images were used in this study. According to a visual evaluation, mesh morphing failed for 25 meshes, whereas image registration failed for 24 images. Both mesh morphing and image registration succeeded in 157 cases, which were considered as input dataset for the statistical appearance models.</p><p>Statistical Models (step 3). The results of the statistical appearance models are shown in <ref type="table" target="#tab_0">Table 1</ref>. The variations of the dataset were described in a more compact way by the model obtained with the mesh-based approach than with the image-based approach <ref type="table" target="#tab_0">(Table 1a)</ref>. The evaluation of the computational time showed that the mesh-based approach was less time and memory consuming than the image-based one, even on a less powerful machine <ref type="table" target="#tab_0">(Table 1b</ref>). In the mesh-based pipeline, computations were done in a few minutes, whereas hours of calculations were required in the image-based pipeline. Instantiation of New Samples (step 4). A total of 30 new instances were created for each pipeline. In order to create samples that represented the 90% of variation of the population, 40 modes were used for the mesh-based approaches, whereas 86 modes were used for the image-based approach.</p><p>FE Mesh Quality Assessment (step 6). The evaluation of the mesh element quality resulted as follows:</p><p>a Jacobian. Two of the 30 meshes created with the mesh-based pipeline had respectively 1 and 64 elements with a zero or negative Jacobian <ref type="figure" target="#fig_3">(Fig. 4a)</ref>. None of the 30 volume meshes created with the image-based pipeline had distorted elements. b Edge ratio. For the meshes created with the mesh-based pipeline, both the average and the standard deviation of the edge ratio were greater and spread in a wider range than for the image-based approach <ref type="figure" target="#fig_3">(Fig. 4b)</ref>. One mesh had 2 elements whose edge ratio was greater than 10 <ref type="bibr" target="#b0">[1]</ref>, therefore the mesh could not be used for FE calculation. For the image-based pipeline, meshes had a smaller edge ratio with less variations. c Minimum angle. As for the previous metric, for the meshes created with the mesh-based pipeline, the minimum angle results were more spread than for the meshes created with the image-based approach <ref type="figure" target="#fig_3">(Fig. 4c)</ref>. Moreover, the meshes created with the mesh-based approach had a smaller minimum angle with larger variations. Six meshes had from 1 to 37 elements whose minimum angle was less then 10 degrees <ref type="bibr" target="#b0">[1]</ref>, compromising the meshes usability in mechanical simulations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Conclusion</head><p>In this study we presented a preliminary comparison between two existing different statistical appearance model pipelines for the creation of FE meshes, namely a mesh-based and an image-based approaches. The mesh-based pipeline allowed the calculation of a more compact statistical model of appearance and the direct creation of iso-topological meshes as output of the statistical model. On the other hand, in the image-based approach the correspondence among mesh elements is lost since each mesh is created separately. Moreover the image-based approach is computational expensive and has the issue of the inversion of the DVF for new instances creation. In both pipelines, the ability of the models at describing the training dataset variation resulted to be similar. However the quality of the mesh tetrahedrons created with the image-based pipeline was higher. Imagebased pipeline meshes performed better in terms of element distortion, size and shape. Future work is required to merge the strengths of both pipelines, to compare the mechanical properties assignment in the two approaches and to evaluate the implication for finite element simulations.  This file contains a schematic list of the main formulas and parameters used in this study. ITK 3.20 and VTK 5.6.1 classes and the additional tools are specified; where not mentioned differently, home-made code was used. The steps in brackets in the following section titles refer to <ref type="figure" target="#fig_0">Figure 1</ref> in the main paper, which is reported here for completeness. -Shape: = + Φ Φ , ", −2%&amp; ' ≤ " ≤ +2%&amp; ' -Intensity: = + Φ Φ , "</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>FE MESH QUALITY ASSESSMENT (step 6)</head><p>-Computation of Jacobian, edge ratio and minimum angle (vtkMeshQuality) for each mesh elements. Threshold criteria from "Abaqus/CAE user's manual", version 6.9, cap. 17.6.1. Exclusion of meshes whose elements have: o Jacobian ≤0.0001 o Edge ratio ≥10 o Minimum angle ≤5°</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 :</head><label>1</label><figDesc>Mesh-based and image-based statistical appearance model pipelines for the creation of femur finite element meshes. On the left side, the steps for the mesh-based approach are shown, whereas on the right side the steps for the image-based pipeline are depicted.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 :</head><label>2</label><figDesc>Creation of femur surface mesh from CT image. (a) Sagittal view of a segmented femur head CT image. (b) Surface mesh obtained from the marching cube algorithm. (c) Surface mesh topology reconstruction.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3 :</head><label>3</label><figDesc>Landmarks selection for mesh morphing. (a) Selection of four landmarks in the femur head. (b) Selection of six landmarks in the femur condyles (two landmarks not visible).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4 :</head><label>4</label><figDesc>FE mesh quality assessment. (a) Mesh with distorted elements (tetrahedrons with zero or negative Jacobian are coloured in pink). (b) Edge ratio evaluation. For each mesh the average of the edge ratio of its elements vs. the standard deviation is plotted. The image-based pipeline meshes showed a better edge ratio. (c) For each mesh, the average of the minimum angle of each element vs. the standard deviation is plotted. The meshes created with the image-based pipeline showed higher minimum angle.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 1 :</head><label>1</label><figDesc>Mesh-based and image-based statistical appearance model pipelines for the creation of femur finite element meshes. On the left side, the steps for the mesh-based approach are shown, whereas on the right side the steps for the image-based pipeline are depicted.SEGMENTED CT IMAGES FEM MESH CREATION PARAMETERS (step 1 and step 5) Surface mesh creation: -Marching cubes (vtkMarchingCubes) o thresholded on the bone segmentation mask -Simplification (vtkDecimatePro): o Reduction parameter: 0.4 -Smoothing (vtkSmoothPolyDataFilter): o Number of iterations: 150 -Topology recreation: o MRFSurface (http://www2.imm.dtu.dk/image/MRFSurface/) Volume mesh creation: -NetGen (http://sourceforge.net/projects/netgen-mesher/) parameters: o Mesh granularity: very fine o Element order: second o Max mesh-size: 500 o Min mesh-size: 500 o Mesh-size grading: 0.1 MESH MORPHING PARAMETERS (step 2) -Information cannot be disclosed. IMAGE REGISTRATION PARAMETERS (step 2) -Rigid alignment: o Alignment and centering of bounding boxes that enclose the surface obtained from image masks through marching cubes (vtkMarchingCubes) -Log-Domain Demons (http://www.insight-journal.org/browse/publication/644): o Default parameters -Extension of Log-Domain Demons code for polyaffine regularization: o 3 regions: head, shaft and condyles after rigid alignment o Gaussian function for spatial weighting of each region is set to μ = 0 and σ = 0.125 o Along the transversal axis the positions are set to achieve an equal weighting at the boundary of two adjacent regions STATISTICAL MODELS (step 3) -Mesh-based approach: alignment using the Procrustes algorithm (vtkProcrustesAlignmentFilter) -Shape PCA o = + o Mesh-based pipeline: (vtkPCAAnalysisFilter) o Image-based pipeline: (extension of the class itkImagePCAShapeModelEstimator for vector images)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>Table 1 :</head><label>1</label><figDesc>Statistical appearance model computation results. (a) Model compactness for the mesh-based and the image-based pipelines. (b) Computational costs for the calculations. Processor: Intel Core Duo, E8500 @ 3.16GHz. RAM: 8GB 2 Processor: Intel Xeon CPU, X5550 @ 2.67GHz. RAM: 48GB</figDesc><table>(a) 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>The orange labeled images failed either the mesh morphing or/and the image registration. The remaining 157 were used for the statistical model creation. At present, data cannot be disclosed.Mesh-based vs. Image-based Statistical Appearance Model of the Human Femur: a Preliminary Comparison Study for the Creation of Finite Element Meshes -Supplementary Material</figDesc><table>5 Appendix A 
+
+Supplementary data associated with this study can be found at 
+https://sites.google.com/site/serenabonaretti/ 
+1 
+
+Mesh-based vs. Image-based Statistical Appearance Model of the Human Femur: a Preliminary 
+Comparison Study for the Creation of Finite Element Meshes -Supplementary Material 
+
+This file contains all the available information about the 196 femur CT image dataset. 
+The left part of the table refers to patient characteristics. The right part refers to image characteristics. At the bottom of the table, aggregate 
+statistics can be found for both parts. 
+Id 
+Ethnicity 
+Gender 
+Age [yy] 
+Height 
+[cm] 
+
+Weight 
+[kg] 
+
+Tube voltage 
+[kVp] 
+
+X-ray current 
+[mA] 
+
+Pixel spacing 
+[mm] 
+
+Slice thickness 
+[mm] 
+1 
+ca 
+m 
+55 
+175 
+70 
+120 
+300 
+0.634 
+1.00 
+2 
+ca 
+m 
+69 
+167 
+82 
+120 
+300 
+0.782 
+1.00 
+3 
+ca 
+m 
+75 
+164 
+47 
+120 
+300 
+0.690 
+1.00 
+4 
+ca 
+m 
+75 
+180 
+70 
+120 
+300 
+0.782 
+1.00 
+5 
+ca 
+m 
+81 
+168 
+57 
+120 
+300 
+0.781 
+1.00 
+6 
+ca 
+f 
+24 
+162 
+57 
+120 
+300 
+0.782 
+1.00 
+7 
+ca 
+f 
+32 
+160 
+63 
+120 
+300 
+0.781 
+1.00 
+8 
+ca 
+f 
+42 
+157 
+52 
+120 
+300 
+0.735 
+1.00 
+9 
+ca 
+f 
+52 
+156 
+48 
+120 
+300 
+0.781 
+1.00 
+10 
+ca 
+f 
+66 
+150 
+50 
+120 
+300 
+0.735 
+1.00 
+11 
+ca 
+f 
+66 
+179 
+87 
+120 
+300 
+0.782 
+1.00 
+12 
+ca 
+f 
+77 
+160 
+50 
+120 
+300 
+0.686 
+1.00 
+13 
+ca 
+f 
+83 
+155 
+42 
+120 
+300 
+0.782 
+1.00 
+14 
+ca 
+f 
+87 
+155 
+65 
+120 
+300 
+0.782 
+1.00 
+15 
+ca 
+f 
+75 
+160 
+59 
+120 
+300 
+0.816 
+1.00 
+16 
+ca 
+f 
+48 
+169 
+70 
+120 
+300 
+0.858 
+1.00 
+17 
+ca 
+f 
+70 
+xxx 
+xxx 
+120 
+300 
+0.705 
+1.00 
+18 
+ca 
+f 
+56 
+170 
+75 
+120 
+300 
+0.682 
+1.00 
+19 
+ca 
+m 
+82 
+175 
+100 
+120 
+300 
+0.782 
+1.00 
+20 
+ca 
+f 
+63 
+165 
+65 
+120 
+300 
+1.087 
+1.00 
+21 
+ca 
+f 
+67 
+160 
+65 
+120 
+300 
+0.782 
+1.00 
+22 
+ca 
+f 
+56 
+168 
+90 
+120 
+300 
+0.781 
+1.00 
+23 
+ca 
+m 
+73 
+173 
+95 
+120 
+300 
+0.782 
+1.00 
+</table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0" />			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Abaqus: ABAQUS/CAE user&apos;s manual : version 6.9</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">A Log-Euclidean Framework for Statistics on Diffeomorphisms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Arsigny</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Commowick</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Pennec</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Ayache</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Medical Image Computing and Computer-Assisted Intervention (MICCAI&apos;06)</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="924" to="955" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Shape Indexing of Human Femora Using Morphing and Principal Component Analysis</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Boichon</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Rochette</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Grassi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">1st Virtual Physiological Human Conference -VPH2010</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Assessment of Peri-Articular Implant Fitting Based on Statistical Finite Element Modeling</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Bonaretti</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Reimers</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Reyes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Nikitsin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Joensson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Nolte</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Büchler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">MICCAI Workshop on Computational Biomechanics for Medicine III</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Statistical Shape Modeling Describes Variation in Tibia and Femur Surface Geometry between Control and Incidence Groups from the Osteoarthritis Initiative Database</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">L</forename><surname>Bredbenner</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">D</forename><surname>Eliason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">S</forename><surname>Potter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">L</forename><surname>Mason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">M</forename><surname>Havill</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">P</forename><surname>Nicolella</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Biomechanics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1780" to="1786" />
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Statistical Modelling of the Whole Human Femur Incorporating Geometric and Material Properties</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Bryan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">S</forename><surname>Mohan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Hopkins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Galloway</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">B</forename><surname>Nair</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Engineering &amp; Physics</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="57" to="65" />
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Iconic Feature Based Nonrigid Registration: the PASHA Algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Cachier</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Bardinet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Dormont</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Pennec</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Ayache</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computer Vision and Image Understanding</title>
+		<imprint>
+			<biblScope unit="volume">89</biblScope>
+			<biblScope unit="page" from="272" to="298" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Evaluation of Orthogonal Mechanical Properties and Density of Human Trabecular Bone from the Major Metaphyseal Regions with Materials Testing and Computed Tomography</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Ciarelli</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><forename type="middle">A</forename><surname>Goldstein</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">L</forename><surname>Kuhn</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">D</forename><surname>Cody</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">B</forename><surname>Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Orthopaedic Research</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="674" to="82" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Active Shape Models -Their Training and Application</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Cootes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Cooper</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Graham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computer Vision and Image Understanding</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="38" to="59" />
+			<date type="published" when="1995" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Statistical Models of Appearance for Medical Image Analysis and Computer Vision</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">F</forename><surname>Cootes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">J</forename><surname>Taylor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SPIE Medical Imaging</title>
+		<imprint>
+			<publisher>Spie</publisher>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="236" to="248" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Procrustes Methods in the Statistical Analysis of Shape</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Goodall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistic society. Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="285" to="339" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Mathematical Relationships between Bone Density and Mechanical Properties: A Literature Review</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Helgason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Perilli</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Brynjólfsson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Clinical Biomechanics</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="135" to="181" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A Modified Method for Assigning Material Properties to FE Models of Bones</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Helgason</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Pálsson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Cristofolini</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Brynjólfsson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Engineering &amp; Physics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="444" to="53" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Mesh Morphing and Shape Indexing in Human Femur Modeling Applications</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Hraiech</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+	<note type="report_type">Ph.D. thesis</note>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Fast 3D Mesh Generation of Femur Based on Planar Parameterization and Morphing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Hraiech</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Malvesin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Rochette</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">5th IEEE International Symposium on Biomedical Imaging: From Nano to Macro</title>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="page" from="1561" to="1564" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Comparison of In Situ and In Vitro CT Scan-based Finite Element Model Predictions of Proximal Femoral Fracture Load</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Keyak</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Falkinstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Engineering &amp; Physics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="781" to="787" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Marching Cubes: A High Resolution 3D Surface Construction Algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">E</forename><surname>Lorensen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">E</forename><surname>Cline</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computer Graphics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="163" to="169" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Markov Random Field Surface Reconstruction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">R</forename><surname>Paulsen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">A</forename><surname>Baerentzen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Larsen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Visualization and Computer Graphics</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="636" to="682" />
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Statistical Finite Element Model for Bone Shape and Biomechanical Properties</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Querol</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Büchler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Rueckert</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Nolte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Medical Image Computing and Computer-Assisted Intervention (MICCAI&apos;06)</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="405" to="411" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Nonrigid Registration Using Free-Form Deformations: Application to Breast MR Images</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Rueckert</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">I</forename><surname>Sonoda</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Hayes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">L</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">O</forename><surname>Leach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">J</forename><surname>Hawkes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Medical Imaging</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="712" to="733" />
+			<date type="published" when="1999" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Automatic Construction of 3-D Statistical Deformation Models of the Brain Using Nonrigid Registration</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Rueckert</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">F</forename><surname>Frangi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">A</forename><surname>Schnabel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Medical Imaging</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1014" to="1039" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">An Accurate Estimation of Bone Density Improves the Accuracy of Subject-Specific Finite Element Models</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Dall&amp;apos;ara</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Malandrino</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Schotkamp</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Baleani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Biomechanics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2483" to="91" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Subject-Specific Finite Element Models Implementing a Maximum Principal Strain Criterion Are Able to Estimate Failure Risk and Fracture Location on Human Femurs Tested In Vitro</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Schileo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Cristofolini</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Biomechanics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="356" to="67" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">NETGEN An Advancing Front 2D/3D-Mesh Generator Based on Abstract Rules</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Schöberl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computing and Visualization in Science</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="41" to="52" />
+			<date type="published" when="1997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Assessment of the Individual Fracture Risk of the Proximal Femur by Using Statistical Appearance Models</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Schuler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><forename type="middle">D</forename><surname>Fritscher</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Kuhn</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Eckstein</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">M</forename><surname>Link</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Schubert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Physics</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="2560" to="2571" />
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Femur Specific Polyaffine Model to Regularize the Log-Domain Demons Registration</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Seiler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Pennec</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Ritacco</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Reyes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">In: In SPIE Medical Imaging</title>
+		<imprint>
+			<biblScope unit="volume">7962</biblScope>
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Vercauteren</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Pennec</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Perchant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Ayache</surname></persName>
+		</author>
+		<title level="m">Symmetric Log-Domain Diffeomorphic Registration: A Demons-based Approach. Medical Image Computing and Computer-Assisted Intervention (MICCAI&apos;08)</title>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="754" to="61" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Automatic Generation of Accurate Subject-Specific Bone Finite Element Models to Be Used in Clinical Studies</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Viceconti</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Davinelli</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Taddei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Cappello</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Biomechanics</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1597" to="605" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

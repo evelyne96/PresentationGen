@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Low Complexity Global Motion Estimation Techniques for 
+Image Stabilization 
+</p>
+<p>Felix Albu, Corneliu Florea, Adrian Zamfir, Alexandru Drambarean</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline of Presentation
+</p>
+<p>• Introduction
+</p>
+<p>• The Sign Projection (SP) method
+</p>
+<p>• The Binary Incrementation (BI) method
+</p>
+<p>• Experiments and results
+</p>
+<p>• References
+</p>
+<p>• Conclusions</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction (1)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction (2)
+</p>
+<p>• Optical Image stabilization
+– Best performance 
+– Expensive solution
+</p>
+<p>• Electronic Image Stabilization
+– Use of extra hardware such us gyroscopic sensors.
+– There are no moving parts and the power dissipation is low
+– Still an expensive solution
+</p>
+<p>• Digital Image Stabilization
+– Do not need extra hardware and the power dissipation is 
+</p>
+<p>very low
+– Only digital image methods are used</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction (3)
+</p>
+<p>• The most popular technique is the block 
+matching algorithm
+– Image frames are divided in non-overlapping rectangular 
+</p>
+<p>blocks 
+– The best match to the current block of pixels is searched 
+</p>
+<p>within a certain search area in the previous frame
+</p>
+<p>• The full search algorithm (FS) search all 
+locations
+– Optimal solution
+– Very expensive solution</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction (4)
+</p>
+<p>• An alternative to FS is the phase correlation (PC) method 
+– Is based on the phase shift theorem and an IFFT is 
+</p>
+<p>applied to the phase shift. The translation motion in the 
+image pair is found from the delta function offset
+</p>
+<p>– It is an expensive, but robust solution</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Integral Projection method
+</p>
+<p>• One simpler alternative to FS is the Integral 
+Projection (IP) method
+</p>
+<p>– A pair of one-dimensional vectors is computed by summing 
+the elements on one direction on a pair of consecutive 
+frames
+</p>
+<p>– The projection vectors are correlated in order to find the best 
+offset corresponding to the matched frames</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Integral Projection method
+</p>
+<p>a) The horizontal projection vectors for both images; 
+b) The SAD values for the horizontal projection vectors</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Sign Projection method
+</p>
+<p>J.J. Dubnowski, R.W. Schafer, and L.R. Rabiner (1976). Real-time digital hardware pitch 
+detector. IEEE Transactions on Acoustics, Speech, and Signal Processing, 24:2-8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Sign Projection method
+</p>
+<p>• It is derived from the integral projection method
+</p>
+<p>• Each pixel value is compared with two thresholds
+</p>
+<p>• The thresholds are computed as a percentage of the dynamic 
+range of the image crop pixel values
+</p>
+<p>• A pair of one-dimensional vectors (horizontal and vertical) is 
+obtained
+</p>
+<p>• The projection vectors are correlated in order to find the best 
+offset corresponding to the matched frames</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Sign Projection method
+</p>
+<p>The pixel values, the thresholds and the output of the comparator for one row.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Sign Projection method
+</p>
+<p>a) The horizontal sign projection vectors for both images; 
+b) The SAD for the horizontal sign projection vectors</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Binary Incrementation method
+</p>
+<p>• It is also derived from the integral projection method
+</p>
+<p>• Each pixel value is compared with a thresholds and counted if the 
+value is above the threshold
+</p>
+<p>• The pair vectors obtained on each direction are compared with 
+another threshold
+</p>
+<p>• The thresholds are computed as a percentage of the dynamic 
+range of the image crop pixel values and vector values 
+respectively
+</p>
+<p>• A pair of binary vectors (horizontal and vertical) is obtained
+</p>
+<p>• The horizontal and vertical displacements are given by the 
+minimum of the sum of XOR output values</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Binary Incrementation method
+</p>
+<p>The horizontal binary vectors for both images.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Binary Incrementation method
+</p>
+<p>The sum of XOR output values.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motion filtering
+</p>
+<p>• The next step is the low pass filtering
+– We used the jitter calculation proposed in [1] 
+</p>
+<p>A[n] = aA[n −1]+ av[n]
+– Where A[n] is the accumulated jitter for frame 
+</p>
+<p>n, v[n] is the computed motion estimate for 
+frame n, and a is a dampening factor. 
+</p>
+<p>• The last step is the image shift using the 
+maximum buffer area of the image sensor </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments and Results
+</p>
+<p>The horizontal displacements estimated by the BI, SP, IP, PC and FS methods 
+for a burst of pictures.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments and Results
+</p>
+<p>The horizontal displacements estimated by the BI, SP, IP and PC methods.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments and Results
+</p>
+<p>The vertical displacements estimated by the BI, SP, IP and PC methods</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments and Results
+</p>
+<p>Method PC IP SP BI 
+</p>
+<p>E for 0.1556 0.1860 0.1664 0.1951
+burst 
+pictures
+E for low 0.1681 0.2661 0.2088 0.3243
+quality 
+movie
+</p>
+<p>Error Values for Global Motion Vectors computed by different methods
+</p>
+<p>E 1
+N
+</p>
+<p>=
+N ∑
+</p>
+<p>⎡
+⎢( FS
+</p>
+<p>2
+hi − hi ) + ( FS 2v ⎤⎣ i − vi ) ⎥i=1 ⎦</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments and Results
+</p>
+<p>• The accuracy of the proposed methods can be 
+improved by applying them on different parts of 
+the frames and use the median values. It also 
+increase robustness to independently moving 
+objects from one frame to another
+</p>
+<p>• Sub-sampling with a specified factor (up to three) 
+is possible for the SP and BI methods. The 
+accuracy of the motion estimation can be 
+recovered by interpolating the computed vectors 
+with the same factor</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>References
+</p>
+<p>• [1] A. Deever, “In-camera, all-digital video stabilization”, in proc. 
+ICIS’06, Rochester, New York, May 2006, pp. 190-193.
+</p>
+<p>• [2] Kuglin C D., Hines D C. The phase correlation image alignment 
+method. In Proc. Int. Conf. Cybernetics and Society, IEEE, Bucharest, 
+Romania, Sept. 1975, pp. 163-165 
+</p>
+<p>• [3] K. Sauer and B. Schwartz, 1996, "Efficient Block Motion 
+Estimation Using Integral Projections", IEEE Trans. Circuits, Systems 
+for video Tech., vol. 6, No. 5, October, pp. 513-518
+</p>
+<p>• [4] J.J. Dubnowski, R.W. Schafer, and L.R. Rabiner. (1976). Real-
+time digital hardware pitch detector. IEEE Transactions on Acoustics, 
+Speech, and Signal Processing, 24:2-8
+</p>
+<p>• [5] B. Natarajan, V. Bhaskaran, and K. Konstantinides, “Low-
+complexity block-based motion estimation via one-bit transforms,” 
+IEEE Trans. Circuit Syst. Video Technol., vol. 7, no. 5, pp. 702-706, 
+Aug. 1997</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>• The Sign Projection and Binary Incrementation
+are proposed for global motion estimation
+</p>
+<p>• They achieve similar performance with more 
+complicate methods but at lower cost
+</p>
+<p>• They can be seen as a combination of the integral 
+projection and bit transform methods, therefore 
+can have an efficient hardware or software 
+implementations
+</p>
+<p>• The improvement of the performance for small 
+block sizes is under investigation</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

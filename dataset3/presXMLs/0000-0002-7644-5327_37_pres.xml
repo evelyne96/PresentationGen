@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm Portfolios through 
+Empirical Hardness Models
+.=</p>
+<p>Case Studies on Combinatorial Auction 
+Winner Determination and Satisfiability
+.=</p>
+<p>Kevin Leyton-Brown
+.=</p>
+<p>University of British Columbia
+.=</p>
+<p>Eugene Nudelman
+.=</p>
+<p>James McFadden
+.=</p>
+<p>Galen Andrew
+.=</p>
+<p>Yoav Shoham
+.=</p>
+<p>Stanford University
+.=</p>
+<p>We’d like to acknowledge assistance from Ryan Porter, Carla Gomes and Bart Selman, and support from the Cornell 
+Intelligent Information Systems Institute, a Stanford Graduate Fellowship and DARPA (F30602-00-2-0598)..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Algorithm Selection Problem
+.=</p>
+<p>• What is the best algorithm for a given problem?
+– worst-/average-case measure doesn’t tell the whole story
+– ideally, select algorithm on a per-instance basis [Rice]
+.=</p>
+<p>• Our approach:
+– Identify:
+.=</p>
+<p>• a target distribution of problem instances, D
+• a set of algorithms, where each algorithm has a significant probability 
+.=</p>
+<p>of outperforming the others on instances drawn from D
+.=</p>
+<p>• polytime-computable features of problem instances
+– Learn per-algorithm empirical hardness models
+– Use the models to construct an algorithm portfolio by choosing the 
+.=</p>
+<p>algorithm with the best predicted runtime.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combinatorial Auction Winner Determination
+.=</p>
+<p>• Equivalent to weighted set packing
+• Input: n goods, m bids 
+• Objective: find revenue-maximizing non-conflicting 
+.=</p>
+<p>allocation.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WDP: Runtime Variation
+.=</p>
+<p>• Complete algorithms:
+– CPLEX [ILOG Inc.]
+– CASS [Leyton-Brown et.al], 100%
+– GL [Gonen and Lehman] 80%
+.=</p>
+<p>60%
+.=</p>
+<p>• Gathered runtime data using 
+40%
+.=</p>
+<p>various distributions
+.=</p>
+<p>– 20%randomly sampled generator’s 
+parameters for each instance 0%L
+.=</p>
+<p>L 3
+.=</p>
+<p>A 7-1 L r4 b0 itR ra
+1 rL eg y
+.=</p>
+<p>• 2 iEven holding problem size 2 L on3 6 sCPLEX Sc
+4 P he
+.=</p>
+<p>constant, runtimes vary by at d Dis tributionRunning 5 M h ua s lt ic nh gi 500 instances n
+many orders of magnitude Time g in each
+.=</p>
+<p>log10(sec)
+across and within distributions.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WDP: Features
+.=</p>
+<p>1. Linear Programming
+– L1, L2, L∞ norms of integer slack vector
+.=</p>
+<p>2. Price
+– stdev(prices)
+.=</p>
+<p>Bid
+– stdev(avg price per good)
+.=</p>
+<p>Good
+– stdev(average price per sqrt(good))
+.=</p>
+<p>Bid
+.=</p>
+<p>3. Bid-Good graph Good
+.=</p>
+<p>– node degree stats (max, min, avg, stdev) Bid
+Good
+.=</p>
+<p>4. Bid graph
+Bid
+.=</p>
+<p>– node degree stats
+– edge density
+– clustering coefficient (CC), stdev Bid
+.=</p>
+<p>– avg min path length (AMPL) Bid Bid
+– ratio of CC to AMPL
+– eccentricity stats (max, min, avg, stdev)
+.=</p>
+<p>Bid Bid.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WDP: Empirical Hardness Models
+.=</p>
+<p>• Quadratic regression can be used to learn very accurate 
+models 
+– predicting log10 of CPLEX runtime 
+.=</p>
+<p>5
+.=</p>
+<p>4
+.=</p>
+<p>3
+.=</p>
+<p>2
+.=</p>
+<p>1
+.=</p>
+<p>0
+.=</p>
+<p>-1
+.=</p>
+<p>-2
+.=</p>
+<p>-2 -1 0 1 2 3 4 5
+.=</p>
+<p>log(Actual Runtime)
+.=</p>
+<p>– Root mean squared error: 0.216 (test data)
+.=</p>
+<p>Predicted log(Runtime).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WDP: From Models to a Portfolio
+.=</p>
+<p>6000 800
+.=</p>
+<p>700
+5000
+.=</p>
+<p>600
+4000
+.=</p>
+<p>500
+.=</p>
+<p>3000 400
+.=</p>
+<p>300
+2000
+.=</p>
+<p>200
+1000
+.=</p>
+<p>100
+.=</p>
+<p>0 0
+.=</p>
+<p>GL CASS CPLEX CPLEX Portfolio Optimal
+.=</p>
+<p>Optimal Algorithm Selection Portfolio Algorithm Selection
+.=</p>
+<p>CASS
+GL
+CPLEX
+.=</p>
+<p>Time (s).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATZilla: A Portfolio for SAT
+.=</p>
+<p>• Algorithms in the portfolio:
+– 2clseq [Bacchus] Limmat [Biere]
+– OKsolver [Kullmann] relsat [Bayardo]
+– Satz-Rand [Kautz, Li] SATO [Zhang]
+– zChaff [Zhang] Jerusat [Nadel]
+.=</p>
+<p>• Satzilla2 (Hors-Concours) added:
+– eqsatz [Li] HeerHugo [Groote]
+– AutoWalkSat [Patterson, Kautz] (preprocessing)
+.=</p>
+<p>• Developed in just over two weeks!.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla: Features
+.=</p>
+<p>1. Problem Size: #vars, #clauses, Var
+Clause
+.=</p>
+<p>#vars/#clauses
+Var
+.=</p>
+<p>– rest of features are normalized by these
+Clause
+.=</p>
+<p>2. Graphs: Var
+.=</p>
+<p>• Variable-Clause (VCG, bipartite)
+• VarVariable (VG, edge whenever two 
+.=</p>
+<p>variables occur in the same clause) Var Var
+• Clause (CG, edge whenever two clauses 
+.=</p>
+<p>share a variable with opposite sign)
+Var Var
+.=</p>
+<p>— compute stats=(max, min, stdev, mean, 
+entropy) over node degrees
+.=</p>
+<p>— for VCG, both for vars and clauses Clause Clause
+.=</p>
+<p>— # of unary, binary, ternary clauses
+.=</p>
+<p>— stats of the CG clustering coefficients
+.=</p>
+<p>Clause
+Clause.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla: Features
+.=</p>
+<p>3. Stats of #positive/#negative literals in each clause k1
+.=</p>
+<p>4. Stats of #positive/#negative occurrences for each var
+.=</p>
+<p>5. Horn clauses
+– total #horn clauses
+– stats of #horn occurrences for each var
+.=</p>
+<p>6. LP relaxation features
+– objective value
+– stats of integer slacks
+– #vars set to an integer
+.=</p>
+<p>7. Probing features
+• DPLL probing features (to depth 256)
+.=</p>
+<p>— #unit props after reaching depths 1, 4, 16, 64, 256
+.=</p>
+<p>• Local search probing (100 probes, each probe runs to plateau/max)
+— stats of climb height (in #clauses) – stats of #steps taken
+— stats of fraction of satisfied clauses – stats of break counts/#vars
+.=</p>
+<p>• Search space size probing (5000 random search paths with unit-prop)
+— average depth to contradiction, estimate log-num-nodes in search tree.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Slide 10
+.=</p>
+<p>k1 # pos/# neg: should be abs(0.5 - #pos / (#pos + #neg)) so that flipping all pos and neg doesn't change the stat
+kevinlb, 1/1/2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla: Models and Portfolio
+.=</p>
+<p>• Learned linear regression models for each algorithm
+– trained on more than 20000 instances
+.=</p>
+<p>• included 2002 competition instances
+• highly skewed towards random instances
+.=</p>
+<p>– training set preprocessed to exclude instances that were solved by 
+all solvers, or by none of them
+.=</p>
+<p>– terrible RMSE on test set
+– enough predictive power to discriminate well
+.=</p>
+<p>• On the training set, SATzilla’s choice takes on average 
+92 seconds longer to run than the optimal choice
+– gives SATzilla an edge over its subsolvers, especially on harder 
+.=</p>
+<p>instances.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla: SAT-2003 Competition
+.=</p>
+<p>• 2nd in Random instances track
+• 3rd in Handmade track;  2nd in Handmade track, SAT only
+.=</p>
+<p>• Only solver with good performance in more than one track
+• Success measured in #series solved, not #benchmarks solved
+.=</p>
+<p>– Satzilla 2 solved more random instances than kcnfs.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla: Areas for Improvement
+.=</p>
+<p>• Add new algorithms to the portfolio
+– SATzilla outperformed all its constituent algorithms
+.=</p>
+<p>• Construct better models
+– as we continue to study and analyze SAT data, our 
+.=</p>
+<p>model accuracy is increasing
+.=</p>
+<p>• Spend more development time to eliminate bugs
+– LP features timed out on many industrial benchmarks
+.=</p>
+<p>• instead of using a fallback solver (zChaff), SATzilla picked one 
+essentially at random, but most don’t do well on industrial
+.=</p>
+<p>– some “random” instances were solved but didn’t count!
+• Relsat was chosen, and actually solved them, but it had an 
+.=</p>
+<p>output bug .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>• WDP
+– models: very mature, high accuracy
+– algorithms: one is dominant, limiting the size of 
+.=</p>
+<p>possible gains from a portfolio approach
+.=</p>
+<p>• SAT
+– models: more of a proof of concept, much room for 
+.=</p>
+<p>improvement.  However, discrimination accuracy is 
+much better than prediction accuracy.
+.=</p>
+<p>– algorithms: many are strong and correlation is fairly 
+low, making this an excellent domain for future study.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>Overall, our techniques provide a quick and relatively automatic
+blueprint for building algorithm portfolios, suitable when there are:
+– two or more algorithms with relatively uncorrelated runtimes
+– a set of good features
+– lots of data.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

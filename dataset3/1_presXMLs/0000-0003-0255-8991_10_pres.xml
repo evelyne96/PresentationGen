@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>University of the Basque Country System
+for NIST 2010 Speaker Recognition Evaluation
+</p>
+<p>M. Penagarikano, A. Varona, M. Diez. L.J. Rodriguez-Fuentes, G. Bordel
+</p>
+<p>GTTS, Department of Electricity and Electronics
+University of the Basque Country, Spain
+e-mail:mikel.penagarikano@ehu.es
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Partitioning of the previous SRE databases
+</p>
+<p>spkrs SRE04 SRE05 SRE06 SRE08 FU08  Universal Background Models (UBM)
+</p>
+<p>SRE04 310 0 0 0 0  Channel Compensation (CHC)
+</p>
+<p>SRE05 0 525 348 0 0  SVM Impostors (IMP)
+SRE06 0 348 949 112 0  Z-Norm score normalization (SN-ZNorm)
+SRE08 0 0 112 1336 150  T-Norm score normalization (SN-TNorm)
+FU08 0 0 0 150 150  Development set
+</p>
+<p>signals FU08
+</p>
+<p>CHC 4208
+</p>
+<p>signals Female Male Total Tnorm 1993
+</p>
+<p>UBM 2804 2119 4923 ZNorm 2087
+</p>
+<p>CHC 4586 3531 8117
+</p>
+<p>IMP 2780 2094 4874
+signals SRE08 SRE08* devA devB
+</p>
+<p>TNorm 1479 960 2439
+train 3263 3149 1621 1528
+</p>
+<p>ZNorm 1403 1146 2549
+test 6377 6211 3306 2905
+</p>
+<p>(*)  112 speakers from SER06 were removed
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The EHU Speaker Recognition System
+</p>
+<p>Preprocessing Feature Extraction UBM
+</p>
+<p>• Qualcomm-ICSI-OGI noise • 13MFCC, CMS, FW, ∆+∆∆ • Gender dependent
+reduction (Wiener Filter) • Sautrela Toolkit • 1024 components
+</p>
+<p>• Interviewer attenuation • Sautrela Toolkit
+</p>
+<p>GMM-SVM & LE-GMM GLDS-SVM JFA
+</p>
+<p>• SUNSDV-SRE08 recipe • BUT Matlab JFA recipe
+• Eigenchannels: 20+20+40 • Feature domain CC from Suff-Stat • 200 eigenvoices
+• Sautrela Toolkit + SVMTorch • Sautrela Toolkit + SVMTorch • 100 eigenchannels
+</p>
+<p>ZT normalization
+</p>
+<p>• Channel type condition: 1MIC ,  0MIC ,  2MIC
+• Channel & gender dependent ZT
+</p>
+<p>Fusion & Calibration
+</p>
+<p>• Side info conditional fusion & calibration (channel type + gender)
+• Hard accept/reject decisions by Bayes threshold of 6,907
+• FoCal Toolkit
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Debugging
+</p>
+<p>grep –f train.regexp *.$gender.vector > train.$gender.vector
+</p>
+<p>grep –f test.regexp *.$gender.vector > test.$gender.vector
+</p>
+<p>grep –f train.regexp *.train.$gender.vector > train.$gender.vector
+</p>
+<p>grep –f test.regexp *.test.$gender.vector > test.$gender.vector
+</p>
+<p>Original Debugged
+</p>
+<p>Min Cost EER Min Cost EER
+</p>
+<p>01 1 49,68 0,5439 2,93
+</p>
+<p>02 1 47,82 0,8061 6,65
+</p>
+<p>03 1 28,72 0,4683 4,23
+</p>
+<p>04 1 27,94 0,6931 5,28
+</p>
+<p>05 1 37,01 0,7270 4,38
+</p>
+<p>06 0,7936 6,93 0,7936 6,93
+</p>
+<p>07 0,7270 8,64 0,7270 8,64
+</p>
+<p>08 0,3675 2,01 0,3675 2,01
+</p>
+<p>09 0,4251 2,76 0,4251 2,76
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results Analysis (core-core, cond-03 … our best)
+NIST SRE10 core-core
+</p>
+<p>03 - Interview In Train And Nve Phoncall Over Tel Channel In Test
+  90   
+</p>
+<p>03 - Interview In Train And Nve Phoncall Over Tel Channel In Test  - Min Cost
+JFA
+</p>
+<p>1,2
+</p>
+<p>  80  GLDS-SVM
+</p>
+<p>GMM-SVM
+</p>
+<p>LE-GMM
+</p>
+<p>1   60  Fusion
+</p>
+<p>  40  
+</p>
+<p>0,8
+</p>
+<p>  20  
+</p>
+<p>0,6   10  
+</p>
+<p>  5   
+</p>
+<p>0,4   2   
+</p>
+<p>  1   
+</p>
+<p> 0.5  
+</p>
+<p>0,2
+  0.2 
+</p>
+<p>  0.1 
+</p>
+<p> 
+ 0.001  0.01   0.1  0.5   1     2     5     10    20    40  
+</p>
+<p>0 False Alarm probability (in %)
+</p>
+<p>Act Cost Min Cost EER
+</p>
+<p>GMM-SVM 0,8843* 0,4732 4,96
+</p>
+<p>LE-GMM 0,8984* 0,4537 4,90
+</p>
+<p>GLDS-SVM 0,9859* 0,6747 7,10
+</p>
+<p>JFA 1* 0,9982 17,76
+</p>
+<p>Fusion 0,5353 0,4683 4,23
+</p>
+<p>(*)  uncalibrated scores
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 5
+</p>
+<p>MMiissss  pprroobbaabbiilliittyy  ((iinn  %%))</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results Analysis (core-core, cond-01 … not so good)
+NIST SRE10 core-core
+</p>
+<p>01 - Interview In Train And Test, Same Mic
+  90   
+</p>
+<p>01 - Interview In Train And Test, Same Mic  - Min Cost
+JFA
+</p>
+<p>1,2
+</p>
+<p>  80  GLDS-SVM
+</p>
+<p>GMM-SVM
+</p>
+<p>LE-GMM
+1   60  Fusion
+</p>
+<p>  40  
+</p>
+<p>0,8
+</p>
+<p>  20  
+</p>
+<p>0,6   10  
+</p>
+<p>  5   
+</p>
+<p>0,4   2   
+</p>
+<p>  1   
+</p>
+<p> 0.5  
+</p>
+<p>0,2
+  0.2 
+</p>
+<p>  0.1 
+</p>
+<p> 
+ 0.001  0.01   0.1  0.5   1     2     5     10    20    40  
+</p>
+<p>0 False Alarm probability (in %)
+</p>
+<p>Act Cost Min Cost EER
+</p>
+<p>GMM-SVM 1,2498* 0,5423 3,53
+</p>
+<p>LE-GMM 1,0675* 0,5890 3,63
+</p>
+<p>GLDS-SVM 1,0981* 0,7594 5,34
+</p>
+<p>JFA 0,9969* 0,9709 14,73
+</p>
+<p>Fusion 29,401 0,5439 2,93
+</p>
+<p>(*)  uncalibrated scores
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 6
+</p>
+<p>MMiissss  pprroobbaabbiilliittyy  ((iinn  %%))</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>DET curves, core-core, conditions 01-03
+SRE2010 - 01 SRE2010 - 02 SRE2010 - 03
+</p>
+<p>  90    90    90  
+</p>
+<p>  80    80    80  
+</p>
+<p>  60    60    60  
+</p>
+<p>  40    40    40  
+</p>
+<p>  20    20    20  
+</p>
+<p>  10    10    10  
+</p>
+<p>  5     5     5   
+</p>
+<p>  2     2     2   
+</p>
+<p>  1     1     1   
+</p>
+<p> 0.5   0.5   0.5  
+</p>
+<p>  0.2   0.2   0.2 
+</p>
+<p>  0.1   0.1   0.1 
+</p>
+<p> 0.001  0.01   0.1  0.5   1     2     5     10    20    40   0.001  0.01   0.1  0.5   1     2     5     10    20    40   0.001  0.01   0.1  0.5   1     2     5     10    20    40  
+</p>
+<p>False Alarm probability (in %) False Alarm probability (in %) False Alarm probability (in %)
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 7
+</p>
+<p>Miss probability (in %)
+</p>
+<p>Miss probability (in %)
+</p>
+<p>Miss probability (in %)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>DET curves, core-core, conditions 04-06
+SRE2010 - 04 SRE2010 - 05 SRE2010 - 06
+</p>
+<p>  90    90    90  
+</p>
+<p>  80    80    80  
+</p>
+<p>  60    60    60  
+</p>
+<p>  40    40    40  
+</p>
+<p>  20    20    20  
+</p>
+<p>  10    10    10  
+</p>
+<p>  5     5     5   
+</p>
+<p>  2     2     2   
+</p>
+<p>  1     1     1   
+</p>
+<p> 0.5   0.5   0.5  
+</p>
+<p>  0.2   0.2   0.2 
+</p>
+<p>  0.1   0.1   0.1 
+</p>
+<p> 0.001  0.01   0.1  0.5   1     2     5     10    20    40   0.001  0.01   0.1  0.5   1     2     5     10    20    40   0.001  0.01   0.1  0.5   1     2     5     10    20    40  
+</p>
+<p>False Alarm probability (in %) False Alarm probability (in %) False Alarm probability (in %)
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 8
+</p>
+<p>Miss probability (in %)
+</p>
+<p>Miss probability (in %)
+</p>
+<p>Miss probability (in %)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>DET curves, core-core, conditions 07-09
+SRE2010 - 07 SRE2010 - 08 SRE2010 - 09
+</p>
+<p>  90    90    90  
+</p>
+<p>  80    80    80  
+</p>
+<p>  60    60    60  
+</p>
+<p>  40    40    40  
+</p>
+<p>  20    20    20  
+</p>
+<p>  10    10    10  
+</p>
+<p>  5     5     5   
+</p>
+<p>  2     2     2   
+</p>
+<p>  1     1     1   
+</p>
+<p> 0.5   0.5   0.5  
+</p>
+<p>  0.2   0.2   0.2 
+</p>
+<p>  0.1   0.1   0.1 
+</p>
+<p> 0.001  0.01   0.1  0.5   1     2     5     10    20    40   0.001  0.01   0.1  0.5   1     2     5     10    20    40   0.001  0.01   0.1  0.5   1     2     5     10    20    40  
+</p>
+<p>False Alarm probability (in %) False Alarm probability (in %) False Alarm probability (in %)
+</p>
+<p>24/06/2010 - 25/06/2010 NIST SRE10 Evaluation Workshop, Brno, Czech Republic 9
+</p>
+<p>Miss probability (in %)
+</p>
+<p>Miss probability (in %)
+</p>
+<p>Miss probability (in %)</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

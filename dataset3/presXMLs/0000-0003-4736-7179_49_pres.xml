@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Machine Learning Assists the Classification of Reports by
+Citizens on Disease-Carrying Mosquitoes
+.=</p>
+<p>Antonio Rodriguez1 Frederic Bartumeus2,3,4 Ricard Gavaldà1
+.=</p>
+<p>Universitat Politècnica de Catalunya, Barcelona (Spain)
+.=</p>
+<p>Centre for Advanced Studies of Blanes (CEAB-CSIC), 17300 Girona (Spain)
+.=</p>
+<p>CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain)
+.=</p>
+<p>ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain)
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood
+September 2016
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 1
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Methodology
+.=</p>
+<p>3 Project development
+Exploratory data analysis
+Data cleaning and pre-processing
+Classifier training, evaluation and selection
+Real-time classification system design
+.=</p>
+<p>4 Discussion
+.=</p>
+<p>5 Future work
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 2
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction - Mosquito Alert
+.=</p>
+<p>Citizen Science Platform
+.=</p>
+<p>Mobile application
+.=</p>
+<p>Growing fast
+.=</p>
+<p>Various mosquito species
+Worldwide localizations
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 3
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction - Mobile App
+.=</p>
+<p>Send breeding site
+.=</p>
+<p>Send specimen report
+.=</p>
+<p>Small questionnaire
+.=</p>
+<p>Geolocated!
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 4
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction - Mosquito Alert System
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 5
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction - Classification system
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 6
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Methodology
+.=</p>
+<p>1 Exploratory data analysis
+.=</p>
+<p>2 Data cleaning and pre-processing
+3 Classifiers
+.=</p>
+<p>training
+evaluation
+selection
+.=</p>
+<p>4 Real-time classification system design
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 7
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Exploratory data analysis - Raw files
+.=</p>
+<p>users 16967 observations of 10 variables
+.=</p>
+<p>userID
+.=</p>
+<p>userRegistTimeOriginal
+.=</p>
+<p>userRegistDatetime
+.=</p>
+<p>userRegistDate
+.=</p>
+<p>userRegistMonthNum
+.=</p>
+<p>userRegistMonthString
+.=</p>
+<p>userRegistWeekdayString
+.=</p>
+<p>userRegistWeekdayNum
+.=</p>
+<p>userSyst
+.=</p>
+<p>userDaysSystRelease
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 8
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Exploratory data analysis - Raw files
+.=</p>
+<p>reports 10618 observations of 23+1 variables
+.=</p>
+<p>reportVersionID reportCreationMonthNum
+.=</p>
+<p>reportVersionNum reportCreationMonthString
+.=</p>
+<p>userID reportCreationWeekdayString
+.=</p>
+<p>reportID reportCreationWeekdayNum
+.=</p>
+<p>reportType reportLong
+.=</p>
+<p>reportNote reportLat
+.=</p>
+<p>os missionNum
+.=</p>
+<p>hide missionName
+.=</p>
+<p>reportCreationDatetime tiger q1 response
+.=</p>
+<p>reportCreationDate tiger q2 response
+.=</p>
+<p>reportVersionDatetime tiger q3 response
+.=</p>
+<p>reportVersionDate class
+Workshop on Data Science for Social Good, SoGood September 2016 9
+.=</p>
+<p>Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Questionnaire variables
+.=</p>
+<p>Questions
+Is small, black and has white stripes?
+.=</p>
+<p>Has a white stripe in both head and
+thorax?
+.=</p>
+<p>Has white stripes in both abdomen and
+legs?
+.=</p>
+<p>Response values
+-1 No
+.=</p>
+<p>0 Not sure
+.=</p>
+<p>1 Yes
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 10
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The class variable
+.=</p>
+<p>-2 The report is definitely not a valid specimen.
+.=</p>
+<p>-1 The report doesn’t seem to be a valid specimen. But it is
+not sure.
+.=</p>
+<p>0 There isn’t enough information to classify the report.
+.=</p>
+<p>1 The report seems to be a valid specimen. But it is not sure.
+.=</p>
+<p>2 The report is definitely a valid specimen.
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 11
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Instance variables
+.=</p>
+<p>Added
+.=</p>
+<p>reportNote
+.=</p>
+<p>reportTimeOfDay.
+.=</p>
+<p>newUser
+.=</p>
+<p>userNumReports Preserved
+.=</p>
+<p>userAccuracy os
+.=</p>
+<p>userTimeForFirstReport reportMonth
+.=</p>
+<p>userTimeSinceLastReport reportQ*Answ (3)
+.=</p>
+<p>userMeanTimeBetweenReports class
+.=</p>
+<p>userNumActionAreas
+.=</p>
+<p>userMobilityIndex
+.=</p>
+<p>reports1kmLast* (4)
+.=</p>
+<p>validReports1kmLast* (4)
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 12
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Generated instances
+.=</p>
+<p>2094 instances from usable reports
+.=</p>
+<p>Class 2 1 −1 −2
+Frequency 47% 46% 2% 5%
+.=</p>
+<p>Class-imbalanced problem: positive instances over 7 times as frequent
+as negative ones.
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 13
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Studied classifiers
+.=</p>
+<p>Naive Bayes
+.=</p>
+<p>k-nearest neighbors
+.=</p>
+<p>Decision trees
+.=</p>
+<p>Random Forests
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 14
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Classifiers - Considerations
+.=</p>
+<p>Most classifiers have trouble dealing with imbalanced classes
+.=</p>
+<p>Merged “unsure” (-1,1) classes into “sure” ones (-2,2)
+.=</p>
+<p>Replication of minority class performed
+.=</p>
+<p>. . . but testing still on original proportion
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 15
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Classifiers - Selected classifier
+.=</p>
+<p>Naive Bayes
+.=</p>
+<p>Training conditions:
+.=</p>
+<p>Aggregated instances
+Positive Negative
+.=</p>
+<p>Accuracy 0,380 Replicated (x10)
+Precision 0,983 0,086 negatives in training
+.=</p>
+<p>Recall 0,344 0,912
+F-measure (F1) 0,51 0,157 High positive Precision
+.=</p>
+<p>Table: Evaluation metrics, Naive Bayes High negative Recall
+.=</p>
+<p>can detect approximately
+1 third of the valid
+reports with a precision
+near 98%
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 16
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ROC curve and variable importance
+.=</p>
+<p>Variable name Importance
+reportQ2Answ 0.7424
+reportQ3Answ 0.7038
+reports1kmLastMonth 0.6623
+reportQ1Answ 0.6615
+userNumReports 0.6405
+userNumActionAreas 0.6348
+validReports1kmLastMonth 0.6216
+userTimeForFirstReport 0.6197
+reports1kmLastWeek 0.6158
+userAccuracy 0.6085
+.=</p>
+<p>Table: Variable importance in the NB
+classifier. Numbers are the values of the
+model coefficients after standarization.
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 17
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Real-time classification system design
+.=</p>
+<p>Two subsystems:
+Instance generation system
+.=</p>
+<p>Instance creation script
+Environment
+.=</p>
+<p>Classification system
+.=</p>
+<p>Training script
+Classifier
+Classification script
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 18
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future work
+.=</p>
+<p>Scalability
+Code modifications
+.=</p>
+<p>GIS enabled database
+.=</p>
+<p>Approximately the same
+computational resources
+.=</p>
+<p>Improvements
+Classifier tuning
+.=</p>
+<p>Priority system
+.=</p>
+<p>Another classifier: Random
+Forest
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 19
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Machine Learning Assists the Classification of Reports by
+Citizens on Disease-Carrying Mosquitoes
+.=</p>
+<p>Antonio Rodriguez1 Frederic Bartumeus2,3,4 Ricard Gavaldà1
+.=</p>
+<p>Universitat Politècnica de Catalunya, Barcelona (Spain)
+.=</p>
+<p>Centre for Advanced Studies of Blanes (CEAB-CSIC), 17300 Girona (Spain)
+.=</p>
+<p>CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain)
+.=</p>
+<p>ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain)
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood
+September 2016
+.=</p>
+<p>Workshop on Data Science for Social Good, SoGood September 2016 20
+Antonio Rodriguez, Frederic Bartumeus, RicarMd aGcahvinaeldLàea(UrnninivgerAsistsaitstPs otlhiteècCnlaicsasifidceaCtiaotnaloufnRyae,pBoratrsceblyonCait(izSepnasino)n, CDeisnetaresef-oCraArrdyvina/gn2cMe0dosSqtuuidtoieess of Blanes (CEAB-CSIC), 17300 Girona (Spain), CREAF, Cerdanyola del Vallès, 08193 Barcelona (Spain), ICREA, Pg Llúıs Companys 23, 08010 Barcelona (Spain) ).=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

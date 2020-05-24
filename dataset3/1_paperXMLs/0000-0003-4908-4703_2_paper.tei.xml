@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">The Complexity of Several Realizability Problems for Abstract Topological Graphs</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Kynčl</surname></persName>
+							<email>kyncl@kam.mff.cuni.cz</email>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Applied Mathematics and Institute for Theoretical Computer Science</orgName>
+								<orgName type="department" key="dep2">Faculty of Mathematics and Physics</orgName>
+								<orgName type="institution">Charles University</orgName>
+								<address>
+									<addrLine>Malostranské nám. 25</addrLine>
+									<postCode>118 00</postCode>
+									<settlement>Prague</settlement>
+									<country key="CZ">Czech Republic</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">The Complexity of Several Realizability Problems for Abstract Topological Graphs</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<note>(Extended Abstract)</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An abstract topological graph (briefly an AT-graph) is a pair</p><p>2 is a set of pairs of its edges. An AT-graph A is simply realizable if G can be drawn in the plane in such a way that each pair of edges from R crosses exactly once and no other pair crosses. We present a polynomial algorithm which decides whether a given complete AT-graph is simply realizable. On the other hand, we show that other similar realizability problems for (complete) AT-graphs are NP-hard.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>A topological graph T = (V (T ), E(T )) is a drawing of an (abstract) graph G in the plane with the following properties. The vertices of G are represented by a set V (T ) of distinct points in the plane and the edges of G are represented by a set E(T ) of simple curves connecting the corresponding pairs of points. We call the elements of V (T ) and E(T ) vertices and edges of T . The edges cannot pass through any vertices except their end-points. Any intersection point of two edges is either a common end-point or a crossing, a point where the two edges properly cross ("touching" of the edges is not allowed). We also require that any two edges have only finitely many intersection points and that no three edges pass through a single crossing. A topological graph is simple if every two edges have at most one common point (which is either a common end-point or a crossing). A topological graph is complete if it is a drawing of a complete graph.</p><p>An abstract topological graph (briefly an AT-graph), a notion established in <ref type="bibr" target="#b6">[7]</ref>, is a pair (G, R) where G is a graph and R ⊆ E(G) 2 is a set of pairs of its edges. For a topological graph T which is a drawing of G we define R T as a set of pairs of edges having at least one common crossing and we say that (G, R T ) is an ATgraph of T . A topological graph T is called a realization of (G, R) if R T = R. If R T ⊆ R, then T is called a weak realization (or also a feasible drawing) of (G, R). If (G, R) has a (weak) realization, we say that (G, R) is (weakly) realizable. We say that (G, R) is simply (weakly) realizable if (G, R) has a simple (weak) realization, that is, a drawing which is a simple topological graph. We say that (G, R) is weakly rectilinearly realizable if it has a weak realization T with edges drawn as straight-line segments (such drawing T is called a weak rectilinear realization of (G, R)).</p><p>Complete topological graphs are one of the most studied classes of topological graphs <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b10">11,</ref><ref type="bibr" target="#b11">12,</ref><ref type="bibr" target="#b12">13,</ref><ref type="bibr" target="#b14">15]</ref>, especially in connection to the crossing number problems <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b15">16,</ref><ref type="bibr" target="#b18">19,</ref><ref type="bibr" target="#b19">20]</ref>.</p><p>We study the complexity of various realizability problems for AT-graphs and also for complete AT-graphs. For example, the realizability problem is defined as follows: the instance is an AT-graph A and the question is whether A is realizable. Similarly the weak realizability, the simple realizability, the simple weak realizability and the weak rectilinear realizability problems are defined.</p><p>Kratochvíl <ref type="bibr" target="#b8">[9]</ref> proved that the realizability and the weak realizability are NPhard problems (for the class of all AT-graphs). For a long time, the decidability of these problems was an open question. Pach and Tóth <ref type="bibr" target="#b13">[14]</ref> and Schaefer anď Stefankovič <ref type="bibr" target="#b17">[18]</ref> independently found a first recursive algorithm for the recognition of string graphs, which is polynomially equivalent to the realizability <ref type="bibr" target="#b8">[9]</ref> and the weak realizability <ref type="bibr" target="#b5">[6]</ref>. Later Schaefer, Sedgwick andŠtefankovič <ref type="bibr" target="#b16">[17]</ref> showed that the recognition of string graphs and the weak realizability are in NP, which implies the following corollary. Theorem 1. <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b16">17]</ref> The weak realizability and the realizability of AT-graphs are NP-complete problems.</p><p>We extend these results by finding the complexities of the other mentioned problems, for the class of all AT-graphs and also for the class of complete AT-graphs. All these results are summarized in the following table.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 2</head><p>AT-graphs complete AT-graphs realizability NP-complete <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b16">17]</ref> NP-complete weak realizability NP-complete <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b16">17]</ref> NP-complete simple realizability NP-complete polynomial simple weak realizability NP-complete NP-complete weak rectilinear realizability NP-hard NP-hard</p><p>The weak realizability of AT-graphs is polynomially equivalent to the simultaneous drawing problem <ref type="bibr" target="#b2">[3]</ref>. The instance of this problem is a graph G given as a union of planar graphs G 1 , G 2 , . . . , G k sharing some common edges. The question is whether G can be drawn in the plane so that each of the subgraphs G i is drawn without crossings. The simultaneous drawing of three planar graphs is known to be NP-complete <ref type="bibr" target="#b2">[3]</ref>; this gives an alternative proof of the NP-completeness of the weak realizability. The complexity of simultaneous drawing of two planar graphs remains open. The rest of this paper is devoted to the proof of Theorem 2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Additional Definitions</head><p>A face of a topological graph T is a connected component of the set R 2 \ E(T ).</p><p>A rotation of a vertex v ∈ V (T ) is the clockwise cyclic order in which the edges incident with v leave the vertex v. A rotation system of the topological graph T is the set of rotations of all its vertices. Similarly we define a rotation of a crossing c as the clockwise order in which the four portions of the two edges crossing at c leave the point c (note that each crossing has exactly two possible rotations). An extended rotation system of a topological graph is the set of rotations of all its vertices and crossings.</p><p>Assuming that T and T are drawings of the same abstract graph, we say that their (extended) rotation systems are inverse if for each vertex v ∈ V (T ) (and each crossing c in T ) the rotation of v and the rotation of the corresponding vertex v ∈ V (T ) are inverse cyclic permutations (and so are the rotations of c and the corresponding crossing c in T ). For example, if T is a mirror image of T , then T and T have inverse (extended) rotation systems.</p><p>Topological graphs G and H are weakly isomorphic if there exists an incidence preserving one-to-one correspondence between V (G), E(G) and V (H), E(H) such that two edges of G cross if and only if the corresponding two edges of H do. In other words, two topological graphs are weakly isomorphic if and only if they are realizations of the same abstract topological graph.</p><p>Topological graphs G and H are isomorphic if (1) G and H are weakly isomorphic, (2) for each edge e of G the order of crossings with the other edges of G is the same as the order of crossings on the corresponding edge e in H, and (3) the extended rotation systems of G and H are the same or inverse. This induces a one-to-one correspondence between the faces of G and H such that the crossings and the vertices incident with a face f of G appear along the boundary of f in the same (or inverse) cyclic order as the corresponding crossings and vertices in H appear along the boundary of the face f corresponding to f .</p><p>Assuming that the topological graphs G and H are drawn on the sphere, it follows from Jordan-Schönflies theorem that G and H are isomorphic if and only if there exists a homeomorphism of the sphere which transforms G into H.</p><p>Unlike the isomorphism, the weak isomorphism can change the faces of the involved topological graphs, as well as the order in which one edge crosses other edges.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">The NP-Hard Problems</head><p>In this extended abstract, we give only a sketch of the reduction for the NP-hard problems, the details are postponed to the Appendix.</p><p>Our proof is based on the Kratochvíl's <ref type="bibr" target="#b8">[9]</ref> reduction from planar 3-connected 3-SAT (P3C3-SAT), which is known to be an NP-complete problem <ref type="bibr" target="#b9">[10]</ref>. The question is the satisfiability of a CNF formula φ with a set of clauses C and a set of variables X, such that each clause consists of exactly 3 distinct variables and the bipartite graph G φ = (C ∪ X, {cx; x ∈ X, c ∈ C, x ∈ c}) is planar and 3-connected.</p><p>The main idea is essentially the same as in Kratochvíl's proof <ref type="bibr" target="#b8">[9]</ref>-given the formula φ, we construct an AT-graph A φ , which consists of vertex and clause gadgets connected by joining edges. The only variation is that we use different clause and vertex gadgets for different problems.</p><p>The evaluation of each vertex gadget is encoded by one of the two possible orders of joining vertices (two for each neighbor in G φ ). These orders are translated by the pairs of joining edges onto the orders of joining vertices of clause gadgets. For each clause gadget there are, theoretically, eight possible orders of the joining vertices, but only those seven corresponding to the satisfying evaluation can occur in the drawing. An example of variable and clause gadgets for the simple realizability problem is in the <ref type="figure">Figure 1</ref>. The set R of pairs of edges in the corresponding AT-graph is precisely the set of crossing pairs of edges in the drawing. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Recognition of Simply Realizable Complete AT-Graphs</head><p>In this section we present a polynomial algorithm which decides whether a given complete AT-graph A is simply realizable. In the affirmative case, it also provides a description of the isomorphism class of one simple realization of A. For the sake of simplicity, we do not try to optimize the order of the polynomial bounding the computing time of the algorithm. We need the following key observation. The proof is postponed to the Appendix. We will denote the rotation system of a topological graph G as R(G) and we will represent it as a sequence of rotations of its vertices. The rotation R(v) of a vertex v will be represented by a cyclic sequence of the labels of the remaining vertices.</p><p>Now we introduce a star-cut representation of the graph G. Choose an arbitrary vertex v and denote by w 1 , w 2 , . . . , w n−1 the remaining vertices of G so that R(v) = (w 1 , w 2 , . . . , w n−1 ). Let S(v) denote the union of all the edges vw i of G (S(v) is a "topological star" with the central vertex v). If we consider G drawn on the sphere S 2 , the set S 2 \S(v) is mapped by a homeomorphism Φ onto an open regular 2(n − 1)-gon D in the plane. We can visualize this by cutting the sphere along the edges of the star S(v) and then unpacking the resulting surface in the plane. The map Φ −1 can be continuously extended to the closure of D, giving a natural correspondence between the vertices and edges of D and the vertices and edges in S(v): each vertex w i corresponds to one vertex w i of D and the vertex v of G corresponds to n − 1 vertices v 1 , v 2 , . . . , v n−1 of D. If Φ preserves the orientation, the counter-clockwise order of the vertices of D is v 1 , w 1 , v 2 , w 2 , . . . , v n−1 , w n−1 . Each edge vw i ∈ E(G) splits into two adjacent edges v i w i and v i+1 w i ; see <ref type="figure">Figure 2</ref>. During the cutting operation every edge e k of G not incident with v can be cut into several pieces. Since e k crosses each edge of S(v) at most once, it is cut into at most n pieces e k,j . Every crossing of the edge e k with an edge vw i corresponds to two end-points of two different pieces e k,j ,e k,j lying on the edges</p><formula xml:id="formula_0">v i w i and v i+1 w i . v w 1 w 2 w 3 w 4 v 1 v 4 v 3 v 2 w 1 w 2 w 3 w 4</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Fig. 2.</head><p>A simple drawing of K5 and its star-cut representation</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The Algorithm</head><p>Suppose that we are given a complete AT-graph A with the vertex set {1, 2, . . ., n}. The first step of the algorithm is the computation of the (abstract) rotation system R(A), i.e., the rotation system of a simple realization of A, if it exists:</p><p>-In order to R(A) being determined uniquely, we assume that R(1), the (abstract) rotation of the vertex 1, contains a subsequence <ref type="bibr" target="#b1">(2,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b3">4)</ref>. -Order the quintuples of the vertices of A lexicographically and denote them by <ref type="bibr">n 5</ref> , check if it is one of the five simply realizable 5-vertex AT-graphs (their drawings are in the <ref type="figure">Figure 10</ref>). If not, the algorithm terminates and answers "NO", i.e., that A is not simply realizable. Otherwise we determine the rotation system R(B k ): we choose one of the two possible mutually inverse rotation systems, which is compatible with the rotation systems R(B 1 ),R(B 2 ), . . .,R(B k−1 ). (By the choice of the ordering of the quintuples Q i , there exists k &lt; k such that |Q k ∩ Q k | = 4. If u, v, w, z are the vertices of the intersection Q k ∩ Q k , then R(B k ) determines the order of the elements v, w, z in the rotation of u in B k , which then determines R(B k ).) -For each vertex v ∈ V (A), compute the rotation R(v) from the rotation systems R(B k ), such that v ∈ Q k : we choose a "reference vertex" u = v and consider all subsequences of elements u, w, z (w, z ∈ V (A) \ {u, v}, w = z) in the rotations of v in the rotation systems R(B k ). These ordered triples determine a complete oriented graph G u,v on the set V (A) \ {u, v}. The rotation of v is then determined by the topological order of the vertices of G u,v , which can be found in linear time. If G u,v has an oriented cycle, the algorithm terminates and answers "NO".</p><formula xml:id="formula_1">Q 1 , Q 2 , . . . , Q ( n 5 ) . -For every induced subgraph B k = A[Q k ], k = 1, 2, . . . ,</formula><p>At this stage we know that if A is simply realizable, then it has a simple realization with the computed rotation system R(A). But it may still happen that R(A) is not realizable as a rotation system of a simple complete topological graph. To decide this, we try to find an isomorphism class of some simple realization of A by constructing its star-cut representation.</p><p>By Proposition 3, we can determine the order of crossings of each edge with an arbitrary star S(v), and also the rotation of all crossings on the edges of S(v).</p><p>-Fix an arbitrary vertex v ∈ V (A) and denote the other vertices of A by </p><formula xml:id="formula_2">w 1 , w 2 , . . . , w n−1 , such that R(v) = (w 1 , w 2 , . . . , w n−1 ). -Fix an orientation for each edge w i w j , i &lt; j,</formula><formula xml:id="formula_3">R(A[w i , w i , w j , v]).</formula><p>Now we are ready to start a construction of a star-cut representation of a possible simple realization of A, which would be obtained by cutting the sphere along the edges of the star S(v).</p><p>-Draw a convex 2(n − 1)-gon D and denote its boundary cycle as C. Denote the vertices of C counter-clockwise by v 1 ,</p><formula xml:id="formula_4">w 1 , v 2 , w 2 , . . . , v n−1 , w n−1 . For i = 1, 2, . . . , n − 1, denote by f 2i−1 the open edge v i w i , and by f 2i the open edge w i v i+1 (where v n = v 1 ). -Denote the edges of A not incident with v by e 1 , e 2 , . . . , e ( n−1 2 ) . For each edge e i define s v (e i ) + 1 pseudochords e i,1 , e i,2 , . . . , e i,sv (ei)+1 .</formula><p>We interpret e i,j as a portion of the edge e i between the (j − 1)-th and the j-th crossing of e i with some edge incident with v (where the 0-th and (s v (e i ) + 1)-th crossing is the initial and the terminal vertex of e i ), and we consider e i,j oriented consistently with e i . Denote the initial vertex of e i,j by a i,j and the terminal vertex by b i,j . Note that a i,j+1 and b i,j correspond to the same crossing (the j-th crossing of the edge e i with some edge incident with v), which we denote by c i,j .</p><p>-From the orders O ei and from the rotations of the crossings c i,j determine, for each k = 1, 2, . . . , 2(n − 1), the set of the end-points a i,j , b i,j lying on the edge f k .</p><formula xml:id="formula_5">-For each k = 1, 2, . . . , n − 1, construct a sequence O w k of the one-element sets {a i,1 }, {b i,sv(ei)+1</formula><p>} containing the end-points lying at w k , such that their order in O w k is the same as the clockwise order of the corresponding pseudochords incident with w k , which is determined by the rotation R(w k ). Note that we consider the end-points of the distinct pseudochords as distinct objects, even if they are all identical with w k . -Construct a cyclic sequence O C , as a concatenation of the sequences</p><formula xml:id="formula_6">{f 1 }, O w1 , {f 2 , f 3 }, O w2 , {f 2 , f 3 }, . . ., O wn−1 , {f 2(n−1) }. -For every pseudochord e i,j , construct its type t(e i,j ) which is defined as a pair (X, X ) such that the sets X, X are elements of O C and a i,j ∈ X, b i,j ∈ X . Note that if (X, X ) is a type of some pseudochord e i,j , then X = X .</formula><p>We claim that the knowledge of the types t(e i,j ) now suffices to determine the realizability of the AT-graph A (in a polynomial time).</p><p>We say that the types (X, </p><formula xml:id="formula_7">X ) and (Y, Y ) are interlacing if all the sets X, X , Y, Y are distinct and if one of the cyclic sequences (X, Y, X , Y ), (X, Y , X , Y ) is a subsequence of O C ,</formula><formula xml:id="formula_8">X = Y , X = Y , X = Y or X = Y .</formula><p>See <ref type="figure" target="#fig_3">Figure 3</ref> for examples. Clearly, if the types of two pseudochords e i,j , e i ,j are interlacing, then e i,j and e i ,j are forced to cross (if drawn inside D), and if the types t(e i,j ), t(e i ,j ) are avoiding, then the pseudochords e i,j and e i ,j have no common crossing. The crossing status of two pseudochords with parallel or adjacent types is not uniquely determined, it depends on the order of their end-points on the edge(s) f k , containing an end-point of both pseudochords. However, we can deduce some information about these pseudochords if we group them into larger structures.</p><formula xml:id="formula_9">w 2 w 1 w 4 w 3 v 1 v 2 v 3 v 4 interlacing a voiding parallel adjacent</formula><p>Let e i ,e i be two fixed edges. We define a positive (i, i )-ladder as an inclusionmaximal sequence ((e i,j , e i ,j ), (e i,j+1 , e i ,j +1 ), . . ., (e i,j+k , e i ,j +k )), such that k ≥ 1 and for each l ∈ {0, 1, . . . , k − 1} the two end-points b i,j+l and b i ,j +l (a i,j+l+1 and a i ,j +l+1 ) lie on a common edge f p of C. It means that for each l ∈ {1, . . . , k − 1}, the edges e i,j+l and e i ,j +l have parallel types, and the edges e i,j and e i ,j have adjacent types, as well as the edges e i,j+k and e i ,j +k . Similarly we define a negative (i, i )-ladder as an inclusion-maximal sequence</p><formula xml:id="formula_10">((e i,j , e i ,j ), (e i,j+1 , e i ,j −1 ), . . ., (e i,j+k , e i ,j −k )), such that k ≥ 1 and for each l ∈ {0, 1, . . . , k − 1} the two end-points b i,j+l and a i ,j −l (a i,j+l+1 and b i ,j −l−1 )</formula><p>lie on a common edge f p of C. Each (positive or negative) (i, i )-ladder corresponds to two maximal portions of the edges e i , e i which cross the same edges incident with v in the same order and from the same direction.</p><p>We call the (i, i )-ladder crossing if the two corresponding portions of edges are forced to cross, and non-crossing otherwise; see <ref type="figure" target="#fig_4">Figure 4</ref>. We can determine whether the (i, i )-ladder is crossing or not from the types of its pairs of pseudochords (we show that only for positive ladders, the other case is similar). Clearly, every pair (e i,j , e i ,j ) of pseudochords with adjacent or parallel types belongs to exactly one (i, i )-ladder. It follows that the set</p><formula xml:id="formula_11">P i,i = {(e i,j , e i ,j ); 1 ≤ j ≤ s v (e i ) + 1, 1 ≤ j ≤ s v (e i ) + 1}</formula><p>can be uniquely partitioned into (i, i )ladders and one-element sets consisting of pairs of pseudochords with interlacing or avoiding types. For each set Q from this partition, we are able to determine the parity of the total number of crossings between the pairs of pseudochords from Q. Hence, we are able to determine the parity of the total number of crossings between the edges e i and e i , and also a lower bound for this number.</p><p>We are now ready to describe the last steps of the recognition algorithm.</p><p>-For every two edges e i , e i (1 ≤ i &lt; i ≤ n−1 2 ) do the following: • determine the partition of P i,i into (i, i )-ladders and pairs with interlacing or avoiding types. For each (i, i )-ladder from this partition, determine whether it is crossing or non-crossing. Proof. Suppose that it is not the case. Then for some two edges e i , e i , there exists an (i, i )-ladder L with at least two crossings induced by P O C . Suppose, without loss of generality, that L is a positive ladder ((e i,j , e i ,j ), (e i,j+1 , e i ,j +1 ), . . ., (e i,j+k , e i ,j +k )). Let q &lt; r be the least integers such that P O C induces a crossing c q between e i,j+q and e i ,j +q , and a crossing c r between e i,j+r and e i ,j +r . In the topological graph G represented by this pseudochord arrangement, the two portions e i , e i of the edges e i , e i between the crossings c q and c r form an empty lens L q,r , i.e., a region bounded by the curves e i , e i , which contains no vertex of G. Hence, the total number of crossings of every other edge of G with the curves e i and e i is even. Assume that the lens L q,r is inclusion-minimal (over all pairs of edges e i , e i ). Then every connected component of every edge intersecting L q,r has one end-point on e i and the other end-point on e i . Hence, every edge of G has the same number of crossings with e i as with e i . It follows that by redrawing e i along the curve e i , we decrease the total number of crossings in G by two (we get rid of the crossings c q and c r ) and we do not change the type of any pseudochord in the corresponding star-cut representation of G; see <ref type="figure" target="#fig_6">Figure 5</ref>. The redrawing of the curve e i corresponds to the translations of the <ref type="figure">end-points b i,j+q , b i,j+q+1 , . . ., b i,j+r−1 (a i,j+q+1 , a i,j+q+2 , . . ., a i,j+r )</ref> next to the <ref type="figure">end-points b i ,j +q , b i ,j +q+1 , . . ., b i ,j +r−1 (a i ,j +q+1 , a i ,j +q+2 , . . ., a i ,j +r )</ref> in the corresponding orders O f k (the translated end-point is moved "just behind" the other end-point). We have constructed a perimetric order P O C which induces less crossings than P O C , a contradiction. It is quite straightforward to verify that each step of the algorithm can be performed in polynomial time. Using a bounded number of quantifications over subsets (of vertices, edges, etc.) of bounded size, each step can be decomposed into a polynomial number of elementary tasks; either those solvable in constant time, or simple subroutines such as searching in a polynomial list or topological sorting of a partially ordered set. More concrete estimates on running time would require to describe the particular implementation and data structures in much more detail, and it would only increase the technical complexity of the paper.</p><p>The algorithm can be extended so that it finds some isomorphism class of the arrangement with the perimetric order P O C . That is, it finds the order of crossings of the pseudochords with the other pseudochords. It is then an easy task to compute the orders of the crossings on the edges of the simple realization of A represented by the constructed arrangement.</p><p>Some difficulties with the computation of the orders may occur if the pseudochords were drawn as straight-line segments, because we could obtain pairs of crossings very close to each other (closer than the precision of our representation of real numbers), and they would become indistinguishable for the algorithm. So we choose a different approach and compute the orders recursively:</p><p>-Choose an arbitrary pseudochord p and from the perimetric order P O C identify the set {p 1 , p 2 , . . . , p k } of all pseudochords that cross p. -Cut the circle C into two arcs, C 1 and C 2 , by the end-points of p and define two circles C 1 = C 1 ∪ p and C 2 = C 2 ∪ p. Partition the perimetric order P O C into two orders O C1 and O C2 of the end-points on the arcs C 1 and C 2 . Since we cut along each pseudochord at most once, this procedure also runs in polynomial time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Appendix</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.1 Reduction from P3C3-SAT</head><p>First we describe the main idea of the reduction and then we show the specific modifications for each of the considered problems.</p><p>Let φ be a given instance of P3C3-SAT with the set of clauses C and the set of variables X. Chrobak and Payne <ref type="bibr" target="#b1">[2]</ref> proved that it is possible to construct a rectilinear planar drawing D φ of G φ on the integer (2n − 4) × (n − 2) grid in time O(n) (where n is the number of vertices of G φ ).</p><p>Based on the drawing D φ , we construct an abstract topological graph A φ = ((V φ , E φ ), R φ ) as follows. We replace every clause vertex c ∈ C by an ATgraph H c = ((V c , E c ), R c ) and each variable vertex x ∈ X by an AT-graph </p><formula xml:id="formula_12">H x = ((V x , E x ), R x ). Each graph H c will have six joining vertices L xi(c) c , R xi(c) c , i ∈ {1, 2, 3}, where x 1 (c), x 2 (c), x 3 (c)</formula><formula xml:id="formula_13">E c,x = {{R x c , R c x }, {L x c , L c x }}, otherwise E c,x = {{R x c , L c x }, {L x c , R c x }}.</formula><p>We do not allow these two edges to intersect, so we put R c,x = ∅. Note that we neither allow two edges from two different graphs</p><formula xml:id="formula_14">H c , H x , J c,x to intersect. Now, let A φ = ((V φ , E φ ), R φ ), where V φ = c∈C V c ∪ x∈X V x , E φ = c∈C E c ∪ x∈X E x ∪ c∈C,x∈X,x∈c E c,x , R φ = c∈C R c ∪ x∈X R x .</formula><p>In case of non-complete graphs we put A φ = A φ , in case of complete graphs we well need to add all the missing edges and allow (or force) them intersect some other edges; we will specify this later.</p><p>The graphs H c and H x may be different for each of the considered problems, but we require that they satisfy the following common conditions (where the term "drawing" is a substitution for "realization", "simple realization", "weak realization", "simple weak realization" or "weak rectilinear realization"):</p><p>(C1) Every drawing of the graph H c is connected (i.e., H c need not be connected itself, but the union of the points and arcs in its drawing in the plane must be a connected set).  </p><formula xml:id="formula_15">O c is (Y 1 , Z 1 , Y 2 , Z 2 , Y 3 , Z 3 ), where for each i ∈ {1, 2, 3}, we have {Y i , Z i } = {L xi(c) c , R</formula><formula xml:id="formula_16">O x is (Y 1 , Z 1 , Y 2 , Z 2 , . . . , Y deg(x) , Z deg(x) ), where for each i ∈ {1, 2, . . . , deg(x)}, we have {Y i , Z i } = {L ci(x) x , R ci(x) x }. Then O x = (L c1(x) x , R c1(x) x , L c2(x) x , R c2(x) x , . . ., L c deg(x) (x) x , R c deg(x) (x) x ) or O x = (R c1(x) x , L c1(x) x , R c2(x) x , L c2(x) x , . . ., R c deg(x) (x) x , L c deg(x) (x) x</formula><p>). On the other hand, H x has a drawing with both these cyclic orders of the joining vertices.</p><p>We claim that these conditions imply that A φ has a drawing if and only if φ is satisfiable (the only exception is the backward implication in the "weak rectilinear realization" case, with which we will deal separately, using more constraints on the graphs H x and H c ):</p><p>Suppose that φ is satisfiable and let f : X → {TRUE, FALSE} be the satisfying evaluation of the variables. We replace each vertex x ∈ X in the drawing D φ by a small drawing of H x such that the joining vertices of H x lie on the outer face and their cyclic clockwise order is (L</p><formula xml:id="formula_17">c1(x) x , R c1(x) x , L c2(x) x , R c2(x) x , . . . , L c deg(x) (x) x , R c deg(x) (x) x ) if f (x) = TRUE and (R c1(x) x , L c1(x) x , R c2(x) x , L c2(x) x , . . . , R c deg(x) (x) x , L c deg(x) (x) x ) if f (x) = FALSE.</formula><p>Similarly, we replace each vertex c ∈ C by a small drawing of H c such that the joining vertices of H c lie on the outer face and their clockwise cyclic order is</p><formula xml:id="formula_18">Y 1 , Z 1 , Y 2 , Z 2 , Y 3 , Z 3 where {Y i , Z i } = {L xi(c) c , R xi(c) c }, and Y i = R xi(c) c</formula><p>if and only if the evaluation f (x i (c)) satisfies the clause c. Then we draw the edges of the graphs J c,x along the edges of the drawing D φ (from the construction it is clear that we can draw them without crossings). Now suppose that A φ has a drawing. The 3-connectivity of G φ and the conditions (C1) and (X1) imply that the drawing of each of the graphs</p><formula xml:id="formula_19">A φ [V φ \V c ] and A φ [V φ \ V x ]</formula><p>is connected. Since the joining edges (E x,c ) are without crossings, for each graph H c and H x its joining vertices lie on the boundary of a common face, which is without loss of generality the outer face. After contracting the edges of the graphs H c and H x and replacing each pair of parallel joining edges by a single edge we get a planar drawing of G φ . The 3-connectivity of G φ implies that this drawing has the same or the inverse rotation system as the drawing D φ (and so we can assume that they are the same). This allows only 8 possible clockwise cyclic orders of the joining vertices of the graphs H c and, by the condition (X2), only two such possible orders for the graphs H x . According to the orientation of the pairs L</p><formula xml:id="formula_20">ci(x) x , R ci(x) x</formula><p>in the drawings of the graphs H x we define an evaluation f of the variables such that f (x) = TRUE if and only if</p><formula xml:id="formula_21">O x = (L c1(x) x , R c1(x) x , L c2(x) x , R c2(x) x , . . . , L c deg(x) (x) x , R c deg(x) (x) x</formula><p>). These orders are uniquely "translated" by the joining edges into the cyclic clockwise orders O c of the joining vertices of the graphs H c . Since each of these graphs has a drawing, the cyclic order O c corresponds to some of the 7 satisfying evaluations of the 3 variables contained in c; see <ref type="figure">Figure 6</ref>. Now we construct the clause and variable gadgets H c and H x for each of the considered types of realization. <ref type="figure">Fig. 6. Variables x1(c) and x2(c)</ref> satisfy the clause c</p><formula xml:id="formula_22">H c H x1(c) H x2(c) H x3(c) TRUE TRUE FALSE c = (x 1 (c) ∨ ¬x 2 (c) ∨ ¬x 3 (c)) R ci(x) x L ci(x) x L x1(c) c R x1(c) c</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.2 Realizability</head><p>For this problem we use almost the same variable and clause gadget as Kratochvíl <ref type="bibr" target="#b8">[9]</ref>. For every c ∈ C let</p><p>The conditions (C1) and (X1) are obviously satisfied. The existence of the realizations of H c for the 7 cyclic orders of the joining vertices from the condition (C2) is proved in <ref type="bibr" target="#b8">[9]</ref> and the non-realizability of H c with the cyclic order</p><formula xml:id="formula_23">O c = (L x1(c) c , R x1(c) c , L x2(c) c , R x2(c) c , L x3(c) c , R x3(c) c</formula><p>) is proved in <ref type="bibr" target="#b7">[8]</ref>. The condition (X2) for the realizability of the graph H x is proved in <ref type="bibr" target="#b8">[9]</ref>. Note that we cannot use this variable gadget for the simple realizability problem, since for the order O x corresponding to the positive evaluation of the variable x some pairs of edges in the realization of H x have to cross an even number of times. However, we will use this AT-graph as the variable gadget for all three considered weak versions of realizability.</p><p>To obtain a complete AT-graph A φ , we add all the missing edges to the graph A φ and force them to intersect all the other edges, i.e., we put</p><formula xml:id="formula_24">V φ = V φ , E φ = V φ 2 , R φ = R φ ∪ {{e, f }; e ∈ E φ \ E φ , f ∈ E φ , e = f }.</formula><p>Clearly, if A φ is realizable, then A φ is realizable too, since it is an induced subgraph of A φ . On the other hand, every realization of A φ can be extended into a realization of A φ by drawing the remaining edges such that they intersect every other edge (although some pairs of edges may have to cross many times). This proves that the realizability is NP-hard for complete AT-graphs. The NPcompleteness then follows from the fact that the realizability of AT-graphs is in NP <ref type="bibr" target="#b16">[17]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.3 Simple Realizability</head><p>We use the same clause gadget H c as in the realizability case, since H c can be simply realized for any satisfying evaluation of its variables <ref type="bibr" target="#b8">[9]</ref>. We define H x as follows:  ). Now if the edge r j x crosses the edges of the star in clockwise order, then so does the edge r j+1</p><formula xml:id="formula_25">V x = {C} ∪ deg(x) i=1 {L ci(x) x , R ci(x) x , P i x }, l i x = {L ci(x) x , C}, r i x = {R ci(x) x , P i x }, E x = deg(x) i=1 {l i x , r i x }, R x = deg(x) i=1 1≤j≤deg(x),j =i {r j x , l i x }.</formula><formula xml:id="formula_26">TRUE FALSE L c1(x) x R c1(x) x L c2(x) x R c2(x) x L c3(x) x R c3(x) x L c4(x) x R c4(x) x L c1(x) x R c1(x) x L c2(x) x R c2(x) x L c4(x) x R c4(x) x L c3(x) x R c3(x) x</formula><p>x , since r j x and r j+1</p><p>x must be disjoint. By induction, all the edges r j x cross the edges l i x in the same direction, so there are only two possible orders O x . This finishes the proof of the NPcompleteness of the simple realizability problem (it is trivially in NP, since the simple realizations have polynomial number of crossings).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.4 Weak Types of Realizability</head><p>We use the same clause and variable gadgets for the weak realizability, the simple weak realizability and the weak rectilinear realizability. As we mentioned before, the variable gadget will be the same AT-graph H x as for the realizability problem. It is easy to see that the weak realizations of H x satisfying the assumptions of the condition (X2) can have only two possible orders of the joining vertices (depending on the orientation of the cycle A 1</p><formula xml:id="formula_27">x , B 1 x , . . . , B deg x x )</formula><p>. On the other hand, H x has a weak rectilinear realization with both these orders; see <ref type="figure" target="#fig_13">Figure 8</ref>. It follows that (X2) is satisfied for all three weak versions of realizability. However, we will need weak rectilinear realizations of H x with another restrictions.</p><p>We define H c as follows:  Suppose that H c has a weak realization satisfying the assumptions of the condition (C2) and that the order of the joining vertices is (L</p><formula xml:id="formula_28">V c = 3 i=1 {L xi(c) c , R xi(c) c } ∪ {X, Y, Z}, E c = {a, b, e, f, u, v, x, y} TRUE FALSE L c1(x) x R c1(x) x L c2(x) x R c2(x) x L c deg(x) (x) x R c deg(x) (x) x L c1(x) x R c1(x) x L c2(x) x R c2(x) x L c deg(x) (x) x R c deg(x) (x) x</formula><formula xml:id="formula_29">where a = {L x3(c) c , Y }, b = {R x2(c) c , Y }, e = {L x1(c) c , Y }, f = {R x1(c) c , Y }, u = {R x1(c) c , X}, v = {L x1(c) c , Z}, x = {R x3(c) c , X}, y = {L x2(c) c , Z}, R c = {{x,</formula><formula xml:id="formula_30">x1(c) c , R x1(c) c , L x2(c) c , R x2(c) c , L x3(c) c , R x3(c) c</formula><p>). We can assume that all the six joining vertices lie on a common circle q and that H c is contained inside q. All the four edges starting at the vertex Y are disjoint, hence they divide the interior of q into four regions; see <ref type="figure" target="#fig_15">Figure 9</ref>. For each satisfying evaluation of the clause c, the AT-graph H c has a weak rectilinear realization with the corresponding order of the joining vertices. See <ref type="figure" target="#fig_15">Figure 9</ref> for the five non-symmetric cases.</p><p>The proof of the NP-hardness of the weak realizability and the simple weak realizability of AT-graphs is now finished. In case of the weak rectilinear realizability we must ensure that the edges of the joining graphs J c,x can be drawn as straight-line segments.</p><p>First, for each vertex v of the drawing D φ , we choose a line t v going through v such that t v is not parallel to any edge of D φ . This line determines a direction in which the corresponding gadget H v will be oriented. For each variable vertex x we choose a line t x such that the edge xc 1 (x) is the first in the clockwise order   If (X3) holds for each variable x, we place each variable gadget H x over the vertex x of D φ such that e(M x ) is parallel with t x and lies in the same halfplane as the vertex c 1 (x), while f (M c ) lies in the opposite half-plane. Then it is safe to add all the joining edges as straight-line segments and we obtain a weak rectilinear realization of A φ .</p><formula xml:id="formula_31">f e a b x y u v x x y y a a b b f f e e u u v v a R x1(c) c L x1(c) c R x2(c) c L x2(c) c R x3(c) c L x3(c) c Y X Z b f e u v x</formula><p>Examples of the drawings satisfying condition (X3) for k = 0 are in the <ref type="figure" target="#fig_13">Figure 8</ref>. But it is not hard to transform them into the drawings satisfying (X3) for other values of k: all the intersections of the half-lines</p><formula xml:id="formula_32">A i x L ci(x) x , B i x R ci(x) x</formula><p>lie inside the rectangle M x and their directions are changing monotonously with i. For a given k ∈ {0, 1, . . . , deg(x)}, we choose a direction α between the directions of the k-th and the (k + 1)-th pair of the half-lines. We choose two lines e(α) and f (α) with the direction α such that the rectangle M x lies inside the strip bounded by these two lines and the half-line</p><formula xml:id="formula_33">A 1 x L c1(x) x intersects e(α). Then the half-lines A i x L ci(x) x , B i x R ci(x) x</formula><p>, where i ≤ k, intersect e(α) and the other half-lines intersect f (α). We prolong the half-lines by translating the joining vertices to the corresponding intersections with the border lines e(α) and f (α). We obtain a drawing of H x which satisfies (X3) with a given parameter k. The proof of the NP-hardness of the weak rectilinear realizability is now finished.</p><p>For the case of complete AT-graphs, we put</p><formula xml:id="formula_34">V φ = V φ , E φ = V φ 2 , R φ = R φ ∪ {{e, f }; e ∈ E φ \ E φ , f ∈ E φ , e = f }.</formula><p>It is now easy to prove that the resulting complete AT-graph A φ = ((V φ , E φ ), R φ ) is weakly (simply, rectilinearly) realizable if and only if the AT-graph A φ is. Indeed, we have proved that all the three weak versions of the realizability are equivalent for the AT-graph A φ , the weak realizability of A φ implies the weak realizability of its induced subgraph A φ , and every weak rectilinear realization of A φ can be extended to a weak rectilinear realization of A φ by slightly perturbing the vertices into a general position and adding all the remaining edges as straightline segments. This finishes the proof of the NP-hardness of all the three versions of the weak realizability of complete AT-graphs.</p><p>Since the weak realizability and the simple weak realizability are in NP, they are NP-complete problems for the class of AT-graphs and also for the class of complete AT-graphs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.5 Proof of Proposiotion 3</head><p>(1) Let G and G be two weakly isomorphic simple complete topological graphs on n vertices. First we prove that the rotation systems R(G) and R(G ) are either the same or inverse. For n ≤ 3 it is trivial, for n = 4 and n = 5 it follows from the fact that for the simple complete topological graphs with 4 or 5 vertices the <ref type="figure">Fig. 10</ref>. All five non-isomorphic simple drawings of K5 <ref type="bibr" target="#b4">[5]</ref> isomorphism classes coincide with the weak isomorphism classes: there are two non-isomorphic simple drawings of K 4 and five non-isomorphic simple drawings of K 5 (see <ref type="bibr" target="#b4">[5]</ref> or <ref type="figure">Figure 10</ref>) and each of them is a realization of a different AT-graph. Now we use the case n = 5 to extend the statement to graphs with more than five vertices. Let A be a simply realizable complete AT-graph with the vertex set {1, 2, . . . , n}, where n ≥ 6. We know that each complete 5-vertex subgraph of A has only two possible rotation systems. Suppose that the rotation system of A[{1, 2, 3, 4, 5}], the induced subgraph of A with the vertices 1, 2, 3, 4, 5, is fixed (in some simple realization of A). We show that then the rotation system of every other 5-vertex complete subgraph of A is uniquely determined.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma.</head><p>Let B and C be two 5-vertex complete subgraphs of A with exactly 4 common vertices. Then the rotation system R(B) uniquely determines the rotation system R(C).  <ref type="bibr" target="#b1">(2,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b3">4)</ref> and it must be a subsequence of a rotation of 1 in R(C). But this always happens for exactly one of the pair of inverse cyclic permutations of the set {2, 3, 4, 6}. It follows that the rotation of 1 in C is uniquely determined and so is the whole rotation system of C.</p><p>By repeated use of this lemma we obtain that the rotation system of every complete subgraph of A on 5 (and also 4) vertices is uniquely determined by R <ref type="figure" target="#fig_3">(A[{1, 2, 3, 4, 5}]</ref>). It remains to show that this also uniquely determines the rotation of each vertex in A. But this easily follows from the fact that a cyclic order of a finite set X is uniquely determined by the cyclic order of all 3-element subsets of X (actually, it suffices to know the orders of the triples containing one fixed vertex). It follows that a simple realization of A can have only two possible rotation systems.</p><p>Since G and its mirror image have inverse extended rotation systems, it remains to prove that R(G) uniquely determines the rotation R(c) of each crossing c of G. Let uv, wz be the edges that cross at c. Then R(c) is determined by the drawing of the induced subgraph H = G <ref type="bibr">[{u, v, w, z}]</ref>. Since every two weakly isomorphic simple drawings of K 4 are isomorphic, and an isomorphism preserves or inverts the extended rotation system, it follows that R(c) is determined by R(H), which is trivially determined by R(G). <ref type="bibr" target="#b1">(2)</ref> The edges e, f, f are contained in a complete 5-vertex subgraph H of G, so the order of crossings of e with f and f is determined by the isomorphism class of H, which is determined by the AT-graph of H.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Proposition 3 . ( 1 )</head><label>31</label><figDesc>If two simple complete topological graphs are weakly isomorphic, then their extended rotation systems are either the same or inverse. (2) For each edge e of a simple complete topological graph G and for each pair of edges f, f ∈ E(G) which have a common end-point and cross e, the ATgraph of G determines the order of crossings of e with the edges f, f .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>by choosing w i as an initial vertex. -For every edge e = w i w i and every two edges vw j , vw j which cross e, determine the order O e (j, j ) of crossings of e with vw j and vw j from the AT-graph A[{v, w i , w i , w j , w j }]. -For every edge e = w i w i , the orders O e (j, j ) define a complete oriented graph on the s v (e) edges incident with v and crossing e. If this graph has an oriented cycle, terminate and answer "NO", otherwise construct a topological order O e of its vertices (i.e., the order in which e crosses the edges incident with v). If e crosses one (or no) edge incident with v, then O e is a one-element (or an empty) sequence. -For every crossing c j e of the edges e = w i w i and vw j determine its rotation R(c j e ), from the rotation system</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>avoiding if they are not interlacing and all the sets X, X , Y, Y are distinct, parallel if (X, X ) = (Y, Y ) or (X, X ) = (Y , Y ), and adjacent otherwise, i.e., if exactly one of the following equalities holds:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 3 .</head><label>3</label><figDesc>Pairs of pseudochords with four different pairs of types</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 4 .</head><label>4</label><figDesc>A crossing and a non-crossing (i, i )-ladder (the fat lines represent distinct edges of the star S(v)) Lemma 4. Let L = ((e i,j , e i ,j ), (e i,j+1 , e i ,j +1 ), . . . , (e i,j+k , e i ,j +k )) be a positive (i, i )-ladder, let t(e i,j ) = (X, Z), t(e i ,j ) = (Y, Z), t(e i,j+k ) = (P, Q), and t(e i ,j +k ) = (P, R). Define t(L) as a number from {0, 1} such that t(L) = 0 if and only if the sequences (X, Y, Z) and (P, Q, R) have the same orientation in O C , i.e., either (X, Y, Z) and (P, Q, R) are both subsequences of O C or both (X, Z, Y ) and (P, R, Q) are subsequences of O C . Then L is non-crossing if k +t(L) is even, and crossing if k + t(L) is odd.Proof. The proof is quite straightforward; the statement follows from the fact that for each l ∈ {0, 1, . . . , k − 1} the order of the end-points b i,j+l , b i ,j +l on the common edge f k of the cycle C is opposite to the order of the end-points a i,j+l+1 , a i ,j +l+1 on the edge f k+o (o ∈ {−1, 1}) adjacent to f k and representing the same edge of the star S(v).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>•</head><label></label><figDesc>Compute cr(e i , e i ), the sum of the number of crossing (i, i )-ladders and the number of pairs of pseudochords from P i,i with interlacing types. • Define cr A (e i , e i ) ∈ {0, 1} such that cr A (e i , e i ) = 0 if the edges e i , e i form a non-crossing pair in the abstract graph A and cr A (e i , e i ) = 1 if the edges e i , e i form a crossing pair in A. -If there exist edges e i , e i such that cr(e i , e i ) = cr A (e i , e i ), terminate and answer "NO". Otherwise answer "YES".Clearly, if the algorithm answers "NO", the abstract graph A is not realizable. It remains to prove that if for every two edges e i , e i the equality cr(e i , e i ) = cr A (e i , e i ) holds, then there exists a choice of the counter-clockwise orders O f k of the end-points of the pseudochords on the edges f k , such that the induced number of crossings between any two edges e i , e i attains the lower bound cr(e i , e i ). The orders O f k , together with the orders O w k , determine a counter-clockwise (perimetric) order P O C of all the end-points a i,j , b i,j on the cycle C. For each pair of the pseudochords, P O C determines whether they cross or not. Note that for every given perimetric order P O C the arrangement of the pseudochords can be realized, e.g., the pseudochords can be drawn as straightline segments (i.e., as actual chords of the polygon D).For every k = 1, 2, . . . , (n − 1), the edges f 2k−1 and f 2k represent the same edge, vw k , of the graph A. Thus, the order O f 2k is an almost-inverse of O f 2k−1 , i.e., O f 2k is the inverse of the order, which we obtain from O f 2k−1 by replacing each end-point a i,j (b i,j ) with the end-point b i,j−1 (a i,j+1 ) corresponding to the same crossing on the edge vw k . Hence, P O C is now uniquely determined by the orders O f2 , O f4 , . . . , O f 2(n−1) .Lemma 5. LetO f2 , O f4 , .. . , O f 2(n−1) be the orders which minimize the total number of crossings between pseudochords induced by P O C . Then for every two edges e i , e i , the order P O C induces exactly cr(e i , e i ) crossings together on all the pairs of pseudochords from P i,i .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 5 .</head><label>5</label><figDesc>An empty lens allows us to decrease the number of crossings by 2 Corollary 6. If the algorithm answers "YES", then the abstract graph A is realizable. The proof of Lemma 5 also gives an idea of an algorithmic construction of the perimetric order of a star-cut representation of a simple realization of A: -Choose an arbitrary set of orders O f2 , O f4 , . . ., O f 2(n−1) and compute the related orders O f1 , O f3 , . . . , O f2n−3 . -while there exists some (i, i )-ladder with at least two induced crossings, find an inclusion-minimal lens L q,r and change the orders of the corresponding end-points in the corresponding orders O f k , as in the proof of Claim 5. -Return the resulting perimetric order P O C .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>-</head><label></label><figDesc>Cut each pseudochord p i , i = 1, 2, . . . , k, into two portions with one end-point on p and the second end-point on C. Define two mutually almost-inverse orders O 1 p and O 2 p of these new end-points on p such that the portions of the pseudochords p i between p and C 1 do not cross (O 1 p is a counter-clockwise order with respect to the circle C 1 and it can be deduced from O C1 ). -Define P O C 1 as a concatenation of O C1 and O 1 p , and P O C 2 as a concatenation of O C2 and O 2 p . -Recursively compute the orders of crossings on the pseudochords in the two arrangements with the perimetric orders P O C 1 , P O C 2 and merge the computed orders for the portions of pseudochords p i together.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head></head><label></label><figDesc>are the neighbors of c in the drawing D φ in clockwise order. Similarly, each graph H x will have 2 · deg(x) joining vertices L ∈ {1, 2, . . . , deg(x)}, where deg(x) is the number of clauses containing x and c 1 (x), c 2 (x), . . . , c deg(x) (x) are these clauses ordered clockwise according to the drawing D φ . Then, for each clause c and variable x ∈ c (i.e., for each edge in D φ ) we add a joining AT-graph J c,x = ((V c,x , E c,x ), R c,x ) on four vertices (V c,x = {R x c , L x c , R c x , L c x }) and with two (joining) edges: if x has a positive occurrence in c, then</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head></head><label></label><figDesc>(C2) Suppose that H c has a drawing where the vertices L incident with the outer face and their clockwise cyclic order</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head></head><label></label><figDesc>There are exactly 8 such possible orders. H c does not have a drawing with O c = (L has a drawing with all the 7 remaining orders. (X1) Every drawing of the graph H x is connected. (X2) Suppose that H x has a drawing where the vertices L i ∈ {1, 2, . . ., deg(x)}, are all incident with the outer face and their clockwise cyclic order</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 7</head><label>7</label><figDesc>shows simple realizations of H x with the two cyclic orders O x from condition (X2). It remains to show that these two orders are the only possible.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Fig. 7 .</head><label>7</label><figDesc>A variable gadget for the simple realizability problem Let D x be a realization of H x satisfying the assumptions of (X2). We may assume that all the joining vertices of D x lie on a circle q and all the edges of D x lie inside q. The edges l i x form a topological star which divides the interior of q into deg(x) regions. For each edge r j x there are exactly two possible orders in which it crosses the edges l i x , i = j, either the clockwise or the counter-clockwise order. The order also uniquely determines the position of the vertex R cj (x) x on q (according to the vertices L ci(x) x</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Fig. 8 .</head><label>8</label><figDesc>A variable gadget for the weak realizability problem</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head></head><label></label><figDesc>edge x can not intersect edges a and e, so x lies in the region bounded by the edges a and e. Similarly, y lies in the region bounded by b and f . It implies that x and y are disjoint. According to the order of the vertices L q, the paths xu and yv must have at least one crossing. But the only pair of the edges x, u, y, v which is allowed to intersect, is the pair {x, y}; a contradiction.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Fig. 9 .</head><label>9</label><figDesc>A clause gadget for the weak realizability problem of the edges xc i (x) in one of the half-planes determined by t x . For each clause vertex c we choose a line t c such that among the three edges incident with c one edge, {c, x(c)}, is separated from the other two edges. Then we change the labeling of the neighbors of c such that x 1 (c) = x(c).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Figure 9</head><label>9</label><figDesc>certifies the validity of the following condition for H c : (C3) For each of the 7 orders of the joining vertices from condition (C2) there exists a weak rectilinear realization D c of H c which lies inside a rectangle M c , and all the joining vertices of D c lie on the perimeter of M c on two opposite (parallel) edges, such that L x1(c) c and R x1(c) c lie on one edge, e(M c ), and the other four joining vertices lie on the opposite edge, f (M c ). When drawing the AT-graph A φ , we place each clause gadget H c over the original vertex c of D φ such that e(M c ) is parallel with t c and lies in the same half-plane as the vertex x 1 (c), while f (M c ) lies in the opposite half-plane. Then each neighbor x i (c) can be connected by a straight-line segment with the corresponding joining vertices L xi(c) c and R xi(c) c without crossing. We deal similarly with the variable gadgets. We require the following condition to be satisfied: (X3) For both orders of the joining vertices from condition (X2) and for every integer k ∈ {0, 1, . . . , deg(x)} there exists a weak rectilinear realization D x of H x which lies inside a rectangle M x , and all the joining vertices of D x lie on the perimeter of M x on two opposite (parallel) edges, such that the vertices {L ci(x) x , R ci(x) x ; i ≤ k} lie on one edge, e(M x ), and the other 2(deg(x) − k) joining vertices lie on the opposite edge, f (M x ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head></head><label></label><figDesc>Proof of lemma. Without loss of generality, let V (B) = {1, 2, 3, 4, 5}, V (C) = {1, 2, 3, 4, 6} and let the rotation of the vertex 1 in R(B) be (2, 3, 4, 5). Then the rotation of 1 in A[{1, 2, 3, 4}] is</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head>TRUE FALSE TRUE TRUE FALSE</head><label>FALSETRUE</label><figDesc>Fig. 1. Variable and clause gadgets for the simple realizability problem</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>y}, {x, b}, {y, a}, {u, a}, {u, b}, {v, a}, {v, b}}.</figDesc><table></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>I am grateful to Pavel Valtr for introducing me to the topic of topological graphs, for many valuable suggestions and for the help with the preparation of this paper. I am also grateful to Jan Kratochvíl for helpful discussions about abstract topological graphs and NP-hardness and for presenting me his results.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(the indices are taken modulo 3). For every x ∈ X let</p><p>{{l i x , l j x }, {r i x , r j x }, {l i x , r j x }}.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">On the crossing number of complete graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Aichholzer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Aurenhammer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Krasser</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computing</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="165" to="176" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">A linear-time algorithm for drawing a planar graph on a grid</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Chrobak</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">H</forename><surname>Payne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information Processing Letters</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="241" to="246" />
+			<date type="published" when="1995" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Simultaneous graph embeddings with fixed edges</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Gassner</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Jünger</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Percan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schulz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">WG 2006</title>
+		<editor>Fomin, F.V.</editor>
+		<meeting><address><addrLine>Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="volume">4271</biblScope>
+			<biblScope unit="page" from="325" to="335" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A combinatorial problem</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">K</forename><surname>Guy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nabla (Bulletin of the Malayan Mathematical Society)</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="68" to="72" />
+			<date type="published" when="1960" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Drawings of the complete graph with maximum number of crossings</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Harborth</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Mengersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Twenty-third Southeastern International Conference on Combinatorics, Graph Theory, and Computing, Congressus Numerantium</title>
+		<meeting>the Twenty-third Southeastern International Conference on Combinatorics, Graph Theory, and Computing, Congressus Numerantium<address><addrLine>Boca Raton, FL</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1992" />
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="225" to="228" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">String graphs requiring exponential representations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kratochvíl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Matoušek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="1" to="4" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Noncrossing subgraphs in topological layouts</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kratochvíl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Lubiw</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Nešetřil</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="223" to="244" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">String graphs I: The number of critical nonstring graphs is infinite</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kratochvíl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="53" to="66" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">String graphs II: Recognizing string graphs is NP-hard</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kratochvíl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="page" from="67" to="78" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A special planar satisfiability problem and a consequence of its NP-completeness</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kratochvíl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="233" to="252" />
+			<date type="published" when="1994" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Enumeration of simple complete topological graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kynčl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Notes in Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="295" to="299" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">On edges crossing few other edges in simple topological complete graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kynčl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Valtr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">GD 2005</title>
+		<editor>Healy, P., Nikolov, N.S.</editor>
+		<meeting><address><addrLine>Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2006" />
+			<biblScope unit="volume">3843</biblScope>
+			<biblScope unit="page" from="274" to="284" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Unavoidable configurations in complete topological graphs. Discrete and Computational Geometry</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Solymosi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="311" to="320" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Recognizing string graphs is decidable. Discrete and computational geometry and graph drawing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Discrete and Computational Geometry</title>
+		<meeting><address><addrLine>Columbia, SC</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="593" to="606" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">How many ways can one draw a graph?</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">GD 2003</title>
+		<editor>Liotta, G.</editor>
+		<meeting><address><addrLine>Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004" />
+			<biblScope unit="volume">2912</biblScope>
+			<biblScope unit="page" from="47" to="58" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Relations between crossing numbers of complete and complete bipartite graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">B</forename><surname>Richter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Thomassen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Amer. Math. Monthly</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="131" to="137" />
+			<date type="published" when="1997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Recognizing string graphs in NP</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Sedgwick</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computer and System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="page" from="365" to="380" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Decidability of string graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computer and System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="319" to="334" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Crossing Numbers of Graphs, Lower Bound Techniques and Algorithms: A Survey</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Shahrokhi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">A</forename><surname>Székely</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Vrt&amp;apos;o</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">GD 1994</title>
+		<editor>Tamassia, R., Tollis, I(Y.) G.</editor>
+		<meeting><address><addrLine>Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1995" />
+			<biblScope unit="volume">894</biblScope>
+			<biblScope unit="page" from="131" to="142" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">On the rectilinear crossing number of complete graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">U</forename><surname>Wagner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Fourteenth Annual ACM-SIAM Symposium on Discrete Algorithms</title>
+		<meeting>the Fourteenth Annual ACM-SIAM Symposium on Discrete Algorithms<address><addrLine>Baltimore, MD; New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="583" to="588" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

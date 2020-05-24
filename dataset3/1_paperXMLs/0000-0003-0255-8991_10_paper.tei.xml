@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">University of the Basque Country System for NIST 2010 Speaker Recognition Evaluation</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Penagarikano</surname></persName>
+							<email>mikel.penagarikano@ehu.es</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Varona</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">L J</forename><surname>Diez</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Rodriguez-Fuentes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Bordel</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Electricity and Electronics</orgName>
+								<orgName type="institution" key="instit1">GTTS</orgName>
+								<orgName type="institution" key="instit2">University of the Basque Country</orgName>
+								<address>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">University of the Basque Country System for NIST 2010 Speaker Recognition Evaluation</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:32+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>This paper briey describes the speaker recognition system developed by the Software Technology Working Group (http://gtts.ehu.es) at the University of the Basque Country (EHU), and submitted to the NIST 2010 Speaker Recognition Evaluation. The system consists of a fusion of four subsystems: a GMM-SVM subsystem, a Linearized Eigenchannel GMM (LE-GMM) subsystem, a GLDS-SVM subsystem and a JFA subsystem.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Partitioning of the previous SRE databases</head><p>To implement the EHU Speaker Recognition system, the following sets were dened and used: <ref type="bibr" target="#b0">1</ref> In order to create these sets, SRE04 to SRE08 (including FollowUp SRE08) were used. A study of the databases was carried out to avoid including signals from the same speaker in two dierent sets. <ref type="table" target="#tab_1">Table 1</ref> shows the speaker distribution in all the databases. The main diagonal shows the number of speakers per database, elements outside the diagonal representing the number of common speakers in each pair of databases. We found 1416 dierent speakers in the SRE04-06 sets: 180 of them (from SRE05 and SRE06) contained recordings with auxiliary microphones, whereas the remaining 1256 speakers were recorded only through dierent kind of telephones. Each set of speakers (either containing or not containing mic recordings) was divided into 4 dierent subsets (UBM, CHC, IMP and SN), and SN speakers were further divided into 2 additional sets (ZNorm and TNorm). Those speakers with the greatest number of signals acquired under dierent conditions where preferably assigned to the CHC set, whereas the remaining speakers were randomly distributed among the three other subsets. <ref type="table" target="#tab_2">Table 2</ref> shows the number of signals for the dened subsets. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">SRE08</head><p>Unlike previous competitions, SRE08 included in the training and test conditions, for the core test, not only conversational telephone speech data but also conversational telephone speech recorded through microphone channels in an interview scenario. 150 speakers were recorded in this new condition. The full SRE08 database was used as development set. To avoid interactions with previous databases, the signals of the 112 speakers in common with SRE06 (see <ref type="table" target="#tab_1">Table 1</ref>) were not used. The signals of the remaining 1224 speakers, both in train and test, were divided into two well-balanced sets for development. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">FollowUp SRE08</head><p>The FollowUp SRE08 evaluation focused on speaker detection in the context of conversational interview speech. Test segments involved the same interview target speakers and interview sessions used in the SRE08 evaluation. Some involved the same microphone channels used in SRE08, whereas others were recorded through microphones not used previously. The FollowUp SRE208 set, consisting of 6288 audio signals, was divided into two balanced subsets: CHC and SN, and the SN subset was further divided into two subsets: ZNorm and TNorm (see <ref type="table" target="#tab_4">Table 4</ref>). 3 The EHU Speaker Recognition System</p><p>The EHU system results from the fusion of four subsystems: a GMM-SVM subsystem, a Linearized Eigenchannel GMM (LE-GMM) subsystem, a GLDS-SVM subsystem and a JFA subsystem.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Preprocessing</head><p>The Qualcomm-ICSI-OGI (QIO) <ref type="bibr" target="#b0">[1]</ref> noise reduction technique (based on Wiener ltering) was independently applied to the audio streams. The full audio stream was taken as input to estimate noise characteristics, thus avoiding the use of voice activity detectors on which most systems rely to constrain noise estimation to non-voice fragments.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Feature Extraction</head><p>Features were obtained with the Sautrela toolkit <ref type="bibr" target="#b1">[2]</ref>. Mel-Frequency Cepstral Coecients (MFCC) were used as acoustic features, computed in frames of 25 ms at intervals of 10 ms. The MFCC set comprised 13 coecients, including the zero (energy) coecient. Cepstral Mean Subtraction (CMS) and Feature Warping were applied to cepstral coecients. Finally, the feature vector was augmented with dynamic coecients (13 rst-order and 13 second-order deltas), resulting in a 39-dimensional feature vector.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">UBM</head><p>Two gender dependent UBMs consisting of 1024 mixture components were trained with the Sautrela toolkit.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">GMM-SVM &amp; LE-GMM subsystem</head><p>The GMM-SVM and LE-GMM subsystems were built following the SUNSDV system description for SRE08 <ref type="bibr" target="#b2">[3]</ref>. Channel compensation was trained for intertelephone, inter-microphone and telephone-microphone variations, using 20, 20 and 40 eigenchannels respectively. For GMM-SVM, a linear kernel was trained using SMVTorch <ref type="bibr" target="#b3">[4]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5">GLDS-SVM subsystem</head><p>Sucient statistics space compensation was projected to feature space by applying the following expression:</p><formula xml:id="formula_0">f t = f t − k γ k (t) n k Σ 1 2 k c x k</formula><p>where f t is the feature vector at time t, γ k (t) is the posterior of gaussian k at time t, n k = t γ k (t) is the zero-order statistic of gaussian k, Σ k is the diagonal covariance matrix of gaussian k and c x k is the rst-order statistics shift (sucient statistics space compensation factor) of gaussian k given the input segment x. A polynomial expansion of degree 3 and a Generalized Linear Discriminant Sequence Kernel <ref type="bibr" target="#b4">[5]</ref> were then applied.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.6">JFA subsystem</head><p>The Joint Factor Analysis Matlab Demo from BUT <ref type="bibr" target="#b5">[6,</ref><ref type="bibr" target="#b6">7]</ref> was applied to the M F CC + ∆ + ∆∆ features, using 200 eigenvoices and 100 eigenchannels.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.7">ZT normalization</head><p>Trials were conditioned on three channel types: no microphone sessions (0MIC), one microphone session (1MIC) and two microphone sessions (2MIC). Gender dependent and channel type condition dependent ZT normalization was performed on trial scores.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.8">Fusion and calibration</head><p>Side-info-conditional fusion and calibration was performed with FoCal <ref type="bibr" target="#b7">[8]</ref>, using channel type and gender conditioning. Fused scores were calibrated to be interpreted as detection log-likelihood-ratios, and the hard accept/reject decisions were made by applying a Bayes threshold of 6,907.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head>Table 1 :</head><label>1</label><figDesc></figDesc><table>Number of speakers per database (main diagonal) and and number of 
+common speakers in each pair of databases (elements outside the diagonal). 
+
+SRE04 SRE05 SRE06 SRE08 FU08 
+SRE04 
+310 
+0 
+0 
+0 
+0 
+SRE05 
+0 
+525 
+348 
+0 
+0 
+SRE06 
+0 
+348 
+949 
+112 
+0 
+SRE08 
+0 
+0 
+112 
+1336 
+150 
+FU08 
+0 
+0 
+0 
+150 
+150 
+
+2.1 SRE04 to SRE06 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head>Table 2 :</head><label>2</label><figDesc>Number of signals from SRE04 to SRE06 in the Universal Background Models (UBM), Channel Compensation (CHC), SVM Impostors (IMP), and Score Normalization (ZNorm and TNorm) subsets.</figDesc><table>female male Total 
+UBM 
+2804 
+2119 
+4923 
+CHC 
+4586 
+3531 
+8117 
+IMP 
+2780 
+2094 
+4874 
+TNorm 
+1479 
+960 
+2439 
+ZNorm 
+1403 
+1146 
+2549 
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head>Table 3 :</head><label>3</label><figDesc>Distribution of signals in SRE08 into two balanced sets for development (devA and devB).</figDesc><table>SRE08 SRE08_reduced devA devB 
+train 
+3263 
+3149 
+1621 
+1528 
+test 
+6377 
+6211 
+3306 
+2905 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4" validated="true"><head>Table 4 :</head><label>4</label><figDesc>Distribution of speakers and signals in FollowUp SRE08 database.</figDesc><table>Signals 
+Speakers female male Total 
+CHC 
+38 *2 
+2432 
+1776 
+4208 
+TNorm 
+18 * 2 
+1145 
+848 
+1993 
+ZNorm 
+19 *2 
+1212 
+875 
+2087 
+
+</table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Qualcomm-ICSI-OGI features for ASR</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Andre</forename><surname>Adami</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lukas</forename><surname>Burget</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Stephane</forename><surname>Dupont</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hari</forename><surname>Garudadri</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Frantisek</forename><surname>Grezl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Hynek</forename><surname>Hermansky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pratibha</forename><surname>Jain</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sachin</forename><surname>Kajarekar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Nelson</forename><surname>Morgan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sunil</forename><surname>Sivadas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICSLP2002</title>
+		<meeting>ICSLP2002</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Sautrela: A Highly Modular Open Source Speech Recognition Framework</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Penagarikano</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Bordel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the ASRU Workshop</title>
+		<meeting>the ASRU Workshop<address><addrLine>San Juan, Puerto Rico</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2005-12" />
+			<biblScope unit="page">386391</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Strasheim</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Niko</forename><surname>Brümmer</surname></persName>
+		</author>
+		<title level="m">NIST Speaker Recognition Evaluation Workshop Booklet</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+	<note>SUNSDV system description: NIST SRE</note>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Support Vector Machines for Large-Scale Regression Problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Collobert</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Bengio</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Svm Torch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">143160</biblScope>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Generalized linear discriminant sequence kernels for speaker recognition</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Campbell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of ICASSP</title>
+		<meeting>ICASSP</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page">161164</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+				<ptr target="http://speech.t.vutbr.cz/en/software/joint-factor-analysis-matlab-demo" />
+		<title level="m">Joint Factor Analysis Matlab Demo</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A study of interspeaker variability in speaker verication</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Kenny</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Ouellet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Dehak</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Dumouchel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Audio, Speech and Language Processing</title>
+		<imprint>
+			<date type="published" when="2008-07" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Tools for detector fusion and calibration, with use of side-information</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

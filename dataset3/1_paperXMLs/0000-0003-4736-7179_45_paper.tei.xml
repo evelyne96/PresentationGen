@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Adaptive XML Tree Classification on evolving data streams</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Bifet</surname></persName>
+							<email>abifet@lsi.upc.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<email>gavalda@lsi.upc.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Adaptive XML Tree Classification on evolving data streams</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We propose a new method to classify patterns, using closed and maximal frequent patterns as features. Generally, classification requires a previous mapping from the patterns to classify to vectors of features, and frequent patterns have been used as features in the past. Closed patterns maintain the same information as frequent patterns using less space and maximal patterns maintain approximate information. We use them to reduce the number of classification features. We present a new framework for XML tree stream classification. For the first component of our classification framework, we use closed tree mining algorithms for evolving data streams. For the second component, we use state of the art classification methods for data streams. To the best of our knowledge this is the first work on tree classification in streaming data varying with time. We give a first experimental evaluation of the proposed classification method.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Pattern classification and frequent pattern discovery have been important tasks over the last decade. Nowadays, they are becoming harder, as the size of the pattern datasets is increasing, data often comes from sequential, streaming sources, and we cannot assume that data has been generated from a static distribution. If we want accuracy in the results of our algorithms, we have to consider that the distribution that generates data may vary over time, often in an unpredictable and drastic way.</p><p>Tree Mining is becoming an important field of research due to the fact that XML patterns are tree patterns and that XML is becoming a standard for information representation and exchange over the Internet. XML data is growing and it will soon constitute one of the largest collection of human knowledge. Other applications of tree mining appear in chemical informatics, computer vision, text retrieval, bioinformatics, and Web analysis. XML tree classification has been done traditionally using information retrieval techniques considering the labels of nodes as bags of words. With the development of frequent tree miners, classification methods using frequent trees appeared <ref type="bibr" target="#b20">[21,</ref><ref type="bibr" target="#b13">14,</ref><ref type="bibr" target="#b7">8,</ref><ref type="bibr" target="#b11">12]</ref>. Recently, closed frequent miners were proposed <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b17">18,</ref><ref type="bibr" target="#b0">1]</ref>, and using them for classification tasks is the next natural step.</p><p>Closure-based mining on relational data has recently provided some interesting algorithmic developments. In this paper we use closure-based mining to reduce drastically the number of attributes in tree classification tasks. Moreover, we show how to use maximal frequent trees to reduce even more the number of attributes needed in tree classification, in many cases without loosing accuracy.</p><p>We propose a general framework to classify XML trees based on subtree occurrence. It is composed of a Tree XML Closed Frequent Miner, and a classifier algorithm. We propose specific methods for dealing with adaptive data streams. In <ref type="bibr" target="#b4">[5]</ref> a new approach was proposed for mining closed patterns adaptively from data streams that change over time, and it was used for closed unlabeled rooted trees. In this work, we use the extension to the more challenging case of labeled rooted trees.</p><p>The rest of the paper is organized as follows. We discuss related work in Section 2. Section 3 gives background and Section 4 introduces our closure operator and its properties needed for our classification algorithm. Section 5 shows the tree classification framework and it introduces the adaptive closed frequent mining method. Experimental results are given in Section 6, and some conclusions in Section 7.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Related Work</head><p>Zaki and Aggarwal presented XRules in <ref type="bibr" target="#b20">[21]</ref>. Their classification method mines frequent trees in order to create classification rules. They do not use closed frequent trees, only frequent trees. XRules is cost-sensitive and uses Bayesian rule based class decision making. They also proposed methods for effective rule prioritization and testing.</p><p>Kudo and Matsumoto presented a boosting method for tree classification in <ref type="bibr" target="#b13">[14]</ref>. Their method consists of decision stumps that uses significant frequent subtrees as features and a Boosting algorithm which employs the subtree-based decision stumps as weak learners. With Maeda they extended this classification method to graphs in <ref type="bibr" target="#b12">[13]</ref>.</p><p>Other works use SVMs defining tree Kernels <ref type="bibr" target="#b7">[8,</ref><ref type="bibr" target="#b11">12]</ref>. Tree kernel is one of the convolutions kernels, and maps the example represented in a labeled ordered tree into all subtree spaces. The feature space uses frequent trees and not closed trees.</p><p>Garriga et al. <ref type="bibr" target="#b9">[10]</ref> showed that when considering labeled itemsets, closed sets can be adapted for classification and discrimination purposes by conveniently contrasting covering properties on positive and negative examples. They formally proved that these sets characterize the space of relevant combinations of features for discriminating the target class.</p><p>Chi et al. proposed CMTreeMiner <ref type="bibr" target="#b6">[7]</ref>, the first algorithm to discover all closed and maximal frequent labeled induced subtrees without first discovering all frequent subtrees. CMTreeMiner shares many features with CloseGraph <ref type="bibr" target="#b18">[19]</ref>. Termier et al. proposed DryadeParent <ref type="bibr" target="#b17">[18]</ref>, based on the hooking principle first introduced in Dryade. They claim that the branching factor and depth of the frequent patterns to find are key factors in the complexity of tree mining algorithm and that DryadeParent outperforms CMTreeMiner, on datasets where the frequent patterns have a high branching factor.</p><p>In <ref type="bibr" target="#b4">[5]</ref>, we proposed a new approach for mining closed frequent patterns adaptively from data streams that change over time, and we applied it to unlabelled frequent tree mining.</p><p>To the best of our knowledge this is the first work defined for classifying trees and mining labeled closed frequent trees in streaming data that evolve with time, and the first one in using closed and maximal frequent trees for feature reduction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Preliminaries</head><p>Following Formal Concept Analysis usage, we are interested in (possibly infinite) sets endowed with a partial order relation. Elements of these sets are generically called patterns.</p><p>The set of all patterns will be denoted with T , but actually all our developments will proceed in some finite subset of T which will act as our universe of discourse.</p><p>Given two patterns t and t , we say that t is a subpattern of t , or t is a super-pattern of t, if t t . Two patterns t, t are said to be comparable if t t or t t. Otherwise, they are incomparable. Also we write t ≺ t if t is a proper subpattern of t (that is, t t and t = t ).</p><p>The input to our data mining process is a dataset D of transactions, where each transaction s ∈ D consists of a transaction identifier, tid, and a transaction pattern. The dataset is a finite set in the standard setting, and a potentially infinite sequence in the data stream setting. Tids are supposed to run sequentially from 1 to the size of D. From that dataset, our universe of discourse U is the set of all patterns that appear as subpattern of some pattern in D. <ref type="figure">Figure 1</ref> shows a finite dataset example of trees.</p><p>As is standard, we say that a transaction s supports a pattern t if t is a subpattern of the pattern in transaction s. The number of transactions in the dataset D that support t is called the support of the pattern t. A subpattern t is called frequent if its support is greater than or equal to a given threshold min sup. The frequent subpattern mining problem is to find all frequent subpatterns in a given dataset. Any subpattern of a frequent pattern is also frequent and, therefore, any superpattern of a nonfrequent pattern is also nonfrequent (the antimonotonicity property).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Frequent Pattern Compression</head><p>We define a frequent pattern t to be closed if none of its proper superpatterns has the same support as it has. Generally, there are much fewer closed patterns than frequent ones. In fact, we can obtain all frequent subpatterns with their support from the set of frequent closed subpatterns with their supports. So, the We define a frequent pattern t to be maximal if none of t's proper superpatterns is frequent. All maximal patterns are closed, but not all closed patterns are maximal, so there are more closed patterns than maximal. Note that we can obtain all frequent subpatterns from the set of maximal frequent subpatterns, but not their support. So, the set of maximal frequent subpatterns maintains approximately the same information as the set of all frequent subpatterns.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Classification using Compressed Frequent Patterns</head><p>The pattern classification problem is defined as follows. A set of examples of the form (t, y) is given, where y is a discrete class label and t is a pattern. The goal is to produce from these examples a modelŷ = f (t) that will predict the classes y of future pattern examples with high accuracy.</p><p>We use the following approach: we convert the pattern classification problem into a vector classification learning task, transforming patterns into vectors of attributes. Attributes will be frequent subpatterns, or a subset of these frequent subpatterns. Suppose D has d frequent subpatterns denoted by t 1 , t 2 , . . . , t d . We map any pattern t to a vector x of d attributes:</p><formula xml:id="formula_0">x = (x 1 , ..., x d ) such that for each attribute i, x i = 1 if t i t or x i = 0 otherwise.</formula><p>As the number of frequent subpatterns is huge, we perform a feature selection process, selecting a subset of these frequent subpatterns, maintaining the same information, or approximate. <ref type="figure" target="#fig_2">Figures 3 and 4</ref> show frequent trees and its conversion to vectors of attributes. Note that closed trees have the same information as frequent trees, but maximal trees loose some support information, as mentioned in Section 3.1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Closed Frequent Patterns</head><p>Recall that if X is a set with a partial order ≤, a closure operator on X is a function C : X → X that satisfies the following for all x in X: x ≤ C(X), C(x) = C(C(x)), for all y ∈ X, x ≤ y implies C(x) ≤ C(y). A Galois connection is provided by two functions, relating two lattices in a certain way. Here our lattices are not only plane power sets of the transactions but also plain power sets of the corresponding solutions. On the basis of the binary relation t t , the following definition and proposition are rather standard. In other words, Theorem 1 states each closed set is uniquely defined through its maximal elements. On this basis, our algorithms can avoid duplicating calculations and redundant information by just storing the maximal patterns of each closed set. We denote ∆(t) as the set of maximal patterns of each closed set of Γ D ({t}).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definition 1. The Galois connection pair is defined by:</head><formula xml:id="formula_1">-For finite A ⊆ D, σ(A) = {t ∈ T ∀ t ∈ A (t t )} -For finite B ⊂ T , not necessarily in D, τ D (B) = {t ∈ D ∀ t ∈ B (t t )} Proposition 1. The composition Γ D = σ • τ D is a closure operator on the subsets of D. Theorem 1. A pattern t is closed for D if and only if it is maximal in Γ D ({t}). Frequent Trees c1 c2 c3 c4 Id c1 f 1 1 c2 f 1 2 f 2 2 f 3 2 c3 f 1 3 c4 f 1 4 f 2 4 f 3 4 f 4</formula><p>We can relate the closure operator to the notion of closure based on support, as previously defined, as follows: t is closed for D if and only if:</p><formula xml:id="formula_2">∆ D ({t}) = {t}.</formula><p>Following the standard usage on Galois lattices, we consider now implications of the form A → B for sets of patterns A and B from U. Specifically, we consider the following set of rules: A → Γ D (A). Alternatively, we can split the consequents into</p><formula xml:id="formula_3">{A → t t ∈ Γ D (A)}.</formula><p>It is easy to see that D obeys all these rules: for each A, any pattern of D that has as subpatterns all the patterns of A has also as subpatterns all the patterns of Γ D (A). We use Proposition 2 to reduce the number of attributes on our classification task, using only closed frequent patterns, as they keep the same information. The attribute vector of a frequent pattern will be the same as its closed pattern attribute vector. <ref type="figure" target="#fig_3">Figure 4</ref> shows the attribute vectors for the dataset of <ref type="figure">Figure 1</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Maximal Frequent Patterns</head><p>Maximal patterns are patterns that do not have any frequent superpattern. All maximal patterns are closed patterns. If min sup is zero, then maximal patterns are transaction patterns. We denote by M 1 (t), M 2 (t), . . . , M m (t) the maximal superpatterns of a pattern t. We are interested in the implications of the form</p><formula xml:id="formula_4">t c → (M 1 (t) ∨ M 2 (t) ∨ . . . ∨ M m (t))</formula><p>where t c is a closed pattern. Proof. Suppose that pattern t c satisfies t c ≺ t but no maximal superpattern M i (t c ) satisfies M i (t c ) t. Then, pattern t c has no frequent superpattern. Therefore, it is maximal, contradicting the assumption.</p><p>Suppose, for the other direction, that a maximal superpattern</p><formula xml:id="formula_5">M i (t c ) of t c satisfies M i (t c ) t. Then, as t c is a M i (t c ) subpattern, t c M i (t c ), and it holds that t c M i (t c ) t.</formula><p>For non-maximal closed patterns, the following set of rules holds if t c is not a transaction pattern:</p><formula xml:id="formula_6">t c → M i (t c )</formula><p>Note that for a transaction pattern t c that it is closed and non-maximal, there is no maximal superpattern M i (t c ) of pattern t c that satisfies M i (t c ) t c . If there are no closed non-maximal transaction patterns, we do not need to use all closed patterns as attributes, since non-maximal closed patterns may be derived from maximal patterns.</p><p>Using Proposition 3, we may reduce the number of attributes on our classification task, using only maximal frequent patterns, as they keep much of the information as closed frequent patterns.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">XML Tree Classification framework on data streams</head><p>In this section we specialize the previous approach to the case of labelled trees, such as XML trees.</p><p>Trees are connected acyclic graphs, rooted trees are trees with a vertex singled out as the root, and unranked trees are trees with unbounded arity. We say that t 1 , . . . , t k are the components of tree t if t is made of a node (the root) joined to the roots of all the t i 's. We can distinguish between the cases where the components at each node form a sequence (ordered trees) or just a set (unordered trees). We will deal with rooted, unranked trees. We assume the presence of labels on the nodes.</p><p>An induced subtree of a tree t is any connected subgraph rooted at some node v of t that its vertices and edges are subsets of those of t. An embedded subtree of a tree t is any connected subgraph rooted at some node v of t that does not break the ancestor-descendant relationship among the vertices of t. We are interested in induced subtrees. Formally, let s be a rooted tree with vertex set V and edge set E , and t a rooted tree t with vertex set V and edge set E. Tree s is an induced subtree (or simply a subtree) of t (written t t) if and only if 1) V ⊆ V , 2) E ⊆ E, and 3) the labeling of V is preserved in t. This notation can be extended to sets of trees A B: for all t ∈ A, there is some t ∈ B for which t t .</p><p>Our XML Tree Classification Framework has two components:</p><p>-An XML closed frequent tree miner, for which we could use any incremental algorithm that maintains a set of closed frequent trees. -A Data stream classifier algorithm, which we will feed with tuples to be classified online. Attributes in these tuples represent the occurrence of the current closed trees in the originating tree, although the classifier algorithm need not be aware of this.</p><p>In this section, we describe the two components of the framework, the XML closed frequent tree miner, and the data stream classifier.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Adaptive Tree Mining on evolving data streams</head><p>Using a methodology based on Galois Lattice Theory, we use three closed tree mining algorithms: an increment IncTreeMiner, a sliding-window based one, WinTreeMiner, and an algorithm that mines closed trees adaptively from data streams. It is basically an adaptation of the theoretical framework developed in <ref type="bibr" target="#b4">[5]</ref>, which deals with quite general notion of pattern and subpattern, to the case of labeled rooted trees. For maximal frequent trees, the following properties hold:</p><p>adding a tree transaction to a dataset of trees D, may increase or decrease the number of maximal trees for D. adding a transaction with a closed tree to a dataset of trees D, may modify the number of maximal trees for D. deleting a tree transaction from a dataset of trees D, may increase or decrease the number of maximal trees for D. deleting a tree transaction that is repeated in a dataset of trees D from it, may modify the number of maximal trees for D. a non maximal closed tree may become maximal if</p><p>• it was not frequent and now its support increases to a value higher or equal to min sup • all of its maximal supertrees become non-frequent a maximal tree may become a non maximal tree if • its support decreases below min sup • a non-frequent closed supertree becomes frequent</p><p>We could check if a closed tree becomes maximal when removing closed trees because they do not have enough support adding a new closed tree to the dataset deleting a closed tree from the dataset We use three tree mining algorithms adapting the general framework for patterns presented in <ref type="bibr" target="#b4">[5]</ref>:</p><p>-IncTreeMiner, an incremental closed tree mining algorithm, -WinTreeMiner, a sliding window closed tree mining algorithm -AdaTreeMiner, an adaptive closed tree mining algorithm</p><p>The batches are processed using the non-incremental algorithm explained in <ref type="bibr" target="#b2">[3]</ref>. AdaTreeMiner is a new tree mining method for dealing with concept drift, using ADWIN <ref type="bibr" target="#b3">[4]</ref>, an algorithm for detecting change and dynamically adjusting the length of a data window. ADWIN is parameter-and assumption-free in the sense that it automatically detects and adapts to the current rate of change. Its only parameter is a confidence bound δ, indicating how confident we want to be in the algorithm's output, inherent to all algorithms dealing with random processes.</p><p>Also important for our purposes, ADWIN does not maintain the window explicitly, but compresses it using a variant of the exponential histogram technique in <ref type="bibr" target="#b8">[9]</ref>. This means that it keeps a window of length W using only O(log W ) memory and O(log W ) processing time per item, rather than the O(W ) one expects from a naïve implementation. When windows tend to be large, this usually results in substantial memory savings.</p><p>We propose two strategies to deal with concept drift:</p><p>-AdaTreeMiner1: Using a sliding window, with an ADWIN estimator deciding the size of the window -AdaTreeMiner2: Maintaining an ADWIN estimator for each closed set in the lattice structure.</p><p>In the second strategy, we do not delete transactions. Instead, each ADWIN monitors the support of a closed pattern. When it detects a change, we can conclude reliably that the support of this pattern seems to be changing in the data stream in recent times.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Data Stream Classifier</head><p>The second component of the framework is based on MOA. Massive Online Analysis (MOA) <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b5">6]</ref> is a framework for online learning from continuous supplies of examples, such as data streams. It is closely related to the well-known WEKA project, and it includes a collection of offline and online as well as tools for evaluation. In particular, it implements boosting, bagging, and Hoeffding Trees, both with and without Naïve Bayes classifiers at the leaves.</p><p>We use bagging and boosting of decision trees, because these ensemble methods are considered the state-of-the-art classification methods.</p><p>We tested our algorithms on synthetic and real data. All experiments were performed on a 2.0 GHz Intel Core Duo PC machine with 2 Gigabyte main memory, running Ubuntu 8.10.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Tree Classification</head><p>We evaluate our approach to tree classification on both real and synthetic classification data sets.</p><p>For synthetic classification, we use the tree generation program of Zaki <ref type="bibr" target="#b19">[20]</ref>, available from his web page. We generate two mother trees, one for each class. The first mother tree is generated with the following parameters: the number of distinct node labels N = 200, the total number of nodes in the tree M = 1, 000, the maximal depth of the tree D = 10 and the maximum fanout F = 10. The second one has the following parameters: the number of distinct node labels N = 5, the total number of nodes in the tree M = 100, the maximal depth of the tree D = 10 and the maximum fanout F = 10.</p><p>A stream is generated by mixing the subtrees created from these mother trees. In our experiments, we set the total number of trees in the dataset to be T = 1, 000, 000. We added artificial drift changing labels of the trees every 250, 000 samples, so closed and maximal frequent trees evolve over time. We use bagging of 10 Hoeffding Trees enhanced with adaptive Naïve Bayes leaf predictions, as classification method. This adaptive Naïve Bayes prediction method monitors the error rate of majority class and Naïve Bayes decisions in every leaf, and chooses to employ Naïve Bayes decisions only where they have been more accurate in past cases. <ref type="table">Table 1</ref> shows classification results. We observe that AdaTreeMiner1 is the most accurate method, and that the accuracy of WinTreeMiner depends on the size of the window.</p><p>For real datasets, we use the Log Markup Language (LOGML) dataset from Zaki et al. <ref type="bibr" target="#b15">[16,</ref><ref type="bibr" target="#b20">21]</ref>, that describes log reports at their CS department website. LOGML provides a XML vocabulary to structurally express the contents of the log file information in a compact manner. Each user session is expressed in LOGML as a graph, and includes both structure and content.</p><p>The real CSLOG data set spans 3 weeks worth of such XML user-sessions. To convert this into a classification data set they chose to categorize each usersession into one of two class labels: edu corresponds to users from an "edu" domain, while other class corresponds to all users visiting the CS department from any other domain. They separate each week's logs into a different data set (CSLOGx, where x stands for the week; CSLOG12 is the combined data for weeks 1 and 2). Notice that the edu class has much lower frequency rate than other. <ref type="table">Table 2</ref> shows the results on bagging and boosting using 10 Hoeffding Trees enhanced with adaptive Naïve Bayes leaf predictions. The results are very similar for the two ensemble learning methods. Using maximals and closed frequent trees, we obtain results similar to <ref type="bibr" target="#b19">[20]</ref>. Comparing maximal trees with closed trees, we see that maximal trees use 1/4 to 1/3rd of attributes, 1/3 of memory, and they perform better.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Closed Frequent Tree Labeled Mining</head><p>As far as we know, CMTreeMiner is the state-of-art algorithm for mining induced closed frequent trees in databases of rooted trees. The main difference with our approach is that CMTreeMiner is not incremental and only works with bottomup subtrees, and our method works with both bottom-up and top-down subtrees. For synthetic data, we use the same dataset as in <ref type="bibr" target="#b6">[7]</ref> and <ref type="bibr" target="#b19">[20]</ref> for rooted ordered trees. The synthetic dataset T8M is generated by the tree generation program of Zaki <ref type="bibr" target="#b19">[20]</ref>, used for the evaluation on tree classification. In brief, a mother tree is generated first with the following parameters: the number of distinct node labels N = 100, the total number of nodes in the tree M = 10, 000, the maximal depth of the tree D = 10 and the maximum fanout F = 10. The dataset is then generated by creating subtrees of the mother tree. In our experiments, we set the total number of trees in the dataset to be from T = 0 to T = 8, 000, 000.</p><p>The results of our experiments on synthetic data are shown in <ref type="figure" target="#fig_6">Figures 5,6</ref>,7, and 8. We observe that as the data size increases, the running times of Inc-TreeMiner and CMTreeMiner become closer, and that IncTreeMiner uses much less memory than CMTreeMiner. CMTreeMiner failed in our experiments when dataset size reached 8 million trees: not being an incremental method, it must store the whole dataset in memory all the time in addition to the lattice structure, in contrast with our algorithms.</p><p>In <ref type="figure">Figure 9</ref> we compare WinTreeMiner with different window sizes to AdaTreeMiner on T8M dataset. We observe that the two versions of Ada-TreeMiner outperform WinTreeMiner for all window sizes. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusions</head><p>The scheme for classification based on our methods, efficiently selects a reduced number of attributes, and achieves higher accuracy (even more in the more selective case in which we keep only attributes corresponding to maximal trees). Our approach to tree mining outperforms CMTreeMiner in time and memory consumption when the number of trees is huge, because CMTreeMiner is not an incremental method and it must store the whole dataset in memory all the time. Song et al. <ref type="bibr" target="#b16">[17]</ref> introduced the concept of relaxed frequent itemset using the notion of relaxed support. We can see relaxed support as a mapping from all possible dataset supports to a set of relaxed intervals. Relaxed closed mining is a powerful notion that reduces the number of closed subpatterns. We introduced the concept of logarithmic relaxed frequent pattern in <ref type="bibr" target="#b4">[5]</ref>. Future work will be to apply this notion to our classification method by introducing an attribute for each relaxed frequent closed pattern, instead of one for each closed frequent pattern. Also, we would like to apply these classification methods to other kinds of patterns. And finally, we would like to extend our work to generators <ref type="bibr" target="#b14">[15]</ref>. In <ref type="bibr" target="#b1">[2]</ref> the authors were interested in implications of trees of the form G → Z, where G is a generator of Z. When Γ (G) = Z for a set of trees G = Z and G is minimal among all the candidates with closure equal to Z, we say that G is a generator of Z. Generator based representations contain the same information as the frequent closed ones. In the literature, there is no method for finding generators of trees in evolving data streams. As future work, we would like to compare classification using tree generators, with the classification methods presented in this paper.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>((0, D), (1, B), (2, C), (3, A), (2, C)) Class2 ((0, D), (1, B), (2, C), (1, B)) Class1 ((0, D), (1, B), (2, C), (2, C), (1, B)) Class2 ((0, D), (1, B), (2, C), (3, A), (1, B))Fig. 1. A dataset example of 4 tree transactions set of frequent closed subpatterns maintains the same information as the set of all frequent subpatterns.The closed trees for the dataset ofFigure 1are shown in the Galois lattice ofFigure 2.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 .</head><label>2</label><figDesc>Example of Galois Lattice of Closed trees</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3 .</head><label>3</label><figDesc>Frequent trees from dataset example (min sup = 30%), and their corresponding attribute vectors.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4 .</head><label>4</label><figDesc>Closed and maximal frequent trees from dataset example (min sup = 30%), and their corresponding attribute vectors.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Proposition 2 .</head><label>2</label><figDesc>Let t i be a frequent pattern for D. A transaction pattern t satisfies t i t, if and only if it satisfies ∆ D (t i ) t.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Proposition 3 .</head><label>3</label><figDesc>Let t c be a closed non-maximal frequent pattern for D. Let M 1 (t c ), M 2 (t c ), . . . , M m (t c ) be the maximal superpatterns of pattern t c . A transaction pattern t satisfies t c ≺ t, if and only if at least one of the maximals superpattern M i (t c ) of pattern t c satisfies M i (t c ) t.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 5 .</head><label>5</label><figDesc>Time used on ordered trees, T8M dataset</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig. 6 .Fig. 7 .</head><label>67</label><figDesc>Time Memory used on ordered trees, T8M dataset</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Fig. 8 .Fig. 9 .</head><label>89</label><figDesc>Memory Time used on ordered trees on T8M dataset varying window size</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>BaggingTime Acc. Mem.</figDesc><table>AdaTreeMiner1 
+161.61 80.06 4.93 
+AdaTreeMiner2 
+212.57 65.78 4.42 
+WinTreeMiner W=100,000 192.01 72.61 6.53 
+WinTreeMiner W= 50,000 212.09 66.23 11.68 
+IncTreeMiner 
+212.75 65.73 4.4 
+
+Boosting 
+Time Acc. Mem. 
+
+AdaTreeMiner1 
+236.31 79.83 4.8 
+AdaTreeMiner2 
+326.8 65.43 4.25 
+WinTreeMiner W=100,000 286.02 70.15 5.8 
+WinTreeMiner W= 50,000 318.19 63.94 9.87 
+IncTreeMiner 
+317.95 65.55 4.25 
+
+Table 1. Comparison of classification algorithms. Memory is measured in MB. The 
+best individual accuracy is indicated in boldface. 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>Trees Att. Acc. Mem. Att. Acc. Mem. Att. Acc. Mem. Att. Acc. Mem. Trees Att. Acc. Mem. Att. Acc. Mem. Att. Acc. Mem. Att. Acc. Mem. Table 2. Comparison of tree classification algorithms. Memory is measured in MB. The best individual accuracies are indicated in boldface (one per row).</figDesc><table>Maximal 
+
+Closed 
+
+BAGGING 
+Unordered 
+Ordered 
+Unordered 
+Ordered 
+
+# CSLOG12 15483 84 79.64 1.2 77 79.63 1.1 228 78.12 2.54 183 78.12 2.03 
+CSLOG23 15037 88 79.81 1.21 80 79.8 1.09 243 78.77 2.75 196 78.89 2.21 
+CSLOG31 15702 86 79.94 1.25 80 79.87 1.17 243 77.6 2.73 196 77.59 2.19 
+CSLOG123 23111 84 80.02 1.7 78 79.97 1.58 228 78.91 4.18 181 78.91 3.31 
+
+Maximal 
+Closed 
+
+BOOSTING 
+Unordered 
+Ordered 
+Unordered 
+Ordered 
+
+# CSLOG12 15483 84 79.46 1.21 77 78.83 1.11 228 75.84 2.97 183 77.28 2.37 
+CSLOG23 15037 88 79.91 1.23 80 80.24 1.14 243 77.24 2.96 196 78.99 2.38 
+CSLOG31 15702 86 79.77 1.25 80 79.69 1.17 243 76.25 3.29 196 77.63 2.62 
+CSLOG123 23111 84 79.73 1.69 78 80.03 1.56 228 76.92 4.25 181 76.43 3.45 
+
+</table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">Acknowledgments</head><p>Partially supported by the EU PASCAL2 Network of Excellence (FP7-ICT-216886), and by projects SESAAME-BAR (TIN2008-06582-C03-01), MOISES-BAR (TIN2005-08832-C03-03). Albert Bifet has been supported by a FI grant through the Grups de Recerca Consolidats (SGR) program of Generalitat de Catalunya.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">An output-polynomial time algorithm for mining frequent closed attribute trees</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Arimura</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Uno</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ILP</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="1" to="19" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Mining implications from lattices of closed trees</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">L</forename><surname>Balcázar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Lozano</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Extraction et gestion des connaissances (EGC&apos;2008)</title>
+		<imprint>
+			<date type="published" when="2008" />
+			<biblScope unit="page" from="373" to="384" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Mining frequent closed rooted trees. Accepted for publication in</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">L</forename><surname>Balcázar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Lozano</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine Learning Journal</title>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Learning from time-changing data with adaptive windowing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SIAM International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Mining adaptively frequent closed unlabeled rooted trees in data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">14th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">New ensemble methods for evolving data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Pfahringer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Kirkby</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Gavaldà</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">15th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</title>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Mining closed and maximal frequent subtrees from databases of labeled rooted trees</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Chi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Xia</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Muntz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Fundamenta Informaticae</title>
+		<imprint>
+			<biblScope unit="page" from="1001" to="1038" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">New ranking algorithms for parsing and tagging: kernels over discrete structures, and the voted perceptron</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Collins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Duffy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACL &apos;02</title>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="263" to="270" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Maintaining stream statistics over sliding windows</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Datar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Gionis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Indyk</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Motwani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Computing</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="45" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Closed sets for labeled data</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">C</forename><surname>Garriga</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Kralj</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Lavrač</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Mach. Learn. Res</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="559" to="580" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Kirkby</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Pfahringer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Moa</surname></persName>
+		</author>
+		<ptr target="http://sourceforge.net/projects/moa-datastream" />
+		<title level="m">Massive Online Analysis</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Kernels for semi-structured data</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kashima</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Koyanagi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICML</title>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="291" to="298" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">An application of boosting to graph classification</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Kudo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Maeda</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Matsumoto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NIPS</title>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A boosting algorithm for classification of semistructured text</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Kudo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Matsumoto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">EMNLP</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="301" to="308" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Minimum description length principle: Generators are preferable to closed patterns</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Wong</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pei</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Dong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI</title>
+		<imprint>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">LOGML: Log markup language for web usage mining</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Punin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Krishnamoorthy</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Zaki</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">WEBKDD Workshop (with SIGKDD)</title>
+		<imprint>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">CLAIM: An efficient method for relaxed frequent closed itemsets mining over stream data</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Cui</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Zheng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Xie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">DASFAA</title>
+		<imprint>
+			<date type="published" when="2007" />
+			<biblScope unit="page" from="664" to="675" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">DryadeParent, an efficient and robust closed attribute tree mining algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Termier</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M.-C</forename><surname>Rousset</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Sebag</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Ohara</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Washio</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Motoda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans. Knowl. Data Eng</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="300" to="320" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">CloseGraph: mining closed frequent graph patterns</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">X</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Han</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;03</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="286" to="295" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Efficiently mining frequent trees in a forest</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Zaki</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;02</title>
+		<imprint>
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">XRules: an effective structural classifier for xml data</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Zaki</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">C</forename><surname>Aggarwal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;03</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="316" to="325" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

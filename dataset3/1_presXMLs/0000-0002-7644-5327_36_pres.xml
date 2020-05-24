@@ -1,0 +1,1392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Understanding 
+Game-Theoretic Algorithms:
+The Game Matters
+</p>
+<p>Eugene Nudelman
+</p>
+<p>Jennifer Wortman
+</p>
+<p>Yoav Shoham
+Stanford University, Stanford, USA
+</p>
+<p>Kevin Leyton-Brown
+University of British Columbia, Vancouver, Canada
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Game-Theoretic Algorithms?
+</p>
+<p>Game Theory is useful in many areas of CS
+Can model multiagent interactions arising in:
+</p>
+<p>AI
+Distributed Systems
+Networking
+</p>
+<p>GT also gives rise to some very interesting 
+computational problems
+</p>
+<p>compute a sample Nash equilibrium
+multiagent adaptation (learning)
+</p>
+<p>So far: 
+very few theoretical results are available
+even fewer empirical studies
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+</p>
+<p>What is GAMUT?
+</p>
+<p>Introduction
+</p>
+<p>Definitions
+</p>
+<p>Classes of Games
+</p>
+<p>Implementation
+</p>
+<p>Experimental Results
+</p>
+<p>Computing a sample Nash Equilibrium
+</p>
+<p>Multiagent Adaptation
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What is GAMUT?
+</p>
+<p>1. A database of classes of games discussed in 
+the literature
+</p>
+<p>containment relation between classes
+</p>
+<p>distinguishes between generative and non-
+generative sets
+</p>
+<p>2. Implementation of generators for these 
+classes
+</p>
+<p>Not to be confused with Gambit
+a library of GT software
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Games in GAMUT
+</p>
+<p>Searched through hundreds of books and papers 
+Game Theory, CS, Political Science, Economics etc.
+</p>
+<p>We identified 122 interesting sets of games
+</p>
+<p>71 of these admit finite-time generative procedures
+the rest are either too broad or defined implicitly
+</p>
+<p>e.g. games with a pure strategy NE
+</p>
+<p>Sets vary from tiny to huge
+Prisoners’ Dilemma 
+games compactly representable as graphical games
+</p>
+<p>GAMUT 1.0 contains games that can reasonably 
+be stored in normal form
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How are the games related?
+(Weakly) Symmetric generative sets
+</p>
+<p>Games Pure-strategy equilibrium other sets
+Equilibria Are
+</p>
+<p>Pareto Ordered underline more subsets in database
+Compact 
+Graphical (Strongly)
+Games Symmetric Games
+</p>
+<p>Timing Games
+Dominance-Solvable
+</p>
+<p>Equilibrium Complete Opposition
+SAT 
+</p>
+<p>Potential Games / 
+Pure GamesCongestion Games
+</p>
+<p>Coordination
+</p>
+<p>Constant-Sum Games
+Ring Structured Unique
+</p>
+<p>Games; No Dominant Equilibrium
+Tree Structured Strategies
+</p>
+<p>Games Supermodular
+Evolutionarily Games
+</p>
+<p>Stable Zero-Sum Games
+Polymatrix Local-EffectStrategies
+</p>
+<p>Games Games Preemption
+Games
+</p>
+<p>Dominant 
+Strict Strategies 
+</p>
+<p>Equilibrium for All
+</p>
+<p>Road Games Geometric Games
+</p>
+<p>2X2 Symmetric
+Bertrand 
+</p>
+<p>Oligopoly;
+Cournot Duopoly No pure-
+</p>
+<p>strategy
+Coordination equilibria
+</p>
+<p>Games
+</p>
+<p>Simple 
+Inspection;
+</p>
+<p>Greedy Game
+</p>
+<p>Battle of the Sexes
+Arms Races Matching
+</p>
+<p>Dispersion
+Compound PenniesGames Prisoner’s Dilemma
+</p>
+<p>Games Location Centipede
+Games Grab the
+</p>
+<p>9/12/2004 http://gamut.stanford.edu Dollar 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>But isn’t everything a game?
+</p>
+<p>Why not generate payoffs at random?
+all classes of interest that we discovered are non-
+generic w.r.t. uniformly random sampling
+</p>
+<p>General lessons of empirical algorithmics:
+algorithms’ behavior varies substantially across 
+“reasonable” input distributions
+in practice, structure is at least as important as 
+problem size
+</p>
+<p>uniformly-random inputs often have very different 
+computational properties
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How was GAMUT built?
+Implemented in Java
+Focus on extensibility and ease of use
+</p>
+<p>big software engineering effort
+</p>
+<p>Most important entity is a Generator
+35 Java classes suffice to generate games from our 71 sets
+can pick generators from subset/intersection of classes 
+according to our taxonomy
+can create subdistributions by partially settings parameters
+</p>
+<p>Other basic entities include 
+Outputs, Graphs, Functions
+Incorporates many utilities:
+</p>
+<p>powerful parameter handling mechanism
+fixed-point conversion and normalization
+ability to sample parameters at random
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+</p>
+<p>What is GAMUT?
+</p>
+<p>Introduction
+</p>
+<p>Definitions
+</p>
+<p>Classes of Games
+</p>
+<p>Implementation
+</p>
+<p>Experimental Results
+</p>
+<p>Computing a sample Nash Equilibrium
+</p>
+<p>Multiagent Adaptation
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Running the GAMUT
+</p>
+<p>Goal: demonstrate empirical variance w.r.t different 
+instance distributions
+</p>
+<p>Two computational problems:
+</p>
+<p>computing a sample Nash equilibrium
+</p>
+<p>multiagent adaptation
+</p>
+<p>Cluster of 12 dual-CPU 2.4GHz Xeons; Linux 2.4.2
+</p>
+<p>All runtimes reported in seconds
+</p>
+<p>runs capped at 1800 seconds (30 minutes)
+</p>
+<p>Total of over 120 CPU-days of data
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Sample Nash Equilibrium
+</p>
+<p>Algorithms tend to be very complex
+Gambit: a comprehensive software package
+</p>
+<p>Lemke-Howson (2-player games)
+</p>
+<p>Simplicial Subdivision (n-player)
+</p>
+<p>both use iterated removal of dominated strategies
+</p>
+<p>Govindan-Wilson
+a new path-following approach
+</p>
+<p>All have worst-case exponential lower-bounds
+not known how tight these bounds actually are
+</p>
+<p>complexity class for the problem is unknown
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Setup
+</p>
+<p>Four fixed size datasets:
+</p>
+<p>focus on differences due to structure
+</p>
+<p>2 players: with 150 and 300 actions
+</p>
+<p>6 players, 5 actions
+</p>
+<p>18 players, 2 actions
+</p>
+<p>22 different distributions from GAMUT
+</p>
+<p>many, but not nearly all, of GAMUT distributions
+</p>
+<p>100 instances for each size/distribution
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GS-
+G
+</p>
+<p>G E
+R L- m
+</p>
+<p>G ro
+G E f
+C- L
+</p>
+<p>i n
+mr U
+</p>
+<p>a GE o
+m L
+</p>
+<p>fi n
+me ml r
+</p>
+<p>U
+e i o
+ma D
+</p>
+<p>fi
+s n
+</p>
+<p>G rel U
+W m eS o v-e d
+</p>
+<p>a
+n r
+</p>
+<p>da m
+a T
+</p>
+<p>o a
+R
+</p>
+<p>R G- xe iG rt
+R a- me a
+</p>
+<p>m G
+my
+</p>
+<p>G a xi
+l o
+</p>
+<p>C r- te Gxi a
+P
+</p>
+<p>e m rt ma ym la G
+a o
+</p>
+<p>G xt i
+m P
+</p>
+<p>r r
+y
+</p>
+<p>t lW oS o- fe f
+a P
+</p>
+<p>E myl
+G m mS a- G u
+</p>
+<p>oP
+e l a mi
+</p>
+<p>d m ci nia ao G h M
+R l p- a a
+</p>
+<p>G e
+ci r G
+</p>
+<p>R- m
+h
+</p>
+<p>e a
+pa
+</p>
+<p>e m Gl
+r
+</p>
+<p>m a
+a G
+</p>
+<p>a G
+c
+</p>
+<p>l ia hG c por n
+a
+</p>
+<p>e oi
+i h r
+</p>
+<p>Z s G- r p
+d e
+</p>
+<p>e ar
+n m
+</p>
+<p>ps G
+a a i
+R- G
+</p>
+<p>D
+so e
+</p>
+<p>t n
+m aP- a
+</p>
+<p>ir
+e
+m G
+</p>
+<p>a
+t vG oS- a
+nai C
+</p>
+<p>G Gt rn a
+G EL al i
+</p>
+<p>vo
+R- a ra C
+</p>
+<p>G no vG E i
+o
+</p>
+<p>C- Ll
+tc C
+</p>
+<p>G a
+e
+</p>
+<p>n riyl E oi diop Ll
+t B
+</p>
+<p>o a
+c
+</p>
+<p>n eg ril o
+i
+</p>
+<p>i t diOd ce Bn ra ir dt ire B
+B
+</p>
+<p>Effect of Problem Size (LH)
+10000
+</p>
+<p>2-150
+1000 2-300
+</p>
+<p>100
+</p>
+<p>10
+</p>
+<p>1
+</p>
+<p>0.1
+</p>
+<p>0.01
+</p>
+<p>Behavior varies across distributions
+</p>
+<p>Such variation occurs at different problem sizes
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 13
+</p>
+<p>Time (s): Lemke-Howson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Runtime Distributions (SD)
+10000
+</p>
+<p>1000 6 players 
+5 actions
+</p>
+<p>100
+</p>
+<p>10
+</p>
+<p>1
+</p>
+<p>0.1
+</p>
+<p>0.01
+1.51
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 14
+</p>
+<p>Time (s): Simplicial Subdivision
+</p>
+<p>BertrandOligopoly
+</p>
+<p>BidirectionalLEG-CG
+</p>
+<p>BidirectionalLEG-RG
+</p>
+<p>BidirectionalLEG-SG
+</p>
+<p>CovariantGame-Pos
+</p>
+<p>CovariantGame-Rand
+</p>
+<p>CovariantGame-Zero
+</p>
+<p>DispersionGame
+</p>
+<p>GraphicalGame-RG
+</p>
+<p>GraphicalGame-Road
+</p>
+<p>GraphicalGame-SG
+</p>
+<p>GraphicalGame-SW
+</p>
+<p>MinimumEffortGame
+</p>
+<p>PolymatrixGame-CG
+</p>
+<p>PolymatrixGame-RG
+</p>
+<p>PolymatrixGame-Road
+</p>
+<p>PolymatrixGame-SW
+</p>
+<p>RandomGame
+</p>
+<p>TravelersDilemma
+</p>
+<p>UniformLEG-CG
+</p>
+<p>UniformLEG-RG
+</p>
+<p>UniformLEG-SG</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Runtime Distributions (GW)
+10000
+</p>
+<p>6 players 
+1000 5 actions
+</p>
+<p>100
+</p>
+<p>10
+</p>
+<p>1
+</p>
+<p>0.1
+</p>
+<p>0.01
+1.51
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 15
+</p>
+<p>Time (s): Govindan-Wilson
+</p>
+<p>BertrandOligopoly
+</p>
+<p>BidirectionalLEG-CG
+</p>
+<p>BidirectionalLEG-RG
+</p>
+<p>BidirectionalLEG-SG
+</p>
+<p>CovariantGame-Pos
+</p>
+<p>CovariantGame-Rand
+</p>
+<p>CovariantGame-Zero
+</p>
+<p>DispersionGame
+</p>
+<p>GraphicalGame-RG
+</p>
+<p>GraphicalGame-Road
+</p>
+<p>GraphicalGame-SG
+</p>
+<p>GraphicalGame-SW
+</p>
+<p>MinimumEffortGame
+</p>
+<p>PolymatrixGame-CG
+</p>
+<p>PolymatrixGame-RG
+</p>
+<p>PolymatrixGame-Road
+</p>
+<p>PolymatrixGame-SW
+</p>
+<p>RandomGame
+</p>
+<p>TravelersDilemma
+</p>
+<p>UniformLEG-CG
+</p>
+<p>UniformLEG-RG
+</p>
+<p>UniformLEG-SG</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm Correlation
+10000
+</p>
+<p>SD Timeout SD Faster 
+(24.7%) (67.2%)
+</p>
+<p>1000
+</p>
+<p>100
+</p>
+<p>10
+</p>
+<p>1
+GW Faster 
+</p>
+<p>(24.7%) GW Timeout 
+0.1 (36.5%)
+</p>
+<p>6 players 
+5 actions
+</p>
+<p>0.01
+</p>
+<p>0.01 0.1 1 10 100 1000 10000
+</p>
+<p>Simplicial Subdivision Time
+9/12/2004 http://gamut.stanford.edu 16
+</p>
+<p>Govindan-Wilson Time</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+</p>
+<p>What is GAMUT?
+</p>
+<p>Introduction
+</p>
+<p>Definitions
+</p>
+<p>Classes of Games
+</p>
+<p>Implementation
+</p>
+<p>Experimental Results
+</p>
+<p>Computing a sample Nash Equilibrium
+</p>
+<p>Multiagent Adaptation
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multiagent Adaptation
+</p>
+<p>Active, yet young area
+</p>
+<p>not always clear what the goals are
+</p>
+<p>our goal is to show the importance of distribution choice; 
+not to evaluate algorithms
+</p>
+<p>Gathered data using three algorithms:
+</p>
+<p>Minimax-Q [Littman,1994]
+</p>
+<p>safety level guarantee
+</p>
+<p>WoLF [Bowling, Veloso, 2001]
+</p>
+<p>converges to best response
+</p>
+<p>SingleAgent-Q [Watkins, Dayan, 1992]
+</p>
+<p>ignores strategic aspects and opponent adaptation
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Setup
+</p>
+<p>Repeated 2x2 game setting
+100,000 rounds played
+</p>
+<p>report average payoffs over the final 10,000 rounds
+</p>
+<p>100 instances from 13 distributions
+</p>
+<p>9 pairings
+all pairings (including self); as both players
+</p>
+<p>averaged over 10 runs for each pairing
+</p>
+<p>Algorithm parameters fixed
+tried to match those reported in literature
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Result Evaluation
+</p>
+<p>Tons of data
+</p>
+<p>Lots of possible metrics could be considered
+</p>
+<p>We focus on just two:
+</p>
+<p>pairwise: fraction of time one algorithm is better 
+than another
+</p>
+<p>median payoff obtained as player 1 
+</p>
+<p>payoffs are normalized between [-1,1]
+</p>
+<p>not always comparable across distributions
+</p>
+<p>in both metrics, results differ across distributions!
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>noiti rtt
+G A
+C f- O
+</p>
+<p>G r
+a E
+</p>
+<p>a
+W
+</p>
+<p>m L
+m mrel oi fi
+</p>
+<p>m D nu s US ro er l
+e e
+</p>
+<p>eva
+m Za m
+</p>
+<p>r
+T
+</p>
+<p>G od
+a m n
+m o
+</p>
+<p>a
+d R
+</p>
+<p>m nel a
+e i
+</p>
+<p>R
+m Dsa r
+</p>
+<p>G et n
+e r
+</p>
+<p>o
+m o
+</p>
+<p>s
+f i
+</p>
+<p>a f
+r
+</p>
+<p>G E
+P
+</p>
+<p>e n
+m
+</p>
+<p>o
+m i
+</p>
+<p>u
+t
+</p>
+<p>a a
+mi
+</p>
+<p>c nG o i M
+d no
+</p>
+<p>L
+n ia sr
+</p>
+<p>R e- psi
+n ee ma Dkci Gh t
+G C
+</p>
+<p>nai
+C r- av
+</p>
+<p>G o
+y E Cl o Llp ao ngi ol i t
+</p>
+<p>O ced rn ia dr it Bre B
+</p>
+<p>Pairwise Performance
+100%
+</p>
+<p>90%
+</p>
+<p>80%
+</p>
+<p>70%
+WolF
+</p>
+<p>60%
+MiniMaxQ
+</p>
+<p>50%
+SingleQ
+</p>
+<p>40%
+</p>
+<p>30%
+</p>
+<p>20%
+</p>
+<p>10%
+</p>
+<p>0%
+</p>
+<p>% Better</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>noiti rtt
+G A
+C f- O
+</p>
+<p>G ra
+a EL W
+m m
+m rel oi fi
+</p>
+<p>m D
+n
+</p>
+<p>u s US ro elr e
+e e
+</p>
+<p>v
+Z a
+</p>
+<p>m ra m
+G o
+</p>
+<p>T
+d
+</p>
+<p>m na o a
+m d R
+m nel ai Re
+</p>
+<p>m Dsa re
+Gt no
+</p>
+<p>e ro si
+m f ra f E P
+</p>
+<p>Gn me oi u
+m t ma a
+</p>
+<p>i
+G c
+</p>
+<p>n
+o i
+</p>
+<p>no L
+M
+</p>
+<p>dn ia sr
+R e- pe si
+</p>
+<p>ne mk a
+D
+</p>
+<p>ci Gh t
+C naG ir
+</p>
+<p>C- av
+G o
+</p>
+<p>y E
+C
+</p>
+<p>l Lo lp ao ng oi il t
+O ced rn ia dirt Bre
+</p>
+<p>B
+</p>
+<p>Median Payoff Performance
+1
+</p>
+<p>0.8
+</p>
+<p>0.6
+</p>
+<p>0.4
+</p>
+<p>0.2 MiniMax
+</p>
+<p>0 SingleQ
+WolF
+</p>
+<p>-0.2
+</p>
+<p>-0.4
+</p>
+<p>-0.6
+</p>
+<p>-0.8
+</p>
+<p>-1
+</p>
+<p>Median Offline Payoff</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusion
+</p>
+<p>GAMUT is a comprehensive test suite
+</p>
+<p>based on extensive literature survey
+</p>
+<p>capable of generating games from many classes
+</p>
+<p>extensible
+</p>
+<p>Choice of test data is extremely important
+</p>
+<p>experiments show high runtime variation across different 
+classes of games for several state-of-the-art algorithms and 
+two computational problems
+</p>
+<p>Behavior of game-theoretic algorithms is still poorly 
+understood
+</p>
+<p>we hope GAMUT will be used to address this and more!
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>http://gamut.stanford.edu
+</p>
+<p>9/12/2004 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GS-
+G
+</p>
+<p>G E
+R L- m
+</p>
+<p>G roE fG i
+C L
+</p>
+<p>n
+- m U
+G r
+</p>
+<p>a E
+of
+</p>
+<p>m L
+i n
+</p>
+<p>m mr Ue
+e li ofD ima s
+</p>
+<p>n
+r
+</p>
+<p>G e
+U
+</p>
+<p>l
+m eW vS od a- n re T
+</p>
+<p>d m
+a
+</p>
+<p>a Rao G
+R- xie rG tm aR- a me G yl
+</p>
+<p>G m
+x
+</p>
+<p>a ir
+o
+</p>
+<p>C G t
+P
+</p>
+<p>-e x
+a
+</p>
+<p>i
+m r
+</p>
+<p>m
+e a t
+</p>
+<p>y
+m a
+</p>
+<p>l o
+a Gx m
+</p>
+<p>P
+G ir ylt t o
+</p>
+<p>W rS o
+a Pf
+</p>
+<p>- f me E yl
+G ma
+</p>
+<p>m ou P
+S-e Gl m
+</p>
+<p>m a
+i
+</p>
+<p>c ni
+da a
+</p>
+<p>i h
+o Gl p
+</p>
+<p>M
+</p>
+<p>R- a
+a
+</p>
+<p>c ri G
+G e h
+R m- a
+</p>
+<p>pa
+e Gl r G
+</p>
+<p>e m ac
+m aa G
+</p>
+<p>i
+l h
+</p>
+<p>G a pn ci ao rr he oi p GZ s- r are ep G
+dn m
+</p>
+<p>s
+a ia
+</p>
+<p>R G
+D
+</p>
+<p>s -
+t
+</p>
+<p>e n
+o P m
+</p>
+<p>air
+- a ae Gt vm n oG a a CS- G i
+G t
+</p>
+<p>r
+E n
+</p>
+<p>a
+a v
+</p>
+<p>G L ir
+o
+</p>
+<p>l a CR- a
+G n
+</p>
+<p>v
+oi o C
+</p>
+<p>G E
+C L
+</p>
+<p>tc
+- l a en riG
+</p>
+<p>y ol E i
+di
+</p>
+<p>o L
+tc B
+</p>
+<p>p lo a
+e
+</p>
+<p>n rigil oi
+d
+</p>
+<p>t i
+O c Bd en riar ditr Be
+</p>
+<p>B
+</p>
+<p>Effect of Problem Size (SD)
+10000
+</p>
+<p>1000 6-5
+18-2
+</p>
+<p>100
+</p>
+<p>10
+</p>
+<p>1
+</p>
+<p>0.1
+</p>
+<p>0.01
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 25
+</p>
+<p>Time (s): Simplicial
+Subdivision</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GS-
+G
+</p>
+<p>G E
+R L- m
+</p>
+<p>G roE fG i n
+C L- m U
+</p>
+<p>G r
+a E
+</p>
+<p>of
+m L
+</p>
+<p>i n
+m mr Ue
+</p>
+<p>e li of
+m D
+</p>
+<p>i
+s na r U
+</p>
+<p>G el
+W m
+</p>
+<p>e
+S o
+</p>
+<p>v
+- d
+</p>
+<p>ar
+e n T
+</p>
+<p>d m
+a
+</p>
+<p>a Rao G
+R- xie rG t
+</p>
+<p>R m
+a
+</p>
+<p>- a me G yl
+G m
+</p>
+<p>x
+a ir
+</p>
+<p>o
+C G t
+</p>
+<p>P
+- x ae i r m
+</p>
+<p>e m y
+m a
+</p>
+<p>ta l o
+a G P
+G x
+</p>
+<p>m
+t ir
+</p>
+<p>yl
+t o
+</p>
+<p>W ro a PS f- f me E yl
+G ma
+</p>
+<p>m ou P
+S-e Gl m
+</p>
+<p>m a
+i
+</p>
+<p>c ni ida a G hp
+M
+</p>
+<p>o l
+R a a-e c
+</p>
+<p>r
+i h GG
+</p>
+<p>R m p- a ae G r
+e m
+</p>
+<p>l
+a a
+</p>
+<p>G
+c
+</p>
+<p>ma G
+i
+</p>
+<p>l h
+G a pn c ao rre o
+</p>
+<p>i
+i hp G
+</p>
+<p>Z s- re e
+ar
+</p>
+<p>p G
+dn m
+</p>
+<p>si
+a a G DR t
+</p>
+<p>s -e no P m
+air
+</p>
+<p>- a ae G
+m t
+</p>
+<p>vo
+GS a
+</p>
+<p>na
+- G i
+</p>
+<p>C
+t rG n aa v
+</p>
+<p>G EL i
+o
+</p>
+<p>R l
+r C
+</p>
+<p>- a a
+G n
+</p>
+<p>v
+E oi
+</p>
+<p>o
+C
+</p>
+<p>G
+C L
+</p>
+<p>t
+- l
+</p>
+<p>c
+a e
+</p>
+<p>G n
+ri
+</p>
+<p>yl E
+oi di
+</p>
+<p>L tc Bop l a eo n rigi oi dl t i
+O c Bd en riar ditr Be
+</p>
+<p>B
+</p>
+<p>Effect of Problem Size (GW)
+10000
+</p>
+<p>1000
+</p>
+<p>100
+</p>
+<p>10
+</p>
+<p>1
+</p>
+<p>0.1
+</p>
+<p>0.01
+</p>
+<p>6-5
+</p>
+<p>18-2
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 26
+</p>
+<p>Time (s): Govindan-Wilson</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Runtime Distributions: Summary
+• Distribution of runtimes varies significantly 
+</p>
+<p>across inputs
+– cannot be inferred based on knowing algorithm and 
+</p>
+<p>input size
+• Some games solved in preprocessing
+• Games taxonomically related seem to have 
+</p>
+<p>more similar distributions
+• Algorithms appear to be significantly different 
+</p>
+<p>from each other
+– runtime variation is not specific to any single 
+</p>
+<p>algorithm
+9•/12S/20h04ows why GAMhUttpT://g aimsu t.nstaenfeord.edud 27</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>So, what is a game?
+</p>
+<p>In order to generate and perform computation on 
+games we must be clear about:
+</p>
+<p>1. Semantics:
+a game is defined by (players, actions, payoffs)
+</p>
+<p>2. Syntax:
+representations may include Normal Form, Extensive 
+Form, Graphical Games, etc.
+can be compact, complete
+</p>
+<p>Not uncontroversial in GT
+less controversial for computational purposes
+</p>
+<p>In GAMUT 1.0 we focus on games representable 
+compactly in normal form
+</p>
+<p>9/12/2004 http://gamut.stanford.edu 28</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

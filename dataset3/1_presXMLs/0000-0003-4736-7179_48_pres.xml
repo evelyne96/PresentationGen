@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Towards Feasible PAC-Learning of Probabilistic
+Deterministic Finite Automata
+</p>
+<p>Jorge Castro Ricard Gavaldà
+</p>
+<p>LARCA Research Group, Departament LSI
+Univ. Politècnica de Catalunya, Barcelona
+</p>
+<p>ICGI’08, september 2008
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 1 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>PFA and PDFA
+</p>
+<p>Finite alphabet, finite set of states
+PFA, Probabilistic Finite State Automata:
+Each state has a probability distribution on transitions out it
+PDFA, Probablistic Deterministic Finite Automata:
+One transition per pair (state,letter)
+</p>
+<p>Every PFA M defines a probability distribution on strings D(M),
+a.k.a. a stochastic language
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 2 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>Learning PDFA
+</p>
+<p>Many algorithms to learn PDFA, either heuristically or provably in
+the limit
+[Clark-Thollard 04] An algorithm that provably learns in a PAC-like
+framework from polynomial-size samples
+Followup papers, slightly different frameworks:
+</p>
+<p>[Palmer-Goldberg 05, Guttman et al 05, G-Keller-Pineau-Precup 06]
+</p>
+<p>Sample sizes are polynomial, but huge for practical parameters
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 3 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>Our contribution
+</p>
+<p>A variation of the Clark-Thollard algorithm for learning PDFA
+that has formal guarantees of performance: PAC-learning w.r.t.
+KL-divergence
+does not require unknown parameters as input
+</p>
+<p>Potentially much more efficient:
+Finer notion of state distinguishability
+More efficient test to decide state merging/splitting
+Adapts to complexity of target: faster on simpler problems
+</p>
+<p>Promising results on simple dynamical systems, and on a large
+weblog dataset
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 4 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definitions & previous results
+</p>
+<p>PAC-learning PDFA
+</p>
+<p>Let d be a measure of divergence among distributions
+Popular choice for d : Kullback-Leibler divergence
+</p>
+<p>Learning algorithm can sample D(M) for unknown target PDFA M
+</p>
+<p>Definition
+An algorithm PAC-learns PDFA w.r.t. d if for every target PDFA M,
+every , every δ it produces a PDFA M ′ such that
+</p>
+<p>Pr[ d(D(M), D(M ′)) ≥  ] ≤ δ.
+</p>
+<p>in time poly(size(M), 1/, 1/δ)
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 5 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definitions & previous results
+</p>
+<p>Previous Results
+</p>
+<p>PAC-learning PDFA this way may be impossible [Kearns et al 95]
+</p>
+<p>[Ron et al 96] Learning becomes possible by
+considering acyclic PDFA
+introducing a distinguishability parameter µ
+= bound on how similar two states can be
+</p>
+<p>[Clark-Thollard 04]
+Extends to cyclic PDFA considering parameter L
+= bound on expected length of generated strings.
+Provably PAC-learns w.r.t. Kullback-Leibler divergence
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 6 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definitions & previous results
+</p>
+<p>The C&T algorithm: promise and drawbacks
+</p>
+<p>It provably PAC-learns with sample size
+</p>
+<p>poly(| | 1 1 1Σ , n, ln , , , L)
+δ  µ
+</p>
+<p>But
+</p>
+<p>Requires full sample up-front: Always worst-case sample size
+Polynomial is huge: for n = 3,  = δ = µ = 0.1 → m > 1024
+</p>
+<p>Parameters n, L, µ are user-entered – upper bounds, guesswork
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 7 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definitions & previous results
+</p>
+<p>Distinguishability
+</p>
+<p>For a state q, Dq = distribution on strings generated starting at q
+</p>
+<p>L∞-distinguishability
+</p>
+<p>L∞-dist(q, q′) = max |Dq(x)− Dq′(x)|
+x∈Σ?
+</p>
+<p>L∞-dist(M) = min L∞-dist(q, q′)
+q,q′
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 8 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our contributions
+</p>
+<p>Prefix L∞-distinguishability
+</p>
+<p>prefL∞-distinguishability
+</p>
+<p>prefL∞-dist(q, q
+′) = max |D ? ?q(xΣ )− Dq′(xΣ )|
+</p>
+<p>x∈Σ?
+</p>
+<p>prefL∞-dist(M) = min max{L ′ ′′ ∞-dist(q, q ), prefL∞-dist(q, q )}q,q
+</p>
+<p>Obviously for every M
+</p>
+<p>prefL∞-dist(M) ≥ L∞-dist(M)
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 9 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our contributions
+</p>
+<p>Data Structures
+</p>
+<p>Algorithm keeps a graph with “safe” and “candidate” states
+Safe state s: represents state where string s ends
+Invariant: Graph of safe states isomorphic to a subgraph of target
+</p>
+<p>Candidate state: pair (s, σ) where next(s, σ) still unclear
+For each candidate (s, σ), keep multiset B(s,σ), sample of D(s,σ)
+Eventually, all candidate states are promoted to safe states or
+merged with existing safe states
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 10 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our contributions
+</p>
+<p>The Clark-Thollard algorithm
+</p>
+<p>1. input |Σ|, n, δ, , µ, L
+// Assumption:
+// target is µ ≥ distinguishability, n ≥ #states, L ≥expected length
+2. compute m = poly(|Σ|, n, ln 1 , 1δ  ,
+</p>
+<p>1
+µ , L)
+</p>
+<p>3. ask for sample S of size m
+4. work on S, using again n, , µ, L
+5. produce pdfa
+</p>
+<p>Theorem
+PAC-learning w.r.t. KL-divergence occurs
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 11 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our contributions
+</p>
+<p>Our algorithm
+</p>
+<p>1. input |Σ|, δ, available sample S
+2. work on S
+3. produce pdfa
+</p>
+<p>Theorem
+</p>
+<p>If |S| ≥ poly(|Σ|, n, ln 1 , 1δ  ,
+1
+µ , L), then
+</p>
+<p>PAC-learning w.r.t. KL-divergence occurs
+</p>
+<p>(n =#target states,
+µ = prefL∞-dist(target),
+L =expected-length(target))
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 12 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our contributions
+</p>
+<p>Our algorithm, more precisely
+</p>
+<p>1. input |Σ|, δ, available sample
+2. define initial safe state, labelled with empty string
+3. define candidate states out of initial state, one per letter
+4. while there are candidate states left do
+5. process the whole sample, growing sets B(s,σ)
+6. choose candidate state (s, σ) with largest set B(s,σ)
+7. either merge or promote (s, σ)
+8. endwhile
+9. build PDFA from current graph
+10. set transition probabilities & smooth out
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 13 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our contributions
+</p>
+<p>Processing the sample
+</p>
+<p>1. foreach string x in sample
+2. if x ends in a candidate state (s, σ) then
+3. let w be the unprocessed part of x
+4. store w in Bs,σ
+5. endif
+6. end foreach
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 14 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our contributions
+</p>
+<p>Criterion for merging or promoting
+</p>
+<p>1. Let (s, σ) be chosen candidate state
+2. foreach safe s′ do
+3. run statistical test for distinct distributions of B(s,σ) and Bs′
+4. if all tests passed
+5. // w.h.p. (s, σ) is distinct from all existing states
+6. promote (s, σ) as a new safe state
+6. else
+7. // some test failed: (s, σ) similar to an existing safe state s′
+</p>
+<p>8. identify (merge) (s, σ) with s′
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 15 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our contributions
+</p>
+<p>Criterion for merging or promoting
+</p>
+<p>Criterion in [CT04]:
+</p>
+<p>Always makes correct decision (w.h.p. ≥ 1− δ)
+But decides only if B(s, σ) large enough
+Based on µ: “large enough” always worst case
+</p>
+<p>Our criterion:
+</p>
+<p>Always decides after whole sample processed
+Decision may be wrong if sample is too small!
+But is correct if sample is large enough (w.r.t. these states)
+No knowledge of µ
+Plus finer math to avoid excess resampling
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 16 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Implementation
+</p>
+<p>Goal: Sanity check
+</p>
+<p>100% PAC algorithm for graph identification: no cutting corners!
+</p>
+<p>No smoothing in second phase yet: learn w.r.t. L1 rather than KL
+</p>
+<p>Slow; optimizations in progress, but keep it PAC
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 17 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Simple dynamical processes
+</p>
+<p>From [G et al, ecml06], another implementation of Clark-Thollard:
+</p>
+<p>HMM generating {abb, aaa, bba}
+Cheese maze HMM: state = position in maze; observed = #walls
+Implementation described there required ≥ 105 samples to
+identify structure
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 18 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Simple dynamical processes
+</p>
+<p>Reber grammar [Carrasco-Oncina 99]:
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 19 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>Simple dynamical processes
+</p>
+<p>Three 10-state machines, alphabet size 2 or 3
+Graph is correctly identified by our algorithm with 200-500
+samples
+Comparable sample size reported for heuristic (non
+PAC-guaranteed) methods
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 20 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>A large dataset
+</p>
+<p>Log from an ecommerce website selling flights, hotels, car rental,
+show tickets. . .
+91 distinct “pages”, 120,000 user sessions, average length 12
+clicks
+definitely NOT generated by a PDFA
+</p>
+<p>Our algorithm produces a nontrivial 50-60-state PDFA
+L1 distance to dataset ≈ 0.44 – baseline is ≈ 0.39
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 21 / 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>Conclusions
+</p>
+<p>An algorithm for learning PDFA with PAC guarantees
+# samples order of 200− 1000 where theory predicts 1020
+</p>
+<p>Future work:
+</p>
+<p>Extend to distances other than L∞
+Other notions of distinguishability?
+[Denis et al 06] PAC-learn full class of PNFA. Practical?
+</p>
+<p>J. Castro, R. Gavaldà (UPC) PAC-Learning PDFA ICGI’08, september 2008 22 / 22</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

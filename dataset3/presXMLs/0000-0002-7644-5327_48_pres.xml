@@ -1,0 +1,643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Dominant-Strategy Auction Design for Agents
+with Uncertain, Private Values
+.=</p>
+<p>David R.M. Thompson Kevin Leyton-Brown
+.=</p>
+<p>University of British Columbia
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Revelation Principle
+.=</p>
+<p>3 Auction Design
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(I can’t.)
+.=</p>
+<p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Valuation Uncertainty
+.=</p>
+<p>A strong assumption from classical auction theory:
+agents know their own valuations
+.=</p>
+<p>Imagine going to a foreclosure auction to buy a house
+.=</p>
+<p>Large purchase: you’ll think carefully about your strategy
+Can you identify a real value x, such that you’d be happy to
+buy the house for x− $0.01, and that you’d prefer to keep the
+money if offered the price x+ $0.01?
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Valuation Uncertainty
+.=</p>
+<p>A strong assumption from classical auction theory:
+agents know their own valuations
+.=</p>
+<p>Imagine going to a foreclosure auction to buy a house
+.=</p>
+<p>Large purchase: you’ll think carefully about your strategy
+Can you identify a real value x, such that you’d be happy to
+buy the house for x− $0.01, and that you’d prefer to keep the
+money if offered the price x+ $0.01? (I can’t.)
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>How can we model such settings?
+.=</p>
+<p>Deliberative agents: must pay a cost to learn about their own
+values. Will only pay if the expected benefits outweigh the cost.
+.=</p>
+<p>Thinking hard is costly
+.=</p>
+<p>Must solve a computational problem to determine my value
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Modeling deliberative agents
+.=</p>
+<p>Definition (general model; informal)
+.=</p>
+<p>We require that agents have independent, private values.
+Deliberative agents can nevertheless be quite complex:
+.=</p>
+<p>may be able to choose among a wide range of deliberations
+.=</p>
+<p>available deliberations may depend on the agent’s current
+belief state
+.=</p>
+<p>deliberations may be noisy
+.=</p>
+<p>agents may be unable ever to discover their values perfectly
+.=</p>
+<p>agents may be able to learn about each other’s valuations as
+well as their own
+.=</p>
+<p>. . .
+.=</p>
+<p>A formal model appears in our paper.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Modeling deliberative agents
+.=</p>
+<p>Useful also to consider the simplest possible deliberative model:
+.=</p>
+<p>Definition (Simple deliberative agent)
+.=</p>
+<p>A simple deliberative agent i has two equally likely possible
+valuations (vL,vHi i ). Values are independent and private. At any
+time, the agent can pay cost ci > 0 to discover his true valuation.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Background
+.=</p>
+<p>Second-price auctions don’t have DS [Sandholm, 2000].
+Second-price auctions give rise to a (mis-)coordination
+problem; don’t have symmetric PSNE [Thompson & L-B, 2007].
+.=</p>
+<p>N
+v =4 v =0
+1 1
+.=</p>
+<p>1 1
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Background
+.=</p>
+<p>Second-price auctions don’t have DS [Sandholm, 2000].
+Second-price auctions give rise to a (mis-)coordination
+problem; don’t have symmetric PSNE [Thompson & L-B, 2007].
+.=</p>
+<p>N
+v =4 v =0
+1 1
+.=</p>
+<p>1 1
+D ¬D D ¬D
+.=</p>
+<p>1 1 1 1
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Background
+.=</p>
+<p>Second-price auctions don’t have DS [Sandholm, 2000].
+.=</p>
+<p>Second-price auctions give rise to a (mis-)coordination
+problem; don’t have symmetric PSNE [Thompson & L-B, 2007].
+.=</p>
+<p>D ¬D
+D 1− c, 1− c 1− c, 1
+¬D 1, 1− c 0, 0
+.=</p>
+<p>D,D: 14 (4− 4) +
+1
+4 (4− 0) +
+.=</p>
+<p>1
+2 (0) = 1
+.=</p>
+<p>D,¬D: 12 (4− 2) +
+1
+2 (0) = 1
+.=</p>
+<p>¬D,D: 12 (2− 0) +
+1
+2 (0) = 1
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Background
+.=</p>
+<p>Second-price auctions don’t have DS [Sandholm, 2000].
+.=</p>
+<p>Second-price auctions give rise to a (mis-)coordination
+problem; don’t have symmetric PSNE [Thompson & L-B, 2007].
+.=</p>
+<p>D ¬D
+D 1− c, 1− c 1− c, 1
+¬D 1, 1− c 0, 0
+.=</p>
+<p>Similarly, Japanese and eBay (ascending proxy) auctions don’t
+have dominant strategies, and neither is equivalent to
+Second-price. [Compte & Jehiel, 2001; Rasmusen, 2006]
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Mechanism design in deliberative settings
+.=</p>
+<p>Bayes-Nash:
+.=</p>
+<p>The second-price auction is the most efficient sealed-bid
+auction [Bergemann & Valimaki, 2006], but is strictly worse
+than the Japanese auction [Compte & Jehiel, 2001].
+The social-welfare maximizing single-good auction is known
+[Cavallo & Parkes, 2008].
+.=</p>
+<p>Dominant strategies:
+.=</p>
+<p>Impossibility result for general (non-IPV) valuations [Larson &
+Sandholm, 2004].
+.=</p>
+<p>Question
+.=</p>
+<p>For deliberative agents with IPV valuations,
+what (if any) single-item auctions offer dominant strategies?
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Revelation Principle
+.=</p>
+<p>3 Auction Design
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Revelation Principle for Deliberative Agents?
+.=</p>
+<p>Revelation principle is very useful for characterizations.
+.=</p>
+<p>However, in our setting direct mechanisms can’t simulate
+indirect mechanisms [Larson & Sandholm, 2004]
+.=</p>
+<p>the mechanism can’t deliberate for agents
+agents’ decisions about whether to deliberate may be
+conditional, so they can’t be asked to deliberate up front.
+.=</p>
+<p>Larson & Sandholm’s negative result proven without appeal to
+a revelation principle.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Revelation Principle
+.=</p>
+<p>Definition (Dynamically direct mechanism)
+.=</p>
+<p>Dynamically direct mechanisms ask one agent to deliberate and
+report the result, repeat this process an arbitrary number of times,
+and then choose an outcome.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Revelation Principle
+.=</p>
+<p>IIndiirrectt  Aucttiion
+.=</p>
+<p>Information Bid Information Bid
+.=</p>
+<p>Biidderr  1 Biidderr  2
+.=</p>
+<p>Sttrrattegy  s1 Sttrrattegy  s1 22
+.=</p>
+<p> Query  Observation  Query  Observation
+.=</p>
+<p>IInfforrmattiion  Sourrce IInfforrmattiion  Sourrce
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Revelation Principle
+.=</p>
+<p>Dynamiicalllly  Diirrectt  Aucttiion
+.=</p>
+<p>Orriigiinall,,  IIndiirrectt  Aucttiion
+.=</p>
+<p>Information Bid Information Bid
+.=</p>
+<p>Prroxy  1 Prroxy  2
+SSttrtrtrarattteteggyy   s s11 SSttrtrtrarattteteggy y  s s11 1122
+.=</p>
+<p> Query  Observation  Query  Observation
+.=</p>
+<p>Biidderr  1 Biidderr  2
+.=</p>
+<p>Trrutthffull  Sttrrattegy Trrutthffull  Sttrrattegy
+.=</p>
+<p> Query  Observation  Query  Observation
+.=</p>
+<p>IInfforrmattiion  Sourrce IInfforrmattiion  Sourrce
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Revelation Principle
+.=</p>
+<p>Definition (Truthful)
+.=</p>
+<p>In a truthful strategy, the agent deliberates when asked and
+reports his true value.
+.=</p>
+<p>Definition (Social choice function)
+.=</p>
+<p>A social choice function is a (possibly randomized) mapping from
+(true) valuation profiles to allocations.
+.=</p>
+<p>Theorem (Revelation principle for deliberative agents1)
+.=</p>
+<p>If social choice function χ is implementable in dominant strategies,
+then χ is implementable in truthful dominant strategies by a
+dynamically direct mechanism.
+.=</p>
+<p>1Holds even for the general, IPV model.
+DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Revelation Principle
+.=</p>
+<p>3 Auction Design
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Main Result
+.=</p>
+<p>Definition (Sequential Posted-Price Auction (SPPA))
+.=</p>
+<p>A sequential posted-price auction is a multistage auction in which
+at every stage, the auctioneer makes a posted-price,
+take-it-or-leave-it offer to a single agent. Each agent gets at most
+one offer.
+.=</p>
+<p>Theorem (Characterization)
+.=</p>
+<p>In our model, a deterministic social choice function χ is
+implementable in dominant strategies if and only if it is
+implementable by a SPPA.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Proof
+.=</p>
+<p>Proof for the if direction (SPPA =⇒ dominant strategies)
+is straightforward:
+.=</p>
+<p>Because values are IPV, the agent currently being offered a
+price is indifferent to everything that could happen after, and
+learns nothing from what happened before.
+We obtain dominant strategies even in our general IPV model.
+.=</p>
+<p>The proof for the only-if direction is more complicated; I’ll
+sketch it here. This (negative result) holds even under the
+simple IPV model.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+.=</p>
+<p>Assume that we have some truthful, deterministic, and
+dynamically direct mechanism M that implements χ.
+.=</p>
+<p>Assume the simple IPV model.
+.=</p>
+<p>We show that χ is implementable by an SPPA.
+.=</p>
+<p>Lemma (Information Availability)
+.=</p>
+<p>The outcome chosen by the mechanism is completely determined
+by the types of the agents who deliberate.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Influence
+.=</p>
+<p>Lemma (Influence)
+.=</p>
+<p>An agent only deliberates when doing so always makes the
+difference between winning and losing (i.e., when he would always
+win if he reported the high type and lose otherwise).
+.=</p>
+<p>Otherwise, for some strategies of the other agents:
+.=</p>
+<p>i always wins or always loses: would strictly prefer not to pay
+the deliberation cost
+i loses with the high type and wins with the low type: violates
+DS truthfulness.
+.=</p>
+<p>Note: relies on our assumption of determinism.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+Consider social choice function χ’s value on different inputs.
+.=</p>
+<p>       v          χ(v)
+.=</p>
+<p>H H H H H H H H    ?
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+Consider social choice function χ’s value on different inputs.
+.=</p>
+<p>       v          χ(v)
+.=</p>
+<p>H H H H H H H H    ?
+.=</p>
+<p>0 1
+.=</p>
+<p>Either nobody wins, or an arbitrary agent (say, 1) wins.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+Consider social choice function χ’s value on different inputs.
+.=</p>
+<p>       v          χ(v)
+.=</p>
+<p>H H H H H H H H    1
+.=</p>
+<p>If nobody wins in this case, nobody ever deliberates, and so by
+information availability nobody ever wins. This is a trivial SPPA.
+Now consider the case where 1 wins.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+Consider social choice function χ’s value on different inputs.
+.=</p>
+<p>       v          χ(v)
+.=</p>
+<p>H H H H H H H H    1
+H * * * * * * *    1
+.=</p>
+<p>By influence, χ can’t depend on the valuations of any agent other
+than 1, because the others can’t be asked to deliberate.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+Consider social choice function χ’s value on different inputs.
+.=</p>
+<p>       v          χ(v)
+.=</p>
+<p>H * * * * * * *    1
+.=</p>
+<p>By information availability, the mechanism must set 1’s price
+independently of the other agents’ valuations, and by DS it must
+set the price independently of 1’s valuation. Thus, it must be
+equivalent to a posted price.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+Consider social choice function χ’s value on different inputs.
+.=</p>
+<p>       v          χ(v)
+.=</p>
+<p>H * * * * * * *    1
+L H H H H H H H    ?
+.=</p>
+<p>0 1 2
+.=</p>
+<p>Here nobody could win, 1 could win again, or some other arbitrary
+agent (say, 2) could win. The first two cases are trivial.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+.=</p>
+<p>Consider social choice function χ’s value on different inputs.
+.=</p>
+<p>       v          χ(v)
+.=</p>
+<p>H * * * * * * *    1
+L H * * * * * *    2
+.=</p>
+<p>When 2 wins, by influence χ can’t depend on the valuations of any
+agent > 2. By information availability, 2’s payment can’t depend
+on these values; by DS it cannot depend on 2’s declaration. Thus
+2 is asked to pay a posted price.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Only-If Proof: Dominant Strategies =⇒ SPPA
+Consider social choice function χ’s value on different inputs.
+.=</p>
+<p>       v          χ(v)
+.=</p>
+<p>H * * * * * * *    1
+L H * * * * * *    2
+L L H * * * * *    3
+L L L H * * * *    4
+L L L L H * * *    5
+L L L L L H * *    6
+L L L L L L H *    7
+L L L L L L L H    8
+.=</p>
+<p>We proceed by induction, completing the proof.
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Discussion
+.=</p>
+<p>Our result circumvents Larson & Sandholm’s impossibility
+result in the IPV setting
+.=</p>
+<p>we satisfy all of their desiderata that make sense under IPV
+(dominant strategies, strategy dependence,
+non-misleadingness, preference formation independence;
+strategic-deliberation-proofness does not apply)
+.=</p>
+<p>Our result adds to recent arguments in favor of SPPAs
+.=</p>
+<p>similar posted-price mechanisms appear often in practice
+they have been shown to have good revenue and efficiency
+properties (e.g., [Blumrosen & Holenstein 2008; Chawla,
+Hartline, Malec & Sivan 2010; Kleinberg & Leighton 2003;
+Shakkottai, Srikant, Ozdaglar, & Acemogluet 2008])
+they limit info revelation (e.g., [Sandholm & Gilpin 2006]).
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Revelation Principle Auction Design
+.=</p>
+<p>Summary
+.=</p>
+<p>Our model: single-item auction with “deliberative” agents
+who must pay to learn about their own IPV valuations.
+.=</p>
+<p>Our contributions:
+.=</p>
+<p>Revelation principle: still works, but must generalize to
+multi-stage (“dynamically direct”) mechanisms
+Characterization: dominant strategies ⇐⇒ sequential
+posted-price auction
+.=</p>
+<p>Interesting open questions:
+.=</p>
+<p>Maximizing revenue or welfare
+More general domains (e.g., multi-unit auctions)
+Randomized mechanisms
+.=</p>
+<p>DS Auction Design for Deliberative Agents David R.M. Thompson, Kevin Leyton-Brown.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Understanding Random SAT
+.=</p>
+<p>Beyond the Clauses-to-Variables Ratio 
+.=</p>
+<p>Eugene Nudelman
+Stanford University
+.=</p>
+<p>joint work with…
+Kevin Leyton-Brown
+.=</p>
+<p>Holger Hoos
+University of British Columbia
+.=</p>
+<p>Alex Devkar
+Yoav Shoham
+.=</p>
+<p>Stanford University.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>• SAT is one of the most studied problems in CS
+.=</p>
+<p>• Lots known about its worst-case complexity
+– But often, particular instances of NP-hard problems like SAT 
+.=</p>
+<p>are easy in practice
+.=</p>
+<p>• “Drosophila” for average-case and 
+empirical (typical-case) complexity studies
+.=</p>
+<p>• (Uniformly) random SAT provides a way to bridge 
+analytical and empirical work
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Previously…
+• Easy-hard-less hard transitions discovered in the behaviour
+.=</p>
+<p>of DPLL-type solvers [Selman, Mitchell, Levesque]
+– Strongly correlated with phase transition in solvability
+– Spawned a new enthusiasm for using empirical methods to study 
+.=</p>
+<p>algorithm performance 2
+1.5
+.=</p>
+<p>1
+.=</p>
+<p>0.5
+.=</p>
+<p>0
+.=</p>
+<p>• Follow up included study of: -0.5-1
+4 * Pr(SAT) - 2
+.=</p>
+<p>-1.5
+log(Kcnfs runtime)
+.=</p>
+<p>– Islands of tractability -2[Kolaitis et. al.] 3.3 3.5 3.7 3.9 4.1 4.3 4.5 4.7 4.9 5.1 5.3c / v
+– SLS search space topologies [Frank et.al., Hoos]
+– Backbones [Monasson et.al., Walsh and Slaney]
+– Backdoors [Williams et. al.]
+– Random restarts [Gomes et. al.]
+– Restart policies [Horvitz et.al, Ruan et.al.]
+– …
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical Hardness Models
+.=</p>
+<p>• We proposed building regression models as a disciplined 
+way of predicting and studying algorithms’ behaviour
+.=</p>
+<p>[Leyton-Brown, Nudelman, Shoham, CP-02]
+.=</p>
+<p>• Applications of this machine learning approach:
+1) Predict running time
+.=</p>
+<p>Useful to know how long an algorithm will run
+.=</p>
+<p>2) Gain theoretical understanding
+Which variables are important to the hardness model?
+.=</p>
+<p>3) Build algorithm portfolios
+Can select the right algorithm on a per-instance basis
+.=</p>
+<p>4) Tune distributions for hardness
+Can generate harder benchmarks by rejecting easy instances
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>• Features
+.=</p>
+<p>• Experimental Results
+–Variable Size Data
+–Fixed Size Data
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Features: Local Search Probing
+.=</p>
+<p>1200
+.=</p>
+<p>1000 Short Plateau
+.=</p>
+<p>800
+.=</p>
+<p>600
+.=</p>
+<p>400
+.=</p>
+<p>Long Plateau
+200
+.=</p>
+<p>0
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+.=</p>
+<p>Step Number
+.=</p>
+<p>CP 2004
+.=</p>
+<p>BEST # Unsat Clauses.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Features: Local Search Probing
+.=</p>
+<p>1200
+.=</p>
+<p>1000
+.=</p>
+<p>800
+.=</p>
+<p>600 Best Solution
+(mean, CV)
+.=</p>
+<p>400
+.=</p>
+<p>200
+.=</p>
+<p>0
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+.=</p>
+<p>Step Number
+.=</p>
+<p>CP 2004
+.=</p>
+<p>BEST # Unsat Clauses.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Features: Local Search Probing
+.=</p>
+<p>1200
+.=</p>
+<p>1000
+.=</p>
+<p>800
+.=</p>
+<p>600
+.=</p>
+<p>400 Number of Steps to Optimal
+(mean, median, CV, 10%.90%)
+.=</p>
+<p>200
+.=</p>
+<p>0
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+.=</p>
+<p>Step Number
+.=</p>
+<p>CP 2004
+.=</p>
+<p>BEST # Unsat Clauses.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Features: Local Search Probing
+.=</p>
+<p>1200
+.=</p>
+<p>Ave. Improvement To 
+1000 Best Per Step
+.=</p>
+<p>(mean, CV)
+800
+.=</p>
+<p>600
+.=</p>
+<p>400
+.=</p>
+<p>200
+.=</p>
+<p>0
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+.=</p>
+<p>Step Number
+.=</p>
+<p>CP 2004
+.=</p>
+<p>BEST # Unsat Clauses.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Features: Local Search Probing
+.=</p>
+<p>1200
+.=</p>
+<p>1000
+.=</p>
+<p>800
+.=</p>
+<p>600
+.=</p>
+<p>400 First LM Ratio
+(mean, CV)
+.=</p>
+<p>200
+.=</p>
+<p>0
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+.=</p>
+<p>Step Number
+.=</p>
+<p>CP 2004
+.=</p>
+<p>BEST # Unsat Clauses.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Features: Local Search Probing
+.=</p>
+<p>1200
+.=</p>
+<p>1000
+BestCV
+.=</p>
+<p>800 (CV of Local Minima)
+(mean, CV)
+.=</p>
+<p>600
+.=</p>
+<p>400
+.=</p>
+<p>200
+.=</p>
+<p>0
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18
+.=</p>
+<p>Step Number
+.=</p>
+<p>CP 2004
+.=</p>
+<p>BEST # Unsat Clauses.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Features: DPLL, LP
+.=</p>
+<p>• DPLL search space size estimate
+– Random probing with unit propagation
+– Compute mean depth till contradiction
+– Estimate log(#nodes)
+.=</p>
+<p>• Cumulative number of unit propagations at different 
+depths (DPLL with Satz heuristic)
+.=</p>
+<p>• LP relaxation
+– Objective value
+– stats of integer slacks
+– #vars set to an integer
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Other Features
+.=</p>
+<p>• Problem Size: Var
+– Clausev (#vars)
+.=</p>
+<p>used for normalizing 
+– Varc (#clauses) } many other features
+– ClausePowers of c/v, v/c, |c/v — 4.26|
+.=</p>
+<p>Var
+.=</p>
+<p>• Graphs: 
+– Variable-Clause (VCG, bipartite) Var
+– Variable (VG, edge whenever two 
+.=</p>
+<p>variables occur in the same clause) Var Var
+.=</p>
+<p>– Clause (CG, edge iff two clauses share 
+a variable with opposite sign)
+.=</p>
+<p>Var Var
+.=</p>
+<p>• Balance 
+– #pos vs. #neg literals
+.=</p>
+<p>Clause Clause
+.=</p>
+<p>– unary, binary, ternary clauses
+• Proximity to Horn formula
+.=</p>
+<p>Clause
+Clause
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>• Features
+.=</p>
+<p>• Experimental Results
+–Variable Size Data
+–Fixed Size Data
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Setup
+.=</p>
+<p>• Uniform random 3-SAT, 400 vars
+.=</p>
+<p>• Datasets (20000 instances each)
+– Variable-ratio dataset (1 CPU-month)
+.=</p>
+<p>• c/v uniform in [3.26, 5.26] (∴ c ∈[1304,2104])
+– Fixed-ratio dataset (4 CPU-months)
+.=</p>
+<p>• c/v=4.26 (∴ v=400, c=1704)
+.=</p>
+<p>• Solvers
+– Kcnfs [Dubois and Dequen]
+– OKsolver [Kullmann]
+– Satz [Chu Min Li]
+.=</p>
+<p>• Quadratic regression with logistic response function
+• Training : test : validation split – 70 : 15 : 15
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Kcnfs Data
+2
+.=</p>
+<p>1.5
+.=</p>
+<p>1
+.=</p>
+<p>0.5
+.=</p>
+<p>0
+.=</p>
+<p>-0.5
+.=</p>
+<p>-1
+.=</p>
+<p>4 * Pr(SAT) - 2
+-1.5
+.=</p>
+<p>log(Kcnfs runtime)
+.=</p>
+<p>-2
+.=</p>
+<p>3.3 3.5 3.7 3.9 4.1 4.3 4.5 4.7 4.9 5.1 5.3
+.=</p>
+<p>c / v
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Kcnfs Data
+1000
+.=</p>
+<p>100
+.=</p>
+<p>10
+.=</p>
+<p>1
+.=</p>
+<p>0.1
+.=</p>
+<p>0.01
+3.26 3.76 4.26 4.76 5.26
+.=</p>
+<p>Clauses-to-Variables Ratio
+.=</p>
+<p>CP 2004
+.=</p>
+<p>Runtime(s).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Variable Ratio Prediction (Kcnfs)
+1000
+.=</p>
+<p>100
+.=</p>
+<p>10
+.=</p>
+<p>1
+.=</p>
+<p>0.1
+.=</p>
+<p>0.01
+.=</p>
+<p>0.01 0.1 1 10 100 1000
+.=</p>
+<p>Actual Runtime [CPU sec]
+.=</p>
+<p>CP 2004
+.=</p>
+<p>Predicted Runtime [CPU sec].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Variable Ratio - UNSAT
+1000
+.=</p>
+<p>100
+.=</p>
+<p>10
+.=</p>
+<p>1
+.=</p>
+<p>0.1
+.=</p>
+<p>0.01
+.=</p>
+<p>0.01 0.1 1 10 100 1000
+.=</p>
+<p>Actual Runtime [CPU sec]
+.=</p>
+<p>CP 2004
+.=</p>
+<p>Predicted Runtime [CPU sec].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Variable Ratio - SAT
+1000
+.=</p>
+<p>100
+.=</p>
+<p>10
+.=</p>
+<p>1
+.=</p>
+<p>0.1
+.=</p>
+<p>0.01
+.=</p>
+<p>0.01 0.1 1 10 100 1000
+.=</p>
+<p>Actual Runtime [CPU sec]
+.=</p>
+<p>CP 2004
+.=</p>
+<p>Predicted Runtime [CPU sec].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Kcnfs vs. Satz (UNSAT)
+1000
+.=</p>
+<p>100
+.=</p>
+<p>10
+.=</p>
+<p>1
+.=</p>
+<p>0.1
+.=</p>
+<p>0.01
+.=</p>
+<p>0.01 0.1 1 10 100 1000
+.=</p>
+<p>Kcnfs time [CPU sec]
+.=</p>
+<p>CP 2004
+.=</p>
+<p>Satz time [CPU sec].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Kcnfs vs. Satz (SAT)
+1000
+.=</p>
+<p>100
+.=</p>
+<p>10
+.=</p>
+<p>1
+.=</p>
+<p>0.1
+.=</p>
+<p>0.01
+.=</p>
+<p>0.01 0.1 1 10 100 1000
+.=</p>
+<p>Kcnfs time [CPU sec]
+.=</p>
+<p>CP 2004
+.=</p>
+<p>Satz time [CPU sec].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Feature Importance – Variable Ratio
+• Subset selection can be used to identify features sufficient 
+.=</p>
+<p>for approximating full model performance
+• Other (correlated) sets could potentially achieve similar 
+.=</p>
+<p>performance
+.=</p>
+<p>Cost of 
+Variable
+.=</p>
+<p>Omission
+.=</p>
+<p>|c/v-4.26| 100
+.=</p>
+<p>|c/v-4.26|2 69
+.=</p>
+<p>(v/c)2 × SapsBestCVMean 53
+.=</p>
+<p>|c/v-4.26| × SapsBestCVMean 33
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Fixed Ratio Data
+1000
+.=</p>
+<p>100
+.=</p>
+<p>10
+.=</p>
+<p>1
+.=</p>
+<p>0.1
+.=</p>
+<p>0.01
+3.26 3.76 4.26 4.76 5.26
+.=</p>
+<p>Clauses-to-Variables Ratio
+.=</p>
+<p>CP 2004
+.=</p>
+<p>Runtime(s).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Fixed Ratio Prediction (Kcnfs)
+1000
+.=</p>
+<p>100
+.=</p>
+<p>10
+.=</p>
+<p>1
+.=</p>
+<p>0.1
+.=</p>
+<p>0.01
+.=</p>
+<p>0.01 0.1 1 10 100 1000
+.=</p>
+<p>Actual Runtime [CPU sec]
+.=</p>
+<p>CP 2004
+.=</p>
+<p>Predicted Runtime [CPU sec].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Feature Importance – Fixed Ratio
+.=</p>
+<p>Cost of 
+Variable
+.=</p>
+<p>Omission
+.=</p>
+<p>SapsBestSolMean2 100
+.=</p>
+<p>SapsBestSolMean × MeanDPLLDepth 74
+.=</p>
+<p>GsatBestSolCV × MeanDPLLDepth 21
+.=</p>
+<p>VCGClauseMean × GsatFirstLMRatioMean 9
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SAT vs. UNSAT
+.=</p>
+<p>• Training models separately for SAT and UNSAT instances:
+– good models require fewer features
+– model accuracy improves
+– c/v no longer an important feature for VR data
+– Completely different features are useful for SAT than for UNSAT
+.=</p>
+<p>• Feature importance on SAT instances:
+– Local Search features sufficient
+.=</p>
+<p>• 7 features for good VR model
+• 1 feature for good FR model (SAPSBestSolCV x SAPSAveImpMean)
+.=</p>
+<p>– If LS features omitted, LP + DPLL search space probing
+.=</p>
+<p>• Feature importance on UNSAT instances:
+– DPLL search space probing
+– Clause graph features
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Beyond Ratio: Weighted CG Clustering Coefficient
+.=</p>
+<p>• Byproduct of our analysis: a very strong correlation 
+between weighted CG clustering coefficient and v/c
+.=</p>
+<p>• Clustering coefficient is a more fundamental concept than 
+v/c, since it describes the structure of the constraints 
+explicitly, not implicitly.
+– correlation between (unweighted) CC and hardness has been 
+.=</p>
+<p>shown for other constraint problems 
+(e.g., graph coloring, combinatorial auctions)
+.=</p>
+<p>• We have a proof sketch of this correlation
+.=</p>
+<p>CP 2004.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>• Can construct good models for DPLL solvers
+• These models can be analyzed to gain 
+.=</p>
+<p>understanding about what makes instances hard or 
+easy for solvers
+.=</p>
+<p>• Algorithm portfolios can be constructed (Satzilla)
+.=</p>
+<p>• More specifically:
+– Strong relationship between LS and DPLL search spaces 
+– Our approach automatically identified importance of c/v
+– SAT/UNSAT instances have very different performance 
+.=</p>
+<p>characteristics; it helps to model them separately
+.=</p>
+<p>– Clustering Coefficient explains why c/v is important in 
+terms of local properties of constraint graph
+.=</p>
+<p>CP 2004.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

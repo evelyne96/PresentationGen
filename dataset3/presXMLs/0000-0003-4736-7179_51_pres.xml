@@ -1,0 +1,1354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Kalman Filters and Adaptive Windows for Learning
+in Data Streams
+.=</p>
+<p>Albert Bifet Ricard Gavaldà
+.=</p>
+<p>Universitat Politècnica de Catalunya
+.=</p>
+<p>DS’06 Barcelona
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 1 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 The Kalman Filter and the CUSUM Test
+.=</p>
+<p>3 The ADWIN Algorithm
+.=</p>
+<p>4 General Framework
+.=</p>
+<p>5 K-ADWIN
+.=</p>
+<p>6 Experimental Validation of K-ADWIN
+.=</p>
+<p>7 Conclusions
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 2 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Introduction
+.=</p>
+<p>Data Streams
+Sequence potentially infinite
+High amount of data:
+.=</p>
+<p>sublinear space
+High Speed of arrival:
+.=</p>
+<p>small constant time per example
+.=</p>
+<p>Estimation and prediction
+Distribution and concept drift
+K-ADWIN : Combination
+.=</p>
+<p>Kalman filter
+ADWIN : Adaptive window of recently seen data items.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 3 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Introduction
+.=</p>
+<p>Problem
+Given an input sequence x1, x2, . . . , xt , . . . we want to output at instant t
+a prediction x̂t+1 minimizing prediction error:
+.=</p>
+<p>|x̂t+1 − xt+1|
+.=</p>
+<p>considering distribution changes overtime.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 4 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Time Change Detectors and Predictors: A General
+Framework
+.=</p>
+<p>Estimation
+-
+.=</p>
+<p>xt
+-
+.=</p>
+<p>Estimator
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 5 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Time Change Detectors and Predictors: A General
+Framework
+.=</p>
+<p>Estimation
+-
+.=</p>
+<p>xt
+-
+.=</p>
+<p>Estimator Alarm
+- -
+.=</p>
+<p>Change Detect.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 5 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Time Change Detectors and Predictors: A General
+Framework
+.=</p>
+<p>Estimation
+-
+.=</p>
+<p>xt
+-
+.=</p>
+<p>Estimator Alarm
+- -
+.=</p>
+<p>Change Detect.
+6
+.=</p>
+<p>6
+?
+.=</p>
+<p>-
+Memory
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 5 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Introduction
+.=</p>
+<p>Our particular proposal: K-ADWIN
+Our generic proposal:
+.=</p>
+<p>Use change detector Kalman filter as estimator
+.=</p>
+<p>Use memory Use ADWIN as change
+detector with memory [BG06]
+.=</p>
+<p>Application
+Estimate statistics from data streams
+In Data Mining Algorithms based on counters, replace them for
+estimators.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 6 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Data Mining Algorithms with Concept Drift
+.=</p>
+<p>No Concept Drift Concept drift
+.=</p>
+<p>DM Algorithm
+DM Algorithm
+.=</p>
+<p>input output input output
+- Counter - - -5
+.=</p>
+<p>Counter Static Model4
+.=</p>
+<p>Counter 63
+.=</p>
+<p>Counter2
+.=</p>
+<p>Counter - 1 Change Detect.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 7 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Data Mining Algorithms with Concept Drift
+.=</p>
+<p>No Concept Drift Concept Drift
+.=</p>
+<p>DM Algorithm DM Algorithm
+.=</p>
+<p>input output input output
+- Counter - -5 Estimator -5
+.=</p>
+<p>Counter4 Estimator4
+.=</p>
+<p>Counter3 Estimator3
+.=</p>
+<p>Counter2 Estimator2
+.=</p>
+<p>Counter1 Estimator1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 7 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Kalman Filter and the CUSUM Test
+.=</p>
+<p>The Kalman Filter
+.=</p>
+<p>Optimal recursive algorithm
+Minimum mean-square error estimator
+Estimate the state x ∈ <n of a discrete-time controlled process
+.=</p>
+<p>xk = Axk−1 + Buk + wk−1
+.=</p>
+<p>with a measurement z ∈ <m that is
+.=</p>
+<p>Zk = Hxk + vk .
+.=</p>
+<p>The random variables wk and vk represent the process and
+measurement noise (respectively). They are assumed to be
+independent (of each other), white, and with normal probability
+distributions
+.=</p>
+<p>p(w) ∼ N(0, Q) p(v) ∼ N(0, R).
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 8 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Kalman Filter and the CUSUM Test
+.=</p>
+<p>The Kalman Filter
+.=</p>
+<p>The difference equation of our discrete-time controlled process is
+.=</p>
+<p>Kk = Pk−1/(Pk−1 + R)
+.=</p>
+<p>Xk = Xk−1 + Kk (zk − Xk−1)
+.=</p>
+<p>Pk = Pk (1− Kk ) + Q
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 9 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Kalman Filter and the CUSUM Test
+.=</p>
+<p>The Kalman Filter
+.=</p>
+<p>The difference equation of our discrete-time controlled process is
+.=</p>
+<p>Kk = Pk−1/(Pk−1 + R)
+.=</p>
+<p>Xk = Xk−1 + Kk (zk − Xk−1)
+.=</p>
+<p>Pk = Pk (1− Kk ) + Q
+.=</p>
+<p>The performance of the Kalman filter depends on the accuracy of the
+a-priori assumptions:
+.=</p>
+<p>linearity of the difference stochastic equation
+estimation of covariances Q and R, assumed to be fixed, known,
+and follow normal distributions with zero mean.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data StrDeSam’06s Barcelona 9 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Kalman Filter and the CUSUM Test
+.=</p>
+<p>The CUSUM Test
+.=</p>
+<p>The cumulative sum (CUSUM algorithm),is a change detection
+algorithm that gives an alarm when the mean of the input data is
+significantly different from zero.
+The CUSUM test is memoryless, and its accuracy depends on the
+choice of parameters υ and h. It is as follows:
+.=</p>
+<p>g0 = 0, gt = max (0, gt−1 + t − υ)
+.=</p>
+<p>if gt > h then alarm and gt = 0
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 10 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+W0= 1 W1 = 01010110111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+W0= 10 W1 = 1010110111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+W0= 101 W1 = 010110111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+W0= 1010 W1 = 10110111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+W0= 10101 W1 = 0110111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+W0= 101010 W1 = 110111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+W0= 1010101 W1 = 10111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111
+W0= 10101011 W1 = 0111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111 |µ̂W0 − µ̂W1 | ≥ c : CHANGE DETECTED!
+W0= 101010110 W1 = 111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 101010110111111 Drop elements from the tail of W
+W0= 101010110 W1 = 111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Example
+.=</p>
+<p>W= 01010110111111 Drop elements from the tail of W
+W0= 101010110 W1 = 111111
+.=</p>
+<p>ADWIN: ADAPTIVE WINDOWING ALGORITHM
+.=</p>
+<p>1 Initialize Window W
+2 for each t > 0
+3 do W ←W ∪ {xt} (i.e., add xt to the head of W )
+4 repeat Drop elements from the tail of W
+5 until |µ̂W0 − µ̂W1 | ≥ c holds
+6 for every split of W into W = W0 ·W1
+7 Output µ̂W
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 11 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>1 01010110111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>10 1010110111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>101 010110111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>1010 10110111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>10101 0110111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>101010 110111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>1010101 10111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>10101011 0111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>101010110 111111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>1010101101 11111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>10101011011 1111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>101010110111 111
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>1010101101111 11
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Window Management Models
+.=</p>
+<p>W = 101010110111111
+.=</p>
+<p>Equal & fixed size subwindows Total window against subwindow
+.=</p>
+<p>1010 1011011 1111 10101011011 1111
+.=</p>
+<p>D. Kifer, S. Ben-David, and J. J. Gama, P. Medas, G. Castillo,
+Gehrke. Detecting change in data and P. Rodrigues. Learning with
+streams. 2004 drift detection. 2004
+.=</p>
+<p>ADWIN: All Adjacent subwindows
+.=</p>
+<p>10101011011111 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 12 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>ADWIN has rigorous guarantees
+.=</p>
+<p>On ratio of false positives
+On ratio of false negatives
+On the relation of the size of the current window and change rates
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 13 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN [BG06]
+.=</p>
+<p>Theorem
+At every time step we have:
+.=</p>
+<p>1 (Few false positives guarantee) If µt remains constant within W,
+the probability that ADWIN shrinks the window at this step is at
+most δ.
+.=</p>
+<p>2 (Few false negatives guarantee) If for any partition W in two parts
+W0W1 (where W1 contains the most recent items) we have
+|µW0 − µW1 | > , and if √
+.=</p>
+<p>3 max{µW0 , µ ≥ 4 · W1
+} 4n
+.=</p>
+<p>ln
+min{n0, n1} δ
+.=</p>
+<p>then with probability 1− δ ADWIN shrinks W to W1, or shorter.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 14 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Data Streams Algorithm ADWIN2 [BG06]
+.=</p>
+<p>ADWIN2 using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(log W ) cutpoints
+uses O(1 log W ) memory words
+the processing time per example is O(log W ) (amortized) and
+O(log2 W ) (worst-case).
+.=</p>
+<p>Sliding Window Model
+.=</p>
+<p>1010101 101 11 1 1
+Content: 4 2 2 1 1
+Capacity: 7 3 2 1 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 15 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN2
+.=</p>
+<p>ADWIN2 using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(log W ) cutpoints
+uses O(1 log W ) memory words
+the processing time per example is O(log W ) (amortized) and
+O(log2 W ) (worst-case).
+.=</p>
+<p>Insert new Item
+.=</p>
+<p>1010101 101 11 1 1
+Content: 4 2 2 1 1
+Capacity: 7 3 2 1 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 16 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN2
+.=</p>
+<p>ADWIN2 using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(log W ) cutpoints
+uses O(1 log W ) memory words
+the processing time per example is O(log W ) (amortized) and
+O(log2 W ) (worst-case).
+.=</p>
+<p>Insert new Item
+.=</p>
+<p>1010101 101 11 1 1 1
+Content: 4 2 2 1 1 1
+Capacity: 7 3 2 1 1 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 16 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN2
+.=</p>
+<p>ADWIN2 using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(log W ) cutpoints
+uses O(1 log W ) memory words
+the processing time per example is O(log W ) (amortized) and
+O(log2 W ) (worst-case).
+.=</p>
+<p>Compressing Buckets
+.=</p>
+<p>1010101 101 11 1 1 1
+Content: 4 2 2 1 1 1
+Capacity: 7 3 2 1 1 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 16 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN2
+.=</p>
+<p>ADWIN2 using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(log W ) cutpoints
+uses O(1 log W ) memory words
+the processing time per example is O(log W ) (amortized) and
+O(log2 W ) (worst-case).
+.=</p>
+<p>Compressing Buckets
+.=</p>
+<p>1010101 101 11 11 1
+Content: 4 2 2 2 1
+Capacity: 7 3 2 2 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 17 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN2
+.=</p>
+<p>ADWIN2 using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(log W ) cutpoints
+uses O(1 log W ) memory words
+the processing time per example is O(log W ) (amortized) and
+O(log2 W ) (worst-case).
+.=</p>
+<p>Compressing Buckets
+.=</p>
+<p>1010101 10111 11 1
+Content: 4 4 2 1
+Capacity: 7 5 2 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 18 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN2
+.=</p>
+<p>ADWIN2 using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(log W ) cutpoints
+uses O(1 log W ) memory words
+the processing time per example is O(log W ) (amortized) and
+O(log2 W ) (worst-case).
+.=</p>
+<p>Detecting Change: Delete last Bucket
+.=</p>
+<p>1010101 10111 11 1
+Content: 4 4 2 1
+Capacity: 7 5 2 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 19 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ADWIN Algorithm
+.=</p>
+<p>Algorithm ADWIN2
+.=</p>
+<p>ADWIN2 using a Data Stream Sliding Window Model,
+can provide the exact counts of 1’s in O(1) time per point.
+tries O(log W ) cutpoints
+uses O(1 log W ) memory words
+the processing time per example is O(log W ) (amortized) and
+O(log2 W ) (worst-case).
+.=</p>
+<p>Detecting Change: Delete last Bucket
+.=</p>
+<p>10111 11 1
+Content: 4 2 1
+Capacity: 5 2 1
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 19 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>General Framework
+.=</p>
+<p>General Framework Time Change Detectors and
+Predictors : Type I
+.=</p>
+<p>Example (Kalman Filter)
+.=</p>
+<p>Estimation
+-
+.=</p>
+<p>xt
+-
+.=</p>
+<p>Estimator
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 20 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>General Framework
+.=</p>
+<p>General Framework Time Change Detectors and
+Predictors : Type II
+.=</p>
+<p>Example (Kalman Filter + CUSUM)
+.=</p>
+<p>Estimation
+-
+.=</p>
+<p>xt
+-
+.=</p>
+<p>Estimator Alarm
+- -
+.=</p>
+<p>Change Detect.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 20 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>General Framework
+.=</p>
+<p>General Framework Time Change Detectors and
+Predictors : Type III
+.=</p>
+<p>Example (Adaptive Kalman Filter)
+.=</p>
+<p>Estimation
+-
+.=</p>
+<p>xt
+-
+.=</p>
+<p>Estimator
+.=</p>
+<p>6
+.=</p>
+<p>-
+Memory
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 20 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>General Framework
+.=</p>
+<p>General Framework Time Change Detectors and
+Predictors : Type IV
+.=</p>
+<p>Example (ADWIN, Kalman Filter+ADWIN)
+.=</p>
+<p>Estimation
+-
+.=</p>
+<p>xt
+-
+.=</p>
+<p>Estimator Alarm
+- -
+.=</p>
+<p>Change Detect.
+6
+.=</p>
+<p>6
+?
+.=</p>
+<p>-
+Memory
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 20 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>General Framework
+.=</p>
+<p>Time Change Detectors and Predictors: A General
+Framework
+.=</p>
+<p>No memory Memory
+.=</p>
+<p>No Change Type I Type III
+Detector Kalman Filter Adaptive Kalman Filter
+.=</p>
+<p>Change Type II Type IV
+Detector Kalman Filter + CUSUM ADWIN
+.=</p>
+<p>Kalman Filter + ADWIN
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 21 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>General Framework
+.=</p>
+<p>Time Change Detectors and Predictors: A General
+Framework
+.=</p>
+<p>No memory Memory
+.=</p>
+<p>No Change Type I Type III
+Detector Kalman Filter Adaptive Kalman Filter
+.=</p>
+<p>Q,R estimated from window
+.=</p>
+<p>Change Type II Type IV
+Detector Kalman Filter + CUSUM ADWIN
+.=</p>
+<p>Kalman Filter + ADWIN
+Q,R estimated from window
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 21 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>K-ADWIN
+.=</p>
+<p>K-ADWIN = ADWIN + Kalman Filtering
+.=</p>
+<p>Estimation
+-
+.=</p>
+<p>xt
+-
+.=</p>
+<p>Kalman Alarm
+- -
+.=</p>
+<p>ADWIN
+6
+.=</p>
+<p>6
+?
+.=</p>
+<p>-
+ADWIN Memory
+.=</p>
+<p>R = W 2/50 and Q = 200/W , where W is the length of the window
+maintained by ADWIN.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 22 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>Tracking Experiments
+.=</p>
+<p>KALMAN: R=1000;Q=1 Error= 854.97
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 23 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>Tracking Experiments
+.=</p>
+<p>ADWIN : Error= 674.66
+.=</p>
+<p>KALMAN: R=1000;Q=1 Error= 854.97
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 23 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>Tracking Experiments
+.=</p>
+<p>K-ADWIN Error= 530.13
+.=</p>
+<p>ADWIN : Error= 674.66
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 23 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>Naïve Bayes
+.=</p>
+<p>Example
+.=</p>
+<p>Data set that outlook temp. humidity windy play
+describes the sunny hot high false no
+weather sunny hot high true no
+conditions for overcast hot high false yes
+playing some rainy mild high false yes
+game. rainy cool normal false yes
+.=</p>
+<p>rainy cool normal true no
+overcast cool normal true yes
+.=</p>
+<p>Assume we have to classify the following new instance:
+outlook temp. humidity windy play
+sunny cool high true ?
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 24 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>Naïve Bayes
+.=</p>
+<p>Assume we have to classify the following new instance:
+outlook temp. humidity windy play
+sunny cool high true ?
+.=</p>
+<p>We classify the new instance:
+.=</p>
+<p>νNB = arg max P(νj)P(sunny |νj)P(cool |νj)P(high|νj)P(true|νj)
+ν∈{yes,no}
+.=</p>
+<p>Conditional probabilities can be estimated directly as frequencies:
+.=</p>
+<p>number of instances with attribute ai and class νP(ai |
+j
+.=</p>
+<p>νj) = total number of training instances with class νj
+.=</p>
+<p>Create one estimator for each frequence that needs estimation
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 24 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>Experimental Validation of K-ADWIN
+.=</p>
+<p>We test Naïve Bayes Predictor and k-means clustering
+Method: replace counters by estimators
+Synthetic data where change is controllable
+Naïve Bayes: We compare accuracy of
+.=</p>
+<p>Static model: Training of 1000 samples every instant
+Dynamic model: replace probabilities counters by estimators
+.=</p>
+<p>computing the ratio %DynamicStatic with tests using 2000 samples.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 25 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>Naïve Bayes Predictor
+.=</p>
+<p>Width %Static %Dynamic % Dynamic/Static
+.=</p>
+<p>ADWIN 83,36% 80,30% 96,33%
+Kalman Q = 1, R = 1000 83,22% 71,13% 85,48%
+.=</p>
+<p>Kalman Q = 1, R = 1 83,21% 56,91% 68,39%
+Kalman Q = .25, R = .25 83,26% 56,91% 68,35%
+.=</p>
+<p>Adaptive Kalman 83,24% 76,21% 91,56%
+CUSUM Kalman 83,30% 50,65% 60,81%
+.=</p>
+<p>K-ADWIN 83,24% 81,39% 97,77%
+Fixed-sized Window 32 83,28% 67,64% 81,22%
+Fixed-sized Window 128 83,30% 75,40% 90,52%
+Fixed-sized Window 512 83,28% 80,47% 96,62%
+Fixed-sized Window 2048 83,24% 82,19% 98,73%
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 26 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>k -means Clustering
+.=</p>
+<p>σ = 0.15
+Width Static Dynamic
+.=</p>
+<p>ADWIN 9,72 21,54
+Kalman Q = 1, R = 1000 9,72 19,72
+Kalman Q = 1, R = 100 9,71 17,60
+Kalman Q = .25, R = .25 9,71 22,63
+.=</p>
+<p>Adaptive Kalman 9,72 18,98
+CUSUM Kalman 9,72 18,29
+.=</p>
+<p>K-ADWIN 9,72 17,30
+Fixed-sized Window 32 9,72 25,70
+Fixed-sized Window 128 9,72 36,42
+Fixed-sized Window 512 9,72 38,75
+Fixed-sized Window 2048 9,72 39,64
+Fixed-sized Window 8192 9,72 43,39
+Fixed-sized Window 32768 9,72 53,82
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 27 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation of K-ADWIN
+.=</p>
+<p>Results
+.=</p>
+<p>No estimator ever does much better than K-ADWIN
+K-ADWIN does much better than every other estimators in at least
+one context.
+Tracking problem K-ADWIN and ADWIN automatically do about as
+well as the Kalman filter with the best set of fixed covariance
+parameters.
+Naïve Bayes and k -means: K-ADWIN does somewhat better than
+ADWIN and far better than any memoryless Kalman filter.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 28 / 29.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>Conclusions and Future Work
+.=</p>
+<p>K-ADWIN tunes itself to the data stream at hand, with no need for
+the user to hardwire or precompute parameters.
+Better results than either memoryless Kalman Filtering or sliding
+windows with linear estimators.
+Future work :
+.=</p>
+<p>Tests on real-world, not only synthetic data.
+Other learning algorithms: algorithms for induction of decision
+trees.
+.=</p>
+<p>A. Bifet, R. Gavaldà (UPC) Kalman Filters and Adaptive Windows for Learning in Data SDtrSea’0m6sBarcelona 29 / 29.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

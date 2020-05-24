@@ -1,0 +1,885 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Resource Allocation in 
+Competitive Multiagent Systems
+</p>
+<p>Kevin Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview
+</p>
+<p>• Multiagent systems
+– autonomy; asymmetric information 
+– cooperative: same interests
+– competitive: selfish
+</p>
+<p>• Resource allocation in multiagent systems
+– cooperative: behavioral protocol can be imposed
+– competitive: agents can’t be trusted to follow a protocol
+</p>
+<p>• Explore interactions between Economics/Game Theory
+and Computer Science
+1. GT problems with CS solutions
+</p>
+<p>2. CS problems with GT solutions
+</p>
+<p>3. Bidirectional interactions; synthesis</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Topics
+</p>
+<p>problems 
+combinatorial auction
+</p>
+<p>come from bidding
+winner determination:
+</p>
+<p>GT/Econ clubs
+algorithms; testing
+</p>
+<p>local-effect
+games
+</p>
+<p>empirical hardness
+models; portfolios
+</p>
+<p>load balancing
+</p>
+<p>problems in networks
+</p>
+<p>come from 
+CS
+</p>
+<p>applied theoretical</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Why auctions?
+</p>
+<p>• Theoretical framework for resource allocation among 
+self-interested agents
+– e.g., social welfare maximization; revenue maximization
+</p>
+<p>• They’re big ($$$)
+– and the internet is changing the way they’re used</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What you need to know about auctions
+</p>
+<p>• They’re a broader category than often perceived
+</p>
+<p>• Of special interest: Combinatorial auctions
+– hot topic in CS for past four years
+– auctions where bidders can request bundles of goods
+– interesting because of complementarity and substitutability
+</p>
+<p>$29
+</p>
+<p>Movie
+</p>
+<p>$126
+</p>
+<p>$297 VCR
+</p>
+<p>$325
+TV
+</p>
+<p>$196</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Winner Determination Problem
+</p>
+<p>• Input: n goods, m bids
+</p>
+<p>• Objective: find revenue-maximizing non-conflicting 
+allocation</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What’s known about WDP
+Equivalent to weighted set packing, NP-Complete
+</p>
+<p>1. Approximation
+– best guarantee is within factor of
+– economic mechanisms can depend on optimal solution
+</p>
+<p>2. Polynomial special cases
+– very few (ring; tree; totally unimodular matrices)
+– allowing unrestricted bidding is the whole point
+</p>
+<p>3. Complete heuristic search
+– CASS [Fujishima, Leyton-Brown, Shoham, 1999]
+– CABOB [Sandholm, 1999; Sandholm, Suri, Gilpen, Levine, 2001]
+– GL [Gonen & Lehmann, 2001]
+– CPLEX [ILOG Inc., 1987-2003]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Where do we stand?
+</p>
+<p>• Best solutions (e.g., CPLEX):
+– often blindingly fast
+– but sometimes very slow
+</p>
+<p>• Problem I: Are we testing on the right data?
+– Legacy [Sandholm, 1999]; [Fujishima, Leyton-Brown, Shoham, 1999]
+– CATS  [Leyton-Brown, Pearson, Shoham, 2000]
+</p>
+<p>• Problem II: How can we understand why performance 
+varies so drastically?
+– use machine learning to predict running time
+</p>
+<p>[Leyton-Brown, Nudelman, Shoham, 2002]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical Hardness Models
+</p>
+<p>• Our goal: emulate success in understanding the 
+hardness of (e.g.) satisfiability instances, but:
+– we have an optimization problem
+– and a very high dimensional one
+</p>
+<p>• If we are nonetheless successful, we will be able to:
+– go get coffee while the algorithm is running
+– build algorithm portfolios
+– tune distributions for hardness
+– in general, gain insight into the sources of hardness
+</p>
+<p>• Case study of these models on WDP
+– recent work: applied these ideas to SAT</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical Hardness Methodology
+</p>
+<p>1. Select optimization algorithm
+</p>
+<p>2. Select set of distributions
+</p>
+<p>3. Define problem size
+</p>
+<p>4. Select features
+</p>
+<p>5. Generate instances
+</p>
+<p>6. Compute running time, features
+</p>
+<p>7. Learn running time model</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Features
+</p>
+<p>1. Linear Programming
+– L1, L2, L∞ norms of integer slack vector
+</p>
+<p>2. Price
+– stdev(prices)
+</p>
+<p>Bid
+– stdev(avg price / num goods)
+</p>
+<p>Good
+– stdev(average price / sqrt(num goods))
+</p>
+<p>Bid
+</p>
+<p>3. Bid-Good graph Good
+</p>
+<p>– node degree stats (max, min, avg, stdev) Bid
+Good
+</p>
+<p>4. Bid graph
+Bid
+</p>
+<p>– node degree stats
+– edge density
+– clustering coefficient (CC), stdev Bid
+</p>
+<p>– avg min path length (AMPL) Bid Bid
+– ratio of CC to AMPL
+– eccentricity stats (max, min, avg, stdev)
+</p>
+<p>Bid Bid</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Setup
+</p>
+<p>• Problem size: goods, undominated bids
+</p>
+<p>• Nine distributions (legacy; CATS)
+– sample parametersB uBinGdiifdo:o r:$mo $1dly50s f0rom given ranges
+– generate 500 instances/distribution: 4500 per dataset
+</p>
+<p>• Three datasets:
+– 256 goods, 1000 non-dominated bids
+– 144 goods, 1000 non-dominated bids
+– 64 goods, 2000 non-dominated bids
+</p>
+<p>• Experiments:
+– 32-machine cluster of 550 MHz Xeons, Linux 2.12
+– collecting data took approximately 3 years of CPU time! 
+– running times varied from 0.01 sec to 22 hours (CPLEX capped)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Gross Hardness (144 goods, 1000 bids)
+</p>
+<p>1
+</p>
+<p>0.9
+0.8
+0.7
+0.6
+0.5
+0.4
+0.3
+0.2
+0.1
+0
+</p>
+<p>Un
+0.1
+</p>
+<p>Bi in fo o1 A
+r
+</p>
+<p>D rb m
+m
+</p>
+<p>i
+10 ec
+</p>
+<p>it a
+R ra la
+</p>
+<p>0 e y ry
+10 W gi
+</p>
+<p>00
+o
+</p>
+<p>0 E
+ei ns
+</p>
+<p>1 x gh
+Runtime  p00
+</p>
+<p>0 S o tc n e0 h e d 
+Ma g nitude 1 0 M0 a e0 d
+</p>
+<p>n R
+t u tia an Distribution
+</p>
+<p>(se co nds) 10
+0 ch lii n
+</p>
+<p>l d
+n g omg
+</p>
+<p>Percenta ge  In cl a ss</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Learning
+</p>
+<p>• Linear regression 350
+– ignores interactions Linear - RMSE 0.436
+</p>
+<p>between variables 300 Quadratic - RMSE 0.216
+</p>
+<p>• Consider 2nd degree 250
+polynomials
+</p>
+<p>200
+– variables: pairwise
+</p>
+<p>products of original 
+150
+</p>
+<p>features
+</p>
+<p>– total of 325
+100
+</p>
+<p>• We tried various 
+50
+</p>
+<p>other non-linear 
+approaches; none 0
+worked better. 0.1 0.3 0.5 0.7 0.9 1.1 1.3 1.5 1.7 1.9
+</p>
+<p>Absolute Error
+(test set)
+</p>
+<p>Count</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Understanding Models: RMSE vs. Subset Size
+</p>
+<p>1.2
+</p>
+<p>1
+</p>
+<p>0.8
+</p>
+<p>0.6
+RMSE of the linear model
+</p>
+<p>0.4
+</p>
+<p>RMSE of the complete model
+0.2
+</p>
+<p>0
+</p>
+<p>0 10 20 30 40 50 60</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Cost of Omission (subset size 6)
+</p>
+<p>BG edge density *
+Integer slack L1 norm
+</p>
+<p>Integer slack L1 norm
+</p>
+<p>BGG min good degree
+* Clustering Coefficient
+</p>
+<p>Clustering deviation *
+Integer slack L1 norm
+</p>
+<p>BGG min good degree
+* BGG max bid degree
+</p>
+<p>Clustering coefficient *
+Average min path length
+</p>
+<p>0 20 40 60 80 100</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Boosting as a Metaphor for Algorithm Design
+[Leyton-Brown, Nudelman, Andrew, McFadden, Shoham, 2003]
+</p>
+<p>Boosting (machine learning technique):
+</p>
+<p>1. Combine uncorrelated weak classifiers into aggregate
+</p>
+<p>2. Train new classifiers on instances that are hard for 
+the aggregate
+</p>
+<p>Algorithm Design with Hardness Models:
+</p>
+<p>1. Hardness models can be used to select an algorithm
+to run on a per-instance basis
+</p>
+<p>2. Use portfolio hardness model as a PDF, to induce a 
+new test distribution for design of new algorithms</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Portfolio Results
+</p>
+<p>6000 800
+</p>
+<p>700
+5000
+</p>
+<p>600
+4000
+</p>
+<p>500
+</p>
+<p>3000 400
+</p>
+<p>300
+2000
+</p>
+<p>200
+1000
+</p>
+<p>100
+</p>
+<p>0 0
+</p>
+<p>GL CASS CPLEX CPLEX Optimal Portfolio
+</p>
+<p>Optimal Algorithm Selection Portfolio Algorithm Selection
+</p>
+<p>CASS
+GL
+CPLEX
+</p>
+<p>Time (s)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Distribution Induction
+</p>
+<p>• We want our test distribution to generate problems 
+in proportion to the time our portfolio spends on them
+</p>
+<p>– D: original distribution of instances 
+– Hf: model of portfolio runtime (hf: normalized)
+</p>
+<p>• Goal: generate instances from D · hf
+– D is a distribution over the parameters of an instance generator
+– hf depends on features of generated instance
+</p>
+<p>• Use rejection sampling
+Matching
+</p>
+<p>100%
+</p>
+<p>1 Original80%
+0.9 Hard
+0.8
+0.7 60%
+0.6
+0.5
+0.4 40%
+0.3
+0.2
+0.1
+0 20%
+</p>
+<p>U
+B n.1 i in f0 o
+</p>
+<p>1 A
+r
+</p>
+<p>r om mD b
+10 ec
+</p>
+<p>it i
+R a r
+</p>
+<p>a
+a l 0%
+</p>
+<p>0 eg y r10
+y
+</p>
+<p>W i
+0 e o
+</p>
+<p>00 Ex i
+n
+</p>
+<p>g s1 h
+Runtime  00 S
+</p>
+<p>po te 0.05 0.1 0.15 0.2 0.25 0.3 0.35 0.4 0.45 0.5 5 10
+00 ch ne d 
+</p>
+<p>Ma g nitude 1 0 M ed nt R
+00
+</p>
+<p>0 atc ul ia
+a
+</p>
+<p>10 h in l
+ndo Runtime (s)(se co nds) in g mg
+</p>
+<p>Percenta ge  In cl a ss</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Topics
+</p>
+<p>problems 
+combinatorial auction
+</p>
+<p>come from bidding
+winner determination:
+</p>
+<p>GT/Econ clubs
+algorithms; testing
+</p>
+<p>local-effect
+games
+</p>
+<p>empirical hardness
+models; portfolios
+</p>
+<p>load balancing
+</p>
+<p>problems in networks
+</p>
+<p>come from 
+CS
+</p>
+<p>applied theoretical</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Focused Loading
+</p>
+<p>• Many users demand network 6.0%
+resources at a focal time
+</p>
+<p>5.5%
+</p>
+<p>• Example: long distance phone 5.0%
+– want to talk as early as 4.5%
+</p>
+<p>possible, minimize cost 4.0%
+</p>
+<p>– max utility when rates drop: 3.5%
+network demand spikes 3.0%
+</p>
+<p>• Computer networks: load can be 2.5%
+even more focused 2.0% Rates drop from 
+</p>
+<p>Peak to Shoulder
+</p>
+<p>– sudden onset: TicketMaster 1.5%
+8 9 10 11 12 13 14 15 16 17 18
+</p>
+<p>server as tickets go on sale Hour
+</p>
+<p>– deadline: IRS server just before 
+taxes are due Quarterly Trunk Calls on Weekdays in 
+</p>
+<p>the United Kingdom, December 1975
+• Idea: provide incentives for users 
+</p>
+<p>[Mitchell, 1978]
+to defocus their own loads
+</p>
+<p>[Leyton-Brown, Porter, Prabhakar, Venkataraman, Shoham, 2001; 2003]
+</p>
+<p>Percentag e  o f  00 -24  Ca lls</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Things you need to know from Game Theory
+</p>
+<p>• Game: 
+– players/agents
+– actions
+– strategies
+– payoffs
+</p>
+<p>• Equilibrium
+– stable strategies
+– weak/strict
+– mixed/pure
+</p>
+<p>• Mechanism design</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our Model
+</p>
+<p>• Network resource: use is divided into t timeslots 
+• Each slot has a fixed usage cost m
+• n agents will use the network resource for one slot each
+</p>
+<p>– slot   is preferred by all agents
+</p>
+<p>• Agent ai’s valuation for slot s is vi(s).  Two cases:
+1. all agents have the same v
+</p>
+<p>2. mechanism designer knows bounds: vl and vu
+</p>
+<p>• d(s) is the number of agents who choose slot s
+• Give agents incentive to balance load, but make 
+</p>
+<p>small computational demands on the network resource
+– waive the usage fee for slot s with probability p(s) 
+– q: expected number of free slots </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Mechanism Evaluation, Optimality
+</p>
+<p>The mechanism designer has two goals:
+1. maximize expected revenue
+</p>
+<p>2. balance load caused by the agents’ selection of slots
+Expressed in tradeoff function z
+</p>
+<p>Optimality: A mechanism-equilibrium pair is optimal if it 
+maximizes z, as compared to all other equilibria in 
+other mechanisms (constant n, participation rational)
+</p>
+<p>ε-optimality: z - zopt is bounded by nε
+</p>
+<p>Theorem 1: The optimal mechanism-equilibrium pair has a 
+weak equilibrium (complete indifference). [same v]
+</p>
+<p>Theorem 2: No strict, optimal equilibrium exists</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>“Collective Reward”
+1. The mechanism signals agents with slot numbers
+</p>
+<p>– c(s): the number of agents given signal s
+2. Each agent chooses a slot
+</p>
+<p>3. The mechanism computes p, and determines which 
+slots will be made (retroactively) free
+</p>
+<p>Lemma 1: Assigning each agent the signal that greedily 
+improves z gives rise to optimal d
+</p>
+<p>Lemma 2: Strict equilibrium ϕ: ai chooses slot c(i)
+Theorem 3: (CR, ϕ) is ε-optimal [same v] 
+Theorem 4: (CR, ϕ) is k-optimal, 
+</p>
+<p>[different v]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Topics
+</p>
+<p>problems 
+combinatorial auction
+</p>
+<p>come from bidding
+winner determination:
+</p>
+<p>GT/Econ clubs
+algorithms; testing
+</p>
+<p>local-effect
+games
+</p>
+<p>empirical hardness
+models; portfolios
+</p>
+<p>load balancing
+</p>
+<p>problems in networks
+</p>
+<p>come from 
+CS
+</p>
+<p>applied theoretical</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computation-Friendly Game Representations
+</p>
+<p>• In practice, interesting games are large;
+computing equilibrium is hard
+</p>
+<p>• CS agenda: compact representation, tractable computation
+– independencies/modularity [La Mura, 2000], [Kearns, Littman, Singh, 2001], 
+</p>
+<p>[Vickrey & Koller, 2002]
+</p>
+<p>– symmetries [Roughgarden & Tardos, 2001], [Kearns & Mansour, 2002]
+</p>
+<p>• Congestion games (slightly simplified) [Rosenthal, 1973]
+– each agent i selects an action a
+– D(a) is the number of agents who choose action a
+– Fa(·) are arbitrary functions for each a
+– agent i pays
+</p>
+<p>• Example: traffic congestion</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Local Effect Games
+[Leyton-Brown & Tennenholtz, 2003]
+</p>
+<p>• An agent can be made to pay more because another 
+agent chooses a different but related action
+– location problem: ice cream vendors on the beach
+</p>
+<p>• neigh(a) is the set of actions that locally affect agents 
+who choose action a     
+</p>
+<p>• Fa,a’(·) is the cost due to the local effect from action a
+to action a’
+</p>
+<p>• Agent i pays
+</p>
+<p>16 7 9 7 15
+</p>
+<p>7 5 5 5 7
+</p>
+<p>9 5 7 5 9
+</p>
+<p>7 5 5 5 7
+</p>
+<p>15 7 9 7 15
+</p>
+<p>Local Effect Graphs</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Local Effect Games
+</p>
+<p>1. Compact representation
+</p>
+<p>– context-specific independence between actions
+– symmetry among players’ utility functions
+</p>
+<p>2. What about finding equilibria?
+</p>
+<p>– theoretical: exploit special properties
+• pure-strategy Nash equilibrium
+</p>
+<p>– computational
+• myopic best-response dynamics</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Main Technical Results
+</p>
+<p>A B
+</p>
+<p>A B
+</p>
+<p>C</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Main Technical Results</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computational Results
+</p>
+<p>11 5 2 5 11 10 1
+</p>
+<p>5 14 14
+</p>
+<p>11 1 10
+</p>
+<p>node: 3·log(x+1)   edge: log(x+1) log/log.  Node 3, edge 1.  50 agents
+50 agents
+</p>
+<p>16 7 9 7 15 16 6 7 8 13
+</p>
+<p>7 5 5 5 7 4 8 9 3 8
+</p>
+<p>9 5 7 5 9 18 0 12 6
+</p>
+<p>7 5 5 5 7 4 9 8 3 8
+</p>
+<p>15 7 9 7 15 17 5 8 7 13
+</p>
+<p>log/log; node 4, edge 1; 200 agents log/log; node 4, edge 1; 200 agents</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computational Results
+</p>
+<p>16 7 9 7 15
+</p>
+<p>7 5 5 5 7
+</p>
+<p>9 5 7 5 9
+</p>
+<p>7 5 5 5 7
+</p>
+<p>15 7 9 7 15
+</p>
+<p>T Arbitrary Bin Tree Grid Mod Grid
+</p>
+<p>45 Convergence for Arbitrary
+40
+</p>
+<p>35 35
+30
+</p>
+<p>T 30
+25 25
+</p>
+<p>Arbitrary
+20 20
+</p>
+<p>15 Bin Tree 15
+</p>
+<p>10 Grid 10
+</p>
+<p>5 Mod Grid 5
+</p>
+<p>0 0
+</p>
+<p>0 50 100 150 200 0 20 40 60 80 100
+</p>
+<p>Number of A gents Number of A gents
+</p>
+<p>Steps  to Convergence
+</p>
+<p>Steps to  Converg ence</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Resource Allocation in 
+Competitive Multiagent Systems
+</p>
+<p>problems 
+combinatorial auction
+</p>
+<p>come from bidding
+winner determination:
+</p>
+<p>GT/Econ clubs
+algorithms; testing
+</p>
+<p>local-effect
+games
+</p>
+<p>empirical hardness
+models; portfolios
+</p>
+<p>load balancing
+</p>
+<p>problems in networks
+</p>
+<p>come from 
+CS
+</p>
+<p>applied theoretical</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thanks!
+</p>
+<p>• to my advisor, Yoav Shoham
+• to members of my committee: 
+</p>
+<p>– Andrew Ng, Moshe Tennenholtz (reading)
+– Daphne Koller, David Kreps (orals)
+</p>
+<p>• to coauthors of the work presented here:
+1. Eugene Nudelman; Galen Andrew; Jim McFadden; Yoav Shoham
+</p>
+<p>2. Ryan Porter; Balaji Prabhakar; Yoav Shoham; Shobha
+Venkataraman
+</p>
+<p>3. Moshe Tennenholtz
+</p>
+<p>• to other coauthors of work in my thesis:
+– Navin A.R. Bhat, Yuzo Fujishima, Mark Pearson
+</p>
+<p>• to members of the multiagent group, past & present
+• to many friends who offered help and support
+• to my family and my girlfriend, Judith</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>And thanks for your attention!</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Distribution Induction
+</p>
+<p>• D: original distribution of instances 
+• Hf: model of portfolio runtime 
+</p>
+<p>– hf: normalized for interpretation as a density function
+</p>
+<p>• Goal: generate instances from D · hf
+– D is a distribution over the parameters of an instance generator
+– hf depends on features of generated instance
+</p>
+<p>• Rejection sampling
+1. Create model of hardness Hp using parameters of the instance 
+</p>
+<p>generator as features; normalize it to create a PDF hp
+2. Generate an instance from D · hp
+3. Keep the sample with probability proportional to
+</p>
+<p>4. Else, goto 2</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,1781 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Università degli Studi di Palermo
+Dipartimento di Matematica e Informatica
+</p>
+<p>Dottorato di Ricerca in Matematica e Informatica
+</p>
+<p>Balancing and clustering of words:
+a combinatorial analysis of the
+Burrows & Wheeler Transform
+</p>
+<p>Giovanna Rosone
+giovanna@math.unipa.it
+</p>
+<p>Advisor: Coordinator:
+</p>
+<p>Prof. Antonio Restivo Prof. Camillo Trapani
+</p>
+<p>Palermo, 17 Marzo 2010</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform Introduction
+</p>
+<p>Burrows-Wheeler Transform (BWT)
+</p>
+<p>The BWT is a well known transformation introduced in [M. Burrows
+and D. Wheeler, A block sorting data compression algorithm,
+Technical report, DIGITAL System Research Center, 1994]
+</p>
+<p>The BWT is a reversible transformation that produces a permutation
+bwt(v) of an input sequence v, defined over an ordered alphabet A,
+so that occurrences of a given symbol tend to occur in clusters in the
+output sequence.
+</p>
+<p>Traditionally the major application of the Burrows-Wheeler Transform
+has been for Data Compression. The BWT represents for instance the
+heart of the BZIP2 algorithm.
+</p>
+<p>Today, there are reports of the application of the BWT in
+bio-informatics, full-text compressed indexes, prediction and entropy
+estimation, and shape analysis in computer vision, etc. Moreover,
+there exist several variants and extensions of such a transform.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 2 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform Introduction
+</p>
+<p>Preliminaries
+</p>
+<p>Let A denote a non-empty finite set of symbols. The elements of A
+are called letters (symbols or characters) and the set A is called an
+alphabet.
+</p>
+<p>A word over an alphabet A is a finite sequence of letters from A.
+The empty word ε is the empty sequence.
+</p>
+<p>Two words u, v ∈ A∗ are conjugate, if u = xy and v = yx for some
+x, y ∈ A∗. Thus conjugate words are just cyclic shifts of one another.
+Let [v] denote the conjugacy classes of v.
+</p>
+<p>A conjugacy class can also be represented as a circular word. Hence
+in what follows we will use “circular word” and “conjugacy class” as
+synonym.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 3 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>, that denotes the position of the original word v after the
+lexicographical sorting of its conjugates. M
+</p>
+<p>F L
+↓ ↓
+</p>
+<p>I →
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>How does BWT work?
+</p>
+<p>BWT takes as input a text v and produces:
+a permutation bwt(v) of the letters of v.
+the index I
+</p>
+<p>Example: v = international
+</p>
+<p>i n t e r n a t i o n a l 1 a l i n t e r n a t i o n
+n t e r n a t i o n a l i 2 a t i o n a l i n t e r n
+t e r n a t i o n a l i n 3 e r n a t i o n a l i n t
+e r n a t i o n a l i n t 4 i n t e r n a t i o n a l
+r n a t i o n a l i n t e 5 i o n a l i n t e r n a t
+n a t i o n a l i n t e r 6 l i n t e r n a t i o n a
+a t i o n a l i n t e r n 7 n a l i n t e r n a t i o
+t i o n a l i n t e r n a 8 n a t i o n a l i n t e r
+i o n a l i n t e r n a t 9 n t e r n a t i o n a l i
+o n a l i n t e r n a t i 10 o n a l i n t e r n a t i
+n a l i n t e r n a t i o 11 r n a t i o n a l i n t e
+a l i n t e r n a t i o n 12 t e r n a t i o n a l i n
+l i n t e r n a t i o n a 13 t i o n a l i n t e r n a
+</p>
+<p>Each row of M is a conjugate of v in
+bwt(v) = L = nntltaoriiena and I = 4.
+</p>
+<p>lexicographic order.
+G. Rosone Palermo, 17 Marzo 2010 4 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>, that denotes the position of the original word v after the
+lexicographical sorting of its conjugates. M
+</p>
+<p>F L
+↓ ↓
+</p>
+<p>I →
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>How does BWT work?
+</p>
+<p>BWT takes as input a text v and produces:
+a permutation bwt(v) of the letters of v.
+the index I
+</p>
+<p>Example: v = international M
+</p>
+<p>i n t e r n a t i o n a l 1 a l i n t e r n a t i o n
+n t e r n a t i o n a l i 2 a t i o n a l i n t e r n
+t e r n a t i o n a l i n 3 e r n a t i o n a l i n t
+e r n a t i o n a l i n t 4 i n t e r n a t i o n a l
+r n a t i o n a l i n t e 5 i o n a l i n t e r n a t
+n a t i o n a l i n t e r 6 l i n t e r n a t i o n a
+a t i o n a l i n t e r n 7 n a l i n t e r n a t i o
+t i o n a l i n t e r n a 8 n a t i o n a l i n t e r
+i o n a l i n t e r n a t 9 n t e r n a t i o n a l i
+o n a l i n t e r n a t i 10 o n a l i n t e r n a t i
+n a l i n t e r n a t i o 11 r n a t i o n a l i n t e
+a l i n t e r n a t i o n 12 t e r n a t i o n a l i n
+l i n t e r n a t i o n a 13 t i o n a l i n t e r n a
+</p>
+<p>Each row of M is a conjugate of v in
+bwt(v) = L = nntltaoriiena and I = 4.
+</p>
+<p>lexicographic order.
+G. Rosone Palermo, 17 Marzo 2010 4 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>, that denotes the position of the original word v after the
+lexicographical sorting of its conjugates.
+</p>
+<p>I →
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>How does BWT work?
+</p>
+<p>BWT takes as input a text v and produces:
+a permutation bwt(v) of the letters of v.
+the index I
+</p>
+<p>M
+</p>
+<p>Example: v = international F L
+↓ ↓
+</p>
+<p>i n t e r n a t i o n a l 1 a l i n t e r n a t i o n
+n t e r n a t i o n a l i 2 a t i o n a l i n t e r n
+t e r n a t i o n a l i n 3 e r n a t i o n a l i n t
+e r n a t i o n a l i n t 4 i n t e r n a t i o n a l
+r n a t i o n a l i n t e 5 i o n a l i n t e r n a t
+n a t i o n a l i n t e r 6 l i n t e r n a t i o n a
+a t i o n a l i n t e r n 7 n a l i n t e r n a t i o
+t i o n a l i n t e r n a 8 n a t i o n a l i n t e r
+i o n a l i n t e r n a t 9 n t e r n a t i o n a l i
+o n a l i n t e r n a t i 10 o n a l i n t e r n a t i
+n a l i n t e r n a t i o 11 r n a t i o n a l i n t e
+a l i n t e r n a t i o n 12 t e r n a t i o n a l i n
+l i n t e r n a t i o n a 13 t i o n a l i n t e r n a
+</p>
+<p>Each row of M is a conjugate of v in
+bwt(v) = L = nntltaoriiena and I = 4.
+</p>
+<p>lexicographic order.
+G. Rosone Palermo, 17 Marzo 2010 4 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>How does BWT work?
+</p>
+<p>BWT takes as input a text v and produces:
+a permutation bwt(v) of the letters of v.
+the index I, that denotes the position of the original word v after the
+lexicographical sorting of its conjugates. M
+</p>
+<p>Example: v = international F L
+↓ ↓
+</p>
+<p>i n t e r n a t i o n a l 1 a l i n t e r n a t i o n
+n t e r n a t i o n a l i 2 a t i o n a l i n t e r n
+t e r n a t i o n a l i n 3 e r n a t i o n a l i n t
+e r n a t i o n a l i n t I →4 i n t e r n a t i o n a l
+r n a t i o n a l i n t e 5 i o n a l i n t e r n a t
+n a t i o n a l i n t e r 6 l i n t e r n a t i o n a
+a t i o n a l i n t e r n 7 n a l i n t e r n a t i o
+t i o n a l i n t e r n a 8 n a t i o n a l i n t e r
+i o n a l i n t e r n a t 9 n t e r n a t i o n a l i
+o n a l i n t e r n a t i 10 o n a l i n t e r n a t i
+n a l i n t e r n a t i o 11 r n a t i o n a l i n t e
+a l i n t e r n a t i o n 12 t e r n a t i o n a l i n
+l i n t e r n a t i o n a 13 t i o n a l i n t e r n a
+</p>
+<p>Each row of M is a conjugate of v in
+bwt(v) = L = nntltaoriiena and I = 4.
+</p>
+<p>lexicographic order.
+G. Rosone Palermo, 17 Marzo 2010 4 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Properties
+</p>
+<p>BWT takes as input a text v and produces:
+</p>
+<p>a permutation bwt(v) of the letters of v.
+the index I, that is useful in order to recover the original word v.
+</p>
+<p>Example: v = international
+bwt(v) = L = nntltaoriiena and I = 4
+</p>
+<p>I The first character of v is F [I]. F M L↓ ↓
+1 a l i n t e r n a t i o n
+</p>
+<p>I For any character α, the ith 2 a t i o n a l i n t e r n
+occurrence of α in F 3 e r n a t i o n a l i n tI → 4 i n t e r n a t i o n a l
+corresponds to the ith 5 i o n a l i n t e r n a t
+</p>
+<p>6 l i n t e r n a t i o n a
+occurrence of α in L. 7 n a l i n t e r n a t i o
+</p>
+<p>8 n a t i o n a l i n t e r
+I For all i =6 I, the character L[i] 9 n t e r n a t i o n a l i
+</p>
+<p>10 o n a l i n t e r n a t i
+is followed in v by F [i]; 11 r n a t i o n a l i n t e
+</p>
+<p>12 t e r n a t i o n a l i n
+13 t i o n a l i n t e r n a
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 5 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>nternational
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>F L
+bwt(v) = L = nntltaoriiena and
+I = 4. 1 a n 1
+</p>
+<p>2 a n 2
+I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>I For all i 6= I, the character L[i] 9 n i 9
+10 o i 10
+</p>
+<p>is followed in v by F [i]; 11 r e 11
+12 t n 12
+</p>
+<p>v = i 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ternational
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>bwt(v) = L = nntltaoriiena and F L
+</p>
+<p>I = 4. 1 a n 1
+2 a n 2
+</p>
+<p>I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i =6 I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = in 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ernational
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>bwt(v) = L = nntltaoriiena and F L
+</p>
+<p>I = 4. 1 a n 1
+2 a n 2
+</p>
+<p>I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i =6 I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = int 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>rnational
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>F L
+bwt(v) = L = nntltaoriiena and
+I = 4. 1 a n 1
+</p>
+<p>2 a n 2
+I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i =6 I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = inte 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>national
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>bwt(v) = L = nntltaoriiena and F L
+</p>
+<p>I = 4. 1 a n 1
+2 a n 2
+</p>
+<p>I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i =6 I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = inter 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ational
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>bwt(v) = L = nntltaoriiena and F L
+</p>
+<p>I = 4. 1 a n 1
+2 a n 2
+</p>
+<p>I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i =6 I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = intern 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>tional
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>bwt(v) = L = nntltaoriiena and F L
+</p>
+<p>I = 4. 1 a n 1
+2 a n 2
+</p>
+<p>I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i 6= I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = interna 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ional
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>F L
+bwt(v) = L = nntltaoriiena and
+I = 4. 1 a n 1
+</p>
+<p>2 a n 2
+I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i 6= I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = internat 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>onal
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>F L
+bwt(v) = L = nntltaoriiena and
+I = 4. 1 a n 1
+</p>
+<p>2 a n 2
+I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i 6= I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = internati 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>nal
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>F L
+bwt(v) = L = nntltaoriiena and
+I = 4. 1 a n 1
+</p>
+<p>2 a n 2
+I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i 6= I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = internatio 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>al
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>F L
+bwt(v) = L = nntltaoriiena and
+I = 4. 1 a n 1
+</p>
+<p>2 a n 2
+I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i 6= I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = internation 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>l
+</p>
+<p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>F L
+bwt(v) = L = nntltaoriiena and
+I = 4. 1 a n 1
+</p>
+<p>2 a n 2
+I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i =6 I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = internationa 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform How does BWT work?
+</p>
+<p>Reverse
+</p>
+<p>F L
+bwt(v) = L = nntltaoriiena and
+I = 4. 1 a n 1
+</p>
+<p>2 a n 2
+I The first character of v is F [I]. 3 e t 3
+</p>
+<p>I For any character α, the ith 4 i l 4
+5 i t 5
+</p>
+<p>occurrence of α in F 6 l a 6
+corresponds to the ith 7 n o 7
+occurrence of α in L. 8 n r 8
+</p>
+<p>n
+I For all i =6 I, the character L[i] 9 i 9
+</p>
+<p>10 o i 10
+is followed in v by F [i]; 11 r e 11
+</p>
+<p>12 t n 12
+v = international 13 t a 13
+</p>
+<p>Notice that if we except the index, all the mutual conjugate words
+have the same Burrows-Wheeler Transform.
+Hence, the BWT can be thought as a transformation acting on
+circular words.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 6 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform BWT-based compression
+</p>
+<p>Why Useful?
+</p>
+<p>INTUITION
+Let us consider the effect of BWT on a segment of a BWT-sorted file for
+Shakespeares Hamlet.
+</p>
+<p>The factor ot is normally preceded by
+n, but occasionally by h, g or j.
+</p>
+<p>The characters preceding ot are
+grouped together.
+</p>
+<p>Extensive experimental work confirms this “clustering effect”
+(M. Burrows and D. Wheeler,1994, P. Fenwick, 1996).
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 7 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform BWT-based compression
+</p>
+<p>BWT-based compression - Intuition
+</p>
+<p>v BWT bwt(v) Compressor Output
+</p>
+<p>Traditionally, compression ratio of BWT-based compression
+algorithms are usually measured by using Hk(v).
+</p>
+<p>G. Manzini, 2001,
+F. Ferragina, R. Giancarlo, G. Manzini, M. Sciortino, 2005
+</p>
+<p>H0(v): Maximum compression we can get without context
+information where a fixed codeword is assigned to each alphabet
+character (e.g.: Huffman code).
+</p>
+<p>Hk(v): Lower bound for compression with order-k contexts: the
+codeword representing each symbol depends on the k symbols
+preceding it.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 8 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform BWT-based compression
+</p>
+<p>Questions
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007, report in their paper some
+empirical results which seem to indicate that achieving good bounds
+with respect to Hk does not necessarily guarantee good compression
+results in practice. So they ask the question:
+</p>
+<p>whether there is another statistic (more appropriate than Hk) that
+actually capture the compressibility of the input text.
+</p>
+<p>H. Kaplan and E. Verbin, 2007 observe that such compressors work
+well in practice (in particular on English text). They ask the following
+question:
+</p>
+<p>what kind of regularity is there in English text that compressors
+exploit?
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 9 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Burrows-Wheeler Transform BWT-based compression
+</p>
+<p>Answers
+</p>
+<p>What kind of regularity is there? Is there a more appropriate statistic?
+</p>
+<p>The solution: The solution:
+Balance of the input text. Local Entropy of the input text.
+Our idea is that one obtains a more We introduce the notion of local
+compressible string as output of entropy as a measure of the degree
+BWT if its input is very close to be of balance of a text.
+balanced.
+</p>
+<p>Our intuition
+</p>
+<p>The more balanced the input word is, the more local similarity one has
+after BWT, and the better the compression is.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 10 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced words Definition
+</p>
+<p>Balanced words: definition
+</p>
+<p>A (finite or infinite) word v is balanced if for each letter a of the
+alphabet A and for all factors u and u′ of v s.t. |u| = |u′| we have
+that
+</p>
+<p>||u|a − |u′|a| ≤ 1
+</p>
+<p>A finite word v is circularly balanced if all its conjugates are balanced.
+</p>
+<p>Example
+</p>
+<p>w = cacbcac is a circularly balanced word.
+</p>
+<p>v = acacbbc is an unbalanced word.
+</p>
+<p>u = babaabaab is a balanced but not circularly balanced word.
+</p>
+<p>Denote by B the set of circularly balanced words.
+</p>
+<p>Laurent Vuillon. Balanced words. Bull. Belg. Math.Soc., 10(5):787–805,
+2003.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 11 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced words Definition
+</p>
+<p>Extremal cases: Constant gap words and Clustered words
+</p>
+<p>A finite word v is constant gap if, for each letter a, the distance (the
+number of letters) between two consecutive occurrences of a is
+constant (in circular way).
+</p>
+<p>Example
+</p>
+<p>The word v = abcabdabcabe is a constant gap word.
+</p>
+<p>Constant gap words are a special case of circularly balanced words.
+</p>
+<p>The word v is a clustered word if the number of runs is equal to the
+size of alphabet.
+</p>
+<p>Example
+</p>
+<p>The word w = ddddddccccaaaaabbb is a clustered word.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 12 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>1 4 2 1 3 0 3
+</p>
+<p>Analysis Measure of the degree of balance
+</p>
+<p>Statistic: Local Entropy based on Distance Coding
+</p>
+<p>Distance coding: for each symbol of the input word, the DC algorithm
+outputs the distance to the previous occurrence of the same symbol (in
+circular way).
+</p>
+<p>Example
+v = a c b c a a b
+</p>
+<p>dc(v) =
+</p>
+<p>Let v = b1b2 · · · bn, bi ∈ A and dc(v) = d1d2 · · · dn, where 0 ≤ di < n.
+Define the Local Entropy of v:
+</p>
+<p>1 ∑n
+LE(v) = log(di + 1)
+</p>
+<p>n
+i=1
+</p>
+<p>Local entropy (LE) was considered by
+J. L. Bentley, D. D. Sleator, R. E. Tarjan, and V. K. Wei, 1986
+</p>
+<p>G. Manzini, 2001
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007
+G. Rosone Palermo, 17 Marzo 2010 13 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4 2 1 3 0 3
+</p>
+<p>Analysis Measure of the degree of balance
+</p>
+<p>Statistic: Local Entropy based on Distance Coding
+</p>
+<p>Distance coding: for each symbol of the input word, the DC algorithm
+outputs the distance to the previous occurrence of the same symbol (in
+circular way).
+</p>
+<p>Example
+v = a c b c a a b
+</p>
+<p>dc(v) = 1
+</p>
+<p>Let v = b1b2 · · · bn, bi ∈ A and dc(v) = d1d2 · · · dn, where 0 ≤ di < n.
+Define the Local Entropy of v:
+</p>
+<p>1 ∑n
+LE(v) = log(di + 1)
+</p>
+<p>n
+i=1
+</p>
+<p>Local entropy (LE) was considered by
+J. L. Bentley, D. D. Sleator, R. E. Tarjan, and V. K. Wei, 1986
+</p>
+<p>G. Manzini, 2001
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007
+G. Rosone Palermo, 17 Marzo 2010 13 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 1 3 0 3
+</p>
+<p>Analysis Measure of the degree of balance
+</p>
+<p>Statistic: Local Entropy based on Distance Coding
+</p>
+<p>Distance coding: for each symbol of the input word, the DC algorithm
+outputs the distance to the previous occurrence of the same symbol (in
+circular way).
+</p>
+<p>Example
+v = a c b c a a b
+</p>
+<p>dc(v) = 1 4
+</p>
+<p>Let v = b1b2 · · · bn, bi ∈ A and dc(v) = d1d2 · · · dn, where 0 ≤ di < n.
+Define the Local Entropy of v:
+</p>
+<p>1 ∑n
+LE(v) = log(di + 1)
+</p>
+<p>n
+i=1
+</p>
+<p>Local entropy (LE) was considered by
+J. L. Bentley, D. D. Sleator, R. E. Tarjan, and V. K. Wei, 1986
+</p>
+<p>G. Manzini, 2001
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007
+G. Rosone Palermo, 17 Marzo 2010 13 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>1 3 0 3
+</p>
+<p>Analysis Measure of the degree of balance
+</p>
+<p>Statistic: Local Entropy based on Distance Coding
+</p>
+<p>Distance coding: for each symbol of the input word, the DC algorithm
+outputs the distance to the previous occurrence of the same symbol (in
+circular way).
+</p>
+<p>Example
+v = a c b c a a b
+</p>
+<p>dc(v) = 1 4 2
+</p>
+<p>Let v = b1b2 · · · bn, bi ∈ A and dc(v) = d1d2 · · · dn, where 0 ≤ di < n.
+Define the Local Entropy of v:
+</p>
+<p>1 ∑n
+LE(v) = log(di + 1)
+</p>
+<p>n
+i=1
+</p>
+<p>Local entropy (LE) was considered by
+J. L. Bentley, D. D. Sleator, R. E. Tarjan, and V. K. Wei, 1986
+</p>
+<p>G. Manzini, 2001
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007
+G. Rosone Palermo, 17 Marzo 2010 13 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3 0 3
+</p>
+<p>Analysis Measure of the degree of balance
+</p>
+<p>Statistic: Local Entropy based on Distance Coding
+</p>
+<p>Distance coding: for each symbol of the input word, the DC algorithm
+outputs the distance to the previous occurrence of the same symbol (in
+circular way).
+</p>
+<p>Example
+v = a c b c a a b
+</p>
+<p>dc(v) = 1 4 2 1
+</p>
+<p>Let v = b1b2 · · · bn, bi ∈ A and dc(v) = d1d2 · · · dn, where 0 ≤ di < n.
+Define the Local Entropy of v:
+</p>
+<p>1 ∑n
+LE(v) = log(di + 1)
+</p>
+<p>n
+i=1
+</p>
+<p>Local entropy (LE) was considered by
+J. L. Bentley, D. D. Sleator, R. E. Tarjan, and V. K. Wei, 1986
+</p>
+<p>G. Manzini, 2001
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007
+G. Rosone Palermo, 17 Marzo 2010 13 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>0 3
+</p>
+<p>Analysis Measure of the degree of balance
+</p>
+<p>Statistic: Local Entropy based on Distance Coding
+</p>
+<p>Distance coding: for each symbol of the input word, the DC algorithm
+outputs the distance to the previous occurrence of the same symbol (in
+circular way).
+</p>
+<p>Example
+v = a c b c a a b
+</p>
+<p>dc(v) = 1 4 2 1 3
+</p>
+<p>Let v = b1b2 · · · bn, bi ∈ A and dc(v) = d1d2 · · · dn, where 0 ≤ di < n.
+Define the Local Entropy of v:
+</p>
+<p>1 ∑n
+LE(v) = log(di + 1)
+</p>
+<p>n
+i=1
+</p>
+<p>Local entropy (LE) was considered by
+J. L. Bentley, D. D. Sleator, R. E. Tarjan, and V. K. Wei, 1986
+</p>
+<p>G. Manzini, 2001
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007
+G. Rosone Palermo, 17 Marzo 2010 13 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3
+</p>
+<p>Analysis Measure of the degree of balance
+</p>
+<p>Statistic: Local Entropy based on Distance Coding
+</p>
+<p>Distance coding: for each symbol of the input word, the DC algorithm
+outputs the distance to the previous occurrence of the same symbol (in
+circular way).
+</p>
+<p>Example
+v = a c b c a a b
+</p>
+<p>dc(v) = 1 4 2 1 3 0
+</p>
+<p>Let v = b1b2 · · · bn, bi ∈ A and dc(v) = d1d2 · · · dn, where 0 ≤ di < n.
+Define the Local Entropy of v:
+</p>
+<p>1 ∑n
+LE(v) = log(di + 1)
+</p>
+<p>n
+i=1
+</p>
+<p>Local entropy (LE) was considered by
+J. L. Bentley, D. D. Sleator, R. E. Tarjan, and V. K. Wei, 1986
+</p>
+<p>G. Manzini, 2001
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007
+G. Rosone Palermo, 17 Marzo 2010 13 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis Measure of the degree of balance
+</p>
+<p>Statistic: Local Entropy based on Distance Coding
+</p>
+<p>Distance coding: for each symbol of the input word, the DC algorithm
+outputs the distance to the previous occurrence of the same symbol (in
+circular way).
+</p>
+<p>Example
+v = a c b c a a b
+</p>
+<p>dc(v) = 1 4 2 1 3 0 3
+</p>
+<p>Let v = b1b2 · · · bn, bi ∈ A and dc(v) = d1d2 · · · dn, where 0 ≤ di < n.
+Define the Local Entropy of v:
+</p>
+<p>1 ∑n
+LE(v) = log(di + 1)
+</p>
+<p>n
+i=1
+</p>
+<p>Local entropy (LE) was considered by
+J. L. Bentley, D. D. Sleator, R. E. Tarjan, and V. K. Wei, 1986
+</p>
+<p>G. Manzini, 2001
+</p>
+<p>H. Kaplan, S. Landau and E. Verbin, 2007
+G. Rosone Palermo, 17 Marzo 2010 13 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis Measure of the degree of balance
+</p>
+<p>Bounds
+</p>
+<p>Theorem
+</p>
+<p>For any word v one has:
+</p>
+<p>G(v) ≤ LE(v) ≤ H0(v)
+LE(v) = H0(v) if and only if v is a constant gap word.
+</p>
+<p>LE(v) = G(v) if and only if v is a clustered word.
+</p>
+<p>where ∑ |v|a |v|
+H0(v) = log ,
+</p>
+<p>∑ |v| |v|∈A aa1
+G(v) = [log(|v| − |v| + 1)]
+</p>
+<p>|v| a
+a∈A
+</p>
+<p>The notion of local entropy is a measure of the degree of balance of a text.
+</p>
+<p>|v|a denotes the number of occurrences of the letter a in the word v.
+G. Rosone Palermo, 17 Marzo 2010 14 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis Measure of the degree of balance
+</p>
+<p>Measure
+</p>
+<p>For any word v:
+</p>
+<p>δ(v) = H0(v)−LE(v) , τ(v) = LE(v)−G(v)H0(v)−G(v) H0(v)−G(v)
+</p>
+<p>Now, by using δ and τ , we can test, in a quantitative way, our
+intuition, i.e. the more balanced the input word is, the more local
+similarity is found in the BWT of the string, the better the
+compression is.
+</p>
+<p>The experiments reported in the next slide confirm our intuition:
+actually they show that when δ(v) is less than 0.23, then τ(bwt(v)) is
+less than 0.3 and the BWT-based compressor has good performances.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 15 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis Measure of the degree of balance
+</p>
+<p>Experiments
+</p>
+<p>File name Size H0 Bst Gzip Diff % δ(v) τ(bwt(v))
+bible 4,047,392 4.343 796,231 1,191,071 9.755 0.117 0.233
+</p>
+<p>english 52,428,800 4.529 11,533,171 19,672,355 15.524 0.136 0.238
+etext99 105,277,340 4.596 24,949,871 39,493,346 13.814 0.141 0.264
+english 104,857,600 4.556 23,993,810 39,437,704 14.728 0.143 0.250
+</p>
+<p>dblp.xml 52,428,800 5.230 4,871,450 9,034,902 7.941 0.152 0.093
+dblp.xml 104,857,600 5.228 9,427,936 17,765,502 7.951 0.153 0.090
+dblp.xml 209,715,200 5.257 18,522,167 35,897,168 8.285 0.162 0.088
+dblp.xml 296,135,874 5.262 25,597,003 50,481,103 8.403 0.164 0.086
+world192 2,473,400 4.998 430,225 724,606 11.902 0.174 0.183
+rctail96 114,711,151 5.154 11,429,406 24,007,508 10.965 0.178 0.097
+</p>
+<p>sprot34.dat 109,617,186 4.762 18,850,472 26,712,981 7.173 0.215 0.206
+jdk13c 69,728,899 5.531 3,187,900 7,525,172 6.220 0.224 0.041
+howto 39,886,973 4.857 8,713,851 12,638,334 9.839 0.231 0.229
+</p>
+<p>rfc 116,421,901 4.623 17,565,908 26,712,981 7.857 0.239 0.163
+w3c2 104,201,579 5.954 7,021,478 15,159,804 7.810 0.246 0.058
+</p>
+<p>chr22.dna 34,553,758 2.137 8,015,707 8,870,068 2.473 0.341 0.575
+pitches 52,428,800 5.633 18,651,999 16,884,651 -3.371 0.530 0.344
+pitches 55,832,855 5.628 19,475,065 16,040,370 -6.152 0.533 0.337
+</p>
+<p>Practical application: the computation of δ(v) is a fast test for the choice
+between bst and gzip.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 16 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analysis Measure of the degree of balance
+</p>
+<p>First conclusions
+</p>
+<p>Our intuition
+</p>
+<p>The more balanced the input word is, the more local similarity one has
+after BWT, and the better the compression is.
+</p>
+<p>The notion of local entropy is a measure of the degree of balance of a text.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 17 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Perfect clustering: Simple BWT words Binary alphabets: Standard words
+</p>
+<p>Extremal case: Balanced words - Binary alphabet
+</p>
+<p>An infinite aperiodic sequence v is balanced if and only if v is a
+sturmian sequence.
+</p>
+<p>An infinite periodic sequence vω is balanced if and only if v is a
+conjugate of a standard word.
+</p>
+<p>Fibonacci words
+</p>
+<p>f0 = b f4 = abaab
+f1 = a f5 = abaababa f0 = b f1 = a
+</p>
+<p>f2 = ab f6 = abaababaabaab fn+1 = fnfn−1 (n ≥ 1)
+f3 = aba f7 = abaababaabaababaababa
+</p>
+<p>Standard words
+Directive sequence d1, d2, . . . , dn, . . ., with d1 ≥ 0 and di > 0 for
+i = 2, . . . , n, . . ..
+</p>
+<p>s = b s = a s = sdn0 1 n+1 n sn−1 for n ≥ 1
+Standard words are special prefixes of Sturmian sequences.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 18 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Perfect clustering: Simple BWT words Binary alphabets
+</p>
+<p>Binary alphabets
+</p>
+<p>Theorem (S. Mantaci, A. Restivo and M. Sciortino, 2003)
+</p>
+<p>Given a word v ∈ {a, b}, the following conditions are equivalent:
+1 bwt(v) = bpaq, with p, q ≥ 1;
+2 v is a circularly balanced word;
+</p>
+<p>3 v is a conjugate of a power of a Standard words.
+</p>
+<p>Example
+</p>
+<p>v = abaababa is a standard word and bwt(v) = b3a5.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 19 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Perfect clustering: Simple BWT words Binary alphabets
+</p>
+<p>Circularly Balanced words on larger alphabets
+</p>
+<p>If |A| > 2, the general structure of circularly balanced words is not
+known.
+E. Altman, B. Gaujal, and A. Hordijk, 2000
+R. Mantaci, S. Mantaci, and A. Restivo, 2008
+</p>
+<p>We note that the notion of circularly balanced words over an alphabet
+of size larger than two also appears in the statement of the Fraenkel’s
+conjecture.
+</p>
+<p>As a direct consequence of a result of Graham, one has that balanced
+sequences on a set of letters having different frequencies must be
+periodic, i.e. of the form vω, where v is a circularly balanced word.
+</p>
+<p>Fraenkel’s conjecture
+Let Ak = {a1, a2, . . . , ak}. For each k > 2, there is only one circularly
+balanced word Fk ∈ A∗k, having different frequencies. It is defined
+recursively as follow F1 = a1 and Fk = Fk−1akFk−1 for all k ≥ 2.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 20 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Perfect clustering: Simple BWT words Generalization to alphabets with more than two letters
+</p>
+<p>Generalization to alphabets with more than two letters
+</p>
+<p>Theorem (S. Mantaci, A. Restivo and M. Sciortino, 2003)
+</p>
+<p>Given a word v ∈ {a, b}, the following conditions are equivalent:
+1 v is a Simple BWT word;
+</p>
+<p>2 v is a circularly balanced word;
+</p>
+<p>3 v is a conjugate of a power of a Standard words.
+</p>
+<p>In alphabets with more than two letters, the following sets do not coincide:
+</p>
+<p>1 simple BWT words;
+</p>
+<p>2 circularly balanced words;
+</p>
+<p>3 finite epistandard words (a generalization of the Standard words).
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 21 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Perfect clustering: Simple BWT words Large alphabets
+</p>
+<p>Simple BWT words
+</p>
+<p>In 2008, Simpson and Puglisi introduced the notion of Simple BWT words.
+</p>
+<p>Let v be a word over a finite ordered alphabet A = {a1, a2, . . . , ak}, with
+a1 < a2 < . . . < ak. The word v is a simple BWT word if
+</p>
+<p>n
+bwt(v) = anka k−1k k−1 · · · a
+</p>
+<p>n2 n1
+2 a1
+</p>
+<p>for some non-negative integers n1, n2, . . . , nk.
+</p>
+<p>We denote by S the set of the simple BWT words.
+</p>
+<p>Example
+</p>
+<p>v = acbcbcadad ∈ S, in fact bwt(v) = ddcccbbaaa.
+</p>
+<p>Simpson and Puglisi get a constructive characterization of the set S in the
+case of three letters alphabet.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 22 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Perfect clustering: Simple BWT words Matrix M and R
+</p>
+<p>Matrix M and R
+</p>
+<p>F M L FR R LR
+↓ ↓ ↓ ↓
+</p>
+<p>1 a l i n t e r n a t i o n a n r e t n i l a n o i t
+2 a t i o n a l i n t e r n n i l a n o i t a n r e t
+3 e r n a t i o n a l i n t e t n i l a n o i t a n r
+4 i n t e r n a t i o n a l i t a n r e t n i l a n o
+5 i o n a l i n t e r n a t i l a n o i t a n r e t n
+</p>
+<p>180◦
+6 l i n t e r n a t i o n a y r e t n i l a n o i t a n
+7 n a l i n t e r n a t i o o i t a n r e t n i l a n
+8 n a t i o n a l i n t e r a n o i t a n r e t n i l
+9 n t e r n a t i o n a l i t a n r e t n i l a n o i
+</p>
+<p>10 o n a l i n t e r n a t i l a n o i t a n r e t n i
+11 r n a t i o n a l i n t e t n i l a n o i t a n r e
+12 t e r n a t i o n a l i n n r e t n i l a n o i t a
+13 t i o n a l i n t e r n a n o i t a n r e t n i l a
+</p>
+<p>The matrix R is obtained from M by a rotation of 180◦: it follows that
+the ith conjugate of M is the reverse of the (n− i+ 1)th conjugate of R.
+</p>
+<p>Theorem
+</p>
+<p>A word v ∈ S if and only if M = R.
+G. Rosone Palermo, 17 Marzo 2010 23 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>vi →
+</p>
+<p>vn−i+1 →
+</p>
+<p>Perfect clustering: Simple BWT words Matrix M and R
+</p>
+<p>Matrix M and R
+</p>
+<p>a c a d a c b b c a d
+a c b b c a d a c a d
+a d a c a d a c b b c
+a d a c b b c a d a c
+b b c a d a c a d a c
+</p>
+<p>A word v ∈ S iff b c a d a c a d a c b
+M = R c a d a c a d a c b b
+</p>
+<p>c a d a c b b c a d a
+c b b c a d a c a d a
+d a c a d a c b b c a
+d a c b b c a d a c a
+</p>
+<p>vi = ṽn−i+1
+</p>
+<p>So [v] and its factors are closed under reverse. Under these conditions
+each conjugate of v has the two palindrome property (cf. Simpson and
+Puglisi, 2008).
+A word v has the two palindrome property if v is product of two
+palindromes, i.e. it can be written as xy where x and y are palindromes or
+empty.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 24 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Perfect clustering: Simple BWT words Matrix M and R
+</p>
+<p>Matrix M and R
+</p>
+<p>a c a d a c b b c a d
+vi → a c b b c a d a c a d
+</p>
+<p>a d a c a d a c b b c
+a d a c b b c a d a c
+b b c a d a c a d a c
+</p>
+<p>A word v ∈ S iff b c a d a c a d a c b
+M = R c a d a c a d a c b b
+</p>
+<p>c a d a c b b c a d a
+c b b c a d a c a d a
+</p>
+<p>vn−i+1 → d a c a d a c b b c a
+d a c b b c a d a c a
+</p>
+<p>vi = ṽn−i+1
+</p>
+<p>So [v] and its factors are closed under reverse. Under these conditions
+each conjugate of v has the two palindrome property (cf. Simpson and
+Puglisi, 2008).
+A word v has the two palindrome property if v is product of two
+palindromes, i.e. it can be written as xy where x and y are palindromes or
+empty.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 24 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Perfect clustering: Simple BWT words Balanced and Simple BWT words
+</p>
+<p>Balanced and Simple BWT words
+</p>
+<p>B 6= S
+</p>
+<p>The set of circularly balanced words over more than two letters alphabets
+does not coincide with the set of Simple BWT words.
+</p>
+<p>Example
+</p>
+<p>v = cacbcac is circularly balanced and bwt(v) = ccccbaa
+</p>
+<p>w = ababc is circularly balanced and bwt(w) = cbaab
+</p>
+<p>u = acacbbc is not balanced and bwt(u) = cccbbaa
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 25 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A generalization of Sturmian A generalization of Sturmian: Episturmian
+</p>
+<p>A generalization of Sturmian: Episturmian
+</p>
+<p>An infinite word t on A is episturmian (Droubay, J. Justin, G. Pirillo,
+2001) if:
+</p>
+<p>F (t) (its set of factors) is closed under reversal;
+t has at most one left special factor (or equivalently, right special
+factor) of each length.
+</p>
+<p>t is standard episturmian if all of its left special factors are prefixes of
+it.
+An infinite word on the finite alphabet A is standard episturmian if
+and only if it can be obtained by the Rauzy rules for A.
+</p>
+<p>Let s be an infinite word, then a factor u of s is right (resp. left) special
+if there exist x, y ∈ A, x 6= y, such that ux, uy ∈ F (s)
+(resp. xu, yu ∈ F (s)).
+X. Droubay, J. Justin, G. Pirillo, Episturmian words and some
+constructions of de Luca and. Rauzy, Theoret. Comput. Sci. 255, 2001.
+A. Glen and J. Justin. Episturmian words: a survey. RAIRO Theoretical
+Informatics and Applications, 2009.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 26 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A generalization of Sturmian A generalization of Standard: Finite epistandard
+</p>
+<p>A generalization of Standard: Finite epistandard
+</p>
+<p>Rauzy rules.
+</p>
+<p>Rules 1 2 3 4
+</p>
+<p>R0 a b c d
+</p>
+<p>R1 1 a ab ac ad
+</p>
+<p>R2 1 a aab aac aad
+</p>
+<p>R3 4 aada aadaab aadaac aad
+</p>
+<p>R4 3 aadaacaada aadaacaadaab aadaac aadaacaad
+</p>
+<p>Let |A| = k. A word v ∈ A∗ is called finite epistandard if v is an
+element of a k-tuples Rn, for some n = 1.
+</p>
+<p>We denote by EP the set of words that are powers of a conjugate of
+a finite epistandard word.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 27 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A generalization of Sturmian Balancing and Episturmian
+</p>
+<p>Balancing and Epistandard
+</p>
+<p>B 6= EP
+</p>
+<p>The set of circularly balanced words over more than two letters alphabets
+does not coincide with the set of conjugate of powers of epistandard
+words.
+</p>
+<p>Example
+</p>
+<p>v = aadaacaad is epistandard, but it is not circularly balanced.
+</p>
+<p>u = abcabdabcabe is circularly balanced, but it is not epistandard.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 28 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Rich words Rich words
+</p>
+<p>Palindromic Richness
+</p>
+<p>The number of distinct palindromic factors (including ε) of a word v
+is at most |v|+ 1.
+A finite word v is (palindromic) rich if it has exactly |v|+ 1 distinct
+palindromic factors, including the empty word ε.
+</p>
+<p>A factor of finite rich word is rich.
+</p>
+<p>Example
+</p>
+<p>v = ccaacb is rich, |v| = 6, in fact: P (v) = {ε, c, cc, caac, a, aa, b},
+|P (v)| = 7.
+</p>
+<p>X. Droubay, J. Justin, G. Pirillo, Episturmian words and some
+constructions of de Luca and. Rauzy, Theoret. Comput. Sci. 255, 2001.
+A. Glen, J. Justin, S. Widmer, and L. Q. Zamboni. Palindromic richness.
+European Journal of Combinatorics, 30(2):510–531, 2009.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 29 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Rich words Circularly rich words
+</p>
+<p>Circularly rich words
+</p>
+<p>Lemma (Glen, Justin, Widmer and Zamboni, 2009)
+</p>
+<p>For a finite word v, the following properties are equivalent:
+</p>
+<p>1 vω is rich;
+</p>
+<p>2 v2 is rich;
+</p>
+<p>3 v is a product of two palindromes and all of the conjugates of v
+(including itself) are rich.
+</p>
+<p>We say that a finite word v is circularly rich if the infinite word vω is
+rich.
+We denote by R the set of the circularly rich words.
+</p>
+<p>Example
+</p>
+<p>v = bbaca, |v| = 5 is circularly rich, in fact:
+P (v2) = {ε, a, b, c, bb, aca, bacab, bbacabb, acabbaca, cabbac, abba},
+|P (v2)| = 11.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 30 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Rich words Circularly rich words
+</p>
+<p>Balancing and Richness
+</p>
+<p>R =6 B
+</p>
+<p>The set of circularly balanced words over more than two letters alphabets
+does not coincide with the set of circularly rich words.
+</p>
+<p>Example
+</p>
+<p>The word w = bbbbbacaca is circularly rich, but it is not circularly
+balanced.
+</p>
+<p>The word u = abcabdabcabe is circularly balanced, but it is not
+circularly rich.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 31 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results Theorem
+</p>
+<p>S ∩ B = R∩ B = EP ∩ B
+</p>
+<p>Theorem
+</p>
+<p>Let w ∈ A∗ be a circularly balanced word over A. The following
+statements are equivalent:
+</p>
+<p>1 w is a simple BWT word;
+</p>
+<p>2 w is a circularly rich word;
+</p>
+<p>3 w is a conjugate of a power of a finite epistandard word.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 32 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results Proof
+</p>
+<p>Proof: 3→ 1: The finite balanced epistandard words
+belong to S.
+From a result of Paquin and Vuillon (2006), one can prove that each finite
+balanced epistandard word t is of the form:
+</p>
+<p>1 t = pa2, with p = Pal(a
+m
+1 akak−1 · · · a3), where k ≥ 3 and m ≥ 1;
+</p>
+<p>2 t = pa2, with p = Pal(a1akak−1 · · · ak−`a1ak−`−1ak−`−2 · · · a3),
+where 0 ≤ ` ≤ k − 4 and k ≥ 4;
+</p>
+<p>3 t = Pal(a1akak−1 · · · a2), where k ≥ 3 (Fraenkel’s words).
+where the operator Pal is the iterated palindromic closure function.
+</p>
+<p>The palindromic right-closure v(+) of a finite word v is the (unique) shortest palindrome having
+v as a prefix (A. de Luca, 1997).
+</p>
+<p>The iterated palindromic closure function (J. Justin, 2005), denoted by Pal, is recursively
+defined as follows. Set Pal(ε) = ε and, for any word v and letter x, define
+Pal(vx) = (Pal(v)x)(+).
+</p>
+<p>In order to prove that t belongs to S it suffices to show that words of the
+form (1), (2) and (3) have simple BWT.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 33 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results Proof
+</p>
+<p>Proof: 2↔ 3: w is circularly rich if and only if w is a
+conjugate of a power of a finite epistandard.
+</p>
+<p>The proof is a consequence of the following results:
+</p>
+<p>The set of the episturmian sequences is a subset of the set of the rich
+words (Glen, Justin, Widmer and Zamboni, 2009).
+</p>
+<p>Recurrent balanced rich infinite words are precisely the balanced
+episturmian words (Glen, Justin, Widmer and Zamboni, 2009). Hence
+a balanced circularly rich word coincides with a conjugate of a power
+of a balanced epistandard word.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 34 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results Proof
+</p>
+<p>Proof: 1→ 2: If the word w belongs to S then w is
+circularly rich.
+</p>
+<p>Theorem
+</p>
+<p>If the word w belongs to S then w is circularly rich.
+</p>
+<p>We know that
+</p>
+<p>w is circularly rich if and only if w is a product of two palindromes
+and all the conjugates of w (including itself) are rich.
+each word w ∈ S has the two palindrome property.
+</p>
+<p>We prove that
+</p>
+<p>If w ∈ S then all the conjugates of w (including itself) are rich.
+</p>
+<p>Example
+</p>
+<p>The word w = acbcbcadad ∈ S, in fact bwt(acbcbcadad) = ddcccbbaaa,
+and |w|2 = 20, |P (w2)| = 21, so w is circularly rich.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 35 / 1
+</p>
+<p>We note that the converse of this result is false.
+The word u = ccaaccb is circularly rich, but bwt(ccaaccb) = cacccba
+(u ∈/ S).</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results Proof
+</p>
+<p>Synthesis
+</p>
+<p>Under the condition of circularly balanced, the following statements are
+equivalent:
+</p>
+<p>w ∈ S (simple BWT word);
+w is circularly rich,
+</p>
+<p>w is a conjugate of a power of a finite epistandard.
+</p>
+<p>EP R
+</p>
+<p>S
+</p>
+<p>B
+</p>
+<p>The following example shows that there exist words unbalanced which
+belong to EP ∩ S: w = aadaacaad is not a circularly balanced word,
+w ∈ EP and w ∈ S.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 36 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions Conclusions and further works
+</p>
+<p>Conclusions
+</p>
+<p>“The regularity of the English text that BWT-based compressors
+exploit” is related to the balancing properties of the text itself.
+</p>
+<p>Empirical observations and theoretical results support the hypothesis:
+the more balanced the input word is, the more local similarity one has
+after BWT, and, as a consequence, the better the compression is.
+</p>
+<p>Apart from their interest for the study of the clustering effect of BWT
+(and of optimal performances of BWT-based compressors), our results
+can be considered as a contribution to combinatorics of episturmian
+sequences, and could provide new insight on Fraenkel’s conjecture.
+</p>
+<p>The main purpose of this investigation is to state a link between
+methods from Combinatorics on Words and techniques from Data
+Compression, in order to obtain a deeper comprehension of both
+research field.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 37 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions Conclusions and further works
+</p>
+<p>Further works
+</p>
+<p>To study, in a quantitative way, the compression ratio of BWT-based
+compressors in terms of the Local Entropy.
+</p>
+<p>To characterize the words in S (we have characterized the balanced
+words in S).
+</p>
+<p>To characterize all words having a clusterized BWT transform (the set
+S is a proper subclass of words having a clusterized BWT transform):
+the order of letters in the output of BWT is very important.
+For instance, the BWT of the word w = abacad is a clustered word,
+indeed we have that bwt(w) = dbca3, but although w is a circularly
+balanced word, it is not a circularly rich word.
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 38 / 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions Thanks
+</p>
+<p>Thank you for your attention!
+</p>
+<p>G. Rosone Palermo, 17 Marzo 2010 39 / 1</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

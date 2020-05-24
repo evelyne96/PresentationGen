@@ -1,0 +1,884 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tractable Computational Methods 
+for Finding Nash Equilibria of 
+.=</p>
+<p>Perfect-Information Position Auctions
+.=</p>
+<p>David Robert Martin Thompson
+Kevin Leyton-Brown
+.=</p>
+<p>Department of Computer Science
+University of British Columbia
+{daveth|kevinlb}@cs.ubc.ca.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation
+.=</p>
+<p>How will bidders behave in a position auction 
+that does not meet the assumptions 
+.=</p>
+<p>for which theoretical results are known?
+.=</p>
+<p>Our approach: compute Nash equilibrium
+.=</p>
+<p>Main hurdle: existing algorithms work with 
+normal form; infeasibly large for ad auctions
+.=</p>
+<p>Main message: preliminary, but it works.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p> Auctions & Model
+.=</p>
+<p> Action-Graph Games
+.=</p>
+<p> Auctions as AGGs
+.=</p>
+<p> Computational Experiments
+.=</p>
+<p> Economic Experiments.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Types of Position Auctions
+.=</p>
+<p> Dimensions:
+ 
+.=</p>
+<p> Generalized First Price vs. Generalized Second Price
+.=</p>
+<p> Pay-per-click vs. Pay-per-impression
+.=</p>
+<p> Weighted vs. Unweighted:
+ “Effective Bid”: bid * weight
+.=</p>
+<p> 
+.=</p>
+<p> Ads ranked by effective bid
+ 
+.=</p>
+<p> Payment: effective bid / weight
+ 
+.=</p>
+<p> Current Usage (Google,Microsoft,Yahoo!):
+ 
+.=</p>
+<p> Weighted, Per-Click, GSP.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model of Auction Setting
+.=</p>
+<p>Full-information, one-shot game [Varian, 2007; Edelman, Ostrovsky, 
+Schwarz, 2006 (“EOS”)]
+.=</p>
+<p>CTR across  CTR across  Bid 
+Weights positions bidders Value per Click Amounts
+.=</p>
+<p>One value
+[EOS] Always 1 Decreasing Constant  Continuous
+.=</p>
+<p>per bidder
+.=</p>
+<p>Proportional One value
+[Varian] Arbitrary Decreasing to Weight   Continuousper bidder
+.=</p>
+<p>(“Separable”)
+.=</p>
+<p>Our model Arbitrary Arbitrary Arbitrary Arbitrary Discrete.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p> Auctions & Model
+.=</p>
+<p> Action-Graph Games
+.=</p>
+<p> Auctions as AGGs
+.=</p>
+<p> Computational Experiments
+.=</p>
+<p> Economic Experiments.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What are AGGs?
+.=</p>
+<p> Action Graphs:
+ Each node represents an action.
+ Arcs indicate payoff dependencies.
+.=</p>
+<p> [Bhat & Leyton-Brown, 2004; Jiang & Leyton-Brown, 2006]
+ .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What are AGGs?
+.=</p>
+<p> Action Graphs:
+ Each node represents an action.
+ Arcs indicate payoff dependencies.
+ “Function Nodes” increase sparsity.
+.=</p>
+<p> [Bhat & Leyton-Brown, 2004; Jiang & Leyton-Brown, 2006]
+ .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Why Use AGGs? [Bhat & Leyton-Brown, 2004]
+.=</p>
+<p> Small: Compact representation of a one-shot, 
+full-information game
+ Frequently polynomial in n
+.=</p>
+<p> Fast: Dynamic programing can compute 
+expected utility in ~O(ani+1) [Jiang & Leyton-Brown, 2006]
+ Plug into existing equilibrium solvers (e.g. simplicial 
+.=</p>
+<p>subdivision [van der Laan, Talman, and van Der Heyden, 1987] or 
+GNM [Govindan, Wilson, 2003]) for exponential speedup.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p> Auctions & Model
+.=</p>
+<p> Action-Graph Games
+.=</p>
+<p> Auctions as AGGs
+.=</p>
+<p> Computational Experiments
+.=</p>
+<p> Economic Experiments.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GFP as AGG
+.=</p>
+<p>Agent A
+β=2
+.=</p>
+<p>Agent B
+β=2
+.=</p>
+<p>Agent C
+β=3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GFP as AGG
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+ei≥ 0 ei≥ 2 ei≥ 3 ei≥ 4 ei≥ 6 ei≥ 8 ei≥ 9 ei ≥10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GFP as AGG
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+e≥0 e≥2 e≥3 e≥4 e≥6 e≥8 e≥ e≥10i i i i i i i 9 i .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GFP as AGG
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+ei≥ 0 ei≥ 2 ei≥ 3 ei≥ 4 ei≥ 6 ei≥8 e≥9 ei ≥10 i .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GFP as AGG Position = 1
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+ei≥ 0 ei≥ 2 ei≥ 3 ei≥ 4 ei≥ 6 ei≥ 8 ei≥ e 9 i ≥10
+.=</p>
+<p>Position = 2,3
+(Ties broken randomly) .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Representing GSP
+.=</p>
+<p> Start from a GFP graph
+ same method of computing a bidder’s position
+.=</p>
+<p> We need to add new nodes to compute prices.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GSP as AGG
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+ei≥ 0 ei≥ 2 ei≥ 3 ei≥ 4 ei≥ 6 ei≥8 e≥9 ei ≥10 i .=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GSP as AGG
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+e≥ e≥10i 0 ei≥ 2 ei≥ 3 ei≥ 4 ei≥ 6 ei≥ 8 ei≥ 9 i 
+.=</p>
+<p>max 
+ei
+.=</p>
+<p>ei <4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GSP as AGG
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+ei≥ 0 ei≥ 2 e e≥10i≥ 3 ei≥ 4 ei≥ 6 ei≥ 8 ei≥ 9 i 
+.=</p>
+<p>max max max max max max max max 
+ei ei ei ei ei ei ei ei
+.=</p>
+<p>ei <0 ei <2 ei <3 ei <4 ei <6 ei <8 ei <9 ei <10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GSP as AGG
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+e≥0 e≥2 e≥3 e≥4 e≥6 e≥8 e≥9 ei ≥10i i i i i i i 
+max max max max max max max max 
+.=</p>
+<p>ei ei ei ei ei ei ei ei
+ei <0 ei <2 ei <3 ei <4 ei <6 ei <8 ei <9 ei <10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GSP as AGG
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+ei≥ 0 ei≥ 2 ei≥ 3 ei≥ 4 ei≥ 6 ei≥ 8 ei≥9 ei ≥10 
+max max max max max max max max 
+.=</p>
+<p>e 0 e 0 e 2 2 4 4 4 9i i i ei ei ei ei ei
+ei <0 ei <2 ei <3 ei <4 ei <6 ei <8 ei <9 ei <10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Weighted GSP as AGG Position = 2Price = 2/β=1
+Effective 
+Bid (ei)       0                2                 3               4     6                8                9               10
+.=</p>
+<p>Agent A
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent B
+β=2 0 1 2 3 4 5
+.=</p>
+<p>Agent C
+β 0 1 2 3=3
+.=</p>
+<p># # # # # # # #
+ei= 0 ei= 2 ei= 3 ei= 4 ei= 6 ei= 8 ei= 9 ei =10
+.=</p>
+<p># # # # # # # #
+ei≥ 0 ei≥ 2 ei≥ 3 ei≥ 4 ei≥ 6 ei≥ 8 e e≥10i≥ 9 i 
+.=</p>
+<p>max max max max max max max max 
+e 0 e 0 e 2 e 2 e 4 e 4 4i i i i i i ei e
+.=</p>
+<p>9
+i
+.=</p>
+<p>ei <0 ei <2 ei <3 ei <4 ei <6 ei <8 ei <9 ei <10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p> Auctions & Model
+.=</p>
+<p> Action-Graph Games
+.=</p>
+<p> Auctions as AGGs
+.=</p>
+<p> Computational Experiments
+.=</p>
+<p> Economic Experiments.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model of Auction Setting
+.=</p>
+<p>CTR across  CTR across  Bid 
+Weights positions bidders Value per Click Amounts
+.=</p>
+<p>One value
+[EOS] Always 1 Decreasing Constant  Continuous
+.=</p>
+<p>per bidder
+.=</p>
+<p>Proportional One value
+[Varian] Arbitrary Decreasing to Weight   Continuousper bidder
+.=</p>
+<p>(“Separable”)
+.=</p>
+<p>Our model Arbitrary Arbitrary Arbitrary Arbitrary Discrete.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Why Instantiate [Varian]?
+.=</p>
+<p> Validate by comparing with Varian's analytical 
+results for weighted, pay-per-click GSP
+ and obtain computational results on a model of 
+.=</p>
+<p>independent interest
+.=</p>
+<p> Obtain novel economic results
+ “Apples-to-apples” comparison: how do different 
+.=</p>
+<p>auctions perform given identical preferences?
+.=</p>
+<p> Most appropriate model is still an open question.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model of Auction Setting
+.=</p>
+<p>CTR across  CTR across  Bid 
+Weights positions bidders Value per Click Amounts
+.=</p>
+<p>One value
+[EOS] Always 1 Decreasing Constant  Continuous
+.=</p>
+<p>per bidder
+.=</p>
+<p>Proportional One value
+[Varian] Arbitrary Decreasing to Weight   Continuousper bidder
+.=</p>
+<p>(“Separable”)
+.=</p>
+<p>Our model Arbitrary Arbitrary Arbitrary Arbitrary Discrete
+.=</p>
+<p>Uniform[0,1] Proportional One value
+Problem     Uniform[0,1] * CTR of  to Weight  per bidder:   Discrete
+.=</p>
+<p>Distribution    
+higher slot (“Separable”) Uniform[0,1].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Setup
+.=</p>
+<p> 10 bidders, 5 slots
+.=</p>
+<p> Integer bids between 0 and 10
+.=</p>
+<p> For pay-per-click, normalize value/click:
+ Scale maxi valuei to 10, then scale other values 
+.=</p>
+<p>proportionately
+ to use full range of discrete bid amounts
+.=</p>
+<p> 
+.=</p>
+<p> For pay-per-impression, normalize 
+value/impression..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Size Experiments: Players
+Integer bids: 0 to 10
+.=</p>
+<p>1.00E+24
+1.00E+22
+1.00E+20
+1.00E+18
+1.00E+16 Normal Form
+.=</p>
+<p>1.00E+14 GSP Unweighted
+.=</p>
+<p>1.00E+12 GSP Weighted
+.=</p>
+<p>1.00E+10 GFP Unweighted
+.=</p>
+<p>1.00E+08 GFP Weighted
+.=</p>
+<p>1.00E+06 2GB
+.=</p>
+<p>1.00E+04
+1.00E+02
+1.00E+00
+.=</p>
+<p>0 5 10 15 20
+.=</p>
+<p>Bidders
+.=</p>
+<p>Representation size (bytes).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Size Experiments: Bid Increments
+10 bidders
+.=</p>
+<p>1.00E+16
+.=</p>
+<p>1.00E+14
+.=</p>
+<p>1.00E+12
+Normal Form
+.=</p>
+<p>1.00E+10 GSP Unweighted
+GSP Weighted
+.=</p>
+<p>1.00E+08
+GFP Unweighted
+.=</p>
+<p>1.00E+06 GFP Weighted
+2GB
+.=</p>
+<p>1.00E+04
+.=</p>
+<p>1.00E+02
+.=</p>
+<p>1.00E+00
+.=</p>
+<p>0 5 10 15 20 25
+.=</p>
+<p>Bid Increments
+.=</p>
+<p>Representation size (bytes).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Runtime Experiments: Test-bed
+.=</p>
+<p> Environment:
+ Intel Xeon 3.2GHz, 2MB cache, 2GB RAM
+ Suse Linux 10.1
+.=</p>
+<p> Solver software:
+ Gambit [McKelvey, McLennan, Turocy, 2007] implementation 
+.=</p>
+<p>of simplicial subdivision “simpdiv” [van der Laan, Talman, 
+and van Der Heyden, 1987], AGG-specific dynamic 
+programming inner loop1 [Jiang & Leyton-Brown, 2006]
+.=</p>
+<p>1. http://www.cs.ubc.ca/~jiang/agg/.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Runtime Experiments: Results
+.=</p>
+<p>100%
+.=</p>
+<p>90%
+.=</p>
+<p>80%
+GSP,PerImp,Unweighted
+.=</p>
+<p>70% GSP,PerClick,Weighted
+60% GSP,PerImp,Weighted
+.=</p>
+<p>50% GFP,PerImp,Weighted
+GFP,PerImp,Unweighted
+.=</p>
+<p>40% GFP,PerClick,Unweighted
+.=</p>
+<p>30% GSP,PerClick,Unweighted
+GFP,PerClick,Weighted
+.=</p>
+<p>20%
+.=</p>
+<p>10%
+.=</p>
+<p>0%
+1 10 100
+.=</p>
+<p>Time (s)
+.=</p>
+<p>* much longer experiments are ongoing…
+.=</p>
+<p>Fraction of instances solved.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p> Auctions & Model
+.=</p>
+<p> Action-Graph Games
+.=</p>
+<p> Auctions as AGGs
+.=</p>
+<p> Computational Experiments
+.=</p>
+<p> Economic Experiments.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GFP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Weighted.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>[Varian]: Any SNE gives rise to an efficient allocation
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Weighted.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>[EOS]’s auction with [Varian]’s preference model
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Weighted.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Yahoo! Auctions: Past and Present
+.=</p>
+<p>1997- 2002- 2007-
+2002 2007
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Weighted.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>[Varian]: VCG revenue is a lower bound on SNE revenue
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GFP, Per-Click
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Imp
+.=</p>
+<p>Weighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Unweighted
+.=</p>
+<p>GSP, Per-Click
+.=</p>
+<p>Weighted.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multiple Equilibria of GSPs [Varian; EOS]
+.=</p>
+<p> Each agent can have many best responses to an 
+ 
+.=</p>
+<p>equilibrium strategy profile.  
+ Raising i's bid increases (i-1)'s price, decreasing i's envy.
+.=</p>
+<p> Given an envy-free NE / SNE, lowering an agent’s bid 
+ 
+.=</p>
+<p>may lead to an efficient, pure NE w/ sub-VCG revenue
+.=</p>
+<p>← Lower bids Higher bids →
+4 5 6 7 8
+.=</p>
+<p>Not Equilibrium Nash Equilibrium Envy-free NashEquilibrium Not Equilibrium
+.=</p>
+<p> Even if pure NE exist for continuous bids, they may 
+ 
+.=</p>
+<p>not exist for discrete bids..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Equilibrium selection
+ Previous results simply showed the first 
+.=</p>
+<p>equilibrium found by simpdiv
+ Often a mixed strategy over arbitrary points on 
+.=</p>
+<p>equilibrium interval
+.=</p>
+<p> Local search approach to equilibrium selection:
+ Start point: Nash equilibrium found by simpdiv
+ Neighbours: Nash equilibria where one bid is 
+.=</p>
+<p>changed by one increment
+ Objective: maximize/minimize sum of bids
+ Algorithm: Greedily raise bids (choose bidder by 
+.=</p>
+<p>random permutation); random restarts..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Yahoo! Google /
+.=</p>
+<p>2002-2007 Yahoo! 2007-.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Summary
+.=</p>
+<p> Many position auctions are tractable:
+ Polynomial-size AGG
+ Polynomial-time expected utility by dynamic 
+.=</p>
+<p>programming
+.=</p>
+<p> Very general preference model:
+ Position-specific valuations
+ Non-separable CTRs (and arbitrary weights)
+.=</p>
+<p> Experimental results consistent with existing 
+theory and practice..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future Work
+.=</p>
+<p> Economic:
+ Use full preference model (learn from data)
+ Model richer preferences (e.g. cascading CTR 
+.=</p>
+<p>[Aggarwal, et al, 2008; Kempe, Mahdian, 2008]) 
+.=</p>
+<p> Computational:
+ In progress: Adapt SEM [Porter, Nudelman, Shoham, 2006] to 
+.=</p>
+<p>AGGs: Allows enumerating equilibria (answer 
+questions like “what percentage of pure equilibria 
+are envy free?”)
+.=</p>
+<p>Thank You..=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

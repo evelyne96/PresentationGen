@@ -1,0 +1,1944 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Automated Configuration of MIP solvers
+.=</p>
+<p>Frank Hutter, Holger Hoos, and Kevin Leyton-Brown
+.=</p>
+<p>Department of Computer Science
+University of British Columbia
+.=</p>
+<p>Vancouver, Canada
+{hutter,hoos,kevinlb}@cs.ubc.ca
+.=</p>
+<p>CPAIOR 2010, June 16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Prominent parameters in MIP solvers
+.=</p>
+<p>I Preprocessing
+.=</p>
+<p>I Which type of cuts to apply
+.=</p>
+<p>I MIP strategy parameters
+.=</p>
+<p>I Details of underlying linear (or quadratic) programming solver
+.=</p>
+<p>Parameters in Algorithms
+.=</p>
+<p>Most algorithms have parameters
+.=</p>
+<p>I Decisions that are left open during algorithm design
+.=</p>
+<p>– numerical parameters (e.g., real-valued thresholds)
+– categorical parameters (e.g., which heuristic to use)
+.=</p>
+<p>I Set to optimize empirical performance
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Parameters in Algorithms
+.=</p>
+<p>Most algorithms have parameters
+.=</p>
+<p>I Decisions that are left open during algorithm design
+.=</p>
+<p>– numerical parameters (e.g., real-valued thresholds)
+– categorical parameters (e.g., which heuristic to use)
+.=</p>
+<p>I Set to optimize empirical performance
+.=</p>
+<p>Prominent parameters in MIP solvers
+.=</p>
+<p>I Preprocessing
+.=</p>
+<p>I Which type of cuts to apply
+.=</p>
+<p>I MIP strategy parameters
+.=</p>
+<p>I Details of underlying linear (or quadratic) programming solver
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>“Integer programming problems are more sensitive to specific
+parameter settings, so you may need to experiment with
+them.” [Cplex 12.1 user manual, page 235]
+.=</p>
+<p>I “Experiment with them”
+.=</p>
+<p>– Perform manual optimization in 76-dimensional space
+– Complex, unintuitive interactions between parameters
+– Humans are not good at that
+.=</p>
+<p>I Cplex automated tuning tool (since version 11)
+.=</p>
+<p>– Saves valuable human time
+– Improves performance
+.=</p>
+<p>Example: IBM ILOG CPLEX
+.=</p>
+<p>I 76 parameters that affect search trajectory
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I “Experiment with them”
+.=</p>
+<p>– Perform manual optimization in 76-dimensional space
+– Complex, unintuitive interactions between parameters
+– Humans are not good at that
+.=</p>
+<p>I Cplex automated tuning tool (since version 11)
+.=</p>
+<p>– Saves valuable human time
+– Improves performance
+.=</p>
+<p>Example: IBM ILOG CPLEX
+.=</p>
+<p>I 76 parameters that affect search trajectory
+.=</p>
+<p>“Integer programming problems are more sensitive to specific
+parameter settings, so you may need to experiment with
+them.” [Cplex 12.1 user manual, page 235]
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– Humans are not good at that
+.=</p>
+<p>I Cplex automated tuning tool (since version 11)
+.=</p>
+<p>– Saves valuable human time
+– Improves performance
+.=</p>
+<p>Example: IBM ILOG CPLEX
+.=</p>
+<p>I 76 parameters that affect search trajectory
+.=</p>
+<p>“Integer programming problems are more sensitive to specific
+parameter settings, so you may need to experiment with
+them.” [Cplex 12.1 user manual, page 235]
+.=</p>
+<p>I “Experiment with them”
+.=</p>
+<p>– Perform manual optimization in 76-dimensional space
+– Complex, unintuitive interactions between parameters
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Cplex automated tuning tool (since version 11)
+.=</p>
+<p>– Saves valuable human time
+– Improves performance
+.=</p>
+<p>Example: IBM ILOG CPLEX
+.=</p>
+<p>I 76 parameters that affect search trajectory
+.=</p>
+<p>“Integer programming problems are more sensitive to specific
+parameter settings, so you may need to experiment with
+them.” [Cplex 12.1 user manual, page 235]
+.=</p>
+<p>I “Experiment with them”
+.=</p>
+<p>– Perform manual optimization in 76-dimensional space
+– Complex, unintuitive interactions between parameters
+– Humans are not good at that
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Example: IBM ILOG CPLEX
+.=</p>
+<p>I 76 parameters that affect search trajectory
+.=</p>
+<p>“Integer programming problems are more sensitive to specific
+parameter settings, so you may need to experiment with
+them.” [Cplex 12.1 user manual, page 235]
+.=</p>
+<p>I “Experiment with them”
+.=</p>
+<p>– Perform manual optimization in 76-dimensional space
+– Complex, unintuitive interactions between parameters
+– Humans are not good at that
+.=</p>
+<p>I Cplex automated tuning tool (since version 11)
+.=</p>
+<p>– Saves valuable human time
+– Improves performance
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Find:
+.=</p>
+<p>– Parameter setting (“configuration”) of A optimizing m on Π
+.=</p>
+<p>I First to handle this with many categorical parameters
+– E.g. 51/76 Cplex parameters are categorical
+– 1047 possible configurations  algorithm configuration
+.=</p>
+<p>This paper: application study for MIP solvers
+I Use existing algorithm configuration tool (ParamILS)
+.=</p>
+<p>I Use different MIP solvers (Cplex, Gurobi, lpsolve)
+.=</p>
+<p>I Use six different MIP benchmark sets
+.=</p>
+<p>I Optimize different objectives (runtime to optimality/MIP gap)
+.=</p>
+<p>Our work: automated algorithm configuration
+.=</p>
+<p>I Given:
+.=</p>
+<p>– Runnable algorithm A, its parameters and their domains
+– Benchmark set of instances Π
+– Performance metric m
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I First to handle this with many categorical parameters
+– E.g. 51/76 Cplex parameters are categorical
+– 1047 possible configurations  algorithm configuration
+.=</p>
+<p>This paper: application study for MIP solvers
+I Use existing algorithm configuration tool (ParamILS)
+.=</p>
+<p>I Use different MIP solvers (Cplex, Gurobi, lpsolve)
+.=</p>
+<p>I Use six different MIP benchmark sets
+.=</p>
+<p>I Optimize different objectives (runtime to optimality/MIP gap)
+.=</p>
+<p>Our work: automated algorithm configuration
+.=</p>
+<p>I Given:
+.=</p>
+<p>– Runnable algorithm A, its parameters and their domains
+– Benchmark set of instances Π
+– Performance metric m
+.=</p>
+<p>I Find:
+.=</p>
+<p>– Parameter setting (“configuration”) of A optimizing m on Π
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper: application study for MIP solvers
+I Use existing algorithm configuration tool (ParamILS)
+.=</p>
+<p>I Use different MIP solvers (Cplex, Gurobi, lpsolve)
+.=</p>
+<p>I Use six different MIP benchmark sets
+.=</p>
+<p>I Optimize different objectives (runtime to optimality/MIP gap)
+.=</p>
+<p>Our work: automated algorithm configuration
+.=</p>
+<p>I Given:
+.=</p>
+<p>– Runnable algorithm A, its parameters and their domains
+– Benchmark set of instances Π
+– Performance metric m
+.=</p>
+<p>I Find:
+.=</p>
+<p>– Parameter setting (“configuration”) of A optimizing m on Π
+.=</p>
+<p>I First to handle this with many categorical parameters
+– E.g. 51/76 Cplex parameters are categorical
+– 1047 possible configurations  algorithm configuration
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our work: automated algorithm configuration
+.=</p>
+<p>I Given:
+.=</p>
+<p>– Runnable algorithm A, its parameters and their domains
+– Benchmark set of instances Π
+– Performance metric m
+.=</p>
+<p>I Find:
+.=</p>
+<p>– Parameter setting (“configuration”) of A optimizing m on Π
+.=</p>
+<p>I First to handle this with many categorical parameters
+– E.g. 51/76 Cplex parameters are categorical
+– 1047 possible configurations  algorithm configuration
+.=</p>
+<p>This paper: application study for MIP solvers
+I Use existing algorithm configuration tool (ParamILS)
+.=</p>
+<p>I Use different MIP solvers (Cplex, Gurobi, lpsolve)
+.=</p>
+<p>I Use six different MIP benchmark sets
+.=</p>
+<p>I Optimize different objectives (runtime to optimality/MIP gap)
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Related work
+.=</p>
+<p>2. Details about this study
+.=</p>
+<p>3. Results
+.=</p>
+<p>4. Conclusions
+.=</p>
+<p>5.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Related work
+.=</p>
+<p>2. Details about this study
+.=</p>
+<p>3. Results
+.=</p>
+<p>4. Conclusions
+.=</p>
+<p>6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Stop [Baz, Hunsaker, Brooks & Gosavi, ’07 (Tech report)]
+[Baz, Hunsaker & Prokopyev, Comput Optim Appl, ’09]
+.=</p>
+<p>– Optimized MIP solvers, including Cplex
+– We only found this work ≈ 1 month ago
+– Main problem: only optimized performance for single instances
+– Only used small subset of 10 Cplex parameters
+.=</p>
+<p>Parameter Optimization Tools and
+Applications
+.=</p>
+<p>I Composer [Gratch & Dejong, ’92; Gratch and Chien, ’96]
+.=</p>
+<p>– Spacecraft communication scheduling
+.=</p>
+<p>I Calibra [Diaz and Laguna, ’06]
+.=</p>
+<p>– Optimized various metaheuristics
+.=</p>
+<p>I F-Race [Birattari et al., ’04-present]
+.=</p>
+<p>– Iterated Local Search and Ant Colony Optimization
+.=</p>
+<p>I ParamILS [Hutter et al, ’07-present]
+.=</p>
+<p>– SAT (tree & local search), time-tabling, protein folding, ...
+.=</p>
+<p>7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– Main problem: only optimized performance for single instances
+– Only used small subset of 10 Cplex parameters
+.=</p>
+<p>Parameter Optimization Tools and
+Applications
+.=</p>
+<p>I Composer [Gratch & Dejong, ’92; Gratch and Chien, ’96]
+.=</p>
+<p>– Spacecraft communication scheduling
+.=</p>
+<p>I Calibra [Diaz and Laguna, ’06]
+.=</p>
+<p>– Optimized various metaheuristics
+.=</p>
+<p>I F-Race [Birattari et al., ’04-present]
+.=</p>
+<p>– Iterated Local Search and Ant Colony Optimization
+.=</p>
+<p>I ParamILS [Hutter et al, ’07-present]
+.=</p>
+<p>– SAT (tree & local search), time-tabling, protein folding, ...
+.=</p>
+<p>I Stop [Baz, Hunsaker, Brooks & Gosavi, ’07 (Tech report)]
+[Baz, Hunsaker & Prokopyev, Comput Optim Appl, ’09]
+.=</p>
+<p>– Optimized MIP solvers, including Cplex
+– We only found this work ≈ 1 month ago
+.=</p>
+<p>7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Parameter Optimization Tools and
+Applications
+.=</p>
+<p>I Composer [Gratch & Dejong, ’92; Gratch and Chien, ’96]
+.=</p>
+<p>– Spacecraft communication scheduling
+.=</p>
+<p>I Calibra [Diaz and Laguna, ’06]
+.=</p>
+<p>– Optimized various metaheuristics
+.=</p>
+<p>I F-Race [Birattari et al., ’04-present]
+.=</p>
+<p>– Iterated Local Search and Ant Colony Optimization
+.=</p>
+<p>I ParamILS [Hutter et al, ’07-present]
+.=</p>
+<p>– SAT (tree & local search), time-tabling, protein folding, ...
+.=</p>
+<p>I Stop [Baz, Hunsaker, Brooks & Gosavi, ’07 (Tech report)]
+[Baz, Hunsaker & Prokopyev, Comput Optim Appl, ’09]
+.=</p>
+<p>– Optimized MIP solvers, including Cplex
+– We only found this work ≈ 1 month ago
+– Main problem: only optimized performance for single instances
+– Only used small subset of 10 Cplex parameters
+.=</p>
+<p>7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Related work
+.=</p>
+<p>2. Details about this study
+The automated configuration tool: ParamILS
+The MIP solvers: Cplex, Gurobi & lpsolve
+Experimental Setup
+.=</p>
+<p>3. Results
+.=</p>
+<p>4. Conclusions
+.=</p>
+<p>8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Related work
+.=</p>
+<p>2. Details about this study
+The automated configuration tool: ParamILS
+The MIP solvers: Cplex, Gurobi & lpsolve
+Experimental Setup
+.=</p>
+<p>3. Results
+.=</p>
+<p>4. Conclusions
+.=</p>
+<p>9.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>repeat
+Modify a single parameter
+if results on benchmark set improve then
+.=</p>
+<p>keep new configuration
+.=</p>
+<p>until no more improvement possible (or “good enough”)
+.=</p>
+<p> Manually-executed local search
+.=</p>
+<p>ParamILS [Hutter et al., AAAI’07 & ’09]:
+Iterated local search: biased random walk over local optima
+.=</p>
+<p>Simple manual approach for configuration
+.=</p>
+<p>Start with some parameter configuration
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>repeat
+.=</p>
+<p>if results on benchmark set improve then
+keep new configuration
+.=</p>
+<p>until no more improvement possible (or “good enough”)
+.=</p>
+<p> Manually-executed local search
+.=</p>
+<p>ParamILS [Hutter et al., AAAI’07 & ’09]:
+Iterated local search: biased random walk over local optima
+.=</p>
+<p>Simple manual approach for configuration
+.=</p>
+<p>Start with some parameter configuration
+.=</p>
+<p>Modify a single parameter
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>repeat
+.=</p>
+<p>until no more improvement possible (or “good enough”)
+.=</p>
+<p> Manually-executed local search
+.=</p>
+<p>ParamILS [Hutter et al., AAAI’07 & ’09]:
+Iterated local search: biased random walk over local optima
+.=</p>
+<p>Simple manual approach for configuration
+.=</p>
+<p>Start with some parameter configuration
+.=</p>
+<p>Modify a single parameter
+if results on benchmark set improve then
+.=</p>
+<p>keep new configuration
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p> Manually-executed local search
+.=</p>
+<p>ParamILS [Hutter et al., AAAI’07 & ’09]:
+Iterated local search: biased random walk over local optima
+.=</p>
+<p>Simple manual approach for configuration
+.=</p>
+<p>Start with some parameter configuration
+repeat
+.=</p>
+<p>Modify a single parameter
+if results on benchmark set improve then
+.=</p>
+<p>keep new configuration
+.=</p>
+<p>until no more improvement possible (or “good enough”)
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ParamILS [Hutter et al., AAAI’07 & ’09]:
+Iterated local search: biased random walk over local optima
+.=</p>
+<p>Simple manual approach for configuration
+.=</p>
+<p>Start with some parameter configuration
+repeat
+.=</p>
+<p>Modify a single parameter
+if results on benchmark set improve then
+.=</p>
+<p>keep new configuration
+.=</p>
+<p>until no more improvement possible (or “good enough”)
+.=</p>
+<p> Manually-executed local search
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simple manual approach for configuration
+.=</p>
+<p>Start with some parameter configuration
+repeat
+.=</p>
+<p>Modify a single parameter
+if results on benchmark set improve then
+.=</p>
+<p>keep new configuration
+.=</p>
+<p>until no more improvement possible (or “good enough”)
+.=</p>
+<p> Manually-executed local search
+.=</p>
+<p>ParamILS [Hutter et al., AAAI’07 & ’09]:
+Iterated local search: biased random walk over local optima
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I FocusedILS: choose N(θ) adaptively
+.=</p>
+<p>– small N(θ) for poor configurations θ
+– large N(θ) only for good θ
+– typically outperforms BasicILS
+– used in this study
+.=</p>
+<p>Instantiations of ParamILS Framework
+.=</p>
+<p>How to evaluate each configuration?
+.=</p>
+<p>I BasicILS(N): perform fixed number of N runs to evaluate a
+configuration θ
+.=</p>
+<p>– Variance reduction: use same N instances & seeds for each θ
+.=</p>
+<p>11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– typically outperforms BasicILS
+– used in this study
+.=</p>
+<p>Instantiations of ParamILS Framework
+.=</p>
+<p>How to evaluate each configuration?
+.=</p>
+<p>I BasicILS(N): perform fixed number of N runs to evaluate a
+configuration θ
+.=</p>
+<p>– Variance reduction: use same N instances & seeds for each θ
+.=</p>
+<p>I FocusedILS: choose N(θ) adaptively
+.=</p>
+<p>– small N(θ) for poor configurations θ
+– large N(θ) only for good θ
+.=</p>
+<p>11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Instantiations of ParamILS Framework
+.=</p>
+<p>How to evaluate each configuration?
+.=</p>
+<p>I BasicILS(N): perform fixed number of N runs to evaluate a
+configuration θ
+.=</p>
+<p>– Variance reduction: use same N instances & seeds for each θ
+.=</p>
+<p>I FocusedILS: choose N(θ) adaptively
+.=</p>
+<p>– small N(θ) for poor configurations θ
+– large N(θ) only for good θ
+– typically outperforms BasicILS
+– used in this study
+.=</p>
+<p>11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Can terminate evaluations early
+.=</p>
+<p>– Incumbent solution provides bound
+– Can stop evaluation once bound is reached
+.=</p>
+<p>I Results
+.=</p>
+<p>– Provably never hurts
+– Sometimes substantial speedups
+.=</p>
+<p>[Hutter et al., JAIR’09]
+.=</p>
+<p>Adaptive Choice of Cutoff Time
+.=</p>
+<p>I Evaluation of poor configurations takes especially long
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Results
+.=</p>
+<p>– Provably never hurts
+– Sometimes substantial speedups
+.=</p>
+<p>[Hutter et al., JAIR’09]
+.=</p>
+<p>Adaptive Choice of Cutoff Time
+.=</p>
+<p>I Evaluation of poor configurations takes especially long
+I Can terminate evaluations early
+.=</p>
+<p>– Incumbent solution provides bound
+– Can stop evaluation once bound is reached
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive Choice of Cutoff Time
+.=</p>
+<p>I Evaluation of poor configurations takes especially long
+I Can terminate evaluations early
+.=</p>
+<p>– Incumbent solution provides bound
+– Can stop evaluation once bound is reached
+.=</p>
+<p>I Results
+.=</p>
+<p>– Provably never hurts
+– Sometimes substantial speedups
+.=</p>
+<p>[Hutter et al., JAIR’09]
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Related work
+.=</p>
+<p>2. Details about this study
+The automated configuration tool: ParamILS
+The MIP solvers: Cplex, Gurobi & lpsolve
+Experimental Setup
+.=</p>
+<p>3. Results
+.=</p>
+<p>4. Conclusions
+.=</p>
+<p>13.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm Parameter type # params # values Total # configurations
+Boolean 6 2
+.=</p>
+<p>Categorical 45 3–7
+Cplex 1.90 · 1047
+.=</p>
+<p>Integer 18 discretized: 5–7
+Continuous 7 discretized: 5–8
+.=</p>
+<p>Boolean 4 2
+Categorical 16 3–5
+.=</p>
+<p>Gurobi 3.84 · 1014
+Integer 3 discretized: 5
+.=</p>
+<p>Continuous 2 discretized: 5
+Boolean 40 2
+.=</p>
+<p>lpsolve 1.22 · 1015
+Categorical 7 3–8
+.=</p>
+<p>Problems with some parameter configurations
+I Segmentation faults & wrong results
+I Detect such runs online, give worst possible score
+.=</p>
+<p> Local search avoids problematic parameter configurations
+.=</p>
+<p>I Concise bug reports  helped to fix 2 bugs in Gurobi (!)
+.=</p>
+<p>MIP Solvers & their parameters
+I Commercial solvers: Cplex 12.1 & Gurobi 2.0.1
+I Open-source solver: lpsolve 5.5
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Boolean 4 2
+Categorical 16 3–5
+.=</p>
+<p>Gurobi 3.84 · 1014
+Integer 3 discretized: 5
+.=</p>
+<p>Continuous 2 discretized: 5
+Boolean 40 2
+.=</p>
+<p>lpsolve 1.22 · 1015
+Categorical 7 3–8
+.=</p>
+<p>Problems with some parameter configurations
+I Segmentation faults & wrong results
+I Detect such runs online, give worst possible score
+.=</p>
+<p> Local search avoids problematic parameter configurations
+.=</p>
+<p>I Concise bug reports  helped to fix 2 bugs in Gurobi (!)
+.=</p>
+<p>MIP Solvers & their parameters
+I Commercial solvers: Cplex 12.1 & Gurobi 2.0.1
+I Open-source solver: lpsolve 5.5
+.=</p>
+<p>Algorithm Parameter type # params # values Total # configurations
+Boolean 6 2
+.=</p>
+<p>Categorical 45 3–7
+Cplex 1.90 · 1047
+.=</p>
+<p>Integer 18 discretized: 5–7
+Continuous 7 discretized: 5–8
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Boolean 40 2
+lpsolve 1.22 · 1015
+.=</p>
+<p>Categorical 7 3–8
+.=</p>
+<p>Problems with some parameter configurations
+I Segmentation faults & wrong results
+I Detect such runs online, give worst possible score
+.=</p>
+<p> Local search avoids problematic parameter configurations
+.=</p>
+<p>I Concise bug reports  helped to fix 2 bugs in Gurobi (!)
+.=</p>
+<p>MIP Solvers & their parameters
+I Commercial solvers: Cplex 12.1 & Gurobi 2.0.1
+I Open-source solver: lpsolve 5.5
+.=</p>
+<p>Algorithm Parameter type # params # values Total # configurations
+Boolean 6 2
+.=</p>
+<p>Categorical 45 3–7
+Cplex 1.90 · 1047
+.=</p>
+<p>Integer 18 discretized: 5–7
+Continuous 7 discretized: 5–8
+.=</p>
+<p>Boolean 4 2
+Categorical 16 3–5
+.=</p>
+<p>Gurobi 3.84 · 1014
+Integer 3 discretized: 5
+.=</p>
+<p>Continuous 2 discretized: 5
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Problems with some parameter configurations
+I Segmentation faults & wrong results
+I Detect such runs online, give worst possible score
+.=</p>
+<p> Local search avoids problematic parameter configurations
+.=</p>
+<p>I Concise bug reports  helped to fix 2 bugs in Gurobi (!)
+.=</p>
+<p>MIP Solvers & their parameters
+I Commercial solvers: Cplex 12.1 & Gurobi 2.0.1
+I Open-source solver: lpsolve 5.5
+.=</p>
+<p>Algorithm Parameter type # params # values Total # configurations
+Boolean 6 2
+.=</p>
+<p>Categorical 45 3–7
+Cplex 1.90 · 1047
+.=</p>
+<p>Integer 18 discretized: 5–7
+Continuous 7 discretized: 5–8
+.=</p>
+<p>Boolean 4 2
+Categorical 16 3–5
+.=</p>
+<p>Gurobi 3.84 · 1014
+Integer 3 discretized: 5
+.=</p>
+<p>Continuous 2 discretized: 5
+Boolean 40 2
+.=</p>
+<p>lpsolve 1.22 · 1015
+Categorical 7 3–8
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Detect such runs online, give worst possible score
+.=</p>
+<p> Local search avoids problematic parameter configurations
+.=</p>
+<p>I Concise bug reports  helped to fix 2 bugs in Gurobi (!)
+.=</p>
+<p>MIP Solvers & their parameters
+I Commercial solvers: Cplex 12.1 & Gurobi 2.0.1
+I Open-source solver: lpsolve 5.5
+.=</p>
+<p>Algorithm Parameter type # params # values Total # configurations
+Boolean 6 2
+.=</p>
+<p>Categorical 45 3–7
+Cplex 1.90 · 1047
+.=</p>
+<p>Integer 18 discretized: 5–7
+Continuous 7 discretized: 5–8
+.=</p>
+<p>Boolean 4 2
+Categorical 16 3–5
+.=</p>
+<p>Gurobi 3.84 · 1014
+Integer 3 discretized: 5
+.=</p>
+<p>Continuous 2 discretized: 5
+Boolean 40 2
+.=</p>
+<p>lpsolve 1.22 · 1015
+Categorical 7 3–8
+.=</p>
+<p>Problems with some parameter configurations
+I Segmentation faults & wrong results
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Concise bug reports  helped to fix 2 bugs in Gurobi (!)
+.=</p>
+<p>MIP Solvers & their parameters
+I Commercial solvers: Cplex 12.1 & Gurobi 2.0.1
+I Open-source solver: lpsolve 5.5
+.=</p>
+<p>Algorithm Parameter type # params # values Total # configurations
+Boolean 6 2
+.=</p>
+<p>Categorical 45 3–7
+Cplex 1.90 · 1047
+.=</p>
+<p>Integer 18 discretized: 5–7
+Continuous 7 discretized: 5–8
+.=</p>
+<p>Boolean 4 2
+Categorical 16 3–5
+.=</p>
+<p>Gurobi 3.84 · 1014
+Integer 3 discretized: 5
+.=</p>
+<p>Continuous 2 discretized: 5
+Boolean 40 2
+.=</p>
+<p>lpsolve 1.22 · 1015
+Categorical 7 3–8
+.=</p>
+<p>Problems with some parameter configurations
+I Segmentation faults & wrong results
+I Detect such runs online, give worst possible score
+.=</p>
+<p> Local search avoids problematic parameter configurations
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>MIP Solvers & their parameters
+I Commercial solvers: Cplex 12.1 & Gurobi 2.0.1
+I Open-source solver: lpsolve 5.5
+.=</p>
+<p>Algorithm Parameter type # params # values Total # configurations
+Boolean 6 2
+.=</p>
+<p>Categorical 45 3–7
+Cplex 1.90 · 1047
+.=</p>
+<p>Integer 18 discretized: 5–7
+Continuous 7 discretized: 5–8
+.=</p>
+<p>Boolean 4 2
+Categorical 16 3–5
+.=</p>
+<p>Gurobi 3.84 · 1014
+Integer 3 discretized: 5
+.=</p>
+<p>Continuous 2 discretized: 5
+Boolean 40 2
+.=</p>
+<p>lpsolve 1.22 · 1015
+Categorical 7 3–8
+.=</p>
+<p>Problems with some parameter configurations
+I Segmentation faults & wrong results
+I Detect such runs online, give worst possible score
+.=</p>
+<p> Local search avoids problematic parameter configurations
+.=</p>
+<p>I Concise bug reports  helped to fix 2 bugs in Gurobi (!)
+14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Related work
+.=</p>
+<p>2. Details about this study
+The automated configuration tool: ParamILS
+The MIP solvers: Cplex, Gurobi & lpsolve
+Experimental Setup
+.=</p>
+<p>3. Results
+.=</p>
+<p>4. Conclusions
+.=</p>
+<p>15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Split benchmarks 50:50 into training and test sets
+.=</p>
+<p>I Optimized parameters on the training set
+.=</p>
+<p>I Reported performance on the test set
+.=</p>
+<p>I Necessary to check for over-tuning
+.=</p>
+<p>Benchmark sets used
+.=</p>
+<p>Domain Type #instances Citation
+Comp. sustainability (SUST) MILP 2 000 [Gomes et al, ’08]
+.=</p>
+<p>Combinatorial auctions (WDP) MILP 2 000 [Leyton-Brown et al., ’00]
+Mixed integer knapsack (MIK) MILP 120 [Atamtürk, ’03]
+.=</p>
+<p>and 3 more ...
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Benchmark sets used
+.=</p>
+<p>Domain Type #instances Citation
+Comp. sustainability (SUST) MILP 2 000 [Gomes et al, ’08]
+.=</p>
+<p>Combinatorial auctions (WDP) MILP 2 000 [Leyton-Brown et al., ’00]
+Mixed integer knapsack (MIK) MILP 120 [Atamtürk, ’03]
+.=</p>
+<p>and 3 more ...
+.=</p>
+<p>Split benchmarks 50:50 into training and test sets
+.=</p>
+<p>I Optimized parameters on the training set
+.=</p>
+<p>I Reported performance on the test set
+.=</p>
+<p>I Necessary to check for over-tuning
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Compare test performance of:
+I ParamILS’s configuration θ̂∗
+.=</p>
+<p>I Default algorithm settings
+I Cplex tuning tool
+.=</p>
+<p>– Gurobi and lpsolve: no tuning tool available
+.=</p>
+<p>Setup of configuration experiments
+.=</p>
+<p>Perform 10 independent runs of ParamILS
+.=</p>
+<p>I Select configuration θ̂∗ of run with best training performance
+.=</p>
+<p>17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Setup of configuration experiments
+.=</p>
+<p>Perform 10 independent runs of ParamILS
+.=</p>
+<p>I Select configuration θ̂∗ of run with best training performance
+.=</p>
+<p>Compare test performance of:
+I ParamILS’s configuration θ̂∗
+.=</p>
+<p>I Default algorithm settings
+I Cplex tuning tool
+.=</p>
+<p>– Gurobi and lpsolve: no tuning tool available
+.=</p>
+<p>17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Related work
+.=</p>
+<p>2. Details about this study
+.=</p>
+<p>3. Results
+.=</p>
+<p>4. Conclusions
+.=</p>
+<p>18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Ran ParamILS for 2 days on 10 machines
+I Mean speedup (on test instances)
+.=</p>
+<p>– Cplex 2x to 50x
+– lpsolve 1x (no speedup) to 150x
+– Gurobi 1.2x to 2.3x
+.=</p>
+<p>Minimization of Runtime to Optimal Solution
+I “Optimal”: relative optimality gap of 0.0001
+.=</p>
+<p>(Cplex and Gurobi default)
+.=</p>
+<p>19.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Mean speedup (on test instances)
+– Cplex 2x to 50x
+– lpsolve 1x (no speedup) to 150x
+– Gurobi 1.2x to 2.3x
+.=</p>
+<p>Minimization of Runtime to Optimal Solution
+I “Optimal”: relative optimality gap of 0.0001
+.=</p>
+<p>(Cplex and Gurobi default)
+.=</p>
+<p>I Ran ParamILS for 2 days on 10 machines
+.=</p>
+<p>19.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– lpsolve 1x (no speedup) to 150x
+– Gurobi 1.2x to 2.3x
+.=</p>
+<p>Minimization of Runtime to Optimal Solution
+.=</p>
+<p>I “Optimal”: relative optimality gap of 0.0001
+(Cplex and Gurobi default)
+.=</p>
+<p>I Ran ParamILS for 2 days on 10 machines
+I Mean speedup (on test instances)
+.=</p>
+<p>– Cplex 2x to 50x
+.=</p>
+<p>5  
+10 Train
+.=</p>
+<p>4 Test
+10
+.=</p>
+<p>3
+10
+.=</p>
+<p>2
+10
+.=</p>
+<p>1
+10
+.=</p>
+<p>0
+10
+.=</p>
+<p>−1
+10
+.=</p>
+<p>−2
+10
+.=</p>
+<p> 
+−2 −1 0 1 2 3 4 5
+.=</p>
+<p>10 10 10 10 10 10 10 10
+Default [CPU s]
+.=</p>
+<p>Cplex on SUST instances (50x)
+19
+.=</p>
+<p>Config. found by ParamILS [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– Gurobi 1.2x to 2.3x
+.=</p>
+<p>Minimization of Runtime to Optimal Solution
+.=</p>
+<p>I “Optimal”: relative optimality gap of 0.0001
+(Cplex and Gurobi default)
+.=</p>
+<p>I Ran ParamILS for 2 days on 10 machines
+I Mean speedup (on test instances)
+.=</p>
+<p>– Cplex 2x to 50x
+– lpsolve 1x (no speedup) to 150x
+.=</p>
+<p>5   
+10 5Train 10 Train
+.=</p>
+<p>4 Test Train−timeout
+10
+.=</p>
+<p>Test
+3 4
+.=</p>
+<p>10 10 Test−timeout
+.=</p>
+<p>2
+10
+.=</p>
+<p>3
+1 10
+.=</p>
+<p>10
+.=</p>
+<p>0
+10 2
+.=</p>
+<p>10
+−1
+.=</p>
+<p>10
+.=</p>
+<p>−2
+10 110
+.=</p>
+<p>  
+−2 −1 0 1 2 3 4 5 1 2 3 4 5
+.=</p>
+<p>10 10 10 10 10 10 10 10 10 10 10 10 10
+Default [CPU s] Default [CPU s]
+.=</p>
+<p>Cplex on SUST instances (50x) lpsolve on WDP instances (150x)
+19
+.=</p>
+<p>Config. found by ParamILS [CPU s]
+.=</p>
+<p>Config. found by ParamILS [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Minimization of Runtime to Optimal Solution
+.=</p>
+<p>I “Optimal”: relative optimality gap of 0.0001
+(Cplex and Gurobi default)
+.=</p>
+<p>I Ran ParamILS for 2 days on 10 machines
+I Mean speedup (on test instances)
+.=</p>
+<p>– Cplex 2x to 50x
+– lpsolve 1x (no speedup) to 150x
+– Gurobi 1.2x to 2.3x
+.=</p>
+<p>5  5  
+10 Train 10 Train
+.=</p>
+<p>4 Test 4 Train−timeout
+10 10
+.=</p>
+<p>Test
+3 3
+.=</p>
+<p>10 10 Test−timeout
+.=</p>
+<p>2 2
+10 10
+.=</p>
+<p>1 1
+10 10
+.=</p>
+<p>0 0
+10 10
+.=</p>
+<p>−1 −1
+10 10
+.=</p>
+<p>−2 −2
+10 10
+.=</p>
+<p>  
+−2 −1 0 1 2 3 4 5 −2 −1 0 1 2 3 4 5
+.=</p>
+<p>10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10
+Default [CPU s] Default [CPU s]
+.=</p>
+<p>Cplex on SUST instances (50x) Gurobi on SUST instances (2.3x)
+19
+.=</p>
+<p>Config. found by ParamILS [CPU s]
+.=</p>
+<p>Config. found by ParamILS [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Minimization of Runtime to Optimal Solution
+.=</p>
+<p>I “Optimal”: relative optimality gap of 0.0001
+(Cplex and Gurobi default)
+.=</p>
+<p>I Ran ParamILS for 2 days on 10 machines
+I Mean speedup (on test instances)
+.=</p>
+<p>– Cplex 2x to 50x
+– lpsolve 1x (no speedup) to 150x
+– Gurobi 1.2x to 2.3x
+.=</p>
+<p> 5  
+.=</p>
+<p>Train 10 Train
+2 Test 4 Train−timeout
+.=</p>
+<p>10 10
+Test
+.=</p>
+<p>3
+10 Test−timeout
+.=</p>
+<p>1 2
+10 10
+.=</p>
+<p>1
+10
+.=</p>
+<p>0 0
+.=</p>
+<p>10 10
+.=</p>
+<p>−1
+10
+.=</p>
+<p>−2
+−1
+.=</p>
+<p>10 10
+  
+.=</p>
+<p>−1 0 1 2 −2 −1 0 1 2 3 4 5
+10 10 10 10 10 10 10 10 10 10 10 10
+.=</p>
+<p>Default [CPU s] Default [CPU s]
+.=</p>
+<p>Gurobi on MIK instances (1.2x) Gurobi on SUST instances (2.3x)
+19
+.=</p>
+<p>Config. found by ParamILS [CPU s]
+.=</p>
+<p>Config. found by ParamILS [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I ParamILS: anytime algorithm
+.=</p>
+<p>– At each time step, keeps track of its incumbent
+.=</p>
+<p> 
+.=</p>
+<p>3
+10
+.=</p>
+<p>2
+10
+.=</p>
+<p>Default
+CPLEX tuning tool
+.=</p>
+<p>1 ParamILS
+10  
+.=</p>
+<p>4 5 6
+10 10 10
+Configuration budget [CPU s]
+.=</p>
+<p>Cplex on MIK instances Cplex on SUST instances
+.=</p>
+<p>Comparison to Cplex tuning tool
+.=</p>
+<p>I Cplex tuning tool
+.=</p>
+<p>– Evaluates predefined good configurations, returns best one
+– Required runtime varies (from < 1h to weeks)
+.=</p>
+<p>20
+.=</p>
+<p>Performance [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p> 
+.=</p>
+<p>3
+10
+.=</p>
+<p>2
+10
+.=</p>
+<p>Default
+CPLEX tuning tool
+.=</p>
+<p>1 ParamILS
+10  
+.=</p>
+<p>4 5 6
+10 10 10
+Configuration budget [CPU s]
+.=</p>
+<p>Cplex on MIK instances Cplex on SUST instances
+.=</p>
+<p>Comparison to Cplex tuning tool
+.=</p>
+<p>I Cplex tuning tool
+.=</p>
+<p>– Evaluates predefined good configurations, returns best one
+– Required runtime varies (from < 1h to weeks)
+.=</p>
+<p>I ParamILS: anytime algorithm
+.=</p>
+<p>– At each time step, keeps track of its incumbent
+.=</p>
+<p>20
+.=</p>
+<p>Performance [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p> 
+.=</p>
+<p>3
+10
+.=</p>
+<p>2
+10
+.=</p>
+<p>Default
+CPLEX tuning tool
+.=</p>
+<p>1 ParamILS
+10  
+.=</p>
+<p>4 5 6
+10 10 10
+Configuration budget [CPU s]
+.=</p>
+<p>Cplex on SUST instances
+.=</p>
+<p>Comparison to Cplex tuning tool
+.=</p>
+<p>I Cplex tuning tool
+.=</p>
+<p>– Evaluates predefined good configurations, returns best one
+– Required runtime varies (from < 1h to weeks)
+.=</p>
+<p>I ParamILS: anytime algorithm
+.=</p>
+<p>– At each time step, keeps track of its incumbent
+.=</p>
+<p> 
+.=</p>
+<p>Default
+.=</p>
+<p>8 CPLEX tuning tool
+.=</p>
+<p>6
+.=</p>
+<p>4
+.=</p>
+<p>2
+.=</p>
+<p> 
+4 5 6
+.=</p>
+<p>10 10 10
+Configuration budget [CPU s]
+.=</p>
+<p>Cplex on MIK instances
+.=</p>
+<p>20
+.=</p>
+<p>Performance [CPU s]
+.=</p>
+<p>Performance [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p> 
+.=</p>
+<p>3
+10
+.=</p>
+<p>2
+10
+.=</p>
+<p>Default
+CPLEX tuning tool
+.=</p>
+<p>1 ParamILS
+10  
+.=</p>
+<p>4 5 6
+10 10 10
+Configuration budget [CPU s]
+.=</p>
+<p>Cplex on SUST instances
+.=</p>
+<p>Comparison to Cplex tuning tool
+.=</p>
+<p>I Cplex tuning tool
+.=</p>
+<p>– Evaluates predefined good configurations, returns best one
+– Required runtime varies (from < 1h to weeks)
+.=</p>
+<p>I ParamILS: anytime algorithm
+.=</p>
+<p>– At each time step, keeps track of its incumbent
+.=</p>
+<p> 
+.=</p>
+<p>Default
+.=</p>
+<p>8 CPLEX tuning tool
+ParamILS
+.=</p>
+<p>6
+.=</p>
+<p>4
+.=</p>
+<p>2
+.=</p>
+<p> 
+4 5 6
+.=</p>
+<p>10 10 10
+Configuration budget [CPU s]
+.=</p>
+<p>Cplex on MIK instances
+.=</p>
+<p>20
+.=</p>
+<p>Performance [CPU s]
+.=</p>
+<p>Performance [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Comparison to Cplex tuning tool
+.=</p>
+<p>I Cplex tuning tool
+.=</p>
+<p>– Evaluates predefined good configurations, returns best one
+– Required runtime varies (from < 1h to weeks)
+.=</p>
+<p>I ParamILS: anytime algorithm
+.=</p>
+<p>– At each time step, keeps track of its incumbent
+.=</p>
+<p>  
+.=</p>
+<p>Default 310
+8 CPLEX tuning tool
+.=</p>
+<p>ParamILS
+.=</p>
+<p>6
+2
+.=</p>
+<p>10
+4
+.=</p>
+<p>Default
+.=</p>
+<p>2 CPLEX tuning tool
+1 ParamILS
+.=</p>
+<p> 10  
+4 5 6 4 5 6
+.=</p>
+<p>10 10 10 10 10 10
+Configuration budget [CPU s] Configuration budget [CPU s]
+.=</p>
+<p>Cplex on MIK instances Cplex on SUST instances
+.=</p>
+<p>20
+.=</p>
+<p>Performance [CPU s]
+.=</p>
+<p>Performance [CPU s].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Ran ParamILS for 5 hours on 10 machines
+.=</p>
+<p>I Reduction factors of average optimality gap (on test set)
+.=</p>
+<p>– Cplex 1.3x to 8.6x
+– lpsolve 1x (no reduction) to 46x
+– Gurobi 1.1x to 2.2x
+.=</p>
+<p>Minimization of Optimality Gap
+.=</p>
+<p>I Objective: minimal optimality gap within 10 seconds runtime
+.=</p>
+<p>21.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Reduction factors of average optimality gap (on test set)
+.=</p>
+<p>– Cplex 1.3x to 8.6x
+– lpsolve 1x (no reduction) to 46x
+– Gurobi 1.1x to 2.2x
+.=</p>
+<p>Minimization of Optimality Gap
+.=</p>
+<p>I Objective: minimal optimality gap within 10 seconds runtime
+.=</p>
+<p>I Ran ParamILS for 5 hours on 10 machines
+.=</p>
+<p>21.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Minimization of Optimality Gap
+.=</p>
+<p>I Objective: minimal optimality gap within 10 seconds runtime
+.=</p>
+<p>I Ran ParamILS for 5 hours on 10 machines
+.=</p>
+<p>I Reduction factors of average optimality gap (on test set)
+.=</p>
+<p>– Cplex 1.3x to 8.6x
+– lpsolve 1x (no reduction) to 46x
+– Gurobi 1.1x to 2.2x
+.=</p>
+<p>21.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Related work
+.=</p>
+<p>2. Details about this study
+.=</p>
+<p>3. Results
+.=</p>
+<p>4. Conclusions
+.=</p>
+<p>22.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Requirements
+.=</p>
+<p>I Representative instance set
+.=</p>
+<p>– 100 instances sometimes not enough
+– If you generate instances, please make more (e.g., 2000)!
+.=</p>
+<p>I CPU time (here: 10 × 2 days per domain)
+.=</p>
+<p>Conclusions
+.=</p>
+<p>MIP solvers can be configured automatically
+.=</p>
+<p>I Configuration tool ParamILS available online:
+.=</p>
+<p>– http://www.cs.ubc.ca/labs/beta/Projects/ParamILS/
+– off-the-shelf tool (knows nothing about MIP or MIP solvers!)
+.=</p>
+<p>I Sometimes substantial improvements
+.=</p>
+<p>I Saves valuable human time
+.=</p>
+<p>23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I CPU time (here: 10 × 2 days per domain)
+.=</p>
+<p>Conclusions
+.=</p>
+<p>MIP solvers can be configured automatically
+.=</p>
+<p>I Configuration tool ParamILS available online:
+.=</p>
+<p>– http://www.cs.ubc.ca/labs/beta/Projects/ParamILS/
+– off-the-shelf tool (knows nothing about MIP or MIP solvers!)
+.=</p>
+<p>I Sometimes substantial improvements
+.=</p>
+<p>I Saves valuable human time
+.=</p>
+<p>Requirements
+.=</p>
+<p>I Representative instance set
+.=</p>
+<p>– 100 instances sometimes not enough
+– If you generate instances, please make more (e.g., 2000)!
+.=</p>
+<p>23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>MIP solvers can be configured automatically
+.=</p>
+<p>I Configuration tool ParamILS available online:
+.=</p>
+<p>– http://www.cs.ubc.ca/labs/beta/Projects/ParamILS/
+– off-the-shelf tool (knows nothing about MIP or MIP solvers!)
+.=</p>
+<p>I Sometimes substantial improvements
+.=</p>
+<p>I Saves valuable human time
+.=</p>
+<p>Requirements
+.=</p>
+<p>I Representative instance set
+.=</p>
+<p>– 100 instances sometimes not enough
+– If you generate instances, please make more (e.g., 2000)!
+.=</p>
+<p>I CPU time (here: 10 × 2 days per domain)
+.=</p>
+<p>23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– Use that model to quantify
+.=</p>
+<p>+ Importance of each parameter
++ Interaction of parameters
++ Interaction of parameters and instance characteristics
+.=</p>
+<p>I Per-instance approaches for heterogeneous benchmarks
+– Given a new unseen instance:
+.=</p>
+<p>+ Compute instance characteristics (fast)
++ Use parameter config. predicted to be best for the instance
+.=</p>
+<p>Future Work
+.=</p>
+<p>I Model-based techniques
+.=</p>
+<p>– Fit a model that predicts performance of a given configuration
+on a given instance
+.=</p>
+<p>24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Per-instance approaches for heterogeneous benchmarks
+– Given a new unseen instance:
+.=</p>
+<p>+ Compute instance characteristics (fast)
++ Use parameter config. predicted to be best for the instance
+.=</p>
+<p>Future Work
+.=</p>
+<p>I Model-based techniques
+.=</p>
+<p>– Fit a model that predicts performance of a given configuration
+on a given instance
+.=</p>
+<p>– Use that model to quantify
+.=</p>
+<p>+ Importance of each parameter
++ Interaction of parameters
++ Interaction of parameters and instance characteristics
+.=</p>
+<p>24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future Work
+.=</p>
+<p>I Model-based techniques
+.=</p>
+<p>– Fit a model that predicts performance of a given configuration
+on a given instance
+.=</p>
+<p>– Use that model to quantify
+.=</p>
+<p>+ Importance of each parameter
++ Interaction of parameters
++ Interaction of parameters and instance characteristics
+.=</p>
+<p>I Per-instance approaches for heterogeneous benchmarks
+– Given a new unseen instance:
+.=</p>
+<p>+ Compute instance characteristics (fast)
++ Use parameter config. predicted to be best for the instance
+.=</p>
+<p>24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thanks to:
+.=</p>
+<p>I Providers of instance benchmark sets
+.=</p>
+<p>– Louis-Martin Rousseau
+– Bistra Dilkina
+– Berkeley Computational Optimization Lab
+.=</p>
+<p>I Commercial MIP solvers for free full academic license
+.=</p>
+<p>– IBM (Cplex)
+– Gurobi
+.=</p>
+<p>I lpsolve developers for their solver
+.=</p>
+<p>I Compute clusters
+.=</p>
+<p>– Westgrid
+– CFI-funded arrow cluster
+.=</p>
+<p>I Funding agencies
+.=</p>
+<p>– Postdoc fellowship from CBIE
+– MITACS
+– NSERC
+.=</p>
+<p>25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Backup slides
+.=</p>
+<p>26.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Differences to STOP [Baz et al, ’09]
+.=</p>
+<p>Baz et al optimized for single instances
+.=</p>
+<p>“In practice, users would typically be tuning for a family of
+related instances rather than for an individual instance”
+.=</p>
+<p>I Generalization to sets of instances is nontrivial
+.=</p>
+<p>– Cannot afford to run all instances for each configuration
+ FocusedILS adapts # runs per configuration
+.=</p>
+<p>Further differences
+.=</p>
+<p>I Baz et al used older Cplex version (9.0)
+.=</p>
+<p>– defaults improved in newer Cplex versions
+.=</p>
+<p>I Baz et al considered (only) 10 Cplex parameters
+.=</p>
+<p>– and also not all possible values for each parameter
+– in order to improve Stop’s performance
+ requires domain knowledge
+.=</p>
+<p>27.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Ran ParamILS for 5 hours on 10 machines
+I Reduction factors of average optimality gap (on test inst.)
+.=</p>
+<p>– Cplex 1.3x to 8.6x
+– lpsolve 1x (no reduction) to 46x
+– Gurobi 1.1x to 2.2x
+.=</p>
+<p>  
+.=</p>
+<p>Train 3 Train
+Test 10 Test
+.=</p>
+<p>0
+10
+.=</p>
+<p>2
+.=</p>
+<p>−1 10
+10
+.=</p>
+<p>−2 1
+10 10
+.=</p>
+<p>  
+−2 −1 0 1 2 3
+.=</p>
+<p>10 10 10 10 10 10
+Default [% MIP gap] Default [% MIP gap]
+.=</p>
+<p>Cplex on MIK instances (8.6x) lpsolve on MIK instances (46x)
+.=</p>
+<p>Configuration of MIP Solvers: Optimality Gap
+.=</p>
+<p>I Objective: minimal optimality gap within 10 seconds runtime
+.=</p>
+<p>28
+.=</p>
+<p>Auto−config. [% MIP gap]
+.=</p>
+<p>Auto−config. [% MIP gap].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Reduction factors of average optimality gap (on test inst.)
+– Cplex 1.3x to 8.6x
+– lpsolve 1x (no reduction) to 46x
+– Gurobi 1.1x to 2.2x
+.=</p>
+<p>  
+.=</p>
+<p>Train 3 Train
+Test 10 Test
+.=</p>
+<p>0
+10
+.=</p>
+<p>2
+.=</p>
+<p>−1 10
+10
+.=</p>
+<p>−2 1
+10 10
+.=</p>
+<p>  
+−2 −1 0 1 2 3
+.=</p>
+<p>10 10 10 10 10 10
+Default [% MIP gap] Default [% MIP gap]
+.=</p>
+<p>Cplex on MIK instances (8.6x) lpsolve on MIK instances (46x)
+.=</p>
+<p>Configuration of MIP Solvers: Optimality Gap
+.=</p>
+<p>I Objective: minimal optimality gap within 10 seconds runtime
+I Ran ParamILS for 5 hours on 10 machines
+.=</p>
+<p>28
+.=</p>
+<p>Auto−config. [% MIP gap]
+.=</p>
+<p>Auto−config. [% MIP gap].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p> 
+.=</p>
+<p>3 Train
+10
+.=</p>
+<p>Test
+.=</p>
+<p>2
+10
+.=</p>
+<p>1
+10
+.=</p>
+<p> 
+1 2 3
+.=</p>
+<p>10 10 10
+Default [% MIP gap]
+.=</p>
+<p>lpsolve on MIK instances (46x)
+.=</p>
+<p>Configuration of MIP Solvers: Optimality Gap
+.=</p>
+<p>I Objective: minimal optimality gap within 10 seconds runtime
+I Ran ParamILS for 5 hours on 10 machines
+I Reduction factors of average optimality gap (on test inst.)
+.=</p>
+<p>– Cplex 1.3x to 8.6x
+– lpsolve 1x (no reduction) to 46x
+– Gurobi 1.1x to 2.2x
+.=</p>
+<p> 
+.=</p>
+<p>Train
+.=</p>
+<p>Test
+0
+.=</p>
+<p>10
+.=</p>
+<p>−1
+10
+.=</p>
+<p>−2
+10
+.=</p>
+<p> 
+−2 −1 0
+.=</p>
+<p>10 10 10
+Default [% MIP gap]
+.=</p>
+<p>Cplex on MIK instances (8.6x)
+28
+.=</p>
+<p>Auto−config. [% MIP gap]
+.=</p>
+<p>Auto−config. [% MIP gap].=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Configuration of MIP Solvers: Optimality Gap
+.=</p>
+<p>I Objective: minimal optimality gap within 10 seconds runtime
+I Ran ParamILS for 5 hours on 10 machines
+I Reduction factors of average optimality gap (on test inst.)
+.=</p>
+<p>– Cplex 1.3x to 8.6x
+– lpsolve 1x (no reduction) to 46x
+– Gurobi 1.1x to 2.2x
+.=</p>
+<p>  
+.=</p>
+<p>Train 3 Train
+Test 10 Test
+.=</p>
+<p>0
+10
+.=</p>
+<p>2
+.=</p>
+<p>−1 10
+10
+.=</p>
+<p>−2 1
+10 10
+.=</p>
+<p>  
+−2 −1 0 1 2 3
+.=</p>
+<p>10 10 10 10 10 10
+Default [% MIP gap] Default [% MIP gap]
+.=</p>
+<p>Cplex on MIK instances (8.6x) lpsolve on MIK instances (46x)
+28
+.=</p>
+<p>Auto−config. [% MIP gap]
+.=</p>
+<p>Auto−config. [% MIP gap].=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

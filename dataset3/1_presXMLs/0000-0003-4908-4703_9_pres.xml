@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Monotone crossing number of complete graphs
+</p>
+<p>Martin Balko, Radoslav Fulek and Jan Kynčl
+</p>
+<p>Charles University, Prague</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The story</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In the beginning...
+</p>
+<p>Theorem: (Erdős–Szekeres)
+• For every k > 1, there is a smallest f (k) such that
+</p>
+<p>among every f (k) points in general position in the plane
+some k points form a convex k-gon.
+</p>
+<p>• f (k) > 2k−2
+</p>
+<p>Conjecture: (Klein-Szekeres) f (k) = 2k−2 + 1
+</p>
+<p>• f (2) = 2, f (3) = 3, f (4) = 5 (easy)
+</p>
+<p>• f (5) = 9 (Makai and Turán)
+</p>
+<p>• f (6) = 17 (Peters and Szekeres, 2006)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combinatorial convexity
+• P = {p1, p2, . . . , pn} in general position,
+</p>
+<p>x(p1) < x(p2) < · · · < x(pn)
+</p>
+<p>• Tn = set of ordered triples (i, j, k), 1 ≤ i < j < k ≤ n
+</p>
+<p>• signature function σ : T 3n ⊂ [n] → {−,+}
+</p>
+<p>σ(i, j, k) =’+’ ⇔ triangle pipjpk is counter-clockwise
+</p>
+<p>⇔ point pj is below segment pipk</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combinatorial convexity
+• P = {p1, p2, . . . , pn} in general position,
+</p>
+<p>x(p1) < x(p2) < · · · < x(pn)
+</p>
+<p>• Tn = set of ordered triples (i, j, k), 1 ≤ i < j < k ≤ n
+</p>
+<p>• signature function σ : Tn ⊂ [n]3 → {−,+}
+</p>
+<p>σ(i, j, k) =’+’ ⇔ triangle pipjpk is counter-clockwise
+</p>
+<p>⇔ point pj is below segment pipk
+</p>
+<p>i j k i j k
+</p>
+<p>σ(i, j, k) = + σ(i, j, k) = −
+</p>
+<p>type of 4-tuple (i, j, k , l):
+</p>
+<p>σ(i, j, k)σ(i, j, l)σ(i, k , l)σ(j, k , l)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combinatorial convexity
+</p>
+<p>++++ −−−+
+</p>
+<p>−−−− −+++
+</p>
+<p>++−− +−−−
+</p>
+<p>−−++ +++−
+</p>
+<p>convex non-convex
+</p>
+<p>generalized 4-cup: σ(i, j, k) = σ(j, k , l) = ’+’
+</p>
+<p>generalized 4-cap: σ(i, j, k) = σ(j, k , l) = ’−’
+</p>
+<p>Conjecture: (Peters and Szekeres) For n > 2k−2, any
+signature function on Tn induces a generalized convex k-gon.
+</p>
+<p>• proved for k = 5 and n = 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Question: What is the minimum number of generalized
+convex k-tuples? In particular, 4-tuples?</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More types of 4-tuples
+</p>
+<p>++++ −−−+ +−−+
+</p>
+<p>−−−− −+++ −++−
+</p>
+<p>++−− +−−− non-geometric
+</p>
+<p>simple
+</p>
+<p>−−++ +++ convex−
+</p>
+<p>convex non-convex</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More types of 4-tuples
+</p>
+<p>++++ −−−+ +−−+
+</p>
+<p>−−−− −+++ −++−
+</p>
+<p>++−− +−−− non-geometric
+</p>
+<p>simple
+</p>
+<p>++ +++ convex−− −
+</p>
+<p>convex non-convex
+</p>
+<p>+−++ +−+−
+</p>
+<p>ugly
+cr = 3, iocr = 2 cr = 3, iocr = 1
+</p>
+<p>“double-convex”? “convex”</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Monotone drawings of complete graphs
+</p>
+<p>Monotone drawing: edges are x-monotone curves
+</p>
+<p>forbidden:</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>simple: any two edges have at most one common point
+</p>
+<p>or
+</p>
+<p>semisimple: adjacent edges do not cross
+</p>
+<p>NO
+</p>
+<p>or</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hierarchy of signature functions:
+</p>
+<p>++++ −−−+
+</p>
+<p>−−−− −+++ +−−+
+</p>
+<p>++−− +−−− −++−
+</p>
+<p>−−++ +++−
+</p>
+<p>pseudogeometric
+</p>
+<p>semisimple
+</p>
+<p>simple = semisimple + NO</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Crossing numbers
+</p>
+<p>cr(G) = crossing number of G = minimum number of
+crossings in a drawing of G
+</p>
+<p>cr(G) = rectilinear crossing number of G
+</p>
+<p>mon-cr(G) = monotone crossing number of G
+</p>
+<p>mon-ocr+(G) =
+monotone semisimple odd crossing number of G =
+minimum number of pairs of edges with odd number of
+crossings in a monotone semisimple drawing of G
+</p>
+<p>mon-iocr(G) = mon-ocr−(G) =
+monotone independent odd crossing number of G =
+minimum number of pairs of independent edges with odd
+number of crossings in a monotone drawing of G
+</p>
+<p>cr(G) ≤ mon-cr(G) ≤ cr(G)
+</p>
+<p>mon-iocr(G) ≤ mon-ocr+(G) ≤ mon-cr(G)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Crossing numbers of complete graphs
+</p>
+<p>n 5 6 7 8 9 10 11 12
+cr(Kn) 1 3 9 19 36 62 102 153
+cr(Kn) 1 3 9 18 36 60 100 150
+mon-cr(Kn) 1 3 9 18 36 60
+mon-iocr(Kn) 1 3 9 18 36 60
+</p>
+<p>Conjecture: (Hill; Guy)
+⌊ ⌋⌊ ⌋⌊ ⌋⌊ ⌋
+</p>
+<p>1 n n − 1 n − 2 n − 3
+cr(Kn) = Z (n) := 4 2 2 2 2
+</p>
+<p>known:
+cr(Kn) ≤ Z (n)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>cylindrical drawings:</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2-page book drawings:
+</p>
+<p>1 2 3 4 5 6 7 8 9 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Meanwhile...
+</p>
+<p>Theorem: (B. M. Ábrego, O. Aichholzer, S.
+Fernández-Merchant, P. Ramos, and G. Salazar, The 2-page
+crossing number of Kn, arXiv:1206.5669 (2012))
+</p>
+<p>The 2-page book crossing number of Kn is Z (n).
+</p>
+<p>Main Theorem:
+mon-cr(Kn) = Z (n)
+</p>
+<p>Theorem:
+(B. M. Ábrego, O. Aichholzer, S. Fernández-Merchant, P.
+Ramos, and G. Salazar, LAGOS 2013)
+</p>
+<p>mon-cr(Kn) = Z (n)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Meanwhile...
+</p>
+<p>Theorem: (B. M. Ábrego, O. Aichholzer, S.
+Fernández-Merchant, P. Ramos, and G. Salazar, The 2-page
+crossing number of Kn, arXiv:1206.5669 (2012))
+</p>
+<p>The 2-page book crossing number of Kn is Z (n).
+</p>
+<p>Main Theorem:
+</p>
+<p>mon-ocr+(Kn) = mon-cr(Kn) = Z (n)
+</p>
+<p>Theorem:
+(B. M. Ábrego, O. Aichholzer, S. Fernández-Merchant, P.
+Ramos, and G. Salazar, LAGOS 2013)
+</p>
+<p>mon-cr(Kn) = Z (n)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline of the proof
+</p>
+<p>(common with Ábrego et al., 2012)
+</p>
+<p>• k-edges
+</p>
+<p>4
+</p>
+<p>0</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline of the proof
+</p>
+<p>(common with Ábrego et al., 2012)
+</p>
+<p>• k-edges
+• ≤k-edges
+• ≤≤k-edges
+</p>
+<p>Lemma 1: For every simple drawing D of Kn we have
+</p>
+<p>( ) ⌊n/2⌋−1
+n ∑
+</p>
+<p>cr(D) = 3 − k(n − 2 − k)Ek (D),4
+k=0
+</p>
+<p>equivalently,
+∑
+</p>
+<p>cr D 2 ⌊n/2⌋−2
+( ) ⌊ ⌋
+</p>
+<p>( ) = 1 n n−2k 0 E= ≤≤k(D)− 2 2 2
+</p>
+<p>−1 n2 (1 + (−1) )E≤≤⌊n/2⌋−2(D).</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline of the proof
+</p>
+<p>(common with Ábrego et al., 2012)
+</p>
+<p>Lemma 2: For every 2-page book drawing D of Kn and
+0 ≤ k < n/2 − 1, we have
+</p>
+<p>( )
+</p>
+<p>k + 3
+E≤≤k(D) ≥ 3 .3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Modifications
+• generalization of k-edges to semisimple drawings
+</p>
+<p>• generalization of Lemma 1 to semisimple drawings and
+odd crossing number
+</p>
+<p>• generalization of Lemma 2 from 2-page book to
+monotone semisimple drawings
+</p>
+<p>0
+</p>
+<p>1
+</p>
+<p>2
+</p>
+<p>1
+0</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Modifications
+• generalization of k-edges to semisimple drawings
+</p>
+<p>• generalization of Lemma 1 to semisimple drawings and
+odd crossing number
+</p>
+<p>• generalization of Lemma 2 from 2-page book to
+monotone semisimple drawings
+</p>
+<p>these
+</p>
+<p>0
+</p>
+<p>1 pn
+2
+</p>
+<p>1
+0 or these
+</p>
+<p>are invariant</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>( )
+</p>
+<p>does not satisfy E≤≤k(D) ≥ 3
+k+3
+</p>
+<p>3 for k = 1.
+</p>
+<p>BUT!</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>( )
+</p>
+<p>does not satisfy E k+3≤≤k(D) ≥ 3 3 for k = 1.
+</p>
+<p>BUT!
+</p>
+<p>it satisfies
+( )
+</p>
+<p>k + 4
+E≤≤≤k(D) ≥ 3 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Open questions
+</p>
+<p>• Is mon-iocr(Kn)) ≥ Z (n)?
+</p>
+<p>• Let n ≥ 3 and let D be a simple drawing of Kn. Suppose
+that 0 ≤ k < n/2 − 1. Is
+</p>
+<p>( )
+</p>
+<p>k + 4
+E≤≤≤k(D) ≥ 3 ?4</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

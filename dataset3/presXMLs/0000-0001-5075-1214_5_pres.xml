@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>On the product of balanced sequences
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone
+.=</p>
+<p>University of Palermo, Dipartimento di Matematica ed Applicazioni,
+Via Archirafi 34, 90123 Palermo, ITALY
+.=</p>
+<p>{restivo, giovanna}@math.unipa.it
+.=</p>
+<p>JM2010, Amiens, France, September 6-10, 2010
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 1/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Balanced sequences
+.=</p>
+<p>A infinite sequence v is balanced if for each letter a of the alphabet
+A and for all factors u and u′ of v s.t. |u| = |u′| we have that
+.=</p>
+<p>||u|a − |u′|a| ≤ 1
+.=</p>
+<p>Example
+.=</p>
+<p>w = abcadbcadbacbdacbd · · · is a balanced sequence.
+v = abcbdbcadbacbdacbd · · · is not a balanced sequence.
+.=</p>
+<p>Remark
+.=</p>
+<p>For a two-letter alphabet, being balanced is equivalent to being
+balanced with respect to one letter.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 2/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Binary case
+.=</p>
+<p>An infinite aperiodic sequence v is balanced if and only if v is
+a sturmian sequence.
+Sturmian sequences are defined as the infinite sequences
+having exactly n + 1 distinct factors of length n.
+An infinite periodic sequence vω is balanced if and only if v is
+a conjugate of a standard word.
+.=</p>
+<p>Example
+.=</p>
+<p>Fibonacci words
+f0 = b f0 = b f1 = a
+f1 = a fn+1 = fnfn−1 (n ≥ 1)
+f2 = ab
+f3 = aba
+.=</p>
+<p>The infinite Fibonacci word is the limit of the sequence of
+Fibonacci words.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 3/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Balanced words on larger alphabets
+.=</p>
+<p>If |A| > 2, the general structure of balanced words is not
+known.
+.=</p>
+<p>As a direct consequence of a result of Graham, one has that
+balanced sequences on a set of letters having different
+frequencies must be periodic.
+.=</p>
+<p>Fraenkel’s conjecture
+Let Ak = {a1, a2, . . . , ak}. For each k > 2, there is only one
+circularly balanced word F ∗k ∈ Ak , having different frequencies. It is
+defined recursively as follow F1 = a1 and Fk = Fk−1akFk−1 for all
+k ≥ 2.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 4/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Direct product
+.=</p>
+<p>Let us define a direct product of two infinite sequences
+u = u0u1 · · · and v = v0v1 · · · on Σ = {a, b} as the sequence
+.=</p>
+<p>u ⊗ v =< u0, v0 >< u1, v1 > · · · .
+.=</p>
+<p>on Σ× Σ.
+u : 0 0 1 1
+v : 0 1 0 1
+.=</p>
+<p>w : a b c d
+.=</p>
+<p>We define the degree of product, deg(w), as the cardinality of the
+alphabet of the product itself.
+.=</p>
+<p>The notion of product of two sequences has been introduced in [P.
+Salimov. On uniform recurrence of a direct product. In
+AutoMathA 2009], where the author studies the class of uniformly
+recurrent sequences such that the product of any of its members
+and each uniformly recurrent sequence is also uniformly recurrent.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 5/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Question
+.=</p>
+<p>We ask us: when the product of two balanced sequences is
+balanced too?
+.=</p>
+<p>Example
+.=</p>
+<p>Consider the Fibonacci sequence f and the sturmian sequence s:
+.=</p>
+<p>f : 0 1 0 0 1 0 1 0 0 1 0 0 1 0 1 0 0 1 0 1 0 · · ·
+s : 0 0 1 0 0 0 1 0 0 1 0 0 0 1 0 0 0 1 0 0 1 · · ·
+w : a c b a c a d a a d a a c b c a a d a c b · · ·
+.=</p>
+<p>w is not a balanced sequence, because w has factors u = aa and v = cb, for which
+||u|a − |v |a| = 2.
+.=</p>
+<p>Example
+.=</p>
+<p>Consider the two following sturmian sequences:
+.=</p>
+<p>r : 0 1 0 0 1 0 0 0 1 0 0 0 1 0 0 1 0 0 0 1 0 · · ·
+z : 0 1 0 1 0 0 1 0 1 0 1 0 0 1 0 1 0 1 0 0 1 · · ·
+t : a d a b c a b a d a b a c b a d a b a c b · · ·
+.=</p>
+<p>t is a balanced sequence.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 6/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>On four-letters alphabets
+.=</p>
+<p>Theorem
+.=</p>
+<p>Let u, v be two binary balanced sequences. If w = u ⊗ v is
+balanced and deg(w) = 4 then w is (ultimately) periodic and is a
+suffix of one of the following sequences:
+.=</p>
+<p>i) (adacb)t(adabc)ω
+.=</p>
+<p>ii) (adabc)t(adacb)ω
+.=</p>
+<p>iii) (adabacb)t(adabcab)ω
+.=</p>
+<p>iv) (adabcab)t(adabacb)ω
+.=</p>
+<p>where t ∈ N.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 7/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>On three-letters alphabets
+.=</p>
+<p>Theorem
+.=</p>
+<p>Any balanced sequence w on three letters can be obtained as the
+product of two binary balanced sequences u and v.
+.=</p>
+<p>Example
+.=</p>
+<p>The balanced sequence w = abaadaabadaabaada · · · is the product
+of two balanced sequences u = 00001000010000010 · · · and
+v = 01001001010010010 · · · .
+.=</p>
+<p>0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0 · · ·
+0 1 0 0 1 0 0 1 0 1 0 0 1 0 0 1 0 · · ·
+a b a a d a a b a d a a b a a d a · · ·
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 8/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>On three-letters alphabets
+.=</p>
+<p>Theorem
+.=</p>
+<p>For any binary balanced sequence v, one can construct a binary
+balanced sequence u such that w = u ⊗ v is balanced and
+deg(w) = 3.
+.=</p>
+<p>Example
+.=</p>
+<p>If v = 00100100100010010010 · · · then u = 00000100000010000010 · · · .
+.=</p>
+<p>0 0 0 0 0 1 0 0 0 0 0 0 1 0 0 0 0 0 1 0 · · ·
+0 0 1 0 0 1 0 0 1 0 0 0 1 0 0 1 0 0 1 0 · · ·
+a a b a a d a a b a a a d a a b a a d a · · ·
+.=</p>
+<p>And w = u ⊗ v = aabaadaabaaadaabaada · · · is balanced.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 9/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Conclusions and further works
+.=</p>
+<p>We have proved that:
+.=</p>
+<p>All balanced (periodic or aperiodic) sequences on an alphabet
+with three letters are obtained by the product of two binary
+balanced sequences.
+.=</p>
+<p>There exist only finitely many balanced sequences on four
+letters that can be obtained as product of two binary balanced
+sequences. Moreover they are ultimately periodic.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 10/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Conclusions and further works
+.=</p>
+<p>Given two integer k and h, one could determine the maximum
+degree of the product w = u ⊗ v , such that u, v are balanced
+sequences, deg(u) = k and deg(v) = h:
+.=</p>
+<p>m(k, h) = max{deg(w) s.t. w = u ⊗ v , u, v ∈ B, deg(u) = k, deg(v) = h}
+.=</p>
+<p>where B denotes the set of the balanced sequences.
+Example
+.=</p>
+<p>u : 0 1 0 0 0 1 0 0 1 0 0 0 1 0 0 0 1 0 · · · deg(u) = 2
+v : 0 2 1 2 0 2 1 2 2 0 2 1 2 0 2 1 2 2 · · · deg(v) = 3
+w : a d b c a d b c d a c b d a c b d c · · · deg(w) = 4
+.=</p>
+<p>Several experiments suggest that it is not possible to obtain a
+balanced sequence w with deg(w) = 5 or deg(w) = 6 as product
+of two balanced sequences u and v , where deg(u) = 2 and
+deg(v) = 3.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 11/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Conclusions and further works
+.=</p>
+<p>Example
+.=</p>
+<p>u : 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0 0 · · · deg(u) = 2
+v : 0 1 2 0 1 2 0 2 1 0 2 1 0 2 1 2 · · · deg(v) = 3
+w : a b d a b c a d b a c b a d b c · · · deg(w) = 4
+.=</p>
+<p>u, v , and w are balanced sequences.
+.=</p>
+<p>Example
+.=</p>
+<p>u′ : 0 0 1 0 0 0 0 1 0 0 0 0 0 1 0 0 · · · deg(u′) = 2
+v ′ : 0 1 2 0 2 1 0 2 1 0 2 1 0 2 1 2 · · · deg(v ′) = 3
+w ′ : a b d a c b a d b a c b a d b c · · · deg(w ′) = 4
+.=</p>
+<p>u′, w ′ are two balanced sequences, but v ′ is not balanced sequence.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 12/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Conclusions and further works
+.=</p>
+<p>And on five letters alphabets . . .
+.=</p>
+<p>Example
+.=</p>
+<p>u : 0 0 0 0 1 0 0 0 2 0 0 0 1 0 0 0 0 2 0 0 0 1 0 0 0 2 · · ·
+v : 0 1 2 0 2 1 2 0 2 1 2 0 2 1 0 2 1 2 0 2 1 2 0 2 1 2 · · ·
+w : a b c a d b c a e b c a d b a c b e a c b d a c b e · · ·
+.=</p>
+<p>u, v , and w are balanced sequences, where deg(u) = 3, deg(v) = 3, deg(w) = 5.
+.=</p>
+<p>Example
+.=</p>
+<p>u′ : 0 1 2 0 2 1 2 0 2 1 2 0 1 2 0 2 1 2 0 2 1 2 0 2 1 2 · · ·
+v ′ : 0 0 0 0 1 0 0 0 2 0 0 0 0 1 0 0 0 2 0 0 0 1 0 0 0 2 · · ·
+w ′ : a b c a d b c a e b c a b d a c b e a c b d a c b e · · ·
+.=</p>
+<p>deg(u) = 3, deg(v) = 3, deg(w) = 5. w ′ is a balanced sequence.
+.=</p>
+<p>But u′ and v ′ are not balanced sequences.
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 13/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Conclusions and further works
+.=</p>
+<p>Given k, is it possible to classify the balanced sequences
+w = u ⊗ v , with degree(w) = k according to deg(u) and deg(v)?
+.=</p>
+<p>Example
+.=</p>
+<p>On a four-letter alphabet:
+.=</p>
+<p>There exist only finitely many balanced sequences on four
+letters that can be obtained as product of two binary balanced
+sequences. Moreover they are ultimately periodic.
+.=</p>
+<p>The balanced sequence w = u⊗ v = adbcadbcdacbdacbdc · · ·
+is obtained as product of two balanced sequences u and v ,
+where deg(u) = 2 and deg(v) = 3 (the previous example).
+.=</p>
+<p>Can all remaining balanced sequences w on four letters be
+obtained as product u ⊗ v , where deg(u) = 2 and
+deg(v) = 3?
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 14/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Conclusions and further works
+.=</p>
+<p>Clearly, a balanced sequence over k letters can always be
+obtained by the product of k − 1 sequences.
+.=</p>
+<p>Example
+.=</p>
+<p>1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 0 0 · · ·
+0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 · · ·
+0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 · · ·
+0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 1 · · ·
+0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 · · ·
+a d b e a c b d a e b c a d b e c · · ·
+.=</p>
+<p>0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 · · ·
+0 1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 · · ·
+0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 1 · · ·
+0 0 1 0 0 0 1 0 0 0 1 0 0 0 1 0 0 · · ·
+a d b e a c b d a e b c a d b e c · · ·
+.=</p>
+<p>Is it possible to obtain the sequence as product of 3 binary balanced sequences?
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 15/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Conclusions and further works
+.=</p>
+<p>To determine the smallest value of h such that a balanced
+sequence over a k-letters alphabet is obtained as product of h
+binary balanced sequences.
+.=</p>
+<p>g(k) = min{h s.t. w = u1⊗u2⊗· · ·⊗uh, deg(w) = k, ui ∈ B, deg(ui ) = 2, for each i}
+.=</p>
+<p>Is it possible to classify the balanced sequences according to
+the different value of h?
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 16/17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Balanced sequences Product of two balanced sequences Conclusions and further works
+.=</p>
+<p>Thank you
+.=</p>
+<p>for your attention!
+.=</p>
+<p>Antonio Restivo and Giovanna Rosone On the product of balanced sequences 17/17.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

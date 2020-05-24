@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Ramsey-type constructions for arrangements of segments</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2012">2012</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Kynčl</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Applied Mathematics and Institute for Theoretical Computer Science (ITI) 1</orgName>
+								<orgName type="department" key="dep2">Faculty of Mathematics and Physics</orgName>
+								<orgName type="institution">Charles University</orgName>
+								<address>
+									<addrLine>Malostranské nám. 25</addrLine>
+									<postCode>118 00</postCode>
+									<settlement>Prague</settlement>
+									<country key="CZ">Czech Republic</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Ramsey-type constructions for arrangements of segments</title>
+					</analytic>
+					<monogr>
+						<title level="j" type="main">European Journal of Combinatorics</title>
+						<imprint>
+							<biblScope unit="volume">33</biblScope>
+							<biblScope unit="page" from="336" to="339"/>
+							<date type="published" when="2012">2012</date>
+						</imprint>
+					</monogr>
+					<idno type="DOI">10.1016/j.ejc.2011.09.006</idno>
+					<note>Contents lists available at SciVerse ScienceDirect European Journal of Combinatorics journal homepage: www.elsevier.com/locate/ejc a r t i c l e i n f o Article history:</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>a b s t r a c t</head><p>Improving a result of Károlyi, Pach and Tóth, we construct an arrangement of n segments in the plane with at most n log 8/ log 169 pairwise crossing or pairwise disjoint segments. We use the recursive method based on flattenable arrangements which was established by Larman, Matoušek, Pach and Törőcsik.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>An arrangement of segments is a finite set of compact straight-line segments in the plane in general position (i.e., no three endpoints are collinear). We study the following Ramsey-type problem <ref type="bibr" target="#b5">[6]</ref>: what is the largest number r(k) such that there exists an arrangement of r(k) segments with at most k pairwise crossing and at most k pairwise disjoint segments?</p><p>Larman et al. <ref type="bibr" target="#b5">[6]</ref> proved that k 5 ≥ r(k) ≥ k log 5/ log 2 &gt; k 2.3219 . The upper bound has remained unchanged since then. Károlyi et al. <ref type="bibr" target="#b2">[3]</ref> improved the lower bound to r(k) ≥ k log 27/ log 4 &gt; k 2.3774 .</p><p>We improve the construction for the lower bound even further and prove the following theorem. Theorem 1. For infinitely many positive integers k, there exists an arrangement of k log 169/ log 8 &gt; k <ref type="bibr">2.4669</ref> segments with at most k pairwise crossing and at most k pairwise disjoint segments. Similar questions were studied by Fox et al. <ref type="bibr" target="#b1">[2]</ref> for string graphs, a class of graphs generalizing intersection graphs of segments. They proved, as a consequence of a stronger result, that for each positive integer k there is a constant c(k) &gt; 0 such that in any system of n curves in the plane where every two curves intersect in at most k points, there is a subset of n c(k) curves that are pairwise disjoint or pairwise crossing.</p><p>In an extended version of this paper <ref type="bibr" target="#b4">[5]</ref>, we also show examples of arrangements of segments that cannot be flattened.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Proof of Theorem 1</head><p>Both previous constructions for the lower bound <ref type="bibr" target="#b2">[3,</ref><ref type="bibr" target="#b5">6]</ref> use the same approach. The starting configuration is an arrangement M 0 of n 0 segments with at most k 0 pairwise crossing or pairwise disjoint segments. In the i-th step, an arrangement M i of n i+1 0 segments is constructed from the arrangement M i−1 by replacing each of its segments by a flattened copy (a precise definition will follow) of M 0 , which acts as a ''thick segment''. Then two segments from different copies of M 0 cross if and only if the two corresponding segments in M i−1 cross. Our new arrangement M i has then at most k i+1 0 pairwise crossing or pairwise disjoint segments. This gives a lower bound r(k) ≥ k log n 0 / log k 0 for infinitely many values of k.</p><p>We improve the construction by making a better starting arrangement. Unlike the previous constructions, our basic pieces will be arrangements with different maximal numbers of pairwise crossing and pairwise disjoint segments. By putting them together, we obtain our starting arrangement M 0 .</p><p>Let Cay(Z 13 ; 1, 5) denote the Cayley graph of the cyclic group Z 13 corresponding to the generators 1 and 5. That is, V (Cay(Z 13 ; 1, 5)) = {1, 2, . . . , 13} and E(Cay(Z 13 ; 1, 5)) = {{i, j}; <ref type="figure" target="#fig_0">Fig. 1</ref>.</p><formula xml:id="formula_0">1 ≤ i &lt; j ≤ 13, (j − i) ∈ {1, 5, 8, 12}}. See</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 2.</head><p>The graph Cay(Z 13 ; 1, 5) contains no clique of size 3 and no independent set of size 5.</p><p>Proof. Suppose that a &lt; b &lt; c are three vertices of Cay(Z 13 ; 1, 5) inducing a clique. Then the numbers k = c − a, l = c − b and m = b − a belong to the set {1, 5, 8, 12}, but this set contains no triple k, l, m satisfying the equation k = l + m; a contradiction. A (k, l)-arrangement is an arrangement of segments with at most k pairwise crossing and at most l pairwise disjoint segments. An intersection graph G(M) of an arrangement M is a graph whose vertices are the segments of M and two vertices are joined by an edge if and only if the corresponding segments intersect.</p><formula xml:id="formula_1">Now suppose that A = {a &lt; b &lt; c &lt; d &lt; e}</formula><p>An arrangement M of segments is flattenable if for every ε &gt; 0 there is an arrangement M ε with G(M ε ) = G(M) and two discs D 1 , D 2 of radius ε whose centers are at unit distance, such that each segment from M ε has one endpoint in D 1 and the second endpoint in D 2 . A flattened copy of M is the arrangement M ε with sufficiently small ε.</p><p>The key result is the following lemma. (2) There exists a flattenable (4, 2)-arrangement of 13 segments. <ref type="table">Table 1</ref> Arrangement M a (ε).</p><formula xml:id="formula_2">Left x Left y Right x Right y 1 −ε 0 1 − 2ε 2ε 2 + 2ε 6 2 ε 2 ε − ε 3 1 − ε 2 ε 3 3 0 ε 4 + ε 6 1 ε 3 + 3ε 4 4 0 ε 4 − ε 6 1 − 2ε 2ε 2 − ε 6 5 −ε + ε 2 0 1 − 2ε 2 2ε 3 − 2ε 4 6 −ε 2ε 6 1 − ε 2ε 6 7 0 ε 6 1 ε 3 + 2ε 4 8 0 ε 1 + ε 3 0 9 0 ε 1 − 2ε 2 2ε 3 − ε 4 10 −ε 2 + 3ε 3 3ε 6 1 − 2ε 2ε 2 + ε 6 11 −ε 2 ε 6 1 − 2ε 2 2ε 3 − 3ε 4 12 0 ε 4 1 0 13 −ε 0 1 + ε 0 Table 2 Arrangement M b (ε). Left x Left y Right x Right y 1 ε ε 2 − ε 3 + ε 4 − 2ε 5 1 + ε 2 −ε 4 + ε 6 2 0 ε 2 + 3ε 5 1 − ε 3 ε 7 3 0 ε 2 + 4ε 5 1 + ε −ε 3 4 0 2ε 3 1 + 3ε 4 −ε 8 5 ε − ε 2 + ε 3 ε 2 − ε 3 + ε 4 − ε 8 1 + ε −ε 4 6 0 ε 2 + ε 5 1 + ε −ε 3 7 0 ε 2 + 5ε 5 1 + 3ε 4 −3ε 7 8 ε − ε 2 + ε 3 + ε 4 + 2ε 5 ε 2 − ε 3 + ε 4 + ε 5 + ε 6 1 + ε − ε 4 −ε 3 9 0 ε 2 1 + ε −ε 4 10 0 0 1 + 5ε 3 0 11 0 ε 2 + 2ε 5 1 + 3ε 4 − 2ε 5 ε 8 12 ε − ε 3 ε 3 − ε 4 1 + ε −ε 4 13 0 0 1 ε</formula><p>Note that 13 is the largest possible number of segments for these two types of arrangements since every graph with more than 13 vertices contains either a clique of size 5 or an independent set of size 3 <ref type="bibr" target="#b6">[7]</ref>.</p><p>Both previous constructions <ref type="bibr" target="#b2">[3,</ref><ref type="bibr" target="#b5">6]</ref> used convex starting arrangement, i.e., an arrangement of segments with endpoints in convex position. Convex arrangements are flattenable by a relatively simple argument <ref type="bibr" target="#b2">[3]</ref>. However, Kostochka <ref type="bibr" target="#b3">[4]</ref> proved that any convex (k, k)-arrangement has at most (1 + o(1)) · k 2 log k segments. He also gave a construction of a convex (k, k)-arrangement with Ω(k 2 log k) segments (see also <ref type="bibr" target="#b0">[1]</ref>). Černý <ref type="bibr" target="#b0">[1]</ref> investigated convex (k, l)-arrangements for small values of k. He showed, in particular, that any convex (2, 4)-arrangement has at most 12 segments, and any convex (4, 2)-arrangement has at most 11 segments.</p><p>Our starting arrangements thus cannot be convex. Hence their flattening will require a special approach.</p><p>Proof. For each sufficiently small ε &gt; 0, we construct an arrangement M a (ε) with intersection graph Cay(Z 13 ; 1, 5) and an arrangement M b (ε) whose intersection graph is the complement of Cay(Z 13 ; 1, 5). See <ref type="figure" target="#fig_2">Fig. 2</ref> for an illustration.</p><p>In <ref type="table">Tables 1 and 2</ref>, we provide precise coordinates of the endpoints of all the 13 segments, as functions of ε. To achieve general position of the segments, which is required by our definition, we can slightly perturb the endpoints while preserving the intersection graph of the arrangement.</p><p>Since the coordinates of all the left endpoints converge to (0, 0) and the coordinates of all the right endpoints converge to <ref type="bibr" target="#b0">(1,</ref><ref type="bibr">0)</ref>, it remains to verify that for sufficiently small ε &gt; 0, each of these two described arrangements has the desired intersection graph. This is a straightforward calculation, which can be done by the following simple algorithm. We use the fact that the functions describing the coordinates are polynomials in ε. For i ∈ 1, 2, . . . , 13, let s i be the i-th segment of the arrangement and let l x (i), l y (i), r x (i), r y (i) be the polynomials representing the coordinates of the left and the right endpoint of s i . For each pair i &lt; j, we need to determine whether s i and s j cross if ε is small enough.</p><p>Let s be a segment with endpoints (l x , l y ) and (r x , r y ) and let s ′ be a segment with endpoints (l ′ x , l ′ y ) and (r ′ x , r ′ y ). </p><formula xml:id="formula_3">(al ′ x + bl ′ y + c)(ar ′ x + br ′ y + c) ≤ 0.</formula><p>The relation s ∩ p ′ ̸ = ∅ can be expressed similarly. The algorithm now follows. For each i, compute the polynomials a i = r y (i) − l y (i), b i = r x (i) − l x (i) and c i = r x (i)l y (i)−l x (i)r y (i). Then for each pair i ̸ = j, compute the polynomial d i,j = (a i l x (j)+b i l y (j)+ c i )(a i r x (j) + b i r y (j) + c i ). Now s i and s j intersect if and only if each d i,j and d j,i is nonpositive in some positive neighborhood of 0. That is, the polynomial is either zero or the coefficient by the non-zero term of the smallest order is negative.</p><p>A program verifying both constructions can be downloaded from the following webpage: http://kam.mff.cuni.cz/~kyncl/programs/segments. Now we are ready to finish the proof of Theorem 1. Take a sufficiently flattened arrangement M a (ε) and replace each of its segments by a copy of a sufficiently flattened arrangement M b (δ). In this way, we obtain our starting flattenable (8, 8)-arrangement M 0 of 169 segments. Then we proceed by the method described at the beginning of this section.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>A Cayley graph Cay(Z 13 ; 1, 5).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Lemma 3 .</head><label>3</label><figDesc>(1) There exists a flattenable (2, 4)-arrangement of 13 segments.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 2 .</head><label>2</label><figDesc>A partially flattened (4, 2)-arrangement of 13 segments (left) and a (2, 4)-arrangement of 13 segments (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>Let p be the line containing s, and let p ′ be the line containing s ′ . The segments s and s ′ intersect if and only if s ′ ∩p ̸ = ∅ and s∩p ′ ̸ = ∅. We have p = {(x, y); ax+by+c = 0}, where a = r y −l y , b = r x − l x and c = r x l y − l x r y . Thus, s ′ ∩ p ̸ = ∅ if and only if</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>E-mail address: kyncl@kam.mff.cuni.cz. 1 ITI is supported by project 1M0545 of the Ministry of Education of the Czech Republic. 0195-6698/$ -see front matter © 2011 Elsevier Ltd. All rights reserved. doi:10.1016/j.ejc.2011.09.006</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>is an independent set of Cay(Z 13 ; 1, 5). By the pigeon-hole principle, A contains two vertices with difference 2 (modulo 13). Thus, we can, without loss of generality, assume that a = 1 and b = 3. It follows that {c, d, e} ⊆ {5, 7, 10, 12}. But A cannot contain both 5 and 10, neither both 7 and 12. Hence |A ∩ {5, 7, 10, 12}| ≤ 2; a contradiction.</figDesc><table></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgments</head><p>The author is grateful to Géza Tóth and Jakub Černý for helpful and inspiring discussions on this problem.</p><p>The author was partially supported by the Phenomena in High Dimensions project, in the framework of the European Community's ''Structuring the European Research Area'' program.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Combinatorial and computational geometry</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Černý</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008" />
+			<pubPlace>Prague</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Charles University</orgName>
+		</respStmt>
+	</monogr>
+	<note>Ph.D. thesis</note>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Intersection patterns of curves</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Fox</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">.</forename><forename type="middle">D</forename><surname>Cs</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. London Math. Soc</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="389" to="406" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Ramsey-type results for geometric graphs, I</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Károlyi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM Symposium on Computational Geometry</title>
+		<meeting><address><addrLine>Philadelphia, PA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1996" />
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="247" to="255" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Upper bounds on the chromatic number of graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Kostochka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trudy Inst. Mat</title>
+		<imprint>
+			<biblScope unit="page" from="204" to="226" />
+			<date type="published" when="1988" />
+		</imprint>
+		<respStmt>
+			<orgName>Modeli i Metody Optim</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Ramsey-type costructions for arrangements of segments</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+		<ptr target="http://arxiv.org/abs/1010.2167" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">A Ramsey-type result for convex sets</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Larman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Matoušek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Törőcsik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bull. London Math. Soc</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="132" to="136" />
+			<date type="published" when="1994" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Small Ramsey numbers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Radziszowski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electron. J. Combin. 1 (Dynamic Survey</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">30</biblScope>
+			<date type="published" when="1994" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

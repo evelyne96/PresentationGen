@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Combined statistical model                        
+of bone shape and mechanical properties 
+.=</p>
+<p>for bone modeling
+.=</p>
+<p>Bonaretti S., Helgason B., Seiler C., Reyes M., Büchler P.
+ISTB, University of Bern, Switzerland
+.=</p>
+<p>Computer Methods in Biomechanics and Biomedical Engineering
+24-27 February 2010, Valencia
+.=</p>
+<p>1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How can we model bone variability?
+.=</p>
+<p>> State of the art of bone 
+mechanical studies:
+— Based on patient-specific 
+.=</p>
+<p>models
+— Limited number of bones
+— Variability included  in    
+.=</p>
+<p>boundary conditions, or 
+mechanical  properties
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Objective
+.=</p>
+<p>> To model bone shape variability
+> To evaluate bone mechanical behavior
+> Population-based study:
+.=</p>
+<p>— Gender
+— Ethnicity
+— Age 
+.=</p>
+<p>> Initial application about femurs
+— Stiffness comparison between genders
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Method overview
+.=</p>
+<p>Segmented Rigid and non-rigid Shape New CT images registration Model instances
+.=</p>
+<p>Volume Material BC 
+mesh properties propagation
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>1. Segmentation
+.=</p>
+<p>> Identification and delineation of structures in 
+images:
+.=</p>
+<p>Segmented 
+CT images
+.=</p>
+<p>— Semi-automatic method: thresholding + region growing
+.=</p>
+<p>5.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2. Registration
+.=</p>
+<p>> Process of aligning images so that corresponding 
+features can be extracted
+— Correspondences: establishment of which point on one 
+.=</p>
+<p>image corresponds to the same anatomical point in the 
+other
+.=</p>
+<p>Rigid and 
+non-rigid 
+.=</p>
+<p>registration
+.=</p>
+<p>Rigid Non-Rigid 
+registration registration
+.=</p>
+<p>Hajnal J.V. et al. Medical Image Registration. Biomedical Engineering Series. 2001.
+6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2.1 Non-rigid registration
+.=</p>
+<p>> Demons
+.=</p>
+<p>> Correspondences stored as “deformation vector 
+fields” (DVFs)
+.=</p>
+<p>Rigid and — Diffeomorphic
+non-rigid – invertible 
+.=</p>
+<p>registration – smooth in both ways
+.=</p>
+<p>Thirion J.-P. Image matching as a diffusion process: an analogy whit Maxwell’s demons. Medical Image analysis, 
+2(3), 243-260, 1996.
+Vercauteren T. et al. Symmetric log-domain diffeomorphic registration: a demons-based approach. MICCAI 2008.
+.=</p>
+<p>7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3. Shape model
+Principal Component Analysis (PCA)
+.=</p>
+<p>> Correspondences allow us to calculate images 
+covariance matrix
+.=</p>
+<p>> Eigenvector problem:
+symmet =ric
+.=</p>
+<p>T
+Covariance Γ Λ Γ
+.=</p>
+<p>matrix (eigenvector (eigenvalues (eigenvector matrix) matrix) matrix)T
+Shape 
+Model — Eigenvectors: direction of variation
+.=</p>
+<p>— Eigenvalues: amount of variation along                         
+the correspondent direction 75% 15% 10%
+.=</p>
+<p>Cootes T.F. et al. Active shape models – their training and application. Computer vision and image 
+understanding, 61(1), 38-59, 1995.
+.=</p>
+<p>8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4. Virtual instances 
+.=</p>
+<p>> They are created along eigenvector 
+directions and for variations defined by 
+the eigenvalues:
+.=</p>
+<p>x = x +fb, -3 l £ b £ +3 l
+.=</p>
+<p>New 
+instances
+.=</p>
+<p>average
+.=</p>
+<p>-3 -2 -1 0 1 2 3 PC 1
+.=</p>
+<p>9.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>5. Volume mesh
+.=</p>
+<p>> Surface mesh creation
+— marching cubes
+.=</p>
+<p>> Mesh decimation and smoothing
+.=</p>
+<p>> Recreation of mesh topology (MRFSurface)
+.=</p>
+<p>Volume > Tetrahedral mesh creation (NetGen) 
+mesh
+.=</p>
+<p>Paulsen R.R. et al. Markov Random Field Surface Reconstruction. IEEE Transactions on Visualization and 
+Computer Graphics. 99, 2009.
+Schöberl J. at al. http://www.hpfem.jku.at/netgen/
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>6. Material properties assignment
+.=</p>
+<p>Bone Mineral Component Complete Bone
+.=</p>
+<p>CT 
+intensities ρQCT ρash ρapp E
+.=</p>
+<p>Image ρ 1.49 3Ash = (ρQCT+0.09)/1.14 ρash/ρapp=0.60 E(GPa)=6.850 r   a p  p (g/cm )
+calibration: 
+ESP - EFP 
+.=</p>
+<p>Material 
+properties
+.=</p>
+<p>Schileo E. et al. An accurate estimation of bone density improves the accuracy of subject-specific finite element 
+methods. Journal of Biomechanics, 2008, 41, 2483-2491.
+Helgason B. et al. Mathematical relationship between bone density and mechanical properties: a literature review. 
+Clinical Biomechanics, 2008, 23, 135-146
+.=</p>
+<p>11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>7. Boundary condition propagation
+.=</p>
+<p>> Load application points and boundary conditions 
+can be propagated using calculated DVFs
+.=</p>
+<p>Virtual bone 1
+BC 
+.=</p>
+<p>propagation
+.=</p>
+<p>Reference bone Virtual bone 2
+.=</p>
+<p>Virtual bone n
+12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Application on the femur
+Statistical model
+.=</p>
+<p>> CT images
+— 80 for females
+— 57 for males
+.=</p>
+<p>> Statistical Shape Model:
+— Use of the first 4 modes
+.=</p>
+<p>(77% of variation for females, 83% for males)
+— Generation of 40 instances for each gender
+.=</p>
+<p>13.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Application on the femur 
+Mechanical simulation
+.=</p>
+<p>> 10-node tetrahedral mesh
+> L = 800N, head-intercondyle direction
+> Distal part encastred
+.=</p>
+<p>> Inhomogeneous mechanical properties
+E(GPa)=6.850 r   1 . 4 9app  (g/cm3)
+.=</p>
+<p>Young’s 
+modulus [MPa]
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Application on the femur 
+Results
+.=</p>
+<p>> Bone length not 
+modeled
+.=</p>
+<p>> Same mineral content 
+in all instances
+.=</p>
+<p>15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusion and future work
+.=</p>
+<p>> Conclusion
+— We proposed a method to model bone variability
+— Finite element are used to evaluate bone mechanical behavior
+— Semi-automatic pipeline
+.=</p>
+<p>> Future work
+— Shape model validation
+— Statistical model that includes both shape and intensities 
+— Mechanical simulation of physiological situations
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thank you 
+.=</p>
+<p>17.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

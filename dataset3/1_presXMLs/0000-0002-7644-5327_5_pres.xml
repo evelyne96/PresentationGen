@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hydra:
+Automatically Configuring Algorithms 
+</p>
+<p>for Portfolio-Based Selection
+</p>
+<p>Lin Xu, Holger H. Hoos, Kevin Leyton-Brown
+</p>
+<p>Department of Computer Science
+University of British Columbia</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two automated algorithm design ideas
+SATzilla SATenstein
+</p>
+<p>[Xu, Hutter, Hoos, Leyton-Brown, 2007; 2008] [KhudaBukhsh, Xu, Hoos, Leyton-Brown, 2009]
+portfolio-based algorithm selection algorithm design via automatic configuration
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two automated algorithm design ideas
+SATzilla
+</p>
+<p>[Xu, Hutter, Hoos, Leyton-Brown, 2007; 2008] Exploit per-instance variation between 
+portfolio-based algorithm selection solvers using learned runtime models
+</p>
+<p>– practical: e.g., won 10 medals in 
+2007, 2009 SAT competitions 
+</p>
+<p>– fully automated: requires only cluster 
+time rather than human design effort
+</p>
+<p>Key drawback:
+– requires a set of strong, relatively 
+</p>
+<p>uncorrelated candidate solvers
+</p>
+<p>– can’t be applied in domains for which 
+such solvers do not exist
+</p>
+<p>Some particularly related work: [Rice, 1976]; [Leyton-Brown, Nudelman & Shoham, 2003; 2009]; 
+[Guerri & Milano, 2004]; [Nudelman, Leyton-Brown, Shoham & Hoos, 2004]
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two automated algorithm design ideas
+SATenstein
+</p>
+<p>[KhudaBukhsh, Xu, Hoos, Leyton-Brown, 2009]
+</p>
+<p>• Instead of manually exploring algorithm design via automatic configuration
+</p>
+<p>a design space, build a 
+highly-parameterized algorithm and 
+then configure it automatically
+</p>
+<p>• Can find powerful, novel designs
+– matched or outperformed existing 
+</p>
+<p>SLS algorithms on six SAT domains
+</p>
+<p>• But: only produces single algorithms 
+designed to perform well on the 
+entire training set
+</p>
+<p>Some particularly related work: [Gratch & Dejong, 1992]; [Fukunaga, 2002]; 
+[Balaprakash, Birattari & Stutzle, 2007]; [Hutter, Babic, Hoos & Hu, 2007]; 
+[Ansotegui, Sellmann & Tierney, 2009]; [Hutter, Hoos, Stutzle & Leyton-Brown, 2009]
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two automated algorithm design ideas
+</p>
+<p>Hydra
+automatic portfolio synthesis
+</p>
+<p>Starting from a single parameterized algorithm, automatically find a set of 
+uncorrelated configurations that can be used to build a strong portfolio.
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Plan of This Talk
+</p>
+<p>Background
+– SATzilla: Portfolio-Based Algorithm Selection
+– SATenstein: Algorithm Configuration as Design
+</p>
+<p>Portfolio Synthesis
+– Related Work
+– Hydra
+</p>
+<p>Experimental Results
+</p>
+<p>Conclusions and Future Work
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla: Portfolio-Based Algorithm Selection
+[Xu, Hutter, Hoos, Leyton-Brown, 2007; 2008]
+</p>
+<p>• Given:
+– training set of instances
+</p>
+<p>Metric – performance metric
+Training Set Candidate Solvers – candidate solvers
+</p>
+<p>– portfolio builder 
+(incl. instance features)
+</p>
+<p>• Training:
+</p>
+<p>Portfolio Builder – collect performance data
+– portfolio builder learns 
+</p>
+<p>predictive models
+</p>
+<p>• At Runtime:
+</p>
+<p>Novel Selected – predict performance
+Instance Portfolio-Based Solver – select solver
+</p>
+<p>Algorithm Selector
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATenstein: Automated Algorithm Design
+[KhudaBukhsh, Xu, Hoos, Leyton-Brown, 2009]
+</p>
+<p>• Designer creates highly-
+parameterized algorithm 
+</p>
+<p>Existing from existing components
+</p>
+<p>Algorithm Components • Given:
+– training set of instances
+– performance metric
+– parameterized algorithm
+</p>
+<p>Domain
+Expert – algorithm configurator
+</p>
+<p>• Configure algorithm:
+– run configurator on 
+</p>
+<p>training instances
+Parameterized – output is a configuration 
+</p>
+<p>Algorithm that optimizes metric
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATenstein: Automated Algorithm Design
+</p>
+<p>• Designer creates highly-
+parameterized algorithm 
+from existing components
+</p>
+<p>Metric 
+Instance • Given:
+</p>
+<p>set – training set of instances
+– performance metric
+– parameterized algorithm
+– algorithm configurator
+</p>
+<p>Algorithm 
+Configurator • Configure algorithm:
+</p>
+<p>– run configurator on 
+training instances
+</p>
+<p>Parameterized New 
+Configuration – output is a configuration Algorithm that optimizes metric
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Plan of This Talk
+</p>
+<p>Background
+– SATzilla: Portfolio-Based Algorithm Selection
+– SATenstein: Algorithm Configuration as Design
+</p>
+<p>Portfolio Synthesis
+– Related Work
+– Hydra
+</p>
+<p>Experimental Results
+</p>
+<p>Conclusions and Future Work
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Related Work
+• Algorithm synthesis; portfolios and online algorithm selection 
+</p>
+<p>[Minton 1993]; [Huberman, Lukose & Hogg 1997]; [Howe et al, 1999]; [Gomes & Selman 2001]; 
+[Carchrae & Beck 2005]; [Gagliolo & Schmidhuber 2006]; [Streeter, Golovin & Smith 2007]; 
+[Roberts & Howe, 2007]; [Gaspero & Schaerf 2007]; [Monette, Deville & van Hentenryck 2009]
+</p>
+<p>• Two proposals for synthesis of selection-based portfolios:
+1. “Boosting as a Metaphor for Algorithm Design” [L-B et al., 2003; 2009]
+</p>
+<p>2. Stochastic Offline Programming [Malitsky & Sellmann, 2009]
+• partition instances into k clusters based on features
+• find best-performing algorithm for each cluster
+⇒ assumes that all algorithms repeatedly (1) sample from a distribution over 
+</p>
+<p>heuristics;  (2) use the sampled heuristic for one search step 
+</p>
+<p>⇒ best-performing algorithms identified using a custom optimization method
+⇒ our goal is to construct an entirely general method for portfolio synthesis
+</p>
+<p>• CP-Hydra [O’Mahony, Hebrard, Holland, Nugent, & O’Sullivan, 2008]
+– selection-based portfolio for constraint programming
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Boosting as a Metaphor for Algorithm Design
+[Leyton-Brown, Nudelman, Andrew, McFadden, Shoham, 2003]; [Leyton-Brown, Nudelman, Shoham, 2009]
+</p>
+<p>• Core idea
+– re-weight instance distribution to emphasize problems 
+</p>
+<p>on which an existing portfolio P performs poorly
+</p>
+<p>• Interpretation as an automatic procedure:
+– generate a new distribution D that is hard for P
+– find a new solver maximizing average performance on D
+</p>
+<p>• We intended to implement this procedure. But:
+– discovered examples in which the algorithm with best 
+</p>
+<p>average performance does not improve the portfolio
+– thus, the portfolio synthesis procedure can stagnate, 
+</p>
+<p>even when other, helpful algorithms exist
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hydra: Dynamic Performance Metric
+</p>
+<p>• Avoid stagnation via a dynamic performance metric:
+– return performance of s when s outperforms P
+– return performance of P otherwise
+</p>
+<p>• Intuitively: s is scored for its marginal contribution to P
+</p>
+<p>• This metric is given to an off-the-shelf configurator, which 
+optimizes it to find a new configuration s*
+</p>
+<p>• Thus, we retain the same core idea as “boosting”
+– build a new algorithm that explicitly aims to improve upon an 
+</p>
+<p>existing portfolio
+</p>
+<p>• Contrast with Stochastic Offline Programming:
+– algorithms target sets of instances having very different features
+– these feature differences can be irrelevant to algorithm performance
+</p>
+<p>Xu, Hoos, Leyton-Brown.      Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hydra Procedure: Iteration 1
+</p>
+<p>Parameterized
+Algorithm Training Set Metric Candidate Solver Set 
+</p>
+<p>Algorithm Portfolio
+Configurator Builder 
+</p>
+<p>Candidate
+Solver Portfolio-Based
+</p>
+<p>Algorithm Selector
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hydra Procedure: Iteration 2
+</p>
+<p>Parameterized
+Algorithm Training Set Metric Candidate Solver Set 
+</p>
+<p>Algorithm Portfolio
+Configurator Builder 
+</p>
+<p>Candidate
+Solver Portfolio-Based
+</p>
+<p>Algorithm Selector
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hydra Procedure: Iteration 3
+</p>
+<p>Parameterized
+Algorithm Training Set Metric Candidate Solver Set 
+</p>
+<p>Algorithm Portfolio
+Configurator Builder 
+</p>
+<p>Candidate
+Solver Portfolio-Based
+</p>
+<p>Algorithm Selector
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hydra Procedure: After Termination
+</p>
+<p>Output:
+</p>
+<p>Novel Selected
+Instance Portfolio-Based SolverAlgorithm Selector
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Plan of This Talk
+</p>
+<p>Background
+– SATzilla: Portfolio-Based Algorithm Selection
+– SATenstein: Algorithm Configuration as Design
+</p>
+<p>Portfolio Synthesis
+– Related Work
+– Hydra
+</p>
+<p>Experimental Results
+</p>
+<p>Conclusions and Future Work
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Problem Domain
+</p>
+<p>• Even though Hydra is most useful in other 
+domains, we evaluated it on SAT.
+</p>
+<p>• High bar for comparison
+– strong state-of-the-art solvers
+– portfolio-based solvers already successful
+⇒ to be able to argue that Hydra does well,
+</p>
+<p>we want to compare to a strong portfolio
+</p>
+<p>• Pragmatic benefits
+– a wide variety of interesting datasets
+– existing instance features
+– SATenstein is a suitable configuration target
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Setup: Hydra’s Inputs
+</p>
+<p> Portfolio Builder: SATzilla framework 
+[Xu, Hutter, Hoos, Leyton-Brown, 2008]
+</p>
+<p> Parameterized Solver: SATenstein-LS
+[KhudaBukhsh, Xu, Hoos, Leyton-Brown, 2009]
+</p>
+<p> Algorithm Configurator: FocusedILS 2.3 
+[Hutter, Hoos, Leyton-Brown, 2009]
+</p>
+<p> Performance Metric: Penalized average 
+runtime  (PAR)
+</p>
+<p> Instance Sets:
+ 2 from SATenstein paper 
+</p>
+<p>[KhudaBukhsh, Xu, Hoos, Leyton-Brown, 2009]
+</p>
+<p> 2 from previous SAT competitions
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Setup: Challengers
+</p>
+<p>• Individual state-of-the-art solvers
+– 11 manually-crafted SLS solvers
+</p>
+<p>• all 7 SLS winners of any SAT competition 2002 – 2007
+• 4 other prominent solvers
+</p>
+<p>– 6 SATenstein solvers
+</p>
+<p>• Also considered portfolios of challengers
+– used same portfolio builder (SATenstein)
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance Summary
+</p>
+<p>Solver RAND HAND BM INDU
+</p>
+<p>Best Challenger (of 17) 1128.63 2960.39 224.53 11.89
+</p>
+<p>Portfolio of 11 Challengers 897.37 2670.22 54.04 135.84
+</p>
+<p>Portfolio of 17 Challengers 813.72 2597.71 3.06* 7.74*
+</p>
+<p>Hydra (7 iterations) 631.35 2495.06 3.06 7.77
+</p>
+<p>* Statistically insignificant performance difference (sign rank test). 
+Hydra’s performance was significantly better in all other pairings.
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance Progress, RAND
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Selection Percentages After 7 Iterations, RAND
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Improvement After 7 Iterations, RAND
+</p>
+<p>Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+• Hydra: an automatic design approach combining
+</p>
+<p>– portfolio-based algorithm selection (here: “SATzilla”)
+– automated algorithm configuration (here: “SATenstein”)
+</p>
+<p>• Completely automated
+• Algorithm/configurator/portfolio-builder agnostic
+</p>
+<p>• Most useful in domains where few strong solvers exist
+• Nevertheless met or exceeded state-of-the-art 
+</p>
+<p>performance on SLS for SAT in 4 domains
+</p>
+<p>Thank You!
+Xu, Hoos, Leyton-Brown. Hydra: Automatically Configuring Algorithms for Portfolio-Based Selection</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

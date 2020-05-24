@@ -1,0 +1,1077 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions
+</p>
+<p>Kevin Leyton-Brown
+</p>
+<p>Joint work with Baharak Rastegari and Anne Condon
+Based on a AAAI-2007 paper, with stronger results
+</p>
+<p>Thanks to David Parkes, Ron Lavi and Daniel Lehmann
+</p>
+<p>for helpful discussions here at Dagstuhl!
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Efficiency and Maximality
+</p>
+<p>3 Criticality
+</p>
+<p>4 Impossibility Result
+</p>
+<p>5 Conclusions
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Setting
+</p>
+<p>G, a set of m goods for sale
+</p>
+<p>N = {1, 2, . . . , n}, the universal set of n bidders
+each may or may not participate in a given auction
+</p>
+<p>Each bidder i has a valuation v : 2Gi → R+ ∪ {0}.
+</p>
+<p>A deterministic, direct combinatorial auction (CA)
+mechanism:
+</p>
+<p>asks each bidder i to declare her valuation function v̂i
+allocates to i the bundle ai(v̂)
+requires i to pay pi(v̂)
+</p>
+<p>The revenue of a CA mech∑anism is the sum of the payments
+made by the bidders, R = i∈N pi(v̂).
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A CA mechanism is revenue monotonic if dropping a bidder never
+increases the auction’s revenue.
+</p>
+<p>Definition (Revenue Monotonicity)
+</p>
+<p>CA mechanism M is revenue monotonic (RM) if for all v̂ in the
+equilibrium of the m∑echanism and∑for all bidders j,
+</p>
+<p>pi(v̂) ≥ pi(v̂−j).
+i∈N i∈N\{j}
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Revenue Monotonicity
+</p>
+<p>From single-good auctions, we have the intuition that adding
+bidders means more competition, and hence more revenue for
+the auctioneer.
+</p>
+<p>Does this intuition extend to combinatorial auctions?
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Revenue Monotonicity
+</p>
+<p>From single-good auctions, we have the intuition that adding
+bidders means more competition, and hence more revenue for
+the auctioneer.
+</p>
+<p>Does this intuition extend to combinatorial auctions?
+</p>
+<p>A CA mechanism is revenue monotonic if dropping a bidder never
+increases the auction’s revenue.
+</p>
+<p>Definition (Revenue Monotonicity)
+</p>
+<p>CA mechanism M is revenue monotonic (RM) if for all v̂ in the
+equilibrium of the m∑echanism and∑for all bidders j,
+</p>
+<p>pi(v̂) ≥ pi(v̂−j).
+i∈N i∈N\{j}
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>VCG is not Revenue Monotonic
+</p>
+<p>Example (see e.g., [Ausubel & Milgrom, 2006])
+</p>
+<p>Bidder v(g1) v(g2) v(g1, g2) SW−i SW−i i pays
+without i with i
+</p>
+<p>1 11 0 11
+2 0 0 10
+3 0 11 11
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>VCG is not Revenue Monotonic
+</p>
+<p>Example (see e.g., [Ausubel & Milgrom, 2006])
+</p>
+<p>Bidder v(g1) v(g2) v(g1, g2) SW−i SW−i i pays
+without i with i
+</p>
+<p>1 11 0 11 11 11 0
+2 0 0 10 22 22 0
+3 0 11 11 11 11 0
+</p>
+<p>1 and 3 win Revenue = 0
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>VCG is not Revenue Monotonic
+</p>
+<p>Example (see e.g., [Ausubel & Milgrom, 2006])
+</p>
+<p>Bidder v(g1) v(g2) v(g1, g2) SW−i SW−i i pays
+without i with i
+</p>
+<p>1 11 0 11
+2 0 0 10
+3 0 11 11
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>VCG is not Revenue Monotonic
+</p>
+<p>Example (see e.g., [Ausubel & Milgrom, 2006])
+</p>
+<p>Bidder v(g1) v(g2) v(g1, g2) SW−i SW−i i pays
+without i with i
+</p>
+<p>1 11 0 11
+2 0 0 10 11 11 0
+3 0 11 11 10 0 10
+</p>
+<p>3 wins Revenue = 10
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Plan of this talk
+</p>
+<p>We are interested in whether this pathological revenue behavior
+can be avoided under other CA mechanisms.
+</p>
+<p>By the revelation principle, we can restrict attention to direct
+mechanisms.
+</p>
+<p>In the rest of the talk I’ll:
+</p>
+<p>Discuss desirable properties for CA mechanisms, including
+efficiency and relaxations
+</p>
+<p>Discuss single-mindedness and criticality
+</p>
+<p>Show that no deterministic, direct CA mechanism that
+satisfies our properties is revenue monotonic.
+</p>
+<p>Consider some consequences of this result.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Efficiency and Maximality
+</p>
+<p>3 Criticality
+</p>
+<p>4 Impossibility Result
+</p>
+<p>5 Conclusions
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definition (Participation)
+</p>
+<p>Whenever vi(ai(v̂)) = 0, pi = 0.
+</p>
+<p>Definition (Consumer sovereignty)
+</p>
+<p>For every bidder i, every set of bids v̂−i, and every bundle bi there
+exists some finite amount ki ∈ R such that if i declares a value of
+ki for every bundle b
+</p>
+<p>′
+i ⊇ bi and 0 for all other bundles, i is
+</p>
+<p>allocated at least bi.
+</p>
+<p>Definition (Efficiency) ∑
+The chosen allocation maximizes the social welfare, i vi(ai).
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Properties
+</p>
+<p>Definition (DS truthfulness)
+</p>
+<p>For each bidder, declaring v̂i = vi is a dominant strategy.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definition (Consumer sovereignty)
+</p>
+<p>For every bidder i, every set of bids v̂−i, and every bundle bi there
+exists some finite amount ki ∈ R such that if i declares a value of
+ki for every bundle b
+</p>
+<p>′
+i ⊇ bi and 0 for all other bundles, i is
+</p>
+<p>allocated at least bi.
+</p>
+<p>Definition (Efficiency) ∑
+The chosen allocation maximizes the social welfare, i vi(ai).
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Properties
+</p>
+<p>Definition (DS truthfulness)
+</p>
+<p>For each bidder, declaring v̂i = vi is a dominant strategy.
+</p>
+<p>Definition (Participation)
+</p>
+<p>Whenever vi(ai(v̂)) = 0, pi = 0.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definition (Efficiency) ∑
+The chosen allocation maximizes the social welfare, i vi(ai).
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Properties
+</p>
+<p>Definition (DS truthfulness)
+</p>
+<p>For each bidder, declaring v̂i = vi is a dominant strategy.
+</p>
+<p>Definition (Participation)
+</p>
+<p>Whenever vi(ai(v̂)) = 0, pi = 0.
+</p>
+<p>Definition (Consumer sovereignty)
+</p>
+<p>For every bidder i, every set of bids v̂−i, and every bundle bi there
+exists some finite amount ki ∈ R such that if i declares a value of
+ki for every bundle b
+</p>
+<p>′
+i ⊇ bi and 0 for all other bundles, i is
+</p>
+<p>allocated at least bi.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Properties
+</p>
+<p>Definition (DS truthfulness)
+</p>
+<p>For each bidder, declaring v̂i = vi is a dominant strategy.
+</p>
+<p>Definition (Participation)
+</p>
+<p>Whenever vi(ai(v̂)) = 0, pi = 0.
+</p>
+<p>Definition (Consumer sovereignty)
+</p>
+<p>For every bidder i, every set of bids v̂−i, and every bundle bi there
+exists some finite amount ki ∈ R such that if i declares a value of
+ki for every bundle b
+</p>
+<p>′
+i ⊇ bi and 0 for all other bundles, i is
+</p>
+<p>allocated at least bi.
+</p>
+<p>Definition (Efficiency) ∑
+The chosen allocation maximizes the social welfare, i vi(ai).
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Efficiency Reconsidered
+</p>
+<p>Efficiency is a very strong condition for us to require.
+</p>
+<p>Theorem (Green & Laffont, 1977)
+</p>
+<p>The only DS truthful and efficient CA mechanisms are Groves
+mechanisms.
+</p>
+<p>We’ve already seen that VCG fails RM. Let’s expand our search for
+RM mechanisms to a broader class that still includes efficient
+mechanisms.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Efficiency Reconsidered
+</p>
+<p>RM is unsatifyingly easy to achieve if we simply drop efficiency.
+</p>
+<p>Proposition
+</p>
+<p>The following bundling mechanism satisfies DS truthfulness,
+participation, consumer sovereignty and revenue monotonicity:
+</p>
+<p>1 bundle all the goods together;
+</p>
+<p>2 sell this bundle to the highest bidder;
+</p>
+<p>3 charge this bidder the price offered by the second-highest
+bidder.
+</p>
+<p>Unless we’re content with CA mechanisms like this one, we need to
+require something like efficiency, but weaker...
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Maximality
+</p>
+<p>A mechanism is maximal with respect to a bidder i if, whenever i’s
+valuation is sufficiently high, it never chooses allocations that
+could be augmented to satisfy i.
+</p>
+<p>Definition (Maximality)
+</p>
+<p>A CA mechanism M is maximal with respect to bidder i iff
+∀s ⊆ 2G, there exists a nonnegative constant αi,s such that M
+always chooses an allocation where either:
+</p>
+<p>vi(ai(v̂)) > 0; or
+the allocation cannot be augmented to award i a bundle s for
+which vi(s) > αi,s.
+</p>
+<p>αi,s is sort of like a bidder/bundle-specific reserve price.
+</p>
+<p>a weakening of the “reasonableness” condition of [Nisan &
+Ronen, 2000]
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Many interesting mechanisms are maximal
+</p>
+<p>For example, a CA mechanism is maximal if the chosen allocation:
+</p>
+<p>...is efficient
+</p>
+<p>as before: VCG; other Groves mechanisms
+</p>
+<p>...is strongly Pareto efficient1
+</p>
+<p>the allocation cannot be changed to make some bidder better
+off without making some other bidder worse off
+</p>
+<p>this definition can be modified to include reserve prices
+</p>
+<p>not equivalent to efficiency: e.g., the greedy mechanism of
+[Lehmann, O’Callaghan and Shoham, 2002].
+</p>
+<p>...ma∑ximizes an affine function“affine maximizers”: choose an allocation that maximizes
+i ωiv̂i(ai) + γa, given per-bidder ω’s and per-allocation γ’s
+</p>
+<p>maximal wrt i as long as all γ are finite, ωi > 0
+</p>
+<p>1Our AAAI paper considers only this condition, and calls it maximality.
+Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Efficiency and Maximality
+</p>
+<p>3 Criticality
+</p>
+<p>4 Impossibility Result
+</p>
+<p>5 Conclusions
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Single-minded bidders
+</p>
+<p>In order to define a useful property, we must first define a special
+class of bidders.
+</p>
+<p>Definition (Single-minded Bidder)
+</p>
+<p>A bidder is single-minded if she ha{s the valuation function:
+∀s ∈ 2G v > 0 if s ⊇ b, vi(s) = i i0 otherwise
+</p>
+<p>The bundles bi are unknown to the auctioneer.
+</p>
+<p>We say that bidder i wins if she is allocated at least bi.
+</p>
+<p>Bidder i’s valuation for bi is denoted by vi, and her
+declarations of this value and bundle are v̂i and b̂i respectively.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Criticality
+</p>
+<p>From necessary and sufficient conditions for DS truthful
+mechanisms (see e.g., [Bartal, Gonen & Nisan, 2003]) it can easily
+be shown that dominant-strategy truthful mechanisms offer critical
+values to single-minded bidders.
+</p>
+<p>Lemma (Criticality)
+</p>
+<p>If a deterministic, direct CA mechanism satisfies DS truthfulness,
+participation and consumer sovereignty, then for every bidder i,
+every v̂−i and every s ∈ 2G, there exists a finite critical value
+cvi(s, v̂−i) where:
+</p>
+<p>if v̂i > cvi(̂bi), i wins at least b̂i and pays cvi(̂bi);
+if v̂i < cvi(̂bi), i loses and pays 0.
+</p>
+<p>When v̂−i is understood from the context, we abbreviate
+cvi(s, v̂−i) as cvi(s).
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Efficiency and Maximality
+</p>
+<p>3 Criticality
+</p>
+<p>4 Impossibility Result
+</p>
+<p>5 Conclusions
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Impossibility Result
+</p>
+<p>Theorem
+</p>
+<p>Let M be a deterministic, direct CA mechanism that allows
+bidders to express single-minded preferences, and that satisfies
+</p>
+<p>DS truthfulness;
+</p>
+<p>participation;
+</p>
+<p>consumer sovereignty; and
+</p>
+<p>maximality with respect to at least 2 bidders i and j.
+</p>
+<p>Then M is not revenue monotonic.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof sketch
+</p>
+<p>Proof Sketch
+</p>
+<p>Consider three single-minded bidders.
+</p>
+<p>1 Construct valuations by repeatedly probing the mechanism to
+determine the bidders’ critical values given various
+declarations by the others.
+</p>
+<p>2 Derive an expression for revenue with all three bidders.
+</p>
+<p>3 Derive an expression for revenue without bidder 1.
+4 Show that (3) > (2).
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Select v1, v2 and v3 as follows:
+(by consumer sovereignty, these values are all finite)
+</p>
+<p>1 v2 > cv2(∅, ∅, v∗ + v∗1 3 + k), for some k > 0
+2 v1 > max{cv1(∅, v ∗ ∗2, v3 ), cv1(∅, v2, ∅), v1 }
+3 v3 > max{cv3(v∗1 , v2, ∅), cv3(∅, v2, ∅), v∗3 } Dependencies:
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Constructing valuations
+</p>
+<p>Let G = {g1, g2} and N = {1, 2, 3}
+</p>
+<p>Let b1 = {g1}, b2 = {g1, g2} and
+b3 = {g2}
+</p>
+<p>Let i = 1 and j = 3
+</p>
+<p>Define v∗1 = α1,b1 + ε and v∗3 = α3,b3 + ε,
+for some ε > 0
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Select v1, v2 and v3 as follows:
+(by consumer sovereignty, these values are all finite)
+</p>
+<p>1 v2 > cv2(∅, ∅, v∗ ∗1 + v3 + k), for some k > 0
+2 v1 > max{cv1(∅, v2, v∗3 ), cv1(∅, v , ∅), v∗2 1 }
+3 v ∗3 > max{cv3(v1 , v2, ∅), cv3(∅, v2, ∅), v∗3 }
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Constructing valuations
+</p>
+<p>Let G = {g1, g2} and N = {1, 2, 3}
+</p>
+<p>Let b1 = {g1}, b2 = {g1, g2} and
+b3 = {g2}
+</p>
+<p>Let i = 1 and j = 3
+</p>
+<p>Define v∗1 = α1,b1 + ε and v∗3 = α3,b3 + ε, Dependencies:
+for some ε > 0
+</p>
+<p>v∗ ∗1 v3
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 v1 > max{cv1(∅, v ∗2, v3 ), cv1(∅, v2, ∅), v∗1 }
+3 v3 > max{cv3(v∗1 , v2, ∅), cv3(∅, v2, ∅), v∗3 }
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Constructing valuations
+</p>
+<p>Let G = {g1, g2} and N = {1, 2, 3}
+</p>
+<p>Let b1 = {g1}, b2 = {g1, g2} and
+b3 = {g2}
+</p>
+<p>Let i = 1 and j = 3
+</p>
+<p>Define v∗1 = α1,b1 + ε and v∗3 = α3,b3 + ε, Dependencies:
+for some ε > 0
+</p>
+<p>v∗ v∗
+Select v1, v2 and v3 as follows: 1 A 3AA }}
+(by consumer sovereignty, these values are all finite) AA }}AA }
+</p>
+<p>v ∅ ∅ v∗ ∗   ~~}
+}
+</p>
+<p>1 2 > cv2( , , 1 + v3 + k), for some k > 0 v2
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3 v3 > max{cv3(v∗1 , v2, ∅), cv3(∅, v2, ∅), v∗3 }
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Constructing valuations
+</p>
+<p>Let G = {g1, g2} and N = {1, 2, 3}
+</p>
+<p>Let b1 = {g1}, b2 = {g1, g2} and
+b3 = {g2}
+</p>
+<p>Let i = 1 and j = 3
+</p>
+<p>Define v∗ ∗1 = α1,b1 + ε and v3 = α3,b3 + ε, Dependencies:
+for some ε > 0
+</p>
+<p>v∗ v∗
+Select v 1 31, v2 and v3 as follows: AAA }}
+(by consumer sovereignty, these values are all finite) AA }AA }}
+</p>
+<p>}
+</p>
+<p>1 v ∗ ∗   ~}~2 > cv2(∅, ∅, v1 + v3 + k), for some k > 0 v2 B
+2 v1 > max{cv1(∅, v2, v∗3 ), cv1(∅, v2, ∅), v∗1 }
+</p>
+<p>BBBBBBB
+++   v1
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Constructing valuations
+</p>
+<p>Let G = {g1, g2} and N = {1, 2, 3}
+</p>
+<p>Let b1 = {g1}, b2 = {g1, g2} and
+b3 = {g2}
+</p>
+<p>Let i = 1 and j = 3
+</p>
+<p>Define v∗1 = α ∗1,b1 + ε and v3 = α3,b3 + ε,
+for some ε > 0 Dependencies:
+</p>
+<p>∗ ∗
+Select v v v1, v2 and v3 as follows: 1 A 3AA }}
+(by consumer sovereignty, these values are all finite) AA }}AA }
+</p>
+<p>v   }~~
+}
+</p>
+<p>1 2 > cv2(∅, ∅, v∗1 + v∗3 + k), for some k > 0 v2 B
+2 v1 > max{cv1(∅, v2, v∗3 ), cv1(∅, v2, ∅), v∗1 } }
+</p>
+<p>} BB
+}} B} B} BB
+</p>
+<p>3 v } B3 > max{cv (v∗3 1 , v2, ∅), cv3(∅, v2, ∅), v∗}  ~}~3 v ss ++
+  
+</p>
+<p>3 v1
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 v > cv (v∗3 3 1 , v2, ∅), so symmetrically cv1(∅, v2, v3) ≤ v∗1
+3 v > v∗ and v > v∗1 1 3 3 , so when all bidders bid 〈bi, vi〉:
+</p>
+<p>bidders 1 and 3 win
+bidder 2 pays zero (by participation)
+the revenue of the auction is
+R = cv1(∅, v2, v3) + cv3(v1, v2, ∅) (by criticality lemma)
+</p>
+<p>Conclusion (Part 1)
+</p>
+<p>R ≤ v∗1 + v∗3 .
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Part 1: all Bidders Present
+</p>
+<p>1 v ∗1 > cv1(∅, v2, v3 ), so if bidder 3 bid 〈b , v∗3 3 〉 then
+bidder 1 would win (by criticality lemma)
+bidder 3 has the only non-overlapping bundle, and v∗3 > α3,b3 ,
+so bidder 3 would also win (by maximality w.r.t. bidder 3)
+therefore, cv3(v ∗1, v2, ∅) ≤ v3 (by criticality lemma)
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3 v ∗ ∗1 > v1 and v3 > v3 , so when all bidders bid 〈bi, vi〉:
+bidders 1 and 3 win
+bidder 2 pays zero (by participation)
+the revenue of the auction is
+R = cv1(∅, v2, v3) + cv3(v1, v2, ∅) (by criticality lemma)
+</p>
+<p>Conclusion (Part 1)
+</p>
+<p>R ≤ v∗1 + v∗3 .
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Part 1: all Bidders Present
+</p>
+<p>1 v1 > cv1(∅, v2, v∗3 ), so if bidder 3 bid 〈b , v∗3 3 〉 then
+bidder 1 would win (by criticality lemma)
+bidder 3 has the only non-overlapping bundle, and v∗3 > α3,b3 ,
+so bidder 3 would also win (by maximality w.r.t. bidder 3)
+therefore, cv3(v1, v2, ∅) ≤ v∗3 (by criticality lemma)
+</p>
+<p>2 v3 > cv (v∗3 1 , v2, ∅), so symmetrically cv1(∅, v2, v3) ≤ v∗1
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusion (Part 1)
+</p>
+<p>R ≤ v∗1 + v∗3 .
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Part 1: all Bidders Present
+</p>
+<p>1 v > cv ∗ ∗1 1(∅, v2, v3 ), so if bidder 3 bid 〈b3, v3 〉 then
+bidder 1 would win (by criticality lemma)
+bidder 3 has the only non-overlapping bundle, and v∗3 > α3,b3 ,
+so bidder 3 would also win (by maximality w.r.t. bidder 3)
+therefore, cv ∗3(v1, v2, ∅) ≤ v3 (by criticality lemma)
+</p>
+<p>2 v3 > cv3(v∗1 , v2, ∅), so symmetrically cv1(∅, v2, v3) ≤ v∗1
+3 v1 > v∗1 and v3 > v∗3 , so when all bidders bid 〈bi, vi〉:
+</p>
+<p>bidders 1 and 3 win
+bidder 2 pays zero (by participation)
+the revenue of the auction is
+R = cv1(∅, v2, v3) + cv3(v1, v2, ∅) (by criticality lemma)
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Part 1: all Bidders Present
+</p>
+<p>1 v1 > cv1(∅, v2, v∗3 ), so if bidder 3 bid 〈b3, v∗3 〉 then
+bidder 1 would win (by criticality lemma)
+bidder 3 has the only non-overlapping bundle, and v∗3 > α3,b3 ,
+so bidder 3 would also win (by maximality w.r.t. bidder 3)
+therefore, cv3(v1, v2, ∅) ≤ v∗3 (by criticality lemma)
+</p>
+<p>2 v3 > cv3(v∗1 , v2, ∅), so symmetrically cv ∗1(∅, v2, v3) ≤ v1
+3 v1 > v∗1 and v3 > v∗3 , so when all bidders bid 〈bi, vi〉:
+</p>
+<p>bidders 1 and 3 win
+bidder 2 pays zero (by participation)
+the revenue of the auction is
+R = cv1(∅, v2, v3) + cv3(v1, v2, ∅) (by criticality lemma)
+</p>
+<p>Conclusion (Part 1)
+</p>
+<p>R ≤ v∗ ∗1 + v3 .
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 v2 > cv2(∅, ∅, v∗ + v∗1 3 + k), so
+if bidder 3 were to bid 〈b3, v∗1 + v∗3 + k〉 then she would lose
+(by criticality lemma)
+</p>
+<p>therefore cv3(∅, v2, ∅) ≥ v∗1 + v∗3 + k (by criticality lemma)
+</p>
+<p>Conclusion (Part 2)
+</p>
+<p>R ≥ v∗−1 1 + v∗3 + k, k > 0.
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Part 2: Bidder 1 not Present
+</p>
+<p>1 v3 > cv3(∅, v2, ∅), so
+bidder 3 wins (by criticality lemma)
+b2 and b3 overlap so bidder 2 cannot also win
+bidder 2 pays zero (by participation)
+the revenue of the auction is R−1 = cv3(∅, v2, ∅)
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusion (Part 2)
+</p>
+<p>R−1 ≥ v∗1 + v∗3 + k, k > 0.
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Part 2: Bidder 1 not Present
+</p>
+<p>1 v3 > cv3(∅, v2, ∅), so
+bidder 3 wins (by criticality lemma)
+b2 and b3 overlap so bidder 2 cannot also win
+bidder 2 pays zero (by participation)
+the revenue of the auction is R−1 = cv3(∅, v2, ∅)
+</p>
+<p>2 v2 > cv2(∅, ∅, v∗1 + v∗3 + k), so
+if bidder 3 were to bid 〈b3, v∗1 + v∗3 + k〉 then she would lose
+(by criticality lemma)
+</p>
+<p>therefore cv3(∅, v2, ∅) ≥ v∗1 + v∗3 + k (by criticality lemma)
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof – Part 2: Bidder 1 not Present
+</p>
+<p>1 v3 > cv3(∅, v2, ∅), so
+bidder 3 wins (by criticality lemma)
+b2 and b3 overlap so bidder 2 cannot also win
+bidder 2 pays zero (by participation)
+the revenue of the auction is R−1 = cv3(∅, v2, ∅)
+</p>
+<p>2 v2 > cv2(∅, ∅, v∗1 + v∗3 + k), so
+if bidder 3 were to bid 〈b , v∗ + v∗3 1 3 + k〉 then she would lose
+(by criticality lemma)
+</p>
+<p>therefore cv3(∅, v2, ∅) ≥ v∗ ∗1 + v3 + k (by criticality lemma)
+</p>
+<p>Conclusion (Part 2)
+</p>
+<p>R ∗ ∗−1 ≥ v1 + v3 + k, k > 0.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Proof - Conclusion
+</p>
+<p>Conclusion (Part 1)
+</p>
+<p>R ≤ v∗1 + v∗3 .
+</p>
+<p>Conclusion (Part 2)
+</p>
+<p>R ∗ ∗−1 ≥ v1 + v3 + k, k > 0.
+</p>
+<p>Conclusion (Overall)
+</p>
+<p>R < R−1; therefore M is not revenue monotonic.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>There need not be exactly three bidders or two goods
+</p>
+<p>it’s easy to construct valuations for additional bidders so that
+they play no role
+additional goods can be included in bundles or ignored
+</p>
+<p>R−1 −R = k, a constant that we can set freely
+thus the possible revenue gain from dropping one bidder is
+unbounded
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Observations
+</p>
+<p>Our result does not require that bidders are single-minded
+</p>
+<p>instead, it makes requirements about how the mechanism
+behaves when bidders state single-minded preferences
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>R−1 −R = k, a constant that we can set freely
+thus the possible revenue gain from dropping one bidder is
+unbounded
+</p>
+<p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Observations
+</p>
+<p>Our result does not require that bidders are single-minded
+</p>
+<p>instead, it makes requirements about how the mechanism
+behaves when bidders state single-minded preferences
+</p>
+<p>There need not be exactly three bidders or two goods
+</p>
+<p>it’s easy to construct valuations for additional bidders so that
+they play no role
+additional goods can be included in bundles or ignored
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Observations
+</p>
+<p>Our result does not require that bidders are single-minded
+</p>
+<p>instead, it makes requirements about how the mechanism
+behaves when bidders state single-minded preferences
+</p>
+<p>There need not be exactly three bidders or two goods
+</p>
+<p>it’s easy to construct valuations for additional bidders so that
+they play no role
+additional goods can be included in bundles or ignored
+</p>
+<p>R−1 −R = k, a constant that we can set freely
+thus the possible revenue gain from dropping one bidder is
+unbounded
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>RM over the set of goods
+</p>
+<p>Corollary (RM over the set of goods)
+</p>
+<p>Let M be a deterministic, direct CA mechanism that allows
+bidders to express single-minded preferences, and that satisfies
+</p>
+<p>DS truthfulness;
+</p>
+<p>participation;
+</p>
+<p>consumer sovereignty; and
+</p>
+<p>maximality with respect to at least 2 bidders i and j.
+</p>
+<p>Then M is not revenue monotonic over the set of goods.
+</p>
+<p>proof sketch: add an extra good to bidder 1’s bundle and drop
+that good (which entails dropping bidder 1)
+</p>
+<p>note: works even without substitutes
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Pseudonomous bidding
+</p>
+<p>Corollary (pseudonymous bidding)
+</p>
+<p>Let M be a deterministic, direct CA mechanism that allows
+bidders to express single-minded preferences, and that satisfies
+</p>
+<p>DS truthfulness;
+</p>
+<p>participation;
+</p>
+<p>consumer sovereignty; and
+</p>
+<p>maximality with respect to at least 2 bidders i and j.
+</p>
+<p>Then M is not pseudonymous-bid proof.
+</p>
+<p>proof sketch: in a world with only bidders 2 and 3, bidder 3
+gains by pseudonymously bidding as bidder 1
+</p>
+<p>in previous literature (e.g., [Yokoo, 2006]) such a result is
+shown only for DS, efficient (i.e., Groves) mechanisms.
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 25</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Outline
+</p>
+<p>1 Introduction
+</p>
+<p>2 Efficiency and Maximality
+</p>
+<p>3 Criticality
+</p>
+<p>4 Impossibility Result
+</p>
+<p>5 Conclusions
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Conclusions
+</p>
+<p>We have shown that reasonable, DS truthful CA mechanisms are
+not revenue monotonic.
+</p>
+<p>Our result can be interpreted in several ways:
+</p>
+<p>in a DS mechanism, “don’t leave money on the table” isn’t an
+innocuous design decision.
+</p>
+<p>some “problems with VCG” are in fact properties of broad
+classes of CA mechanisms
+</p>
+<p>if you care about revenue in a CA, set reserve prices carefully
+and/or bundle goods
+</p>
+<p>“more competition” isn’t the same as more bidders
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 27</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Efficiency and Maximality Criticality Impossibility Result Conclusions
+</p>
+<p>Future Work
+</p>
+<p>Theoretical:
+</p>
+<p>1 Look for necessary and/or sufficient conditions for revenue
+monotonicity
+</p>
+<p>Experimental:
+1 Conduct experiments to investigate the frequency and degree
+</p>
+<p>of RM failures in realistic settings
+</p>
+<p>e.g., using test data from CATS
+</p>
+<p>2 Find a DS truthful CA mechanism that violates RM with
+minimal probability
+</p>
+<p>Revenue Monotonicity in Combinatorial Auctions Rastegari, Condon & Leyton-Brown, Slide 28</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Z2-genus of Kuratowski minors
+.=</p>
+<p>Radoslav Fulek and Jan Kynčl
+.=</p>
+<p>Charles University, Prague.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Drawings and embeddings
+.=</p>
+<p>drawing of a graph:
+.=</p>
+<p>vertices → points
+.=</p>
+<p>edges → simple curves
+forbidden:
+.=</p>
+<p>embedding = drawing with no crossings.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hanani–Tutte theorems
+.=</p>
+<p>(Strong) Hanani–Tutte theorem: (Hanani, 1934; Tutte, 1970)
+.=</p>
+<p>A graph is planar if and only if it has an independently even drawing
+.=</p>
+<p>in the plane; that is, every pair of non-adjacent edges crosses an
+.=</p>
+<p>even number of times.
+.=</p>
+<p>application: polynomial-time algorithm for testing planarity.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hanani–Tutte theorems
+.=</p>
+<p>(Strong) Hanani–Tutte theorem: (Hanani, 1934; Tutte, 1970)
+.=</p>
+<p>A graph is planar if and only if it has an independently even drawing
+.=</p>
+<p>in the plane; that is, every pair of non-adjacent edges crosses an
+.=</p>
+<p>even number of times.
+.=</p>
+<p>Weak Hanani–Tutte theorem: (Cairns–Nikolayevsky, 2000;
+.=</p>
+<p>Pach–Tóth, 2000; Pelsmajer–Schaefer–Štefankovič, 2007)
+.=</p>
+<p>If a graph G has an even drawing D in the plane (every pair of edges
+.=</p>
+<p>crosses an even number of times), then G is planar.
+.=</p>
+<p>(Moreover, G has a plane embedding with the same rotation system
+.=</p>
+<p>as D.).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hanani–Tutte theorems on surfaces
+.=</p>
+<p>Weak Hanani–Tutte theorem on surfaces:
+.=</p>
+<p>(Cairns–Nikolayevsky, 2000; Pelsmajer–Schaefer–Štefankovič, 2009)
+.=</p>
+<p>If a graph G has an even drawing D on a surface S, then G has an
+embedding on S (that preserves the embedding scheme of D).
+.=</p>
+<p>(Strong) Hanani–Tutte theorem on the projective plane:
+.=</p>
+<p>(Pelsmajer–Schaefer–Stasi, 2009;
+.=</p>
+<p>Colin de Verdière–Kaluža–Paták–Patáková–Tancer, 2016)
+.=</p>
+<p>If a graph G has an independently even drawing on the projective
+.=</p>
+<p>plane, then G has an embedding on the projective plane.
+.=</p>
+<p>Problem: Can the strong Hanani–Tutte theorem be extended to
+.=</p>
+<p>other surfaces?
+.=</p>
+<p>Partial answer: No to the orientable surface of genus 4 or larger
+.=</p>
+<p>(Fulek–K., 2017).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Genus and Z2-genus
+.=</p>
+<p>genus g(G) of a graph G = minimum g such that G has an
+embedding on the orientable surface Mg of genus g.
+.=</p>
+<p>Z2-genus g0(G) of a graph G is the minimum g such that G has an
+independently even drawing on Mg .
+.=</p>
+<p>Strong Hanani–Tutte theorem: g0(G) = 0 ⇒ g(G) = 0.
+.=</p>
+<p>Theorem: (Fulek–K., 2017)
+.=</p>
+<p>There is a graph G with g(G) = 5 and g0(G) ≤ 4.
+Consequently, for every positive integer k there is a graph G with
+.=</p>
+<p>g(G) = 5k and g0(G) ≤ 4k .
+.=</p>
+<p>Problem: (Schaefer–Štefankovič, 2013)
+.=</p>
+<p>Is there a function f such that g(G) ≤ f (g0(G)) for every graph G?
+.=</p>
+<p>Main result: YES, if a certain “folklore result” is true..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bounding genus by Z2-genus—the plan
+.=</p>
+<p>1) Ramsey-type statement:
+.=</p>
+<p>If G has large genus g = g(t), then G contains, as a minor, G1(t) or
+G2(t) or . . . or Gr(t) of genus t .
+.=</p>
+<p>2) Easier subproblem:
+.=</p>
+<p>Show that the Z2-genus of each of Gi(t) is unbounded in t ..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Ramsey-type statements
+.=</p>
+<p>Theorem: (Böhme–Kawarabayashi–Maharry–Mohar, 2008)
+.=</p>
+<p>For every positive integer t , every sufficiently large 7-connected
+.=</p>
+<p>graph contains K3 t as a minor.,
+.=</p>
+<p>Generalization: (Böhme–Kawarabayashi–Maharry–Mohar, 2009)
+.=</p>
+<p>- larger connectivity and Ka t minors for every fixed a > 3.,
+.=</p>
+<p>Unpublished “folklore” result: (Robertson–Seymour)
+.=</p>
+<p>There is a function g such that for every t ≥ 3, every graph of Euler
+genus g(t) contains a t-Kuratowski graph as a minor.
+.=</p>
+<p>t-Kuratowski graph:
+.=</p>
+<p>• K3 , or,t
+.=</p>
+<p>• t copies of K5 or K3,3 sharing at most 2 common vertices.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3-Kuratowski graphs
+.=</p>
+<p>a) b) c) d) e)
+.=</p>
+<p>f) g) h)
+.=</p>
+<p>- what about graphs with large (orientable) genus and constant Euler
+.=</p>
+<p>genus?.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Ramsey-type statement for genus
+.=</p>
+<p>projective 5 × 5 grid projective 5-wall
+.=</p>
+<p>Theorem:
+.=</p>
+<p>The “folklore result” implies that there is a function h such that for
+.=</p>
+<p>every t ≥ 3, every graph of genus h(t) contains, as a minor, a
+t-Kuratowski graph or the projective t-wall..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lower bounds on the Z2-genus
+.=</p>
+<p>Theorem: (Schaefer–Štefankovič, 2013)
+.=</p>
+<p>If G consists of t copies of K5 or K3 3 sharing at most 1 vertex, then,
+g0(G) = g(G) = t .
+(The Z2-genus is additive for disjoint unions and 1-amalgamations.)
+.=</p>
+<p>Observation:
+.=</p>
+<p>If G has maximum degree 3, then g0(G) = g(G). In particular, the
+Z2-genus of the projective t-wall is ⌊t/2⌋.
+.=</p>
+<p>• “correct” the rotation of each vertex to obtain an even drawing
+.=</p>
+<p>• use the weak Hanani–Tutte theorem for surfaces
+.=</p>
+<p>Theorem:
+.=</p>
+<p>We have g0(G) = g(G) also for each of the remaining t-Kuratowski
+graphs G: K3 t and 2-amalgamations of t copies of K, 5 or K3,3..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lower bounds on the Z2-genus of K3,t
+.=</p>
+<p>problem with independently even drawings:
+.=</p>
+<p>- no faces, rotations “do not matter”, no Euler’s formula . . .
+.=</p>
+<p>First lower bound: g0(K3 t) ≥ Ω(log log log t),
+.=</p>
+<p>• “correct” the rotation of each degree-3 vertex so that incident
+.=</p>
+<p>edges cross evenly
+.=</p>
+<p>• use Ramsey’s theorem for each degree-t vertex so that incident
+.=</p>
+<p>edges cross with the same parity
+.=</p>
+<p>• if the parity is odd for some vertex v , “flip” a neighborhood of v
+.=</p>
+<p>• use the weak Hanani–Tutte theorem for surfaces
+.=</p>
+<p>• use the fact g(K3 ) = ⌈(n − 2)/4⌉,n.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lower bounds on the Z2-genus of K3,t
+.=</p>
+<p>Second lower bound: g0(K3 t) ≥ Ω(log t),
+.=</p>
+<p>- Z2-homology of closed curves on Mg and pigeon-hole principle.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lower bounds on the Z2-genus of K3,t
+.=</p>
+<p>Second lower bound: g0(K3,t) ≥ Ω(log t)
+.=</p>
+<p>- Z2-homology of closed curves on Mg and pigeon-hole principle
+.=</p>
+<p>Third lower bound: g0(K3 t) = g(K, 3,t) = ⌈(t − 2)/4⌉
+.=</p>
+<p>- Z2-homology of closed curves on Mg and linear-algebraic trick.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lower bounds on the Z2-genus of K3,t
+.=</p>
+<p>Second lower bound: g0(K3 t) ≥ Ω(log t),
+.=</p>
+<p>- Z2-homology of closed curves on Mg and pigeon-hole principle
+.=</p>
+<p>Third lower bound: g0(K3,t) = g(K3 t) = ⌈(t − 2)/4⌉,
+.=</p>
+<p>- Z2-homology of closed curves on Mg and linear-algebraic trick
+.=</p>
+<p>a
+.=</p>
+<p>u0 u1 ui
+.=</p>
+<p>b
+.=</p>
+<p>c.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lower bounds on the Z2-genus of K3,t
+.=</p>
+<p>Second lower bound: g0(K3 t) ≥ Ω(log t),
+.=</p>
+<p>- Z2-homology of closed curves on Mg and pigeon-hole principle
+.=</p>
+<p>Third lower bound: g0(K3 t) = g(K3 t) = ⌈(t − 2)/4⌉, ,
+.=</p>
+<p>- Z2-homology of closed curves on Mg and linear-algebraic trick
+.=</p>
+<p>a
+.=</p>
+<p>u0 u1 ui
+.=</p>
+<p>Ci
+b
+.=</p>
+<p>c.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lower bounds on the Z2-genus of K3,t
+.=</p>
+<p>Second lower bound: g0(K3 t) ≥ Ω(log t),
+.=</p>
+<p>- Z2-homology of closed curves on Mg and pigeon-hole principle
+.=</p>
+<p>Third lower bound: g0(K3 t) = g(K3 t) = ⌈(t − 2)/4⌉, ,
+.=</p>
+<p>- Z2-homology of closed curves on Mg and linear-algebraic trick
+.=</p>
+<p>a a
+.=</p>
+<p>u0 u1 ui u0 u1 ui
+.=</p>
+<p>Ci ′
+b b Ci
+.=</p>
+<p>c c.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Lower bounds on the Z2-genus of K3,t
+.=</p>
+<p>Second lower bound: g0(K3 t) ≥ Ω(log t),
+.=</p>
+<p>- Z2-homology of closed curves on Mg and pigeon-hole principle
+.=</p>
+<p>Third lower bound: g0(K3 t) = g(K3 t) = ⌈(t − 2)/4⌉, ,
+.=</p>
+<p>- Z2-homology of closed curves on Mg and linear-algebraic trick
+.=</p>
+<p>a
+.=</p>
+<p>u0 u1 uj ui
+.=</p>
+<p>b
+Ci, C
+.=</p>
+<p>′ ′
+.=</p>
+<p>j, Ci, Cj
+c.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Z2-homology of closed curves on Mg
+.=</p>
+<p>Fact: H1(Mg; )
+2g
+.=</p>
+<p>Z2 is isomorphic to Z2 .
+.=</p>
+<p>β
+α H1(M1;Z2) = 〈α, β〉.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Z2-homology of closed curves on Mg
+.=</p>
+<p>2g
+Fact: H1(Mg;Z2) is isomorphic to Z2 .
+.=</p>
+<p>β
+α H1(M1;Z2) = 〈α, β〉
+.=</p>
+<p>= = + =.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Z2-homology of closed curves on Mg
+.=</p>
+<p>Fact: H1(Mg;Z2)
+2g
+.=</p>
+<p>is isomorphic to Z2 .
+.=</p>
+<p>β
+α H1(M1;Z2) = 〈α, β〉
+.=</p>
+<p>= = + =
+.=</p>
+<p>intersection form (Cairns–Nikolayevsky, 2000) (symmetric, bilinear)
+.=</p>
+<p>cr : H1(Mg;Z2)× H1(Mg;Z2) → Z2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Z2-homology of closed curves on Mg
+.=</p>
+<p>2g
+Fact: H1(Mg;Z2) is isomorphic to Z2 .
+.=</p>
+<p>β
+α H1(M1;Z2) = 〈α, β〉
+.=</p>
+<p>= = + =
+.=</p>
+<p>intersection form (Cairns–Nikolayevsky, 2000) (symmetric, bilinear)
+.=</p>
+<p>cr : H1(Mg;Z2)× H1(Mg;Z2) → Z2
+for g = 1:
+.=</p>
+<p>cr(α, α) = 0 cr(β, β) = 0 cr(α, β) = 1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>“Crosscap vectors” of closed curves on Mg
+.=</p>
+<p>Fact: Mg − {x} is homeomorphic to a subset of N2g+1
+or, to a subset of the sphere with 2g + 1 crosscaps
+.=</p>
+<p>e f
+.=</p>
+<p>ye = (1, 1, 0), yf = (0, 1, 1)
+.=</p>
+<p>• a cycle C → a crosscap vector yC = (yC1 , y
+C
+2 , . . . , y
+.=</p>
+<p>C
+2g 1) where+
+.=</p>
+<p>yi = number of passes of C through the i th crosscap mod 2.
+.=</p>
+<p>• a drawing on Mg ↔ a drawing with 2g + 1 crosscaps where the
+crosscap vector of each cycle has an even number of 1’s.
+.=</p>
+<p>• homology class of C ↔ crosscap vector yC.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>“Crosscap vectors” of closed curves on Mg
+.=</p>
+<p>Fact: Mg − {x} is homeomorphic to a subset of N2g+1
+or, to a subset of the sphere with 2g + 1 crosscaps
+.=</p>
+<p>e f
+.=</p>
+<p>ye = (1, 1, 0), yf = (0, 1, 1)
+.=</p>
+<p>• a cycle C → a crosscap vector yC = (yC , yC1 2 , . . . , y
+C
+2g 1) where+
+.=</p>
+<p>yi = number of passes of C through the i th crosscap mod 2.
+.=</p>
+<p>• a drawing on Mg ↔ a drawing with 2g + 1 crosscaps where the
+crosscap vector of each cycle has an even number of 1’s.
+.=</p>
+<p>• homology class of C ↔ crosscap vector yC
+.=</p>
+<p>• intersection form cr(C,D) ↔ scalar product yC · yD.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Third lower bound on the Z2-genus of K3,t
+.=</p>
+<p>Lemma: In every independently even drawing of K3 3 (induced by,
+{a, b, c, u0, u1, u2} from K3,t ) on Mg , we have
+.=</p>
+<p>cr(C1,C
+′ ) + cr(C′2 1,C2) = 1..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Third lower bound on the Z2-genus of K3,t
+.=</p>
+<p>Lemma: In every independently even drawing of K3 3 (induced by,
+{a, b, c, u0, u1, u2} from K3 t ) on Mg , we have,
+.=</p>
+<p>cr(C ′1,C2) + cr(C
+′
+.=</p>
+<p>1,C2) = 1.
+.=</p>
+<p>′
+C C
+.=</p>
+<p>2 2
+.=</p>
+<p>a u0 a u0
+.=</p>
+<p>C ′1 C1.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Third lower bound on the Z2-genus of K3,t
+.=</p>
+<p>Lemma: In every independently even drawing of K3 3 (induced by,
+{a, b, c, u0, u1, u2} from K3 t ) on Mg , we have,
+.=</p>
+<p>cr(C ′ ′1,C2) + cr(C1,C2) = 1.
+.=</p>
+<p>′
+C C
+.=</p>
+<p>2 2
+.=</p>
+<p>a u0 a u0
+.=</p>
+<p>C ′1 C1
+.=</p>
+<p>• Let A be the (t − 1)× (t − 1) matrix with A ′i j = cr(C, i ,Cj ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Third lower bound on the Z2-genus of K3,t
+.=</p>
+<p>Lemma: In every independently even drawing of K3 3 (induced by,
+{a, b, c, u0, u1, u2} from K3 t ) on Mg , we have,
+.=</p>
+<p>cr(C ,C′1 2) + cr(C
+′
+.=</p>
+<p>1,C2) = 1.
+.=</p>
+<p>′
+C C
+.=</p>
+<p>2 2
+.=</p>
+<p>a u0 a u0
+.=</p>
+<p>C ′1 C1
+.=</p>
+<p>• Let A be the (t − 1)× (t − 1) matrix with Ai j = cr(Ci ,C
+′
+.=</p>
+<p>, j )
+.=</p>
+<p>• Lemma implies Ai j + Aj i = 1 for i =6 j ,, ,
+so A is a tournament matrix, that is, A + AT = J − I.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Third lower bound on the Z2-genus of K3,t
+.=</p>
+<p>Lemma: In every independently even drawing of K3 3 (induced by,
+{a, b, c, u0, u1, u2} from K3 t ) on Mg , we have,
+.=</p>
+<p>cr(C ,C′1 2) + cr(C
+′
+.=</p>
+<p>1,C2) = 1.
+.=</p>
+<p>′
+C C
+.=</p>
+<p>2 2
+.=</p>
+<p>a u0 a u0
+.=</p>
+<p>C ′1 C1
+.=</p>
+<p>• Let A be the (t − 1)× (t − 1) matrix with Ai j = cr(C
+′
+.=</p>
+<p>i ,Cj ),
+• Lemma implies Ai j + Aj i = 1 for i 6= j ,, ,
+.=</p>
+<p>so A is a tournament matrix, that is, A + AT = J − I
+.=</p>
+<p>• rank of A is at least (t − 2)/2 (De Caen, 1991).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Third lower bound on the Z2-genus of K3,t
+.=</p>
+<p>Lemma: In every independently even drawing of K3 3 (induced by,
+{a, b, c, u0, u1, u2} from K3 t ) on Mg , we have,
+.=</p>
+<p>cr(C1,C
+′
+.=</p>
+<p>2) + cr(C
+′
+.=</p>
+<p>1,C2) = 1.
+.=</p>
+<p>′
+C C
+.=</p>
+<p>2 2
+.=</p>
+<p>a u0 a u0
+.=</p>
+<p>C ′1 C1
+.=</p>
+<p>• Let A be the (t − 1)× (t − 1) matrix with Ai j = cr(Ci ,C
+′
+.=</p>
+<p>j ),
+• Lemma implies Ai j + Aj i = 1 for i =6 j ,, ,
+.=</p>
+<p>so A is a tournament matrix, that is, A + AT = J − I
+.=</p>
+<p>• rank of A is at least (t − 2)/2 (De Caen, 1991)
+.=</p>
+<p>• the rank of the intersection form is at least (t − 2)/2 and so
+2g ≥ (t − 2)/2..=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

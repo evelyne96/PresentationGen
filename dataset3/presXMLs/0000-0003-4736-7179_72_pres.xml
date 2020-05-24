@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Architecture of a Churn Prediction System
+based on Stream Mining
+.=</p>
+<p>Borja Balle (UPC), Bernardino Casas (UPC), Alex Catarineu (UPC),
+Ricard Gavaldà (UPC), David Manzano (Ericsson Spain)
+.=</p>
+<p>CCIA 2013, Vic, oct. 24th
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 1 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1 Churn Prediction and Stream Mining
+.=</p>
+<p>2 Goals of proof-of-concept
+.=</p>
+<p>3 The system
+.=</p>
+<p>4 Conclusions
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 2 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Churn Prediction and Stream Mining Stream mining
+.=</p>
+<p>On Data Stream Mining
+.=</p>
+<p>Data arrive as a sequence of items, at high speed
+.=</p>
+<p>Can’t store all of it, not even in secondary memory
+.=</p>
+<p>An item is processed and discarded
+.=</p>
+<p>Needs to provide accurate answers at all times
+.=</p>
+<p>Data distribution evolves over time
+.=</p>
+<p>Mined patterns must be created, revised, possibly dropped
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 3 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Churn Prediction and Stream Mining Churn prediction
+.=</p>
+<p>On Churning
+.=</p>
+<p>Churning
+.=</p>
+<p>Churn is the action of customers who discontinue a service or who leave a
+company
+.=</p>
+<p>Focus on Telcos
+.=</p>
+<p>Getting a new customer is more expensive than keeping it
+.=</p>
+<p>Predict subscribers (customers) likely to leave
+With enough time to take retention actions
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 4 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Churn Prediction and Stream Mining Churn prediction
+.=</p>
+<p>Data Mining and Churn Prediction
+.=</p>
+<p>Approach via data mining:
+.=</p>
+<p>Use data from the past to predict future behaviors
+I.e., find patterns and subscriber profiles that precede churning
+.=</p>
+<p>Why stream mining?
+.=</p>
+<p>Subscriber activity = high-speed stream
+Highly volatile customer patterns: our and competitor moves, ad
+campaigns, external events, market changes, social trends, . . .
+Need to detect emerging patterns ASAP
+Need to keep prediction rules updated at all times
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 5 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Goals of proof-of-concept
+.=</p>
+<p>Goals
+.=</p>
+<p>Show potential of stream mining techniques in churn prediction
+scenarios:
+.=</p>
+<p>Able to keep prediction rules updated at all times
+Business value of fast reaction to changes
+Show current churn patterns and profiles for detailed analysis
+Ability to suggest optimal retention actions
+.=</p>
+<p>Not intended: final, tuned, scalable product
+.=</p>
+<p>Learned lessons towards a real product, particularly scalability
+.=</p>
+<p>Production system should be developed with churn experts and on
+real data
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 6 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The system Technical description
+.=</p>
+<p>Model of the system
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 7 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The system Technical description
+.=</p>
+<p>Details of the modules I
+.=</p>
+<p>Generator Generates stream of Events
+.=</p>
+<p>Currently: “joins”, “calls”, “gets-bill”, “complains”, “churns”
+.=</p>
+<p>Markov chain with states “happy”, “neutral”, “angry”, “churn”, and
+user-specific values for “communicative” and “impulsive”
+.=</p>
+<p>Integrator: Reads the different incoming streams and creates a single
+stream of Events
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 8 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The system Technical description
+.=</p>
+<p>Details of the modules II
+.=</p>
+<p>Record generator: Generates records:
+.=</p>
+<p>(customer, attr1, attr2, ..., attrN, churn?)
+.=</p>
+<p>with features useful for prediction, computed from past events and
+static info
+.=</p>
+<p>Proactively injects records for inactive subscribers
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 9 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The system Technical description
+.=</p>
+<p>Details of the modules III
+.=</p>
+<p>Prediction Manager:
+.=</p>
+<p>Based on the MOA (Massive Online Analysis) stream mining software
+“Adaptive Hoeffding Tree” prediction method
+Processes records from active customers (Events) and injects
+occasional records for inactive customers
+Keeps queue of predictions pending to be verified
+Current set of features, consistent with literature:
+.=</p>
+<p>Age & sex M # calls in last 2 months
+.=</p>
+<p>Income range % in-company calls
+.=</p>
+<p>Average call duration # resolved complaints
+.=</p>
+<p># calls last week # unresolved complaints
+.=</p>
+<p># calls last month Average bill value
+.=</p>
+<p>M # calls in last 2 weeks M between last 2 bills
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 10 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The system Technical description
+.=</p>
+<p>Databases
+.=</p>
+<p>General info: Current rates, zip codes, special numbers (complaints,
+customer service, . . . )
+.=</p>
+<p>Subscriber information, both static and dynamic
+.=</p>
+<p>Pending predictions. Large and the bottleneck
+.=</p>
+<p>In RAM in latest stable version
+Candidate for (key,value) NoSQL database
+Preliminary experience with Cassandra
+.=</p>
+<p>About 10,000 records/second, 4Mb/1,000 subscribers
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 11 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The system Technical description
+.=</p>
+<p>Threads
+.=</p>
+<p>We implement this system with threads.
+.=</p>
+<p>GUI App (client)
+.=</p>
+<p>Thread 1: Graphic user interface
+.=</p>
+<p>Server App
+.=</p>
+<p>Thread 2: Synthetic data Generator
+Thread 3: Integrator, Record generator
+Thread 4: Proactive
+Thread 5: Prediction Manager (MOA)
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 12 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>Conclusions
+.=</p>
+<p>Prototype to illustrate potential advantages of stream mining
+.=</p>
+<p>Indicates (but only partially implements) scalability
+.=</p>
+<p>Some of the many lines for future work:
+.=</p>
+<p>increase throughput
+better subscriber profiling
+deal with geographical distribution (centralization?)
+use friends net (contact graph, peer-pressure)
+use twitter, facebook information
+.=</p>
+<p>But future work requires access to domain knowledge and real data
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 13 / 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>Thank you!
+.=</p>
+<p>The Architecture of a Churn Prediction System
+based on Stream Mining
+.=</p>
+<p>Borja Balle, Bernardino Casas, Alex Catarineu,
+Ricard Gavaldà, David Manzano
+.=</p>
+<p>Contact: gavalda@lsi.upc.edu
+.=</p>
+<p>I’m around for demo till tomorrow lunchtime
+.=</p>
+<p>Balle, Casas, Catarineu, Gavaldà, Manzano () Churn Prediction with Stream Mining CCIA 2013, Vic, oct. 24th 14 / 14.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

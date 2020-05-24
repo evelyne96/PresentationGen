@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Hierarchical Hardness Models for SAT</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lin</forename><surname>Xu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Holger</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+							<email>hoos@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<email>kevinlb@cs.ubc.ca</email>
+							<affiliation key="aff0">
+								<orgName type="institution">University of British Columbia</orgName>
+								<address>
+									<addrLine>2366 Main Mall</addrLine>
+									<postCode>V6T 1Z4</postCode>
+									<settlement>Vancouver</settlement>
+									<region>BC</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Hierarchical Hardness Models for SAT</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical hardness models predict a solver's runtime for a given instance of an N P-hard problem based on efficiently computable features. Previous research in the SAT domain has shown that better prediction accuracy and simpler models can be obtained when models are trained separately on satisfiable and unsatisfiable instances. We extend this work by training separate hardness models for each class, predicting the probability that a novel instance belongs to each class, and using these predictions to build a hierarchical hardness model using a mixture-of-experts approach. We describe and analyze classifiers and hardness models for four well-known distributions of SAT instances and nine high-performance solvers. We show that surprisingly accurate classifications can be achieved very efficiently. Our experiments show that hierarchical hardness models achieve higher prediction accuracy than the previous state of the art. Furthermore, the classifier's confidence correlates strongly with prediction error, giving a useful per-instance estimate of prediction error.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>For N P-hard problems such as SAT, even the best known algorithms have worstcase running times that increase exponentially with instance size. In practice, however, many large instances of N P-hard problems can still be solved within a reasonable amount of time. In order to understand this phenomenon, much effort has been invested in understanding the "empirical hardness" of such problems <ref type="bibr" target="#b14">[15,</ref><ref type="bibr" target="#b17">18]</ref>. One recent approach uses linear basis-function regression to obtain models that can predict the time required for an algorithm to solve a given SAT instance <ref type="bibr" target="#b17">[18]</ref>. These empirical hardness models can be used to gain insight into the factors responsible for an algorithm's performance, or to induce distributions of problem instances that are challenging for a given algorithm. They can also be leveraged to select among several different algorithms for solving a given problem instance <ref type="bibr" target="#b12">[13,</ref><ref type="bibr" target="#b13">14,</ref><ref type="bibr" target="#b19">20]</ref> and can be applied in automated algorithm configuration and tuning <ref type="bibr" target="#b8">[9]</ref>. Empirical hardness models have proven very useful for combinatorial auction winner determination <ref type="bibr" target="#b14">[15]</ref>, a prominent N P-hard optimization problem. In Section 2, we introduce some background knowledge about empirical hardness models as well as our experimental setup.</p><p>Considering the SAT problem in particular, previous work has shown that if instances are restricted to be either only satisfiable or only unsatisfiable, very different models are needed to make accurate runtime predictions for uniform random SAT instances. Furthermore, models for each type of instance are simpler and more accurate than models that must handle both types, which means that better empirical hardness models can be built if we know the satisfiability of instances. In this work we further investigate this idea by considering a variety of both structured and unstructured SAT instances and several state-of-the-art SAT solvers. The detailed experimental results are described in Section 3.</p><p>In Section 4, we study the feasibility of predicting the satisfiability of a novel SAT instance from a known distribution, using Sparse Multinomial Logistic Regression (SMLR) <ref type="bibr" target="#b10">[11]</ref> as our classifier. Our experimental results are very promising. Even for uniform random 3-SAT instances generated at the phase transition, the prediction accuracy was greater than 86%. For the trickiest problems we encountered (SAT-encoded graph coloring problems on small-world graphs), the prediction accuracy was still greater than 73%.</p><p>Armed with a reasonably accurate (but imperfect) classifier, in Section 5 we consider the construction of hierarchical hardness models in order to make runtime predictions. We do so by using a mixture-of-experts approach with fixed ("clamped") experts-in other words, with conditional models trained on satisfiable instances and unsatisfiable instances separately. We evaluate both conditional models and then return a weighted sum of the two predictions, where these weights are given by a learned function that depends on both the instance features and the classifier's prediction. We found that using such hierarchical models improved overall prediction accuracy. Furthermore, the classifier's confidence correlated with prediction accuracy, giving useful per-instance evidence about the quality of the runtime prediction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Background</head><p>For a given problem instance, empirical hardness models predict the runtime of an algorithm based on polytime-computable instance features. We have investigated a wide variety of different regression techniques in past work <ref type="bibr" target="#b14">[15]</ref>. Here, we use the same linear basis-function ridge regression method that has previously proven to be very successful in predicting runtime on uniform random SAT and combinational auctions <ref type="bibr" target="#b17">[18,</ref><ref type="bibr" target="#b14">15]</ref> and focus on combining models specialized to different types of instances.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Empirical Hardness Models</head><p>In order to predict the runtime of an algorithm A on a distribution I of problem instances, we run algorithm A on n instances drawn from I and compute for each instance i ∈ I a feature vector x i = (x i,1 , . . . , x i,k ). We then fit a function f (x) that, given the features x i of an instance i, approximates A's runtime on i, y i . To improve numerical stability by eliminating highly correlated features, we reduce the set of features through forward selection. Then we perform a basis function expansion of our feature set. Our basis functions can include arbitrarily complex functions of sets of features, or can simply be the raw features themselves; in this work, quadratic basis functions are used. Finally, we perform another pass of forward feature selection and select a subset of extended features</p><formula xml:id="formula_0">φ i = φ(x i ) = [φ 1 (x i ), . . . , φ d (x i )]</formula><p>for which our models achieve the best performance on a given validation data set.</p><p>We then use ridge regression to fit the free parameters w of the linear function f w (x i ) = w φ(x i ). We compute w = (δI + Φ Φ) −1 Φ ỹ, wherẽ y = (ỹ 1 , . . . ,ỹ n ), andỹ i is a transformation of the runtime y i . In this work, we useỹ i = log y i . The n × d matrix Φ contains the feature values for all training instances, and δ is a small regularization constant that prevents arbitrarily large parameter values in w and increases numerical stability. Given a new, unseen instance j, a runtime prediction is made by computing its features x j and evaluating f w (x j ) = w φ(x j ).</p><p>Empirical hardness models have a probabilistic interpretation. The features x and the empirical algorithm runtime y, when seen as random variables, are related as in the following graphical model:</p><p>x y</p><p>In this model, we observe the feature vector x, and the probability distribution over runtime y is conditionally dependent on x. Since we train a linear model using least squares fitting, we have implicitly chosen to represent P (y|x) as a Gaussian with mean w φ(x) and some fixed variance β. What we call a prediction of an empirical hardness model is really E(y|x), the mean of this distribution conditioned on the observed feature vector.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Experimental Setup</head><p>For the experiments conducted throughout this study, we selected two distributions of unstructured SAT instances and two of structured instances:</p><p>-rand3-fix: uniform-random 3-SAT with 400 variables from the solubility phase transition (clauses-to-variables ratio 4.26) <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b18">19]</ref>; we generated 20,000 instances with a satisfiable/unsatisfiable ratio of 50.7/49.3. -rand3-var: uniform-random 3-SAT with 400 variables and clauses-to-variables ratios randomly selected from 3.26 to 5.26; we generated 20,000 instances with a satisfiable/unsatisfiable ratio of 50/50. -QCP: random quasi-group completion (the task of determining whether the missing entries of a partial Latin square can be filled in to obtain a complete Latin square <ref type="bibr" target="#b6">[7]</ref>); using a range of parameter settings, we generated 30,620 SAT-encoded instances with a satisfiable/unsatisfiable ratio of 58.7/41.3. -SW-GCP: graph-coloring on small-world graphs <ref type="bibr" target="#b5">[6]</ref>; using a range of parameter settings, we generated 20,000 SAT-encoded instances with a satisfiable/unsatisfiable ratio of 55.9/44.1.</p><p>The latter two types of SAT distributions have been widely used as a model of hard SAT instances with interesting structure; we used the same instance generators and SAT encodings as the respective original studies. Each instance set was randomly split into training, validation and test sets, at a ratio of 70:15:15. All parameter tuning was performed with a validation set; test sets were used only to generate the final results reported in this paper. Note that since the test sets we used for our experiments are very big (at least 3000 instances each), we can expect similar performance for the whole distribution. For each instance, we computed the 84 features described by Nudelman et al. <ref type="bibr" target="#b17">[18]</ref>; these features can be classified into nine categories: problem size, variable-clause graph, variable graph, clause graph, balance features, proximity to Horn formulae, LP-based, DPLL search space, and local search space. We used only raw features as basis functions for classification, because even a simple quadratic basis function expansion exceeded the 2GB of RAM available to us. For regression, we used raw features as well as quadratic basis functions for better runtime prediction accuracy. We evaluated the accuracy of logarithm runtime prediction using root mean squared error (RMSE). In order to reduce the number of redundant features, we used forward selection and kept the model with the smallest cross-validation error (this was done independently for each of the learned hardness models). For uniform random 3-SAT instances, we ran four solvers that are known to perform well on these distributions: kcnfs <ref type="bibr" target="#b2">[3]</ref>, oksolver <ref type="bibr" target="#b11">[12]</ref>, march dl <ref type="bibr" target="#b7">[8]</ref>, and satz <ref type="bibr" target="#b15">[16]</ref>. For structured SAT instances, we ran six solvers that are known to perform well on these distributions: oksolver, zchaff <ref type="bibr" target="#b21">[22]</ref>, sato <ref type="bibr" target="#b20">[21]</ref>, satelite <ref type="bibr" target="#b3">[4]</ref>, minisat <ref type="bibr" target="#b4">[5]</ref>, and satzoo <ref type="bibr" target="#b4">[5]</ref>. Note that in the 2005 SAT competition, satelite won gold medals for the Industrial and Handmade SAT+UNSAT categories; minisat and zchaff won silver and bronze, respectively, for Industrial SAT+UN-SAT; and kcnfs and march dl won gold and silver, respectively, in the Random SAT+UNSAT category.</p><p>All of our experiments were performed using a cluster consisting of 50 computers equipped with dual Intel Xeon 3.2GHz CPUs with 2MB cache and 2GB RAM, running Suse Linux 9.1. All runs of any solver that exceeded 1 CPU hour were terminated and recorded in our database of experimental results with a runtime of 1 CPU hour; this timeout occurred in fewer than 3% of all runs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Conditional and Oracular Empirical Hardness Models</head><p>From previous research <ref type="bibr" target="#b17">[18]</ref>, we know that for uniform-random 3-SAT instances, much simpler and more accurate empirical hardness models can be learned when all instances are either satisfiable or unsatisfiable. In the following, we refer to these as conditional models, and to models trained on satisfiable and unsatisfiable instances as unconditional models. Let M sat (M unsat ) denote a model trained only on satisfiable (unsatisfiable) instances. If we had an oracle that knew which conditional model performed better for a given instance, models equipped with such an oracle could achieve more accurate runtime predictions. We call such a (hypothetical) scheme an oracular model. (Note that our oracle chooses the best model for a particular instance, not the model trained on data with the same satisfiability status as the instance. This may seem counterintuitive; it will be discussed in detail below. For now, note simply that in most cases the two sorts of oracles would select the same model.) We can infer from the results of Nudelman et al. <ref type="bibr" target="#b17">[18]</ref> that on uniform-random 3-SAT, oracular models could achieve much higher prediction accuracies than unconditional models. In fact, the performance of an oracular model bounds the performance of a conditional model from above.</p><p>In the experiments conducted for this work, we found that the usefulness of oracular models extends to solvers and distributions not studied previously. <ref type="figure" target="#fig_1">Figure 1</ref> shows the difference between using oracular models and unconditional    models on structured SAT instances (distribution: QCP, solver: satelite). For oracular models, we observed almost perfect predictions of runtime for unsatisfiable instances and more noisy, but unbiased predictions for satisfiable instances <ref type="figure" target="#fig_1">(Figure 1</ref>, left). <ref type="figure" target="#fig_1">Figure 1</ref> (right) shows that the runtime prediction for unsatisfiable instances made by unconditional models can exhibit both less accuracy and more bias.</p><p>Even though using the best conditional model can result in higher prediction accuracy, we found that there is a big penalty for using the wrong conditional model to predict the runtime of an instance. <ref type="figure" target="#fig_3">Figure 2</ref> (left) shows that if we used M sat for runtime prediction on an unsatisfiable instance, the prediction error was often very large. The large bias in the inaccurate predictions is due to the fact that models trained on different types of instances are very different. As shown in <ref type="figure" target="#fig_3">Figure 2</ref> (right), similar phenomena occur when we use M unsat to predict the runtime on a satisfiable instance.</p><p>Our results are consistent across data sets and solvers; as shown in <ref type="table">Table 1</ref>, oracular models always achieved higher accuracy than unconditional models. The very large prediction errors in <ref type="table">Table 1</ref>  on unsatisfiable instances to predict runtimes on a mixture of instances was as high as 14.914 (distribution: QCP, solver: sato).</p><p>Unfortunately, oracular models rely on information that is unavailable in practice: the respective accuracies of our two models on a given (test) instance. Still, the prediction accuracies achieved by oracular models suggest that it may be promising to find some practical way of combining conditional models. For the rest of this paper, we will investigate the question of how this can be done. We will be guided both by the potential benefit of relying on conditional models (oracular models outperform unconditional models) and by the danger in doing so (if we make the wrong choices, prediction error can be much higher than when using an unconditional model).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Predicting the Satisfiability of SAT Instances</head><p>In this section, we will consider the most obvious candidate for a practical approximation of the oracle from the previous section: a classifier that predicts whether or not a given (test) instance is satisfiable. Even if this classifier were perfect-which it surely could not be in general, given the N P-completeness of SAT-it would not choose the better of M sat and M unsat on a per-instance basis, as our oracular model does. However, on our datasets it would do nearly as well, making the same choices as the oracular model 98% of the time for rand3-var, 86% for rand3sat-fixed, 92% for QCP, and 77% for SW-GCP.</p><p>To build such models, we used Sparse Multinomial Logistic Regression (SMLR) <ref type="bibr" target="#b10">[11]</ref>, a recently developed, state-of-the-art sparse classification algorithm. Like relevance vector machines and sparse probit regression, SMLR learns classifiers that use sparsity-promoting priors to control the expressivity of the learned classifier, thereby tending to result in better generalization. SMLR encourages parameter weights either to be significantly large or exactly zero. It also learns a sparse multi-class classifier that scales favorably in both the number of training samples and the input dimensionality, which is important for our problems since we have tens of thousands of samples per data set. We also evaluated other classifiers, such as support vector machines <ref type="bibr" target="#b9">[10]</ref>, but we found that SMLR achieved the best classification accuracy.  We applied SMLR to build a classifier that would distinguish between satisfiable and unsatisfiable SAT instances, using the same set of raw features that were available to the regression model, although in this case we did not find it necessary to use a basis-function expansion of these features. The difference was in the response variable: here we defined it as the probability that an instance is satisfiable, rather than an algorithm's runtime on that instance. Of course, although the output of the classifier is real-valued, all the training data was labelled as satisfiable with probability 1 or with probability 0.</p><p>Since SAT is N P-hard and our feature computation and model evaluation are polynomial-time, we cannot expect perfect classification results in general. However, N P-hardness is a worst-case notion; there is no theoretical result that rules out often correctly guessing whether instances from known distributions are satisfiable. Complexity theory simply tells us that our classifier must sometimes make mistakes (unless P = N P); as we show below, it does. Indeed, N Phardness does not imply that all-or even most-instances of a problem are indeed intractable. This is precisely why these problems can be successfully tackled with heuristic algorithms, such as those studied here.</p><p>Considering the difficulty of the classification task, our experimental results are very good. Overall accuracy on test data (measured as the fraction of the time the classifier assigned more than 50% of probability mass to the correct class) was as high as 98%, and never lower than 73%. Furthermore, the classifier was usually very confident about the satisfiability of an instance (i.e., returned probabilities very close to 0 or 1), and the more confident the classifier was, the more accurate it tended to be. These results are summarized in <ref type="figure" target="#fig_4">Figures 3-5</ref>.  For the rand3-var data set ( <ref type="figure" target="#fig_5">Figure 4</ref>, left), the overall classification error was only 1.6%. Using only the clauses-to-variables ratio (greater or less than 4.26) as the basis for predicting the satisfiability of an instance yields an error of 3.7%; therefore, by using SMLR rather than this simple classifier, the classification error is halved. On the QCP data set <ref type="figure" target="#fig_5">(Figure 4</ref>, right), classification accuracy was 96%, and the classifier was extremely confident in its predictions. Since all instances for rand3sat-fix ( <ref type="figure" target="#fig_7">Figure 5</ref>, left) are generated at the phase transition, it is surprising to see a polynomial-time technique perform so well (accuracy of 86%). For SW-GCP ( <ref type="figure" target="#fig_7">Figure 5</ref>, right) the classification accuracy is much lower (73%). We believe that this is primarily because our features are less predictive on this instance distribution, which is consistent with the results we obtained from unconditional hardness models for SW-GCP. Note that the fraction of instances for which the classifier was confident is smaller for the last two distributions than for rand3-var and QCP. However, even for SW-GCP we still see a strong correlation between the classifier's output and classification accuracy on test data.</p><p>One further interesting finding is that our classifiers can achieve very high accuracies even given very small sets of features. For example, on the QCP data, the SMLR classifier achieves an accuracy of 93% with only 5 features. The five most important features for classification on all four data sets are shown in <ref type="table">Table 2</ref>. Interestingly, local-search based features turned out to be very important for classification in all four data sets.</p><p>To the best of our knowledge, our work represents the first attempt to predict the satisfiability of SAT instances using machine learning techniques. Overall, our experiments show that a classifier may be used to make surprisingly accurate polynomial-time predictions about the satisfiability of SAT instances. As discussed above, such a classifier cannot be completely reliable (unless P = N P). Nevertheless, our classifiers perform very well for the widely-studied instance distributions considered here. This finding may be useful in its own right. For example, researchers interested in evaluating incomplete SAT algorithms on large numbers of satisfiable instances drawn from a distribution that produces both satisfiable and unsatisfiable instances could use a complete search algorithm to label a relatively small training set, and then use the classifier to filter instances. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Hierarchical Hardness Models</head><p>Given our findings to far, it would be tempting to construct a hierarchical model that uses a classifier to pick the most likely conditional model and then simply returns that model's prediction. However, while this approach could sometimes be a good heuristic, it is not theoretically sound. Intuitively, the problem is that the classifier does not take into account the accuracies of the different conditional models. For example, recall <ref type="figure" target="#fig_3">Figure 2</ref>, which showed the prediction accuracy of M sat and M unsat for satelite on QCP. We saw that M sat was much less accurate for unsatisfiable instances than M unsat was for satisfiable instances. Thus if we encountered an instance that the classifier considered slightly more likely satisfiable than unsatisfiable, we would still expect to obtain a more accurate prediction from M unsat than from M sat .</p><p>A more principled way of combining conditional models can be derived based on the probabilistic interpretation of empirical hardness models introduced in Section 2.1. As before (see <ref type="figure">Figure 6</ref>, left) we have a set of features that are always observed and a random variable representing runtime that is conditionally dependent on the features. Now we combine the features with our classifier's prediction s, yielding the feature vector (x, s). We also introduce a new random variable z ∈ {sat, unsat}, which represents the oracle's choice of which conditional model will perform best for a given instance. Instead of selecting one of the predictions from the two conditional models for runtime y, we use their weighted sum P (y|(x, s)) = z∈{sat,unsat} P (z|(x, s)) · P Mz (y|(x, s)),</p><p>where P Mz (y|(x, s)) is the probability of y evaluated according to model M z . Since the models were fit using ridge regression, we can rewrite Eq. (1) as</p><formula xml:id="formula_2">P (y|(x, s)) = z∈{sat,unsat} P (z|(x, s)) · N (y|w z x, β z ),<label>(2)</label></formula><p>where w z and β z are the weights and standard deviation of model M z . Thus, we will learn weighting functions P (z|(x, s)) to maximize the likelihood of our training data according to P <ref type="figure">(y|(x, s)</ref>). As a hypothesis space for these weighting functions we chose the commonly used softmax function</p><formula xml:id="formula_3">P (z = sat|(x, s)) = e v (x,s) 1 + e v (x,s) ,<label>(3)</label></formula><p>where v is a vector of free parameters that must be learned <ref type="bibr" target="#b0">[1]</ref>. Then we have the following loss function to minimize, where E(y i,z |x) is the prediction of M z andȳ i is the real runtime:</p><formula xml:id="formula_4">L = N i=1 ȳ i − k∈{sat,unsat} P (z = k|(x i , s i )) · E(y i,z |x i ) 2 .<label>(4)</label></formula><p>This can be seen as a mixture-of-experts problem with the experts clamped to M sat and M unsat (see, e.g., <ref type="bibr" target="#b0">[1]</ref>). For implementation convenience, we used an existing mixture of experts implementation, which is built around an EM algorithm and which performs iterative reweighted least squares in the M step <ref type="bibr" target="#b16">[17]</ref>. We modified this code slightly to clamp the experts and to set the initial values of P (z|(x, s)) to s (i.e., we initialized the choice of experts to the classifier's output). To evaluate the model and get a runtime prediction for test data, we simply compute the features x and the classifier's output s, and then evaluate</p><formula xml:id="formula_5">E(y|(x, s)) = k∈{sat,unsat} P (z|(x, s)) · w k φ(x),<label>(5)</label></formula><p>where w k are the weights from M k and φ(x) is the basis function expansion of x. Thus, the classifier's output is not used directly to select a model, but rather as a feature upon which our weighting functions P (z|(x, s)) depend, as well as for initializing the EM algorithm.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Experimental Results</head><p>Our first experiment used the QCP dataset to investigate the importance of the classifier's output to hierarchical models. <ref type="figure">Figure 6</ref> (right) shows box plots comparing five scenarios. The first four are hierarchical models with classifier output used (1) both for EM initialization and as a feature to the weighting function;</p><p>(2) only as a feature; (3) only for initialization; and (4) not at all. We also consider the case of an unconditional model. For each scenario except for the first we report the ratio between its RMSE and that of the first model. The best performance was achieved by full models (all ratios are less than 1). The ratio for keeping the feature only is nearly 1, indicating that the EM initialization is only slightly helpful. All of the hierarchical models outperform the unconditional model, indicating the power of leveraging conditional models; however,  when we build a hierarchical model that disregards the classifier's output entirely we achieve only slightly better median RMSE than the unconditional model.</p><p>The broader performance of different unconditional, oracular and hierarchical models is shown in <ref type="table" target="#tab_3">Table 3</ref>. For rand3-var, the accuracy of classification was very high (classification error was only 1.6%). Our experiments confirmed that hierarchical hardness models can achieve almost the same runtime prediction accuracy as oracular models for all four solvers considered in our study. <ref type="figure" target="#fig_8">Figure 7</ref> shows that using the hierarchical hardness model to predict satz's runtime is much better than using the unconditional model.</p><p>On the rand3-fix dataset, results for all four solvers were qualitatively similar: hierarchical hardness models gave slightly but consistently better runtime predictions than unconditional models. On this distribution the gap in prediction accuracy between unconditional and oracular models is already quite small, which makes further significant improvements more difficult to achieve. Detailed analysis of actual vs predicted runtimes for satz (see <ref type="figure" target="#fig_10">Figure 8</ref>   particularly for unsatisfiable instances, the hierarchical model tends to produce slightly more accurate predictions. Further investigation confirmed that those instances in <ref type="figure" target="#fig_10">Figure 8</ref> (right) that are far away from the ideal prediction line (y = x) have low classification confidence. (We further discuss the relationship between classification confidence and runtime prediction accuracy at the end of this section.)</p><p>For the structured QCP instances, we observed similar runtime prediction accuracy improvements by using hierarchical models. Since the classification accuracy for QCP was higher than the classification accuracy for rand3-fix, we expected bigger improvements when using the hierarchical hardness model compared to the rand3-fix case. Our experimental results confirmed this hypothesis ( <ref type="figure" target="#fig_12">Figure 9</ref>). For example, a hierarchical model for the satelite solver achieved a RMSE of 0.372, compared to 0.462 obtained from an unconditional model (whereas the oracular model yielded RMSE 0.247).</p><p>However, the runtime prediction accuracy obtained by hierarchical hardness models depends on the quality of the underlying conditional models (experts). In the case of data set SW-GCP (see <ref type="figure" target="#fig_1">Figure 10</ref>), we found that both unconditional    and oracular models had fairly large prediction error (RMSE about 0.6; since we used log runtime, this means that runtime predictions were off by about half an order of magnitude on average). As mentioned in Section 4, we believe that this is because our features are not as informative when applied to this data set as for the other three instance distributions. This is also consistent with the fact that the classification error on SW-GCP is much higher (26.6%, compared to 4.0% on QCP and 13.5% on rand3sat-fix).</p><p>When investigating the relationship between the classifier's confidence and regression runtime prediction accuracy, we found that higher classification confidence tends to be indicative of more accurate runtime predictions. This relationship is illustrated in <ref type="figure" target="#fig_1">Figure 11</ref> for the satelite solver on the QCP data set: when the classifier is more confident about the satisfiability of an instance, both prediction error <ref type="figure" target="#fig_1">(Figure 11</ref>, left) and RMSE <ref type="figure" target="#fig_1">(Figure 11</ref>, right) are smaller. <ref type="bibr" target="#b0">1</ref> Though space constraints preclude a detailed discussion, we also observed that the features important for classification were similarly important for re-  gression. For instance, only using the three features that were most important for classification on QCP data, we achieved runtime prediction RMSE within 10% of the full model's accuracy for satelite.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusions and Future Work</head><p>We have shown that there are big differences between models trained only on satisfiable and unsatisfiable instances, not only for uniform random 3-SAT (as was previously reported in <ref type="bibr" target="#b17">[18]</ref>), but also for distributions of structured SAT instances, such as QCP and SW-GCP. Furthermore, these models have higher prediction accuracy than the respective unconditional models. A classifier can be used to distinguish between satisfiable and unsatisfiable instances with surprisingly high (though not perfect) accuracy. We have demonstrated how such a classifier can be combined with conditional hardness models into a hierarchical hardness model using a mixture-of-experts approach. In cases where we achieved high classification accuracy, the hierarchical models thus obtained always offered substantial improvements over an unconditional model. When the classifier was less accurate, our hierarchical models did not offer a substantial improvement over the unconditional model; however, hierarchical models were never significantly worse. It should be noted that our hierarchical models come at virtually no additional computational cost, as they depend on the same features as used for the individual regression models. The practical usefulness of our approach was recently demonstrated by our algorithm portfolio solver for SAT, SATzilla-07, which, utilizing hierarchical hardness models, placed 1 st in three categories of the 2007 SAT competition <ref type="bibr" target="#b19">[20]</ref>.</p><p>In future work, we intend to investigate new instance features to improve both classification and regression accuracy on SW-GCP. Furthermore, we will test our approach on more real-world problem distributions, such as software and hardware verification problems. We also plan to study hierarchical models based on partitioning SAT instances into classes other than satisfiable and unsatisfiablefor example, such classes could be used to build different models for different underlying data distributions in heterogeneous data sets.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 1 .</head><label>1</label><figDesc>Comparison of oracular model (left, RMSE=0.247) and unconditional model (right, RMSE=0.426). Distribution: QCP, solver: satelite.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 2 .</head><label>2</label><figDesc>Actual vs predicted runtime using only Msat (left, RMSE=1.493) and only Munsat (right, RMSE=0.683), respectively. Distribution: QCP, solver: satelite.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 3 .</head><label>3</label><figDesc>Classification</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 4 .</head><label>4</label><figDesc>Classification accuracy vs classifier output (top) and fraction of instances within the given set vs classifier output (bottom). Left: rand3-var, right: QCP.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig. 5 .</head><label>5</label><figDesc>Classification accuracy vs classifier output (top) and the fraction of instances in the given set vs classified output (bottom). Left: rand3-fix, right: SW-GCP.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Fig. 7 .</head><label>7</label><figDesc>Actual vs predicted runtime for satz on rand3-var. Left: unconditional model (RMSE=0.387); right: hierarchical model (RMSE=0.344).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Fig. 8 .</head><label>8</label><figDesc>Actual vs predicted runtime for satz on rand3-fix. Left: unconditional model (RMSE=0.420); right: hierarchical model (RMSE=0.413).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Fig. 9 .</head><label>9</label><figDesc>Actual vs predicted runtime for satelite on QCP. Left: unconditional model (RMSE=0.426); right: hierarchical model (RMSE=0.372).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Fig. 10 .</head><label>10</label><figDesc>Actual vs predicted runtime for zchaff on SW-GCP. Left: unconditional model (RMSE=0.993); right: hierarchical hardness model (RMSE=0.983).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Fig. 11 .</head><label>11</label><figDesc>Classifier output vs runtime prediction error (left); relationship between classifier output and RMSE (right). Data set: QCP, solver: satelite.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>for M sat and M unsat indicate that these models are very different. In particular, the RMSE for using models trained RMSE for rand3-var models RMSE for rand3-fix models Solvers sat. unsat. unconditional oracular sat. unsat. unconditional oracularTable 1. Accuracy of hardness models for different solvers and instance distributions.</figDesc><table>satz 
+5.481 3.703 
+0.385 
+0.329 0.459 0.835 
+0.420 
+0.343 
+march dl 1.947 3.705 
+0.396 
+0.283 0.604 1.097 
+0.542 
+0.444 
+kcnfs 4.766 4.765 
+0.373 
+0.294 0.550 0.983 
+0.491 
+0.397 
+oksolver 8.169 4.141 
+0.443 
+0.356 0.689 1.161 
+0.596 
+0.497 
+RMSE for QCP models 
+RMSE for SW-GCP models 
+Solvers 
+sat. unsat. unconditional oracular sat. unsat. unconditional oracular 
+
+zchaff 1.866 1.163 
+0.675 
+0.303 1.230 1.209 
+0.993 
+0.657 
+minisat 1.761 1.150 
+0.574 
+0.305 1.280 1.275 
+1.022 
+0.682 
+satzoo 1.293 0.876 
+0.397 
+0.240 0.709 0.796 
+0.581 
+0.384 
+satelite 1.493 0.683 
+0.426 
+0.247 1.232 1.226 
+0.970 
+0.618 
+sato 
+2.373 14.914 
+0.711 
+0.375 1.682 1.887 
+1.353 
+0.723 
+oksolver 1.213 1.062 
+0.548 
+0.427 1.807 2.064 
+1.227 
+0.601 
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head>Table 3 .</head><label>3</label><figDesc>Comparison of oracular, unconditional and hierarchical hardness models. The second number of each entry is the ratio of the model's RMSE to the oracular model's RMSE. ( * For SW-GCP, even the oracular model has large runtime prediction error.) Log predicted runtime [sec] Log actual runtime [sec] satisfiable unsatisfiable</figDesc><table>−2 
+−1 
+0 
+1 
+2 
+3 
+−2 
+
+−1 
+
+0 
+
+1 
+
+2 
+
+3 
+
+Log predicted runtime [sec] 
+Log actual runtime [sec] 
+
+satisfiable 
+unsatisfiable 
+
+−2 
+−1 
+0 
+1 
+2 
+3 
+−2 
+
+−1 
+
+0 
+
+1 
+
+2 
+
+3 
+
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">Closer inspection of the raw data shown inFigure 11, left, revealed that a large number of the data points appear at (0, 0) and<ref type="bibr" target="#b0">(1,</ref> 0). This is also reflected in the shape of the curve in the right pane ofFigure 11.</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">M</forename><surname>Bishop</surname></persName>
+		</author>
+		<title level="m">Pattern Recognition and Machine Learning</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Where the really hard problems are</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Cheeseman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Kanefsky</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">M</forename><surname>Taylor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IJCAI-91</title>
+		<imprint>
+			<date type="published" when="1991" />
+			<biblScope unit="page" from="331" to="337" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A backbone-search heuristic for efficient solving of hard 3-SAT formulae</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Dubois</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Dequen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IJCAI-01</title>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="248" to="253" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Effective preprocessing in SAT through variable and clause elimination</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Eén</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Biere</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SAT-05</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="61" to="75" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">An extensible SAT-solver</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Eén</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Sörensson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SAT-04</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="502" to="518" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Morphing: Combining structure and randomness</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">P</forename><surname>Gent</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Prosser</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Walsh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAAI-99</title>
+		<imprint>
+			<date type="published" when="1999" />
+			<biblScope unit="page" from="654" to="660" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Heavy-tailed phenomena in satisfiability and constraint satisfaction problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gomes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Crato</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Kautz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. of Automated Reasoning</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="67" to="100" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Heule</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">V</forename><surname>Maaren</surname></persName>
+		</author>
+		<title level="m">dl: Adding adaptive heuristics and a new branching strategy. J. on Satisfiability, Boolean Modeling and Computation</title>
+		<imprint>
+			<date type="published" when="2006-03" />
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="47" to="59" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Performance prediction and automated tuning of randomized and parametric algorithms</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Hamadi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-06</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="213" to="228" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Making large-scale support vector machine learning practical</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Joachims</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Kernel Methods: Support Vector Machines</title>
+		<imprint>
+			<date type="published" when="1998" />
+			<biblScope unit="page" from="169" to="184" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Sparse multinomial logistic regression: Fast algorithms and generalization bounds</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Krishnapuram</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Carin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Figueiredo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Hartemink</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE Trans. on Pattern Analysis and Machine Intelligence</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="957" to="968" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Heuristics for SAT algorithms: Searching for some foundations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">O</forename><surname>Kullmann</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1998-09" />
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical report</note>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Boosting as a metaphor for algorithm design</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Mcfadden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-03</title>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="899" to="903" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A portfolio approach to algorithm selection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Andrew</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Mcfadden</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IJCAI-03</title>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="page" from="1542" to="1543" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Learning the empirical hardness of optimization problems: The case of combinatorial auctions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-02</title>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="556" to="572" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Look-ahead versus look-back for satisfiability problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">M</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anbulagan</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-97</title>
+		<imprint>
+			<date type="published" when="1997" />
+			<biblScope unit="page" from="341" to="355" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">The Bayes Net Toolbox for Matlab</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Murphy</surname></persName>
+		</author>
+		<ptr target="http://bnt.sourceforge.net/" />
+	</analytic>
+	<monogr>
+		<title level="m">Computing Science and Statistics: Proc. of the Interface</title>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="volume">33</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Understanding random SAT: Beyond the clauses-to-variables ratio</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Nudelman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Devkar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Shoham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">CP-04</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="438" to="452" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Generating hard satisfiability problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">G</forename><surname>Mitchell</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">J</forename><surname>Levesque</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Artificial Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="page" from="17" to="29" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<monogr>
+		<title level="m" type="main">SATzilla-07: The design and analysis of an algorithm portfolio for SAT</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<idno>CP-07</idno>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">SATO: an efficient propositional prover</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of the Int&apos;l Conf. on Automated Deduction</title>
+		<meeting>of the Int&apos;l Conf. on Automated Deduction</meeting>
+		<imprint>
+			<date type="published" when="1997" />
+			<biblScope unit="page" from="272" to="275" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Efficient conflict driven learning in Boolean satisfiability solver</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><forename type="middle">F</forename><surname>Madigan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">W</forename><surname>Moskewicz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Malik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. of the Int&apos;l Conf. on Computer Aided Design</title>
+		<meeting>of the Int&apos;l Conf. on Computer Aided Design</meeting>
+		<imprint>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="279" to="285" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

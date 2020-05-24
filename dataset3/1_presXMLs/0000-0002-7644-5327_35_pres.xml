@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Action-Graph Games,
+</p>
+<p>and an Algorithm for 
+Computing their Equilibria
+</p>
+<p>Navin A. R. Bhat
+University of Toronto
+</p>
+<p>Kevin Leyton-Brown
+University of British Columbia</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Compact Game Representations
+</p>
+<p>• Extensive form:  sequential structure
+</p>
+<p>• Congestion games [Rosenthal, 1973]
+– anonymity: agents’ payoffs depend on numbers of other agents 
+</p>
+<p>choosing same resources, not on individual identities; 
+</p>
+<p>– additivity over resources
+</p>
+<p>• Graphical games [Kearns et al., 2001]
+– strict utility independence holds between some pairs of agents
+– leveraged for rapid computation of equilibria (e.g.) [Blum et al. , 2003]
+</p>
+<p>• Local-effect games [L-B & Tennenholtz, 2003]
+– context-specific independence
+– also symmetry, anonymity, monotonicity, additivity of local effects</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Action-Graph Games
+</p>
+<p>a b c</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGGs are Fully Expressive
+</p>
+<p>i2
+i1 i3
+</p>
+<p>j1 k1
+</p>
+<p>j2 k2
+</p>
+<p>j3 k3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Graphical Games as AGGs
+</p>
+<p>i1 j1 k1
+</p>
+<p>i j k i2 j2 k2
+</p>
+<p>i3 j3 k3
+</p>
+<p>GG AGG
+</p>
+<p>Agent node Action set box
+</p>
+<p>Edge Bipartite graphs between action sets
+</p>
+<p>Local game matrix Node utility function</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Constrained Location Problem
+</p>
+<p>n vendors sell either chocolate or vanilla ice 
+cream at one of four stations along a beach
+</p>
+<p>– nC chocolate (C) vendors;
+– nV vanilla (V) vendors; 
+– nW can sell C/V, but only on the west side.
+– competition between nearby sellers of same 
+</p>
+<p>type; synergy between nearby different types
+</p>
+<p>Notes:
+</p>
+<p>– representation independent of # agents
+</p>
+<p>C1 C2 C3 C4 – overlapping action sets
+– context-specific independence without 
+</p>
+<p>strict independence
+</p>
+<p>Other examples of compact AGGs:
+</p>
+<p>– Role formation games
+V1 V2 V3 V4 – Traffic routing games
+</p>
+<p>– Product placement games
+– Party affiliation games</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Continuation Method for Equilibria
+[Govindan & Wilson, 2003]
+</p>
+<p>• ≡ expected payoff to agent i for
+playing action si, if other agents play 
+</p>
+<p>according to mixed-strategy profile σ
+• Deform payoff to obtain a game with 
+</p>
+<p>known equilibrium:
+</p>
+<p>– add bonus, parameterized by λ: 
+• Strategy improvement mapping:
+</p>
+<p>– fixed points define equilibria
+</p>
+<p>• Path following:
+– Initial (σ, λ) known
+– Compute local path direction
+</p>
+<p>• ∇V is bottleneck computation
+– Take small step along path; repeat</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Payoff Jacobian
+</p>
+<p>Computational complexity: 
+</p>
+<p>•
+</p>
+<p>Other applications of this Jacobian:
+</p>
+<p>• Iterated Polymatrix Approximation (IPA) 
+– a quick start for the continuation method
+</p>
+<p>• Gradient for policy search multiagent RL algorithms</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Projection
+</p>
+<p>C3 C4
+</p>
+<p>∅
+</p>
+<p>V3 V4
+C1 C2 C3 C4
+</p>
+<p>V1 V2 V3 V4 C1 C2
+</p>
+<p>∅
+</p>
+<p>V1 V2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Jacobian for Arbitrary Equilibria
+</p>
+<p>• Projection captures context-specific independence and 
+strict independence
+</p>
+<p>• Writing in terms of the distribution captures anonymity</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Jacobian for Arbitrary Equilibria
+</p>
+<p>• Exponential speedup vs. GW: 
+</p>
+<p>• Same exponential speedup as Blum et. al. for computing the Jacobian
+for a graphical game using an explicit graphical game representation</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetric Equilibria
+</p>
+<p>• Symmetric games are important
+– AGGs are symmetric when ∀i, Si=S
+</p>
+<p>• Nash [1951] proved all symmetric 
+games have symmetric mixed-
+</p>
+<p>C1 C2 C3 C4
+strategy equilibria: ∀i, σi≡σ* 
+– Jacobian simplifies because elements 
+</p>
+<p>are agent-independent
+</p>
+<p>• Continuation method: V1 V2 V3 V4
+</p>
+<p>– seed with a symmetric equilibrium of 
+the perturbed game
+</p>
+<p>– Jacobian is agent-independent
+– path traces to symmetric equilibrium 
+</p>
+<p>of game of interest</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetric AGG Jacobian
+</p>
+<p>• All pure action profiles giving rise to the same distribution 
+of agents are equally likely, so   is just 
+</p>
+<p>times the number profiles that achieve 
+</p>
+<p>– number of profiles: multinomial coefficients on projected graph
+</p>
+<p>• Jacobian:  sum over space      
+– space of projected distributions is polynomial-sized
+</p>
+<p>(number of combinatorial compositions)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Speedup Results
+</p>
+<p>C1 C2 C3 C4 C5 C6 C7 C8 C9 C0
+</p>
+<p>One flavor ice cream vendor game; 10 stations
+</p>
+<p>16 GW
+10
+</p>
+<p>14
+10
+</p>
+<p>12
+10
+</p>
+<p>10
+10 AGG-arb
+</p>
+<p>8
+10
+</p>
+<p>6
+10
+</p>
+<p>4
+10
+</p>
+<p>2 AGG-symm
+10
+</p>
+<p>0
+10
+</p>
+<p>3 4 5 6 7 8 9 10 11 12 13 14 15
+</p>
+<p>number of agents
+</p>
+<p>Given a 1 GFLOP computer, solve Jacobian for:
+</p>
+<p>10 agents:  GW ∼1 hr; AGG-arb ∼1 sec; AGG-symm ∼0.00001 sec
+1 hr:  GW 10 agents; AGG-arb 15 agents; AGG-symm ∼200,000 agents
+</p>
+<p>multiplications</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>• AGGs are a fully expressive compact representation for 
+games
+</p>
+<p>• They compactly express:
+– context-specific and/or strict utility independencies
+– anonymity in utility functions
+</p>
+<p>• We leverage the AGG representation to compute Nash 
+equilibria using a continuation method; guarantee
+– arbitrary equilibria: exponential speedup of continuation method
+– symmetric equilibria: bounded indegree implies polytime
+</p>
+<p>computation of Jacobian
+</p>
+<p>google://“Navin Bhat” google://“Kevin Leyton-Brown”</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

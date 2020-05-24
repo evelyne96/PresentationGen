@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Modeling and Monitoring Crop Disease in
+Developing Countries
+</p>
+<p>John Quinn1, Kevin Leyton-Brown2, Ernest Mwebaze1
+</p>
+<p>1Department of Computer Science 2Department of Computer Science
+Makerere University, Uganda University of British Columbia
+</p>
+<p>AAAI 2011
+1 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Information about infectious crop diseases is vital in developing
+countries. However, current survey methods are expensive,
+limited, and slow: 2 months survey time + 3 months of data
+entry.
+</p>
+<p>Ubiquity of mobile telephony in the developing world has
+created opportunities for better systems...
+</p>
+<p>2 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Outline of talk
+</p>
+<p>Three ways in which the utility of the survey can be further
+improved with a fixed budget:
+</p>
+<p>Improvements in spatial disease estimation given
+observations.
+Adapting the locations to which surveyors should be sent,
+given real-time survey updates.
+Using computer vision to automatically diagnosis diseases
+given camera-phone input.
+</p>
+<p>4 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Density modelling problem
+</p>
+<p>In a crop disease survey, each plant is assigned a disease
+level yi ∈ {d1, ...,dD}.
+The observed data is of the form D = {xi ,yi |i = 1, . . . ,N}
+where x 2i ∈ R is a spatial location.
+We would like to infer P(y∗|x∗,D).
+</p>
+<p>Can then calculate things like incidence, the proportion of
+infected plants: P(y∗ > d1|x∗).
+</p>
+<p>We should deal with the observations yi as ordinal
+categories, d1 < d2 < · · ·< dD, and not code them as
+numbers: we do not have a principled way of mapping
+these categories to the real line, for example.
+If possible, we should deal with observations in continuous
+space, rather than losing information through aggregation.
+</p>
+<p>5 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Survey utility
+</p>
+<p>Our goal is to come up with accurate estimates of the areas we
+have not sampled directly. We have three principles, elicited
+from our collaborators:
+</p>
+<p>1 Small errors are better than big errors.
+2 It is more important to assess whether an area is diseased
+</p>
+<p>or not, than to accurately guess the specific severity.
+3 Being wrongly optimistic—under-predicting the incidence
+</p>
+<p>of disease—is about twice as bad as being wrongly
+pessimistic.
+</p>
+<p>6 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Survey utility
+</p>
+<p>Our utility function, for guessing ŷ given truth y is
+</p>
+<p>uy (ŷ) =−OptimismFactor(y , ŷ) · (Error(y , ŷ) + DiseasePenalty(y , ŷ))
+</p>
+<p>where
+</p>
+<p>|y − ŷ |
+Error(y , ŷ) ={ − ;D 1
+</p>
+<p>α y = 1 XOR ŷ = 1
+DiseasePenalty(y , ŷ) ={ 0 otherwise;
+</p>
+<p>β y > ŷ
+OptimismFactor(y , ŷ) =
+</p>
+<p>1 otherwise.
+</p>
+<p>7 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Current spatial density model
+</p>
+<p>Example of current type of map generated by survey teams
+(cassava brown streak disease, 2009):
+</p>
+<p>Densities are aggregated at district level. Two statistics are
+calculated: incidence and severity.
+</p>
+<p>Other approaches in the literature: kriging (non-ordinal), MRFs
+(discretized space).
+</p>
+<p>8 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Gaussian process ordinal regression
+</p>
+<p>We can use GP regression with ordinal observed data to
+model density in continuous space.
+First, define a hidden function of the location f (xi), and
+specify a covariance between the function at different
+positions: (
+</p>
+<p>κ ( ) ( ) )
+K (xi ,xj) = exp− x −x 2 22 i ,1 j ,1 + xi ,2−xj ,2
+</p>
+<p>Then relate the observations with this hidden function with
+a likelihood term: p(yi |f (xi)).
+We then integrate out f (xi) to obtain a distribution across
+ordinal categories at each location.
+</p>
+<p>9 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>GPOR inference example
+</p>
+<p>5 (a) x = A0.6
+</p>
+<p>B 0.5
+4.5 0.4
+</p>
+<p>0.3
+</p>
+<p>4.0 0.2
+4 0.1
+</p>
+<p>0.0
+</p>
+<p>3.5 (b) x = B
+0.4
+</p>
+<p>3
+0.3
+</p>
+<p>3
+0.2
+</p>
+<p>.0 C 2.5 0.13
+3 0.0
+</p>
+<p>1 (c) x = C
+0.9
+</p>
+<p>2 2
+2.0 21 2 0.6
+</p>
+<p>A 1 1
+0.3
+</p>
+<p>0.0
+d1 d2 d3 d4 d5
+</p>
+<p>y
+10 / 31
+</p>
+<p>1.5
+</p>
+<p>P (y|x,D)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Comparison of GPOR with aggregation
+</p>
+<p>A comparison of the utility of GPOR and aggregate density
+models at different levels of aggregation (an n×n grid):
+</p>
+<p>1.0
+</p>
+<p>0.8
+</p>
+<p>UGPOR 0.6
+UAgg
+</p>
+<p>0.4
+</p>
+<p>0.2
+</p>
+<p>0.0 2 4 6 8 10
+n
+</p>
+<p>A loss ratio of less than 1 means that the GP model
+outperformed the aggregation model.
+</p>
+<p>11 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Survey site optimization
+</p>
+<p>Given real time updates using mobile phones as data
+collection tools (more about this later), we can dynamically
+change the survey plan according to which regions are
+most interesting.
+In the usual active learning setting, this is straightforward:
+go to the places where the estimate is most uncertain.
+We have an online variation of this problem: surveyors are
+on a road circuit (represented as a 1D manifold R), and we
+keep moving in the same direction.
+Hence we will often prefer to sample a nearby point before
+sampling a distant point, even if the latter is expected to be
+more informative.
+Currently, the survey plan is to sample at roughly equal
+intervals along R.
+</p>
+<p>12 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>For example, start with two samples having been made along
+the route. Assume we have k = 3 stops still to make and want
+to calculate the next stop.
+</p>
+<p>13 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>Greedily select the point along the remaining route with the
+largest expected utility
+</p>
+<p>14 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>Draw samples from the model. Update the utility at each point
+on R
+</p>
+<p>15 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>Greedily select the next point
+</p>
+<p>16 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>Draw samples from the model. Update the utility at each point
+on R
+</p>
+<p>17 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>Greedily select the next point (last of the k points).
+</p>
+<p>18 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>Draw samples from the model. Update the utility at each point
+on R
+</p>
+<p>19 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>Find multiple sets of survey stops in this way.
+</p>
+<p>20 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>Consider the set of nearest survey locations
+</p>
+<p>21 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Optimization method
+</p>
+<p>The first order statistic becomes our next survey stop.
+</p>
+<p>22 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Adapting survey locations
+</p>
+<p>Left: regular sampling (heatmap shows true incidence on both
+panels).
+</p>
+<p>Right: optimised sampling; survey locations are moved towards
+regions of higher density.
+</p>
+<p>w(I(x)) =1 w(I(x)) =I(x) +c
+</p>
+<p>23 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Comparing regular and adaptive sampling
+</p>
+<p>Comparison of the average utility of simulated survey results, for
+regular and optimised sampling positions, as a function of the sample
+budget:
+</p>
+<p>1.4
+</p>
+<p>1.2
+UAdaptive
+</p>
+<p>U 1.0Regular
+0.8
+</p>
+<p>0.6
+</p>
+<p>6 8 10 12 14
+Number of survey locations
+</p>
+<p>Beyond the smallest number of survey locations (sampling too sparse
+for adaptive method to be effective), and high number of locations (in
+which every location is thoroughly sampled) the mean utility ratio
+LAdaptive
+L is significantly below 1.Regular
+</p>
+<p>24 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Image-based classification of disease
+</p>
+<p>One of the constraints on crop disease surveying currently
+is the scarcity of experts.
+When mobile data collection replaces paper-based
+surveying, camera-phones can be used to collect image
+data.
+If we can use these images to perform a diagnosis of
+disease automatically, then agricultural extension workers
+with basic training can carry out the survey.
+</p>
+<p>25 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Leaf image examples
+</p>
+<p>Camera phone images of plants which are healthy (left) and
+infected with cassava mosaic disease (right).
+</p>
+<p>We extract two types of features from these images: hue
+histograms, and SIFT descriptors.
+</p>
+<p>26 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Classification
+</p>
+<p>We classify using k-NN, where our distance is defined as an
+average of distances between the two types of features.
+</p>
+<p>For hue histograms, the KL divergence is given by
+</p>
+<p>h
+D h h h log 1,iKL( 1, 2) = ∑ 1,i .
+</p>
+<p>i h2,i
+</p>
+<p>For SIFT features, we calculate a mean µ and covariance Σ for
+each image. The KL divergence for multivariate Gaussian
+distributions is
+</p>
+<p>1 {
+DKL(µ1,Σ1,µ2,Σ2) = tr(ace Σ Σ−1)+ Σ Σ−1−2I+2 1 2 2 1 }
+</p>
+<p>Σ−1 + Σ−11 2 (µ1−µ2)(µ1− )
+>
+</p>
+<p>µ2 .
+</p>
+<p>27 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Utility comparison
+</p>
+<p>Best classifier: AUC=0.961, error rate=0.078.
+</p>
+<p>We compared the utiliy in our simulations with “expert” and
+“automated” labellings (in the latter, a random 8% of labels are
+wrong), where different quantities of data are available to the
+automated system.
+</p>
+<p>1.5
+1.4
+1.3
+1.2
+</p>
+<p>UAuto
+</p>
+<p>U 1.1Expert
+1.0
+0.9
+0.8
+0.70 0.2 0.4 0.6 0.8 1.0
+</p>
+<p>Proportion of extra data
+</p>
+<p>The automated scheme has equivalent utility when at least 70% extra
+data is obtained.
+</p>
+<p>28 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Smartphone implementation
+</p>
+<p>Feature extraction and classification implemented on $100
+Android phone:
+</p>
+<p>60,000 of these phones were sold in Kenya this year:
+significant potential for crowdsourcing.
+</p>
+<p>29 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Density modelling Survey site optimisation Image classification
+</p>
+<p>Summary
+</p>
+<p>We have introduced a density model, survey optimisation
+method, and image-based disease classification method.
+These techniques can bring significant savings in both
+survey cost and time.
+This also increases in the amount of data which can be
+collected: extension workers can be issued with phones
+and provide data year round.
+We are planning national survey of cassava disease in
+Uganda this year.
+</p>
+<p>30 / 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

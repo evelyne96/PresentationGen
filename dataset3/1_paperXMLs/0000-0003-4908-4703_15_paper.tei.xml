@@ -1,0 +1,805 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">The Z 2 -genus of Kuratowski minors *</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-06">Jun 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Radoslav</forename><surname>Fulek</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Kynčl</surname></persName>
+						</author>
+						<title level="a" type="main">The Z 2 -genus of Kuratowski minors *</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-06">Jun 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:32+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A drawing of a graph on a surface is independently even if every pair of nonadjacent edges in the drawing crosses an even number of times. The Z 2 -genus of a graph G is the minimum g such that G has an independently even drawing on the orientable surface of genus g. An unpublished result by Robertson and Seymour implies that for every t, every graph of sufficiently large genus contains as a minor a projective t × t grid or one of the following so-called t-Kuratowski graphs: K 3,t , or t copies of K 5 or K 3,3 sharing at most 2 common vertices. We show that the Z 2 -genus of graphs in these families is unbounded in t; in fact, equal to their genus. Together, this implies that the genus of a graph is bounded from above by a function of its Z 2 -genus, solving a problem posed by Schaefer andŠtefankovič, and giving an approximate version of the Hanani-Tutte theorem on orientable surfaces. We also obtain an analogous result for Euler genus and Euler Z 2 -genus of graphs.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>The genus g(G) of a graph G is the minimum g such that G has an embedding on the orientable surface M g of genus g. We say that two edges in a graph are independent (also nonadjacent) if they do not share a vertex. The Z 2 -genus g 0 (G) of a graph G is the minimum g such that G has a drawing on M g with every pair of independent edges crossing an even number of times. Clearly, every graph G satisfies g 0 (G) ≤ g(G).</p><p>The Hanani-Tutte theorem <ref type="bibr" target="#b14">[15,</ref><ref type="bibr" target="#b34">35]</ref> states that g 0 (G) = 0 implies g(G) = 0. The theorem is usually stated in the following form, with the optional adjective "strong".</p><p>Theorem 1 (The (strong) Hanani-Tutte theorem <ref type="bibr" target="#b14">[15,</ref><ref type="bibr" target="#b34">35]</ref></p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>). A graph is planar if it can be drawn in the plane so that no pair of independent edges crosses an odd number of times.</head><p>Theorem 1 gives an interesting algebraic characterization of planar graphs that can be used to construct a simple polynomial algorithm for planarity testing <ref type="bibr" target="#b29">[30,</ref><ref type="bibr">Section 1.4.2]</ref>.</p><p>Pelsmajer, Schaefer and Stasi <ref type="bibr" target="#b22">[23]</ref> extended the strong Hanani-Tutte theorem to the projective plane, using the list of minimal forbidden minors. Colin de Verdière et al. <ref type="bibr" target="#b8">[9]</ref> recently provided an alternative proof, which does not rely on the list of forbidden minors.</p><p>Theorem 2 (The (strong) Hanani-Tutte theorem on the projective plane <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b22">23]</ref>). If a graph G has a drawing on the projective plane such that every pair of independent edges crosses an even number of times, then G has an embedding on the projective plane.</p><p>Whether the strong Hanani-Tutte theorem can be extended to some other surface than the plane or the projective plane has been an open problem. Schaefer andŠtefankovič <ref type="bibr" target="#b30">[31]</ref> conjectured that g 0 (G) = g(G) for every graph G and showed that a minimal counterexample to the extension of the strong Hanani-Tutte theorem on any surface must be 2connected. Recently, we have found a counterexample on the orientable surface of genus 4 <ref type="bibr" target="#b12">[13]</ref>.</p><p>Theorem 3 ( <ref type="bibr" target="#b12">[13]</ref>). There is a graph G with g(G) = 5 and g 0 (G) ≤ 4. Consequently, for every positive integer k there is a graph G with g(G) = 5k and g 0 (G) ≤ 4k.</p><p>The Euler genus eg(G) of G is the minimum g such that G has an embedding on a surface of Euler genus g. The Euler Z 2 -genus eg 0 (G) of G is the minimum g such that G has an independently even drawing on a surface of Euler genus g.</p><p>Schaefer andŠtefankovič <ref type="bibr" target="#b30">[31]</ref> conjectured that eg 0 (G) = eg(G) for every graph G; this is still an open question. They also posed the following natural "approximate" questions. Problem 1 ( <ref type="bibr" target="#b30">[31]</ref>). Is there a function f such that g(G) ≤ f (g 0 (G)) for every graph G? Is there a function f such that eg(G) ≤ f (eg 0 (G)) for every graph G?</p><p>We give a positive answer to Problem 1 for several families of graphs, which we conjectured to be "unavoidable" as minors in graphs of large genus. Recently we have found that a similar Ramsey-type statement is a folklore unpublished result in the graph-minors community. Together, these results would imply a positive solution to Problem 1 for all graphs. We state the results in detail in Sections 3 and 4 after giving necessary definitions in Section 2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Preliminaries</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Graphs on surfaces</head><p>We refer to the monograph by Mohar and Thomassen <ref type="bibr" target="#b21">[22]</ref> for a detailed introduction into surfaces and graph embeddings. By a surface we mean a connected compact 2-dimensional topological manifold. Every surface is either orientable (has two sides) or nonorientable (has only one side). Every orientable surface S is obtained from the sphere by attaching g ≥ 0 handles, and this number g is called the genus of S. Similarly, every nonorientable surface S is obtained from the sphere by attaching g ≥ 1 crosscaps, and this number g is called the (nonorientable) genus of S. The simplest orientable surfaces are the sphere (with genus 0) and the torus (with genus 1). The simplest nonorientable surfaces are the projective plane (with genus 1) and the Klein bottle (with genus 2). We denote the orientable surface of genus g by M g , and the nonorientable surface of genus g by N g .</p><p>Let G = (V, E) be a graph with no multiple edges and no loops, and let S be a surface. A drawing of G on S is a representation of G where every vertex is represented by a unique point in S and every edge e joining vertices u and v is represented by a simple curve in S joining the two points that represent u and v. If it leads to no confusion, we do not distinguish between a vertex or an edge and its representation in the drawing and we use the words "vertex" and "edge" in both contexts. We require that in a drawing no edge passes through a vertex, no two edges touch, every edge has only finitely many intersection points with other edges and no three edges cross at the same inner point. In particular, every common point of two edges is either their common endpoint or a crossing.</p><p>A drawing of G on S is an embedding if no two edges cross. A face of an embedding of G on S is a connected component of the topological space obtained from S by removing all the edges and vertices of G. A 2-cell embedding is an embedding whose each face is homeomorphic to an open disc. The facewidth (also called representativity) fw(E) of an embedding E on a surface S of positive genus is the smallest nonnegative integer k such that there is a closed noncontractible curve in S intersecting E in k vertices.</p><p>The rotation of a vertex v in a drawing of G on an orientable surface is the clockwise cyclic order of the edges incident to v. We will represent the rotation of v by the cyclic order of the other endpoints of the edges incident to v. The rotation system of a drawing is the set of rotations of all vertices.</p><p>The Euler characteristic of a surface S of genus g, denoted by χ(S), is defined as χ(S) = 2 − 2g if S is orientable, and χ(S) = 2 − g if S is nonorientable. Equivalently, if v, e and f denote the numbers of vertices, edges and faces, respectively, of a 2-cell embedding of a graph on S, then χ(S) = v − e + f . The Euler genus eg(S) of S is defined as 2 − χ(S). In other words, the Euler genus of S is equal to the genus of S if S is nonorientable, and to twice the genus of S if S is orientable. This implies the following inequalities for the different notions of genus of a graph G, defined in the introduction: eg(G) ≤ 2g(G) and eg 0 (G) ≤ 2g 0 (G).</p><p>(1)</p><p>An edge in a drawing is even if it crosses every other edge an even number of times. A drawing of a graph is even if all its edges are even. A drawing of a graph is independently even if every pair of independent edges in the drawing crosses an even number of times. In the literature, the notion of Z 2 -embedding is used to denote both an even drawing <ref type="bibr" target="#b5">[6]</ref> and an independently even drawing <ref type="bibr" target="#b30">[31]</ref>.</p><p>The embedding scheme of a drawing D on a surface S consists of the rotation system and a signature +1 or −1 assigned to every edge, representing the parity of the number of crosscaps the edge is passing through. If S is orientable, the embedding scheme can be given just by the rotation system. The following weak analogue of the Hanani-Tutte theorem was proved by Cairns and Nikolayevsky <ref type="bibr" target="#b5">[6]</ref> for orientable surfaces and then extended by Pelsmajer, Schaefer andŠtefankovič <ref type="bibr" target="#b23">[24]</ref>  A simple closed curve γ in a surface S is 1-sided if it has a small neighborhood homeomorphic to the Möbius strip, and 2-sided if it has a small neighborhood homeomorphic to the cylinder. We say that γ is separating in S if the complement S \ γ has two components, and nonseparating if S \ γ is connected. Note that on an orientable surface every simple closed curve is 2-sided, and every 1-sided simple closed curve (on a nonorientable surface) is nonseparating. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Special graphs 2.2.1 Projective grids and walls</head><formula xml:id="formula_0">{{(i, j), (i ′ , j ′ )}; |i − i ′ | + |j − j ′ | = 1} ∪ {{(i, 1), (r + 1 − i, s)}; i ∈ [r]}.</formula><p>In other words, the projective r × s grid is obtained from the planar r × (s + 1) grid by identifying pairs of opposite vertices and edges in its leftmost and rightmost column. See <ref type="figure" target="#fig_1">Figure 1</ref>, left. The projective t × t grid has an embedding on the projective plane with facewidth t. By the result of Robertson and Vitray <ref type="bibr" target="#b28">[29]</ref>, <ref type="bibr">[22, p. 171]</ref>, the embedding is unique if t ≥ 4. Hence, for t ≥ 4 the genus of the projective t × t grid is equal to ⌊t/2⌋ by the result of Fiedler, Huneke, Richter and Robertson <ref type="bibr" target="#b10">[11]</ref>, <ref type="bibr" target="#b21">[22,</ref><ref type="bibr">Theorem 5.8.1]</ref>.</p><p>Since grids have vertices of degree 4, it is more convenient for us to consider their subgraphs of maximum degree 3, called walls. For an odd t ≥ 3, a projective t-wall is obtained from the projective t×(2t−1) grid by removing edges {(i, 2j), (i+1, 2j)} for i odd and 1 ≤ j ≤ t − 1, and edges {(i, 2j − 1), (i + 1, 2j − 1)} for i even and 1 ≤ j ≤ t. Similarly, for an even t ≥ 4, a projective t-wall is obtained from the projective t×2t grid by removing edges {(i, 2j), (i + 1, 2j)} for i odd and 1 ≤ j ≤ t, and edges {(i, 2j − 1), (i + 1, 2j − 1)} for i even and 1 ≤ j ≤ t. The projective t-wall has maximum degree 3 and can be embedded on the projective plane as a "twisted wall" with inner faces bounded by 6-cycles forming the "bricks", and with the "outer" face bounded by a (4t − 2)-cycle for t odd and a 4t-cycle for t even. See <ref type="figure" target="#fig_1">Figure 1</ref>, right. This embedding has facewidth t and so again, for t ≥ 4 the projective t-wall has genus ⌊t/2⌋. It is easy to see that the projective 3-wall has genus 1 since it contains a subdivision of K 3,3 and embeds on the torus. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.2">Kuratowski graphs</head><p>A graph is called a t-Kuratowski graph <ref type="bibr" target="#b31">[32]</ref> if it is one of the following:</p><formula xml:id="formula_1">a) K 3,t ,</formula><p>b) a disjoint union of t copies of K 5 , c) a disjoint union of t copies of K 3,3 , d) a graph obtained from t copies of K 5 by identifying one vertex from each copy to a single common vertex, e) a graph obtained from t copies of K 3,3 by identifying one vertex from each copy to a single common vertex, f) a graph obtained from t copies of K 5 by identifying a pair of vertices from each copy to a common pair of vertices, g) a graph obtained from t copies of K 3,3 by identifying a pair of adjacent vertices from each copy to a common pair of vertices, h) a graph obtained from t copies of K 3,3 by identifying a pair of nonadjacent vertices from each copy to a common pair of vertices.</p><p>See <ref type="figure" target="#fig_2">Figure 2</ref> for an illustration. The genus of each of the t-Kuratowski graphs is known precisely. The genus of K 3,t is ⌈(t − 2)/4⌉ <ref type="bibr" target="#b3">[4,</ref><ref type="bibr" target="#b25">26]</ref>, <ref type="bibr" target="#b21">[22,</ref><ref type="bibr">Theorem 4.4.7]</ref>, <ref type="bibr" target="#b13">[14,</ref><ref type="bibr">Theorem 4.5.3]</ref>, which coincides with the lower bound from Euler's formula. The genus of t copies of K 5 or K 3,3 sharing at most one vertex is t by the additivity of genus over blocks and connected components <ref type="bibr" target="#b0">[1]</ref>, <ref type="bibr" target="#b21">[22,</ref><ref type="bibr">Theorem 4.4.2]</ref>, <ref type="bibr" target="#b13">[14,</ref><ref type="bibr">Theorem 3.5.3]</ref>. Finally, from a general formula by Decker, Glover and Huneke <ref type="bibr" target="#b9">[10]</ref> it follows that the genus of t copies of K 5 or K 3,3 sharing a pair of adjacent or nonadjacent vertices is ⌈t/2⌉ if t &gt; 1: cases f) and g) follow from their proof of Corollary 0.2, case h) follows from their Corollary 2.4 after realizing that µ(K 3,3 ) = 3 if x, y are nonadjacent in K 3,3 . The Euler genus of each of the t-Kuratowski graphs is also known precisely. The Euler genus of K 3,t is ⌈(t − 2)/2⌉ <ref type="bibr" target="#b3">[4,</ref><ref type="bibr" target="#b26">27]</ref>. The Euler genus of t copies of K 5 or K 3,3 sharing at most one vertex is t by the additivity of Euler genus over blocks <ref type="bibr" target="#b32">[33,</ref><ref type="bibr">Corollary 2]</ref>, <ref type="bibr" target="#b19">[20,</ref><ref type="bibr">Theorem 1]</ref>, <ref type="bibr" target="#b21">[22,</ref><ref type="bibr">Theorem 4.4.3]</ref>. The additivity of Euler genus over connected components follows almost trivially: every embedding of a disconnected graph with components G 1 , G 2 on a surface can be turned into an embedding of a connected graph on the same surface by adding an edge joining G 1 with G 2 . Miller <ref type="bibr" target="#b19">[20,</ref><ref type="bibr">Theorem 1]</ref> proved that Euler genus is also additive over edge-amalgamations, which implies that the Euler genus of t copies of K 5 or K 3,3 sharing a pair of adjacent vertices it t. Miller <ref type="bibr" target="#b19">[20,</ref><ref type="bibr">Theorem 27]</ref> also proved a superadditivity of the Euler genus over 2-amalgamations. Richter <ref type="bibr" target="#b24">[25,</ref><ref type="bibr">Theorem 1</ref>] proved a precise formula for the Euler genus of 2-amalgamations with respect to a pair of nonadjacent vertices. Since the graph obtained from K 3,3 by adding one edge has an embedding in the projective plane, Miller's <ref type="bibr" target="#b19">[20]</ref> and Richter's <ref type="bibr" target="#b24">[25]</ref> results also imply that the Euler genus of t copies of K 3,3 sharing a pair of nonadjacent vertices is t.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Ramsey-type results</head><p>The following Ramsey-type statement for graphs of large Euler genus is a folklore unpublished result.</p><p>Claim 5 (Robertson-Seymour <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b31">32]</ref>, unpublished). There is a function g such that for every t ≥ 3, every graph of Euler genus g(t) contains a t-Kuratowski graph as a minor.</p><p>For 7-connected graphs, Claim 5 follows from the result of Böhme, Kawarabayashi, Maharry and Mohar <ref type="bibr" target="#b1">[2]</ref>, stating that for every positive integer t, every sufficiently large 7connected graph contains K 3,t as a minor. Böhme et al. <ref type="bibr" target="#b2">[3]</ref> later generalized this to graphs of larger connectivity and K a,t minors for every fixed a &gt; 3. Fröhlich and Müller <ref type="bibr" target="#b11">[12]</ref> gave an alternative proof of this generalized result.</p><p>Christian, Richter and Salazar <ref type="bibr" target="#b6">[7]</ref> proved a similar statement for graph-like continua.</p><p>We obtain an analogous Ramsey-type statement for graphs of large genus as an almost direct consequence of Claim 5. Theorem 6. Claim 5 implies that there is a function h such that for every t ≥ 3, every graph of genus h(t) contains, as a minor, a t-Kuratowski graph or the projective t-wall.</p><p>We give a detailed proof of Theorem 6 in Section 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Our results</head><p>As our main result we complete a proof that the Z 2 -genus of each t-Kuratowski graph and the projective t-wall grows to infinity with t; in fact, the Z 2 -genus of each of these graphs is equal to their genus. Analogously, we also show that the Euler Z 2 -genus of each t-Kuratowski graph is equal to its Euler genus. Schaefer andŠtefankovič <ref type="bibr" target="#b30">[31]</ref> proved this for those t-Kuratowski graphs that consist of t copies of K 5 or K 3,3 sharing at most one vertex. For the projective t-wall, the result follows directly from the weak Hanani-Tutte theorem on orientable surfaces [6, Lemma 3]: indeed, all vertices of the projective t-wall have degree at most 3, therefore pairs of adjacent edges crossing oddly in an independently even drawing can be redrawn in a small neighborhood of their common vertex so that they cross evenly, and the weak Hanani-Tutte theorem can be applied. Thus, the remaining cases are t-Kuratowski graphs of type a), f), g) and h).</p><p>Theorem 7. For every t ≥ 3, the Z 2 -genus of each t-Kuratowski graph of type a), f ), g) and h) is equal to its genus, and also its Euler Z 2 -genus is equal to its Euler genus. In particular,</p><formula xml:id="formula_2">a) g 0 (K 3,t ) ≥ ⌈(t − 2)/4⌉, eg 0 (K 3,t ) ≥ ⌈(t − 2)/2⌉, and b)</formula><p>if G consists of t copies of K 5 or K 3,3 sharing a pair of adjacent or nonadjacent vertices, then g 0 (G) ≥ ⌈t/2⌉ and eg 0 (G) ≥ t.</p><p>Combining Theorem 7 with the result of Schaefer andŠtefankovič <ref type="bibr" target="#b30">[31]</ref> and the simple argument for the projective t-wall we obtain the following result.</p><p>Corollary 8. For every t ≥ 3, the Z 2 -genus of each t-Kuratowski graph and the projective t-wall is equal to its genus, and the Euler Z 2 -genus of each t-Kuratowski graph is equal to its Euler genus.</p><p>Combining Corollary 8 with Theorem 6 we get the following implication. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Unavoidable minors of large genus</head><p>In this section we prove Theorem 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Tools and preparations</head><p>We will need the following classical result by Robertson and Seymour <ref type="bibr" target="#b27">[28]</ref> about surface minors. Surface minors are defined for embeddings analogously as minors for graphs, by deleting and contracting edges on the underlying surface <ref type="bibr" target="#b21">[22]</ref>. Let W t be an embedding of the projective t-wall on the projective plane; see <ref type="figure" target="#fig_1">Figure 1</ref>, right. With a slight abuse of notation, for each nonorientable surface N i with i ≥ 2, we choose an embedding of the projective t-wall on N i and denote it again by W t . Without loss of generality, we will assume that w</p><formula xml:id="formula_3">(W t , N i ) is nondecreasing in i; otherwise we inductively redefine w(W t , N i ) as max{w(W t , N j ); j ≤ i}. For all integers k ′ , i, k satisfying 0 ≤ 2k ′ &lt; i ≤ k, let w(k ′ , i, k, t) = i(i − 2k ′ ) · (w(W t , N i ) + 2k).</formula><p>This function will be used as a "potential function" in the proof of Proposition 12.</p><p>We will also use the following simple statement about the "continuity" of facewidth under the operation of removing all vertices of a face. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Proof of Theorem 6</head><p>Let t ≥ 3 and let g be a sufficiently large integer, larger than g(t)/2 where g(t) is the number from Claim 5. Let G be a graph of genus g. If the Euler genus of G is larger than g(t), then G has a t-Kuratowski minor by Claim 5. For the rest of the proof we thus assume that the Euler genus of G is at most k = g(t), and our goal is to find the projective t-wall as a minor in G. Since 2g &gt; k, this implies that G has an embedding E on N k .</p><p>The operation of gluing a pair of vertices u, v in a graph G creates a graph with</p><formula xml:id="formula_4">vertex set V (G) \ {u, v} ∪ {w}, where w / ∈ V (G), and edge set E(G[V (G) \ {u, v}]) ∪ {{w, x}; {u, x} ∈ E(G)}}∪{{w, x}; {v, x} ∈ E(G)}.</formula><p>An inverse operation is called splitting a vertex ; in general, this is not unique for a given graph and a vertex.</p><p>We show the following proposition by induction on i.</p><p>Proposition 12. Let i, k, t be positive integers with t ≥ 3 and i ≤ k. Let G be a graph that has an embedding E on N i , let F be a set of at most k − i faces in E, and let Z be the set of all vertices of E incident to at least one face in F . Then at least one of the following holds:</p><p>1) G − Z has a projective t-wall as a minor, or 2) there is an integer k ′ satisfying 0 ≤ 2k ′ &lt; i such that G can be obtained from a graph H of genus at most k ′ by at most w(k ′ , i, k, t) consecutive operations of gluing a pair of vertices (shortly gluings).</p><p>Proof. The main idea of the proof is to cut the surface recursively along "short" noncontractible curves until we obtain an embedding of large facewidth on a nonorientable surface, or until all the pieces are orientable. We distinguish two cases according to the facewidth of E.</p><formula xml:id="formula_5">1) fw(E) ≥ w(W t , N i ) + 2(k − i). By Proposition 11, the induced embedding E ′ of G − Z in E has facewidth at least w(W t , N i ). Thus, W t is a surface minor of E ′ and so the projective t-wall is a minor of G − Z. 2) fw(E) &lt; w(W t , N i ) + 2(k − i).</formula><p>In this case there is a noncontractible closed curve γ on S intersecting E in less than w(W t , N i ) + 2(k − i) points, all of which can be assumed to be vertices. Let W be the set of the vertices in E ∩ γ. We have three cases according to the type of γ: a) γ is 1-sided, b) γ is 2-sided but nonseparating in N i , c) γ is 2-sided and separates N i into two components.</p><p>In each case, we cut N i along γ, obtaining a surface or a pair of surfaces with boundary, and fill the boundary cycles with discs. The resulting surfaces may be orientable or nonorientable. In case a) we obtain a surface S of Euler genus i − 1. In case b) we obtain a surface S of Euler genus i − 2. In case c) we obtain a pair of surfaces S 1 and S 2 with Euler genera i 1 and i 2 , respectively, such that i 1 + i 2 = i and 1 ≤ i 1 , i 2 ≤ i − 1.</p><p>While cutting the surface N i along γ, we also obtain an embedding E ′ of a graph G ′ on S or a pair of embeddings E ′ 1 and E ′ 2 of G ′ 1 and G ′ 2 on S 1 and S 2 , respectively, obtained from E by splitting each vertex in W into two copies, each copy keeping adjacent edges only from one side of γ. We now consider each of the three cases separately.</p><p>In case a), the embedding E ′ has one new face f , containing the disc that was used to fill a boundary cycle while creating S. On the other hand, the faces of E intersecting γ are no longer faces of E ′ , as they were cut and merged into f . Let F ′ be the union of {f } and the subset of faces in F that are still faces of E ′ . Clearly, we have</p><formula xml:id="formula_6">|F ′ | ≤ |F | + 1 ≤ k − i + 1 = k − eg(S).</formula><p>If S is orientable, then G ′ is a graph of genus at most eg(S)/2 = (i − 1)/2 and G can be obtained from G ′ by less than w(W t ,</p><formula xml:id="formula_7">N i ) + 2(k − i) ≤ w((i − 1)/2, i, k, t) gluings.</formula><p>If S is nonorientable, we apply induction to the embedding E ′ and the set of faces F ′ . Let Z ′ be the set of vertices of E ′ incident with at least one face in F ′ . Observe that Z ′ contains all vertices in Z and also all new vertices created by splitting the vertices in W . Hence, G ′ − Z ′ is a subgraph of G − Z. Therefore, if case 1) of the proposition occurs, we obtain a projective t-wall as a minor in both G ′ − Z ′ and G − Z. In case 2) we obtain G ′ from a graph H of genus k ′ &lt; (i − 1)/2 by at most w(k ′ , i − 1, k, t) gluings. Since G is obtained from G ′ by less than w(W t , N i ) + 2(k − i) gluings, we can obtain G from H by less than w(k ′ , i, k, t) gluings.</p><p>In case b), E ′ has two new faces f 1 and f 2 . Let F ′ be the union of {f 1 , f 2 } and the subset of faces in F that are still faces of E ′ . Clearly, we have |F ′ | ≤ |F |+2 ≤ k −i+2 = k −eg(S).</p><p>If S is orientable, then G ′ is a graph of genus at most eg(S)/2 = (i − 2)/2 and G can be obtained from G ′ by less than w(W t , N i ) + 2(k − i) ≤ w((i − 2)/2, i, k, t) gluings.</p><p>If S is nonorientable, we apply induction to E ′ and F ′ and proceed analogously as in case a). If case 2) of the proposition occurs, we obtain G ′ from a graph H of genus k ′ &lt; (i − 2)/2 by at most w(k ′ , i − 2, k, t) gluings, and thus we can again obtain G from H by less than w(k ′ , i, k, t) gluings.</p><p>In case c), E ′ 1 has a new face f 1 and E ′ 2 has a new face f 2 . For l ∈ {1, 2} we define F ′ l as the union of {f l } and the the subset of faces in F that are still faces of E ′ l . Again, for</p><formula xml:id="formula_8">each l ∈ {1, 2} we have |F ′ l | ≤ |F | + 1 ≤ k − i + 1 ≤ k − eg(S l )</formula><p>. Notice that at least one of the surfaces S 1 , S 2 is nonorientable, since N i is their connected sum. Let l ∈ {1, 2}. If S l is orientable, then G ′ l is a graph of genus at most eg(S l )/2 = i l /2. If S l is nonorientable, we apply induction to E ′ l and F ′ l . Let Z ′ l be the set of vertices of E ′ l incident with at least one face in F ′ l . Observe that Z ′ l contains all vertices in Z ∩ V (G ′ l ) and all new vertices in G ′ l created by splitting the vertices in W . Hence, G ′ l − Z ′ l is a subgraph of G − Z. Therefore, if case 1) of the proposition occurs, we obtain a projective t-wall as a minor in both G ′ l − Z ′ l and G − Z. In case 2) we obtain G ′ l from a graph H l of genus k ′ l &lt; i l /2 by at most w(k ′ l , i l , k, t) gluings. If we have not obtained the projective t-wall as a minor in G − Z, then for each l ∈ {1, 2}, the graph G ′ l is obtained from a graph H l of genus k ′ l ≤ i l /2 by at most w(k ′ l , i l , k, t) gluings (where w(i l /2, i l , k, t) = 0), and k ′ 1 + k ′ 2 ≤ (i − 1)/2 since at least one of S 1 , S 2 is nonorientable. Let H be the disjoint union of H 1 and H 2 . Then H is a graph of genus at most k ′ = k ′ 1 + k ′ 2 &lt; i/2, and G can be obtained from H by less than w(k ′ 1 , i 1 , k, t) + w(k ′ 2 , i 2 , k, t) + w(W t , N i ) + 2(k − i) gluings. By the monotonicity of w(W t , N i ), we have</p><formula xml:id="formula_9">w(k ′ 1 , i 1 , k, t) + w(k ′ 2 , i 2 , k, t) + w(W t , N i ) + 2(k − i) ≤ (i 1 (i 1 − 2k ′ 1 ) + i 2 (i 2 − 2k ′ 2 ) + 1) · (w(W t , N i ) + 2k) ≤ (i(i − 2k ′ ) + 1 − i 1 (i 2 − 2k ′ 2 ) − i 2 (i 1 − 2k ′ 1 )) ≤ w(k ′ , i, k, t).</formula><p>This finishes the proof of the proposition.</p><p>We apply Proposition 12 with i = k and F = ∅ = Z. If case 1) occurs, then G has the projective t-wall as a minor. If case 2) occurs, then there is an integer k ′ satisfying 0 ≤ 2k ′ &lt; k such that G can be obtained from a graph H of genus at most k ′ by at most w(k ′ , k, k, t) gluings. Since every gluing increases the genus of a graph by at most 1, we conclude that the genus of G is at most k ′ + w(k ′ , k, k, t) ≤ k 2 · (w(W t , N k ) + 2k). This will be a contradiction if g &gt; k 2 · (w(W t , N k ) + 2k). Therefore, in Theorem 6 it is sufficient to take h(t) = g 2 (t) · (w(W t , N g(t) ) + 2g(t)) where g(t) is the number from Claim 5.</p><p>6 Lower bounds on the Z 2 -genus and Euler Z 2 -genus In this section we prove Theorem 7. By (1), the lower bounds on the Euler Z 2 -genus of the t-Kuratowski graphs in Theorem 7 imply the lower bounds on their Z 2 -genus; thus it will be sufficient to prove the lower bounds on their Euler Z 2 -genus.</p><p>The fact that the (Euler) Z 2 -genus of K 3,t or the other t-Kuratowski graphs is unbounded when t goes to infinity is not obvious at first sight. The traditional lower bound on the (Euler) genus of K 3,t relies on Euler's formula and the notion of a face. However, there is no analogue of a "face" in an independently even drawing, and the rotations of vertices no longer "matter". We thus need different tools to compute the (Euler) Z 2 -genus.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Z 2 -homology of curves</head><p>We refer to Hatcher's textbook <ref type="bibr" target="#b15">[16]</ref> for an excellent general introduction to homology theory. Unfortunately, except for the very short summary by Colin de Verdière [8, p. 14-15], we were unable to find a compact treatment of the homology theory for curves on surfaces in the literature, thus we sketch here the main aspects that are most important for us.</p><p>We will use the Z 2 -homology of closed curves on surfaces. That is, for a given surface S, we are interested in its first homology group with coefficients in Z 2 , denoted by H 1 (S; Z 2 ). It is well-known that for each g ≥ 0, the first homology group To every closed curve γ in a surface S one can assign its homology class [γ] ∈ H 1 (S; Z 2 ), and this assignment is invariant under continuous deformation (homotopy). In particular, the homology class of each contractible curve is 0. More generally, the homology class of each separating curve in S is 0 as well. Moreover, if γ is obtained by a composition of γ 1 and γ 2 , the homology classes satisfy [γ] = [γ 1 ] + [γ 2 ]. The assignment of homology classes to closed curves is naturally extended to formal integer combinations of the closed curves, called cycles, and so [γ] can be considered as a set of cycles. Since we are interested in homology with coefficients in Z 2 , it is sufficient to consider cycles with coefficients in Z 2 , which may also be regarded as finite sets of closed curves.</p><formula xml:id="formula_10">H 1 (M g ; Z 2 ) of M g is isomorphic to Z 2g 2 [16,</formula><p>If γ 1 and γ 2 are cycles in S that cross in finitely many points and have no other points in common, we denote by cr(γ 1 , γ 2 ) the number of their common crossings. We use the following well-known fact, which may be seen as a consequence of the Jordan curve theorem.</p><formula xml:id="formula_11">Fact 13. Let γ ′ 1 ∈ [γ 1 ] and γ ′ 2 ∈ [γ 2</formula><p>] be a pair of cycles in a surface S such that the intersection number cr(γ ′ 1 , γ ′ 2 ) is defined and is finite. Then cr(γ ′ 1 , γ ′ 2 ) ≡ cr(γ 1 , γ 2 ) (mod 2). Fact 13 allows us to define a group homomorphism (which is also a bilinear form)</p><formula xml:id="formula_12">Ω S : H 1 (S; Z 2 ) × H 1 (S; Z 2 ) → Z 2</formula><p>such that Ω S ([γ 1 ], [γ 2 ]) = cr(γ 1 , γ 2 ) mod 2 whenever cr(γ 1 , γ 2 ) is defined and is finite. Cairns and Nikolayevsky <ref type="bibr" target="#b5">[6]</ref> call Ω Mg the intersection form on M g . Clearly, Ω S is symmetric, and for every 2-sided simple closed curve γ we have Ω </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Combinatorial representation of the Z 2 -homology of drawings</head><p>Schaefer andŠtefankovič <ref type="bibr" target="#b30">[31]</ref> used the following combinatorial representation of drawings of graphs on M g and N g . First, every drawing of a graph on M g can be considered as a drawing on the nonorientable surface N 2g+1 , since M g minus a point is homeomorphic to an open subset of N 2g+1 . The surface N h minus a point can be represented combinatorially as the plane with h crosscaps. A crosscap at a point x is a combinatorial representation of a Möbius strip whose boundary is identified with the boundary of a small circular hole centered in x. Informally, the main "objective" of a crosscap is to allow a set of curves intersect transversally at x without counting it as a crossing. Every closed curve γ drawn in the plane with h crosscaps is assigned a vector y γ ∈ {0, 1} h such that (y γ ) i = 1 if and only if γ passes an odd number of times through the ith crosscap. When γ represents a 2-sided curve in a surface S, then y γ has an even number of coordinates equal to 1. The vectors y γ represent the elements of the homology group H 1 (S; Z 2 ), and the value of the intersection form Ω S ([γ], [γ ′ ]) is equal to the scalar product y ⊤ γ y γ ′ over Z 2 . Analogously, we assign a vector y D e (or simply y e ) to every curve representing an edge e in a drawing D of a graph in this model.</p><p>We use the following two lemmata by Schaefer andŠtefankovič <ref type="bibr" target="#b30">[31]</ref>. 2) every edge f of F passes through each crosscap an even number of times; that is, Corollary 17. Let G be a connected graph with an independently even drawing on a surface S such that each cycle in the drawing is homologically zero (that is, the homology class of the corresponding closed curve is 0). Then G is planar.</p><formula xml:id="formula_13">y E f = 0.</formula><p>Proof. Let F be a spanning tree of G and let E be a drawing obtained from Lemma 15. The cycle space of G is generated by the fundamental cycles with respect to F . Every edge e ∈ E(G) \ E(F ) determines a unique fundamental cycle C e ⊆ F ∪ {e}. Since y E f = 0 for every edge f of F , the homology class of C e in E is represented by y E e . Therefore, under the assumption that the homology classes of all cycles are zero, we have y E e = 0 for every edge e of G. Lemma 16 then implies that G has an independently even drawing in the plane. Finally, G is planar by the strong Hanani-Tutte theorem (Theorem 1).</p><p>Corollary 17 can be further strengthened using Lemma 15 as follows. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.3">Proof of Theorem 7a)</head><p>We will show three lower bounds on g 0 (K 3,t ) and eg 0 (K 3,t ), in the order of increasing strength and complexity of their proof.</p><p>We will adopt the following notation for the vertices of K 3,t . The vertices of degree t forming one part of the bipartition are denoted by a, b, c, and the remaining vertices by u 0 , u 1 , . . . , u t−1 . Let U = {u 0 , u 1 , . . . , u t−1 }. For each i ∈ [t − 1], let C i be the cycle au i bu 0 and C ′ i the cycle au i cu 0 . The first lower bound follows from Ramsey's theorem and the weak Hanani-Tutte theorem on surfaces.</p><formula xml:id="formula_14">Proposition 19. We have 2g 0 (K 3,t ) ≥ eg 0 (K 3,t ) ≥ Ω(log log log t).</formula><p>Proof. Let t ≥ 3, g ≥ 0 and let D be an independently even drawing of K 3,t on a surface S of Euler genus g. By Ramsey's theorem, there is a subset U a ⊆ U of size Ω(log t) such that all the edges between a and U a cross each other an odd number of times, or all the edges between a and U a cross each other an even number of times. Repeating the same argument with vertices b and c, we find a subset U b ⊆ U a of size Ω(log log t), and a subset U c ⊆ U b of size Ω(log log log t) such that the number of crossings of each pair of edges between b and U b has the same parity, and the number of crossings of each pair of edges between c and U c has the same parity. If the parity is odd for some of the vertices a, b, c, we modify the drawing locally around this vertex by introducing one more crossing for each pair of incident edges; see [6, <ref type="figure" target="#fig_11">Fig. 4</ref>]. Finally, we modify the drawing locally around each vertex u in U c so that again, every pair of the three edges incident to u crosses an even number of times. After these modifications we obtain an even drawing of the complete bipartite graph induced by {a, b, c} ∪ U c . By the weak Hanani-Tutte theorem for surfaces (Theorem 4), the graph K 3,|Uc| has an embedding on S and so g ≥ ⌊(|U c | − 2)/2⌋. It follows that g ≥ Ω(log log log t).</p><p>The second lower bound is based on the pigeonhole principle and Corollary 17 from the previous subsection.</p><formula xml:id="formula_15">Proposition 20. We have 2g 0 (K 3,t ) ≥ eg 0 (K 3,t ) ≥ Ω(log t).</formula><p>Proof. Let D be an independently even drawing of K 3,t on a surface S of Euler genus g. By the pigeonhole principle, there is a subset I b ⊆ [t − 1] of size at least (t − 1)/2 g such that all the cycles C i with i ∈ I b have the same homology class in D. Analogously, there is a subset I c ⊆ I b of size at least |I b |/2 g such that all the cycles C ′ i with i ∈ I c have the same homology class in D. Suppose that t ≥ 2 · 4 g + 2. Then |I b | ≥ 2 · 2 g + 1 and |I c | ≥ 3. Let i, j, k ∈ I c be three distinct integers. We now consider the subgraph H of K 3,t induced by the vertices a, b, c, u i , u j , u k , isomorphic to K 3,3 , and show that all its cycles are homologically zero. Indeed, the cycle space of H is generated by the four cycles au i bu j , au i bu k , au i cu j and au i cu k , and each of them is the sum (mod 2) of two cycles of the same homology class: au i bu j = C i + C j , au i bu k = C i + C k , au i cu j = C ′ i + C ′ j and au i cu k = C ′ i + C ′ k . Corollary 17 now implies that H is planar, but this is a contradiction. Therefore t ≤ 2 · 4 g + 1. To prove the lower bound in Theorem 7a), we use the same general idea as in the previous proof. However, we will need the following more precise lemma about drawings of K 3,3 , strengthening Corollary 17 and Lemma 18. We also replace the pigeonhole principle with a linear-algebraic trick.</p><p>Lemma 21. Let D be an independently even drawing of K 3,3 on a surface S. For i ∈ {1, 2}, let γ i and γ ′ i be the closed curves representing the cycles C i and C ′ i , respectively, in D.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The intersection numbers of their homology classes satisfy</head><formula xml:id="formula_16">Ω S ([γ 1 ], [γ ′ 2 ]) + Ω S ([γ ′ 1 ], [γ 2 ]) = 1.</formula><p>Lemma 21 is a consequence of Corollary 27. Here we include a direct proof using a different method.</p><p>Proof. Since the maximum degree of K 3,3 is 3, we may assume that the drawing D is even: if some adjacent edges cross oddly, we may modify the drawing locally around their common vertex so that they cross evenly, without changing the values of the intersection form.</p><p>Cairns and Nikolayevsky [6, Lemma 1] formulated a special case of an identity expressing the intersection form Ω S as the sum of a "combinatorial" crossing number of cycles and the number of crossings of their edges. We use an analogous identity for the drawing D, and also include its derivation to make the proof self-contained.</p><p>The cycles C 1 and C ′ 2 share only the vertices a and v 0 and the edge av 0 , and the same is true for the cycles C ′ 1 and C 2 . Let O be a small neighborhood of the curve representing the edge av 0 in D. Deform the curves γ 1 , γ 2 , γ ′ 1 , γ ′ 2 within O so that they cross each other at most once in O; see <ref type="figure" target="#fig_11">Figure 4</ref>. Assume without loss of generality that the rotation of a in D is (u 0 , u 1 , u 2 ) and the rotation of u 0 <ref type="figure">in D is (a, b, c)</ref>. Then the curves obtained by deforming γ 1 and γ ′ 2 cross exactly once in O, and the curves obtained by deforming γ ′ 1 and γ 2 do not intersect in O. All the other crossings between these closed curves coincide with the crossings between edges in D. Since D is an even drawing, the value of the intersection form is determined by the parity of the number of crossings inside O. Proof. Let D be an independently even drawing of K 3,t on a surface S of Euler genus g.</p><p>For every i ∈ [t − 1], let γ i and γ ′ i be the closed curves representing the cycles C i and C ′ i , respectively, in D. For every i, j ∈ [t − 1], i &lt; j, we apply Lemma 21 to the drawing of K 3,3 induced by the vertices a, b, c, u 0 ,</p><formula xml:id="formula_17">u i , u j in D. Let A be the (t − 1) × (t − 1) matrix with entries A i,j = Ω S ([γ i ], [γ ′ j ])</formula><p>. Lemma 21 implies that A i,j + A j,i = 1 whenever i = j; in other words, A is a tournament matrix <ref type="bibr" target="#b4">[5]</ref>. Repeating the argument by de Caen <ref type="bibr" target="#b4">[5]</ref>, it follows that A + A ⊤ , with the addition mod 2, is the matrix with zeros on the diagonal and 1-entries elsewhere. This implies that the rank of A over Z 2 is at least (t − 2)/2. Hence, the rank of Ω S is at least (t − 2)/2, which implies g ≥ (t − 2)/2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.4">Proof of Theorem 7b)</head><p>Before proving Theorem 7b) we first show an asymptotic Ω(log t) lower bound on the (Euler) Z 2 -genus for a more general class of graphs that includes the t-Kuratowski graphs of types f), g) and h).</p><p>The definition of gluing a pair of vertices from Subsection 5.2 can be extended in a straightforward way to gluing an arbitrary finite set of vertices. Let H be a 2-connected graph and let x, y be two nonadjacent vertices of H. Let t be a positive integer. The 2-amalgamation of t copies of H (with respect to x and y), denoted by ∐ x,y tH, is the graph obtained from t disjoint copies of H by gluing all t copies of x into a single vertex and gluing all t copies of y into a single vertex. The two vertices obtained by gluing are again denoted by x and y.</p><p>An xy-wing is a 2-connected graph H with two nonadjacent vertices x and y such that the subgraph H − x − y is connected, and the graph obtained from H by adding the edge xy is nonplanar. Clearly, the graphs K 5 − e and K 3,3 − e, where e = xy, are xy-wings, and similarly K 3,3 , with nonadjacent vertices x and y, is an xy-wing. The t-Kuratowski graphs of types f) and g) are obtained from ∐ x,y t(K 5 − e) and ∐ x,y t(K 3,3 − e), respectively, by adding the edge xy, whereas the t-Kuratowski graph of type h) is exactly the 2-amalgamation ∐ x,y t(K 3,3 ). See <ref type="figure" target="#fig_13">Figure 5</ref> for an illustration of 2-amalgamations of two xy-wings.</p><p>Let H be an xy-wing. We will use the following notation. Let w be a vertex of H adjacent to y and let F ′ be a spanning tree of H − x − y. Let F be a spanning tree of H − y extending F ′ . In the 2-amalgamation ∐ x,y tH we distinguish the ith copy of H, its vertices, edges, and subgraphs, by the superscript i ∈ {0, 1, . . . , t − 1}. In particular, for every i ∈ {0, 1, . . . , t − 1}, H i is an induced subgraph of ∐ x,y tH, F i is a spanning tree of H i − y and x is a leaf of F i . For a given t, let </p><formula xml:id="formula_18">T = yw 0 + t−1 i=0 F i x y w 0 x y w 0 x y w 0 e i 1 h i f i 1 g i 1 h i f i</formula><formula xml:id="formula_19">i ∈ [t − 1], we have E(H i ) \ E(T ) = {e i 1 , . . . , e i k } ∪ {f i 1 , . . . , f i l } ∪ {g i 1 , . . . , g i m } ∪ {h i }.</formula><p>If C and C ′ are cycles in ∐ x,y tH, we denote by C + C ′ the element of the cycle space of ∐ x,y tH obtained by adding C and C ′ mod 2. We also regard C + C ′ as a subgraph of ∐ x,y tH with no isolated vertices. Note that if C and C ′ are fundamental cycles sharing at least one edge then C + C ′ is again a cycle.  <ref type="figure">Figure 6</ref>: An example of the graph H i,i ′ . Its spanning tree F i,i ′ is drawn bold.</p><formula xml:id="formula_20">Observation 23. Let i ∈ [t − 1]. a) For every j ∈ [k], the cycle C e i j is a subgraph of H i − y. b) For every j ∈ [l], the cycle C f i j + C h i is a subgraph of H i − x. c) For every j ∈ [m], the cycle C g i j is a subgraph of H i − x − y. The cycles C e i j with j ∈ [k], C f i j + C h i with j ∈ [l],</formula><formula xml:id="formula_21">a) C e i j and C f i ′ j ′ + C h i ′ , b) C f i j + C h i and C g i ′ j ′ , c) C e i j and C g i ′ j ′ , d) C g i j and C g i ′ j ′ . x y P i ′ e i 1 h i f i 1 g i 1 w i ′</formula><p>Our first lower bound on the (Euler) Z 2 -genus of 2-amalgamations of xy-wings is similar to Proposition 20, and combines the pigeonhole principle and Lemma 18.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proposition 25.</head><p>Let H be an xy-wing. Then 2g 0 (∐ x,y tH) ≥ eg 0 (∐ x,y tH) ≥ Ω(log t).</p><p>Proof. Let D be an independently even drawing of ∐ x,y tH on a surface S of Euler genus g. For every i ∈ [t − 1] and e ∈ E(H) \ E(F ), let γ(e i ) be the closed curve representing C e i in D.</p><p>The homology class [γ(e i )] has one of 2 g possible values in H 1 (S;</p><formula xml:id="formula_22">Z 2 ). Thus, if t ≥ 2 g(k+l+m+1) + 2, then there are distinct indices i, i ′ ∈ [t − 1] such that for every e ∈ E(H) \ E(F ) we have [γ(e i )] = [γ(e i ′ )</formula><p>]. Using this, we can compute the intersection form for certain pairs of cycles by replacing them with vertex-disjoint pairs; this gives the first equality in the following formulas. The second equality follows from Corollary 24 and Observation 14. In particular, for all possible pairs of indices j, j ′ , we have</p><formula xml:id="formula_23">Ω S ([γ(e i j )], [γ(f i j ′ )] + [γ(h i )]) = Ω S ([γ(e i j )], [γ(f i ′ j ′ )] + [γ(h i ′ )]) = 0,<label>(2)</label></formula><formula xml:id="formula_24">Ω S ([γ(f i j )] + [γ(h i )], [γ(g i j ′ )]) = Ω S ([γ(f i j )] + [γ(h i )], [γ(g i ′ j ′ )]) = 0,<label>(3)</label></formula><formula xml:id="formula_25">Ω S ([γ(e i j )], [γ(g i j ′ )]) = Ω S ([γ(e i j )], [γ(g i ′ j ′ )]) = 0,<label>(4)</label></formula><formula xml:id="formula_26">Ω S ([γ(g i j )], [γ(g i j ′ )]) = Ω S ([γ(g i j )], [γ(g i ′ j ′ )]) = 0.<label>(5)</label></formula><p>Let H i,i ′ be the union of the graph H i with the unique xy-path P i ′ in F i ′ + yw i ′ ; see <ref type="figure">Figure 6</ref>. Since H is an xy-wing, the graph </p><formula xml:id="formula_27">H i,i ′ is nonplanar. The graph F i,i ′ = F i ∪ P i ′ is a spanning tree of H i,i ′ , and E(H i,i ′ ) \ E(F i,i ′ ) = E(H i ) \ E(T ). The fundamental cycle C ′ h i of h i in H i,i ′ with respect to F i,i ′ is equal to C h i + C h i ′ . Since [γ(h i )] = [γ(h i ′ )], the cycle C ′ h i is</formula><formula xml:id="formula_28">f i j in H i,i ′ with respect to F i,i ′ is C f i j + C h i ′ and its homology class is [γ(f i j ′ )] + [γ(h i ′ )] = [γ(f i j ′ )] + [γ(h i )]</formula><p>. For every j ∈ [m], the fundamental cycle of g i j in H i,i ′ with respect to F i,i ′ is C g i j and its homology class in D is [γ(g i j )]. By (2)-(5), for every pair of independent edges in E(H i,i ′ ) \ E(F i,i ′ ), the homology classes of their fundamental cycles are orthogonal with respect to Ω S . This is a contradiction with Lemma 18 applied to H i,i ′ and the spanning tree F i,i ′ . Therefore, t ≤ 2 g(k+l+m+1) + 1.</p><p>To prove the lower bound in Theorem 7b), we follow the idea of the previous proof and again replace the pigeonhole principle with a linear-algebraic argument. We will also need the following stronger variant of the Hanani-Tutte theorem and Lemma 18 for the graphs K 5 and K 3,3 .</p><p>Lemma 26 <ref type="bibr">(Kleitman [18]</ref>). In every drawing of K 5 and K 3,3 in the plane the total number of pairs of independent edges crossing an odd number of times is odd.</p><p>A very detailed proof of Lemma 26 was given by Székely <ref type="bibr" target="#b33">[34,</ref><ref type="bibr">Sections 7 and 8]</ref>.</p><p>Corollary 27. Let G = K 5 or G = K 3,3 . Let F be a forest in G. Let E be a drawing of G from Lemma 15. Then there are an odd number of pairs of independent edges e, f in E(G) \ E(F ) such that y ⊤ e y f = 1.</p><p>The following simple fact is a key ingredient in the proof of Lemma 26.</p><p>Observation 28. The graph obtained from each of K 5 and K 3,3 by removing an arbitrary pair of adjacent vertices is a cycle; in particular, all of its vertices have an even degree.</p><p>An xy-wing H is called a Kuratowski xy-wing if H is one of the graphs K 5 − e where e = xy, K 3,3 − e where e = xy, or K 3,3 ; see <ref type="figure" target="#fig_13">Figure 5</ref>. Observation 28 implies the following important property of Kuratowski xy-wings.</p><p>Observation 29. Let H be a Kuratowski xy-wing and let u be a vertex adjacent to x in H. Then H −x−u is a cycle; in particular, y is incident to exactly two edges in H −x−u.</p><p>In the following key lemma we keep using the notation for the 2-amalgamation ∐ x,y tH established earlier in this subsection. to G = H i + e, F = F i + e, and the drawing of H i + e where e is drawn along the path P 0 in E (with self-crossings removed if necessary). In each of the three cases, we have an odd number of pairs of independent edges e, f in E(H i ) \ E(T ) such that y ⊤ e y f = 1. By Observation 29, for each j ∈ [k], there are exactly two edges in E(H i ) \ E(T ) incident with y and independent from e i j ; see also <ref type="figure" target="#fig_13">Figure 5</ref>. Therefore, considering all possible pairs of independent edges in E(H i ) \ E(T ), at least one of the following alternatives occurs: 1) y ⊤ h i y g i 1 = 1, 2) y ⊤ e i j (y f i j ′ + y h i ) = 1 for some j ∈ [k] and j ′ ∈ [l]. In further arguments, we no longer use the fact that the pairs of edges involved in the scalar products are independent.</p><p>To finish the proof of the lemma for i ∈ [t − 1], we use Observation 23. In particular, in case 1) we choose C i 1 = C h i and C i 2 = C g i 1 , and in case 2) we choose C i 1 = C f i j ′ + C h i and C i 2 = C e i j . Finally, by exchanging the roles of H 1 and H 0 in ∐ x,y tH in the proof, we also obtain cycles C 0 1 and C 0 2 with the required properties. We are now ready to finish the proof of Theorem 7b).</p><p>Proposition 31. Let t ≥ 2 and let H be a Kuratowski xy-wing. Then g 0 (∐ x,y tH) ≥ ⌈t/2⌉ and eg 0 (∐ x,y tH) ≥ t.</p><p>Proof. Let D be an independently even drawing of ∐ x,y tH on a surface S of Euler genus g. For every i ∈ [0, t − 1], let C i 1 and C i 2 be the cycles from Lemma 30 and let γ i 1 and γ i 2 , respectively, be the closed curves representing them in D.</p><p>Without loss of generality, we assume that there is an s ∈ [0, t − 1] such that</p><p>• for every i ∈ [0, s], C i 1 is a subgraph of H i − x and C i 2 is a subgraph of H i − y, and</p><p>• for every i ∈ [s + 1, t − 1], the cycle C i 2 is a subgraph of H i − x − y.</p><p>It follows that for distinct i, i ′ ∈ [0, t], the cycles C i 1 and C i ′ 2 are vertex-disjoint whenever i, i ′ ∈ [0, s], i, i ′ ∈ [s + 1, t − 1], or i ≤ s &lt; i ′ .</p><p>Let A be the t × t matrix with entries</p><formula xml:id="formula_29">A i,i ′ = Ω S ([γ i 1 ], [γ i ′ 2 ]).</formula><p>By Lemma 30, Observation 14 and the previous discussion, the matrix A has 1-entries on the diagonal and 0-entries above the diagonal; see <ref type="figure" target="#fig_15">Figure 7</ref>. Thus, the rank of A over Z 2 is t. Hence, the rank of Ω S is at least t, which implies g ≥ t. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>a positive integer n we denote the set {1, . . . , n} by [n]. Let r, s ≥ 3. The projective r × s grid is the graph with vertex set [r] × [s] and edge set</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 :</head><label>1</label><figDesc>Left: a projective 5 × 5 grid. Right: a projective 5-wall.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 :</head><label>2</label><figDesc>The eight 3-Kuratowski graphs.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Corollary 9 .</head><label>9</label><figDesc>Claim 5 implies a positive answer to both parts of Problem 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head></head><label></label><figDesc>Theorem 10 (<ref type="bibr" target="#b27">[28]</ref>,<ref type="bibr" target="#b16">[17,</ref> Theorem 3.5],[21, Theorem 5.2], [22, Theorem 5.9.2]). For every surface S and every embedding H of a graph H on S there exists a constant w(H, S) such that every embedding of a graph on S with facewidth at least w(H, S) contains H as a surface minor.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head></head><label></label><figDesc>Proposition 11 ([22, Propositions 5.5.7 and 5.5.8]). Let E be an embedding of a graph on a surface S with fw(E) ≥ 3. Let f be a face of E and let E ′ be the embedding obtained from E by removing all vertices incident to f . Then fw(E ′ ) ≥ fw(E) − 2.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head></head><label></label><figDesc>Example 2A.2. and Corollary 3A.6.(b)]. This fact was crucial in establishing the weak Hanani-Tutte theorem on M g [6, Lemma 3]. Similarly, for each g ≥ 1, the first homology group H 1 (N g ; Z 2 ) of N g is isomorphic to Z g 2 [16, Example 2.37 and Corollary 3A.6.(b)].</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head></head><label></label><figDesc>S ([γ], [γ]) = 0. This implies that for every cycle γ in an orientable surface M g we have Ω Mg ([γ], [γ]) = 0, since all simple closed curves in M g are 2-sided, and every closed curve with finitely many self-intersections is a composition of finitely many simple closed curves. On the other hand, if γ is a 1-sided simple closed curve in N g , then Ω Ng ([γ], [γ]) = 1.We have the following simple observation about intersections of disjoint cycles in independently even drawings.Observation 14 ([31, Lemma 1]). Let D be an independently even drawing of a graph G on a surface S. Let C 1 and C 2 be vertex-disjoint cycles in G, and let γ 1 and γ 2 be the closed curves representing C 1 and C 2 , respectively, in D. Then cr(γ 1 , γ 2 ) ≡ 0 (mod 2), which implies that Ω S ([γ 1 ], [γ 2 ]) = 0.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Lemma 15 ([ 31 ,</head><label>1531</label><figDesc>Lemma 5]). Let G be a graph that has an independently even drawing D on a surface S and let F be a forest in G. Let h = 2g + 1 if S = M g and h = g if S = N g . Then G has a drawing E in the plane with h crosscaps, such that 1) every pair of independent edges has an even number of common crossings outside the crosscaps, and</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 3 :</head><label>3</label><figDesc>An embedding of K 3,3 on the torus represented as a drawing D in the plane with three crosscaps. The nonzero vectors assigned to the edges are y D e Moreover, the drawing in S corresponding to E can be obtained from D by a sequence of continuous deformations of edges and neighborhoods of vertices, so the homology classes of all cycles are preserved between the two drawings. Lemma 16 ([31, Lemma 4]). Let G be a graph that has a drawing D in the plane with finitely many crosscaps with every pair of independent edges having an even number of common crossings outside the crosscaps. Let d be the dimension of the vector space generated by the set {y D e ; e ∈ E(G)}. Then G has an independently even drawing on a surface of Euler genus d. Lemma 15 and Lemma 16 imply the following corollary generalizing the strong Hanani-Tutte theorem.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Lemma 18 .</head><label>18</label><figDesc>Let G be a connected graph with an independently even drawing D on a surface S. Let F be a spanning tree of G. If G is nonplanar, then there are independent edges e, f ∈ E(G) \ E(F ) such that the closed curves γ e and γ f representing the fundamental cycles of e and f , respectively, satisfy Ω S ([γ e ], [γ f ]) = 1.Proof. Let E be a drawing of G from Lemma 15. By the strong Hanani-Tutte theorem, there are two independent edges e and f in G that cross an odd number of times in E. Moreover, conditions 1) and 2) of Lemma 15 imply that none of the edges e and f is in F and so e and f cross an odd number of times in the crosscaps. This means that y ⊤ e y f = 1, which is equivalent to Ω S ([γ e ], [γ f ]) = 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 4 :</head><label>4</label><figDesc>The curves γ 1 , γ ′ 2 , γ ′ 1 , γ 2 after deformation in the neighborhood of their common edge au 0 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head></head><label></label><figDesc>In particular, we have Ω S ([γ 1 ], [γ ′ 2 ]) = 1 and Ω S ([γ ′ 1 ], [γ 2 ]) = 0. Proposition 22. We have g 0 (K 3,t ) ≥ ⌈(t − 2)/4⌉ and eg 0 (K 3,t ) ≥ ⌈(t − 2)/2⌉.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 5</head><label>5</label><figDesc>: 2-amalgamations of two Kuratowski xy-wings. The spanning tree T is drawn bold. be a spanning tree of ∐ x,y tH. For every edge e ∈ E(∐ x,y tH) \ E(T ), let C e be the fundamental cycle of e with respect to T ; that is, the unique cycle in T + e. Enumerate the edges of E(H) \ E(F ) incident to x as e 1 , . . . , e k , the edges of E(H) \ E(F ) \ {yw} incident to y as f 1 , . . . , f l , and the edges of E(H − x − y) \ E(F ) as g 1 , . . . , g m . Let h be the edge yw. Thus, for every</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Lemma 30 .</head><label>30</label><figDesc>Let t ≥ 2, let H be a Kuratowski xy-wing and let D be an independently even drawing of ∐ x,y tH on a surface S. Then for every i ∈ [0, t − 1] the graph H i has two cycles C i 1 and C i 2 such that• (C i 1 is a subgraph of H i − x and C i 2 is a subgraph of H i − y) or C i 2 is a subgraph of H i − x − y, and• the closed curves γ i 1 and γ i 2 representing C i 1 and C i 2 , respectively, in D satisfy Ω S ([γ i 1 ], [γ i 2 ]) = 1. Proof. For every i ∈ [t − 1], let H i,0 be the union of the graph H i with the unique xy-path P 0 in F 0 +yw 0 . The graph F i,0 = F i ∪P 0 is a spanning tree of H i,0 , and E(H i,0 )\E(F i,0 ) = E(H i ) \ E(T ). Let E be a drawing of ∐ x,y tH from Lemma 15. If H = K 3,3 , we apply Corollary 27 to G = H i and F = F i . If H = K 5 − e or H = K 3,3 − e where e = xy, we apply Corollary 27</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Figure 7 :</head><label>7</label><figDesc>An example of the matrix A with t = 4 and s = 2. The entries marked with * may be equal to 0 or 1; the remaining entries are determined uniquely.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>to nonorientable surfaces. Loebl and Masbaum<ref type="bibr" target="#b18">[19,</ref> Theorem 5]  obtained an alternative proof for orientable surfaces. If a graph G has an even drawing D on a surface S, then G has an embedding on S that preserves the embedding scheme of D.</figDesc><table>Theorem 4 (The weak Hanani-Tutte theorem on surfaces [6, Lemma 3], [24, Theorem 
+3.2]). </table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>and C g i j with j ∈ [m] generate the cycle space of H i ; in particular, they are the fundamental cycles of H i with respect to the spanning tree F i + yw i . Corollary 24. Let i, i ′ ∈ [t − 1] be distinct indices. Then the following pairs of cycles are vertex-disjoint, for all possible pairs of indices j, j ′ :</figDesc><table></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>homologically zero. For every j ∈ [k], the fundamental cycle of e i j in H i,i ′ with respect to F i,i ′ is C e i j and its homology class in D is [γ(e i j )]. For every j ∈ [l], the fundamental cycle of</figDesc><table></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Acknowledgements</head><p>We thank Zdeněk Dvořák, Xavier Goaoc and Pavel Paták for helpful discussions. We also thank Bojan Mohar, Paul Seymour, Gelasio Salazar, Jim Geelen and John Maharry for information about their unpublished results related to Claim 5.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Additivity of the genus of a graph</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Battle</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Harary</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Kodama</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">W T</forename><surname>Youngs</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bull. Amer. Math. Soc</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="565" to="568" />
+			<date type="published" when="1962" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<monogr>
+		<title level="m" type="main">K 3,k -minors in large 7-connected graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Böhme</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Kawarabayashi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Maharry</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Mohar</surname></persName>
+		</author>
+		<ptr target="http://preprinti.imfm.si/PDF/01051.pdf" />
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+	<note>preprint available at</note>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Linear connectivity forces large complete bipartite minors</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Böhme</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Kawarabayashi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Maharry</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Mohar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combin. Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">99</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="557" to="582" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Orientable and nonorientable genus of the complete bipartite graph</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Bouchet</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combin. Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="24" to="33" />
+			<date type="published" when="1978" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">The ranks of tournament matrices</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>De Caen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Amer. Math. Monthly</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="829" to="831" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Bounds for generalized thrackles</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Cairns</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Nikolayevsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Comput. Geom</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="191" to="206" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Embedding a graph-like continuum in some surface</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Christian</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">B</forename><surname>Richter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Salazar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Theory</title>
+		<imprint>
+			<biblScope unit="volume">79</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="159" to="165" />
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">É</forename><surname>Colin De Verdière</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1702.05358</idno>
+		<title level="m">Computational topology of graphs on surfaces</title>
+		<imprint>
+			<date type="published" when="2017" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">É</forename><surname>Colin De Verdière</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Kaluža</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Paták</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Z</forename><surname>Patáková</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Tancer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">A direct proof of the strong Hanani-Tutte theorem on the projective plane, Graph Drawing and Network Visualization: 24th International Symposium</title>
+		<meeting><address><addrLine>Cham</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2016" />
+			<biblScope unit="volume">9801</biblScope>
+			<biblScope unit="page" from="454" to="467" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Computing the genus of the 2-amalgamations of graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Decker</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">H</forename><surname>Glover</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">P</forename><surname>Huneke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Combinatorica</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="271" to="282" />
+			<date type="published" when="1985" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Computing the orientable genus of projective graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">R</forename><surname>Fiedler</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">P</forename><surname>Huneke</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">B</forename><surname>Richter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Robertson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Theory</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="297" to="308" />
+			<date type="published" when="1995" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Linear connectivity forces large complete bipartite minors: an alternative approach</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J.-O</forename><surname>Fröhlich</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Müller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combin. Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="502" to="508" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Fulek</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kynčl</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1709.00508</idno>
+		<title level="m">Counterexample to an extension of the Hanani-Tutte theorem on the surface of genus 4, accepted to Combinatorica</title>
+		<imprint>
+			<date type="published" when="2017" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Topological graph theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><forename type="middle">L</forename><surname>Gross</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">W</forename><surname>Tucker</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2001" />
+			<publisher>Dover Publications, Inc</publisher>
+			<biblScope unit="page" from="0" to="486" />
+			<pubPlace>Mineola, NY</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Hanani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Über wesentlich unplättbare Kurven im drei-dimensionalen Raume</title>
+		<imprint>
+			<date type="published" when="1934" />
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="135" to="142" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Hatcher</surname></persName>
+		</author>
+		<idno>ISBN: 0-521-79160-X. Electronic</idno>
+		<ptr target="http://pi.math.cornell.edu/~hatcher/AT/ATpage.html" />
+		<title level="m">Algebraic topology</title>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2002-01" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Some recent progress and applications in graph minor theory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Kawarabayashi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Mohar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Graphs Combin</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="46" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A note on the parity of the number of crossings of a graph</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">J</forename><surname>Kleitman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combinatorial Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="88" to="89" />
+			<date type="published" when="1976" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">On the optimality of the Arf invariant formula for graph polynomials</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Loebl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Masbaum</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Math</title>
+		<imprint>
+			<biblScope unit="volume">226</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="332" to="349" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">An additivity theorem for the genus of a graph</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">L</forename><surname>Miller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combin. Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="25" to="47" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Graph minors and graphs on surfaces</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Mohar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">London Math. Soc. Lecture Note Ser</title>
+		<imprint>
+			<biblScope unit="volume">288</biblScope>
+			<biblScope unit="issue">Sussex</biblScope>
+			<biblScope unit="page" from="145" to="163" />
+			<date type="published" when="2001" />
+			<publisher>Cambridge Univ. Press</publisher>
+		</imprint>
+	</monogr>
+	<note>Surveys in combinatorics</note>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Mohar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Thomassen</surname></persName>
+		</author>
+		<idno>ISBN 0-8018-6689-8</idno>
+		<title level="m">Graphs on surfaces, Johns Hopkins Studies in the Mathematical Sciences</title>
+		<meeting><address><addrLine>Baltimore, MD</addrLine></address></meeting>
+		<imprint>
+			<publisher>Johns Hopkins University Press</publisher>
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Strong Hanani-Tutte on the projective plane</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Pelsmajer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Stasi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM J. Discrete Math</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1317" to="1323" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Removing even crossings on surfaces</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">J</forename><surname>Pelsmajer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European J. Combin</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1704" to="1717" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">On the Euler genus of a 2-connected graph</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">B</forename><surname>Richter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combin. Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="60" to="69" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Das Geschlecht des vollständigen paaren Graphen</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Abh. Math. Sem. Univ. Hamburg</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="139" to="150" />
+			<date type="published" when="1965" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Der vollständige paare Graph auf nichtorientierbaren Flächen</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reine Angew. Math</title>
+		<imprint>
+			<biblScope unit="volume">220</biblScope>
+			<biblScope unit="page" from="88" to="93" />
+			<date type="published" when="1965" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Graph minors. VII. Disjoint paths on a surface</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Robertson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">D</forename><surname>Seymour</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combin. Theory Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="212" to="254" />
+			<date type="published" when="1988" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Robertson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Vitray</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Representativity of surface embeddings, Paths, flows, and VLSI-layout</title>
+		<meeting><address><addrLine>Bonn; Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1988" />
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="293" to="328" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Hanani-Tutte and related results, Geometry-intuitive, discrete, and convex</title>
+		<meeting><address><addrLine>Budapest</addrLine></address></meeting>
+		<imprint>
+			<publisher>Bolyai Soc. Math. Stud</publisher>
+			<date type="published" when="2013" />
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="259" to="299" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Block additivity of Z 2 -embeddings, Graph drawing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">8242</biblScope>
+			<biblScope unit="page" from="185" to="195" />
+			<date type="published" when="2013" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Paul</forename><surname>Seymour</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017" />
+		</imprint>
+	</monogr>
+	<note>personal communication</note>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Blocks and the nonorientable genus of graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Stahl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">W</forename><surname>Beineke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Graph Theory</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="75" to="78" />
+			<date type="published" when="1977" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A successful concept for measuring non-planarity of graphs: the crossing number</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">A</forename><surname>Székely</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Math</title>
+		<imprint>
+			<biblScope unit="volume">276</biblScope>
+			<biblScope unit="issue">1-3</biblScope>
+			<biblScope unit="page" from="331" to="352" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Toward a theory of crossing numbers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">T</forename><surname>Tutte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Combinatorial Theory</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="45" to="53" />
+			<date type="published" when="1970" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

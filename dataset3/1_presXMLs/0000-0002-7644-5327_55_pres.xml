@@ -1,0 +1,4085 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Equilibrium Computation in Normal Form Games
+</p>
+<p>Costis Daskalakis & Kevin Leyton-Brown
+</p>
+<p>Part 1(a)
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Overview
+</p>
+<p>1 Plan of this Tutorial
+</p>
+<p>2 Getting Our Bearings: A Quick Game Theory Refresher
+</p>
+<p>3 Solution Concepts
+</p>
+<p>4 Computational Formulations
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Plan of this Tutorial
+</p>
+<p>This tutorial provides a broad introduction to the recent
+literature on the computation of equilibria of
+simultaneous-move games, weaving together both theoretical
+and applied viewpoints.
+</p>
+<p>It aims to explain recent results on:
+the complexity of equilibrium computation;
+representation and reasoning methods for
+compactly represented games.
+</p>
+<p>It also aims to be accessible to those having little experience
+with game theory.
+</p>
+<p>Our focus: the computational problem of identifying a Nash
+equilibrium in different game models.
+</p>
+<p>We will also more briefly consider -equilibria, correlated
+equilibria, pure-strategy Nash equilibria, and equilibria of
+two-player zero-sum games.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Part 1: Normal-Form Games (2:00 PM – 3:30 PM)
+</p>
+<p>Part 1a: Game theory intro (Kevin)
+</p>
+<p>Game theory refresher; motivation
+</p>
+<p>Game theoretic solution concepts
+</p>
+<p>Fundamental computational results on solution concept
+computation
+</p>
+<p>Part 1b: Complexity of equilibrium computation (Costis)
+</p>
+<p>Key result: the problem of computing a Nash equilibrium is
+PPAD-complete
+</p>
+<p>The complexity of approximately solving this problem
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Part 2: Compact Game Representations (4:00 PM – 5:30 PM)
+</p>
+<p>Part 2a: Introducing compact representations (Costis)
+</p>
+<p>Foundational theoretical results about the importance and
+challenges of compact representation
+</p>
+<p>Symmetric games
+</p>
+<p>Anonymous games
+</p>
+<p>Part 2b: Richer compact representations (Kevin)
+</p>
+<p>Congestion games
+</p>
+<p>Graphical games
+</p>
+<p>Action-graph games
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Overview
+</p>
+<p>1 Plan of this Tutorial
+</p>
+<p>2 Getting Our Bearings: A Quick Game Theory Refresher
+</p>
+<p>3 Solution Concepts
+</p>
+<p>4 Computational Formulations
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Normal-Form Games
+</p>
+<p>Normal-form games model simultaneous, perfect-information
+interactions between a set of agents.
+</p>
+<p>Definition (Normal-Form Game)
+</p>
+<p>A finite, n-person game 〈N,A, u〉 is defined by:
+N : a finite set of n players, indexed by i;
+</p>
+<p>A = 〈A1, . . . , An〉: a tuple of action sets for each player i;
+a ∈ A is an action profile
+</p>
+<p>u = 〈u1, . . . , un〉: a utility function for each player, where
+ui : A→7 R.
+</p>
+<p>In a sense, the normal form is the most fundamental representation
+in game theory, because all other representations of finite games
+(e.g., extensive form, Bayesian) can be encoded in it.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>60 3 Competition and Coordination: Normal form games
+</p>
+<p>Rock Paper Scissors
+</p>
+<p>Rock 0 −1 1
+</p>
+<p>Paper 1 0 −1
+</p>
+<p>Scissors −1 1 0
+</p>
+<p>Figure 3.6 Rock, Paper, Scissors game. 
+</p>
+<p> B         F
+</p>
+<p>B 2, 1 0, 0
+</p>
+<p>F 0, 0 1, 2
+</p>
+<p>Figure 3.7 Battle of the Sexes game.
+</p>
+<p>3.2.2 Strategies in normal-form games
+</p>
+<p>Battle oWf tehheavSeexsoesf:ar defined the actions available to each player in a game, but not yet his
+set of strategies, or his available choices. Certainly one kind of strategy is to select
+</p>
+<p>husband likes ballet better than football
+pure strategy a single action and play it; we call such a strategy a pure strategy, and we will use
+</p>
+<p>wife likes football better than ballet
+the notation we have already developed for actions to represent it. There is, however,
+</p>
+<p>both prefer to be together
+another, less obvious type of strategy; a player can choose to randomize over the set of
+available actions according to some probability distribution; such a strategy is called
+</p>
+<p>mixed strategy a mixed strategy. Although it may not be immediately obvious why a player should
+introduce randomness into his choice of action, in fact in a multi-agent setting the role
+of mixed strategies is critical. We will return to this when we discuss solution concepts
+for games in the next section.
+</p>
+<p>We define a mixed strategy for a normal form game as follows.
+</p>
+<p>Definition 3.2.4 Let (N, (A1, . . . , An), O, µ, u) be a normal form game, and for any
+setX let Π(X) be the set of all probability distributions overX . Then the set of mixed
+</p>
+<p>mixed strategy strategies for player i is Si = Π(Ai). The set of mixed strategy profiles is simply the
+profiles Cartesian product of the individual mixed strategy sets, S1 × · · · × Sn.
+</p>
+<p>By si(ai) we denote the probability that an action ai will be played under mixed
+strategy si. The subset of actions that are assigned positive probability by the mixed
+strategy si is called the support of si.
+</p>
+<p>Definition 3.2.5 The support of a mixed strategy si for a player i is the set of pure
+strategies {ai|si(ai) > 0}.
+</p>
+<p>©c Shoham and Leyton-Brown, 2006
+</p>
+<p>58 3 Introduction to Noncooperative Game Theory: Games in Normal Form
+</p>
+<p>Definition 3.2.3 (Constant-sum game) A two-player normal-form game is constant-
+sum if there exists a constant c such that for each strategy profile a ∈ A1 × A2 it
+is the case that u1(a) + u2(a) = c.
+</p>
+<p>For convenience, when we talk of constant-sum games going forward we will
+always assume that c = 0, that is, that we have a zero-sum game. If common-
+payoff games represent situations of pure coordination, zero-sum games represent
+situations of pure competition; one player’s gain must come at the expense of the
+other player. This property requires that there be exactly two agents. Indeed, if
+you allow more agents, any game can be turned into a zero-sum game by adding
+a dummy player whose actions do not impact the payoffs to the other agents, and
+whose own payoffs are chosen to make the payoffs in each outcome sum to zero.
+</p>
+<p>Matching A classical example of a zero-sum game is the game of Matching Pennies. In this
+Pennies game game, each of the two players has a penny and independently chooses to display
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+either heads or tails. The two players then compare their pennies. If they are the
+same then plEayxearm1 ppolcekeGtsabmothe,sand otherwise player 2 pockets them. The payoff
+matrix is shown in Figure 3.6.
+</p>
+<p>Heads Tails
+</p>
+<p>Heads 1,−1 −1, 1
+</p>
+<p>Tails −1, 1 1,−1
+</p>
+<p>Figure 3.6: Matching Pennies game.
+</p>
+<p>Matching Pennies:
+The popular children’s gaamgeentosfcRhoocokse, Phaepaders, aSncdistsaoirlss;, also known as Rocham-
+</p>
+<p>beau, provides a three-strateognye gagenenetrawliaznattisotnoomf athtechmaantdchoinnge-wpeannntsietsogmamisme.aTtchhe.
+payoff matrix of this zero-sum game is shown in Figure 3.7. In this game, each of
+the two players can choose either rock, paper, or scissors. If both players choose
+the same action, there is no winner and the utilities are zero. Otherwise, each of the
+actions wins over one of the other actions and loses to the other remaining action.
+</p>
+<p>Battle of theEqSuileibxriuems Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 8
+</p>
+<p>In general, games can include elements of both coordination and competition. Pris-
+oner’s Dilemma does, although in a rather paradoxical way. Here is another well-
+</p>
+<p>Battle of the known game that includes both elements. In this game, called Battle of the Sexes, a
+Sexes game husband and wife wish to go to the movies, and they can select among two movies:
+</p>
+<p>“Lethal Weapon (LW)” and “Wondrous Love (WL).” They much prefer to go to-
+gether rather than to separate movies, but while the wife (player 1) prefers LW, the
+husband (player 2) prefers WL. The payoff matrix is shown in Figure 3.8. We will
+return to this game shortly.
+</p>
+<p>Uncorrected manuscript of Multiagent Systems, published by Cambridge University Press
+© Shoham & Leyton-Brown, 2009.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>58 3 Introduction to Noncooperative Game Theory: Games in Normal Form
+</p>
+<p>Definition 3.2.3 (Constant-sum game) A two-player normal-form game is constant-
+sum if there exists a constant c such that for each strategy profile a ∈ A1 × A2 it
+is the case that u1(a) + u2(a) = c.
+</p>
+<p>For c6o0nvenience, when we talk of constant-sum games going3forCwomarpdetwitieonwainldl Coordination: Normal form games
+always assume that c = 0, that is, that we have a zero-sum game. If common-
+payoff games represent situations of pure coordination, zero-sum games represent
+situations of pure competition; one player’s gain must come atRtohcekexpensPeaopefrthe Scissors
+</p>
+<p>other player. This property requires that there be exactly two agents. Indeed, if
+you allow more agents, any game can be turned intoRaoczkero-sum0game by−ad1ding 1
+a dummy player whose actions do not impact the payoffs to the other agents, and
+whose own payoffs are chosen to make the payoffs in each outcome sum to zero.
+</p>
+<p>Matching A classical example of a zero-sum game is the gamPeaopfeMr atchin1g Pennies. 0In this −1
+Pennies game game, each of the two players has a penny and independently chooses to display
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+either heads or tails. The two players then compaSrceisthsoerisr penni−es1. If they a1re the 0
+same then plEayxearm1 ppolcekeGtsabmothe,sand otherwise player 2 pockets them. The payoff
+matrix is shown in Figure 3.6. Figure 3.6 Rock, Paper, Scissors game. 
+</p>
+<p>Heads Tails  B         F
+</p>
+<p>Heads 1,−1 −1, 1 B 2, 1 0, 0
+</p>
+<p>Tails −1, 1 1,−1 F 0, 0 1, 2
+</p>
+<p>Figure 3.6: Matching Pennies gaFmigeu.re 3.7 Battle of the Sexes game.
+</p>
+<p>Matching Pennies:
+The popular children’s game o
+</p>
+<p>3.2.2agenStts
+f
+rac
+</p>
+<p>Rhoocokse, Phaepaer, Scissors, also known as Rocham-
+beau, provides a three-strategy genetreagliiezsatiinonn
+</p>
+<p>dos ramndalt-afiolsr;m games
+one agent wants toomf athtechmaantdchoinnge-wpeannntsietsogmamisme.aTtchhe.
+</p>
+<p>payoff matrix of this zBeraot-tsluemoWfgatehmheeavSiesexssohesof:warndienfiFneigdutrhee3a.c7t.ioInsthavisaiglaabmlee,toeaecahchofplayer in a game, but not yet his
+the two players can choose eithsetrorfocsktr,apteagpiesr,, or shcisissaovarsil.abIflebcohthoipcelasy. eCrsercthaionolyseone kind of strategy is to select
+</p>
+<p>husband likes ballet better than football
+the same actipounr,etshtreartegiys no winanesrinagnled tahcetiountilaitniedspalraeyziet;row. eOcthalelrwsuicshe,aeasctrhatoefgtyhea pure strategy, and we will use
+</p>
+<p>wife likes football better than ballet
+actions wins over one of the oththeer naoctaiotinosnawned hloasvesatloretahdeyodtheveerlroepmedaifnoirnagcaticotniosnt.o represent it. There is, however,
+</p>
+<p>both prefer to be together
+another, less obvious type of strategy; a player can choose to randomize over the set of
+</p>
+<p>Battle of theEqSuileibxriuems Computation in NavoramiallaFbolrme Gaacmtieos ns according to somCoestispDroasbkalabkiisli&tyKedviinstLreiybtount-iBoronw;n,sSulicdeh8a strategy is called
+mixed strategy a mixed strategy. Although it may not be immediately obvious why a player should
+</p>
+<p>In general, games can include eilnetmroednutcseorfanbdoothmcnoeossrdiinntoathioisncahnodicceoomfpaecttitoion,ni.nPfraicst- in a multi-agent setting the role
+oner’s Dilemma does, althoughofinmaixreadthsterratpeagriaedsoisxcicriatlicwala.yW. He weriellirsetaunrontthoetrhwisewllh-en we discuss solution concepts
+</p>
+<p>Battle of the known game that includes bothfoelregmamenets.inInthtehinsegxatmseec,ticoanl.led Battle of the Sexes, a
+Sexes game husband and wife wish to go to thWe emdoevfiiense,aanmdixthedeystcraatnegseylefocrt aamn ornmgatlwformogvaimese:as follows.
+</p>
+<p>“Lethal Weapon (LW)” and “Wondrous Love (WL).” They much prefer to go to-
+gether rather than to separate mDoevfiiensi,tibount3w.2h.i4leLthete(wNif,e(A(p1l,a.y.e.r, A1)np),reOfe, rµs,LuW) b,ethaenormal form game, and for any
+</p>
+<p>setX let Π(X) be the set of all probability distributions overX . Then the set of mixed
+husband (player 2) prefers WL. The payoff matrix is show=n Πin(Fig)ure 3.8. We willmixed strategy strategies for player i is S A . The set of mixed strategy profiles is simply the
+return to thispgroafime shortly.
+</p>
+<p>i i
+</p>
+<p>les Cartesian product of the individual mixed strategy sets, S1 × · · · × Sn.
+</p>
+<p>Uncorrected manuscript of MultiagBenyt Ssyis(taemi)s,wpuebldisehnedobtey CthaembprridogbeaUbniliviteyrsitthyaPtreasns action ai will be played under mixed
+© Shsotrhaatmeg&yLsey.toni T-hBerowsunb, 2s0e0t9o. f actions that are assigned positive probability by the mixed
+</p>
+<p>strategy si is called the support of si.
+</p>
+<p>Definition 3.2.5 The support of a mixed strategy si for a player i is the set of pure
+strategies {ai|si(ai) > 0}.
+</p>
+<p>©c Shoham and Leyton-Brown, 2006</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Mixed Strategies
+</p>
+<p>In some games (e.g., matching pennies) any deterministic
+strategy can easily be exploited
+</p>
+<p>Idea: confuse the opponent by playing randomly
+</p>
+<p>Define a strategy si for agent i as any probability distribution
+over the actions Ai.
+</p>
+<p>pure strategy: only one action is played with positive
+probability
+mixed strategy: more than one action is played with positive
+probability
+</p>
+<p>these actions are called the support of the mixed strategy
+</p>
+<p>Let the set of all strategies for i be Si
+</p>
+<p>Let the set of all strategy profiles be S = S1 × . . .× Sn.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>If you knew what everyone else was going to do, it would be
+easy to pick your own action
+</p>
+<p>Let s−i = 〈s1, . . . , si−1, si+1, . . . , sn〉; now s = (s−i, si)
+</p>
+<p>Definition (Best Response)
+</p>
+<p>s∗i ∈ BR(s−i) iff ∀si ∈ Si, ui(s∗i , s−i) ≥ ui(si, s−i).
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Expected Utility and Best Response
+</p>
+<p>Expected utility under a giv∑en mixed strategy profile s ∈ S:
+ui(s) = ui(a)Pr(a|s)
+</p>
+<p>a∈A ∏
+Pr(a|s) = sj(aj)
+</p>
+<p>j∈N
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Expected Utility and Best Response
+</p>
+<p>Expected utility under a giv∑en mixed strategy profile s ∈ S:
+ui(s) = ui(a)Pr(a|s)
+</p>
+<p>a∈A ∏
+Pr(a|s) = sj(aj)
+</p>
+<p>j∈N
+</p>
+<p>If you knew what everyone else was going to do, it would be
+easy to pick your own action
+</p>
+<p>Let s−i = 〈s1, . . . , si−1, si+1, . . . , sn〉; now s = (s−i, si)
+</p>
+<p>Definition (Best Response)
+</p>
+<p>s∗i ∈ BR(s−i) iff ∀s ∗i ∈ Si, ui(si , s−i) ≥ ui(si, s−i).
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Nash Equilibrium
+</p>
+<p>In general no agent knows what the others will do.
+</p>
+<p>What strategy profiles are “sensible”?
+</p>
+<p>Idea: look for stable strategy profiles.
+</p>
+<p>Definition (Nash Equilibrium)
+</p>
+<p>s = 〈s1, . . . , sn〉 is a Nash equilibrium iff ∀i, si ∈ BR(s−i).
+</p>
+<p>Theorem (Nash, 1951)
+</p>
+<p>Every finite game has at least one Nash equilibrium.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Why study equilibrium computation?
+</p>
+<p>Because the concept of Nash equilibrium has proven important in
+many application areas.
+</p>
+<p>While it has limitations, Nash equilibrium is one of the key
+models of what behavior will emerge in noncooperative,
+multiagent interactions
+It is widely applied in economics, management science,
+operations research and finance, often with great success
+</p>
+<p>recognized most prominently in Nash’s Nobel prize
+</p>
+<p>Equilibrium and related concepts (e.g., ESS) are commonly
+used to study evolutionary biology and zoology
+It has also had substantial impact on government policy, and
+even on popular culture
+</p>
+<p>For examples of the latter—and, to some extent, the
+former—Google “strangelove game theory” or “dark knight
+game theory”
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>...Because we need practical algorithms for computing equilibrium.
+</p>
+<p>“[Due to the non-existence of efficient algorithms for computing
+equilibria], general equilibrium analysis has remained at a level of
+abstraction and mathematical theoretizing far removed from its
+ultimate purpose as a method for the evaluation of economic
+policy.”
+— Herbert Scarf (in his 1973 monograph on “The Computation of
+</p>
+<p>Economic Equilibria”)
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Why study equilibrium computation?
+</p>
+<p>...Because characterizing the complexity of equilibrium
+computation helps us to see how reasonable it is as a way of
+understanding games.
+</p>
+<p>“If your laptop can’t find the equilibrium, then neither can the
+market.”
+— Kamal Jain
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Why study equilibrium computation?
+</p>
+<p>...Because characterizing the complexity of equilibrium
+computation helps us to see how reasonable it is as a way of
+understanding games.
+</p>
+<p>“If your laptop can’t find the equilibrium, then neither can the
+market.”
+— Kamal Jain
+</p>
+<p>...Because we need practical algorithms for computing equilibrium.
+</p>
+<p>“[Due to the non-existence of efficient algorithms for computing
+equilibria], general equilibrium analysis has remained at a level of
+abstraction and mathematical theoretizing far removed from its
+ultimate purpose as a method for the evaluation of economic
+policy.”
+— Herbert Scarf (in his 1973 monograph on “The Computation of
+</p>
+<p>Economic Equilibria”)
+Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Most GT work is analytic, not computational. What’s holding
+us back?
+</p>
+<p>a lack of game representations that can model interesting
+interactions in a reasonable amount of space
+a lack of algorithms that can answer game-theoretic questions
+about these games in a reasonable amount of time
+</p>
+<p>In the past decade, substantial progress on both fronts
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Beyond 2× 2 Games
+</p>
+<p>When we use game theory to model real systems, we’d like to
+consider games with more than two agents and two actions
+</p>
+<p>Some examples of the kinds of questions we would like to be
+able to answer:
+</p>
+<p>How will heterogeneous users route their traffic in a network?
+How will advertisers bid in a sponsored search auction?
+Which job skills will students choose to pursue?
+Where in a city will businesses choose to locate?
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Beyond 2× 2 Games
+</p>
+<p>When we use game theory to model real systems, we’d like to
+consider games with more than two agents and two actions
+</p>
+<p>Some examples of the kinds of questions we would like to be
+able to answer:
+</p>
+<p>How will heterogeneous users route their traffic in a network?
+How will advertisers bid in a sponsored search auction?
+Which job skills will students choose to pursue?
+Where in a city will businesses choose to locate?
+</p>
+<p>Most GT work is analytic, not computational. What’s holding
+us back?
+</p>
+<p>a lack of game representations that can model interesting
+interactions in a reasonable amount of space
+a lack of algorithms that can answer game-theoretic questions
+about these games in a reasonable amount of time
+</p>
+<p>In the past decade, substantial progress on both fronts
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Overview
+</p>
+<p>1 Plan of this Tutorial
+</p>
+<p>2 Getting Our Bearings: A Quick Game Theory Refresher
+</p>
+<p>3 Solution Concepts
+</p>
+<p>4 Computational Formulations
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>It also has disadvantages:
+</p>
+<p>may require agents to play mixed strategies
+not prescriptive: only (necessarily) the right thing to do if
+other agents also play equilibrium strategies
+doesn’t account for stochastic information agents may share in
+common
+assumes agents are perfect best responders
+</p>
+<p>Other solution concepts address these concerns...
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>More Solution Concepts
+</p>
+<p>Solution concepts are rules that designate certain outcomes of
+a game as special or important
+</p>
+<p>We’ve already seen Nash equilibrium: strategy profiles in
+which all agents simultaneously best respond
+</p>
+<p>Nash equilibrium has advantages:
+</p>
+<p>stability: given correct beliefs, no agent would change strategy
+existence in all games
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>More Solution Concepts
+</p>
+<p>Solution concepts are rules that designate certain outcomes of
+a game as special or important
+</p>
+<p>We’ve already seen Nash equilibrium: strategy profiles in
+which all agents simultaneously best respond
+</p>
+<p>Nash equilibrium has advantages:
+</p>
+<p>stability: given correct beliefs, no agent would change strategy
+existence in all games
+</p>
+<p>It also has disadvantages:
+</p>
+<p>may require agents to play mixed strategies
+not prescriptive: only (necessarily) the right thing to do if
+other agents also play equilibrium strategies
+doesn’t account for stochastic information agents may share in
+common
+assumes agents are perfect best responders
+</p>
+<p>Other solution concepts address these concerns...
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Pure-Strategy Nash Equilibrium
+</p>
+<p>What if we don’t believe that agents would play mixed strategies?
+</p>
+<p>Definition (Pure-Strategy Nash Equilibrium)
+</p>
+<p>a = 〈a1, . . . , an〉 is a Pure-Strategy Nash equilibrium iff
+∀i, ai ∈ BR(a−i).
+</p>
+<p>This is just like Nash equilibrium, but it requires all agents to
+play pure strategies
+</p>
+<p>Pure-strategy Nash equilibria are (arguably) more compelling
+than Nash equilibria, but not guaranteed to exist
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Definition (Minmax)
+</p>
+<p>In a two-player game, the minmax strategy for player i against
+player −i is arg mins maxs−i u−i(si, s−i), and player −i’s minmaxi
+value is minsi maxs−i u−i(si, s−i).
+</p>
+<p>This is the least that agent i can guarantee that −i will
+receive, ignoring his own payoffs.
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Maxmin and Minmax
+</p>
+<p>Definition (Maxmin)
+</p>
+<p>In a two-player game, the maxmin strategy for player i is
+arg maxsi mins−i ui(s1, s2), and the maxmin value for player i is
+maxsi mins−i ui(s1, s2).
+</p>
+<p>This is the most that agent i can guarantee himself, without
+making any assumptions about −i’s behavior.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Maxmin and Minmax
+</p>
+<p>Definition (Maxmin)
+</p>
+<p>In a two-player game, the maxmin strategy for player i is
+arg maxsi mins−i ui(s1, s2), and the maxmin value for player i is
+maxsi mins−i ui(s1, s2).
+</p>
+<p>This is the most that agent i can guarantee himself, without
+making any assumptions about −i’s behavior.
+</p>
+<p>Definition (Minmax)
+</p>
+<p>In a two-player game, the minmax strategy for player i against
+player −i is arg mins maxs−i u−i(si, s−i), and player −i’s minmaxi
+value is minsi maxs−i u−i(si, s−i).
+</p>
+<p>This is the least that agent i can guarantee that −i will
+receive, ignoring his own payoffs.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Consequences:
+</p>
+<p>1 Each player’s maxmin value is equal to his minmax value.
+</p>
+<p>2 For both players, the set of maxmin strategies coincides with the set
+of minmax strategies.
+</p>
+<p>3 Any maxmin strategy profile (or, equivalently, minmax strategy
+profile) is a Nash equilibrium. Furthermore, these are all the Nash
+equilibria. Thus, all Nash equilibria have the same payoff vector.
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>A Special Case: Zero-Sum Games
+</p>
+<p>In two-player zero-sum games, the Nash equilibrium has
+more prescriptive force than in the general case.
+</p>
+<p>Theorem (Minimax theorem (von Neumann, 1928))
+</p>
+<p>In any finite, two-player, zero-sum game, in any Nash equilibrium
+each player receives a payoff that is equal to both his maxmin
+value and his minmax value.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>A Special Case: Zero-Sum Games
+</p>
+<p>In two-player zero-sum games, the Nash equilibrium has
+more prescriptive force than in the general case.
+</p>
+<p>Theorem (Minimax theorem (von Neumann, 1928))
+</p>
+<p>In any finite, two-player, zero-sum game, in any Nash equilibrium
+each player receives a payoff that is equal to both his maxmin
+value and his minmax value.
+</p>
+<p>Consequences:
+</p>
+<p>1 Each player’s maxmin value is equal to his minmax value.
+</p>
+<p>2 For both players, the set of maxmin strategies coincides with the set
+of minmax strategies.
+</p>
+<p>3 Any maxmin strategy profile (or, equivalently, minmax strategy
+profile) is a Nash equilibrium. Furthermore, these are all the Nash
+equilibria. Thus, all Nash equilibria have the same payoff vector.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Saddle Point: Matching Pennies
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Another classic example: traffic game
+go wait
+</p>
+<p>go −100,−100 10, 0
+B 0, 10 −10,−10
+What is the natural solution here?
+</p>
+<p>A traffic light: fair randomizing devices that tell one of the
+agents to go and the other to wait.
+the negative payoff outcomes are completely avoided
+fairness is achieved
+the sum of social welfare exceeds that of any Nash equilibrium
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Correlated Equilibrium
+</p>
+<p>What if agents observe correlated random variables?
+</p>
+<p>Consider again Battle of the Sexes.
+</p>
+<p>Intuitively, the best outcome seems a 50-50 split between
+(F, F ) and (B,B).
+But there’s no way to achieve this, so either someone loses out
+(unfair) or both players often miscoordinate
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A traffic light: fair randomizing devices that tell one of the
+agents to go and the other to wait.
+the negative payoff outcomes are completely avoided
+fairness is achieved
+the sum of social welfare exceeds that of any Nash equilibrium
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Correlated Equilibrium
+</p>
+<p>What if agents observe correlated random variables?
+</p>
+<p>Consider again Battle of the Sexes.
+</p>
+<p>Intuitively, the best outcome seems a 50-50 split between
+(F, F ) and (B,B).
+But there’s no way to achieve this, so either someone loses out
+(unfair) or both players often miscoordinate
+</p>
+<p>Another classic example: traffic game
+go wait
+</p>
+<p>go −100,−100 10, 0
+B 0, 10 −10,−10
+What is the natural solution here?
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Correlated Equilibrium
+</p>
+<p>What if agents observe correlated random variables?
+</p>
+<p>Consider again Battle of the Sexes.
+</p>
+<p>Intuitively, the best outcome seems a 50-50 split between
+(F, F ) and (B,B).
+But there’s no way to achieve this, so either someone loses out
+(unfair) or both players often miscoordinate
+</p>
+<p>Another classic example: traffic game
+go wait
+</p>
+<p>go −100,−100 10, 0
+B 0, 10 −10,−10
+What is the natural solution here?
+</p>
+<p>A traffic light: fair randomizing devices that tell one of the
+agents to go and the other to wait.
+the negative payoff outcomes are completely avoided
+fairness is achieved
+the sum of social welfare exceeds that of any Nash equilibrium
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Correlated Equilibrium: Formal definition
+</p>
+<p>Definition (Correlated equilibrium)
+</p>
+<p>Given an n-agent game G = (N,A, u), a correlated equilibrium is
+a tuple (v, π, σ), where v is a tuple of random variables
+v = (v1, . . . , vn) with respective domains D = (D1, . . . , Dn), π is
+a joint distribution over v, σ = (σ1, . . . , σn) is a vector of
+mappings σi : Di 7→ Ai, and for each agent i and every mapping
+σ′i∑: Di 7→ Ai it is the case that ∑ ( )
+</p>
+<p>π(d)ui (σi(di), σ ′−i(d−i)) ≥ π(d)ui σi(di), σ−i(d−i) .
+d∈D d∈D
+</p>
+<p>Theorem
+</p>
+<p>For every Nash equilibrium σ∗ there exists a corresponding
+correlated equilibrium σ. Thus, correlated equilibria always exist.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>-Equilibrium
+</p>
+<p>What if agents aren’t perfect best responders?
+</p>
+<p>Definition (-Nash, additive version)
+</p>
+<p>Fix  > 0. A strategy profile s is an -Nash equilibrium (in the
+additive sense) if, for all agents i and for all strategies s′i 6= si,
+ui(si, s−i) ≥ u (s′i i, s−i)− .
+</p>
+<p>Definition (-Nash, relative version)
+</p>
+<p>Fix  > 0. A strategy profile s is an -Nash equilibrium (in the
+relative sense) if, for all agents i and for all strategies s′i 6= si,
+ui(s ′i, s−i) ≥ (1− )ui(si, s−i).
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>-Equilibrium
+</p>
+<p>Advantages of these solution concepts:
+</p>
+<p>Every Nash equilibrium is surrounded by a region of -Nash
+equilibria for any  > 0.
+Seems convincing that agents should be indifferent to
+sufficiently small gains
+</p>
+<p>Methods for the “exact” computation of Nash equilibria that
+rely on floating point actually find only -equilibria (in the
+additive sense), where  is roughly 10−16.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>-Equilibrium
+</p>
+<p>Drawbacks of these solution concepts (both variants):
+</p>
+<p>-Nash equilibria are not necessarily close to any Nash
+equilibrium.
+</p>
+<p>This undermines the sense in which -Nash equilibria can be
+understood as approximations of Nash equilibria.
+</p>
+<p>-Nash equilibria can have payoffs arbitrarily lower than those
+of any Nash equilibrium
+</p>
+<p>-Nash equilibria can even involve dominated strategies.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Overview
+</p>
+<p>1 Plan of this Tutorial
+</p>
+<p>2 Getting Our Bearings: A Quick Game Theory Refresher
+</p>
+<p>3 Solution Concepts
+</p>
+<p>4 Computational Formulations
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 25</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>60 3 Competition and Coordination: Normal form games
+</p>
+<p>Rock Paper Scissors
+</p>
+<p>Tutorial Overview Game Theory Refresher So−lution Concepts Computational FormulationsRock 0 1 1
+</p>
+<p>Computing Mixed Nash Equilibria: Ba−ttle of the SexesPaper 1 0 1
+</p>
+<p>Scissors −1 1 0
+</p>
+<p>Figure 3.6 Rock, Paper, Scissors game. 
+</p>
+<p> B         F
+</p>
+<p>B 2, 1 0, 0
+</p>
+<p>F 0, 0 1, 2
+</p>
+<p>Figure 3.7 Battle of the Sexes game.
+</p>
+<p>For Battle of the Sexes, let’s look for an equilibrium where all
+3.2.2 Strategies in normal-form games
+</p>
+<p>actions are part of the support
+We have so far defined the actions available to each player in a game, but not yet his
+set of strategies, or his available choices. Certainly one kind of strategy is to select
+</p>
+<p>pure strategy a single action and play it; we call such a strategy a pure strategy, and we will use
+the notation we have already developed for actions to represent it. There is, however,
+another, less obvious type of strategy; a player can choose to randomize over the set of
+available actions according to some probability distribution; such a strategy is called
+</p>
+<p>mixed strategy a mixed strategy. Although it may not be immediately obvious why a player should
+introduce randomness into his choice of action, in fact in a multi-agent setting the role
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 26
+of mixed strategies is critical. We will return to this when we discuss solution concepts
+for games in the next section.
+</p>
+<p>We define a mixed strategy for a normal form game as follows.
+</p>
+<p>Definition 3.2.4 Let (N, (A1, . . . , An), O, µ, u) be a normal form game, and for any
+setX let Π(X) be the set of all probability distributions overX . Then the set of mixed
+</p>
+<p>mixed strategy strategies for player i is Si = Π(Ai). The set of mixed strategy profiles is simply the
+profiles Cartesian product of the individual mixed strategy sets, S1 × · · · × Sn.
+</p>
+<p>By si(ai) we denote the probability that an action ai will be played under mixed
+strategy si. The subset of actions that are assigned positive probability by the mixed
+strategy si is called the support of si.
+</p>
+<p>Definition 3.2.5 The support of a mixed strategy si for a player i is the set of pure
+strategies {ai|si(ai) > 0}.
+</p>
+<p>©c Shoham and Leyton-Brown, 2006</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>60 3 Competition and Coordination: Normal form games
+</p>
+<p>Rock Paper Scissors
+</p>
+<p>Rock 0 −1 1
+</p>
+<p>Paper 1 0 −1
+Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Scissors −1 1 0
+Computing Mixed Nash Equilibria: Battle of the Sexes
+</p>
+<p>Figure 3.6 Rock, Paper, Scissors game. 
+</p>
+<p> B         F
+</p>
+<p>B 2, 1 0, 0
+</p>
+<p>F 0, 0 1, 2
+</p>
+<p>Figure 3.7 Battle of the Sexes game.
+</p>
+<p>Let player 2 play B with p, F with 1− p.
+3.2.2 Strategies in normal-form games
+</p>
+<p>IfWpe lhaavyeesro 1farbdeefisnte-drtehsepacotinondssavwailiatbhle ato emacihxpeldayesrtinraatgeagmye,, bputlanoyteyret2hismust
+mseat kofesthraitmegieisn, doriffhies raevaniltabbleecthwoiceees.nCFertaiannlydonBe kind of strategy is to select
+</p>
+<p>pure strategy a single action and play it; we call such a strategy a pure strategy, and we will use
+the notation we have already developed for actions to represent it. There is, however,
+another, less obvious type of strateguy1; (aBpla)ye=r caun c1h(oFose)to randomize over the set of
+available actions accord2ing+to s0o(m1e p−robability distribution; such a strategy is calledmixed strategy a mixed strategy. Althoupgh it may not bpe)im=me0dipate+ly o1b(v1iou−s wph)y a player should
+introduce randomness into his choice of action, in1fact in a multi-agent setting the role
+of mixed strategies is critical. We will retuprn t=o this when we discuss solution concepts
+for games in the next section. 3
+</p>
+<p>We define a mixed strategy for a normal form game as follows.
+</p>
+<p>Equilibrium CompDuetfiatnioitnioinnN3o.2rm.4alLFeotrm(NG,a(mAes, . . . , A Costis Daskalakis & Kevin Leyton-Brown, Slide 261 n), O, µ, u) be a normal form game, and for any
+setX let Π(X) be the set of all probability distributions overX . Then the set of mixed
+</p>
+<p>mixed strategy strategies for player i is Si = Π(Ai). The set of mixed strategy profiles is simply the
+profiles Cartesian product of the individual mixed strategy sets, S1 × · · · × Sn.
+</p>
+<p>By si(ai) we denote the probability that an action ai will be played under mixed
+strategy si. The subset of actions that are assigned positive probability by the mixed
+strategy si is called the support of si.
+</p>
+<p>Definition 3.2.5 The support of a mixed strategy si for a player i is the set of pure
+strategies {ai|si(ai) > 0}.
+</p>
+<p>©c Shoham and Leyton-Brown, 2006</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>60 3 Competition and Coordination: Normal form games
+</p>
+<p>Rock Paper Scissors
+</p>
+<p>Rock 0 −1 1
+</p>
+<p>Paper 1 0 −1
+Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Scissors −1 1 0
+Computing Mixed Nash Equilibria: Battle of the Sexes
+</p>
+<p>Figure 3.6 Rock, Paper, Scissors game. 
+</p>
+<p> B         F
+</p>
+<p>B 2, 1 0, 0
+</p>
+<p>F 0, 0 1, 2
+</p>
+<p>Figure 3.7 Battle of the Sexes game.
+</p>
+<p>Likewise, player 1 must randomize to make player 2
+3.2.2 inSdtriaffteegrieesnitn.normal-form games
+</p>
+<p>LWeet hpavleaysoefrar1depfinlaedythBe acwtiointshavqai,laFble two ietahch 1pla−yerqin. a game, but not yet his
+set of strategies, or his available choices. Certainly one kind of strategy is to select
+</p>
+<p>pure strategy a single action and play it; we call s(uch)a =strategy(a p)ure strategy, and we will usethe notation we have already deveulo2pedBfor actioun2s toFrepresent it. There is, however,
+another, less obvious typqe o+f st0ra(te1gy−; a qpl)ay=er ca0nqch+oos2e(to1ra−ndoqm)ize over the set of
+available actions according to some probability distribution; such a strategy is called
+</p>
+<p>mixed strategy a mixed strategy. Although it may not be imme2diately obvious why a player should
+introduce randomness into his choice of aqcti=on, in fact in a multi-agent setting the role
+of mixed strategies is critical. We will return to th3is when we discuss solution concepts
+for games in the next section.
+</p>
+<p>Th 2 1 1 2Wuesdtefihnee asmtrixaetdesgtriaetesgy(fo3r,a3no)r,m(al3fo,rm3)gaamreeasafoNlloaws.h equilibrium.
+</p>
+<p>Equilibrium CompDuetfiatnioitnioinnN3o.2rm.4alLFeotrm(NG,a(mAe1s, . . . , An), O, µ, u) be a nCoorstmisaDl afoskramlagkiasm&e,Kaenvidn fLoerytaonny-Brown, Slide 26
+setX let Π(X) be the set of all probability distributions overX . Then the set of mixed
+</p>
+<p>mixed strategy strategies for player i is Si = Π(Ai). The set of mixed strategy profiles is simply the
+profiles Cartesian product of the individual mixed strategy sets, S1 × · · · × Sn.
+</p>
+<p>By si(ai) we denote the probability that an action ai will be played under mixed
+strategy si. The subset of actions that are assigned positive probability by the mixed
+strategy si is called the support of si.
+</p>
+<p>Definition 3.2.5 The support of a mixed strategy si for a player i is the set of pure
+strategies {ai|si(ai) > 0}.
+</p>
+<p>©c Shoham and Leyton-Brown, 2006</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Disadvantages of this approach:
+</p>
+<p>We had to∏start by correctly guessing the support
+There are |Ai|i∈N 2 supports that we’d have to check
+</p>
+<p>This method is going to have pretty awful worst-case performance
+as games get much larger than 2× 2.1
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Mixed Nash Equilibria: Battle of the Sexes
+</p>
+<p>Advantages of this approach:
+</p>
+<p>At least for a 2× 2 game, this was computationally feasible
+in general, when checking non-full supports, it’s a linear
+program, because we have to ensure that actions outside the
+support aren’t better
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 27</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This method is going to have pretty awful worst-case performance
+as games get much larger than 2× 2.1
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Mixed Nash Equilibria: Battle of the Sexes
+</p>
+<p>Advantages of this approach:
+</p>
+<p>At least for a 2× 2 game, this was computationally feasible
+in general, when checking non-full supports, it’s a linear
+program, because we have to ensure that actions outside the
+support aren’t better
+</p>
+<p>Disadvantages of this approach:
+</p>
+<p>We had to∏start by correctly guessing the support
+There are |Ai|i∈N 2 supports that we’d have to check
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 27</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Mixed Nash Equilibria: Battle of the Sexes
+</p>
+<p>Advantages of this approach:
+</p>
+<p>At least for a 2× 2 game, this was computationally feasible
+in general, when checking non-full supports, it’s a linear
+program, because we have to ensure that actions outside the
+support aren’t better
+</p>
+<p>Disadvantages of this approach:
+</p>
+<p>We had to∏start by correctly guessing the support
+There are 2|Ai|i∈N supports that we’d have to check
+</p>
+<p>This method is going to have pretty awful worst-case performance
+as games get much larger than 2× 2.1
+</p>
+<p>1Interesting caveat: in fact, if combined with the right heuristics, support
+</p>
+<p>enumeration can be a competitive approach for finding equilibria. See [Porter,
+Nudelman & Shoham, 2004].
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 27</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computational Formulations
+</p>
+<p>Now we’ll look at the computational problems of identifying
+</p>
+<p>pure-strategy Nash equilibria
+correlated equilibria
+Nash equilibria of two-player, zero-sum games
+</p>
+<p>In each case, we’ll consider how the problem differs from that
+of computing NE of general-sum games (NASH)
+</p>
+<p>Ultimately, we aim to illustrate why the NASH problem is so
+different from these other problems, and why its complexity
+was so tricky to characterize.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 28</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This is an easy problem to solve:
+</p>
+<p>note that the input size is O(n|A|)
+checking whether a given a ∈ A involves a BR for player i
+requires O(|Ai|) time, which is O(|A|)
+there are |A| strategy profiles to check
+thus, we can solve the problem in O(|A|2) time
+</p>
+<p>However, we won’t be able to find (general) Nash equilibria by
+enumerating them
+</p>
+<p>Thus, this result seems unlikely to carry over
+straightforwardly...
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Pure-Strategy Nash Equilibrium
+</p>
+<p>Constraint Satisfaction Problem
+</p>
+<p>Find a ∈ A such that ∀i, ai ∈ BR(a−i).
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 29</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>However, we won’t be able to find (general) Nash equilibria by
+enumerating them
+</p>
+<p>Thus, this result seems unlikely to carry over
+straightforwardly...
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Pure-Strategy Nash Equilibrium
+</p>
+<p>Constraint Satisfaction Problem
+</p>
+<p>Find a ∈ A such that ∀i, ai ∈ BR(a−i).
+</p>
+<p>This is an easy problem to solve:
+</p>
+<p>note that the input size is O(n|A|)
+checking whether a given a ∈ A involves a BR for player i
+requires O(|Ai|) time, which is O(|A|)
+there are |A| strategy profiles to check
+thus, we can solve the problem in O(|A|2) time
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 29</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Pure-Strategy Nash Equilibrium
+</p>
+<p>Constraint Satisfaction Problem
+</p>
+<p>Find a ∈ A such that ∀i, ai ∈ BR(a−i).
+</p>
+<p>This is an easy problem to solve:
+</p>
+<p>note that the input size is O(n|A|)
+checking whether a given a ∈ A involves a BR for player i
+requires O(|Ai|) time, which is O(|A|)
+there are |A| strategy profiles to check
+thus, we can solve the problem in O(|A|2) time
+</p>
+<p>However, we won’t be able to find (general) Nash equilibria by
+enumerating them
+</p>
+<p>Thus, this result seems unlikely to carry over
+straightforwardly...
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 29</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>we could find the social-welfare maximizing CE by adding an
+objective function ∑ ∑
+</p>
+<p>maximize: p(a) ui(a).
+a∈A i∈N
+</p>
+<p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Correlated Equilibrium
+</p>
+<p>Lin∑ear Feasibility Progr∑am
+p(a)ui(a) ≥ p(a)ui(a′i, a ′−i) ∀i ∈ N, ∀ai, ai ∈ Ai
+</p>
+<p>a∈A|ai∈a a∈A|ai∈a
+</p>
+<p>p∑(a) ≥ 0 ∀a ∈ A
+p(a) = 1
+</p>
+<p>a∈A
+</p>
+<p>variables: p(a); constants: ui(a)
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 30</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Correlated Equilibrium
+</p>
+<p>Lin∑ear Feasibility Progr∑am
+p(a)ui(a) ≥ p(a)u ′ ′i(ai, a−i) ∀i ∈ N, ∀ai, ai ∈ Ai
+</p>
+<p>a∈A|ai∈a a∈A|ai∈a
+</p>
+<p>p∑(a) ≥ 0 ∀a ∈ A
+p(a) = 1
+</p>
+<p>a∈A
+</p>
+<p>variables: p(a); constants: ui(a)
+we could find the social-welfare maximizing CE by adding an
+objective function ∑ ∑
+</p>
+<p>maximize: p(a) ui(a).
+a∈A i∈N
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 30</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Correlated Equilibrium
+</p>
+<p>Linea∑r Feasibility Progr∑am
+p(a)ui(a) ≥ p(a)ui(a′i, a−i) ∀i ∈ N, ∀ai, a′i ∈ Ai
+</p>
+<p>a∈A|ai∈a a∈A|a′i∈a
+</p>
+<p>p∑(a) ≥ 0 ∀a ∈ A
+p(a) = 1
+</p>
+<p>a∈A
+</p>
+<p>Why can’t we compute NE like we did CE?
+</p>
+<p>intuitively, correlated equilibrium has only a single randomization
+over outcomes, whereas in NE this is constructed as a product of
+independent probabilities.
+</p>
+<p>∑ To fin∏d NE, the fir∑st constraint wou∏ld have to be nonlinear:
+ui(a) p ′j(aj) ≥ ui(ai, a−i) pj(aj) ∀i ∈ N, ∀a′i ∈ Ai.
+</p>
+<p>a∈A j∈N a∈A j∈N\{i}
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Equilibria of Zero-Sum Games
+</p>
+<p>Linear Program
+</p>
+<p>minimize U∑∗1
+subject to u (a , a ) · sa2 ≤ U∗1 1 2 2 1 ∀a1 ∈ A∑ 1a2∈A2
+</p>
+<p>sa22 = 1
+a2∈A2
+</p>
+<p>sa22 ≥ 0 ∀a2 ∈ A2
+</p>
+<p>First, identify the variables:
+</p>
+<p>U∗1 is the expected utility for player 1
+sa22 is player 2’s probability of playing action a2 under his
+mixed strategy
+</p>
+<p>each u1(a1, a2) is a constant.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Equilibria of Zero-Sum Games
+</p>
+<p>Now let’s interpret the LP:
+</p>
+<p>Linear Program
+</p>
+<p>minimize U∑∗1
+subject to u1(a1, a a2 ∗2) · s2 ≤ U1 ∀a1 ∈ A1
+</p>
+<p>a2∑∈A2
+sa22 = 1
+</p>
+<p>a2∈A2
+</p>
+<p>sa22 ≥ 0 ∀a2 ∈ A2
+</p>
+<p>s2 is a valid probability distribution.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Equilibria of Zero-Sum Games
+</p>
+<p>Now let’s interpret the LP:
+</p>
+<p>Linear Program
+</p>
+<p>minimize U∑∗1
+subject to u1(a1, a2) · sa2 ≤ U∗2 1 ∀a1 ∈ A1
+</p>
+<p>a2∑∈A2
+sa22 = 1
+</p>
+<p>a2∈A2
+</p>
+<p>sa22 ≥ 0 ∀a2 ∈ A2
+</p>
+<p>U∗1 is as small as possible.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Equilibria of Zero-Sum Games
+</p>
+<p>Now let’s interpret the LP:
+</p>
+<p>Linear Program
+</p>
+<p>minimize U∑∗1
+subject to u (a , a ) · sa21 1 2 2 ≤ U∗1 ∀a1 ∈ A
+</p>
+<p>a2∑ 1∈A2
+sa22 = 1
+</p>
+<p>a2∈A2
+</p>
+<p>sa22 ≥ 0 ∀a2 ∈ A2
+</p>
+<p>Player 1’s expected utility for playing each of his actions under
+player 2’s mixed strategy is no more than U∗1 .
+</p>
+<p>Because U∗1 is minimized, this constraint will be tight for some
+actions: the support of player 1’s mixed strategy.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Equilibria of Zero-Sum Games
+</p>
+<p>Linear Program
+</p>
+<p>minimize U∑∗1
+subject to u1(a1, a2) · sa2 ∗∑ 2
+</p>
+<p>≤ U1 ∀a1 ∈ A1
+a2∈A2
+</p>
+<p>sa22 = 1
+a2∈A2
+</p>
+<p>sa22 ≥ 0 ∀a2 ∈ A2
+</p>
+<p>This formulation gives us the minmax strategy for player 2.
+</p>
+<p>To get the minmax strategy for player 1, we need to solve a
+second (analogous) LP.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Equilibria of Zero-Sum Games
+</p>
+<p>We can reformulate the LP using slack variables, as follows:
+</p>
+<p>Linear Program
+</p>
+<p>minimize U∑∗1
+subject to u (a a2 a1 ∗
+</p>
+<p>∑ 1 1
+, a2) · s2 + r1 = U1 ∀a1 ∈ A1
+</p>
+<p>a2∈A2
+</p>
+<p>sa22 = 1
+a2∈A2
+</p>
+<p>sa22 ≥ 0 ∀a2 ∈ A2
+ra11 ≥ 0 ∀a1 ∈ A1
+</p>
+<p>All we’ve done is change the weak inequality into an equality by
+adding a nonnegative variable.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 33</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>We can generalize the previous LP to derive a formulation for computing
+a NE of a general-sum, two-player game.
+</p>
+<p>Linear ∑Complementarity Problem
+u (a , a a2 a1 ∗
+</p>
+<p>∑ 1 1 2
+) · s2 + r1 = U1 ∀a1 ∈ A1
+</p>
+<p>a2∈A2
+</p>
+<p>u2(a1, a2) · sa11 + ra22 = U∗2 ∀a ∈ A
+a1∑ 2 2∈A1 ∑
+</p>
+<p>sa11 = 1, s
+a2
+2 = 1
+</p>
+<p>a1∈A1 a2∈A2
+</p>
+<p>sa1 ≥ 0, sa21 2 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra11 ≥ 0, ra22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 · sa1 = 0, ra2 · sa21 1 2 2 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>Note a strong resemblance to the previous LP with slack variables, but
+</p>
+<p>the absence of an objective function.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>Linear ∑Complementarity Problem
+u (a , a ) · sa2 + ra1 = U∗1 1 2 2 1 1 ∀a∑ 1
+</p>
+<p>∈ A1
+a2∈A2
+</p>
+<p>u (a , a ) · sa1 a2 ∗
+</p>
+<p>∑ 2 1 2 ∑1
++ r2 = U2 ∀a2 ∈ A2
+</p>
+<p>a1∈A1
+</p>
+<p>sa11 = 1, s
+a2
+2 = 1
+</p>
+<p>a1∈A1 a2∈A2
+</p>
+<p>sa11 ≥ 0, sa22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra11 ≥ 0, ra22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 · sa1 = 0, ra21 1 2 · sa22 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>These are the same constraints as before.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>Linear ∑Complementarity Problem
+u (a , a ) · sa21 1 2 2 + ra1 ∗∑ 1
+</p>
+<p>= U1 ∀a1 ∈ A1
+a2∈A2
+</p>
+<p>u2(a1, a2) · sa1 + ra2 ∗∑ ∑1 2
+= U2 ∀a2 ∈ A2
+</p>
+<p>a1∈A1
+</p>
+<p>sa1 a21 = 1, s2 = 1
+a1∈A1 a2∈A2
+</p>
+<p>sa11 ≥ 0, sa22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 ≥ 0, ra21 2 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 · sa1 = 0, ra2 · sa21 1 2 2 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>Now we also add corresponding constraints for player 2.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>Linear ∑Complementarity Problem
+u (a , a ) · sa21 1 2 2 + ra11 = U∗1 ∀a1 ∈ A
+</p>
+<p>a2∑ 1∈A2
+u2(a1, a2) · sa1 + ra21 2 = U∗2 ∀a2 ∈ A
+</p>
+<p>a1∑ 2∈A1 ∑
+sa11 = 1, s
+</p>
+<p>a2
+2 = 1
+</p>
+<p>a1∈A1 a2∈A2
+</p>
+<p>sa11 ≥ 0, sa22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra11 ≥ 0, ra22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 · sa1 = 0, ra21 1 2 · sa22 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>Standard constraints on probabilities and slack variables.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>Linear ∑Complementarity Problem
+u1(a , a a2 a1 ∗∑ 1 2
+</p>
+<p>) · s2 + r1 = U1 ∀a1 ∈ A1
+a2∈A2
+</p>
+<p>u (a a1 a2 ∗
+</p>
+<p>∑ 2 1
+, a2) · s1 + r2 = U2 ∀a∑ 2
+</p>
+<p>∈ A2
+a1∈A1
+</p>
+<p>sa11 = 1, s
+a2
+2 = 1
+</p>
+<p>a1∈A1 a2∈A2
+</p>
+<p>sa1 ≥ 0, sa21 2 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra11 ≥ 0, ra22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 · sa1 = 0, ra21 1 2 · sa22 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>With all of this, we’d have an LP, but the slack variables—and hence U∗1
+and U∗2 —would be allowed to take unboundedly large values.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>Linear ∑Complementarity Problem
+u1(a1, a2) · sa2 a1 ∗∑ 2
+</p>
+<p>+ r1 = U1 ∀a1 ∈ A1
+a2∈A2
+</p>
+<p>u2(a1, a2) · sa1 a2 ∗1 + r2 = U2 ∀a2 ∈ A
+a1∑ 2∈A1 ∑
+</p>
+<p>sa11 = 1, s
+a2
+2 = 1
+</p>
+<p>a1∈A1 a2∈A2
+</p>
+<p>sa11 ≥ 0, sa22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 ≥ 0, ra21 2 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 · sa11 1 = 0, ra22 · sa22 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>Complementary slackness condition: whenever an action is in the support
+</p>
+<p>of a given player’s mixed strategy then the corresponding slack variable
+</p>
+<p>must be zero (i.e., the constraint must be tight).
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>Linear ∑Complementarity Problem
+u (a , a a2 a1 ∗
+</p>
+<p>∑ 1 1 2
+) · s2 + r1 = U1 ∀a1 ∈ A1
+</p>
+<p>a2∈A2
+</p>
+<p>u2(a1, a2) · sa11 + ra22 = U∗∑ ∑ 2
+∀a2 ∈ A2
+</p>
+<p>a1∈A1
+</p>
+<p>sa11 = 1, s
+a2
+2 = 1
+</p>
+<p>a1∈A1 a2∈A2
+</p>
+<p>sa11 ≥ 0, sa22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra11 ≥ 0, ra22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 · sa11 1 = 0, ra22 · sa22 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>Each slack variable can be viewed as the player’s incentive to deviate
+</p>
+<p>from the corresponding action. Thus, in equilibrium, all strategies that
+</p>
+<p>are played with positive probability must yield the same expected payoff,
+</p>
+<p>while all strategies that lead to lower expected payoffs are not played.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>Linear ∑Complementarity Problem
+u1(a1, a2) · sa2 + ra1 = U∗2 1 1 ∀a1 ∈ A1
+</p>
+<p>a2∑∈A2
+u2(a1, a2) · sa11 + ra22 = U∗2 ∀a2 ∈ A
+</p>
+<p>a1∑ 2∈A1 ∑
+sa11 = 1, s
+</p>
+<p>a2
+2 = 1
+</p>
+<p>a1∈A1 a2∈A2
+</p>
+<p>sa11 ≥ 0, sa22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra11 ≥ 0, ra22 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra11 · sa1 = 0, ra21 2 · sa22 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>We are left with the requirement that each player plays a best response to
+</p>
+<p>the other player’s mixed strategy: the definition of a Nash equilibrium.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Computing Nash Equilibria of General, Two-Player Games
+</p>
+<p>Linear ∑Complementarity Problem
+u1(a1, a2) · sa2 a1 ∗∑ 2
+</p>
+<p>+ r1 = U1 ∀a1 ∈ A1
+a2∈A2
+</p>
+<p>u (a , a ) · sa12 1 2 + ra2 = U∗ ∀a ∈ A
+a1∑∈A1 ∑1 2 2 2 2
+</p>
+<p>sa1 = 1, sa21 2 = 1
+a1∈A1 a2∈A2
+</p>
+<p>sa1 ≥ 0, sa21 2 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra1 ≥ 0, ra21 2 ≥ 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+ra11 · sa11 = 0, ra2 · sa22 2 = 0 ∀a1 ∈ A1, ∀a2 ∈ A2
+</p>
+<p>Unfortunately, this LCP formulation doesn’t imply polynomial time
+complexity the way an LP formulation does.
+</p>
+<p>However, it will be useful in what follows.
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tutorial Overview Game Theory Refresher Solution Concepts Computational Formulations
+</p>
+<p>Complexity of NASH
+</p>
+<p>We’ve seen how to compute:
+</p>
+<p>Pure-strategy Nash equilibria
+</p>
+<p>Correlated equilibria
+</p>
+<p>Equilibria of zero-sum, two-player games
+</p>
+<p>In each case, we’ve seen evidence that the NASH problem is
+fundamentally different, even in its two-player variant.
+</p>
+<p>Now Costis will take over, and investigate this question in more
+detail...
+</p>
+<p>Equilibrium Computation in Normal Form Games Costis Daskalakis & Kevin Leyton-Brown, Slide 35</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Equilibrium Computation in Normal Form Games
+</p>
+<p>Costis Daskalakis & Kevin Leyton-Brown
+</p>
+<p>Part 1(b)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview
+</p>
+<p>- A brief history of the Nash Equilibrium.
+</p>
+<p>- The complexity landscape between P and NP. 
+</p>
+<p>- The Complexity of the Nash Equilibrium.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The first computational thoughts
+</p>
+<p>1891 Irving Fisher:
+</p>
+<p>- Hydraulic apparatus for 
+</p>
+<p>calculating the equilibrium 
+</p>
+<p>of a related, market model.
+</p>
+<p>- No existence proof for the 
+</p>
+<p>general setting; but the 
+</p>
+<p>machine would work for 3 
+</p>
+<p>traders and 3 commodities.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>History (cont.)
+</p>
+<p>1928 Neumann: existence of Equilibrium in 2-player, zero-sum games
+</p>
+<p>proof uses Brouwer‟s fixed point theorem;
+</p>
+<p>+ Danzig ‟57: equivalent to LP duality;
+</p>
+<p>+ Khachiyan‟79: polynomial-time solvable.
+</p>
+<p>1950 Nash: existence of Equilibrium in multiplayer, general-sum games
+</p>
+<p>proof also uses Brouwer‟s fixed point theorem;
+</p>
+<p>intense effort for equilibrium algorithms:
+</p>
+<p>Kuhn ‟61, Mangasarian ‟64, Lemke-Howson ‟64, 
+</p>
+<p>Rosenmüller ‟71, Wilson ‟71, Scarf ‟67, Eaves ‟72, 
+</p>
+<p>Laan-Talman ‟79, and others…
+</p>
+<p>Lemke-Howson: simplex-like, works with LCP formulation;  
+</p>
+<p>no efficient algorithm is known after 50+ years of research.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>the Pavlovian reaction
+</p>
+<p>“Is it NP-complete to find a Nash equilibrium?”
+</p>
+<p>two answers
+</p>
+<p>1. probably not, since a solution is guaranteed to exist…
+</p>
+<p>2. it is NP-complete to find a “tiny” bit more info than “just” 
+</p>
+<p>a Nash equilibrium; e.g., the following are NP-complete:
+</p>
+<p>- find two Nash equilibria, if more than one exist
+</p>
+<p>- find a Nash equilibrium whose third bit is one, if any
+</p>
+<p>[Gilboa, Zemel ‟89; Conitzer, Sandholm ‟03]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>what about a single equilibrium?
+</p>
+<p>- the theory of NP-completeness does not seem 
+</p>
+<p>appropriate; NP-
+</p>
+<p>complete
+- in fact, NASH seems to lie below NP; NP
+</p>
+<p>- making Nash‟s theorem constructive… 
+</p>
+<p>P</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Non-Constructive Step
+</p>
+<p>an easy parity lemma:
+</p>
+<p>a directed graph with an unbalanced node (a node 
+</p>
+<p>with indegree  outdegree) must have another.
+</p>
+<p>but, why is this non-constructive?
+</p>
+<p>given a directed graph and an unbalanced node, isn’t 
+</p>
+<p>it trivial to find another unbalanced node?
+</p>
+<p>the graph may be exponentially large, but have a succinct 
+</p>
+<p>description… (more on this soon)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sperner‟s Lemma
+</p>
+<p>Lemma: No matter how the internal nodes are colored there exists a 
+</p>
+<p>tri-chromatic triangle. In fact, an odd number of them.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sperner‟s Lemma
+</p>
+<p>!
+</p>
+<p>Lemma: No matter how the internal nodes are colored there exists a 
+</p>
+<p>tri-chromatic triangle. In fact, an odd number of them.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sperner‟s Lemma
+</p>
+<p>Lemma: No matter how the internal nodes are colored there exists a 
+</p>
+<p>tri-chromatic triangle. In fact, an odd number of them.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The SPERNER problem
+</p>
+<p>2n x
+C
+</p>
+<p>y
+</p>
+<p>2n
+</p>
+<p>SPERNER: Given C, find a trichromatic triangle. </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Solving SPERNER</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(Abstract) Proof of Sperner‟s Lemma
+</p>
+<p>Space of 
+</p>
+<p>Triangles
+</p>
+<p>Transition Rule: If   red - yellow door 
+cross it with yellow on 
+</p>
+<p>?
+your left hand
+</p>
+<p>2
+</p>
+<p>1
+</p>
+<p>Lemma: No matter how the internal nodes are colored there exists a 
+</p>
+<p>tri-chromatic triangle. In fact, an odd number of them.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(Abstract) Proof of Sperner‟s Lemma
+</p>
+<p>Space of 
+</p>
+<p>Triangles
+</p>
+<p>Bottom left 
+</p>
+<p>Triangle ...</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(Abstract) SPERNER Problem
+</p>
+<p>{0,1}n
+</p>
+<p>exponential 
+</p>
+<p>space
+</p>
+<p>00…000
+...
+</p>
+<p>Given:
+</p>
+<p>efficiently computable functions for finding next and previous
+</p>
+<p>Find:
+</p>
+<p>any terminal point different than 00…000</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The PPAD Class [Papadimitriou ’94]
+</p>
+<p>The class of all problems with guaranteed solution by dint of the 
+following graph-theoretic lemma
+</p>
+<p>A directed graph with an unbalanced node (node with indegree 
+</p>
+<p> outdegree) must have another.
+</p>
+<p>Formally: a large graph is described by two circuits:
+</p>
+<p>node id P node id
+</p>
+<p>node id N node id
+</p>
+<p>PPAD: Given P and N, if 0n is an unbalanced node, find another 
+</p>
+<p>unbalanced node.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Where is PPAD?
+</p>
+<p>The hardest problems in NP
+</p>
+<p>NP- e.g.: quadratic programming
+e.g.2: traveling salesman problem
+</p>
+<p>complete
+</p>
+<p>NP
+</p>
+<p>PPAD
+</p>
+<p>P Solutions can be found 
+in polynomial time
+</p>
+<p>e.g.: linear programming
+</p>
+<p>e.g.2: zero-sum games</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Problems in PPAD
+</p>
+<p>SPERNER     PPAD [Previous Slides] 
+</p>
+<p>BROUWER     PPAD [By Reduction to SPERNER-Scarf ’67] 
+</p>
+<p>find an (approximately) fixed point of a continuous 
+function from the unit cube to itself
+</p>
+<p>SPERNER is PPAD-Complete [Papadimitriou ’94] 
+</p>
+<p>[for 2D: Chen-Deng ’05]
+</p>
+<p>BROUWER is PPAD-Complete [Papadimitriou ’94]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Complexity of the Nash Equilibrium
+</p>
+<p>Theorem: 
+</p>
+<p>Computing a Nash equilibrium is PPAD-complete…
+</p>
+<p>- for games with ≥4 players;
+</p>
+<p>[Daskalakis, Goldberg, Papadimitriou ‟05]
+</p>
+<p>- for games with 3 players;
+</p>
+<p>[Chen, Deng ’05] & [Daskalakis, Papadimitriou ‟05]
+</p>
+<p>- for games with 2 players.
+</p>
+<p>[Chen, Deng ’06]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Explaining the result
+</p>
+<p>in 2-player games … in ≥3-player games …
+</p>
+<p>- there always exists a Nash eq. in - there exists a 3-player game with only 
+</p>
+<p>rational numbers (why?) irrational Nash equilibria [Nash ‟51]
+</p>
+<p>- Lemke-Howson‟s 
+</p>
+<p>algorithm 1964
+</p>
+<p>2-NASH  PPAD
+</p>
+<p>Computationally Meaningful NASH:
+</p>
+<p>Given game     and   , find an   -Nash equilibrium of     .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Complexity of the Nash Equilibrium
+</p>
+<p>Theorem: 
+</p>
+<p>Computing an    -Nash equilibrium is PPAD-complete…
+</p>
+<p>- for games with ≥4 players,                ; n=#strategies;
+</p>
+<p>[Daskalakis, Goldberg, Papadimitriou ‟05]
+</p>
+<p>- for games with 3 players,                ; n=#strategies;
+</p>
+<p>[Chen, Deng ’05] & [Daskalakis, Papadimitriou ‟05]
+</p>
+<p>- for games with 2 players,           ;
+</p>
+<p>[Chen, Deng ’06]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Nash‟s Theorem “” NASH  PPAD
+</p>
+<p>Nash              Brouwer
+</p>
+<p>Kick
+Left Right
+</p>
+<p>Dive
+: [0,1]2[0,1]2, cont.
+</p>
+<p>Left 1 , -1 -1 , 1 such that
+</p>
+<p>Right -1 , 1 1, -1 fixed point  Nash eq.
+</p>
+<p>Penalty Shot Game</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Nash‟s Theorem “” NASH  PPAD
+</p>
+<p>Nash              Brouwer
+</p>
+<p>0 Pr[Right] 1
+0
+</p>
+<p>Kick
+Left Right
+</p>
+<p>Dive
+: [0,1]2[0,1]2, cont.
+</p>
+<p>Left 1 , -1 -1 , 1 such that
+</p>
+<p>Right -1 , 1 1, -1 fixed point  Nash eq.
+</p>
+<p>Penalty Shot Game 1
+</p>
+<p>Pr[Right]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Nash‟s Theorem “” NASH  PPAD
+</p>
+<p>Nash              Brouwer
+</p>
+<p>½ ½ 0 Pr[Right] 10
+</p>
+<p>Kick
+Left Right
+</p>
+<p>Dive
+: [0,1]2[0,1]2, cont.
+</p>
+<p>½ Left 1 , -1 -1 , 1 such that
+</p>
+<p>½ Right -1 , 1 1, -1 fixed point  Nash eq.
+</p>
+<p>Penalty Shot Game 1
+</p>
+<p>fixed point
+</p>
+<p>Pr[Right]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Nash‟s Theorem “” NASH  PPAD
+</p>
+<p>Nash              Brouwer
+</p>
+<p>½ ½ 0 Pr[Right] 10
+</p>
+<p>Kick
+Left Right
+</p>
+<p>Dive
+: [0,1]2[0,1]2, cont.
+</p>
+<p>½ Left 1 , -1 -1 , 1 such that
+</p>
+<p>½ Right -1 , 1 1, -1 fixed point  Nash eq.
+</p>
+<p>Penalty Shot Game 1
+</p>
+<p>- fixed point
+</p>
+<p>Pr[Right]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PPAD-hardness of NASH
+</p>
+<p>[Pap ‟94]
+</p>
+<p>[DGP ‟05]
+</p>
+<p>0n Embedded 
+</p>
+<p>... PPAD
+</p>
+<p>Generic PPAD [DGP ‟05]
+</p>
+<p>4-player
+[DGP ‟05]
+</p>
+<p>NASH
+</p>
+<p>[DP ‟05] 3-player
+</p>
+<p>[DGP [DGP [CD‟05] NASH
+‟05] ‟05]
+</p>
+<p>[CD‟05]
+2-player
+</p>
+<p>p.w. linear multi-player
+NASH
+</p>
+<p>SPERNER BROUWER NASH</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PPAD-Hardness of NASH [DGP ‟05]
+</p>
+<p>Nash              Brouwer
+</p>
+<p>game whose Nash : [0,1]3[0,1]3, 
+equilibria are close to the  
+</p>
+<p>fixed points of  continuous & p.w.linear
+</p>
+<p>- Game-gadgets: games acting as arithmetic gates</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Games that do real arithmetic
+e.g. multiplication game (similarly addition, subtraction)
+</p>
+<p>two strategies per player, say {0,1};    
+</p>
+<p>Mixed strategy  a number in [0,1] 
+</p>
+<p>(probability of playing 1)
+</p>
+<p>x w is paid: 
+</p>
+<p>{0,1} - $ px· py for playing 0
+</p>
+<p>- $ pz for playing 1 z is paid 1-pw for 
+</p>
+<p>w zplaying 1
+</p>
+<p>{0,1} {0,1}
+</p>
+<p>y pz =px py
+</p>
+<p>{0,1}</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Games that do real arithmetic
+w’s payoff
+</p>
+<p>for playing 0
+</p>
+<p>for playing 1
+y plays 0 y plays 1
+</p>
+<p>z plays 0 0
+x plays 0 0 0
+</p>
+<p>z plays 1 1
+x plays 1 0 1
+</p>
+<p>x w is paid: z is paid: 
+</p>
+<p>{0,1} - $ px· py for playing 0 -$1-pw for playing 1
+- $ pz for playing 1 -$0.5 for playing 0
+</p>
+<p>w z
+</p>
+<p>{0,1} {0,1}
+</p>
+<p>y pz =px py
+</p>
+<p>{0,1}</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PPAD-Hardness of NASH [DGP ‟05]
+</p>
+<p>Nash              Brouwer
+</p>
+<p>fx fy fz
+</p>
+<p>
+ + *
+</p>
+<p>
+/ : [0,1]3[0,1]3, 
+</p>
+<p>  - / continuous & p.w.linear
+</p>
+<p>   + *
+</p>
+<p>- use game-gadgets to simulate  with a game
+x y z
+</p>
+<p>- Topology: noise reduction</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reduction to 3 players [Das, Pap „05]
+</p>
+<p>multiplayer game
+</p>
+<p>…</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reduction to 3 players [Das, Pap „05]
+</p>
+<p>multiplayer game
+“represents” red
+</p>
+<p>players
+</p>
+<p>… “represents” blueplayers
+</p>
+<p>Coloring: no two nodes 
+</p>
+<p>affecting one another, or 3 lawyers
+affecting the same third 
+</p>
+<p>player use the same color; “represents” all green
+</p>
+<p>players</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Payoffs of the Green Lawyer
+</p>
+<p>0
+copy of the payoff 
+</p>
+<p>table of node u payoffs of the 
+0
+</p>
+<p>green lawyer for 
+</p>
+<p>representing node u
+</p>
+<p>0 0 0
+</p>
+<p>wishful thinking: The Nash equilibrium of the lawyer-game, gives a 
+</p>
+<p>Nash equilibrium of the original multiplayer game, 
+</p>
+<p>after marginalizing with respect to individual nodes.
+</p>
+<p>But why would a lawyer represent every node equally? </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Enforcing Fairness
+lawyers play on the side a 
+</p>
+<p>high-stakes game over the 
+</p>
+<p>nodes they represent
+0
+</p>
+<p>copy of the payoff 
+</p>
+<p>table of node u
+0 +
+</p>
+<p>0 0 0</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PPAD-hardness of NASH
+</p>
+<p>[Pap ‟94]
+</p>
+<p>[DGP ‟05]
+</p>
+<p>0n Embedded 
+</p>
+<p>... PPAD
+</p>
+<p>Generic PPAD [DGP ‟05]
+</p>
+<p>4-player
+[DGP ‟05]
+</p>
+<p>NASH
+</p>
+<p>[DP ‟05] 3-player
+</p>
+<p>[DGP [DGP [CD‟05] NASH
+‟05] ‟05]
+</p>
+<p>[CD‟05]
+2-player
+</p>
+<p>p.w. linear multi-player
+NASH
+</p>
+<p>SPERNER BROUWER NASH</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Reducing to 2 players [Chen, Deng ‟05]
+</p>
+<p>Based on the following simple, 
+</p>
+<p>multiplayer game but crucial observation:
+</p>
+<p>- the expected payoff of each 
+</p>
+<p>lawyer is additive w.r.t. the nodes 
+</p>
+<p>that another lawyer represents;
+</p>
+<p>… - hence, if two nodes affect the 
+same third node, they don’t need 
+</p>
+<p>to have different colors. 
+</p>
+<p>Coloring: no two nodes 
+two colors suffice to color 2 lawyers
+</p>
+<p>affecting one another, or 
+the multiplayer game in are enough
+</p>
+<p>affecting the same third 
+the [DGP 05] construction
+</p>
+<p>player use the same color;</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recapping
+</p>
+<p>[Nash ’51]: NASH ≤p BROUWER.
+</p>
+<p>[D. Gold. Pap. ’05]: BROUWER ≤ NASH. (i.e.  NASH is PPAD-p 
+complete)
+</p>
+<p>[Chen, Deng ’06]:      ditto for 2-player games.
+</p>
+<p>NASH: Given game     and error   , find an   -Nash equilibrium of     .
+</p>
+<p>Above results hold for                     , where n is the #strategies. 
+</p>
+<p>[Chen, Deng, Teng ’06] : (n-α) - NASH is also PPAD-complete.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Constant ε’s?
+</p>
+<p>[Lipton, Markakis, Mehta ’03]:
+</p>
+<p>For any   , an additive   - Nash equilibrium can be found in 
+</p>
+<p>time                   . 
+</p>
+<p>(Hence, it is unlikely that additive   -NASH is PPAD-
+</p>
+<p>complete, for constant values of .)
+</p>
+<p>Efficient Algorithms:   = .75  .50  .38  .37  .34 [Tsaknakis, 
+</p>
+<p>Spirakis ‟08]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The trouble with approximate Nash
+</p>
+<p>Algorithms expert 
+</p>
+<p>to TSP user: 
+</p>
+<p>Unfortunately, with 
+</p>
+<p>current technology 
+</p>
+<p>we can only give 
+</p>
+<p>you a solution 
+</p>
+<p>guaranteed to be 
+</p>
+<p>no more than 50% 
+</p>
+<p>above the optimum </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The trouble with approximate Nash
+</p>
+<p>(cont.)
+</p>
+<p>Irate Nash user to algorithms expert: 
+</p>
+<p>Why should I adopt your 
+</p>
+<p>recommendation and refrain 
+</p>
+<p>from acting in a way that I know 
+</p>
+<p>is much better for me?  And 
+</p>
+<p>besides, given that I have serious 
+</p>
+<p>doubts myself, why should I even 
+</p>
+<p>believe that my opponent(s) will 
+</p>
+<p>adopt your recommendation?</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bottom line
+</p>
+<p>►PTAS is the only interesting question here…</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>And what about relative approximations?
+</p>
+<p>Recall, relative approximation: Payoff ≥ (1 - ε) OPT;
+</p>
+<p>Result of Lipton-Markakis-Mehta does not hold anymore;
+</p>
+<p>Hot of the press [Daskalakis ’09]:
+</p>
+<p>Relative ε-NASH is PPAD-complete, even for constant ε’s.
+</p>
+<p>Challenges: 1. gadgets in [DGP ’05] do not work for constant 
+</p>
+<p>ε’s; we redo the construction introducing some kind 
+</p>
+<p>of  “gap amplification” gadget;
+</p>
+<p>2. the high-stakes lawyer-game overwhelms the 
+</p>
+<p>payoffs of the multiplayer game if we look at 
+</p>
+<p>relative approximations with constant ε’s…</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Future PPAD-hardness reductions
+</p>
+<p>[Pap ‟94]
+</p>
+<p>[DGP ‟05]
+</p>
+<p>0n Embedded 
+</p>
+<p>... PPAD
+</p>
+<p>Generic PPAD [DGP ‟05]
+</p>
+<p>4-player
+[DGP ‟05]
+</p>
+<p>NASH
+</p>
+<p>[DP ‟05] 3-player
+</p>
+<p>[DGP [DGP [CD‟05] NASH
+‟05] ‟05]
+</p>
+<p>[CD‟05]
+2-player
+</p>
+<p>p.w. linear multi-player
+NASH
+</p>
+<p>SPERNER BROUWER NASH</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>part 2a</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Equilibrium Computation in 
+</p>
+<p>Compactly-Represented Games
+</p>
+<p>Costis Daskalakis & Kevin Leyton-Brown
+</p>
+<p>Part 2(a)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>“If your game is interesting, then its description cannot be 
+</p>
+<p>astronomically long.”
+</p>
+<p>Christos Papadimitriou</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Markets
+Internet routing
+</p>
+<p>Evolution
+</p>
+<p>Elections
+</p>
+<p>Social networks</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computationally motivated compact 
+</p>
+<p>representations
+</p>
+<p>- normal form game description can be very wasteful;
+</p>
+<p>(if n players, s strategies, description size is n sn )
+</p>
+<p>- it is possible that by further exploiting the structure of 
+</p>
+<p>the game, the game can be described more efficiently;
+</p>
+<p>- in this part of the tutorial, we investigate succinct game-
+</p>
+<p>representations which allow certain large games to be 
+</p>
+<p>compactly described and also make it possible
+</p>
+<p>to efficiently find an equilibrium</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Games of Polynomial Type
+</p>
+<p>- The normal form representation lists explicitly everybody’s name, 
+</p>
+<p>action space, and payoffs;
+</p>
+<p>-A first step towards a generalization: 
+</p>
+<p>A game description is called of polynomial type, if
+</p>
+<p>- the number of players is polynomial in the description size;
+</p>
+<p>- the number of actions available to each player is polynomial 
+</p>
+<p>in the description size;  
+</p>
+<p>- BUT no requirement to list every payoff explicitly;
+</p>
+<p>e.g. 1: (polynomial type) normal-form games, rest of this session…
+</p>
+<p>e.g. 2: (non polynomial type) poker, traffic.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Expected Utility Problem
+</p>
+<p>- A game description specifies the payoff of a player, 
+</p>
+<p>given the other players’ actions.
+</p>
+<p>- How hard is it to compute a player’s expected payoff 
+</p>
+<p>given the mixed strategies of the other players?
+</p>
+<p>e.g. 1 (easy case) Normal form games
+</p>
+<p>e.g. 2 (hard case) Suppose every player has two strategies 0/1, 
+</p>
+<p>and given everybody’s strategy a circuit Ci ,
+</p>
+<p>computes player i’s payoff.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Compactness pays off
+</p>
+<p>Theorem [Daskalakis, Fabrikant, Papadimitriou ’06]
+</p>
+<p>If a game representation is of polynomial type and the expected 
+</p>
+<p>utility problem can be solved by a polynomially long arithmetic 
+</p>
+<p>circuit using +,-,*,/, max, min (i.e. a straight-line program), then 
+</p>
+<p>finding a mixed Nash equilibrium is in PPAD.
+</p>
+<p>Remark: Can be generalized to non polynomial-type games such as 
+</p>
+<p>extensive-form games, congestion games; see [DFP ’06].
+</p>
+<p>Theorem [Papadimitriou ’05]
+</p>
+<p>If a game representation is of polynomial type and the expected 
+</p>
+<p>utility problem can be solved by a polynomial-time algorithm, 
+</p>
+<p>then finding a correlated equilibrium is in P.
+</p>
+<p>* +
+</p>
+<p>-
+/
+</p>
+<p>* +</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetries in Games
+</p>
+<p>Symmetric Games: Each player p has
+</p>
+<p>- the same set of strategies
+</p>
+<p>s-1 S = {1,…, s}Size: s n
+</p>
+<p>- the same payoff function u = u (σ ; n1, n2,…,ns)
+</p>
+<p>choice of p
+E.g. : - Rock-Paper-Scissors
+</p>
+<p>- traffic (congestion) games, with same number of the other 
+</p>
+<p>source destination pairs for each player players choosing 
+</p>
+<p>each strategy in S
+</p>
+<p>Nash ’51: Always exists an equilibrium in which every player uses 
+</p>
+<p>the same mixed strategy</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>[Gale-Kuhn-
+Symmetrization Tucker 1950]
+</p>
+<p>x y
+</p>
+<p>y
+x 0, 0 C, R
+</p>
+<p>x R , C
+</p>
+<p>y R
+T, CT 0, 0
+</p>
+<p>Equilibrium Symmetric Equilibrium
+</p>
+<p>In fact […]
+</p>
+<p>Equilibrium Any Equilibrium</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Symmetrization
+x y
+</p>
+<p>y
+x 0,0 C, R
+</p>
+<p>x R , C
+</p>
+<p>y RT,CT 0,0
+Hence, PPAD to solve 
+</p>
+<p>symmetric 2-player games
+Equilibrium Symmetric Equilibrium
+</p>
+<p>In fact […]
+</p>
+<p>Equilibrium Any Equilibrium
+</p>
+<p>Open: - Reduction from 3-player games to symmetric 3-player games
+</p>
+<p>- Complexity of symmetric 3-player games</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Multi-player symmetric games
+</p>
+<p>If  n is large, s is small, a symmetric equilibrium
+</p>
+<p>x = (x1, x2, …, xs) 
+</p>
+<p>can be found as follows:
+</p>
+<p>- guess the support of x, 2s possibilities
+</p>
+<p>can be solved 
+- write down a set of polynomial equations an 
+</p>
+<p>approximately 
+inequalities corresponding to the equilibrium 
+</p>
+<p>in time 
+conditions, for the guessed support
+</p>
+<p>ns  log(1/ε)
+- polynomial equations and inequalities of degree n 
+</p>
+<p>in s variables</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>how far with symmetric games?</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Markets
+Internet routing
+</p>
+<p>Evolution
+</p>
+<p>Elections
+</p>
+<p>Social networks</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>anonymous games
+</p>
+<p>Every player is (potentially) different, but only cares about how many 
+</p>
+<p>players (of each type) play each of the available strategies.
+</p>
+<p>e.g. symmetry in auctions, congestion games, social phenomena, etc.
+</p>
+<p>„„Congestion Games with Player- Specific Payoff Functions.‟‟ 
+</p>
+<p>Milchtaich, Games and Economic Behavior, 1996.
+</p>
+<p>„„The women of Cairo: Equilibria in Large Anonymous Games.‟‟ 
+</p>
+<p>Blonski, Games and Economic Behavior, 1999.
+</p>
+<p>“Partially-Specified Large Games.” 
+</p>
+<p>Ehud Kalai, WINE, 2005.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>reasons for anonymous
+</p>
+<p>- ubiquity: much richer than symmetric games
+</p>
+<p>think of your favorite large game - is it anonymous?
+</p>
+<p>- succinctness: not nearly as wasteful as general normal form games
+</p>
+<p>n players, s strategies, all interact, ns description (rather than nsn)
+</p>
+<p>(the utility of a player depends on her strategy, and on how 
+</p>
+<p>many other players play each of the s strategies)
+</p>
+<p>- robustness: 
+</p>
+<p>Nash equilibira of the simultaneous move game are robust with 
+</p>
+<p>regards to the details of the game (order of moves, information 
+</p>
+<p>transmission, opportunities to revise actions etc. [Kalai ’05] )
+</p>
+<p>working assumption: n large, s small  (o.w. PPAD-Complete) </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>PTAS for anonymous
+</p>
+<p>Theorem: If the number of strategies s is a constant, 
+</p>
+<p>[with Pap. ’07, ’08] there is a PTAS for mixed Nash equilibria.
+</p>
+<p>Remarks: - exact computation is not known to be PPAD-complete
+</p>
+<p>- if n is small and s is large (few players many 
+</p>
+<p>strategies) then PPAD-complete</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>sketch for 2 strategies
+</p>
+<p>Masterplan:
+</p>
+<p>• since 2 strategies per player, Nash eq. lies in [0,1]n
+</p>
+<p>• discretize [0,1]n into multiples of δ, and restrict 
+search to the discrete space
+</p>
+<p>• pick best point in discrete space
+</p>
+<p>1
+</p>
+<p>
+p2
+</p>
+<p>0
+0  p1 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>sketch for 2 strategies (cont.)
+</p>
+<p>1
+First trouble: n
+</p>
+<p> 1
+</p>
+<p>p size of search space2 
+</p>
+<p>0 1/by exploiting anonymity 
+0  1
+</p>
+<p>p (max-flow argument)
+n
+</p>
+<p>1
+</p>
+<p>Basic Question:
+</p>
+<p>what grid size  is required for  - approximation?
+</p>
+<p>if function of  only  PTAS
+if function also of n  nothing</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>sketch for 2 strategies (cont.)
+</p>
+<p>Theorem [D., Papadimitriou ’07]:
+</p>
+<p>Given 
+</p>
+<p>- n ind. Bernoulli‟s  Xi with expectations  pi , i =1,…, n
+</p>
+<p>- a constant  independent of n
+</p>
+<p>there exists another set of Bernoulli‟s Yi with expectations qi such 
+that
+</p>
+<p>qi‟s are integer multiples of </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>total variation distance cheat sheet
+</p>
+<p> Xi
+i
+</p>
+<p>Yi
+i
+</p>
+<p>n
+</p>
+<p> Pr   t   Pr  X Y  t  (X ,Y )
+t0 
+</p>
+<p>i
+i  
+</p>
+<p>i  1 i ii i i</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>sketch for 2 strategies (cont.)
+</p>
+<p>the Nash equilibrium
+</p>
+<p>Theorem [D., Papadimitriou ’07]:
+</p>
+<p>Given the grid size
+</p>
+<p>- n ind. Bernoulli‟s  Xi with expectations  pi , i =1,…, n
+</p>
+<p>- a constant  independent of n
+</p>
+<p>there exists another set of Bernoulli‟s Yi with expectations qi such 
+that
+</p>
+<p>qi‟s are integer multiples of 
+</p>
+<p> - approximation 
+
+</p>
+<p>in time nO(1/
+2 )
+</p>
+<p>regret if we replace the Xi’s by the Yi’s</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>proof of approximation result
+</p>
+<p>- rounding pi‟s to the closest multiple of  gives total variation n
+- probabilistic rounding up or down quickly runs into problems
+</p>
+<p>- what works:
+</p>
+<p>Law of Rare Events 
+</p>
+<p>+ Poisson 
+</p>
+<p>Approximations
+CLT
+</p>
+<p>(Stein’s Method)
+</p>
+<p>Berry-Esséen</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>proof of approximation result
+</p>
+<p>Intuition:
+</p>
+<p>If pi‟s were small    X i would be close to a Poisson with mean  pi
+i i
+</p>
+<p> define the qi‟s so that qi  pi
+i i
+</p>
+<p> X i Yi
+i i
+</p>
+<p> 
+Poisson   pi  Poissonq i i   i </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>proof of approximation result
+</p>
+<p>Poisson approximation is only good for small values of pi‟s. (LRE)
+</p>
+<p>For intermediate values of pi‟s, Normals are better. (CLT)
+</p>
+<p> X Yii
+i
+</p>
+<p>i
+</p>
+<p>Berry-Esséen Berry-Esséen</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>binomial approximation result
+</p>
+<p>the Nash equilibrium
+</p>
+<p>Theorem [D., Papadimitriou ’07]:
+</p>
+<p>Given the grid size
+</p>
+<p>- n ind. Bernoulli‟s  Xi with expectations  pi , i =1,…, n
+</p>
+<p>- a constant  independent of n
+</p>
+<p>there exists another set of Bernoulli‟s Yi with expectations qi such 
+that
+</p>
+<p>qi‟s are integer multiples of 
+</p>
+<p> - approximation 
+
+</p>
+<p>in time nO(1/
+2 )
+</p>
+<p>approximation if we replace the Xi’s by the Yi’s</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>in fact, an “oblivious” algorithm…
+</p>
+<p>- sample an (anonymous) mixed 
+profile from S
+</p>
+<p>- look at the game only to determine 
+if the sampled strategies can be 
+assigned to players to get an ε-
+approximate equilibrium (via a 
+max-flow argument)
+</p>
+<p>set S of all unordered collections O(1/
+2 )
+</p>
+<p>- expected running time n
+of mixed strategies which are  
+</p>
+<p>integer multiples of 2 Oblivious-ness Property: the set S
+does not depend on the game we need 
+</p>
+<p>to solve</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>is there a faster PTAS?
+</p>
+<p>Theorem [Daskalakis ’08]:
+</p>
+<p>There is an oblivious PTAS with running time 
+</p>
+<p>the underlying structural result…
+</p>
+<p>Theorem [Daskalakis’08]: In every anonymous game there exists 
+an ε-approximate Nash equilibrium in which 
+</p>
+<p>- either all players who mix  play the same mixed strategy
+</p>
+<p>- or, at most           mix, and they choose mixed strategies which 
+are integer multiples of  </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>the corresponding symmetry…
+</p>
+<p>Lemma:
+</p>
+<p>- The sum of  m ≥ k3 indicators Xi with expectations in [1/k,1-1/k] is 
+O(1/k)-close in total variation distance to a Binomial distribution 
+with the same mean and variance
+</p>
+<p>… i.e. close to a sum of indicators with the same expectation
+</p>
+<p>[tightness of parameters by Berry-Esséen]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>proof of structural result
+0 0 ε ε 1-ε 1-ε1 1
+</p>
+<p>round some of the Xi‟s falling here to similarly
+0 and some of them to ε  so that the 
+</p>
+<p>total mean is preserved to within ε
+</p>
+<p>- if more than 1/ε3 Xi‟s are left here, appeal 
+</p>
+<p>to previous slide (Binomial appx)
+</p>
+<p>- o.w. use Dask. Pap. ‟07 (exists rounding into 
+</p>
+<p>multiples of ε2)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Final Result…
+</p>
+<p>Theorem [Daskalakis’08]:
+</p>
+<p>There is an oblivious PTAS with running time  
+</p>
+<p>in fact this is essentially tight…
+</p>
+<p>Theorem [Daskalakis, Papadimitriou ’08]:
+</p>
+<p>There is no oblivious PTAS with runtime better than  </p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What about non-oblivious PTAS‟s?
+</p>
+<p>Theorem [Daskalakis, Papadimitriou ’08]:
+</p>
+<p>There is a non-oblivious PTAS with running time  
+</p>
+<p>the underlying probabilistic result [DP ’08]:
+</p>
+<p>If two sums of indicators have equal moments up to moment k then 
+their total variation distance is O(2-k).</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>now Kevin will continue our investigation of compact game 
+</p>
+<p>representations, and their computational properties…</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Equilibrium Computation in
+Compactly-Represented Games
+</p>
+<p>Costis Daskalakis & Kevin Leyton-Brown
+</p>
+<p>Part 2(b)
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Overview
+</p>
+<p>1 Congestion Games
+</p>
+<p>2 Graphical Games
+</p>
+<p>3 Action-Graph Games
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Congestion Games
+</p>
+<p>Congestion games [Rosenthal, 1973] are a restricted class of games
+with three key benefits:
+</p>
+<p>useful for modeling some important real-world settings
+</p>
+<p>attractive theoretical properties
+</p>
+<p>some positive computational results
+</p>
+<p>Intuitively, they simplify the representation of a game by imposing
+constraints on the effects that a single agent’s action can have on other
+agents’ utilities.
+</p>
+<p>Example
+</p>
+<p>A computer network in which several users want to send large files at
+approximately the same time. What routes should they choose?
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Definition
+</p>
+<p>Intuitively, each player chooses some subset from a set of
+resources, and the cost of each resource depends on the number
+(but not identities) of other agents who select it.
+</p>
+<p>Definition (Congestion game)
+</p>
+<p>A congestion game is a tuple (N,R,A, c), where
+N is a set of n agents;
+</p>
+<p>R is a set of r resources;
+</p>
+<p>A = A1 × · · · ×An, where Ai ⊆ 2R \ {∅} is the set of actions
+for agent i; and
+</p>
+<p>c = (c1, . . . , cr), where ck : N 7→ R is a cost function for
+resource k ∈ R.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>From Cost Functions to Utility Functions
+</p>
+<p>Definition (#(r, a))
+</p>
+<p>Define #(r, a) as the number of players who took any action that
+involves resource r under action profile a.
+</p>
+<p>Definition (Congestion game utility functions)
+</p>
+<p>Given a pure-strategy profile a =∑(ai, a−i), let
+ui(a) = − cr(#(r, a)).
+</p>
+<p>r∈R|r∈ai
+</p>
+<p>note: same utility function for all players
+negated, because cost functions are understood as penalties
+</p>
+<p>however, the cr functions may be negative
+</p>
+<p>anonymity property: players care about how may others use a
+given resource, but not about which others do so
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Another Example: The Santa Fe Bar Problem
+</p>
+<p>The cost functions don’t have to increase monotonically in the number of
+agents using a resource.
+</p>
+<p>Example (Santa Fe Bar Problem)
+</p>
+<p>People independently decide whether or not to go to a bar.
+</p>
+<p>The utility of attending increases with the number of others
+attending, up to the capacity of the bar.
+</p>
+<p>Then utility decreases because the bar gets too crowded.
+</p>
+<p>Deciding not to attend yields a baseline utility that does not depend
+on the actions of others.
+</p>
+<p>A widely studied game.
+</p>
+<p>Famous for having no symmetric, pure-strategy equilibrium.
+</p>
+<p>Often studied in a repeated game context
+</p>
+<p>Generalized by so-called “minority games”.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Pure Strategy Nash Equilibrium
+</p>
+<p>The main motivation for congestion games was the following result:
+</p>
+<p>Theorem (Rosenthal, 1973)
+</p>
+<p>Every congestion game has a pure-strategy Nash equilibrium.
+</p>
+<p>This is a good thing, because pure-strategy Nash equilibria are
+more plausible than mixed-strategy Nash equilibria, and don’t
+always exist.
+</p>
+<p>It also implies that the computational problem of finding an
+equilibrium in a congestion game is likely to be different
+</p>
+<p>Note that congestion games are exponentially more compact
+than their induced normal forms
+</p>
+<p>if we’re to find PSNE efficiently, we can’t just check every
+action profile
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem (Monderer & Shapley, 1996)
+</p>
+<p>The MyopicBestResponse procedure is guaranteed to find a
+pure-strategy Nash equilibrium of a congestion game.
+</p>
+<p>This result depends on potential functions.
+</p>
+<p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Myopic Best Response
+</p>
+<p>Myopic best response algorithm. It starts with an arbitrary action profile.
+</p>
+<p>function MyopicBestResponse (game G, action profile a) returns a
+while there exists an agent i for whom ai is not a best response to a−i
+do
+</p>
+<p>a′i ← some best response by i to a−i
+a← (a′i, a−i)
+</p>
+<p>return a
+</p>
+<p>If it terminates, the algorithm returns a PSNE
+</p>
+<p>On general games, the algorithm doesn’t terminate
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Myopic Best Response
+</p>
+<p>Myopic best response algorithm. It starts with an arbitrary action profile.
+</p>
+<p>function MyopicBestResponse (game G, action profile a) returns a
+while there exists an agent i for whom ai is not a best response to a−i
+do
+</p>
+<p>a′i ← some best response by i to a−i
+a← (a′i, a−i)
+</p>
+<p>return a
+</p>
+<p>If it terminates, the algorithm returns a PSNE
+</p>
+<p>On general games, the algorithm doesn’t terminate
+</p>
+<p>Theorem (Monderer & Shapley, 1996)
+</p>
+<p>The MyopicBestResponse procedure is guaranteed to find a
+pure-strategy Nash equilibrium of a congestion game.
+</p>
+<p>This result depends on potential functions.
+Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Theorem (Monderer & Shapley, 1996)
+</p>
+<p>Every (finite) potential game has a pure-strategy Nash equilibrium.
+</p>
+<p>Proof.
+</p>
+<p>Let a∗ = arg maxa∈A P (a). Clearly for any other action profile a′,
+P (a∗) ≥ P (a′). Thus by the definition of a potential function, for
+any agent i who can change the action profile from a∗ to a′ by
+changing his own action, ui(a∗) ≥ u (a′i ).
+</p>
+<p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Potential Games
+</p>
+<p>Definition (Potential game)
+</p>
+<p>A game G = (N,A, u) is a potential game if there exists some
+P : A→7 R such that, for all i ∈ N , all a−i ∈ A−i and a ′i, ai ∈ Ai,
+u ′ ′i(ai, a−i)− ui(ai, a−i) = P (ai, a−i)− P (ai, a−i).
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Potential Games
+</p>
+<p>Definition (Potential game)
+</p>
+<p>A game G = (N,A, u) is a potential game if there exists some
+P : A 7→ R such that, for all i ∈ N , all a−i ∈ A−i and ai, a′i ∈ Ai,
+ui(ai, a ′ ′−i)− ui(ai, a−i) = P (ai, a−i)− P (ai, a−i).
+</p>
+<p>Theorem (Monderer & Shapley, 1996)
+</p>
+<p>Every (finite) potential game has a pure-strategy Nash equilibrium.
+</p>
+<p>Proof.
+</p>
+<p>Let a∗ = arg maxa∈A P (a). Clearly for any other action profile a′,
+P (a∗) ≥ P (a′). Thus by the definition of a potential function, for
+any agent i who can change the action profile from a∗ to a′ by
+changing his own action, u (a∗i ) ≥ u ′i(a ).
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Congestion Games have PSNE
+</p>
+<p>Theorem (Rosenthal, 1973)
+</p>
+<p>Every congestion game has a pure-strategy Nash equilibrium.
+</p>
+<p>Proof.
+</p>
+<p>Every congestion game has the following potential function:
+</p>
+<p>∑ #∑(r,a)
+P (a) = cr(j).
+</p>
+<p>r∈R j=1
+</p>
+<p>To show this, we must demonstrate that for any agent i and any
+action profiles (ai, a−i) and (a′i, a−i), the difference between the
+potential function evaluations at these action profiles is the same
+as i’s difference in utility. This follows from a straightforward
+arithmetic argument; omitted.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Convergence of MyopicBestResponse
+</p>
+<p>Theorem (Monderer & Shapley, 1996)
+</p>
+<p>The MyopicBestResponse procedure is guaranteed to find a
+pure-strategy Nash equilibrium of a congestion game.
+</p>
+<p>Proof.
+</p>
+<p>It is sufficient to show that MyopicBestResponse finds a
+pure-strategy Nash equilibrium of any potential game. With every
+step of the while loop, P (a) strictly increases, because by
+construction ui(a′i, a−i) > ui(ai, a−i), and thus by the definition of
+a potential function P (a′i, a−i) > P (ai, a−i). Since there are only
+a finite number of action profiles, the algorithm must terminate.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bad news:
+</p>
+<p>Theorem (Fabrikant, Papadimitriou & Talwar, 2004)
+</p>
+<p>Finding a pure-strategy Nash equilibrium in a congestion game is
+PLS-complete.
+</p>
+<p>PLS-complete: as hard to find as any other object whose
+existence is guaranteed by a potential function argument.
+</p>
+<p>e.g., as hard as finding a local minimum in a TSP using local
+search
+</p>
+<p>thus, we expect MyopicBestResponse to be inefficient in
+the worst case
+</p>
+<p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Analyzing the MyopicBestResponse result
+</p>
+<p>Good news:
+</p>
+<p>it didn’t require the cost functions to be monotonic
+</p>
+<p>it doesn’t even require best response: it works with better
+response.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Analyzing the MyopicBestResponse result
+</p>
+<p>Good news:
+</p>
+<p>it didn’t require the cost functions to be monotonic
+</p>
+<p>it doesn’t even require best response: it works with better
+response.
+</p>
+<p>Bad news:
+</p>
+<p>Theorem (Fabrikant, Papadimitriou & Talwar, 2004)
+</p>
+<p>Finding a pure-strategy Nash equilibrium in a congestion game is
+PLS-complete.
+</p>
+<p>PLS-complete: as hard to find as any other object whose
+existence is guaranteed by a potential function argument.
+</p>
+<p>e.g., as hard as finding a local minimum in a TSP using local
+search
+</p>
+<p>thus, we expect MyopicBestResponse to be inefficient in
+the worst case
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Mixed Nash in Congestion Games
+</p>
+<p>Not a problem that has received wide study. Nevertheless...
+</p>
+<p>Theorem
+</p>
+<p>Congestion games have polynomial type (as long as the action set
+for each player is explicitly listed). The ExpectedUtility
+problem can be computed in polynomial time for congestion
+games, and such an algorithm can be translated to an straight-line
+program as required by the theorem stated earlier.
+</p>
+<p>Corollary
+</p>
+<p>The problem of finding a Nash equilibrium of a congestion game is
+in PPAD. The problem of finding a correlated equilibrium of a
+congestion game is in P.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Overview
+</p>
+<p>1 Congestion Games
+</p>
+<p>2 Graphical Games
+</p>
+<p>3 Action-Graph Games
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Graphical Games
+</p>
+<p>Graphical Games [Kearns et al., 2001] are a compact
+representation of normal-form games that use graphical models to
+capture the payoff independence structure of the game.
+</p>
+<p>Intuitively, a player’s payoff matrix can be written compactly if his
+payoff is affected only by a subset of the other players.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Graphical Game Example
+</p>
+<p>Example (Road game)
+</p>
+<p>Consider n agents who have purchased pieces of land alongside a
+road. Each agent has to decide what to build on his land. His
+payoff depends on what he builds himself, what is built on the land
+to either side of his own, and what is built across the road.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Formal Definition
+</p>
+<p>Definition (Neighborhood relation)
+</p>
+<p>For a graph defined on a set of nodes N and edges E, for every
+i ∈ N define the neighborhood relation ν : N 7→ 2N as
+ν(i) = {i} ∪ {j|(j, i) ∈ E}.
+</p>
+<p>Definition (Graphical game)
+</p>
+<p>A graphical game is a tuple (N,E,A, u), where:
+N is a set of n vertices, representing agents;
+</p>
+<p>E is a set of undirected edges connecting the nodes N ;
+</p>
+<p>A = A1 × · · · ×An, where Ai is the set of actions available to
+agent i; and ∏
+u = (u1, . . . , un), u : A(i)i →7 R, where A(i) = j∈ν(i)Aj .
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Representation Size
+</p>
+<p>An edge between two vertices ⇔ the two agents are able to
+affect each other’s payoffs
+</p>
+<p>whenever two nodes i and j are not connected in the graph,
+agent i must always receive the same payoff under any action
+profiles (aj , a ′ ′−j) and (aj , a−j), aj , aj ∈ Aj
+</p>
+<p>Graphical games can represent any game, but not always
+compactly
+</p>
+<p>space complexity is exponential in the size of the largest ν(i)
+In the road game:
+</p>
+<p>the size of the largest ν(i) is 4, independent of the total
+number of agents
+the representation requires space polynomial in n, while a
+normal-form representation requires space exponential in n
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Computing CE and Mixed NE in Graphical Games
+</p>
+<p>Theorem
+</p>
+<p>Graphical games have polynomial type. The ExpectedUtility
+problem can be computed in polynomial time for graphical games,
+and such an algorithm can be translated to an straight-line
+program.
+</p>
+<p>Corollary
+</p>
+<p>The problem of finding a Nash equilibrium of a graphical game is
+in PPAD. The problem of finding a correlated equilibrium of a
+graphical game is in P.
+</p>
+<p>Theorem (Daskalakis, Goldberg & Papadimitriou, 2006)
+</p>
+<p>The problem of finding a Nash equilibrium of a graphical game is
+PPAD complete, even if the degree of the graph is at most 3, and
+there are only 2 strategies per player.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Computing Mixed NE in Graphical Games
+</p>
+<p>The way that graphical games capture payoff independence is
+similar to the way that Bayesian networks capture conditional
+independence in multivariate probability distributions.
+It should therefore be unsurprising that many computations on
+graphical games can be performed efficiently using algorithms
+similar to those proposed in the graphical models literature.
+</p>
+<p>Theorem (Kearns, Littman & Singh, 2001)
+</p>
+<p>When the graph (N,E) defines a tree, a message-passing
+algorithm can compute an -Nash equilibrium in time polynomial in
+1/ and the size of the representation.
+</p>
+<p>Theorem (Elkind, Goldberg & Goldberg, 2006)
+</p>
+<p>When the graph (N,E) is a path or a cycle, a similar algorithm
+can find an exact equilibrium in polynomial time.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The same insight can be leveraged to obtain results like:
+</p>
+<p>Theorem (Gottlob, Greco & Scarcello, 2005; Daskalakis &
+Papadimitriou, 2006)
+</p>
+<p>Deciding whether a graphical game has a pure Nash equilibrium is
+in P for all classes of games with bounded treewidth or
+hypertreewidth.
+</p>
+<p>It’s possible to go even a bit further, to games with O(log n)
+treewidth
+</p>
+<p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Computing PSNE in Graphical Games
+</p>
+<p>Theorem (Gottlob, Greco & Scarcello, 2005)
+</p>
+<p>Determining whether a pure-strategy equilibrium exists in a
+graphical game is NP complete.
+</p>
+<p>This result follows from seeing the problem as a CSP.
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Computing PSNE in Graphical Games
+</p>
+<p>Theorem (Gottlob, Greco & Scarcello, 2005)
+</p>
+<p>Determining whether a pure-strategy equilibrium exists in a
+graphical game is NP complete.
+</p>
+<p>This result follows from seeing the problem as a CSP.
+</p>
+<p>The same insight can be leveraged to obtain results like:
+</p>
+<p>Theorem (Gottlob, Greco & Scarcello, 2005; Daskalakis &
+Papadimitriou, 2006)
+</p>
+<p>Deciding whether a graphical game has a pure Nash equilibrium is
+in P for all classes of games with bounded treewidth or
+hypertreewidth.
+</p>
+<p>It’s possible to go even a bit further, to games with O(log n)
+treewidth
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Congestion Games Graphical Games Action-Graph Games
+</p>
+<p>Overview
+</p>
+<p>1 Congestion Games
+</p>
+<p>2 Graphical Games
+</p>
+<p>3 Action-Graph Games
+</p>
+<p>Equilibrium Computation in Compactly-Represented Games Costis Daskalakis & Kevin Leyton-Brown, Slide 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Action-Graph Games
+[Bhat & LB, 2004; Jiang, LB & Bhat, 2009]
+</p>
+<p>• set of players: want to 
+</p>
+<p>open coffee shops
+</p>
+<p>• actions: choose a location 
+</p>
+<p>for your shop, or choose 
+</p>
+<p>not to enter the market
+</p>
+<p>• utility: profitability of 
+</p>
+<p>a location 
+</p>
+<p>– some locations might have 
+</p>
+<p>more customers, and so 
+</p>
+<p>might be better ex ante
+</p>
+<p>– utility also depends on the 
+</p>
+<p>number of other players 
+</p>
+<p>who choose the same or 
+</p>
+<p>an adjacent location</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Formal Definitions</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Job Market Problem
+</p>
+<p>Each player chooses a level of training
+</p>
+<p>Players’ utilities are the sum of: Computer Electrical Mechanical
+Science Engineering Engineering
+</p>
+<p>„ a constant cost: 
+PhD PhD PhD
+</p>
+<p>‟ difficulty; tuition; foregone wages
+</p>
+<p>„ a variable reward, depending on:
+</p>
+<p>‟ How many jobs prefer workers with MSc MEng MEng
+</p>
+<p>this training, and how desirable are the 
+</p>
+<p>jobs?
+</p>
+<p>‟ How many other jobs are willing to BSc BEng BEng
+</p>
+<p>take such workers as a second choice, 
+</p>
+<p>and how good are these jobs?
+Dipl Dipl Dipl
+</p>
+<p>„ Employers will take workers who are 
+</p>
+<p>overqualified, but only by one degree.
+</p>
+<p>„ They will also interchange similar 
+High
+</p>
+<p>degrees, but only at the same level.
+</p>
+<p>‟ How many other graduates want the 
+</p>
+<p>same jobs?</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analyzing the AGG Representation
+</p>
+<p>AGGs can represent any game.
+</p>
+<p>Overall, AGGs are more compact than the normal form when 
+</p>
+<p>the game exhibits either or both of the following properties:
+</p>
+<p>1. Context-Specific Independence: 
+</p>
+<p>„ pairs of agents can choose actions that are 
+</p>
+<p>not neighbors in the action graph
+</p>
+<p>2. Anonymity: 
+</p>
+<p>„ multiple action profiles yield the same configuration
+</p>
+<p>When max in-degree I is bounded by a constant:  
+</p>
+<p>‟ polynomial size: O(|Amax|n
+I)
+</p>
+<p>‟ in contrast, size of normal form is O(n|Amax|
+n)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Graphical Games are Compact as AGGs
+</p>
+<p>i1 j1 k1
+</p>
+<p>i j k i2 j2 k2
+</p>
+<p>i3 j3 k3
+</p>
+<p>GG AGG
+</p>
+<p>Agent node Action set box
+</p>
+<p>Edge Bipartite graphs between action sets
+</p>
+<p>Local game matrix Node utility function</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem Revisited
+„ What if utility also depends on total # shops?
+</p>
+<p>„ Now action graph has in-degree |A|
+</p>
+<p>‟ NF & Graphical Game representations: O(|A|N)
+</p>
+<p>‟ AGG representation:  O(N|A|)
+</p>
+<p>‟ when |A| is held constant, the AGG 
+representation is polynomial in N
+</p>
+<p>„ but still doesn’t effectively capture game structure
+</p>
+<p>„ given i’s action, his payoff depends only on 3 quantities!
+</p>
+<p>6 £ 5 Coffee Shop Problem: projected action graph at the red node</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGGFNs: Function Nodes
+</p>
+<p>„ To exploit this structure, introduce function nodes:
+</p>
+<p>‟ The “configuration” of a function node p is a (given) function of the 
+configuration of its neighbors: c[p] = fp(c[º(p)])
+</p>
+<p>„ Coffee-shop example: for each action node s, introduce:
+</p>
+<p>‟ a function node with adjacent actions as neighbors 
+</p>
+<p>„ c[p's] = total number of shops in surrounding nodes
+</p>
+<p>‟ similarly, a function node with non-adjacent actions as neighbors
+</p>
+<p>6 £ 5 Coffee Shop Problem: function nodes for the red node</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem
+</p>
+<p>„ Now the red node has only three incoming edges: 
+</p>
+<p>‟ itself, the blue function node and the orange function node
+</p>
+<p>‟ so, the action-graph now has in-degree three
+</p>
+<p>„ Size of representation is now O(N3)
+</p>
+<p>6 £ 5 Coffee Shop Problem: projected action graph at the red node</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Example: Parallel Edges
+Based on [Thompson, Jiang & LB, 2007]; inspired by [Odlyzko, 1998]
+</p>
+<p>„ Network with one source, one 
+</p>
+<p>sink, two parallel edges
+</p>
+<p>‟ both edges offer identical speed
+</p>
+<p>‟ one is free, one costs $1
+</p>
+<p>‟ latency is an additive function of 
+</p>
+<p>the number of users on an edge
+</p>
+<p>„ Two classes of users
+</p>
+<p>‟ 18 users pay $0.10/unit of delay
+</p>
+<p>‟ 2 users pay $1.00/unit of delay
+</p>
+<p>„ Which edge should users choose?
+</p>
+<p>„ Example scales to longer paths
+</p>
+<p>‟ not a congestion game because of
+</p>
+<p>player-specific utility</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Further Representational Results
+[Jiang, LB & Bhat, 2009]
+</p>
+<p>„ Without loss of compactness, AGGs can also encode:
+</p>
+<p>‟ Symmetric games
+</p>
+<p>‟ Anonymous games (requires function nodes)
+</p>
+<p>„ One other extension to AGGs: explicit additive structure
+</p>
+<p>„ Enables compact encoding of still other game classes:
+</p>
+<p>‟ Congestion games
+</p>
+<p>‟ Polymatrix games
+</p>
+<p>‟ Local-Effect games
+</p>
+<p>Conclusion: AGGs compactly encode all major compact classes
+</p>
+<p>of simultaneous-move games, and also many new games that 
+</p>
+<p>are compact in none of these representations.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGGs: Complexity
+</p>
+<p>Theorem (Jiang & LB, 2006; independently proven in 
+</p>
+<p>Daskalakis, Schoenebeck, Valiant & Valiant 2009):
+</p>
+<p>AGGs have polynomial type. The EXPECTEDUTILITY problem 
+</p>
+<p>can be computed in polynomial time for AGGs, and such an 
+</p>
+<p>algorithm can be translated to a straight-line program.
+</p>
+<p>In AGGFNs, players are no longer guaranteed to affect 
+</p>
+<p>c independently
+</p>
+<p>• the computation is still polynomial when function nodes 
+</p>
+<p>can be expressed using a commutative, associative operator
+</p>
+<p>Corollary: The problem of finding a Nash equilibrium of an 
+</p>
+<p>AGG is in PPAD. The problem of finding a correlated 
+</p>
+<p>equilibrium of an AGG is in P.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGGs: Complexity
+</p>
+<p>Theorem (Daskalakis, Schoenebeck, Valiant & Valiant 2009):
+</p>
+<p>There exists a fully polynomial time approximation scheme 
+</p>
+<p>for computing mixed Nash equilibria of AGGs with constant 
+</p>
+<p>degree, constant treewidth and a constant number of distinct 
+</p>
+<p>action sets (but unbounded number of actions).
+</p>
+<p>If either of the latter conditions is relaxed without new 
+</p>
+<p>restrictions being made, the problem becomes intractable.
+</p>
+<p>Theorem (DSVV-09): It is PPAD{complete to compute a 
+</p>
+<p>mixed Nash equilibrium in an AGG for which (1) the action 
+</p>
+<p>graph is a tree and the number of distinct action sets is 
+</p>
+<p>unconstrained, or (2) there are a constant number of distinct 
+</p>
+<p>action sets and treewidth is unconstrained.
+</p>
+<p>it is PPAD{complete to compute a mixed Nash equilibrium. 
+</p>
+<p>Similarly for AGGs</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing Pure-Strategy Equilibrium
+</p>
+<p>Theorem (Conitzer, personal communication, 2004; proven 
+</p>
+<p>independently by Daskalakis et al., 2008):  The problem of 
+</p>
+<p>determining existence of a pure Nash equilibrium in an AGG 
+</p>
+<p>is NP-complete, even when the AGG is symmetric and has 
+</p>
+<p>maximum in-degree of three.
+</p>
+<p>Theorem (Jiang & LB, 2007):  For symmetric AGGs with 
+</p>
+<p>bounded treewidth, existence of pure Nash equilibrium can be 
+</p>
+<p>determined in polynomial time.
+</p>
+<p>Generalizes earlier algorithms
+</p>
+<p>‟ finding pure equilibria in graphical games
+[Gottlob, Greco, & Scarcello 2003; Daskalakis & Papadimitriou 2006]
+</p>
+<p>‟ finding pure equilibria in simple congestion games
+[Ieong, McGrew, Nudelman, Shoham, & Sun 2005]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sponsored Search Auctions
+Brief preview of [Thompson & LB, ACM-EC 2009]
+</p>
+<p>„ Position auctions are used to sell $10Bs of keyword ads
+</p>
+<p>„ Some theoretical analysis, but based on strong assumptions
+</p>
+<p>‟ Unknown how different auctions compare in more general settings
+</p>
+<p>„ Idea: analyze the auctions computationally
+</p>
+<p>‟ Main hurdle: ad auction games are large; infeasible as normal form
+</p>
+<p>Effective 
+</p>
+<p>Bid (ei)      0                2                 3               4                6                8                9               10
+</p>
+<p>Agent A
+0 1 2 3 4 5
+</p>
+<p>β=2
+</p>
+<p>Agent B
+0 1 2 3 4 5
+</p>
+<p>β=2
+</p>
+<p>Agent C
+0 1 2 3
+</p>
+<p>β=3
+</p>
+<p># # # # # # # #
+</p>
+<p>ei=0 ei=2 ei=3 ei=4 ei=6 ei=8 ei=9 ei=10
+</p>
+<p># # # # # # # #
+</p>
+<p>ei≥0 ei≥2 ei≥3 ei≥4 ei≥6 ei≥8 ei≥9 ei≥10
+</p>
+<p>AGG representation of a Weighted, Generalized First-Price (GFP) Auction</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sponsored Search Auctions
+Brief preview of [Thompson & LB, ACM-EC 2009]
+</p>
+<p>„ Position auctions are used to sell $10Bs of keyword ads
+</p>
+<p>„ Some theoretical analysis, but based on strong assumptions
+</p>
+<p>‟ Unknown how different auctions compare in more general settings
+</p>
+<p>„ Idea: analyze the auctions computationally
+</p>
+<p>‟ Main hurdle: ad auction games are large; infeasible as normal form
+</p>
+<p>Social welfare and revenue of EOS auction model</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Free Software Tools for AGGs
+Based on [Bargiacchi, Jiang & LB, ongoing work]
+</p>
+<p>„ Goal: make it easier for other researchers to use AGGs
+</p>
+<p>„ Equilibrium computation algorithms:
+</p>
+<p>‟ Govindan-Wilson
+</p>
+<p>‟ Simplicial Subdivision
+</p>
+<p>„ GAMUT
+</p>
+<p>‟ extended to support AGGs
+</p>
+<p>„ Action Graph Game Editor:
+</p>
+<p>‟ creates AGGs graphically
+</p>
+<p>‟ facilitates entry of utility fns
+</p>
+<p>‟ supports “player classes”
+</p>
+<p>‟ auto creates game generators
+</p>
+<p>‟ visualizes equilibria on the 
+</p>
+<p>action graph</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overall Conclusions
+</p>
+<p>„ Equilibrium computation is a hot topic lately
+</p>
+<p>‟ by now, the general complexity picture is fairly clear
+</p>
+<p>„ Compact representations are a fruitful area of study
+</p>
+<p>‟ necessary for modeling large-scale game-theoretic interactions
+</p>
+<p>„ There’s lots to do, both in theoretical and applied veins
+</p>
+<p>‟ theoretical: only scratched the surface of restricted subclasses of games, and 
+</p>
+<p>corresponding algorithmic and complexity results
+</p>
+<p>‟ both: extend our existing representations to make them more useful
+</p>
+<p>‟ applied: now that we have practical techniques for representing and 
+</p>
+<p>reasoning with large games, see what practical problems we can solve
+</p>
+<p>„ We’ve focused on simultaneous-move, perfect-information games
+</p>
+<p>‟ the most fundamental, both representationally and computationally
+</p>
+<p>‟ to some extent, computational ideas carry over, both to incomplete 
+</p>
+<p>information and to sequential moves
+</p>
+<p>‟ lots of interesting work on those problems that we haven’t discussed
+</p>
+<p>„ e.g., sequence form; algorithms for finding equilibria in huge extensive form games 
+</p>
+<p>(motivated especially by poker); MAIDs, TAGGs</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

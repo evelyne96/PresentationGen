@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Recurrent neural networks used in natural language processing</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sütő</forename><surname>Evelyne</surname></persName>
+						</author>
+						<title level="a" type="main">Recurrent neural networks used in natural language processing</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The aim of this paper is to present the architecture of recurrent neural network and in more detail a specific recurrent network that has been used in several Natural Language Processing tasks, Long Short-Term Memory Networks.</p><p>We will start from a simple neural network architecture then present the additional architectural difference of a recurrent network. We go through the backpropagation algorithm to understand why is it challenging to train a recurrent network. Since our main goal is to use recurrent network for natural language processing problems we introduce the Long Short-Term memory networks which are suitable to process long sequence of natural language sentences. We also cover several improvement of the initial Long Short-Term memory architecture which has been made throughout the years.</p><p>Furthermore we will investigate the Encoder-Decoder architecture's specific properties and description to show how they are usually used in these types of problems.</p><p>Lastly we present a few experiments done in different NLP taks using the above mentioned elements.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Natural Language Processing (NLP) problems have been researched heavily in the last few decades, however its impact has never been so great as it is today. This is mostly because we are trying to automate more and more processes. However this automation process becomes very difficult once the understanding of natural language is needed. In those cases, such as customer support chat-bots, we need to solve problems such as text to speech recognition, language modelling, text generation and more. One architecture in the field of machine learning which is suitable for these problems is Recurrent Neural Networks (RNN).</p><p>The aim of this paper is to provide a presentation of the architecture of recurrent neural networks. As mentioned above, our main interest is to explore the domains of NLP and for that reason we will introduce a specific variant of the RNN architecture, the Long Short-Term Memory networks (LSTM).</p><p>In order to have a better understanding of the structure of RNN first we discuss simple neural networks then introduce what does a LSTM has in plus. We also explore the Backpropagation algorithm and it's problems when training recurrent or deep networks.</p><p>Furthermore we will provide an overview of a popular model used for NLP tasks: Encoder-Decoder model 2.7, which usually uses two separate RNN for the encoder and the decoder module. In addition we will have a look into two algorithms 2.8 which will help us decode the predictions given by our model: Greedy algorithm and Beam search algorithm.</p><p>After this theoretical background we will focus on a variety of applications in which this architecture can be used 3. We will see what additional changes each applications adds to achieve high performance in each tasks.</p><p>The tasks mentioned in this paper will be: neural machine translation 3.1, text summarization 3.3, speech recognition 3.2 and paraphrase generation 3.4. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Neural Network</head><p>First let us consider a simple neural network. <ref type="figure" target="#fig_0">(Figure 1</ref>) In this case we only have one hidden layer but this can be extended with as many hidden layers as needed for our purposes in that case we have deep neural networks.</p><p>A standard neural network consists of many simple, connected processors called neurons, each producing a sequence of real-valued activations. Some of these neurons get activated by the environment and some are activated through weighted connections from other neurons. The learning or training of the network consists of finding weights for which the network approximates the desired hypothesis for our task. <ref type="bibr" target="#b13">[Schmidhuber, 2015]</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Backpropagation</head><p>The backpropagation algorithm is used to find the best approximation of the desired weights for the network.</p><p>The algorithm is based on gradient descent which determines a weight vector which minimizes the error by starting from an initial random vector which will be modified repeatedly in small steps in the direction that produces the steepest descent. Let us consider a simple representation of the error as:</p><formula xml:id="formula_0">E = 1 2 N n=1 (t d − o d ) 2<label>(1)</label></formula><p>Where t d is the targeted output and o d is the output given by our network. In order to find the direction in which we can minimize this error we need to calculate the derivative of this error function with respect to our network weights. This derivative will give us the direction that produces the steepest increase in the error.</p><p>As a result our weight updates which minimize our error will be:</p><formula xml:id="formula_1">w i = w i − η ∂E ∂w i<label>(2)</label></formula><p>Where:</p><p>w i : is the weight E: is the error of the network (loss) η: is a positive real number called the learning rate</p><p>Since we mostly use architectures with more than one layers we need to propagate the error backwards and calculate the partial derivatives respectively with the help of the chain rule. More detailed description of the backpropagation algorithm in: <ref type="bibr" target="#b9">[Mitchell, 1997]</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Recurrent neural network</head><p>Recurrent neural networks are a subset of neural networks which uses the output unit at time t as the input to another unit at time t+1. For this reason RNNs are usually used for sequence learning problems.</p><p>As seen on <ref type="figure" target="#fig_1">Figure 2</ref> we can unfold this recurrent network to understand it's structure better. We have several copies of the network which are connected between each others.</p><p>The input is represented as a sequence x = (x 1 , . . . , x T ) from which the RNN computes the hidden vector state h = (h 1 , . . . , h T ) and the output y = (y 1 , . . . , y T ) by iterating the following equations from t = 1 to T:</p><formula xml:id="formula_2">h t = H(W xh x t + W hh h t−1 + b h ) (3) y t = W hy h t + b y<label>(4)</label></formula><p>where the W represents the weight matrices (e.g. W xh is the input-hidden weight matrix), the b terms denote bias vectors (e.g. b h is hidden bias vector) and H is the hidden layer's activation function e.g. tanh or sigmoid function. <ref type="bibr" target="#b5">[Graves et al., 2013]</ref> Since RNNs contain a finite number of networks we may train the unfolded network using backpropagation and updating the weights with the mean value of the corresponding weights of the copies. <ref type="bibr" target="#b9">[Mitchell, 1997]</ref> 2.4 The problem in the recurrent network architecture When training an RNN there is two problems we need to consider: vanishing and exploding gradients.</p><p>As mentioned in section 2.3 these networks can be trained by unfolding this model and using backpropagation on this unfolded network. However with standard activation functions the cumulative backpropagated errors either shrink rapidly, or grow out of bounds. In fact, they decay exponentially in the number of layers, or they explode. This is also known as the long time lag problem. This makes it challenging to train very deep neural networks because they can't find the correlation between distant elements. <ref type="bibr" target="#b13">[Schmidhuber, 2015]</ref> There are several solutions to avoid these problems. We may use a threshold value for our gradients and choose to scale it whenever the value goes over that specific threshold. This may solve the problem of exploding gradient. While the solution of the vanishing gradient problem lies in using LSTM cells instead of regular cells thus creating a Long Short-Term Memory network. <ref type="bibr" target="#b11">[Pascanu et al., 2013]</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5">Long Short-Term Memory Cell</head><p>To avoid vanishing gradient an architecture was proposed which allows constant error flow, through special, self connected gate units. Since the goal is to have cells that can store information from previous states and are able to ignore certain information this could lead to conflicts if we use simple cells.</p><p>To resolve these conflicts LSTM ( <ref type="figure" target="#fig_2">Figure 3</ref>) uses a multiplicative input gate unit which protects the information content in j from irrelevant information and a multiplicative output gate unit which protects other units from the current state's irrelevant information. <ref type="bibr" target="#b8">[Hochreiter and Schmidhuber, 1997]</ref> The memory cells internal structure consists of a number of connected computational units, including the sigmoid function, the tanh function, and the gating function, which are connected in a graph structure. <ref type="figure" target="#fig_2">(Figure 3</ref>) The fact that these units are differentiable ensures the memory cell as a whole can be used in conjunction with BPTT using the chain rule as a connecting principle. <ref type="bibr" target="#b0">[Bayer et al., 2009]</ref> The architecture uses a sigmoid gate to filter the input from unnecessary information, the next sigmoid together with the tanh gate defines what new information should be added or kept from the previous states and the last two gates will define what the final output of the cell should be. These elements can be calculated through:</p><formula xml:id="formula_3">f t = σ(W f * [h t−1 , x t ] + b f ) (5) i t = σ(W i * [h t−1 , x t ] + b i ) (6) C t = tanh(WC * [h t−1 , x t ] + bC) (7) C t = f t * C t−1 + i t * C t (8) o t = σ(W o * [h t−1 , x t ] + b o ) (9) h t = o t * tanh(C t )<label>(10)</label></formula><p>While these types of networks do well in tasks where long lags are present between the events they do have their limitations as well which were even discussed when they were first published in <ref type="bibr" target="#b8">[Hochreiter and Schmidhuber, 1997</ref>].</p><p>• They do increase the number of weights that are needed to be used in our architecture.</p><p>• In some cases training LSTM networks may take longer than solving a problem by random weight guessing in trivial cases.</p><p>• They struggle to solve problems such as the "strongly delayed XOR" problem, since only storing one of the inputs does not help in the error reduction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.6">Possible ways to improve LSTM</head><p>As it is described in the <ref type="bibr" target="#b0">[Bayer et al., 2009]</ref> publication this form of the LSTM cell has been developed in incremental steps.</p><p>The <ref type="bibr" target="#b6">[Greff et al., 2017]</ref> publication provides a detailed overview of how different variants of LSTM networks have been developed throughout the years. The first variation of LSTM introduced in <ref type="bibr" target="#b8">[Hochreiter and Schmidhuber, 1997]</ref> included only input and output gate with an internal state. The first improvement was proposed in <ref type="bibr" target="#b3">[Gers et al., 1999]</ref> which has recognised the limitation of this architecture, there was no way for the LSTM to reset its own internal state thus enabling it to forget unnecessary information. To solve this problem they introduced the forget gate, which allowed the cells to reset their states adeptively. They later expanded this model with peephole connections, connections from the cells to the gates, which can control the gates in order to make precise timings easier to learn. They also improve the training of the original LSTM networks by replacing the mixture of Real Time Recurrent Learning and Backpropagation Through Time with full Backpropagation Trough Time training. <ref type="bibr" target="#b6">[Greff et al., 2017]</ref> Other researches to evolve the structure of LSTM cells used evolutionary algorithms <ref type="bibr" target="#b0">[Bayer et al., 2009]</ref>, where the researchers viewed the LSTM cell itself as a network and used it to create RNN on which the evolutionary algorithm was used to mutate these cells and calculate the fitness function which is applied to select the best entities. They came to the conclusion that the cell structures generated this way were able to outperform simple LSTM cells in several tasks such as T-Maze test from Reinforcement learning or the learning of context-free languages. This proves that these cells can be used in more general problems as well (e.g. reinforcement learning).</p><p>Another interesting approach in the literature is to create hybrid models using LSTM networks with other well known architectures. An example of such case is the Convolutional LSTM network <ref type="bibr" target="#b16">[Xingjian et al., 2015]</ref>. In this paper the researchers introduce this novel approach to solve the problem of Precipitation Nowcasting. This architecture recognizes the shortcomings of simple LSTM of making correlation between spatial attributes of the dataset. As we can notice from their experiments this model outperforms the standard LSTM architecture not just in Precipitation Nowcasting problem but other application as well e.g. Moving-MNIST Dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.7">Encoder-Decoder Model</head><p>In order for us to understand the experiments that will be presented in this paper first we need to have a better understanding of the Encoder-Decoder model which will be used in many of these examples. This model is also referred to as the sequence to sequence model. One simple representation of this model can be seen on <ref type="figure">Figure 4</ref> Since the input can be of varying size which could not be modelled by a recurrent network a simple strategy is to map the input sequence to a fixed sized vector using one RNN and then map the vector to the output sentence with another RNN. Since this model might need to learn really long sentences we Long Short-Term Memory Networks are often used in these problems. The idea is to use an LSTM to read the input data one time step at a time to obtain a fixed dimensional vector representation, and then to use another LSTM to Figure 4: Neural machine translation example of a deep recurrent architecture proposed by for translating a source sentence "I am a student" into a target sentence "Je suis tudiant". Here, "s" marks the start of the decoding process while "/s" tells the decoder to stop. Image source: https://github.com/lmthang/thesis/blob/master/thesis.pdf extract the output sequence from that vector. So the LSTM's goal will be to estimate the probability of P (y 1 , y 2 , .., y l |x 1 , x 2 , .., x t ) where x is the input sequence and y is the output sequence whose length might be different. It is also required for the input sequence to end with a special Stop character. The model is based on two components: the first one for the input sequence the a second for the output sequence. <ref type="bibr" target="#b14">[Sutskever et al., 2014]</ref> It is also important to mention that the researchers in <ref type="bibr" target="#b14">[Sutskever et al., 2014]</ref> have found that reversing the source sentence can lead to better results even though they can't really explain why that might be.</p><p>The result of the second layer will be a matrix of probabilities from which we can decode our prediction using two approaches: maximum likelihood method and beam search algorithm which will be discussed in 2.8.</p><p>As we can see on <ref type="figure">Figure 4</ref> a conventional Encoder-Decoder model usually has an Embedding layer (in NLP problems) which translates the input sentence to a dense vector representation using the Vocabulary that we provide in the beginning. The output of the embedding is then fed to the encoder model which will return the input for the decoder. The output from the decoder layer then can be processed to retrieve the prediction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.8">Decoding Algorithms</head><p>In the literature there is two main algorithms which are used to extract the output of the decoder.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.8.1">Greedy Decoding</head><p>Greedy decoding is one of the simplest approaches for decoding sentences and it is based on conditional possibility calculations.</p><p>Figure 5: Greedy decoding algorithm example of a deep recurrent architecture proposed by for translating a source sentence "I am a student" into a target sentence "moi suis etudiant" Image source: https://github.com/lmthang/thesis/blob/master/thesis.pdf</p><p>In greedy decoding, we follow the conditional dependency path and pick the symbol with the highest conditional probability so far at each node. This is equivalent to picking the best symbol, one at a time, from left to right in conditional language modelling. <ref type="bibr" target="#b7">[Gu et al., 2017]</ref> However this does not give us the best results because it only takes into consideration the element at previous time step which means that if it makes a wrong prediction every prediction made after that will be based on false information.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.8.2">Beam-Search algorithm</head><p>Beam search keeps K &gt; 1 hypotheses, unlike greedy decoding which keeps only one during decoding. At each time step t, beam search picks K hypotheses with the highest scores t i=1 p(y t |y &lt; t, X) When all the hypotheses terminate (outputting the end-of-the sentence symbol), it returns the hypothesis with the highest log-probability. Despite its superior performance compared to greedy decoding, the computational complexity grows linearly w.r.t. the size of beam K, which makes it less preferable especially in the production environment. <ref type="bibr" target="#b7">[Gu et al., 2017]</ref> The reason these algorithms and model has been presented in detail is because many experiments that will be presented uses them.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Experiments</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Neural Machine Translation</head><p>One of the fields where sequence to sequence models were successfully applied and has yielded state of the art results if machine translation.</p><p>One of these researches were conducted for English-French translation in <ref type="bibr" target="#b14">[Sutskever et al., 2014]</ref> where researchers have used two connected LSTM models. They have concluded that deep LSTMs can significantly outperform shallow LSTMs. Another important element introduced by that was the fact that reversing the source sentence can improve the model's accuracy. Furthermore they have shown that LSTM sequence to sequence models are able to map even very long sentences to the translation language successfully. This simple unoptimized model was able to produce state of the art results with relatively short training. For example models which use Statistical Machine Translation methods with neural networks produce 37 BLEU score while this models best result was 36.5 BLEU score.</p><p>BLEU is an automatic evaluation metric used for machine translations tasks. The way that Bleu metrics work is to compare the output of a machine translation system against reference human translations. The primary reason that Bleu is viewed as a useful stand-in for manual evaluation is that it has been shown to correlate with human judgements of translation quality. <ref type="bibr" target="#b1">[Callison-Burch et al., 2006]</ref> Later on this model's ( <ref type="bibr" target="#b14">[Sutskever et al., 2014]</ref>) shortcomings are addressed in <ref type="bibr" target="#b15">[Wu et al., 2016]</ref> to improve Google's translation system. The main shortcomings of this systems recognised by them was the expensive training, lack of robustness, poor translation when rare words are present and the issue to NMT systems in practical deployments and services. They propose many changes to the architecture itself such deeper encoders and decoders (8 layers), Attention mechanism added between the encoder and decoder module, they introduced residual connections between the LSTM layers to speed up their training and they use Bi-Directional Encoder to get a better context for the translation. The problem of rare word translation has been solved partially by copying the rare word entirely in the target sentence since these words usually represent names and they also use a more intelligent approach with sub-word units implementation. The evaluation of their model is done on two translation tasks: English-Frech and English-German, where on the English-French dataset the results improved by 1 BLEU score while the English-German with 0.4 BLEU score. It is also presented that such a model can easily be used in production as well improving translation errors by more than 60% even for such challenging tasks as English-Chinese translation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Speech recognition: Speech to text translation</head><p>Another subfield where LSTM can be used is for speech recognition task.</p><p>As used by the authors from <ref type="bibr" target="#b4">[Graves and Jaitly, 2014]</ref>. The authors have chosen to use an LSTM to exploit the long range of contexts from the training data and the LSTM's capability to store information. Instead of using a simple RNN they have chosen to use a Bidirectional RNN to exploit the future context as well, not just previous ones. A Bidirectional RNN processes the information in both directions with two separate hidden layers, then calculating the output based on these informations. In order to improve the training of the network they use Connectionist Temporal Classification function which allows the RNN to be trained sequence transcription without requiring prior alignment between target and input data. Their chosen decoding algorithm to decode the sentences was the Beam Search algorithm. In order to train their model they have chosen the Wall Street Journal corpus. The experiments were then scored on word error and character error rate. Their experiments conclude that even though it does not outperform the baseline model, considering that this model does not need data preprocessing it can be viewed as a successful model. Their best scores on the 14 hour dataset was 13.5 while the baseline is 9.4 and on the 81 hour dataset their result was 8.2 while the baseline was 7.8.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Text summarization</head><p>Abstractive text summarization is the task of generating a headline or a short summary consisting of a few sentences that captures the salient ideas of an article or a passage. <ref type="bibr" target="#b10">[Nallapati et al., 2016]</ref> The researchers in <ref type="bibr" target="#b10">[Nallapati et al., 2016]</ref> view this problem as mapping a sequence of data to another sequence. As a result they have chosen the Encoder-Decoder model with a bi-directional GRU-RNN as the encoder and a uni-directional GRU-RNN. They also use an Attention mechanism between the two modules. They also address the problem of rare words by using a so called Switching Generator-Pointer model. In this model, the decoder is equipped with a switch that decides between using the generator or a pointer at every time-step. If the switch is turned on, the decoder produces a word from its target vocabulary in the normal fashion. However, if the switch is turned off, the decoder instead generates a pointer to one of the word-positions in the source. The word at the pointer-location is then copied into the summary. The switch is modelled as a sigmoid activation function over a linear layer based on the entire available context at each time step. <ref type="bibr" target="#b10">[Nallapati et al., 2016]</ref> In their experiments they have used 3 datasets: Gigaword corpus, DUC corpus and CNN/Daily Mail corpus. Their model has outperformed the state of the art results on DUC and CNN/Daily Mail corpus.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Paraphrase generation</head><p>Paraphrasing, the act to express the same meaning in different possible ways, is an important subtask in various Natural Language Processing (NLP) applications such as question answering, information extraction, information retrieval, summarization and natural language generation. <ref type="bibr" target="#b12">[Prakash et al., 2016]</ref> Paraphrase generation can be used to improve many NLP tasks such as question answering, translation, text summarization just by generating new forms of the inputs.</p><p>Even though paraphrase generation can be used to improve many tasks it was just recently started to spark interest in researchers.</p><p>In <ref type="bibr" target="#b12">[Prakash et al., 2016]</ref> the authors try to solve this problem by using an Encoder-Decoder model with Deep LSTMs with stacked residual connections. This model is evaluated on three very different datasets. The PPDB is a paraphrase dataset which includes only various short paraphrases, WikiAnswers with 18M question pairs and MSCOCO which contains image captions. The authors have compared 3 other models with their proposed one. On each corpus their model outperformed the other 3: sequence to seqeunce, sequence to sequence with attention and Bi-directional LSTMs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Conclusion</head><p>We have seen an overview of how a basic neural network works and what is the aspect that a RNN offers to solve sequence problems.</p><p>We also presented an overview of a RNN and researched what are their weaknesses that make them a slightly worse approach for NLP. We gained some insight on the architecture of LSTM networks which introduced the solution for the drawback of RNN. We introduced some researches which have contributed to the improvement of the original LSTM to reach its current state. From the insight of the architecture of the LSTM and the recent researches that has been made to evolve this model even further we can safely declare that it does solve the initial shortcomings for which they were introduced and they are worth to research further.</p><p>We should also mention that while this architecture has been used for many years for sequence modelling some recent study shows that it might not be the most efficient for this task. In <ref type="bibr" target="#b2">[Elbayad et al., 2018]</ref> the researchers introduced a new approach with using a 2D Convolutional network for sequence modelling and have showed that even though their model is simpler than the LSTM and uses less parameters it was able to yield results that can compete with the traditionally used models.</p><p>However, having seen the various experiments done in this field we can conclude that the use of recurrent neural network is very popular in NLP tasks. One of the main reasons for that is the LSTMs power of capturing long term dependencies in data. The results reported in these researches also show that in most tasks in order to get successful results there is a need to alter the baseline model to the task in various ways e.g. adding Attention mechanism, using residual connections. However after introducing the needed alterations they can yield in state of the art results as seen in these experiments.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>The representation of a simple Artificial Neural Network with one hidden layer. Image source: https://en.wikipedia.org/wiki/Artificial_neural_network 2 Theory</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>The representation of an unfolded Recurrent Neural Network . Image source: https://magenta.tensorflow.org</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>An LSTM network with a cell that contains four gates. Image Source: http: //beta.cambridgespark.com/courses/jpm/05-module.html</figDesc></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Evolving memory cell structures for sequence learning</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>References</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Bayer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Artificial Neural Networks</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2009" />
+			<biblScope unit="page" from="755" to="764" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Reevaluation the role of bleu in machine translation research</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Callison-Burch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">11th Conference of the European Chapter</title>
+		<imprint>
+			<publisher>Association for Computational Linguistics</publisher>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Pervasive attention: 2d convolutional neural networks for sequence-to-sequence prediction</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Elbayad</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1808.03867</idno>
+		<imprint>
+			<date type="published" when="2018" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Learning to forget: Continual prediction with lstm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Gers</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Towards end-to-end speech recognition with recurrent neural networks</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jaitly ;</forename><surname>Graves</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Graves</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Jaitly</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2014" />
+			<biblScope unit="page" from="1764" to="1772" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Graves</surname></persName>
+		</author>
+		<title level="m">Speech recognition with deep recurrent neural networks. In Acoustics, speech and signal processing (icassp), 2013 ieee international conference on</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2013" />
+			<biblScope unit="page" from="6645" to="6649" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Lstm: A search space odyssey</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Greff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IEEE transactions on neural networks and learning systems</title>
+		<imprint>
+			<date type="published" when="2017" />
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="2222" to="2232" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Gu</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1702.02429</idno>
+		<title level="m">Trainable greedy decoding for neural machine translation</title>
+		<imprint>
+			<date type="published" when="2017" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Long shortterm memory</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Hochreiter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Schmidhuber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neural computation</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1735" to="1780" />
+			<date type="published" when="1997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<monogr>
+		<title level="m" type="main">Machine Learning. McGraw-Hill International Editions</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Mitchell ; Mitchell</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997" />
+			<publisher>McGraw-Hill</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Abstractive text summarization using sequence-to-sequence rnns and beyond</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Nallapati</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1602.06023</idno>
+		<imprint>
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">On the difficulty of training recurrent neural networks</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Pascanu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2013" />
+			<biblScope unit="page" from="1310" to="1318" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Prakash</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1610.03098</idno>
+		<title level="m">Neural paraphrase generation with stacked residual lstm networks</title>
+		<imprint>
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Deep learning in neural networks: An overview</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Schmidhuber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neural networks</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="page" from="85" to="117" />
+			<date type="published" when="2015" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Sequence to sequence learning with neural networks</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Sutskever</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in neural information processing systems</title>
+		<imprint>
+			<date type="published" when="2014" />
+			<biblScope unit="page" from="3104" to="3112" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Google&apos;s neural machine translation system</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Wu</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1609.08144</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Bridging the gap between human and machine translation</title>
+		<imprint>
+			<date type="published" when="2016" />
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Convolutional lstm network: A machine learning approach for precipitation nowcasting</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">[</forename><surname>Xingjian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in neural information processing systems</title>
+		<imprint>
+			<date type="published" when="2015" />
+			<biblScope unit="page" from="802" to="810" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

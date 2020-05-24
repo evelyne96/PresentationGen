@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Two-Sided Matching with Partial Information</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Baharak</forename><surname>Rastegari</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">ANNE CONDON</orgName>
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">University of British Columbia NICOLE IMMORLICA</orgName>
+								<orgName type="institution" key="instit3">Northwestern University</orgName>
+								<orgName type="institution" key="instit4">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kevin</forename><surname>Leyton-Brown</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">ANNE CONDON</orgName>
+								<orgName type="institution" key="instit1">University of British Columbia</orgName>
+								<orgName type="institution" key="instit2">University of British Columbia NICOLE IMMORLICA</orgName>
+								<orgName type="institution" key="instit3">Northwestern University</orgName>
+								<orgName type="institution" key="instit4">University of British Columbia</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Two-Sided Matching with Partial Information</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>J4 [Social and Behavioral Sciences]: Economics Additional Key Words and Phrases: Matching</term>
+					<term>Market design</term>
+					<term>Partial information</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The traditional model of two-sided matching assumes that all agents fully know their own preferences. As markets grow large, however, it becomes impractical for agents to precisely assess their rankings over all agents on the other side of the market. We propose a novel model of two-sided matching in which agents are endowed with known partially ordered preferences and unknown true preferences drawn from known distributions consistent with the partial order. The true preferences are learned through interviews, revealing the pairwise rankings among all interviewed agents, performed according to a centralized interview policy, i.e., an algorithm that adaptively schedules interviews. Our goal is for the policy to guarantee both stability and optimality for a given side of the market, with respect to the underlying true preferences of the agents. As interviews are costly, we seek a policy that minimizes the number of interviews. We introduce three minimization objectives: (very weak) dominance, which minimizes the number of interviews for any underlying true preference profile; Pareto optimality, which guarantees that no other policy dominates the given policy; and optimality in expectation with respect to the preference distribution. We formulate our problem as a Markov decision process, implying an algorithm for computing an optimal-in-expectation policy in time polynomial in the number of possible preference orderings (and thus exponential in the size of the input). We then derive structural properties of dominant policies which we call optimality certificates. We show that computing a minimum optimality certificate is NP-hard, suggesting that optimal-in-expectation and/or Pareto optimal policies could be NP-hard to compute. Finally, we restrict attention to a setting in which agents on one side of the market have the same partially ordered preferences (but potentially distinct underlying true preferences), and in which agents must interview before matching. In this restricted setting, we show how to leverage the idea of minimum optimality certificates to design a computationally efficient interview-minimizing policy. This policy works without knowledge of the distributions and is dominant (and so is also Pareto optimal and optimal-in-expectation).</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Two-sided matching markets model many practical settings, such as corporate hiring, marriage, and university admission. In such markets, participants are partitioned into two disjoint sets-e.g., men and women in a marriage market. Each participant on one side of the market wishes to be matched to a candidate from the other side of the market, and has preferences over potential matches. A matching is called stable if no pair of participants would prefer to leave their assigned partners to pair with each other. A matching is optimal for one side of the market if each participant on the given side prefers the matching to any other stable matching. <ref type="bibr" target="#b6">Gale and Shapley [1962]</ref> proposed a tractable algorithm for identifying optimal, stable matchings. A rich literature has developed since. See e.g., <ref type="bibr" target="#b31">Roth and Sotomayor [1992]</ref> for an excellent survey; there is also a wealth of work that takes a more computational perspective <ref type="bibr" target="#b24">[Manlove et al. 2010;</ref><ref type="bibr" target="#b19">Knuth 1997;</ref><ref type="bibr" target="#b8">Gusfield 1987;</ref><ref type="bibr" target="#b3">Bansal et al. 2010;</ref><ref type="bibr" target="#b1">Ashlagi et al. 2011;</ref><ref type="bibr" target="#b10">Hatfield and Kominers 2011;</ref><ref type="bibr" target="#b21">Manlove 1999</ref><ref type="bibr" target="#b23">Manlove , 2013</ref><ref type="bibr" target="#b7">Gent et al. 2002;</ref><ref type="bibr" target="#b12">Irving and Leather 1986;</ref><ref type="bibr" target="#b13">Irving et al. 1987;</ref><ref type="bibr" target="#b25">Manlove et al. 2002;</ref><ref type="bibr" target="#b2">Ashlagi et al. 2006;</ref><ref type="bibr" target="#b3">Bansal et al. 2010</ref>]. Overall, the study of matching has made contributions in both descriptive and prescriptive senses. Descriptively, computational models have enriched our understanding of existing social systems; e.g., <ref type="bibr">Gale and</ref> Shapley's work helps us to understand marriage markets. Prescriptively, algorithmic tools proposed in the literature are practical enough to be used directly in applications, and indeed have transformed several matching markets. Perhaps most famously, the National Residency Matching Program (NRMP)-see, e.g., <ref type="bibr" target="#b30">Roth [1996]</ref>-matches American medical students to internships at hospitals, using a method quite similar to the Gale-Shapley algorithm.</p><p>Much of the matching literature makes the key assumption that all market participants know their full (and often strict) preference orderings. This assumption is often reasonable, as demonstrated by the practical impact just described. However, as markets grow large it quickly becomes impractical for participants to assess their precise preference rankings. Returning to the NRMP, in practice students typically interview at only 10-15 hospitals out of about a thousand.The NRMP considers residents to have ranked as unacceptable all hospitals at which they did not interview, allowing the algorithm to proceed as though a full preference ordering had been declared. Prescribing the use of this system is clearly suboptimal: students who make the wrong decisions about where to interview can remain unmatched or be matched badly. There are likewise drawbacks from a descriptive perspective: such models shed little light on how matching works when participants are unsure about their preferences.</p><p>In this paper, we propose a novel model of two-sided matching in which participants are endowed with partially ordered preferences over candidates, but can refine these preferences through interviews. For example, these initial preferences might be ranked equivalence classes, with the property that candidates in higher-ranked equivalence classes are preferred to those in lower-ranked classes. Each participant's true (but unknown) preferences are a strict ordering over candidates, consistent with the known partial order and drawn from a known distribution. Participants can learn about their preferences through interviews. For a given participant, the first interview is uninformative; each subsequent interview reveals pairwise rankings among all previously interviewed candidates. Our goal is to design an adaptive, centralized interviewing policy which, given any partial information state, either selects an interview to perform or terminates with an optimal stable matching.</p><p>As interviews are costly, we would like our policy to minimize the number of interviews performed. We propose three criteria according to which the effectiveness of a policy can be assessed. First, a (very weakly) dominant policy performs a minimal number of interviews for all underlying true preference profiles consistent with the partial information. Second, a Pareto optimal policy may not be minimal for all underlying preference profiles, but is guaranteed not to be dominated by any other policy. Finally, an optimal-in-expectation policy minimizes the expected number of interviews with respect to the known distribution of strict preference orders. Note that the first two of these notions are prior free: i.e., such policies are independent of the preference distribution, and so are also applicable in more general settings where there is no common prior. Note also that, as dominant policies are Pareto optimal and optimal in expectation, the ideal is to compute a dominant policy. However, as we show, dominant policies may not exist.</p><p>Pareto optimal and optimal-in-expectation policies are guaranteed to exist; we show how to leverage a Markov Decision Process (MDP) encoding of our problem to find such policies in time polynomial in the number of possible preference orderings, which is exponentially faster than a naive algorithm, but still exponential in the size of the input. The key question we investigate in the rest of the paper is whether we can do better. We introduce the notion of an optimality certificate, which is a matching and a set of interviews whose outcomes can be used to prove that the matching is stable and optimal for a given side of the market. We show that in general, finding an optimality certificate involving the minimum number of interviews is NP-hard, providing evidence that finding an optimal-in-expectation and/or a Pareto dominant policy may be NP-hard. We next consider a restricted setting in which participants on one side of the market start out with the same equivalence classes structures, and in which pairs of agents must interview before they can match. We show that in this setting, minimum optimality certificates-and hence optimal policies-can be computed efficiently. Indeed, our policy is optimal in the strongest sense: it is dominant, meaning that it is also prior free, Pareto optimal, and optimal in expectation with respect to any prior distribution that has full support. Lastly, we present preliminary investigations into extending this result to more general settings.</p><p>Related Work. We are aware of three threads of related work. The first augments the preference model to include indifference between candidates. For example, consider a school choice domain in which high school students are matched to public schools. Schools have some preferences over students based on geography and legacy considerations, but many students are equivalent according to these measures and hence it is reasonable to say that the school is indifferent between them. However, this literature (e.g., <ref type="bibr" target="#b26">[Pathak and Sethuraman 2011;</ref><ref type="bibr" target="#b0">Abdulkadiroglu and Smez 2003]</ref>) is not intended to fully address the problem of incomplete preferences, and indeed it does not. Furthermore, even this simple extension to the standard model is quite tricky; for example, depending on how stability is defined, stable matchings are not always guaranteed to exist. There is an extensive body of work (see, e.g., <ref type="bibr" target="#b11">Irving [1994]</ref>, <ref type="bibr" target="#b14">Irving and Manlove [2002]</ref>, <ref type="bibr" target="#b15">Irving et al. [2000]</ref>, <ref type="bibr" target="#b21">Manlove [1999]</ref>, and <ref type="bibr" target="#b22">Manlove [2002]</ref>) on studying three versions of stability that can be defined when indifference is permitted. Of these, the one most closely related to our work is that of super-stability. Loosely speaking, super-stable matchings are those that are stable no matter how the ties in the preference orderings are broken. In fact there is a relation between optimality certificates and super-stable matchings, which we discuss in Section 3. Polynomial time algorithms have been proposed for finding such matchings in various two-sided matching markets <ref type="bibr" target="#b15">[Irving et al. 2000</ref><ref type="bibr" target="#b16">[Irving et al. , 2003</ref><ref type="bibr" target="#b21">Manlove 1999])</ref>.</p><p>A second thread of related work sets up the matching problem as a Bayesian game, assuming that participants have strict preferences drawn according to a commonly known probability distribution over preference orderings, and that all participants know their own preferences once the draw has taken place. Work in this vein typically seeks to design Bayes-Nash incentive compatible mechanisms or to describe the Bayes-Nash equilibria of standard mechanisms (see e.g. <ref type="bibr" target="#b31">Roth and Sotomayor [1992]</ref>). One recent paper augments such Bayesian models with interviews, which are costly and chosen in a decentralized fashion <ref type="bibr" target="#b20">[Lee and Schwarz 2009]</ref>. The authors investigate equilibrium interviewing behavior and observe that "clustered interviews" yield high social welfare. However, they do not insist that the final matching be stable with respect to agents' true preferences.</p><p>A third thread of work tries to derive properties of the market based on the available partial information. In recent work, <ref type="bibr" target="#b5">Echenique et al. [2013]</ref> study settings in which agents' preferences are unobserved. They characterize matchings that are rationalizable-i.e., stable w.r.t. some underlying (unobserved) preference, as well as those that are rationalizable and optimal for one side of the market. An assumption crucial to most of their results is that the agents on each side of the market have different (unobserved) preference orderings, and it is known how many agents in the market have each possible preference ordering. Their work differs from ours in several ways; notably, we allow for preferences to be partially observed, and look for matchings that are stable and optimal for a given side of the market w.r.t. all possible underlying preference orderings (as opposed to only one). In a recent working paper, <ref type="bibr" target="#b9">Haeringer and Iehle [2012]</ref> study matching markets in which the preferences of one side of the market are known, but the agents on the other side of the market only known whom they find acceptable. Haeringer and Iehle provide a technique for identifying pairs that are not matched in any stable matching for any underlying preference ordering, and hence for identifying unstable matchings.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">OUR MODEL</head><p>Let A = {a 1 , . . . , a n } be a set of applicants and let E = {e 1 , . . . , e m } be a set of employers. We use the term agents when making statements that apply both to applicants and employers, and the term candidates to refer to agents on the side of the market opposite to that of an agent currently being considered. We assume that each employer can hire at most one applicant, and each applicant can be hired by at most one employer, hence focusing on one-to-one matching markets. Agents start out only partially aware of their preferences. Formally, each agent is initially aware of a strict e 1 e 2 a 1 a 1 a 2 a 2 a 1 a 2 e 1 e 2 e 2 e 1 <ref type="figure">Fig. 1</ref>. A setting with 2 employers and 2 applicants. Applicants have full knowledge of their preferences; employers don't.</p><p>e 1 e 2 a 1 a 1 a 2 a 2 (a) e 1 e 2 a 1 a 2 a 2 a 1 (b) e 1 e 2 a 2 a 1 a 1 a 2 (c) e 1 e 2 a 2 a 2 a 1 a 1 (d) <ref type="figure">Fig. 2</ref>. The four possible underlying preference profiles for the employers in the setting of <ref type="figure">Figure 1</ref> partial preference ordering over (a subset of) the candidates. We denote by p ei and p aj the strict partial preference ordering of e i and a j , respectively. We let p E,A = (p e1 , . . . , p em , p a1 , . . . , p an ) and call p E,A a partial preference ordering profile. For example, agents might start out by assigning candidates to equivalence classes, and having a strict preference ordering over these equivalence classes. This equivalence class ordering is a natural model for scenarios in which each agent knows that some candidates are her top-tier candidates, that others are her second-tier candidates, and so on. <ref type="figure">Figure 1</ref> of Example 2.4 depicts such a setting, with each agent's partial preference ordering partitioning the candidates into strictly ranked equivalence classes.</p><p>Agents' true preferences are strict total orders: each applicant a has a strict preference ordering a over E ∪ {∅}, and each employer e has a strict preference ordering e over A ∪ {∅}. If an agent i prefers ∅ to candidate j, we say j is unacceptable to i; all other candidates are acceptable to i. <ref type="bibr">1</ref> We let E,A = ( e1 , e2 , . . . , em , a1 , a2 , . . . , an ). The preference orderings E,A are drawn according to a distribution whose support is consistent with the partial preference ordering profile. That is to say, for each agent i, total order is in the support of the distribution, and for every pair of candidates j and k: (i) if i prefers j to k according to the partial preference ordering profile then i strictly prefers j to k under ; and (ii) candidate j appears in i's partial preference ordering if and only if j is acceptable to i under . Furthermore, most of our definitions and results do not assume knowledge of the distributions, and are thus prior free; i.e., the definitions and results apply regardless of the preference distribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Optimal stable matchings</head><p>The goal of our work is to construct a matching for agents that is stable with respect to the underlying preferences, and optimal for one side of the market. We now define these notions mathematically.</p><p>Definition 2.1 (Matching). A matching µ : A∪E → A∪E ∪{∅} is an assignment of applicants to employers such that each applicant is assigned to at most one employer and vice versa. More formally, µ(a j ) = e i if and only if µ(e i ) = a j , ∀a j ∈ A either ∃e i ∈ E, µ(a j ) = e i or µ(a j ) = ∅ (the applicant is unmatched), and likewise ∀e i ∈ E either ∃a j ∈ A, µ(e i ) = a j or µ(e i ) = ∅.</p><p>Definition 2.2 (Blocking pair). A pair (a j , e i ) is a blocking pair in matching µ if a j and e i are not matched together in µ, e i aj µ(a j ), and a j ei µ(e i ).</p><p>Definition 2.3 (Stable matching). A matching µ is stable if it has no blocking pair and if no agent is matched to an unacceptable partner.</p><p>Example 2.4. Consider the setting with 2 employers and 2 applicants depicted in <ref type="figure">Figure 1</ref>. The column corresponding to each agent i gives that agent's strict partial preference ordering, which is in fact an equivalence class ordering, with the most preferred equivalence class at the top. In this example applicants have full knowledge of their preferences, while employers have no knowledge of their preferences. <ref type="table">Table 2</ref> gives all four possible strict preference orderings for the employers. In every case, matching µ 1 , µ 1 (e 1 ) = a 1 and µ 1 (e 2 ) = a 2 , is stable. Matching µ 2 , µ 2 (e 1 ) = a 2 and µ 2 (e 2 ) = a 1 , is also stable under (c). µ 2 is not stable in the other cases: (e 1 , a 1 ) blocks µ 2 under (a) and (b), while (e 2 , a 2 ) blocks µ 2 under (d).</p><p>Employer-optimal and applicant-optimal matchings are particularly interesting: these are the matchings most preferred by all employers (resp., applicants), as compared to all other stable matchings. When agents have strict preferences, as in our model, such matchings always exist and are unique <ref type="bibr" target="#b6">[Gale and Shapley 1962]</ref>. These matchings can be used to build mechanisms in which truthtelling is a dominant strategy for the side of the market favored by the matching <ref type="bibr" target="#b4">[Dubins and Freeman 1981;</ref><ref type="bibr" target="#b29">Roth 1982]</ref>. For example, if the employer-optimal matching is always picked, it is a dominant strategy for employers to reveal their preference orderings truthfully. In what follows we restrict our attention to the problem of finding employer-optimal matchings rather than arbitrary stable matchings. 2 Definition 2.5 (Employer-optimal matching). A matching is employer-optimal if it is stable and weakly preferred by all employers to every other stable matching.</p><p>Example 2.6. Continuing Example 2.4, µ 1 is the employer-optimal matching under cases (a), (b), and (d), and µ 2 is the employer-optimal matching under case (c).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Policies</head><p>We have defined stability of a matching in terms of agents' true preferences (as distinct from <ref type="bibr" target="#b20">Lee and Schwarz [2009]</ref>); thus, it will generally not be possible to find a stable matching based on agents' initial knowledge. To find and certify a stable matching, employers and applicants must gather additional information about each other through interviews. Each interview pairs a single applicant a with a single employer e; we denote such an interview e:a. After interview e:a, both e and a are able to strictly order the acceptable candidates interviewed so far.</p><p>Informally, a policy describes how to conduct interviews: it starts with input I = (E, A, p E,A ), performs a sequence of interviews, and then outputs a matching. Interviews can be selected based on the results of previous interviews and the whole procedure is centralized. More formally, a policy maps information states to subsequent interviews or to a matching that is stable and employer-optimal for the underlying preference profile. To reduce notation, from this point on we assume that the input I = (E, A, p E,A ) is given and fixed.</p><p>Definition 2.7 (Information State). The information state I i of agent i after interviews with ≥ 0 candidates is a list of these candidates, ordered according to the underlying true preference profile. When = 0, we let I i = ∅. The global information state after a sequence of interviews is I = i∈E∪A I i .</p><p>We say that information state I refines partial preference ordering profile p E,A , which we write as I ¡ p E,A , if I is consistent with p E,A : for all agents i and all candidates j and k, i preferring j to k under p E,A implies i also preferring j to k under I. Given a fixed p E,A and information states I and I that refine p E,A , we say that I refines I when it contains strictly more information: when for all agents i, all candidates who were interviewed in I i were also interviewed in I i , and for all candidates j and k who were interviewed in both I i and I i , i preferring j to k under I i implies i preferring j to k under I i . We say that a preference profile refines an information state I, and write ¡ I, if is consistent with both p E,A and I. We write ¡ p E,A to denote that is consistent with p E,A .</p><p>Definition 2.8 (Policy). A policy is a mapping from a global information state I ¡ p E,A either to an interview to perform or to a matching. A policy is sound if it is guaranteed to return an employer-optimal matching, regardless of the true preference order ¡ p E,A .</p><p>Notice that a sound policy is allowed to return a matching in which a pair of agents e and a are matched even without e having interviewed a. In practice, employers may face the requirement of interviewing an applicant before offering her a job. We capture this additional requirement through the notion of a diligent policy.</p><p>Definition 2.9 (Diligent policy). A policy is diligent if it is sound and, furthermore, it maps from I to µ only if e ∈ I a and a ∈ I e for all (e, a) ∈ µ.</p><p>Example 2.10. Continuing Example 2.6, a sound policy follows: given an information state I, if e 1 has not interviewed a 1 , schedule that interview; else if e 1 has not interviewed a 2 , schedule that interview. Otherwise, if e 1 prefers a 2 to a 1 : if e 2 has not interviewed a 1 schedule that interview; else if e 2 has not interviewed a 2 , schedule that interview. These interviews are sufficient to distinguish between the underlying preference orderings that give rise to different employer-optimal matchings; hence, for the remaining information states, the policy can simply output a matching. If e 1 prefers a 1 to a 2 , the true underlying ordering is (a) or (b), and so return µ 1 . If e 1 prefers a 2 to a 1 and e 2 prefers a 2 to a 1 , the true underlying ordering is (d), and so again return µ 1 . Otherwise, the true underlying ordering is (c), and so return µ 2 .</p><p>The above sound policy can be made into a diligent policy by the following modification: If e 1 prefers a 1 to a 2 , have e 2 interview a 2 first and then return µ 1 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Minimizing the number of interviews</head><p>It is not hard to identify a sound policy: e.g., simply instruct all employers to interview all applicants and then run the Gale-Shapley algorithm to find the employer-optimal matching. However, this policy is likely to perform unnecessary interviews. We are motivated by the intuition that in reality, interviews are very costly; thus, we seek sound policies that minimize their number. However, there is a problem. Because policies select interview schedules dynamically, the number of necessary interviews may depend not only on the policy's input, but also on the true underlying preference orderings. What does it mean, then, to say that a sound policy performs the minimal number of interviews given an input I?</p><p>One straightforward answer is to say that we should minimize the expected number of interviews with respect to the prior distribution over preference orderings. Let θ(f, , p E,A ) denote the number of interviews that policy f performs when the true underlying preference profile is ¡ p E,A .</p><p>Definition 2.11 (Optimal in expectation). A policy f is optimal in expectation if it is sound and it minimizes the expected number of interviews performed, given the prior Pr. That is, for all sound policies g,</p><formula xml:id="formula_0">¡p E,A Pr( ) · θ(f, , p E,A ) ≤ ¡p E,A Pr( ) · θ(g, , p E,A )</formula><p>. This objective has a major drawback: optimal-in-expectation policies are not robust with respect to changes in the setting, i.e., they are not prior-free. We would prefer a sound policy that performs no more interviews than any other sound policy, regardless of the underlying preference profile.</p><p>Definition 2.12 (Very weak domination). A policy f very weakly dominates another sound policy g if and only if f performs no more interviews than g for any underlying preference profile. That</p><formula xml:id="formula_1">is, θ(f, , p E,A ) ≤ θ(g, , p E,A ) for all ¡ p E,A .</formula><p>This dominance notion is called "very weak" because two algorithms can very weakly dominate each other by always performing the same number of interviews for every .</p><p>Definition 2.13 (Very weakly dominant policy). A policy f is very weakly dominant if it is sound and it very weakly dominates any other sound policy g.</p><p>We would like to find a very weakly dominant policy. Unfortunately, such policies do not always exist.</p><p>THEOREM 2.14. There exist inputs for which no very weakly dominant policy exists.</p><p>PROOF. Consider the setting given in <ref type="figure">Figure 1</ref>. To certify that µ 1 is employer-optimal for (a) or (b), we only need e 1 to interview both candidates a 1 and a 2 , to distinguish (a) from (c). To certify that µ 1 is employer-optimal for (b) or (d), we only need e 2 to interview both candidates, to distinguish (d) from (c). Thus any policy that instructs e 1 to interview first-e.g. the policy described in Example 2.10-is Pareto dominated in case (d), and any policy that instructs e 2 to interview first is Pareto dominated in case (a).</p><p>Motivated by this impossibility result, we consider the weaker, but still prior-free, notion of Pareto optimality.</p><p>Definition 2.15 (Pareto domination). A policy f Pareto dominates another policy g if and only if both policies are sound, f very weakly dominates g and, furthermore,</p><formula xml:id="formula_2">∃ ¡ p E,A such that θ(f, , p E,A ) &lt; θ(g, , p E,A ).</formula><p>Definition 2.16 (Pareto optimal policy). A policy f is Pareto optimal 3 if there does not exist another policy g that Pareto dominates f .</p><p>For example, the policy described in Example 2.10 is Pareto optimal. Because of the strict inequality, Pareto domination is an asymmetric relation. Thus we can not have cycles in Pareto domination, and so PROPOSITION 2.17. A Pareto optimal policy always exists. Now we briefly survey relationships between our solution concepts. Very weak dominance is the strongest guarantee we can hope for: if we can find such a policy, it will also be Pareto optimal and optimal in expectation. Furthermore, every optimal-in-expectation policy is guaranteed to be Pareto optimal when the prior distribution has full support.</p><p>PROPOSITION 2.18. If a policy f is optimal in expectation and Pr has full support, then f is Pareto optimal.</p><p>PROOF. Assume for contradiction that f is not Pareto optimal. Thus there exists a policy g that Pareto dominates f . Therefore,</p><formula xml:id="formula_3">θ(g, , p E,A ) ≤ θ(f, , p E,A ) for all ¡ p E,A and θ(g, , p E,A ) &lt; θ(f, , p E,A ) for at least one ¡ pE, A. Since Pr has full support, Pr( ) &gt; 0 for all ¡ p E,A . Therefore, ¡p E,A Pr( )·θ(f, , p E,A ) &gt; ¡p E,A Pr( )·θ(g, , p E,A )</formula><p>, which implies that f does not minimize the expected number of interviews performed, a contradiction.</p><p>All of the definitions in this section are stated in terms of sound policies. All of this section's definitions and results can be extended to diligent policies simply by replacing every occurrence of "sound" with "diligent". For example, f is a very weakly dominant, diligent policy if it is diligent and it very weakly dominates any other diligent policy g. Unfortunately, the nonexistence result of Theorem 2.14 can be extended to very weakly dominant, diligent policies. 4 THEOREM 2.19. There exist inputs for which no very weakly dominant, diligent policy exists.</p><p>PROOF. Consider the same setting that we analyzed in the proof of Theorem 2.14, given in <ref type="figure">Figure 1</ref>. Note that at least one employer has to interview both applicants, or we can not distinguish between the four possible cases. Furthermore, all matched agents should interview each other, hence the other employer must interview at least one applicant. Therefore, any diligent policy performs at least three interviews before returning a matching.</p><p>To certify that µ 1 = {(e 1 , a 1 ), (e 2 , a2)} is employer-optimal for (a), we need e 1 to interview both candidates a 1 and a 2 , to distinguish (a) from (c). Then, to have all matched agents interviewed each other, we only need to additionally have e 2 to interview a 2 . To certify that µ 1 is employer-optimal for (d), we need e 2 to interview both candidates, to distinguish (d) from (c). Then, to have all matched agents interviewed each other, we only need to additionally have e 1 interview a 1 . Thus any diligent policy that instructs e 1 to interview first is Pareto dominated in case (d) and any diligent policy that instructs e 2 to interview first is Pareto dominated in case (a).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">FINDING OPTIMAL POLICIES</head><p>To compute an optimal-in-expectation (or Pareto optimal) policy, we can perform a brute-force search, considering every policy in turn. If S denotes the set of global information states, then the number of distinct policies is Θ((n 2 ) |S| )-w.l.o.g., we assume that n ≥ m. Thus, brute-force search requires time exponential in the number of information states, or O((n 2 ) ((n!) n ) ). In this section we show how to do better.</p><p>We begin by identifying information states in which a sound policy can terminate and return a matching; i.e., in which enough information has been gathered that a policy can be sure of the employer-optimal matching.</p><formula xml:id="formula_4">Definition 3.1 (Optimality certificate). A triple (I, µ, p E,A ) is an optimality certificate if µ is employer-optimal w.r.t. all ¡ I.</formula><p>In other words, an optimality certificate is an information state that admits a super-stable matching that is employer-optimal for all total orders consistent with the information state.</p><p>Define the size of an optimality certificate (I, µ, p E,A ) as the number of interviews performed in I. A minimal optimality certificate is an optimality certificate that cannot be made smaller by dropping an interview.</p><p>Definition 3.2 (Minimal optimality certificate). A triple (I, µ, p E,A ) is a minimal optimality certificate if µ is employer-optimal w.r.t. all ¡ I, and if there is no smaller optimality certificate (I , µ, p E,A ) such that I ¡ I .</p><p>Notice that a triple (I, µ, p E,A ) could be an optimality certificate even if a pair of agents, say e and a, are matched in µ but have not interviewed together according to I. To certify the outputs of diligent policies, we also define diligent optimality certificates. Definition 3.3 (Diligent optimality certificate). A triple (I, µ, p E,A ) is a diligent optimality certificate if µ is employer-optimal w.r.t. all ¡ I and, furthermore, e ∈ I a and a ∈ I e for all (e, a) ∈ µ.</p><p>Paralleling our earlier definitions, a diligent minimal optimality certificate is a diligent optimality certificate of minimal size. THEOREM 3.4. An optimal-in-expectation policy can be computed in time polynomial in |S|.</p><p>PROOF. We leverage the planning paradigm of MDPs [see, e.g., <ref type="bibr" target="#b27">Puterman 1994</ref>]. An MDP is a tuple (S, A, C, T, s 0 , F ), where S is a finite set of states; A is a finite set of actions; C is a cost function where C(s, i, s ) represents the cost of taking action i in state s and transitioning to state s ; T is a transition function where T (s, i, s ) denotes the probability that action i in state s leads to state s ; s 0 denotes the system's initial state; and F denotes a set of terminal states. Intuitively, our MDP encoding will work as follows. We start at an empty global information state and take actions corresponding to interviews, paying a cost of 1 for every interview performed. The effect of an action is to transition to a new information state that refines the previous state in the appropriate way, with new rankings being revealed according to conditional probabilities derived from the prior. We reach a terminal state when we have gathered enough information to stop conducting interviews. Formally, let S denote the set of global information states, A denote the set of all possible interviews, and C(I, e:a, I ) = 1 for all e:a, I and I . Let T (I, e:a, I ) = Pr(I ) Pr(I) if I refines I and has exactly one more interview than I, that interview being e:a, and T (I, e:a, I ) = 0 otherwise, where Pr(I) = ¡I Pr( ). Let s 0 be the empty global information state: I where I i = ∅ for all i. Finally, we will define F as the set of information states such that I ∈ F if all preference profiles that refine I have the same employer-optimal matching, and there is no I , I ¡ I for which the same property holds.</p><p>We compute F as follows. We will iteratively refine a mapping h from information states to matchings, which will store all information states that we know to be safe stopping points for a sound policy. (In fact, h stores minimal optimality certificates.) Initially, let h map every information state to the null matching, in which no agent is matched. A sound policy can clearly stop when all interviews have been performed. Thus, for all information states I in which all interviews have been performed-including even interviews with unacceptable candidates-let h(I) = µ I , where µ I is the employer-optimal matching for the preference profile induced by I. Initialize Q to be the set of all such information states, and initialize F to be the empty set. We repeat the following until Q is empty. Select an arbitrary information state I from Q such that h(I) does not map to the null matching. Now, make a linear pass over Q, asking whether there exists a second information state I such that h(I) = h(I ) and there exists a pair (e, a) where removing e from I a and I a and removing a from I e and I e yields the same global information state I * . If so, remove both I and I from Q, add I * to Q and let h(I * ) = h(I). If no such I exists, remove I from Q and add it to F . The computation of F takes polynomial time in the number of states since initializing Q can be done in polynomial time, each pass over Q takes time O(n · m · |S|), and at least one information state is removed from Q in each pass.</p><p>Our MDP is finite horizon because we always reach a terminal state within n · m actions (i.e., performing all interviews). Therefore, a standard result from the literature on MDPs applies: a policy that minimizes expected cost can be computed in time linear in the number of states via the backward induction algorithm (see, e.g., <ref type="bibr" target="#b28">[Puterman and Patrick 2010]</ref>). This policy is sound by the construction of F , and hence is optimal in expectation.</p><p>An optimal-in-expectation diligent policy can be computed in time polynomial in |S|. The proof is almost identical to the one given for Theorem 3.4 with the modifications that (1) h stores minimal diligent optimality certificates, and (2) we remove I and I from Q and add I * if, in addition to the constraints stated in the proof, the pair (e, a) does not belong to h(I) = µ I .</p><p>Overall, our MDP formulation yields an exponential time algorithm for identifying an optimal-inexpectation policy, because the size of S is O(n!) n . While this is an exponential improvement over brute-force search, we would prefer a polynomial-time guarantee. (We do note, however, that one advantage of MDP formulations-in our domain and elsewhere-is that well-structured problem instances can be solved tractably even when the problem is intractable in the worst case.) Our MDP formulation made little use of the structure of the matching problem, so we have reason to hope that better worst-case performance might be possible. One hurdle is that explicitly stating a policy requires exponential space, and hence at least exponential time, as the number of information states is exponential. However, one could hope to do better simply by executing an optimal policy rather than stating it explicitly. The rest of this paper asks whether there are provably better ways of executing optimal policies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">FINDING MINIMUM OPTIMALITY CERTIFICATES</head><p>We now turn to the computational problem of finding an optimality certificate (recall Definition 3.1) that certifies the employer-optimal matching for a given preference profile in as few interviews as possible. (Contrast with Definition 3.2, which only required the local property that an optimality certificate could not be reduced by dropping an interview.) Such an optimality certificate would have to be identified by any very weakly dominant policy, and would likely be useful for optimal-inexpectation policies as well.</p><p>Definition 4.1 (Minimum optimality certificate for ). (I, µ, p E,A ) is a (diligent) minimum optimality certificate for a preference profile if µ is employer-optimal w.r.t. , ¡ I, and if there does not exist a smaller (diligent) optimality certificate (I , µ, p E,A ) such that ¡ I .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>THEOREM 4.2. A sound (or diligent) policy f is very weakly dominant (and diligent) if and only if it computes a (diligent) minimum optimality certificate for every preference profile ¡ p E,A .</head><p>PROOF. First, consider the case of sound policies. To prove the first direction, assume for contradiction that f is not very weakly dominant. Then there must exist a policy g and a preference profile such that θ(g, , p E,A ) &lt; θ(f, , p E,A ). Let µ be 's employer-optimal matching and I be the information state after performing interviews that g performs under . For g to be sound, (I, µ, p E,A ) must be an optimality certificate. Thus f does not compute a minimum optimality certificate for , a contradiction. To prove the second direction, assume for contradiction that a minimum optimality certificate is not computed for some preference profile . Let (I, µ, p E,A ) be a minimum optimality certificate for . Take the set of interviews corresponding to I, Z, and order them arbitrarily. Let the policy g be as follows: if no interview has taken place, schedule the first interview in Z; else if the first interview has taken place, schedule the second interview, and so on until all interviews in Z has taken place; if all the interviews in Z has taken place and the current global information state is I, return µ, else perform all possible interviews and return the employer-optimal matching of the corresponding total order. Clearly g is sound and computes the minimum optimality certificate for . Thus θ(g, , p E,A ) &lt; θ(f, , p E,A ) and therefore g dominates f on , a contradiction. Exactly the same argument suffices for diligent policies.</p><p>Unfortunately, the problem of computing a minimum optimality certificate is NP-hard.</p><p>Definition 4.3 (Optimality Certificate (OC) decision problem). Given (E, A, p E,A ), a preference profile that refines p E,A and a bound K, decide whether there exists an optimality certificate (I, µ, p E,A ) of size at most K where µ is employer-optimal w.r.t. .</p><p>THEOREM 4.4. The optimality certificate decision problem is NP-hard, even if the partial preference ordering is an equivalence class ordering.</p><p>PROOF. The proof is by reduction from the feedback arc set (FAS) problem <ref type="bibr" target="#b18">[Karp 1972</ref>]. Let G = (V, D) be a directed graph with no self-loops or multiple arcs. The feedback arc set problem is to decide whether there exists a set of arcs C of size ≤ K such that C contains at least one arc from every directed cycle in G; i.e., such that removing all arcs in C breaks all directed cycles of G. We construct an instance of the optimality certificate (OC) problem from (G, K) as follows. For each vertex i in G, create employers e i and e i and applicants a i and a i . For each employer e i , create a single equivalence class of acceptable candidates, containing applicant a i and every a j where (i, j) is an arc in D. For each employer e i , create a single equivalence class of acceptable candidates containing applicants a i and a i . For each applicant a i , create two equivalence classes of acceptable candidates. Let the top class contain e i and e i , and let the second class contain any e j where (j, i) is an arc in D. For each applicant a i , create a single equivalence class of acceptable candidates containing only e i . Finally, let be any preference profile under which each e i most prefers the corresponding a i , each employer e i most prefers a i , each applicant a i ranks e i at top, and each applicant a i most prefers e i . Observe that matching µ where µ(e i ) = a i and µ(e i ) = a i is employer-optimal w.r.t. . To complete the proof we show that G has a FAS of size at most K if and only if there exists an optimality certificate of size at most K + 2n for . The proof has two parts:</p><p>(1) Let (I, µ, p E,A ) be an optimality certificate of size K . Let S be a set of arcs such that (v i , v j ) ∈ D iff e i :a j ∈ I. We claim that S is of size at most K − 2n and removing all the arcs in S breaks all the cycles in G.</p><p>(2) Let S be a solution of size K to the feedback arc set problem. Let I be an information state consistent with under which each e i , 1 ≤ i ≤ n, has interviewed a i and all applicants a j such that (v i , v j ) ∈ S, and furthermore, each employer e i , ∀1 ≤ i ≤ n, has interviewed a i . We claim that (I, µ, p E,A ) is an optimality certificate of size K + 2n for .</p><p>Proof of (1): by contradiction. First note that I must include either both interviews e i :a i and e i :a i , or both interviews e i :a i and e i :a i , ∀1 ≤ i ≤ n. As otherwise, an arbitrary total ordering ¡ I exists under which a i and e i rank each other at the top and hence must be matched in the employer-optimal matching; contradicting that (I, µ, p E,A ) is an optimality certificate. Thus, there are at most K − 2n interviews in I that are of type (e i , a j ). So S is of size at most K − 2n.</p><p>Assume that removing S does not break all the cycles in G. Let C be an unbroken cycle. For each edge (v i , v j ) in C it must be the case that e i :a j ∈ I. Let µ be a matching in which µ (e i ) = µ(e i ) = a i if e i is not in C, and µ (e i ) = µ(e j ) if (e i , e j ) is in C. Let be a strict ordering under which each employer e i likes a i the best and each employer e i not in C likes a i the best (as in ), and each e i in C likes a j the best, where (e i , e j ) is in C. Note is consistent with I. Furthermore, employers not in C have the same applicant on the top of their list as in (which should be consistent with the outcome of the interviews in I), and for employers in C their true preferences between their partners in µ and µ haven't been revealed yet (since no interview between such an employer and his match under µ has taken place). Note that µ is the employer-optimal matching for and so µ is not the employer-optimal matching for . Thus (I, µ, p E,A ) is not an optimality certificate for , a contradiction.</p><p>Proof of (2): By contradiction. First note that it is easy to see, from the construction of I, that |I| = K + 2n. Assume that (I, µ, p E,A ) is not an optimality certificate for . Thus, there exists a preference ordering consistent with I for which µ is not the employer-optimal matching. We know that µ is a stable matching under any preference ordering consistent with I (it is the applicant-optimal matching indeed). Thus, it should be the case that there is some other stable matching µ that the employers collectively prefer to µ (some are indifferent and some prefer µ ). Therefore, there has to be a set of employers e c1 , . . . , e c l such that µ (e ci ) = µ(e ci+1 ) for i &lt; l and µ (e c l ) = µ(e c1 ). If not, then there exists an unmatched employer and unmatched applicant who both prefer to be matched together than stay unmatched, thus µ is not stable. Note that e ci must prefer his match in µ to his match in µ, a ci , under . Thus e ci has µ(e ci+1 ) in his one and only equivalence class and therefore</p><formula xml:id="formula_5">(v ci , v ci+1 ) ∈ D. Furthermore (v c l , v c1 ) ∈ D.</formula><p>Thus, e c1 , . . . , e c l form a cycle in G, a contradiction.</p><p>We can analogously define the diligent optimality certificate (DOC) decision problem. A corresponding hardness claim also holds for DOC. This proof is quite similar to the proof just given; we omit it to save space.</p><p>An optimal-in-expectation or a Pareto optimal policy need not compute optimality certificates for every input. Nevertheless, we consider the hardness of computing optimality certificates to be discouraging evidence about the tractability of the problem of identifying such policies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">IDENTICAL EQUIVALENCE CLASS ORDERINGS ON ONE SIDE OF THE MARKET</head><p>In many two-sided matching markets, there is some degree of positive correlation between agents' preferences. Taken to the extreme, this means that agents on at least one side of the market may have common a priori information, though perhaps different underlying preferences. In this section we focus on such a setting, and furthermore consider the special case of partial preference orderings that we introduced earlier in Section 2 (as "equivalence class orderings").</p><p>Specifically, we now assume that each agent has an equivalence relation over (a subset of) the candidates and a strict ordering over the equivalence classes. We denote the equivalence classes of employer e i and applicant a j that are ranked th in this strict ranking by c ei, and c aj , , respectively. We let c E,A denote the equivalence class profile for all employers and applicants. We assume that the applicants are endowed with identical equivalence class orderings. Thus, formally we assume that c ai,k = c aj ,k for all pairs of applicants a i and a j and all k; we allow applicants to have different distributions and different underlying preference orderings, i.e., ai = aj . We do not restrict employers' preferences in any way. <ref type="bibr" target="#b17">Irving et al. [2008]</ref> study a similar setting in which the preference orderings of one or both sides of the market are derived from a common ranking of all the candidates into strictly ranked equivalence classes. They refer to this common ranking as a master list. They assume that each agent's preference ordering is then derived from the common ranking by eliminating his or her unacceptable partners, thus preserving the indifferences if they exist in the master list. They were motivated in this work by how the applicants were ranked in the hospitals-residents matching market in England in <ref type="bibr">[2005]</ref><ref type="bibr">[2006]</ref>. Their setting differs from ours in the sense that we allow, and even require, the agents to break ties.</p><p>We will obtain positive results in this restricted setting under the additional restriction to diligent policies. (We demonstrate the necessity of our restriction to diligent policies at the end of the section.) Even with all these restrictions, observe that a tabular representation of an optimal-in-expectation, diligent policy requires exponential space, since there are an exponential number of information states. As discussed earlier, we get around this problem by supplying an algorithm that executes such a policy rather than specifying it explicitly. Specifically, we present a polynomial-time algorithm that executes a very weakly dominant, diligent policy, and hence both an optimal-in-expectation and a Pareto optimal, diligent policy.</p><p>Our algorithm for identifying a very weakly dominant, diligent policy works like Gale-Shapley except that it is interleaved with another procedure that instructs agents to interview. It is described formally as Algorithm 1; an informal description follows. We say that employer e ranks applicant a in class if a is in the th equivalence class of e. Similarly, we say that the applicants rank e in class if e is in the th equivalence class of the applicants. Algorithm 1 alternates between two main stages, an interview stage and a tentative matching stage.</p><p>-In the interview stage, the algorithm chooses an unmatched employer e that satisfies two properties.</p><p>First, e has achievable applicants that he has not yet interviewed. An achievable applicant is one that is acceptable to e, and has not yet received better offers. Second, if applicants rank e in class , then they rank any other employer e that satisfies the first property in a class below or equal to . Employer e then interviews all achievable applicants that he has not yet interviewed in his equivalence class that is highest-ranked among those containing his achievable applicants. -In the tentative matching stage, unmatched employers propose to their most preferred achievable, interviewed applicant, if any. Each applicant a tentatively accepts her best proposal, say e. When there is no unmatched employer with an achievable interviewed applicant, the tentative matching stage ends.</p><p>If there are still unmatched employers with achievable applicants that they have not yet interviewed, the algorithm returns to the interview stage. Otherwise, the algorithm halts and returns the final tentative matching. The next example shows how the algorithm works.</p><p>Example 5.1. Consider the setting with 3 employers and 3 applicants depicted in <ref type="figure">Figure 3</ref>. Notice that the applicants are endowed with identical equivalence classes. Assume that the true strict preference ordering of the agents is 1 , depicted in <ref type="figure">Figure 4</ref>. Running Algorithm 1 on this setting returns the employer-optimal stable matching µ 1 = {(e 1 , a 1 ), (e 2 , a 3 ), (e 3 , a 2 )} after 3 runs of the main loop and 5 interviews. Assume, for the sake of this example, that in the interview stage, Algorithm 1 chooses the lowest indexed employer that satisfies the two required properties. Then, the execution of Algorithm 1 on 1 will be as follows.</p><p>(1) e 1 is instructed to interview both a 1 and a 2 . e 1 proposes to his most favorite candidate a 1 and is matched to her. a 1 is no longer achievable for e 3 and so is removed from his list. (2) e 2 is instructed to interview both a 1 and a 3 . e 2 proposes to his most favorite candidate a 3 and is matched to her. a 3 is no longer achievable to e 3 and so is removed from his list. (3) e 3 is instructed to interview a 2 , the only applicant still achievable for him. e 3 proposes to a 2 and is matched to her.</p><p>If the true ordering was 2 , depicted in <ref type="figure" target="#fig_1">Figure 5</ref>, then running Algorithm 1 would return the employer-optimal stable matching µ 2 = {(e 1 , a 2 ), (e 2 , a 1 ), (e 3 , a 3 )} after 3 runs of the main loop and 5 interviews.</p><p>(1) e 1 is instructed to interview both a 1 and a 2 . e 1 proposes to his most favorite candidate a 1 and is matched to her. a 1 is no longer achievable to e 3 and so is removed from his list. </p><formula xml:id="formula_6">µ(e i ) ← ∅, µ(a j ) ← ∅, ∀e i ∈ E, ∀a j ∈ A ; χe i ← ∅, ∀e i ∈ E ;</formula><p>// ei's set of achievable interviewed applicants repeat Interview Stage foreach e i ∈ E do if µ(e i ) = ∅ then Pe i ← The set of achievable applicants in the highest-ranked equivalence class of e i among those with his achievable applicants, whom he has not interviewed yet ; Each applicant who has received one or more job offers tentatively accepts the offer from the employer she most prefers and rejects the rest; matching µ is updated accordingly ; Each tentatively matched applicant a j is no more achievable to those employers that are in the equivalence classes ranked lower than the one µ(a j ) belongs to; she is removed from the lists of such employers; χe i is updated accordingly for all e i ∈ E ; until there is no unmatched employer e i with χe i = ∅; until each employer is either tentatively matched or has no achievable applicants; return µ ; e 1 e 2 e 3 a 1 a 1 a 1 a 2 a 3 a 3 a 2 a 2 a 3 p E a 1 a 2 a 3 e 1 e 1 e 1 e 2 e 2 e 2 e 3 e 3 e 3 p A <ref type="figure">Fig. 3</ref>. A setting with 3 employers and 3 applicants. Applicants are endowed with identical equivalence classes.</p><p>(2) e 2 is instructed to interview both a 1 and a 3 . e 2 proposes to his most favorite candidate, a 1 . a 1 accepts e 2 's proposal and rejects e 1 whom she likes less than e 2 . e 2 is matched to a 1 and a 1 is removed from e 1 's list. a 1 proposes to a 2 who is now at the top of his list, and is matched to her. a 2 is no longer achievable to e 3 and so is removed from his list. (3) e 3 is instructed to interview a 3 , the only applicant still achievable to him. e 3 proposes to a 3 and is matched to her.</p><p>Note that 2 is almost identical to 1 , depicted in <ref type="figure">Figure 4</ref>, except that e 2 's top choices are reversed.</p><p>Our main claim in this section is that Algorithm 1 executes a very weakly dominant, diligent policy. Key to the proof is to show that, regardless of the underlying preference profile, Algorithm 1 always identifies a diligent minimum optimality certificate.</p><p>e 1 e 2 e 3 a 1 a 3 a 1 a 2 a 1 a 2 a 3 a 2 a 3 a 1 a 2 a 3 e 2 e 1 e 1 e 1 e 2 e 2 e 3 e 3 e 3 <ref type="figure">Fig. 4</ref>. Agents' preferences under total order 1 that refines the setting depicted in <ref type="figure">Figure 3</ref>. e 1 e 2 e 3 a 1 a 1 a 1 a 2 a 3 a 2 a 3 a 2 a 3 a 1 a 2 a 3 e 2 e 1 e 1 e 1 e 2 e 2 e 3 e 3 e 3 PROOF. The proof proceeds in four steps.</p><p>Step 1: Algorithm 1 terminates in time polynomial in the input size. Note that Algorithm 1 halts once each employer is matched or has no more achievable applicants to propose to or interview. Hence, the algorithm is guaranteed to perform at least at least one interview in the interview stage of each iteration. Furthermore, in each invocation of the tentative matching stage, at least one employer proposes to an applicant and is then either rejected by that applicant or is tentatively matched. There are n · m possible interviews and hence n · m possible proposals. Thus the algorithm halts in polynomial time.</p><p>Step 2: Algorithm 1 executes a diligent policy. Recall that the employer-proposal variant of the Gale-Shapley algorithm yields the employer-optimal stable matching. The algorithm is robust w.r.t. varying the order in which the employers propose, as long as no tentatively matched employer proposes, and employers always propose to their top choice among achievable candidates. In Algorithm 1, no employer interviews an applicant unless all the applicants he ranks in higher equivalence classes are unachievable, no employer proposes when he is tentatively matched, and unmatched employers always propose to the most-preferred achievable, interviewed applicant. The algorithm only halts when each employer is matched or has no more achievable applicants to propose to or interview. Thus Algorithm 1 returns the same matching that Gale-Shapley would have returned for any preference profile that refines the global information state that holds at the moment Algorithm 1 terminates. Because Gale-Shapley is sound, Algorithm 1 is sound. Since no employer proposes to an applicant he has not interviewed, Algorithm 1 is also diligent.</p><p>Step 3: Algorithm 1 only ever instructs an employer in applicants' equivalence class to interview applicants, or to make offers, when all employers in applicants' higher-ranked equivalence classes are matched to their employer-optimal matches or have been rejected by all applicants they find acceptable. By the interview stage, if e in applicants' equivalence class is chosen to perform interviews, all employers in higher-ranked equivalence classes must either be tentatively matched or have no more achievable applicants. If none of the matched employers makes a new offer, their tentative matches become final, and so must be, by Step 2, their employer-optimal matches. If any of the matched employers makes a new offer, it can only be because he has been rejected by his current tentative match. Let e * be the first employer in applicants' equivalence class − 1 or higher that gets rejected by his current match in a round in which employers in applicants' equivalence class ranked or lower are interviewing. Then e * 's tentative match must have received an offer from a more-preferred employer, e * , in applicants' equivalence class − 1 or higher. This is only possible if e * was rejected by his match in an earlier round, contradicting our definition of e * .</p><p>Step 4: G iven that Algorithm 1 is diligent, it is sufficient to show that all interviews performed by Algorithm 1 on preference profile are in I. We show this in two steps. For a given employer e that applicants rank in class , let Ω be the set of all applicants in equivalence classes of e that are above or equal to the equivalence class containing µ(e), unless those applicants are matched by µ to employers that applicants rank in a class above . We first show that I includes all interviews in Ω. We then show that Algorithm 1 performs only interviews in Ω.</p><p>-I includes all interviews in Ω. By our requirement that matched agents must interview each other, any diligent policy must require e to interview µ(e). Furthermore, for each a, a = µ(e), who is ranked by e in the same equivalence class as µ(e) or higher, and who is not matched to an employer she ranks in a higher equivalence class than , there exists a preference ordering that is the same as except that e and a promote each other to the highest possible position in their respective rankings. Under , (e, a) blocks µ; thus µ is not employer-optimal under . However, unless e interviews a, preference profile refines I and thus (I, µ, c E,A ) is not an optimality certificate. -Algorithm 1 performs only interviews in Ω. We need to show that e does not interview applicant a if applicants rank µ(a) in a class above (recall that is the applicants' class containing e), and also if e ranks a in a class below the class containing µ(e). By</p><p>Step 3, any a who ranks µ(a) in an equivalence class ranked higher than must be matched to him when e is chosen and thus is not achievable to e and so is not interviewed by e. If e ranks a in a class below µ(e), then e also does not interview a in Algorithm 1 because e does not interview applicants in an equivalence class unless he is rejected by all applicants in higher ranked equivalence classes. Since µ(e) does not reject e, we can conclude that e does not interview a.</p><p>Finally, the desired result follows by Theorem 4.2.</p><p>Recall that to get a polynomial-time result, we not only restricted our partial information setting, but also turned to diligent policies as opposed to sound policies. We have already seen, in Theorem 2.19, that without any restriction on the given partial preference ordering, we can not guarantee the existence of a very weakly dominant, diligent policy. The next theorem shows that even in our restricted setting, we can not guarantee the existence of a sound policy that very weakly dominates every other sound policy. THEOREM 5.3. There exist equivalence class orderings in which applicants are endowed with identical equivalence classes, for which no very weakly dominant policy exists.</p><p>PROOF. Consider a setting with 2 employers and 2 applicants where all agents initially rank both candidates in the same equivalence class. Let I 1 , I 2 , I 3 , and I 4 be four information states that can be reached after a sequence of three interviews with the properties that:</p><p>-under I 1 , e 1 and a 1 prefer each other the most, -under I 2 , e 2 and a 2 prefer each other the most, -under I 3 , e 2 and a 1 prefer each other the most, and -under I 4 , e 1 and a 2 prefer each other the most.</p><p>The reader can easily verify that these four information states are indeed all reachable after three interviews in the setting described. It is also easy to verify that µ 1 = {(e 1 , a 1 ), (e 2 , a 2 )} is the employeroptimal matching for any preference ordering that refines I 1 and/or I 2 , and µ 2 = {(e 1 , a 2 ), (e 2 , a 1 )} is the employer-optimal matching for any preference ordering that refines I 3 and/or I 4 .</p><p>Let i ¡ I i , 1 ≤ i ≤ 4, be the four strict preference orderings depicted in <ref type="figure">Figure 6</ref>. The minimum optimality certificate for 1 is (I 1 , µ 1 , p E,A ). To see this, note that to certify µ 1 as the employer-optimal matching for 1 , e 1 needs to have interviewed both applicants, to distinguish between 1 and ¡ I 4 , e 1 a1 e 2 and a 1 e2 a 2 . In addition, e 2 has to interview a 1 in order to distinguish between 1 and ¡ I 3 , where and are the same except that a 1 's preferences are reversed. Similarly, we can prove that the minimum optimality certificate for 2 is (I 2 , µ 1 , p E,A ), for 3 is (I 3 , µ 2 , p E,A ), and for 4 is (I 4 , µ 2 , p E,A ). Notice that each of these minimum optimality certificates are reached by three interviews. Any policy that performs the interview e 1 :a 1 (respectively e 2 :a 2 , e 1 :a 2 , e 2 :a 1 ) is Pareto dominated under 2 (respectively under 1 , 3 , 4 ). Hence, no very weakly dominant policy exists.</p><p>The reader may wonder whether we can recover our positive result if we restrict the setting such that the employers, as opposed to applicants, are endowed by identical equivalence classes. (Observe that the restriction is not symmetric because in both cases we are concerned with identifying e 1 e 2 a 1 a 2 a 1 a 1 e 1 e 1 a 2 a 2 e 2 e 2 1 e 1 e 2 a 1 a 2 a 2 a 2 e 2 e 2 a 1 a 1 e 1 e 1 2 e 1 e 2 a 1 a 2 a 1 a 1 e 2 e 2 a 2 a 2 e 1 e 1 3 e 1 e 2 a 1 a 2 a 2 a 2 e 1 e 1 a 1 a 1 e 2 e 2 4 <ref type="figure">Fig. 6</ref>. Four of the possible strict preference orderings that refine a setting with 2 employers and 2 applicants with empty initial information. Applicants' partial preference orderings e 1 e 2 e 3 e 4 a 1 a 2 a 2 a 2 a 2 a 1 a 1 a 1 Employers' partial preference orderings <ref type="bibr">Fig. 7</ref>. A setting with 4 employers and 2 applicants. Employers have full knowledge of their preferences as shown in the table on right. Applicants' partial preference ordering is as depicted on the left: they both prefer e 1 to e 3 and e 4 . employer-optimal matchings.) It turns out that we can not; instead, this new restricted setting leads us back to the nonexistence result of Theorem 2.19.</p><p>THEOREM 5.4. There exist equivalence class orderings in which employers are endowed with identical equivalence classes, for which no very weakly dominant, diligent policy exists.</p><p>The proof follows immediately from the proof of Theorem 2.19. Lastly, we show that our restriction to equivalence class orderings was also important for getting us around the nonexistence of very weakly dominant, diligent policies.</p><p>THEOREM 5.5. There exist inputs for which no very weakly dominant, diligent policy exists, even when applicants are endowed with identical, strict partial preference orderings.</p><p>PROOF SKETCH. Consider a setting with 4 employers and 2 applicants where the agents' partial preference orderings are as depicted in <ref type="figure">Figure 7</ref>. That is, the employers initially have full knowledge of their preferences and the applicants' identical partial preference orderings reveal that they both prefer e 1 to e 3 and e 4 . Let the agents' preferences under total orders and be as depicted in <ref type="figure">Figure 8</ref> and <ref type="figure">Figure 9</ref>. Note that and are the same except that a 2 's top two choices are interchanged.</p><p>Matching µ, µ(e 1 ) = a 1 and µ(e 2 ) = a 2 , is the employer-optimal matching under both and . The minimum diligent optimality certificate for , (I, µ), consists of the interviews Z = {e 1 :a 1 , e 2 :a 2 , e 1 :a 2 }, whereas the minimum diligent optimality certificate for , (I , µ), consists of the interviews Z = {e 1 :a 1 , e 2 :a 2 , e 3 :a 2 , e 4 :a 2 }. Note that Z and Z only share the two interviews e 1 :a 1 and e 2 :a 2 , and that both and refine the information state resulting from these two interviews. (In fact, the interviews e 1 :a 1 and e 2 :a 2 belong to the minimum diligent optimality certificate of all strict total orders that refine the setting in <ref type="figure">Figure 7</ref>, even if the pairs are not matched.) Thus, a policy that computes a minimum diligent optimality certificate for cannot compute one for (and vice versa): a policy that performs e 1 :a 2 is Pareto dominated under , and a policy that performs e 3 :a 2 and/or e 4 :a 2 is Pareto dominated under . Therefore, no very weakly dominant, diligent policy exists for the given setting.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">CONCLUSIONS</head><p>We have introduced a model of two-sided matching markets in which agents begin with partially ordered preference information, and can refine these preferences through interviews. We defined three optimization criteria to capture the idea of minimizing the number of interviews required to find a stable matching that is optimal for a given side of the market. We showed that among these e 1 e 2 e 3 e 4 a 1 a 2 a 2 a 2 a 2 a 1 a 1 a 1 a 1 a 2 e 1 e 2 e 2 e 1 e 3 e 3 e 4 e 4 <ref type="figure">Fig. 8</ref>. Agents' preferences under total order . e 1 e 2 e 3 e 4 a 1 a 2 a 2 a 2 a 2 a 1 a 1 a 1 a 1 a 2 e 1 e 1 e 2 e 2 e 3 e 3 e 4 e 4 <ref type="figure">Fig. 9</ref>. Agents' preferences under total order . criteria, very weakly dominant policies do not always exist, and that in general settings it is NP-hard to find such a policy if it does exist. In contrast, optimal-in-expectation and Pareto-optimal policies do always exist; they can be found in exponential time via an MDP encoding. We can do better in the setting where one side of the market is endowed with identical equivalence class orderings; here, we can leverage the notion of minimum optimality certificates to execute a very weakly dominant, diligent policy in polynomial time.</p><p>Our paper raises many questions. A particularly important open problem is the hardness of finding optimal-in-expectation policies (or Pareto optimal policies) in general settings. One could also consider approximating these objectives. It would be interesting to identify settings under which we can bound the number of interviews our proposed algorithm performs (e.g., w.r.t. the number of equivalence classes and the number of agents in each equivalence class). In this vein, it would be particularly useful to understand when we only need a linear number of interviews, as this mimics the setting in the NRMP where applicants can only list a constant number of hospitals. Another interesting direction is to forgo the employer-optimality of the matching, and look for approximately employer-optimal matchings, in exchange for fewer interviews. Conversely, it is also interesting to investigate whether one can guarantee the employer-optimal matching by performing at most boundedly more than the minimum number of interviews required by an optimal policy. It is also important to investigate how and when our results could be extended to the many-to-one matching markets. This would of course depend on the employers' preferences over groups of applicants, as well as the differences in the number of applicants each employer intends to hire. For example, if employers have different number of spots available, it may be beneficial to have employers with larger numbers of spots interview first. Finally, it would be worthwhile to investigate the computational impact of committing to decentralized policies.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>E</head><label></label><figDesc>u, ← the set of unmatched employers e d in equivalence class of the applicants with nonempty Pe d ; while E u, = ∅ do ← + 1 ; E u, ← the set of unmatched employers e d in equivalence class of the applicants with nonempty Pe d ; e i ← an arbitrary employer in E u, ; foreach a j ∈ Pe i do e i interviews a j ; χe i = Pe i ; Pe i ← ∅ ; Tentative Matching Stage repeat foreach e i ∈ E do if µ(e i ) = ∅ and χe i = ∅ then e i offers a position to the achievable applicant it prefers the most; she is removed from χe i ;</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 5 .</head><label>5</label><figDesc>Agents' preferences under total order 2 that refines the setting depicted inFigure 3.THEOREM 5.2. Algorithm 1 executes a very weakly dominant, diligent policy in time polynomial in the input size.</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">We assume that agents have strict preferences over unacceptable candidates only to simplify notation.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2">Of course, all of our technical results can be made to apply instead to applicant-optimal matchings by swapping every use of the terms "employer" and "applicant." Furthermore, all of our results except those in Section 5 also hold for the problem of finding any stable matching; however, we make the restriction throughout for consistency and clarity.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3">Pareto optimality is an extension of the standard concept of optimality to multiobjective settings. In game theory, the notion is traditionally used to reason about settings in which there is one objective function for each agent's utility function. We apply the notion differently: we do not have an objective function per agent, but rather an objective function (counting the number of interviews performed) per strict preference profile that refines the given partial information.4  Indeed, in what follows we will often observe that results that hold for sound policies also hold for diligent policies. However, important differences between the two kinds of policies emerge in Section 5.</note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ACKNOWLEDGMENTS</head><p>We thank Scott Kominers for helpful conversations during the research that led to this paper, and anonymous reviewers for offering valuable feedback.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">School choice: A mechanism design approach. Discussion papers</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Abdulkadiroglu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Smez</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+		</imprint>
+		<respStmt>
+			<orgName>Columbia University, Department of Economics</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Matching with couples revisited</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Ashlagi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Braverman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Hassidim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM-EC</title>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="335" to="336" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Resource selection games with unknown number of players</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Ashlagi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Monderer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Tennenholtz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AAMAS</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="819" to="825" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">When lp is the cure for your matching woes: Improved bounds for stochastic matchings</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Bansal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Mestre</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Nagarajan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Rudra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Algorithms-ESA</title>
+		<imprint>
+			<biblScope unit="volume">2010</biblScope>
+			<biblScope unit="page" from="218" to="229" />
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Machiavelli and the Gale-Shapley algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Dubins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Freeman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Mathematical Monthly</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="485" to="494" />
+			<date type="published" when="1981" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The revealed preference theory of stable and extremal stable matchings</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Echenique</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Shum</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">B</forename><surname>Yenmez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="page" from="153" to="171" />
+			<date type="published" when="2013" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">College admission and the stability of marriage</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Gale</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Shapley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Mathematical Monthly</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="9" to="15" />
+			<date type="published" when="1962" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">SAT encodings of the stable marriage problem with ties and incomplete lists</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><forename type="middle">P</forename><surname>Gent</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Prosser</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Walsh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SAT 2002</title>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page" from="133" to="140" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Three fast algorithms for four problems in stable marriage</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Gusfield</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal of Computation</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="111" to="128" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<monogr>
+		<title level="m" type="main">Two-sided matching with one-sided information</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Haeringer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Iehle</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Multilateral matching</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Hatfield</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Kominers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ACM-EC</title>
+		<imprint>
+			<date type="published" when="2011" />
+			<biblScope unit="page" from="337" to="338" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Stable marriage and indifference</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="261" to="272" />
+			<date type="published" when="1994" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">The complexity of counting stable marriages</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Leather</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM J. of Computation</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="655" to="667" />
+			<date type="published" when="1986" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">An efficient algorithm for the &quot;optimal&quot; stable marriage</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Leather</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Gusfield</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. ACM</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="532" to="543" />
+			<date type="published" when="1987" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">The stable roommates problem with ties</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Algorithms</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="85" to="105" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">The hospitals/residents problem with ties</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Scott</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SWAT</title>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="259" to="271" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Strong stability in the hospitals/residents problem</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Scott</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of STACS 2003: the 20th International Symposium on Theoretical Aspects of Computer Science</title>
+		<editor>H. Alt and M. Habib</editor>
+		<meeting>STACS 2003: the 20th International Symposium on Theoretical Aspects of Computer Science</meeting>
+		<imprint>
+			<publisher>Springer-Verlag GmbH</publisher>
+			<date type="published" when="2003" />
+			<biblScope unit="volume">2607</biblScope>
+			<biblScope unit="page" from="439" to="450" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">The stable marriage problem with master preference lists</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Scott</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">156</biblScope>
+			<biblScope unit="page" from="2959" to="2977" />
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Reducibility among combinatorial problems</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">M</forename><surname>Karp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Complexity of Computer Computations</title>
+		<imprint>
+			<biblScope unit="page" from="85" to="103" />
+			<date type="published" when="1972" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<monogr>
+		<title level="m" type="main">Stable marriage and its relation to other combinatorial problems: an introduction to the mathematical analysis of algorithms. CRM proceedings &amp; lecture notes</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Knuth</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997" />
+			<publisher>American Mathematical Society</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Interviewing in two-sided matching markets</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schwarz</surname></persName>
+		</author>
+		<idno>No. 14922</idno>
+		<imprint>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+	<note type="report_type">NBER Working Paper</note>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Stable marriage with ties and unacceptable partners</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999" />
+		</imprint>
+		<respStmt>
+			<orgName>University of Glasgow, Department of Computing Science</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Tech. rep</note>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">The structure of stable marriage with indifference</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">122</biblScope>
+			<biblScope unit="page" from="167" to="181" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Algorithmics of Matching Under Preferences</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013" />
+			<publisher>World Scientific</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Special issue on matching under preferences</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Iwama</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Algorithmica</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page">1</biblScope>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Hard variants of stable marriage</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">F</forename><surname>Manlove</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">W</forename><surname>Irving</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Iwama</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Miyazaki</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Morita</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">276</biblScope>
+			<biblScope unit="page" from="261" to="279" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Lotteries in student assignment: An equivalence result</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Pathak</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Sethuraman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theoretical Economics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="1" to="17" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Markov Decision Processes: Discrete Stochastic Dynamic Programming</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Puterman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994" />
+			<publisher>John Wiley and Sons</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Encyclopedia of Machine Learning. Chapter Dynamic programming</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Puterman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Patrick</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">The economics of matching: stability and incentives</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Roth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematics of Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="617" to="628" />
+			<date type="published" when="1982" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title level="a" type="main">The national residency matching program as a labor market</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Roth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Medical Association</title>
+		<imprint>
+			<biblScope unit="volume">275</biblScope>
+			<biblScope unit="page" from="1054" to="1056" />
+			<date type="published" when="1996" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Two-Sided Matching: A Study in Game-Theoretic Modeling and Analysis</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Roth</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Sotomayor</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1992" />
+			<publisher>Cambridge University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

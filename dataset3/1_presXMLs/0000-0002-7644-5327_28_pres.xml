@@ -1,0 +1,954 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Action-Graph Games: 
+A Compact Representation for Game Theory
+</p>
+<p>Kevin Leyton-Brown
+Computer Science
+</p>
+<p>University of British Columbia
+</p>
+<p>Based on joint papers with:
+</p>
+<p>Albert Xin Jiang Navin A.R. Bhat
+UBC University of Toronto
+</p>
+<p>[AAAI 2006]; more recent work [UAI 2004]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Game Theory In One Slide ☺
+• A game:
+</p>
+<p>– an interaction between two or more self-interested agents
+– each agent independently chooses an action
+– each agent derives utility from the resulting action profile
+</p>
+<p>• Strategies:
+– pure strategy: picking a single action
+– mixed strategy: randomizing over actions
+</p>
+<p>• Best Response:
+– I play a strategy that maximizes my own utility, given a particular (mixed) 
+</p>
+<p>strategy profile for the other agents
+</p>
+<p>• Nash Equilibrium:
+– a strategy profile with the property that every agent’s strategy is a best 
+</p>
+<p>response to the strategies of the others</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computation-Friendly Game Representations
+</p>
+<p>• Goal: use game theory to model real-world systems
+– allow large numbers of agents and actions
+– just consider games in normal form:
+</p>
+<p>• no extensive form
+• no Bayesian games
+</p>
+<p>– motivating examples in this talk will concern 
+location games
+</p>
+<p>• Problem: interesting games are large;
+computing equilibrium, best response, etc. is hard
+</p>
+<p>• Solution:
+– compact representation
+– tractable computation</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Past Work on Compact Games
+</p>
+<p>• Temporal Structure
+– extensive form
+</p>
+<p>• Independence
+– some pairs of agents have no (direct) effect on each 
+</p>
+<p>other’s payoffs
+[La Mura, 2000], [Kearns, Littman, Singh, 2001], [Vickrey & Koller, 2002], 
+[Oritz & Kearns, 2003], [Blum, Shelton, Koller, 2003]
+</p>
+<p>– graphical games
+</p>
+<p>• Context-Specific Independence
+– whether agents affect each other’s payoffs can depend 
+</p>
+<p>on the action choices they each make
+[Rosenthal, 1973], [Monderer & Shapley, 1996]
+</p>
+<p>– congestion/potential games</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview on Action-Graph Games
+</p>
+<p>1. Definition and Examples
+</p>
+<p>2. Analyzing the Representation
+</p>
+<p>3. Computing with Games
+</p>
+<p>4. Computing with AGGs
+</p>
+<p>5. Experimental Results</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Action-Graph Games
+</p>
+<p>• set of players: want to 
+open coffee shops
+</p>
+<p>• actions: choose a location 
+for your shop, or choose 
+not to enter the market
+</p>
+<p>• utility: profitability of 
+a location 
+</p>
+<p>– some locations might have 
+more customers, and so 
+might be better ex ante
+</p>
+<p>– utility also depends on the 
+number of other players 
+who choose the same or 
+an adjacent location</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Formal Definitions</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Elaborated Ice Cream Vendor Problem
+Inspired by [Hotelling, 1929]
+</p>
+<p>vendors sell either chocolate or vanilla ice 
+cream at one of four stations along a beach
+</p>
+<p>chocolate (C) vendors;
+</p>
+<p>vanilla (V) vendors; 
+</p>
+<p>can sell C/V, but only on the west side.
+</p>
+<p>– competition between nearby sellers of same 
+type; synergy between nearby different types
+</p>
+<p>C1 C2 C3 C4
+Notes:
+</p>
+<p>– graph structure independent of # agents
+– overlapping action sets
+– context-specific independence without 
+</p>
+<p>V1 V2 V3 V4 strict independence</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Job Market Problem
+</p>
+<p>Each player chooses a level of training
+</p>
+<p>Players’ utilities are the sum of:
+Computer Electrical Mechanical
+</p>
+<p>• a constant cost: Science Engineering Engineering
+– difficulty; tuition; foregone wages
+</p>
+<p>PhD PhD PhD
+</p>
+<p>• a variable reward, depending on:
+– How many jobs prefer workers with 
+</p>
+<p>this training, and how desirable are MSc MEng MEng
+</p>
+<p>the jobs?
+</p>
+<p>– How many other jobs are willing to 
+BSc BEng BEng
+</p>
+<p>take such workers as a second choice, 
+and how good are these jobs?
+</p>
+<p>• Employers will take workers who are 
+Dipl Dipl Dipl
+</p>
+<p>overqualified, but only by one degree.
+</p>
+<p>• They will also interchange similar 
+degrees, but only at the same level.
+</p>
+<p>High
+– How many other graduates want the 
+</p>
+<p>same jobs?</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview on Action-Graph Games
+</p>
+<p>1. Definition of AGGs and Examples
+</p>
+<p>2. Analyzing and Extending the Representation
+</p>
+<p>3. Computing with Games
+</p>
+<p>4. Computing with AGGs
+</p>
+<p>5. Experimental Results</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGGs are Fully Expressive</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Analyzing the AGG Representation
+</p>
+<p>AGGs are more compact than the normal form when the 
+game exhibits either or both of the following properties:
+</p>
+<p>1. Context-Specific Independence: 
+• pairs of agents can choose actions that are 
+</p>
+<p>not neighbors in the action graph
+</p>
+<p>2. Anonymity: 
+• multiple action profiles yield the same configuration</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Size of the AGG representation
+</p>
+<p>How many payoffs do we need to store in an AGG?
+</p>
+<p>• Bounded by        .
+</p>
+<p>– where I is the max in-degree of the action graph
+</p>
+<p>• When I is bounded by a constant:  
+– polynomial size: (|S| I)
+– in contrast, size of normal form is (|S| )
+</p>
+<p>• Asymptotically, never larger than the normal form</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Graphical Games are Compact as AGGs
+</p>
+<p>GG AGG
+</p>
+<p>Agent node Action set box
+</p>
+<p>Edge Bipartite graphs between action sets
+</p>
+<p>Local game matrix Node utility function</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem Revisited
+</p>
+<p>• What if utility also depends on total # shops?
+• Now action graph has in-degree |A|
+</p>
+<p>– NF & Graphical Game representations: (|A| )
+– AGG representation:  (  |A|)
+– when |A| is held constant, the AGG 
+</p>
+<p>representation is polynomial in 
+• but still doesn’t effectively capture game structure
+• given ’s action, his payoff depends only on 3 quantities!
+</p>
+<p>6 × 5 Coffee Shop Problem: projected action graph at the red node</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Function Nodes
+</p>
+<p>• To exploit this structure, introduce function nodes:
+– The “configuration” of a function node is a (given) function of the 
+</p>
+<p>configuration of its neighbors: ( ) = ( (ν( )))
+</p>
+<p>• Coffee-shop example: for each action node , introduce:
+– One function node with adjacent actions as neighbours
+</p>
+<p>• ( ' ) = total # of shops in surrounding nodes
+– Similarly, a function node with non-adjacent actions as neighbours
+</p>
+<p>6 × 5 Coffee Shop Problem: function nodes for the red node</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Coffee Shop Problem
+</p>
+<p>• Now the red node has only 3 incoming edges: 
+– itself, the blue function node and the orange function node
+– so, the action-graph now has in-degree 3
+</p>
+<p>• Size of representation is now ( 3)!
+</p>
+<p>6 × 5 Coffee Shop Problem: projected action graph at the red node</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview on Action-Graph Games
+</p>
+<p>1. Definition of AGGs and Examples
+</p>
+<p>2. Analyzing and Extending the Representation
+</p>
+<p>3. Computing with Games
+</p>
+<p>4. Computing with AGGs
+</p>
+<p>5. Experimental Results</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with Games
+</p>
+<p>Expected payoff of agent for playing action , 
+</p>
+<p>if other agents play according to mixed-strategy profile σ :−
+</p>
+<p>Two useful computations based on</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with Games
+</p>
+<p>Why might we want to compute
+• Best Response
+• Payoff Jacobian (Govindan-Wilson Algorithm; Nash equilibrium)
+• Iterated Polymatrix Approximation (IPA) 
+</p>
+<p>– a quick start for the Govindan-Wilson algorithm
+• Gradient for policy search multiagent RL algorithms
+• Simplicial Subdivision Algorithm (Nash equilibrium)
+• Papadimitriou’s Algorithm (correlated Nash equilibrium)
+</p>
+<p>Computational complexity:</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview on Action-Graph Games
+</p>
+<p>1. Definition of AGGs and Examples
+</p>
+<p>2. Analyzing and Extending the Representation
+</p>
+<p>3. Computing with Games
+</p>
+<p>4. Computing with AGGs
+</p>
+<p>5. Experimental Results</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGGs: Projection
+</p>
+<p>C3 C4
+</p>
+<p>∅
+</p>
+<p>V3 V4
+C1 C2 C3 C4
+</p>
+<p>V1 V2 V3 V4 C1 C2
+</p>
+<p>∅
+</p>
+<p>V1 V2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGGs: Projection
+</p>
+<p>• Projection captures context-specific independence and 
+strict independence</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGGs: Anonymity
+</p>
+<p>• Writing in terms of the configuration captures anonymity</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGGs: Anonymity
+</p>
+<p>• Good news:
+– , the number of different configurations, is polynomial
+– thus, the first sum is over polynomially-many elements
+</p>
+<p>• Bad news:
+– , the number of pure-action profiles corresponding to a given 
+</p>
+<p>configuration, is exponential in the number of agents
+</p>
+<p>– thus, the second sum is over exponentially-many elements</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dynamic Programming
+</p>
+<p>• A ray of hope: note that
+– the players’ mixed strategies are independent 
+</p>
+<p>• i.e. σ is a product probability distribution
+– each player affects the configuration independently
+</p>
+<p>• We can use dynamic programming to compute the 
+probability of a configuration:
+– base case: zero agents and the mixed strategy σ0:
+</p>
+<p>• Δ0 = { 0}
+• 0 = {0, …, 0}
+• 0( 0) = 1
+</p>
+<p>– then add agents one by one:
+• Δ :  the set of configurations that can be built by adding any action 
+</p>
+<p>the support of player ’s mixed strategy to any configuration from Δ -1
+• .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dynamic Programming
+</p>
+<p>• Our algorithm makes a polynomial number of updates
+– # configurations (for a given number of agents) is polynomial
+– cost of adding an agent: # configurations × # actions
+– we need a data structure to manipulate probability distributions
+</p>
+<p>over configurations (sequences of integers) which permits quick 
+lookup, addition and enumeration
+</p>
+<p>• Tries fit the bill t i
+– often used to store dictionaries 
+</p>
+<p>(e.g., spell checker)
+o e
+</p>
+<p>• nfor AGGs, we store strings of  
+integers rather than characters
+</p>
+<p>– both lookup and insertion a n n
+complexity is linear (# actions)
+</p>
+<p>– enumeration can also be done in 
+linear time (# configurations)
+</p>
+<p>a trie storing 4 strings:
+to, tea, ten, inn</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Computation Example
+</p>
+<p>• Example game: a b
+– 4 players, 2 actions
+</p>
+<p>S1—4
+</p>
+<p>• Compute joint probability 
+distribution σ where 
+σ1=(1, 0), σ2=(0.2, 0.8), 
+σ3=(0.4, 0.6), σ4=(0.5, 0.5)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Example: 0 players
+</p>
+<p>• Example game: a b
+– 4 players, 2 actions
+</p>
+<p>S1—4
+</p>
+<p>• Compute joint probability 
+distribution σ where
+σ a1=(1, 0), σ2=(0.2, 0.8), 
+σ3=(0.4, 0.6), σ4=(0.5, 0.5)
+</p>
+<p>0
+</p>
+<p>P0((0,0))=1 b
+</p>
+<p>0
+</p>
+<p>1.0</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Example: 1 player
+</p>
+<p>σ1=(1, 0), σ2=(0.2, 0.8), a b
+σ3=(0.4, 0.6), σ4=(0.5, 0.5)
+</p>
+<p>S1—4
+</p>
+<p>P0((0,0))=1
+</p>
+<p>σ1(a) = 1.0 a
+</p>
+<p>P1((1,0))=1
+1
+</p>
+<p>b
+</p>
+<p>0
+</p>
+<p>1.0</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Example: 2 players
+</p>
+<p>σ1=(1, 0), σ2=(0.2, 0.8), a b
+σ3=(0.4, 0.6), σ4=(0.5, 0.5)
+</p>
+<p>S1—4
+</p>
+<p>P0((0,0))=1
+</p>
+<p>σ1(a) = 1.0 a
+</p>
+<p>P1((1,0))=1
+2 1
+</p>
+<p>σ2(a)=0.2 σ2(b)=0.8
+</p>
+<p>P2((2,0))=0.2 P2((1,1))=0.8 b b
+</p>
+<p>0 1
+</p>
+<p>0.2 0.8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Example: 3 players
+</p>
+<p>σ1=(1, 0), σ2=(0.2, 0.8), a b
+σ3=(0.4, 0.6), σ4=(0.5, 0.5)
+</p>
+<p>S1—4
+</p>
+<p>P0((0,0))=1
+</p>
+<p>σ1(a) = 1.0 a
+</p>
+<p>P1((1,0))=1
+1 2 3
+</p>
+<p>σ2(a)=0.2 σ2(b)=0.8
+</p>
+<p>P2((2,0))=0.2 P2((1,1))=0.8 b b b
+</p>
+<p>σ3(a)=0.4 σ3(b)=0.6+ 0.4 0.6 2 1 0
+</p>
+<p>P3((3,0))=0.08 P3((2,1))=0.44 P3((1,2))=0.48 0.48 0.44 0.08</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGG Example: 4 players
+</p>
+<p>P0((0,0))=1 a b
+</p>
+<p>σ1(a) = 1.0
+S
+</p>
+<p>P1((1,0))=1
+1—4
+</p>
+<p>σ2(a)=0.2 σ2(b)=0.8
+</p>
+<p>a
+P2((2,0))=0.2 P2((1,1))=0.8
+</p>
+<p>σ3(a)=0.4 σ3(b)=0.6 1 2 3 4+ 0.4 0.6
+</p>
+<p>P3((3,0))=0.08 P3((2,1))=0.44 P3((1,2))=0.48 b b b b
+</p>
+<p>σ4(a) σ4(b)
+=0.5 =0.5 0.5 0.5 0.5 0.5 3 2 1 0+ +
+P4((4,0)) P4((3,1)) P4((2,2)) P4((1,3)) 0.24 0.46 0.26 0.04
+</p>
+<p>=0.04 =0.26 =0.46 =0.24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Computing with AGGs: Complexity
+</p>
+<p>• Complexity of our approach:
+</p>
+<p>• Exponential speedup vs. standard approach: 
+</p>
+<p>• For graphical games encoded as AGGs, same exponential 
+speedup as the special-purpose technique of [Blum, Shelton 
+& Koller, 2002]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AGGs with Function Nodes (AGGFNs)
+</p>
+<p>• Our dynamic programming algorithm does not 
+work for arbitrary AGGFNs
+– players are no longer guaranteed to affect independently
+</p>
+<p>• Definition: An AGGFN is contribution-independent (CI) if
+– all function nodes have only action nodes as their neighbors
+– there exists a c∈ommutative and associative operator *, and for each action node an integer , such that given an action profile , 
+</p>
+<p>for all function nodes ∈ ,    . .
+– e.g., the coffee-shop game is CI, where * is sum and ∀ = 1
+</p>
+<p>• Theorem: Our dynamic programming algorithm works
+with AGGFNs that are contribution-independent</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview on Action-Graph Games
+</p>
+<p>1. Definition of AGGs and Examples
+</p>
+<p>2. Analyzing and Extending the Representation
+</p>
+<p>3. Computing with Games
+</p>
+<p>4. Computing with AGGs
+</p>
+<p>5. Experimental Results</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Representation Size
+</p>
+<p>varying number of players
+</p>
+<p>Coffee shop game, 5 × 5 grid
+NF grows exponentially; AGG grows polynomially</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Representation Size
+</p>
+<p>varying number of players
+</p>
+<p>10M
+</p>
+<p>1M
+</p>
+<p>100K
+</p>
+<p>10K
+</p>
+<p>1K
+</p>
+<p>100
+</p>
+<p>10
+</p>
+<p>1
+6 14 22 30 38 46 54 62 70 78
+</p>
+<p>number of players
+</p>
+<p>Coffee shop game, 5 × 5 grid
+AGG grows polynomially
+</p>
+<p>payoffs stored</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Representation Size
+</p>
+<p>varying number of actions
+</p>
+<p>1G
+</p>
+<p>100M AGG
+</p>
+<p>NF
+10M
+</p>
+<p>1M
+</p>
+<p>100K
+</p>
+<p>10K
+</p>
+<p>1K
+</p>
+<p>100
+16 26 36 46 56 66 76
+</p>
+<p>number of actions
+</p>
+<p>Coffee shop game, 4 players, ⌧ × 5 grid
+AGG grows linearly, NF grows as a higher-order polynomial
+</p>
+<p>payoffs stored</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Representation Size
+</p>
+<p>varying number of actions
+9K
+8K
+7K
+6K
+5K
+4K
+3K
+2K
+1K
+</p>
+<p>0
+100 200 300 400
+</p>
+<p>number of actions
+</p>
+<p>Coffee shop game, 4 players, ⌧ × 5 grid
+AGG grows linearly
+</p>
+<p>payoffs stored</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Expected Payoff
+varying number of players
+</p>
+<p>1000
+(largest NF game we
+</p>
+<p>could fit in memory)
+100
+</p>
+<p>10
+</p>
+<p>1
+</p>
+<p>0.1 AGG
+NF
+</p>
+<p>0.01
+3 4 5 6 7 8 9 10 11 12 13 14 15 16
+</p>
+<p>number of players
+Coffee Shop Game, 5 × 5 grid, AGG vs. GameTracer using NF
+</p>
+<p>1000 random strategy profiles with full support
+</p>
+<p>AGG grows polynomially, NF grows exponentially
+</p>
+<p>CPU time in seconds</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Expected Payoff
+varying number of players
+</p>
+<p>1000
+</p>
+<p>100
+</p>
+<p>10
+</p>
+<p>1
+</p>
+<p>0.1
+6 14 22 30 38 46 54 62 70 78
+</p>
+<p>number of players
+</p>
+<p>Coffee Shop Game, 5 × 5 grid, AGG
+1000 random strategy profiles with full support
+</p>
+<p>AGG grows polynomially
+</p>
+<p>CPU time in seconds</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Expected Payoff
+varying number of actions
+</p>
+<p>100
+AGG
+</p>
+<p>10 NF
+</p>
+<p>1
+</p>
+<p>0.1
+</p>
+<p>0.01
+16 26 36 46 56 66 76
+</p>
+<p>number of actions
+</p>
+<p>Coffee Shop Game, 4 players, ⌧ × 5 grid, AGG vs. GameTracer using 
+1000 random strategy profiles with full support
+</p>
+<p>AGG grows linearly, NF grows as higher-order polynomial
+</p>
+<p>CPU time in seconds</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Expected Payoff
+varying number of actions
+</p>
+<p>0.6
+</p>
+<p>0.5
+</p>
+<p>0.4
+</p>
+<p>0.3
+</p>
+<p>0.2
+</p>
+<p>0.1
+</p>
+<p>0
+100 200 300 400
+</p>
+<p>number of actions
+</p>
+<p>Coffee Shop Game, 4 players, ⌧ × 5 grid, AGG vs. GameTracer using 
+1000 random strategy profiles with full support
+</p>
+<p>AGG grows linearly
+</p>
+<p>CPU time in seconds</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Nash Equilibrium
+varying number of players
+</p>
+<p>35
+30
+25
+20
+15
+10
+</p>
+<p>5
+0
+</p>
+<p>3 4 5
+</p>
+<p>number of players
+Coffee Shop Game, 4 × 4 grid, Govindan-Wilson Algorithm
+Jacobians computed using AGGs vs. GameTracer using NF
+</p>
+<p>Exactly the same equilibria were found using both representations
+Average across 10 initial perturbations; error bars indicate stdev
+</p>
+<p>As number of rows grows, AGG speedup increases roughly linearly
+</p>
+<p>ratio of NF time vs. AGG time</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Results: Nash Equilibrium
+varying number of actions
+</p>
+<p>7
+</p>
+<p>6
+5
+</p>
+<p>4
+</p>
+<p>3
+</p>
+<p>2
+1
+</p>
+<p>0
+13 17 21 25 29 33 37 41
+</p>
+<p>number of actions
+</p>
+<p>Coffee Shop Game, ⌧ × 4 grid, Govindan-Wilson Algorithm
+Jacobians computed using AGGs vs. GameTracer using NF
+</p>
+<p>Exactly the same equilibria were found using both representations
+Average across 10 initial perturbations; error bars indicate stdev
+</p>
+<p>As number of rows grows, AGG speedup increases roughly linearly
+</p>
+<p>ratio of NF time vs. AGG time</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Coffee Shop Game: Example Equilibrium
+</p>
+<p>1 1 -1.5 1
+</p>
+<p>1 2 -1.5 2
+</p>
+<p>-1.5 -6 -12.5 -6
+</p>
+<p>2 -1.5 1.5 1.5
+</p>
+<p>• Utility Function: 5 - ⌧3 - 2 - 0.5
+⌧, , are # of shops in same location, one block away, further away 
+</p>
+<p>• 5 players</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Coffee Shop Game: Example Equilibrium
+</p>
+<p>0.5 -2 -2 -2
+</p>
+<p>1.5 -2 1.5 1.5
+</p>
+<p>-2 -13 -13 -13
+</p>
+<p>1.5 -2 1.5 1.5
+</p>
+<p>• Utility Function: 5 - ⌧3 - 2 - 0.5
+⌧, , are # of shops in same location, one block away, further away 
+</p>
+<p>• 6 players</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Coffee Shop Game: Example Equilibrium
+</p>
+<p>0.5 -2.5 -2.5 -2.5
+</p>
+<p>0.5 -7 0.5 0.5
+</p>
+<p>-2.5 -13.5 -13.5 -13.5
+</p>
+<p>1 -7 0.5 0.5
+</p>
+<p>• Utility Function: 5 - ⌧3 - 2 - 0.5
+⌧, , are # of shops in same location, one block away, further away 
+</p>
+<p>• 7 players</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Coffee Shop Game: Example Equilibrium
+</p>
+<p>0.5 -2.5 -2.5 -2.5
+</p>
+<p>0.5 -7 0.5 0.5
+</p>
+<p>-2.5 -13.5 -13.5 -13.5
+</p>
+<p>1 -7 0.5 0.5
+</p>
+<p>• Utility Function: 5 - ⌧3 - 2 - 0.5
+⌧, , are # of shops in same location, one block away, further away 
+</p>
+<p>• 8 players; one chooses not to participate</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>Action-Graph Games
+</p>
+<p>• Fully-expressive compact representation of games 
+exhibiting context-specific independence and/or 
+strict independence
+</p>
+<p>• Permit efficient computation of expected utility under a 
+mixed strategy, which allows efficient computation of e.g., 
+best response, Nash equilibrium, etc.
+</p>
+<p>• Generalizes graphical games
+</p>
+<p>• Experimentally: much faster than the normal form
+</p>
+<p>http://www.cs.ubc.ca/˜kevinlb google://“Kevin Leyton-Brown”</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Job Market Game
+Computer Electrical Mechanical
+Science Engineering Engineering
+</p>
+<p>PhD PhD PhD
+</p>
+<p>MSc MEng MEng
+</p>
+<p>BSc BEng BEng
+</p>
+<p>Dipl Dipl Dipl
+</p>
+<p>High</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

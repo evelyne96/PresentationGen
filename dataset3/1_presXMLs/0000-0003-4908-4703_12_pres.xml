@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simple realizability of complete abstract
+</p>
+<p>topological graphs simplified
+</p>
+<p>Jan Kynčl
+</p>
+<p>Charles University, Prague</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>( )
+</p>
+<p>Graph: G = (V ,E), V finite, VE ⊆
+2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>( )
+</p>
+<p>Graph: G = ( VV ,E), V finite, E ⊆
+2
+</p>
+<p>Topological graph: drawing of an (abstract) graph in the
+</p>
+<p>plane
+</p>
+<p>vertices = points
+</p>
+<p>edges = simple curves</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>( )
+</p>
+<p>Graph: G = (V ,E), V finite, ⊆ VE
+2
+</p>
+<p>Topological graph: drawing of an (abstract) graph in the
+</p>
+<p>plane
+</p>
+<p>vertices = points
+</p>
+<p>edges = simple curves
+</p>
+<p>forbidden:</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>simple: any two edges have at most one common point
+</p>
+<p>or
+</p>
+<p>( )
+</p>
+<p>complete: VE =
+2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>simple: any two edges have at most one common point
+</p>
+<p>or
+</p>
+<p>( )
+</p>
+<p>complete: E = V
+2
+</p>
+<p>topological graph simple complete topological graph
+</p>
+<p>drawing simple drawing of K5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• Abstract topological graph (AT-graph):
+( )
+</p>
+<p>A = (G,X ); G = (V ,E) is a graph, X ⊆ E
+2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• Abstract topological graph (AT-graph):
+( )
+</p>
+<p>A = ( EG,X ); G = (V ,E) is a graph, X ⊆
+2
+</p>
+<p>• T is a simple realization of (G,X ) if
+</p>
+<p>• T is a simple drawing of G and
+• X is the set of crossing pairs of edges in T</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• Abstract topological graph (AT-graph):
+( )
+</p>
+<p>A = (G,X ); G = (V ,E) is a graph, X ⊆ E
+2
+</p>
+<p>• T is a simple realization of (G,X ) if
+</p>
+<p>• T is a simple drawing of G and
+• X is the set of crossing pairs of edges in T
+</p>
+<p>• AT-graph A is simply realizable if it has a simple
+</p>
+<p>realization
+</p>
+<p>Example: A = (K4, {{{1, 3}, {2, 4}}})
+</p>
+<p>simple realization of A:
+2 3
+</p>
+<p>1 4
+</p>
+<p>A = (K5, ∅)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>• Abstract topological graph (AT-graph):
+( )
+</p>
+<p>E
+A = (G,X ); G = (V ,E) is a graph, X ⊆
+</p>
+<p>2
+</p>
+<p>• T is a simple realization of (G,X ) if
+</p>
+<p>• T is a simple drawing of G and
+• X is the set of crossing pairs of edges in T
+</p>
+<p>• AT-graph A is simply realizable if it has a simple
+</p>
+<p>realization
+</p>
+<p>Example: A = (K4, {{{1, 3}, {2, 4}}})
+</p>
+<p>simple realization of A:
+2 3
+</p>
+<p>1 4
+</p>
+<p>A = (K5, ∅) is not simply realizable</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simple realizability
+</p>
+<p>instance: AT-graph A
+</p>
+<p>question: is A simply realizable?
+</p>
+<p>Previously known:
+</p>
+<p>Theorem: (Kratochvı́l and Matoušek, 1989)
+</p>
+<p>Simple realizability of AT-graphs is NP-complete.
+</p>
+<p>Theorem: (K., 2011)
+</p>
+<p>Simple realizability of complete AT-graphs is in P.
+</p>
+<p>“Unfortunately, the algorithm is of rather theoretical nature.”
+</p>
+<p>— P. Mutzel, 2008
+</p>
+<p>“The proof in [..] only gives a highly complex testing
+</p>
+<p>procedure, but no description in terms of forbidden minors or
+</p>
+<p>crossing configurations.”
+</p>
+<p>— M. Chimani, 2011</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Main result
+</p>
+<p>def.: (H,Y) is an AT-subgraph of (G,X ) if H is a subgraph
+( )
+</p>
+<p>of G and Y = X ∩ E(H)
+2
+</p>
+<p>Theorem 1: Every complete AT-graph that is not simply
+</p>
+<p>realizable has an AT-subgraph on at most six vertices that is
+</p>
+<p>not simply realizable.
+</p>
+<p>Theorem 2: There is a complete AT-graph A with six vertices
+</p>
+<p>such that all its induced AT-subgraphs with five vertices are
+</p>
+<p>simply realizable, but A itself is not.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Main result
+</p>
+<p>def.: (H,Y) is an AT-subgraph of (G,X ) if H is a subgraph
+( )
+</p>
+<p>of and Y = X ∩ E(H)G
+2
+</p>
+<p>Theorem 1: Every complete AT-graph that is not simply
+</p>
+<p>realizable has an AT-subgraph on at most six vertices that is
+</p>
+<p>not simply realizable.
+</p>
+<p>Theorem 2: There is a complete AT-graph A with six vertices
+</p>
+<p>such that all its induced AT-subgraphs with five vertices are
+</p>
+<p>simply realizable, but A itself is not.
+</p>
+<p>• Theorem 1 ⇒ straightforward O(n6) algorithm
+(but does not find the drawing)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Main result
+</p>
+<p>def.: (H,Y) is an AT-subgraph of (G,X ) if H is a subgraph
+( )
+</p>
+<p>of G and Y = X ∩ E(H)
+2
+</p>
+<p>Theorem 1: Every complete AT-graph that is not simply
+</p>
+<p>realizable has an AT-subgraph on at most six vertices that is
+</p>
+<p>not simply realizable.
+</p>
+<p>Theorem 2: There is a complete AT-graph A with six vertices
+</p>
+<p>such that all its induced AT-subgraphs with five vertices are
+</p>
+<p>simply realizable, but A itself is not.
+</p>
+<p>• Theorem 1 ⇒ straightforward O(n6) algorithm
+(but does not find the drawing)
+</p>
+<p>• Ábrego, Aichholzer, Fernández-Merchant, Hackl,
+</p>
+<p>Pammer, Pilz, Ramos, Salazar and Vogtenhuber (2015)
+</p>
+<p>generated a list of simple drawings of Kn for n ≤ 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proof of Theorem 1 (sketch)
+</p>
+<p>Let A = (Kn,X ) be a given complete AT-graph with vertex set
+[n] = {1, 2, . . . , n}.
+</p>
+<p>Main idea: take the previous “highly complex algorithm” and
+</p>
+<p>find a small obstruction every time it rejects the input.
+</p>
+<p>three main steps:
+</p>
+<p>1) computing the rotation system
+</p>
+<p>2) computing the homotopy classes of edges with respect
+</p>
+<p>to a star
+</p>
+<p>3) computing the minimum crossing numbers of pairs of
+</p>
+<p>edges</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Step 1: computing the rotation system
+</p>
+<p>v
+</p>
+<p>AT-graph ↔ rotation system
+</p>
+<p>1a) rotation systems of 5-tuples (up to orientation)
+</p>
+<p>1b) orienting 5-tuples (here 6-tuples needed)
+</p>
+<p>1c) rotations of vertices
+</p>
+<p>1d) rotations of crossings
+</p>
+<p>Ábrego et al. (pers. com.) verified that an abstract rotation
+</p>
+<p>system (ARS) of K9 is realizable if and only if the ARS of
+</p>
+<p>every 5-tuple is realizable, and conjectured that this is true
+</p>
+<p>for any Kn.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Step 2: computing the homotopy classes of edges
+</p>
+<p>• Fix a vertex v and a topological spanning star S(v),
+drawn with the rotation computed in Step 1
+</p>
+<p>• for every edge e not in S(v), compute the order of
+crossings of e with the edges of S(v).
+</p>
+<p>e
+</p>
+<p>v</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Step 2: computing the homotopy classes of edges
+</p>
+<p>• Fix a vertex v and a topological spanning star S(v),
+drawn with the rotation computed in Step 1
+</p>
+<p>• for every edge e not in S(v), compute the order of
+crossings of e with the edges of S(v).
+</p>
+<p>• drill small holes around the vertices, fix the endpoints of
+</p>
+<p>the edges on the boundaries of the holes
+</p>
+<p>f
+</p>
+<p>e
+</p>
+<p>v</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Step 3: computing the minimum crossing numbers
+</p>
+<p>cr(e, f ) = minimum possible number of crossings of two
+curves from the homotopy classes of e and f
+</p>
+<p>cr(e) = minimum possible number of self-crossings of a
+curve from the homotopy class of e
+</p>
+<p>Fact: (follows e.g. from Hass–Scott, 1985) It is possible to
+</p>
+<p>pick a representative from the homotopy class of every edge
+</p>
+<p>so that in the resulting drawing, all the crossing numbers
+</p>
+<p>cr(e, f ) and cr(e) are realized simultaneously.
+</p>
+<p>We need to verify that
+</p>
+<p>• cr(e) = 0,
+</p>
+<p>• cr(e, f ) ≤ 1, and
+</p>
+<p>• cr(e, f ) = 1 ⇔ {e, f} ∈ X .</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3a) characterization of the homotopy classes
+</p>
+<p>v
+</p>
+<p>3b) parity of the crossing numbers (4- and 5-tuples)
+</p>
+<p>3c) crossings of adjacent edges (5-tuples)
+</p>
+<p>3d) multiple crossings of independent edges (5-tuples)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Picture hanging without crossings
+</p>
+<p>remove one nail:
+</p>
+<p>N3
+</p>
+<p>β N0
+N1
+</p>
+<p>N2 α
+</p>
+<p>similar concept with crossings:
+</p>
+<p>Demaine et al., Picture-hanging puzzles, 2014.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Independent Z2-realizability
+</p>
+<p>• T is an independent Z2-realization of (G,X ) if
+• T is a drawing of G and
+• X is the set of pairs of independent edges that
+</p>
+<p>cross an odd number of times in T
+</p>
+<p>• AT-graph A is independently Z2-realizable if it has an
+</p>
+<p>independent Z2-realization
+</p>
+<p>Obs.: simple realization ⇒ independent Z2-realization
+Example:
+</p>
+<p>A = (K4, {{{1, 3}, {2, 4}}, {{1, 2}, {3, 4}}, {{1, 4}, {2, 3}}})
+</p>
+<p>independent Z2-realization of A:
+3
+</p>
+<p>1
+2
+</p>
+<p>4
+</p>
+<p>A = (K5, ∅)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Independent Z2-realizability
+</p>
+<p>• T is an independent Z2-realization of (G,X ) if
+• T is a drawing of G and
+• X is the set of pairs of independent edges that
+</p>
+<p>cross an odd number of times in T
+</p>
+<p>• AT-graph A is independently Z2-realizable if it has an
+</p>
+<p>independent Z2-realization
+</p>
+<p>Obs.: simple realization ⇒ independent Z2-realization
+Example:
+</p>
+<p>A = (K4, {{{1, 3}, {2, 4}}, {{1, 2}, {3, 4}}, {{1, 4}, {2, 3}}})
+</p>
+<p>independent Z2-realization of A:
+3
+</p>
+<p>1
+2
+</p>
+<p>4
+</p>
+<p>A = (K5, ∅) is not independently Z2-realizable (Hanani–Tutte)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>def.: Call an AT-graph (G,X ) even (or an even G) if |X | is even,
+and odd (or an odd G) if |X | is odd.
+</p>
+<p>Theorem 3: Every complete AT-graph that is not independently
+</p>
+<p>Z2-realizable has an AT-subgraph on at most six vertices that is not
+</p>
+<p>independently Z2-realizable.
+</p>
+<p>More precisely, a complete AT-graph is independently Z2-realizable
+</p>
+<p>if and only if it contains no even K5 and no odd 2K3 as an
+</p>
+<p>AT-subgraph.</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

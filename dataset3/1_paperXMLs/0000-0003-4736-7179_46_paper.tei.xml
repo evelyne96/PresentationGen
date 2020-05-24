@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Adaptive Parameter-free Learning from Evolving Data Streams</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Bifet</surname></persName>
+							<email>abifet@lsi.up.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<email>gavalda@lsi.up.edu</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Adaptive Parameter-free Learning from Evolving Data Streams</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We propose and illustrate a method for developing algorithms that can adaptively learn from data streams that change over time. As an example, we take Hoeffding Tree, an incremental decision tree inducer for data streams, and use as a basis it to build two new methods that can deal with distribution and concept drift: a sliding window-based algorithm, Hoeffding Window Tree, and an adaptive method, Hoeffding Adaptive Tree. Our methods are based on using change detectors and estimator modules at the right places; we choose implementations with theoretical guarantees in order to extend such guarantees to the resulting adaptive learning algorithm. A main advantage of our methods is that they require no guess about how fast or how often the stream will change; other methods typically have several user-defined parameters to this effect.</p><p>In our experiments, the new methods never do worse, and in some cases do much better, than CVFDT, a well-known method for tree induction on data streams with drift.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Data streams pose several challenges on data mining algorithm design. Limited use of resources (time and memory) is one. The necessity of dealing with data whose nature or distribution changes over time is another fundamental one. Dealing with time-changing data requires in turn strategies for detecting and quantifying change, forgetting stale examples, and for model revision. Fairly generic strategies exist for detecting change and deciding when examples are no longer relevant. Model revision strategies, on the other hand, are in most cases method-specific.</p><p>Most strategies for dealing with time change contain hardwired constants, or else require input parameters, concerning the expected speed or frequency of the change; some examples are a priori definitions of sliding window lengths, values of decay or forgetting parameters, explicit bounds on maximum drift, etc. These choices represent preconceptions on how fast or how often the data are going to evolve and, of course, they may be completely wrong. Even more, no fixed choice may be right, since the stream may experience any combination of abrupt changes, gradual ones, and long stationary periods. More in general, an approach based on fixed parameters will be caught in the following tradeoff: the user would like to use large parameters to have more accurate statistics (hence, more precision) during periods of stability, but at the same time use small parameters to be able to quickly react to changes, when they occur.</p><p>Many ad-hoc methods have been used to deal with drift, often tied to particular algorithms. In this paper, we propose a more general approach based on using two primitive design elements: change detectors and estimators. The idea is to encapsulate all the statistical calculations having to do with detecting change and keeping updated statistics from a stream an abstract data type that can then be used to replace, in a black-box way, the counters and accumulators that typically all machine learning and data mining algorithms use to make their decisions, including when change has occurred. We believe that, compared to any previous approaches, our approach better isolates different concerns when designing new data mining algorithms, therefore reducing design time, increasing modularity, and facilitating analysis. Furthermore, since we crisply identify the nuclear problem in dealing with drift, and use a well-optimized algorithmic solution to tackle it, the resulting algorithms more accurate, adaptive, and time-and memory-efficient than other ad-hoc approaches. We have given evidence for this superiority in <ref type="bibr" target="#b2">[3,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b3">4]</ref> and we demonstrate this idea again here.</p><p>We apply this idea to give two decision tree learning algorithms that can cope with concept and distribution drift on data streams: Hoeffding Window Trees in Section 4 and Hoeffding Adaptive Trees in Section 5. Decision trees are among the most common and well-studied classifier models. Classical methods such as C4.5 are not apt for data streams, as they assume all training data are available simultaneously in main memory, allowing for an unbounded number of passes, and certainly do not deal with data that changes over time. In the data stream context, a reference work on learning decision trees is the Hoeffding Tree or Very Fast Decision Tree method (VFDT) for fast, incremental learning <ref type="bibr" target="#b6">[7]</ref>. The methods we propose are based on VFDT, enriched with the change detection and estimation building blocks mentioned above.</p><p>We try several such building blocks, although the best suited for our purposes is the ADWIN algorithm <ref type="bibr" target="#b2">[3]</ref>, described in Section 4.1.1. This algorithm is parameter-free in that it automatically and continuously detects the rate of change in the data streams rather than using apriori guesses, thus allowing the client algorithm to react adaptively to the data stream it is processing. Additionally, ADWIN has rig-orous guarantees of performance (a theorem). We show that these guarantees can be transferred to decision tree learners as follows: if a change is followed by a long enough stable period, the classification error of the learner will tend, and the same rate, to the error rate of VFDT.</p><p>We test on Section 6 our methods with synthetic datasets, using the SEA concepts, introduced in <ref type="bibr" target="#b21">[22]</ref> and a rotating hyperplane as described in <ref type="bibr" target="#b12">[13]</ref>, and two sets from the UCI repository, Adult and Poker-Hand. We compare our methods among themselves but also with CVFDT, another concept-adapting variant of VFDT proposed by Domingos, Spencer, and Hulten <ref type="bibr" target="#b12">[13]</ref>. A one-line conclusion of our experiments would be that, because of its self-adapting property, we can present datasets where our algorithm performs much better than CVFDT and we never do much worse. Some comparison of time and memory usage of our methods and CVFDT is included.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">A Methodology for Adaptive Stream Mining</head><p>The starting point of our work is the following observation: In the data stream mining literature, most algorithms incorporate one or more of the following ingredients: windows to remember recent examples; methods for detecting distribution change in the input; and methods for keeping updated estimations for some statistics of the input. We see them as the basis for solving the three central problems of • what to remember or forget,</p><p>• when to do the model upgrade, and</p><p>• how to do the model upgrade.</p><p>Our claim is that by basing mining algorithms on welldesigned, well-encapsulated modules for these tasks, one can often get more generic and more efficient solutions than by using ad-hoc techniques as required. Similarly, we will argue that our methods for inducing decision trees are simpler to describe, adapt better to the data, perform better or much better, and use less memory than the ad-hoc designed CVFDT algorithm, even though they are all derived from the same VFDT mining algorithm.</p><p>A similar approach was taken, for example, in <ref type="bibr" target="#b3">[4]</ref> to give simple adaptive closed-tree mining adaptive algorithms. Using a general methodology to identify closed patterns based in Galois Lattice Theory, three closed tree mining algorithms were developed: an incremental one INCTREENAT, a sliding-window based one, WINTREENAT, and finally one that mines closed trees adaptively from data streams, ADA-TREENAT.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Time Change Detectors and Predictors</head><p>To choose a change detector or an estimator, we will review briefly all the different types of change detectors and estimators, in order to justify the election of one of them for our algorithms. Most approaches for predicting and detecting change in streams of data can be discussed as systems consisting of three modules: a Memory module, an Estimator Module, and a Change Detector or Alarm Generator module. These three modules interact as shown in <ref type="figure" target="#fig_0">Figure 1</ref>, which is analogous to <ref type="figure" target="#fig_9">Figure  8</ref> in <ref type="bibr" target="#b20">[21]</ref>.</p><p>In general, the input to this algorithm is a sequence x 1 , x 2 , . . . , x t , . . . of data items whose distribution varies over time in an unknown way. The outputs of the algorithm are, at each time step</p><p>• an estimation of some important parameters of the input distribution, and</p><p>• a signal alarm indicating that distribution change has recently occurred.</p><p>We consider a specific, but very frequent case, of this setting: that in which all the x t are real values. The desired estimation in the sequence of x i is usually the expected value of the current x t , and less often another distribution statistics such as the variance. The only assumption on the distribution is that each x t is drawn independently from each other. Note therefore that we deal with one-dimensional items. While the data streams often consist of structured items, most mining algorithms are not interested in the items themselves, but on a bunch of real-valued (sufficient) statistics derived from the items; we thus imagine our input data stream as decomposed into possibly many concurrent data streams of real values, which will be combined by the mining algorithm somehow.</p><p>Memory is the component where the algorithm stores the sample data or summary that considers relevant at current time, that is, its description of the current data distribution.</p><p>The Estimator component is an algorithm that estimates the desired statistics on the input data, which may change over time. The algorithm may or may not use the data contained in the Memory. The simplest Estimator algorithm for the expected is the linear estimator, which simply returns the average of the data items contained in the Memory. Other examples of efficient estimators are Auto-Regressive, Auto Regressive Moving Average, and Kalman filters.</p><p>The change detector component outputs an alarm signal when it detects change in the input data distribution. It uses the output of the Estimator, and may or may not in addition use the contents of Memory.</p><p>We classify these predictors in four classes, depending on whether Change Detector and Memory modules exist:</p><p>• Type I: Estimator only. The simplest one is modelled byx</p><formula xml:id="formula_0">k = (1 − α)x k−1 + α · x k .</formula><p>The linear estimator corresponds to using α = 1/N where N is the width of a virtual window containing the last N elements we want to consider. Otherwise, we can give more weight to the last elements with an appropriate constant value of α. The Kalman filter tries to optimize the estimation using a non-constant α (the K value) which varies at each discrete time interval.</p><p>• Type II: Estimator with Change Detector. An example is the Kalman Filter together with a CUSUM test change detector algorithm, see for example <ref type="bibr" target="#b14">[15]</ref>.</p><p>• Type III: Estimator with Memory. We add Memory to improve the results of the Estimator. For example, one can build an Adaptive Kalman Filter that uses the data in Memory to compute adequate values for process and measure variances.</p><p>• Type IV: Estimator with Memory and Change Detector. This is the most complete type. Two examples of this type, from the literature, are:</p><p>-A Kalman filter with a CUSUM test and fixedlength window memory, as proposed in <ref type="bibr" target="#b20">[21]</ref>. Only the Kalman filter has access to the memory.</p><p>-A linear Estimator over fixed-length windows that flushes when change is detected <ref type="bibr" target="#b16">[17]</ref>, and a change detector that compares the running windows with a reference window.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Incremental Decision Trees: Hoeffding Trees</head><p>Decision trees are classifier algorithms <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b19">20]</ref>. Each internal node of a tree DT contains a test on an attribute, each branch from a node corresponds to a possible outcome of the test, and each leaf contains a class prediction. The label y = DT (x) for an example x is obtained by passing the example down from the root to a leaf, testing the appropriate attribute at each node and following the branch corresponding to the attribute's value in the example. Extended models where the nodes contain more complex tests and leaves contain more complex classification rules are also possible.</p><p>A decision tree is learned top-down by recursively replacing leaves by test nodes, starting at the root. The attribute to test at a node is chosen by comparing all the available attributes and choosing the best one according to some heuristic measure.</p><p>Classical decision tree learners such as ID3, C4.5 <ref type="bibr" target="#b19">[20]</ref>, and CART <ref type="bibr" target="#b4">[5]</ref> assume that all training examples can be stored simultaneously in main memory, and are thus severely limited in the number of examples they can learn from. In particular, they are not applicable to data streams, where potentially there is no bound on number of examples and these arrive sequentially.</p><p>Domingos and Hulten <ref type="bibr" target="#b6">[7]</ref> developed Hoeffding trees, an incremental, anytime decision tree induction algorithm that is capable of learning from massive data streams, assuming that the distribution generating examples does not change over time.</p><p>Hoeffding trees exploit the fact that a small sample can often be enough to choose an optimal splitting attribute. This idea is supported mathematically by the Hoeffding bound, which quantifies the number of observations (in our case, examples) needed to estimate some statistics within a prescribed precision (in our case, the goodness of an attribute). More precisely, the Hoeffding bound states that with probability 1 − δ, the true mean of a random variable of range R will not differ from the estimated mean after n independent observations by more than:</p><formula xml:id="formula_1">= R 2 ln(1/δ) 2n .</formula><p>A theoretically appealing feature of Hoeffding Trees not shared by other incremental decision tree learners is that it has sound guarantees of performance. Using the Hoeffding bound one can show that its output is asymptotically nearly identical to that of a non-incremental learner using infinitely many examples. The intensional disagreement ∆ i between two decision trees DT 1 and DT 2 is the probability that the path of an example through DT 1 will differ from its path through DT 2 .</p><p>THEOREM 3.1. If HT δ is the tree produced by the Hoeffding tree algorithm with desired probability δ given infinite examples, DT is the asymptotic batch tree, and p is the leaf</p><formula xml:id="formula_2">probability, then E[∆ i (HT δ , DT )] ≤ δ/p.</formula><p>VFDT (Very Fast Decision Trees) is the implementation of Hoeffding trees, with a few heuristics added, described in <ref type="bibr" target="#b6">[7]</ref>; we basically identify both in this paper. The pseudocode of VFDT is shown in <ref type="figure" target="#fig_1">Figure 2</ref>. Counts n ijk are the sufficient statistics needed to choose splitting attributes, in particular the information gain function G implemented in VFDT. Function (δ, . . .) in line 4 is given by the Hoeffding bound and guarantees that whenever best and 2nd best attributes satisfy this condition, we can confidently conclude VFDT(Stream, δ) 1 £ Let HT be a tree with a single leaf(root) 2 £ Init counts n ijk at root 3 for each example (x, y) in <ref type="bibr">Stream 4</ref> do VFDTGROW((x, y), HT, δ)</p><formula xml:id="formula_3">VFDTGROW((x, y), HT, δ) 1 £ Sort (x, y) to leaf l using HT 2 £ Update counts n ijk at leaf l 3 £ Compute G for each attribute from counts n i,j,k 4 if G(Best Attr.)−G(2nd best) &gt; (δ, . . .) 5 then 6</formula><p>£ Split leaf l on best attribute 7</p><p>for each branch 8</p><p>do £ Initialize new leaf counts at l that best indeed has maximal gain. The sequence of examples S may be infinite, in which case the procedure never terminates, and at any point in time a parallel procedure can use the current tree to make class predictions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Decision Trees on Sliding Windows</head><p>We propose a general method for building incrementally a decision tree based on a keeping sliding window of the last instances on the stream. To specify one such method, we specify how to:</p><p>• place one or more change detectors at every node that will raise a hand whenever something worth attention happens at the node • create, manage, switch and delete alternate trees</p><p>• maintain estimators of only relevant statistics at the nodes of the current sliding window</p><p>We call Hoeffding Window Tree any decision tree that uses Hoeffding bounds, maintains a sliding window of instances, and that can be included in this general framework. <ref type="figure" target="#fig_2">Figure 3</ref> shows the pseudo-code of HOEFFDING WINDOW TREE.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">HWT-ADWIN :</head><p>Hoeffding Window Tree using ADWIN Recently, we proposed an algorithm termed ADWIN <ref type="bibr" target="#b2">[3]</ref> (for Adaptive Windowing) that is an estimator with memory and change detector of type IV. We use it to design HWT-ADWIN, a new Hoeffding Window Tree that uses ADWIN as a change detector. The main advantage of using a change detector as ADWIN is that as it has theoreti-HOEFFDING WINDOW TREE(Stream, δ) 1 £ Let HT be a tree with a single leaf(root) 2 £ Init estimators A ijk at root 3 for each example (x, y) in Stream 4</p><p>do HWTREEGROW((x, y), HT, δ)</p><formula xml:id="formula_4">HWTREEGROW((x, y), HT, δ) 1 £ Sort (x, y) to leaf l using HT 2 £ Update estimators A ijk 3</formula><p>at leaf l and nodes traversed in the sort 4 if this node has an alternate tree T alt 5</p><p>HWTREEGROW</p><formula xml:id="formula_5">((x, y), T alt , δ) 6 £ Compute G for each attribute 7 if G(Best Attr.)−G(2nd best) &gt; (δ , . . .) a 8</formula><p>then 9 £ Split leaf on best attribute 10 for each branch <ref type="bibr" target="#b10">11</ref> do £ Start new leaf <ref type="bibr" target="#b11">12</ref> and initialize estimators 13 if one change detector has detected change 14 then 15 £ Create an alternate subtree if there is none 16 if existing alternate tree is more accurate 17 then 18 £ replace current node with alternate tree a Here δ should be the Bonferroni correction of δ to account for the fact that many tests are performed and we want all of them to be simultaneously correct with probability 1 − δ. It is enough e.g. to divide δ by the number of tests performed so far. The need for this correction is also acknowledged in <ref type="bibr" target="#b6">[7]</ref>, although in experiments the more convenient option of using a lower δ was taken. We have followed the same option in our experiments for fair comparison. 4.1.1 The ADWIN algorithm ADWIN is a change detector and estimator that solves in a well-specified way the problem of tracking the average of a stream of bits or real-valued numbers. ADWIN keeps a variable-length window of recently seen items, with the property that the window has the maximal length statistically consistent with the hypothesis "there has been no change in the average value inside the window".</p><p>The idea of ADWIN method is simple: whenever two "large enough" subwindows of W exhibit "distinct enough" averages, one can conclude that the corresponding expected values are different, and the older portion of the window is dropped. The meaning of "large enough" and "distinct enough" can be made precise again by using the Hoeffding bound. The test eventually boils down to whether the average of the two subwindows is larger than a variable value cut computed as follows</p><formula xml:id="formula_6">m := 2 1/|W 0 | + 1/|W 1 | cut := 1 2m · ln 4|W | δ .</formula><p>where m is the harmonic mean of |W 0 | and |W 1 |.</p><p>The main technical result in <ref type="bibr" target="#b2">[3]</ref> about the performance of ADWIN is the following theorem, that provides bounds on the rate of false positives and false negatives for ADWIN: THEOREM 4.1. With cut defined as above, at every time step we have:</p><p>1. (False positive rate bound). If µ t has remained constant within W , the probability that ADWIN shrinks the window at this step is at most δ.</p><p>2. (False negative rate bound). Suppose that for some</p><formula xml:id="formula_7">partition of W in two parts W 0 W 1 (where W 1 contains the most recent items) we have |µ W0 − µ W1 | &gt; 2 cut . Then with probability 1 − δ ADWIN shrinks W to W 1 , or shorter.</formula><p>This theorem justifies us in using ADWIN in two ways:</p><p>• as a change detector, since ADWIN shrinks its window if and only if there has been a significant change in recent times (with high probability)</p><p>• as an estimator for the current average of the sequence it is reading since, with high probability, older parts of the window with a significantly different average are automatically dropped.</p><p>ADWIN is parameter-and assumption-free in the sense that it automatically detects and adapts to the current rate of change. Its only parameter is a confidence bound δ, indicating how confident we want to be in the algorithm's output, inherent to all algorithms dealing with random processes.</p><p>Also important for our purposes, ADWIN does not maintain the window explicitly, but compresses it using a variant of the exponential histogram technique in <ref type="bibr" target="#b5">[6]</ref>. This means that it keeps a window of length W using only O(log W ) memory and O(log W ) processing time per item, rather than the O(W ) one expects from a naïve implementation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.2">Example</head><p>of performance Guarantee Let HWT * ADWIN be a variation of HWT-ADWIN with the following condition: every time a node decides to create an alternate tree, an alternate tree is also started at the root. In this section we show an example of performance guarantee about the error rate of HWT * ADWIN. Informally speaking, it states that after a change followed by a stable period, HWT * ADWIN's error rate will decrease at the same rate as that of VFDT, after a transient period that depends only on the magnitude of the change.</p><p>We consider the following scenario: Let C and D be arbitrary concepts, that can differ both in example distribution and label assignments. Suppose the input data sequence S is generated according to concept C up to time t 0 , that it abruptly changes to concept D at time t 0 + 1, and remains stable after that. Let HWT * ADWIN be run on sequence S, and e 1 be error(HWT * ADWIN,S,t 0 ), and e 2 be error(HWT * ADWIN,S,t 0 + 1), so that e 2 − e 1 measures how much worse the error of HWT * ADWIN has become after the concept change.</p><p>Here error(HWT * ADWIN,S,t) denotes the classification error of the tree kept by HWT * ADWIN at time t on S. Similarly, error(VFDT,D,t) denotes the expected error rate of the tree kept by VFDT after being fed with t random examples coming from concept D. • g(e 2 − e 1 ) = 8/(e 2 − e 1 ) 2 ln(4t 0 /δ)</p><p>The following corollary is a direct consequence, since O(1/ √ t − t 0 ) tends to 0 as t grows.</p><p>COROLLARY 4.1. If error(VFDT,D,t) tends to some quantity ≤ e 2 as t tends to infinity, then error(HWT * ADWIN ,S,t) tends to too.</p><p>Proof. Note: The proof is only sketched in this version. We know by the ADWIN False negative rate bound that with probability 1 − δ, the ADWIN instance monitoring the error rate at the root shrinks at time t 0 + n if</p><formula xml:id="formula_8">|e 2 − e 1 | &gt; 2 cut = 2/m ln(4(t − t 0 )/δ)</formula><p>where m is the harmonic mean of the lengths of the subwindows corresponding to data before and after the change. This condition is equivalent to</p><formula xml:id="formula_9">m &gt; 4/(e 1 − e 2 ) 2 ln(4(t − t 0 )/δ)</formula><p>If t 0 is sufficiently large w.r.t. the quantity on the right hand side, one can show that m is, say, less than n/2 by definition of the harmonic mean. Then some calculations show that for n ≥ g(e 2 − e 1 ) the condition is fulfilled, and therefore by time t 0 + n ADWIN will detect change.</p><p>After that, HWT * ADWIN will start an alternative tree at the root. This tree will from then on grow as in VFDT, because HWT * ADWIN behaves as VFDT when there is no concept change. While it does not switch to the alternate tree, the error will remain at e 2 . If at any time t 0 + g(e 1 − e 2 ) + n the error of the alternate tree is sufficiently below e 2 , with probability 1 − δ the two ADWIN instances at the root will signal this fact, and HWT * ADWIN will switch to the alternate tree, and hence the tree will behave as the one built by VFDT with t examples. It can be shown, again by using the False Negative Bound on ADWIN , that the switch will occur when the VFDT error goes below e 2 − O(1/ √ n), and the theorem follows after some calculation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">CVFDT</head><p>As an extension of VFDT to deal with concept change Hulten, Spencer, and Domingos presented Concept-adapting Very Fast Decision Trees CVFDT <ref type="bibr" target="#b12">[13]</ref> algorithm. We review it here briefly and compare it to our method.</p><p>CVFDT works by keeping its model consistent with respect to a sliding window of data from the data stream, and creating and replacing alternate decision subtrees when it detects that the distribution of data is changing at a node. When new data arrives, CVFDT updates the sufficient statistics at its nodes by incrementing the counts n ijk corresponding to the new examples and decrementing the counts n ijk corresponding to the oldest example in the window, which is effectively forgotten. CVFDT is a Hoeffding Window Tree as it is included in the general method previously presented.</p><p>Two external differences among CVFDT and our method is that CVFDT has no theoretical guarantees (as far as we know), and that it uses a number of parameters, with default values that can be changed by the user -but which are fixed for a given execution. Besides the example window length, it needs:</p><p>1. T 0 : after each T 0 examples, CVFDT traverses all the decision tree, and checks at each node if the splitting attribute is still the best. If there is a better splitting attribute, it starts growing an alternate tree rooted at this node, and it splits on the currently best attribute according to the statistics in the node.</p><p>2. T 1 : after an alternate tree is created, the following T 1 examples are used to build the alternate tree.</p><p>3. T 2 : after the arrival of T 1 examples, the following T 2 examples are used to test the accuracy of the alternate tree. If the alternate tree is more accurate than the current one, CVDFT replaces it with this alternate tree (we say that the alternate tree is promoted).</p><p>The default values are T 0 = 10, 000, T 1 = 9, 000, and T 2 = 1, 000. One can interpret these figures as the preconception that often about the last 50, 000 examples are likely to be relevant, and that change is not likely to occur faster than every 10, 000 examples. These preconceptions may or may not be right for a given data source.</p><p>The main internal differences of HWT-ADWIN respect CVFDT are:</p><p>• The alternates trees are created as soon as change is detected, without having to wait that a fixed number of examples arrives after the change. Furthermore, the more abrupt the change is, the faster a new alternate tree will be created.</p><p>• HWT-ADWIN replaces the old trees by the new alternates trees as soon as there is evidence that they are more accurate, rather than having to wait for another fixed number of examples.</p><p>These two effects can be summarized saying that HWT-ADWIN adapts to the scale of time change in the data, rather than having to rely on the a priori guesses by the user.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Hoeffding Adaptive Trees</head><p>In this section we present Hoeffding Adaptive Tree as a new method that evolving from Hoeffding Window Tree, adaptively learn from data streams that change over time without needing a fixed size of sliding window. The optimal size of the sliding window is a very difficult parameter to guess for users, since it depends on the rate of change of the distribution of the dataset. In order to avoid to choose a size parameter, we propose a new method for managing statistics at the nodes. The general idea is simple: we place instances of estimators of frequency statistics at every node, that is, replacing each n ijk counters in the Hoeffding Window Tree with an instance A ijk of an estimator.</p><p>More precisely, we present three variants of a Hoeffding Adaptive Tree or HAT, depending on the estimator used:</p><p>• HAT-INC: it uses a linear incremental estimator • HAT-EWMA: it uses an Exponential Weight Moving Average (EWMA)</p><p>• HAT-ADWIN : it uses an ADWIN estimator. As the ADWIN instances are also change detectors, they will give an alarm when a change in the attribute-class statistics at that node is detected, which indicates also a possible concept change.</p><p>The main advantages of this new method over a Hoeffding Window Tree are:</p><p>• All relevant statistics from the examples are kept in the nodes. There is no need of an optimal size of sliding window for all nodes. Each node can decide which of the last instances are currently relevant for it. There is no need for an additional window to store current examples. For medium window sizes, this factor substantially reduces our memory consumption with respect to a Hoeffding Window Tree.</p><p>• A Hoeffding Window Tree, as CVFDT for example, stores only a bounded part of the window in main memory. The rest (most of it, for large window sizes) is stored in disk. For example, CVFDT has one parameter that indicates the amount of main memory used to store the window (default is 10,000). Hoeffding Adaptive Trees keeps all its data in main memory.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Example of performance Guarantee</head><p>In this subsection we show a performance guarantee on the error rate of HAT-ADWIN on a simple situation. Roughly speaking, it states that after a distribution and concept change in the data stream, followed by a stable period, HAT-ADWIN will start, in reasonable time, growing a tree identical to the one that VFDT would grow if starting afresh from the new stable distribution. Statements for more complex scenarios are possible, including some with slow, gradual, changes, but require more space than available here. Let t be the time that until VFDT running on a (stable) stream with distribution D 1 takes to perform a split at the node. Assume also that VFDT on D 0 and D 1 builds trees that differ on the attribute tested at the root. Then with probability at least 1 − δ:</p><p>• By time t = T + c · V 2 · t log(tV ), HAT-ADWIN will create at the root an alternate tree labelled with the same attribute as VFDT(D 1 ). Here c ≤ 20 is an absolute constant, and V the number of values of the attributes. 1</p><p>• this alternate tree will evolve from then on identically as does that of VFDT(D 1 ), and will eventually be promoted to be the current tree if and only if its error on D 1 is smaller than that of the tree built by time T .</p><p>If the two trees do not differ at the roots, the corresponding statement can be made for a pair of deeper nodes. LEMMA 5.1. In the situation above, at every time t + T &gt; T , with probability 1−δ we have at every node and for every counter (instance <ref type="figure">of ADWIN)</ref> </p><formula xml:id="formula_10">A i,j,k |A i,j,k − P i,j,k | ≤ ln(1/δ ) T t(t + T )</formula><p>where P i,j,k is the probability that an example arriving at the node has value j in its ith attribute and class k.</p><p>Observe that for fixed δ and T this bound tends to 0 as t grows.</p><p>To prove the theorem, use this lemma to prove highconfidence bounds on the estimation of G(a) for all attributes at the root, and show that the attribute best chosen by VFDT on D 1 will also have maximal G(best) at some point, so it will be placed at the root of an alternate tree. Since this new alternate tree will be grown exclusively with fresh examples from D 1 , it will evolve as a tree grown by VFDT on D 1 . </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Memory Complexity Analysis</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Experimental evaluation</head><p>We tested Hoeffding Adaptive Trees using synthetic and real datasets. In the experiments with synthetic datasets, we use the SEA Concepts <ref type="bibr" target="#b21">[22]</ref> and a changing concept dataset based on a rotating hyperplane explained in <ref type="bibr" target="#b12">[13]</ref>. In the experiments with real datasets we use two UCI datasets <ref type="bibr" target="#b0">[1]</ref> Adult and Poker-Hand from the UCI repository of machine learning databases. In all experiments, we use the values δ = 10 −4 , T 0 = 20, 000, T 1 = 9, 000, and T 2 = 1, 000, following the original CVFDT experiments <ref type="bibr" target="#b12">[13]</ref>.</p><p>In all tables, the result for the best classifier for a given experiment is marked in boldface, and the best choice for CVFDT window length is shown in italics.</p><p>We included an improvement over CVFDT (which could be made on the original CVFDT as well). If the two best attributes at a node happen to have exactly the same gain, the tie may be never resolved and split does not occur. In our experiments this was often the case, so we added an additional split rule: when G(best) exceeds by three times the current value of (δ, . . .), a split is forced anyway.</p><p>We have tested the three versions of Hoeffding Adaptive Tree, HAT-INC, HAT-EWMA(α = .01), HAT-ADWIN, each with and without the addition of Naïve Bayes (NB) classifiers at the leaves. As a general comment on the results, the use of NB classifiers does not always improve the results, although it does make a good difference in some cases; this was observed in <ref type="bibr" target="#b10">[11]</ref>, where a more detailed analysis can be found.</p><p>First, we experiment using the SEA concepts, a dataset with abrupt concept drift, first introduced in <ref type="bibr" target="#b21">[22]</ref>. This artificial dataset is generated using three attributes, where only the two first attributes are relevant. All three attributes have values between 0 and 10. We generate 400,000 random samples. We divide all the points in blocks with different concepts. In each block, we classify using f 1 + f 2 ≤ θ, where f 1 and f 2 represent the first two attributes and θ is a threshold value.We use threshold values 9, 8, 7 and 9.5 for the data blocks. We inserted about 10% class noise into each block of data.</p><p>We test our methods using discrete and continuous attributes. The on-line errors results for discrete attributes are shown in <ref type="table" target="#tab_0">Table 1</ref>. On-line errors are the errors measured each time an example arrives with the current decision tree, before updating the statistics. Each column reflects a different speed of concept change. We observe that CVFDT best performance is not always with the same example HWT-ADWIN CVFDT <ref type="figure">Figure 4</ref>: Learning curve of SEA Concepts using continuous attributes window size, and that there is no optimal window size. The different versions of Hoeffding Adaptive Trees have a very similar performance, essentially identical to that of CVFDT with optimal window size for that speed of change.</p><p>More graphically, <ref type="figure">Figure 4</ref> shows its learning curve using continuous attributes for a speed of change of 100, 000. Note that at the points where the concept drift appears HWT-ADWIN, decreases its error faster than CVFDT, due to the fact that it detects change faster. Another frequent dataset is the rotating hyperplane, used as testbed for CVFDT versus VFDT in <ref type="bibr" target="#b12">[13]</ref>. A hyperplane in d-dimensional space is the set of points x that satisfy tion of the hyperplane in a smooth manner by changing the relative size of the weights.</p><p>We experiment with abrupt and with gradual drift. In the first set of experiments, we apply abrupt change. We use 2 classes, d = 5 attributes, and 5 discrete values per attribute. We do not insert class noise into the data.  <ref type="table" target="#tab_1">Table 2</ref>, where each column reflects a different value of N , the period among classification changes. We detect that Hoeffding Adaptive Tree methods substantially outperform CVFDT in all speed changes. In the second type of experiments, we introduce gradual drift. We vary the first attribute over time slowly, from 0 to 1, then back from 1 to 0, and so on, linearly as a triangular wave. We adjust the rest of weights in order to have the same number of examples for each class.</p><p>The on-line error rates are shown in <ref type="table" target="#tab_2">Table 3</ref>. Observe that, in contrast to previous experiments, HAT-EWMA and HAT-ADWIN do much better than HAT-INC, when using NB at the leaves. We believe this will happen often in the case of gradual changes, because gradual changes will be detected earlier in individual attributes than in the overall error rate.</p><p>We test Hoeffding Adaptive Trees on two real datasets in two different ways: with and without concept drift. We tried some of the largest UCI datasets <ref type="bibr" target="#b0">[1]</ref>, and report results on Adult and Poker-Hand. For the Covertype and Census-Income datasets, the results we obtained with our method were essentially the same as for CVFDT (ours did better by fractions of 1% only) -we do not claim that our method is always better than CVFDT, but this confirms our belief that it is never much worse. An important problem with most of the real-world benchmark data sets is that there is little concept drift in them <ref type="bibr" target="#b22">[23]</ref> or the amount of drift is unknown, so in many research works, concept drift is introduced artificially. We simulate concept drift by ordering the datasets by one of its attributes, the education attribute for Adult, and the first (unnamed) attribute for Poker-Hand. Note again that while using CVFDT one faces the question of which parameter values to use, our method just needs to be told "go" and will find the right values online.</p><p>The Adult dataset aims to predict whether a person makes over 50k a year, and it was created based on census data. Adult consists of 48,842 instances, 14 attributes (6 continuous and 8 nominal) and missing attribute values. The Poker-Hand dataset consists of 1,025,010 instances and 11 attributes. Each record of the Poker-Hand dataset is an example of a hand consisting of five playing cards drawn from a standard deck of 52. Each card is described using two attributes (suit and rank), for a total of 10 predictive attributes. There is one Class attribute that describes the "Poker Hand". The order of cards is important, which is why there are 480 possible Royal Flush hands instead of 4. <ref type="table" target="#tab_3">Table 4</ref> shows the results on Poker-Hand dataset. It can be seen that CVFDT remains at 50% error, while the different variants of Hoeffding Adaptive Trees are mostly below 40% and one reaches 17% error only. In <ref type="figure" target="#fig_7">Figure 5</ref> we compare HWT-ADWIN error rate to CVFDT using different window sizes. We observe that CVFDT on-line error decreases when the example window size increases, and that HWT-ADWIN on-line error is lower for all window sizes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Time and memory</head><p>In this section, we discuss briefly the time and memory performance of Hoeffding Adaptive Trees. All programs were implemented in C modifying and expanding the version of CVFDT available from the VFML <ref type="bibr" target="#b13">[14]</ref> software web page. We have slightly modified the CVFDT implementation    <ref type="figure">Figure 7</ref>: Number of Nodes used on SEA Concepts experiments to follow strictly the CVFDT algorithm explained in the original paper by Hulten, Spencer and Domingos <ref type="bibr" target="#b12">[13]</ref>. The experiments were performed on a 2.0 GHz Intel Core Duo PC machine with 2 Gigabyte main memory, running Ubuntu 8.04.</p><p>Consider the experiments on SEA Concepts, with different speed of changes: 1, 000, 10, 000 and 100, 000. <ref type="figure" target="#fig_8">Figure 6</ref> shows the memory used on these experiments. As expected by memory complexity described in section 5.2, HAT-INC and HAT-EWMA, are the methods that use less memory. The reason for this fact is that they don't keep examples in memory as CVFDT, and that they don't store ADWIN data for all attributes, attribute values and classes, as HAT-ADWIN. We have used the default 10, 000 for the amount of window examples kept in memory, so the memory used by CVFDT is essentially the same for W = 10, 000 and W = 100, 000, and about 10 times larger than the memory used by HAT-  <ref type="figure">Figure 7</ref> shows the number of nodes used in the experiments of SEA Concepts. We see that the number of nodes is similar for all methods, confirming that the good results on memory of HAT-INC is not due to smaller size of trees.</p><p>Finally, with respect to time we see that CVFDT is still the fastest method, but HAT-INC and HAT-EWMA have a very similar performance to CVFDT, a remarkable fact given that they are monitoring all the change that may occur in any node of the main tree and all the alternate trees. HAT-ADWIN increases time by a factor of 4, so it is still usable if time or data speed is not the main concern.</p><p>8 Related Work</p><p>It is impossible to review here the whole literature on dealing with time evolving data in machine learning and data mining. Among those using fixed-size windows, the work of Kifer et al. <ref type="bibr" target="#b16">[17]</ref> is probably the closest in spirit to ADWIN. They detect change by keeping two windows of fixed size, a "reference" one and "current" one, containing whole examples. The focus of their work is on comparing and implementing efficiently different statistical tests to detect change, with provable guarantees of performance.</p><p>Among the variable-window approaches, best known are the work of Widmer and Kubat <ref type="bibr" target="#b24">[25]</ref> and Klinkenberg and Joachims <ref type="bibr" target="#b17">[18]</ref>. These works are essentially heuristics and are not suitable for use in data-stream contexts since they are computationally expensive. In particular, <ref type="bibr" target="#b17">[18]</ref> checks all subwindows of the current window, like ADWIN does, and is specifically tailored to work with SVMs. The work of Last <ref type="bibr" target="#b18">[19]</ref> uses info-fuzzy networks or IFN, as an alternative to learning decision trees. The change detection strategy is embedded in the learning algorithm, and used to revise parts of the model, hence not easily applicable to other learning methods.</p><p>Tree induction methods exist for incremental settings: ITI <ref type="bibr" target="#b23">[24]</ref>, or ID5R <ref type="bibr" target="#b15">[16]</ref>. These methods constructs trees using a greedy search, re-structuring the actual tree when new information is added. More recently, Gama, Fernandes and Rocha <ref type="bibr" target="#b7">[8]</ref> presented VFDTc as an extension to VFDT in three directions: the ability to deal with continous data, the use of Naïve Bayes techniques at tree leaves and the ability to detect and react to concept drift, by continously monitoring differences between two class-distribution of the examples: the distribution when a node was built and the distribution in a time window of the most recent examples.</p><p>Ultra Fast Forest of Trees (UFFT) algorithm is an algorithm for supervised classification learning, that generates a forest of binary trees, developed by Gama, Medas and Rocha <ref type="bibr" target="#b9">[10]</ref> . UFFT is designed for numerical data. It uses analytical techniques to choose the splitting criteria, and the information gain to estimate the merit of each possible splitting-test. For multi-class problems, the algorithm builds a binary tree for each possible pair of classes leading to a forest-of-trees.</p><p>The UFFT algorithm maintains, at each node of all decision trees, a Naïve Bayes classifier. Those classifiers were constructed using the sufficient statistics needed to evaluate the splitting criteria when that node was a leaf. After the leaf becomes a node, all examples that traverse the node will be classified by the Naïve Bayes. The basic idea of the drift detection method is to control this error rate. If the distribution of the examples is stationary, the error rate of Naïve Bayes decreases or stabilizes. If there is a change on the distribution of the examples the Naïve Bayes error increases.</p><p>The system uses DDM, the drift detection method proposed by Gama et al. <ref type="bibr" target="#b8">[9]</ref> that controls the number of errors produced by the learning model during prediction. It compares the statistics of two windows: the first one contains all the data, and the second one contains only the data from the beginning until the number of errors increases. Their method doesn't store these windows in memory. It keeps only statistics and a window of recent examples stored since a warning level triggered. Details on the statistical test used to detect change among these windows can be found in <ref type="bibr" target="#b8">[9]</ref>.</p><p>DDM has a good behaviour detecting abrupt changes and gradual changes when the gradual change is not very slow, but it has difficulties when the change is slowly gradual. In that case, the examples will be stored for long time, the drift level can take too much time to trigger and the examples memory can be exceeded.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="9">Conclusions and Future Work</head><p>We have presented a general adaptive methodology for mining data streams with concept drift, and and two decision tree algorithms. We have proposed three variants of Hoeffd-ing Adaptive Tree algorithm, a decision tree miner for data streams that adapts to concept drift without using a fixed sized window. Contrary to CVFDT, they have theoretical guarantees of performance, relative to those of VFDT.</p><p>In our experiments, Hoeffding Adaptive Trees are always as accurate as CVFDT and, in some cases, they have substantially lower error. Their running time is similar in HAT-EWMA and HAT-INC and only slightly higher in HAT-ADWIN, and their memory consumption is remarkably smaller, often by an order of magnitude.</p><p>We can conclude that HAT-ADWIN is the most powerful method, but HAT-EWMA is a faster method that gives approximate results similar to HAT-ADWIN. An obvious future work is experimenting with the exponential smoothing factor α of EWMA methods used in HAT-EWMA.</p><p>We would like to extend our methodology to ensemble methods such as boosting, bagging, and Hoeffding Option Trees. {M}assive {O}nline {A}nalysis <ref type="bibr" target="#b11">[12]</ref> is a framework for online learning from data streams. It is closely related to the well-known WEKA project, and it includes a collection of offline and online as well as tools for evaluation. In particular, MOA implements boosting, bagging, and Hoeffding Trees, both with and without Naïve Bayes classifiers at the leaves. Using our methodology, we would like to show the extremely small effort required to obtain an algorithm that handles concept and distribution drift from one that does not.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Change Detector and Estimator System</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>The VFDT algorithm</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Hoeffding Window Tree algorithm cal guarantees we can extend this guarantees to the learning algorithms.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>THEOREM 4. 2 .</head><label>2</label><figDesc>Let S, t 0 , e 1 , and e 2 be as described above, and suppose t 0 is sufficiently large w.r.t. e 2 − e 1 . Then for every time t &gt; t 0 , we have error(HWT * ADWIN, S, t) ≤ min{ e 2 , e V F DT } with probability at least 1 − δ, where • e V F DT = error(V F DT, D, t − t0 − g(e 2 − e 1</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>THEOREM 5. 1 .</head><label>1</label><figDesc>Let D 0 and D 1 be two distributions on labelled examples. Let S be a data stream that contains examples following D 0 for a time T , then suddenly changes to using D 1 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head></head><label></label><figDesc>Let us compare the memory complexity Hoeffding Adaptive Trees and Hoeffding Window Trees. We take CVFDT as an example of Hoeffding Window Tree. Denote with • E : size of an example • A : number of attributes • V : maximum number of values for an attribute • C : number of classes • T : number of nodes A Hoeffding Window Tree as CVFDT uses memory O(W E + T AV C), because it uses a window W with E examples, and each node in the tree uses AV C counters. A Hoeffding Adaptive Tree does not need to store a window of examples, but uses instead memory O(log W ) at each node as it uses an ADWIN as a change detector, so its memory requirement is O(T AV C + T log W ). For medium-size W , the O(W E) in CVFDT can often dominate. HAT-ADWIN has a complexity of O(T AV C log W ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head></head><label></label><figDesc>After every N examples arrived, we abruptly exchange the labels of positive and negative examples, i.e., move to the complementary concept. So, we classify the first N examples using d i=1 w i x i ≥ w 0 , the next N examples using d i=1 w i x i ≤ w 0 , and so on. The on-line error rates are shown in</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 5 :</head><label>5</label><figDesc>On-line error on UCI Adult dataset, ordered by the education attribute.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 6 :</head><label>6</label><figDesc>Memory used on SEA Concepts experiments</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 8 :</head><label>8</label><figDesc>Time on SEA Concepts experiments INC memory.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="true"><head>Table 1 :</head><label>1</label><figDesc>SEA on-line errors using discrete attributes with 10% noise</figDesc><table>CHANGE SPEED 
+
+1,000 
+10,000 
+100,000 
+
+HAT-INC 
+16.99% 
+16.08% 
+14.82% 
+HAT-EWMA 
+16.98% 
+15.83% 
+14.64 % 
+HAT-ADWIN 
+16.86% 15.39% 
+14.73 % 
+HAT-INC NB 
+16.88% 15.93% 
+14.86% 
+HAT-EWMA NB 
+16.85% 
+15.91% 
+14.73 % 
+HAT-ADWIN NB 
+16.90% 
+15.76% 
+14.75 % 
+CVFDT |W | = 1, 000 
+19.47% 
+15.71% 
+15.81% 
+CVFDT |W | = 10, 000 
+17.03% 
+17.12% 
+14.80% 
+CVFDT |W | = 100, 000 
+16.97% 
+17.15% 
+17.09% 
+
+10 
+
+12 
+
+14 
+
+16 
+
+18 
+
+20 
+
+22 
+
+24 
+
+26 
+
+1 
+22 
+43 
+64 
+85 
+106 
+127 
+148 
+169 
+190 
+211 
+232 
+253 
+274 
+295 
+316 
+337 
+358 
+379 
+400 
+
+Examples x 1000 
+
+Error Rate (%) 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="true"><head>Table 2 :</head><label>2</label><figDesc>On-line errors of Hyperplane Experiments with abrupt concept drift</figDesc><table>CHANGE SPEED 
+
+1,000 
+10,000 
+100,000 
+
+HAT-INC 
+46.39% 
+31.38% 
+21.17% 
+HAT-EWMA 
+42.09% 
+31.40% 
+21.43 % 
+HAT-ADWIN 
+41.25% 
+30.42% 
+21.37 % 
+HAT-INC NB 
+46.34% 
+31.54% 
+22.08% 
+HAT-EWMA NB 
+35.28% 
+24.02% 
+15.69 % 
+HAT-ADWIN NB 
+35.35% 
+24.47% 
+13.87 % 
+CVFDT |W | = 1, 000 
+50.01% 
+39.53% 
+33.36% 
+CVFDT |W | = 10, 000 
+50.09% 
+49.76% 
+28.63% 
+CVFDT |W | = 100, 000 
+49.89% 
+49.88% 
+46.78% 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="true"><head>Table 3 :</head><label>3</label><figDesc>On-line errors of Hyperplane Experiments with gradual concept drift</figDesc><table>CHANGE SPEED 
+
+1,000 
+10,000 
+100,000 
+
+HAT-INC 
+9.42% 
+9.40% 
+9.39% 
+HAT-EWMA 
+9.48% 
+9.43% 
+9.36 % 
+HAT-ADWIN 
+9.50% 
+9.46% 
+9.25 % 
+HAT-INC NB 
+9.37% 
+9.43% 
+9.42% 
+HAT-EWMA NB 
+8.64% 
+8.56% 
+8.23 % 
+HAT-ADWIN NB 
+8.65% 
+8.57% 
+8.17 % 
+CVFDT |W | = 1, 000 
+24.95% 22.65% 22.24% 
+CVFDT |W | = 10, 000 
+14.85% 15.46% 
+13.53% 
+CVFDT |W | = 100, 000 10.50% 
+10.61% 
+10.85% 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3" validated="false"><head>Table 4 :</head><label>4</label><figDesc>On-line classification errors for CVFDT and Hoeffding Adaptive Trees on Poker-Hand data set.</figDesc><table>NO 
+ARTIFICIAL 
+
+DRIFT 
+DRIFT 
+</table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1">This value of t is a very large overestimate, as indicated by our experiments. We are working on an improved analysis, and hope to be able to reduce t to T + c · t, for c &lt; 4.</note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot">d i=1 w i x i ≥ w 0 where x i , is the ith coordinate of x.Examples for which the sum above is nonnegative are labeled positive, and examples for which it is negative are labeled negative. Hyperplanes are useful for simulating time-changing concepts, because we can change the orientation and posi-</note>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<monogr>
+		<title level="m" type="main">UCI machine learning repository</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><forename type="middle">J</forename><surname>Newman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Asuncion</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Kalman filters and adaptive windows for learning in data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Discovery Science</title>
+		<imprint>
+			<date type="published" when="2006" />
+			<biblScope unit="page" from="29" to="40" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Learning from timechanging data with adaptive windowing</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SIAM International Conference on Data Mining</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Mining adaptively frequent closed unlabeled rooted trees in data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert</forename><surname>Bifet</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">14th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</title>
+		<imprint>
+			<date type="published" when="2008" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Classification and Regression Trees</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Olshen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Stone</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994" />
+			<publisher>Wadsworth and Brooks</publisher>
+			<pubPlace>Monterey, CA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Maintaining stream statistics over sliding windows</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Datar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Gionis</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Indyk</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Motwani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Computing</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="45" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Mining high-speed data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pedro</forename><surname>Domingos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Geoff</forename><surname>Hulten</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Knowledge Discovery and Data Mining</title>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="71" to="80" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Decision trees for mining data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Gama</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Fernandes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Rocha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Intell. Data Anal</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="23" to="45" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Learning with drift detection</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Gama</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Medas</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Castillo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Rodrigues</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SBIA Brazilian Symposium on Artificial Intelligence</title>
+		<imprint>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="286" to="295" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Forest trees for on-line data</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Gama</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Medas</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Rocha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SAC &apos;04: Proceedings of the 2004 ACM symposium on Applied computing</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2004" />
+			<biblScope unit="page" from="632" to="636" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Stress-testing hoeffding trees</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Geoffrey</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Richard</forename><surname>Kirkby</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Bernhard</forename><surname>Pfahringer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">PKDD</title>
+		<imprint>
+			<date type="published" when="2005" />
+			<biblScope unit="page" from="495" to="502" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Geoffrey</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Richard</forename><surname>Kirkby</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Bernhard</forename><surname>Pfahringer</surname></persName>
+		</author>
+		<ptr target="http://sourceforge.net/projects/moa-datastream" />
+		<title level="m">MOA: Massive Online Analysis</title>
+		<imprint>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Mining timechanging data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Hulten</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Spencer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Domingos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">7th ACM SIGKDD Intl. Conf. on Knowledge Discovery and Data Mining</title>
+		<meeting><address><addrLine>San Francisco, CA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="97" to="106" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<monogr>
+		<title level="m" type="main">VFML -a toolkit for mining high-speed time-changing data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Geoff</forename><surname>Hulten</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Pedro</forename><surname>Domingos</surname></persName>
+		</author>
+		<ptr target="http://www.cs.washington.edu/dm/vfml/" />
+		<imprint>
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Hjalmarsson. Some modeling and estimation issues in control of heterogeneous networks</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K</forename><surname>Jacobsson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><surname>Möller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">K.-H</forename><surname>Johansson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">16th Intl. Symposium on Mathematical Theory of Networks and Systems (MTNS2004)</title>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Efficient incremental induction of decision trees</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Dimitrios</forename><surname>Kalles</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Tim</forename><surname>Morris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="1996" />
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="231" to="242" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Detecting change in data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Kifer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Ben-David</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Gehrke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. 30th VLDB Conf</title>
+		<meeting>30th VLDB Conf<address><addrLine>Toronto, Canada</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Detecting concept drift with support vector machines</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Klinkenberg</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Joachims</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proc. 17th Intl. Conf. on Machine Learning</title>
+		<meeting>17th Intl. Conf. on Machine Learning</meeting>
+		<imprint>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="487" to="494" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Online classification of nonstationary data streams</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Last</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="129" to="147" />
+		</imprint>
+	</monogr>
+	<note>Intelligent Data Analysis</note>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ross</forename><forename type="middle">J</forename><surname>Quinlan</surname></persName>
+		</author>
+		<title level="m">C4.5: Programs for Machine Learning</title>
+		<imprint>
+			<publisher>Morgan Kaufmann</publisher>
+			<date type="published" when="1993-01" />
+		</imprint>
+	</monogr>
+	<note>Machine Learning)</note>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Lane departure detection for improved road geometry estimation</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><surname>Schön</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Eidehall</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Gustafsson</surname></persName>
+		</author>
+		<idno>LiTH-ISY-R-2714</idno>
+		<imprint>
+			<date type="published" when="2005-12" />
+			<pubPlace>Sweden</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Dept. of Electrical Engineering, Linköping University, SE-581 83 Linköping</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A streaming ensemble algorithm (sea) for large-scale classification</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Nick</forename><surname>Street</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Yongseog</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD &apos;01: Proceedings of the seventh ACM SIGKDD international conference on Knowledge discovery and data mining</title>
+		<meeting><address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM Press</publisher>
+			<date type="published" when="2001" />
+			<biblScope unit="page" from="377" to="382" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<monogr>
+		<title level="m" type="main">The problem of concept drift: Definitions and related work</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Alexey</forename><surname>Tsymbal</surname></persName>
+		</author>
+		<idno>TCD-CS-2004-15</idno>
+		<imprint>
+			<date type="published" when="2004" />
+			<pubPlace>Trinity College</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Department of Computer Science, University of Dublin</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Decision tree induction based on efficient tree restructuring</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Paul</forename><forename type="middle">E</forename><surname>Utgoff</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Neil</forename><forename type="middle">C</forename><surname>Berkman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jeffery</forename><forename type="middle">A</forename><surname>Clouse</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="1997" />
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="5" to="44" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Learning in the presence of concept drift and hidden contexts</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Widmer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Kubat</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="1996" />
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="69" to="101" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

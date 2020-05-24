@@ -1,0 +1,1239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Polynomial-time Computation
+of Exact Correlated Equilibrium in Compact Games
+</p>
+<p>Albert Xin Jiang Kevin Leyton-Brown
+Department of Computer Science
+</p>
+<p>University of British Columbia
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Outline
+</p>
+<p>1 Computing Correlated Equilibrium
+</p>
+<p>2 Papadimitriou and Roughgarden’s algorithm
+</p>
+<p>3 Numerical Precision Issues
+</p>
+<p>4 Algorithm for Exact Correlated Equilibrium
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>n players
+player p’s pure strategy sp ∈ S∏p
+pure strategy profile ns ∈ S = p=1 Sp
+utility for p under pure strategy profile s is integer ups
+</p>
+<p>a CE is a distribution x over S:
+</p>
+<p>a trusted intermediary draws a strategy profile s from this
+distribution
+announce to each player p (privately) her own component sp
+p will have no incentive to choose another strategy, assuming
+others follow suggestions
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Correlated Equilibrium
+</p>
+<p>correlated equilibrium (CE) [Aumann, 1974; Aumann, 1987]
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>a CE is a distribution x over S:
+</p>
+<p>a trusted intermediary draws a strategy profile s from this
+distribution
+announce to each player p (privately) her own component sp
+p will have no incentive to choose another strategy, assuming
+others follow suggestions
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Correlated Equilibrium
+</p>
+<p>correlated equilibrium (CE) [Aumann, 1974; Aumann, 1987]
+</p>
+<p>n players
+player p’s pure strategy sp ∈ S∏p
+pure strategy profile ∈ ns S = p=1 Sp
+utility for p under pure strategy profile s is integer ups
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Correlated Equilibrium
+</p>
+<p>correlated equilibrium (CE) [Aumann, 1974; Aumann, 1987]
+</p>
+<p>n players
+player p’s pure strategy sp ∈ S∏p
+pure strategy profile s ∈ nS = p=1 Sp
+utility for p under pure strategy profile s is integer ups
+</p>
+<p>a CE is a distribution x over S:
+</p>
+<p>a trusted intermediary draws a strategy profile s from this
+distribution
+announce to each player p (privately) her own component sp
+p will have no incentive to choose another strategy, assuming
+others follow suggestions
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>∑
+x is a distribution: x ≥ 0, s xs = 1
+</p>
+<p>mn variables, nm2 constraints
+</p>
+<p>polynomial in the size of normal form
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>LP formulation
+</p>
+<p>incentive constraints:∑for all players p and all i, j ∈ Sp:
+[up pis − ujs]xis ≥ 0
+</p>
+<p>s∈S−p
+</p>
+<p>write as Ux ≥ 0.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>mn variables, nm2 constraints
+</p>
+<p>polynomial in the size of normal form
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>LP formulation
+</p>
+<p>incentive constraints:∑for all players p and all i, j ∈ Sp:
+[up pis − ujs]xis ≥ 0
+</p>
+<p>s∈S−p
+</p>
+<p>write as Ux ≥ 0. ∑
+x is a distribution: x ≥ 0, s xs = 1
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>LP formulation
+</p>
+<p>incentive constraints:∑for all players p and all i, j ∈ Sp:
+[up pis − ujs]xis ≥ 0
+</p>
+<p>s∈S−p
+</p>
+<p>write as Ux ≥ 0. ∑
+x is a distribution: x ≥ 0, s xs = 1
+</p>
+<p>mn variables, nm2 constraints
+</p>
+<p>polynomial in the size of normal form
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Goal: computing a sample CE in time polynomial in the size of
+representation
+</p>
+<p>LP would have exponential number of variables (mn)
+</p>
+<p>writing a solution (i.e. CE) explicitly requires mn numbers
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Computing CE for Compact Game Representations
+</p>
+<p>Representations for games with structured utility functions
+</p>
+<p>symmetric games / anonymous games
+</p>
+<p>graphical games [Kearns, Littman & Singh, 2001]
+</p>
+<p>congestion games [Rosenthal, 1973]
+</p>
+<p>action-graph games [Jiang, Leyton-Brown & Bhat, 2011]
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Computing CE for Compact Game Representations
+</p>
+<p>Representations for games with structured utility functions
+</p>
+<p>symmetric games / anonymous games
+</p>
+<p>graphical games [Kearns, Littman & Singh, 2001]
+</p>
+<p>congestion games [Rosenthal, 1973]
+</p>
+<p>action-graph games [Jiang, Leyton-Brown & Bhat, 2011]
+</p>
+<p>Goal: computing a sample CE in time polynomial in the size of
+representation
+</p>
+<p>LP would have exponential number of variables (mn)
+</p>
+<p>writing a solution (i.e. CE) explicitly requires mn numbers
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Outline
+</p>
+<p>1 Computing Correlated Equilibrium
+</p>
+<p>2 Papadimitriou and Roughgarden’s algorithm
+</p>
+<p>3 Numerical Precision Issues
+</p>
+<p>4 Algorithm for Exact Correlated Equilibrium
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>computes CEs that are mixtures of polynomial number of
+product distributions
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Papadimitriou and Roughgarden [2008]
+</p>
+<p>Polynomial-time algorithm for computing a CE when the
+representation satisfies:
+</p>
+<p>polynomial type: # of players and # of actions for each player
+are bounded by polynomials in the size of the representation.
+polynomial expectation property: poly-time algorithm for
+computing expected utility under any product distribution
+</p>
+<p>x is a product∏distribution when each player p is randomizingindependently over her actions according to some distribution
+xp, i.e. x ps = p xs .p
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Papadimitriou and Roughgarden [2008]
+</p>
+<p>Polynomial-time algorithm for computing a CE when the
+representation satisfies:
+</p>
+<p>polynomial type: # of players and # of actions for each player
+are bounded by polynomials in the size of the representation.
+polynomial expectation property: poly-time algorithm for
+computing expected utility under any product distribution
+</p>
+<p>x is a product∏distribution when each player p is randomizingindependently over her actions according to some distribution
+xp, i.e. xs = x
+</p>
+<p>p
+p s .p
+</p>
+<p>computes CEs that are mixtures of polynomial number of
+product distributions
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>(P) either has x = 0 as its optimal solution or is unbounded.
+In the latter case the game has a correlated equilibrium.
+can prove the existence of CE by showing the infeasibility of
+its dual (D):
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Existence Proof
+</p>
+<p>The algorithm is based on proofs of the existence of CE via LP
+duality [Hart & Shmeidler 1989], [Nau & Mcardle 1990], [Myerson
+1997]
+</p>
+<p>consider the linear program∑(P):
+max xs
+</p>
+<p>s
+</p>
+<p>Ux ≥ 0, x ≥ 0
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>can prove the existence of CE by showing the infeasibility of
+its dual (D):
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Existence Proof
+</p>
+<p>The algorithm is based on proofs of the existence of CE via LP
+duality [Hart & Shmeidler 1989], [Nau & Mcardle 1990], [Myerson
+1997]
+</p>
+<p>consider the linear program∑(P):
+max xs
+</p>
+<p>s
+</p>
+<p>Ux ≥ 0, x ≥ 0
+</p>
+<p>(P) either has x = 0 as its optimal solution or is unbounded.
+In the latter case the game has a correlated equilibrium.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Existence Proof
+</p>
+<p>The algorithm is based on proofs of the existence of CE via LP
+duality [Hart & Shmeidler 1989], [Nau & Mcardle 1990], [Myerson
+1997]
+</p>
+<p>consider the linear program∑(P):
+max xs
+</p>
+<p>s
+</p>
+<p>Ux ≥ 0, x ≥ 0
+</p>
+<p>(P) either has x = 0 as its optimal solution or is unbounded.
+In the latter case the game has a correlated equilibrium.
+can prove the existence of CE by showing the infeasibility of
+its dual (D):
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The lemma implies that the dual program (D) is infeasible
+(and therefore a CE must exist).
+</p>
+<p>This is because xUT y is a convex combination of the left hand
+sides of the rows of (D), and for any feasible y the result must
+be less than or equal to -1.
+</p>
+<p>there is a polynomial-time algorithm that computes such an x
+given y.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Infeasibility of the Dual
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>Lemma ([Papadimitriou & Roughgarden, 2008])
+</p>
+<p>For every dual vector y ≥ 0, there is a product distribution x such
+that xUT y = 0.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>there is a polynomial-time algorithm that computes such an x
+given y.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Infeasibility of the Dual
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>Lemma ([Papadimitriou & Roughgarden, 2008])
+</p>
+<p>For every dual vector y ≥ 0, there is a product distribution x such
+that xUT y = 0.
+</p>
+<p>The lemma implies that the dual program (D) is infeasible
+(and therefore a CE must exist).
+</p>
+<p>This is because xUT y is a convex combination of the left hand
+sides of the rows of (D), and for any feasible y the result must
+be less than or equal to -1.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Infeasibility of the Dual
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>Lemma ([Papadimitriou & Roughgarden, 2008])
+</p>
+<p>For every dual vector y ≥ 0, there is a product distribution x such
+that xUT y = 0.
+</p>
+<p>The lemma implies that the dual program (D) is infeasible
+(and therefore a CE must exist).
+</p>
+<p>This is because xUT y is a convex combination of the left hand
+sides of the rows of (D), and for any feasible y the result must
+be less than or equal to -1.
+</p>
+<p>there is a polynomial-time algorithm that computes such an x
+given y.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>(D) has nm2 variables, about mn constraints
+</p>
+<p>run the ellipsoid algorithm on (D), with the following Product
+Separation Oracle:
+</p>
+<p>given a vector y(i), the corresponding product distribution x(i)
+</p>
+<p>is generated according to the Lemma, and [x(i)UT ]y ≤ −1 is
+given to the ellipsoid algorithm as a cutting plane.
+</p>
+<p>The ellipsoid algorithm will stop after a polynomial number of
+steps and determine that the program is infeasible.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Ellipsoid Against Hope
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>run the ellipsoid algorithm on (D), with the following Product
+Separation Oracle:
+</p>
+<p>given a vector y(i), the corresponding product distribution x(i)
+</p>
+<p>is generated according to the Lemma, and [x(i)UT ]y ≤ −1 is
+given to the ellipsoid algorithm as a cutting plane.
+</p>
+<p>The ellipsoid algorithm will stop after a polynomial number of
+steps and determine that the program is infeasible.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Ellipsoid Against Hope
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>(D) has nm2 variables, about mn constraints
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The ellipsoid algorithm will stop after a polynomial number of
+steps and determine that the program is infeasible.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Ellipsoid Against Hope
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>(D) has nm2 variables, about mn constraints
+</p>
+<p>run the ellipsoid algorithm on (D), with the following Product
+Separation Oracle:
+</p>
+<p>given a vector y(i), the corresponding product distribution x(i)
+</p>
+<p>is generated according to the Lemma, and [x(i)UT ]y ≤ −1 is
+given to the ellipsoid algorithm as a cutting plane.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Ellipsoid Against Hope
+</p>
+<p>UT y ≤ −1
+y ≥ 0
+</p>
+<p>(D) has nm2 variables, about mn constraints
+</p>
+<p>run the ellipsoid algorithm on (D), with the following Product
+Separation Oracle:
+</p>
+<p>given a vector y(i), the corresponding product distribution x(i)
+</p>
+<p>is generated according to the Lemma, and [x(i)UT ]y ≤ −1 is
+given to the ellipsoid algorithm as a cutting plane.
+</p>
+<p>The ellipsoid algorithm will stop after a polynomial number of
+steps and determine that the program is infeasible.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This implies that its dual program (P’):
+</p>
+<p>[UXT ]α ≥ 0, α ≥ 0
+</p>
+<p>is unbounded and has polynomial size. Given such a nonzero
+α vector, scaled to be a distribution, XTα satisfies the
+incentive constraints and is therefore a correlated equilibrium.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Ellipsoid Against Hope (cont’d)
+</p>
+<p>Let X be the matrix whose rows are the generated product
+distributions x(1), . . . , x(L). Consider the linear program (D’):
+</p>
+<p>[XUT ]y ≤ −1, y ≥ 0
+</p>
+<p>If we apply the same ellipsoid method, with a separation
+oracle that returns the cut x(i)UT y ≤ −1 given query y(i), it
+would go through the same sequence of queries y(i) and
+return infeasible.
+Therefore (D’) is infeasible (presuming that numerical
+problems do not arise).
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Ellipsoid Against Hope (cont’d)
+</p>
+<p>Let X be the matrix whose rows are the generated product
+distributions x(1), . . . , x(L). Consider the linear program (D’):
+</p>
+<p>[XUT ]y ≤ −1, y ≥ 0
+</p>
+<p>If we apply the same ellipsoid method, with a separation
+oracle that returns the cut x(i)UT y ≤ −1 given query y(i), it
+would go through the same sequence of queries y(i) and
+return infeasible.
+Therefore (D’) is infeasible (presuming that numerical
+problems do not arise).
+This implies that its dual program (P’):
+</p>
+<p>[UXT ]α ≥ 0, α ≥ 0
+</p>
+<p>is unbounded and has polynomial size. Given such a nonzero
+α vector, scaled to be a distribution, XTα satisfies the
+incentive constraints and is therefore a correlated equilibrium.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>On the other hand, entries of XUT are differences of
+expected utilities under product distributions, thus can be
+computed in polynomial time.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Computational Issues
+</p>
+<p>Although the matrix XUT is polynomial in size, computing it
+using matrix multiplication would involve an exponential
+number of operations.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Computational Issues
+</p>
+<p>Although the matrix XUT is polynomial in size, computing it
+using matrix multiplication would involve an exponential
+number of operations.
+</p>
+<p>On the other hand, entries of XUT are differences of
+expected utilities under product distributions, thus can be
+computed in polynomial time.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Outline
+</p>
+<p>1 Computing Correlated Equilibrium
+</p>
+<p>2 Papadimitriou and Roughgarden’s algorithm
+</p>
+<p>3 Numerical Precision Issues
+</p>
+<p>4 Algorithm for Exact Correlated Equilibrium
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>a constraint of (D’), e.g. x(i)UT y ≤ −1, may require more
+bits than any of the constraints of (D)
+</p>
+<p>running ellipsoid on (D’) with the same R, v as the ellipsoid
+run on (D) would no longer be valid
+</p>
+<p>infeasibility of (D’) is not guaranteed
+</p>
+<p>Papadimitriou and Roughgarden [2008] proposed a method to
+overcome this issue
+Stein, Parrilo & Ozdaglar [2010] showed that it is insufficient
+to compute an exact CE.
+</p>
+<p>a slightly modified version computes approximate CE in time
+polynomial in log 1 and representation size
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Numerical Precision Issues
+</p>
+<p>a run of the ellipsoid method requires as inputs
+initial ball with radius R
+volume lower bound v
+</p>
+<p>correct values of R and v depend on the max encoding size of
+a constraint of the LP
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Papadimitriou and Roughgarden [2008] proposed a method to
+overcome this issue
+Stein, Parrilo & Ozdaglar [2010] showed that it is insufficient
+to compute an exact CE.
+</p>
+<p>a slightly modified version computes approximate CE in time
+polynomial in log 1 and representation size
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Numerical Precision Issues
+</p>
+<p>a run of the ellipsoid method requires as inputs
+initial ball with radius R
+volume lower bound v
+</p>
+<p>correct values of R and v depend on the max encoding size of
+a constraint of the LP
+</p>
+<p>a constraint of (D’), e.g. x(i)UT y ≤ −1, may require more
+bits than any of the constraints of (D)
+</p>
+<p>running ellipsoid on (D’) with the same R, v as the ellipsoid
+run on (D) would no longer be valid
+</p>
+<p>infeasibility of (D’) is not guaranteed
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Numerical Precision Issues
+</p>
+<p>a run of the ellipsoid method requires as inputs
+initial ball with radius R
+volume lower bound v
+</p>
+<p>correct values of R and v depend on the max encoding size of
+a constraint of the LP
+</p>
+<p>a constraint of (D’), e.g. x(i)UT y ≤ −1, may require more
+bits than any of the constraints of (D)
+</p>
+<p>running ellipsoid on (D’) with the same R, v as the ellipsoid
+run on (D) would no longer be valid
+</p>
+<p>infeasibility of (D’) is not guaranteed
+</p>
+<p>Papadimitriou and Roughgarden [2008] proposed a method to
+overcome this issue
+Stein, Parrilo & Ozdaglar [2010] showed that it is insufficient
+to compute an exact CE.
+</p>
+<p>a slightly modified version computes approximate CE in time
+polynomial in log 1 and representation size
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The Product Separation Oracle returns a symmetric product
+distribution given symmetric game and symmetric y.
+</p>
+<p>On the other hand, there always exists an exact rational CE
+</p>
+<p>each vertex of the polytope of the set of CE is rational
+(correspond to basic feasible solutions)
+such a CE has O(nm2) non-zero entries, i.e. polynomial-sized
+support
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>What about exact CE?
+</p>
+<p>Stein et al. [2010] showed that if an algorithm
+1 outputs a rational solution
+2 outputs a convex combination of product distributions
+3 outputs a convex combination of symmetric product
+</p>
+<p>distributions when the game is symmetric
+</p>
+<p>then there is a symmetric game such that the algorithm fails
+to find an exact CE.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>On the other hand, there always exists an exact rational CE
+</p>
+<p>each vertex of the polytope of the set of CE is rational
+(correspond to basic feasible solutions)
+such a CE has O(nm2) non-zero entries, i.e. polynomial-sized
+support
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>What about exact CE?
+</p>
+<p>Stein et al. [2010] showed that if an algorithm
+1 outputs a rational solution
+2 outputs a convex combination of product distributions
+3 outputs a convex combination of symmetric product
+</p>
+<p>distributions when the game is symmetric
+</p>
+<p>then there is a symmetric game such that the algorithm fails
+to find an exact CE.
+</p>
+<p>The Product Separation Oracle returns a symmetric product
+distribution given symmetric game and symmetric y.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>What about exact CE?
+</p>
+<p>Stein et al. [2010] showed that if an algorithm
+1 outputs a rational solution
+2 outputs a convex combination of product distributions
+3 outputs a convex combination of symmetric product
+</p>
+<p>distributions when the game is symmetric
+</p>
+<p>then there is a symmetric game such that the algorithm fails
+to find an exact CE.
+</p>
+<p>The Product Separation Oracle returns a symmetric product
+distribution given symmetric game and symmetric y.
+</p>
+<p>On the other hand, there always exists an exact rational CE
+</p>
+<p>each vertex of the polytope of the set of CE is rational
+(correspond to basic feasible solutions)
+such a CE has O(nm2) non-zero entries, i.e. polynomial-sized
+support
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Outline
+</p>
+<p>1 Computing Correlated Equilibrium
+</p>
+<p>2 Papadimitriou and Roughgarden’s algorithm
+</p>
+<p>3 Numerical Precision Issues
+</p>
+<p>4 Algorithm for Exact Correlated Equilibrium
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Our Results
+</p>
+<p>A variant of the Ellipsoid Against Hope algorithm of
+[Papadimitriou & Roughgarden, 2008] that
+</p>
+<p>computes an exact, rational CE in polynomial time given a
+representation satisfying polynomial type and polynomial
+expectation property;
+</p>
+<p>outputs a CE that is a vertex of the set of CE, which has
+polynomial-sized support.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Now each constraint of (D’) is one of the original constraints
+of (D).
+</p>
+<p>any run of ellipsoid method that is valid for (D) is also valid
+for (D’)
+no longer requiring special mechanism to deal with numerical
+issues
+</p>
+<p>A solution of (P’) is a mixture of polynomial number of
+pure-strategy profiles.
+</p>
+<p>Get vertex by applying a standard algorithm for finding basic
+feasible solutions given a feasible solution.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Overview of Our Approach
+</p>
+<p>We replace the Product Separation Oracle with a modified
+version (Purified Separation Oracle) that generates cuts
+corresponding to pure strategy profiles: given y ≥ 0, output
+(U Ts) y ≤ −1 that is violated at y.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A solution of (P’) is a mixture of polynomial number of
+pure-strategy profiles.
+</p>
+<p>Get vertex by applying a standard algorithm for finding basic
+feasible solutions given a feasible solution.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Overview of Our Approach
+</p>
+<p>We replace the Product Separation Oracle with a modified
+version (Purified Separation Oracle) that generates cuts
+corresponding to pure strategy profiles: given y ≥ 0, output
+(U Ts) y ≤ −1 that is violated at y.
+Now each constraint of (D’) is one of the original constraints
+of (D).
+</p>
+<p>any run of ellipsoid method that is valid for (D) is also valid
+for (D’)
+no longer requiring special mechanism to deal with numerical
+issues
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Overview of Our Approach
+</p>
+<p>We replace the Product Separation Oracle with a modified
+version (Purified Separation Oracle) that generates cuts
+corresponding to pure strategy profiles: given y ≥ 0, output
+(U Ts) y ≤ −1 that is violated at y.
+Now each constraint of (D’) is one of the original constraints
+of (D).
+</p>
+<p>any run of ellipsoid method that is valid for (D) is also valid
+for (D’)
+no longer requiring special mechanism to deal with numerical
+issues
+</p>
+<p>A solution of (P’) is a mixture of polynomial number of
+pure-strategy profiles.
+</p>
+<p>Get vertex by applying a standard algorithm for finding basic
+feasible solutions given a feasible solution.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proof.
+</p>
+<p>we know there exists a product distribution x such that
+xUT y = 0.
+</p>
+<p>x[UT y] is the expected value of (U Ts) y under distribution x,
+which we denote E Ts∼x[(Us) y]
+</p>
+<p>there must exist s such that (Us)
+T y ≥ xUT y = 0.
+</p>
+<p>not efficiently constructive
+</p>
+<p>sampling from x yields approximate cutting planes
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Purified Separation Oracle: Existence
+</p>
+<p>Lemma
+</p>
+<p>Given any dual vector y ≥ 0, there exists a pure strategy profile s
+such that (U )Ts y ≥ 0.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>not efficiently constructive
+</p>
+<p>sampling from x yields approximate cutting planes
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Purified Separation Oracle: Existence
+</p>
+<p>Lemma
+</p>
+<p>Given any dual vector y ≥ 0, there exists a pure strategy profile s
+such that (Us)
+</p>
+<p>T y ≥ 0.
+</p>
+<p>Proof.
+</p>
+<p>we know there exists a product distribution x such that
+xUT y = 0.
+</p>
+<p>x[UT y] is the expected value of (Us)
+T y under distribution x,
+</p>
+<p>which we denote Es∼x[(U
+T
+</p>
+<p>s) y]
+</p>
+<p>there must exist s such that (U )Ts y ≥ xUT y = 0.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>sampling from x yields approximate cutting planes
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Purified Separation Oracle: Existence
+</p>
+<p>Lemma
+</p>
+<p>Given any dual vector y ≥ 0, there exists a pure strategy profile s
+such that (U )Ts y ≥ 0.
+</p>
+<p>Proof.
+</p>
+<p>we know there exists a product distribution x such that
+xUT y = 0.
+</p>
+<p>x[UT y] is the expected value of (U Ts) y under distribution x,
+which we denote E Ts∼x[(Us) y]
+</p>
+<p>there must exist s such that (U )T y ≥ xUTs y = 0.
+</p>
+<p>not efficiently constructive
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Purified Separation Oracle: Existence
+</p>
+<p>Lemma
+</p>
+<p>Given any dual vector y ≥ 0, there exists a pure strategy profile s
+such that (Us)
+</p>
+<p>T y ≥ 0.
+</p>
+<p>Proof.
+</p>
+<p>we know there exists a product distribution x such that
+xUT y = 0.
+</p>
+<p>x[UT y] is the expected value of (Us)
+T y under distribution x,
+</p>
+<p>which we denote Es∼x[(Us)
+T y]
+</p>
+<p>there must exist s such that (Us)
+T y ≥ xUT y = 0.
+</p>
+<p>not efficiently constructive
+</p>
+<p>sampling from x yields approximate cutting planes
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 For each player p,
+</p>
+<p>pick sp ∈ Sp such that the conditional expectation
+</p>
+<p>Es∼x[(U )
+T
+</p>
+<p>s y|s1, . . . , sp] ≥ 0.
+</p>
+<p>such sp must exists because Es∼x[(U
+T
+</p>
+<p>s) y|s1, . . . , sp−1] ≥ 0
+each conditional expectation can be efficiently computed using
+the expected utility algorithm
+</p>
+<p>3 Output s = (s1, . . . , sp), and cutting plane (Us)
+T y ≤ −1.
+</p>
+<p>Can return asymmetric cuts even for symmetric games and
+symmetric y.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Purified Separation Oracle: Derandomization
+</p>
+<p>Derandomize using the method of conditional probabilities
+</p>
+<p>1 Given y ≥ 0, compute product distribution x satisfying
+xUT y = 0, i.e. E Ts∼x[(Us) y] = 0.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3 Output s = (s1, . . . , sp), and cutting plane (U
+T
+</p>
+<p>s) y ≤ −1.
+</p>
+<p>Can return asymmetric cuts even for symmetric games and
+symmetric y.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Purified Separation Oracle: Derandomization
+</p>
+<p>Derandomize using the method of conditional probabilities
+</p>
+<p>1 Given y ≥ 0, compute product distribution x satisfying
+xUT y = 0, i.e. Es∼x[(U )
+</p>
+<p>T
+s y] = 0.
+</p>
+<p>2 For each player p,
+</p>
+<p>pick sp ∈ Sp such that the conditional expectation
+</p>
+<p>Es∼x[(Us)
+T y|s1, . . . , sp] ≥ 0.
+</p>
+<p>such sp must exists because Es∼x[(U )
+T
+</p>
+<p>s y|s1, . . . , sp−1] ≥ 0
+each conditional expectation can be efficiently computed using
+the expected utility algorithm
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Can return asymmetric cuts even for symmetric games and
+symmetric y.
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Purified Separation Oracle: Derandomization
+</p>
+<p>Derandomize using the method of conditional probabilities
+</p>
+<p>1 Given y ≥ 0, compute product distribution x satisfying
+xUT y = 0, i.e. Es∼x[(Us)
+</p>
+<p>T y] = 0.
+2 For each player p,
+</p>
+<p>pick sp ∈ Sp such that the conditional expectation
+</p>
+<p>Es∼x[(Us)
+T y|s1, . . . , sp] ≥ 0.
+</p>
+<p>such sp must exists because Es∼x[(U
+T
+</p>
+<p>s) y|s1, . . . , sp−1] ≥ 0
+each conditional expectation can be efficiently computed using
+the expected utility algorithm
+</p>
+<p>3 Output s = (s1, . . . , sp), and cutting plane (U )
+T
+</p>
+<p>s y ≤ −1.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Purified Separation Oracle: Derandomization
+</p>
+<p>Derandomize using the method of conditional probabilities
+</p>
+<p>1 Given y ≥ 0, compute product distribution x satisfying
+xUT y = 0, i.e. Es∼x[(Us)
+</p>
+<p>T y] = 0.
+2 For each player p,
+</p>
+<p>pick sp ∈ Sp such that the conditional expectation
+</p>
+<p>Es∼x[(U )
+T
+</p>
+<p>s y|s1, . . . , sp] ≥ 0.
+</p>
+<p>such sp must exists because E
+T
+</p>
+<p>s∼x[(Us) y|s1, . . . , sp−1] ≥ 0
+each conditional expectation can be efficiently computed using
+the expected utility algorithm
+</p>
+<p>3 Output s = (s1, . . . , sp), and cutting plane (Us)
+T y ≤ −1.
+</p>
+<p>Can return asymmetric cuts even for symmetric games and
+symmetric y.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Our derandomization approach can be applied to other related
+algorithms, e.g. Huang and Von Stengel [2008]
+polynomial-time algorithm for extensive-form correlated
+equilibria.
+</p>
+<p>Practical computation of CE by replacing the ellipsoid method
+with a cutting-plane method
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Conclusion
+</p>
+<p>A variant of Ellipsoid Against Hope algorithm that computes
+an exact CE in polynomial time
+</p>
+<p>derandomization of the Product Separation Oracle
+as a result the algorithm is simplified
+polynomial-sized support
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Practical computation of CE by replacing the ellipsoid method
+with a cutting-plane method
+</p>
+<p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Conclusion
+</p>
+<p>A variant of Ellipsoid Against Hope algorithm that computes
+an exact CE in polynomial time
+</p>
+<p>derandomization of the Product Separation Oracle
+as a result the algorithm is simplified
+polynomial-sized support
+</p>
+<p>Our derandomization approach can be applied to other related
+algorithms, e.g. Huang and Von Stengel [2008]
+polynomial-time algorithm for extensive-form correlated
+equilibria.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Conclusion
+</p>
+<p>A variant of Ellipsoid Against Hope algorithm that computes
+an exact CE in polynomial time
+</p>
+<p>derandomization of the Product Separation Oracle
+as a result the algorithm is simplified
+polynomial-sized support
+</p>
+<p>Our derandomization approach can be applied to other related
+algorithms, e.g. Huang and Von Stengel [2008]
+polynomial-time algorithm for extensive-form correlated
+equilibria.
+</p>
+<p>Practical computation of CE by replacing the ellipsoid method
+with a cutting-plane method
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CE Papadimitriou and Roughgarden’s algorithm Numerical Precision Issues Algorithm for Exact Correlated Equilibrium References
+</p>
+<p>Aumann, R. (1974). Subjectivity and correlation in randomized
+strategies. Journal of Mathematical Economics, 1(1), 67–96.
+</p>
+<p>Aumann, R. (1987). Correlated equilibrium as an expression of Bayesian
+rationality. Econometrica: Journal of the Econometric Society, 1–18.
+</p>
+<p>Huang, W., & Von Stengel, B. (2008). Computing an extensive-form
+correlated equilibrium in polynomial time. WINE: Proceedings of the
+Workshop on Internet and Network Economics (pp. 506–513).
+</p>
+<p>Papadimitriou, C., & Roughgarden, T. (2008). Computing correlated
+equilibria in multi-player games. Journal of the ACM, 55(3), 14.
+</p>
+<p>Rosenthal, R. (1973). A class of games possessing pure-strategy Nash
+equilibria. International Journal of Game Theory, 2, 65–67.
+</p>
+<p>Stein, N. D., Parrilo, P. A., & Ozdaglar, A. (2010). Exchangeable
+equilibria contradict exactness of the Papadimitriou-Roughgarden
+algorithm. http://arxiv.org/abs/1010.2871v1.
+</p>
+<p>Polynomial-time Computation of Exact Correlated Equilibrium in Compact Games Jiang and Leyton-Brown</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

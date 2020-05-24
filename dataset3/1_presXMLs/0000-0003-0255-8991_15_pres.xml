@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Evaluation of Spoken Language Recognition
+Technology Using Broadcast Speech:
+</p>
+<p>Performance and Challenges
+</p>
+<p>Luis J. Rodŕıguez-Fuentes, Amparo Varona, Mireia Diez,
+Mikel Penagarikano, Germán Bordel
+</p>
+<p>Software Technologies Working Group (http://gtts.ehu.es)
+</p>
+<p>Department of Electricity and Electronics, University of the Basque Country
+</p>
+<p>Barrio Sarriena s/n, 48940 Leioa, Spain
+</p>
+<p>email: mikel.penagarikano@ehu.es
+</p>
+<p>Odyssey 2012, Singapore
+June 27, 2012
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Contents
+</p>
+<p>Introduction
+Context
+Motivation
+</p>
+<p>An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+</p>
+<p>SLR system
+</p>
+<p>Performance analysis
+Closed-set Clean-speech (CC)
+Open-set Clean-speech (OC)
+Noisy speech (Albayzin 2010 LRE)
+</p>
+<p>Conclusions and future work
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets Context
+SLR system Motivation
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Context (I)
+</p>
+<p>I Spoken Language Recognition (SLR) technology advancements
+largely fostered by NIST LREs
+</p>
+<p>I NIST providing data + researchers providing the algorithms
+</p>
+<p>I NIST LRE datasets: 8 kHz, conversational telephone speech
+(CTS) + narrow-band broadcast news (NBBN)
+</p>
+<p>I Up to 24 target languages (including variants of the same language)
+</p>
+<p>I Issues:
+</p>
+<p>(1) focus on telephone speech and large-scale verification applications
+</p>
+<p>(2) lack of resources to objectively assess technology improvements
+on wide-band speech
+</p>
+<p>(3) challenges specific to other kind of data (e.g. wide-band broadcast speech)
+not addressed
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets Context
+SLR system Motivation
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Context (II)
+</p>
+<p>I Albayzin 2008 and 2010 LRE aimed to expand the scope of
+SLR technology assessment
+</p>
+<p>I Inspired by NIST 2007 LRE: same task, test procedures,
+performance measures, file formats, etc.
+</p>
+<p>I Differences:
+</p>
+<p>(1) speech signals from wide-band TV broadcasts involving multiple speakers
+</p>
+<p>(2) small set of target languages, but potentially challenging due to acoustic,
+phonetic and lexical similarities
+</p>
+<p>(3) target application: Spoken Document Retrieval (SDR)
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets Context
+SLR system Motivation
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Motivation
+</p>
+<p>To identify the most challenging conditions in SLR tasks,
+which may eventually guide the design of future evaluations
+</p>
+<p>To that end...
+</p>
+<p>I SLR system based on SoA approaches developed and evaluated
+on the Albayzin 2008 and 2010 LRE datasets
+</p>
+<p>I System performance analysed with regard to:
+I the set of target languages
+</p>
+<p>I the amount of training data
+</p>
+<p>I background noise (clean vs. noisy speech)
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Albayzin LRE: common features
+</p>
+<p>I Task: language detection
+I trial = target language (L) + test segment (X)
+I deciding (by computational means) whether or not L was spoken in X
+I providing a likelihood score (which is assumed to support the decision)
+</p>
+<p>I System performance measured on a set of trials, by comparing
+system decisions with reference labels stored in a keyfile
+</p>
+<p>I Each test segment featuring a single language: target language or
+an Out-Of-Set (OOS) language (for open-set verification trials)
+</p>
+<p>I Following NIST LRE, test segments of three different nominal durations
+(3, 10 and 30 seconds) evaluated separately
+</p>
+<p>I Performance measures:
+I Average cost Cavg (pooled across target languages), with the same priors
+</p>
+<p>and costs used in NIST 2007 and 2009 LRE
+</p>
+<p>I Detection Error Tradeoff (DET) curves: to compare the global
+performance of different systems for a given test condition
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Albayzin 2010 LRE
+</p>
+<p>I Target languages: Basque, Catalan,
+Galician, Spanish, Portuguese,
+English
+</p>
+<p>I Free development
+I Two separate tracks depending on
+</p>
+<p>the background noise:
+- clean: only clean-speech test
+</p>
+<p>segments were considered
+- noisy: all the test segments
+</p>
+<p>(containing either clean or
+noisy/overlapped speech) were
+considered
+</p>
+<p>I Separate sets of clean and
+noisy/overlapped speech segments
+provided for training
+</p>
+<p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Albayzin LRE: things that were different
+</p>
+<p>Albayzin 2008 LRE
+</p>
+<p>I Target languages: Basque, Catalan,
+Galician, Spanish
+</p>
+<p>I Two separate tracks depending on the
+data used to build systems:
+</p>
+<p>- restricted (only train and dev data
+provided for the evaluation)
+</p>
+<p>- free (any available data)
+</p>
+<p>I Only clean speech
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Albayzin LRE: things that were different
+</p>
+<p>Albayzin 2008 LRE Albayzin 2010 LRE
+</p>
+<p>I Target languages: Basque, Catalan, I Target languages: Basque, Catalan,
+</p>
+<p>Galician, Spanish Galician, Spanish, Portuguese,
+English
+</p>
+<p>I Two separate tracks depending on the
+data used to build systems: I Free development
+</p>
+<p>- restricted (only train and dev data I Two separate tracks depending on
+provided for the evaluation) the background noise:
+</p>
+<p>- free (any available data) - clean: only clean-speech test
+segments were considered
+</p>
+<p>I Only clean speech - noisy: all the test segments
+(containing either clean or
+noisy/overlapped speech) were
+considered
+</p>
+<p>I Separate sets of clean and
+noisy/overlapped speech segments
+provided for training
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Albayzin LRE datasets: shared features
+</p>
+<p>I Speech segments are continuous excerpts from TV broadcast
+shows involving one or more speakers
+</p>
+<p>I Recording setup: Roland Edirol R-09 digital recorder
+(directly connected to cable TV)
+</p>
+<p>I Audio signals stored in WAV files: uncompressed PCM,
+16 kHz, single channel, 16 bits/sample
+</p>
+<p>I Disjoint sets of TV shows posted to training, development and
+evaluation, as an attempt to achieve speaker independence
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Albayzin 2008 LRE: KALAKA
+</p>
+<p>I Segments containing background noise, music, speech
+overlaps, etc. filtered out
+</p>
+<p>I OOS languages: French, Portuguese, English, German
+</p>
+<p>I Training: more than 8 hours per target language
+</p>
+<p>Spanish Catalan Basque Galician
+</p>
+<p>#segments 282 278 342 401
+</p>
+<p>time (minutes) 529 538 531 532
+</p>
+<p>I Development and evaluation: 1800 segments each (600 per
+nominal duration, 120 per target language and 120 containing
+OOS languages)
+</p>
+<p>I More than 50 hours of speech: 36 hours for training
++ 7.7 hours for development + 7.7 hours for evaluation
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Albayzin 2010 LRE: KALAKA-2
+</p>
+<p>I KALAKA fully recycled for KALAKA-2
+I New recordings, specially for Portuguese, English and OOS languages
+I Noisy segments collected from existing and newly recorded materials
+I Evaluation dataset completely new and independent of KALAKA
+I OOS languages: Arabic, French, German, Romanian
+I Training: more than 10 hours of clean speech and more than 2 hours of
+</p>
+<p>noisy speech per target language
+Clean speech Noisy speech
+</p>
+<p>#segments time (minutes) #segments time (minutes)
+Basque 406 644 112 135
+Catalan 341 687 107 131
+English 249 731 136 152
+Galician 464 644 125 134
+Portuguese 387 665 160 197
+Spanish 342 625 133 222
+</p>
+<p>I Development and evaluation: more than 150 segments per target language
+and nominal duration (4950 and 4992 segments, respectively)
+</p>
+<p>I 125 hours of speech: 82 hours for training + 21.24 hours for
+development + 21.43 hours for evaluation
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Acoustic subsystems
+I Acoustic features: MFCC-SDC (7-2-3-7)
+</p>
+<p>I UBM: gender-independent 1024-mixture GMM
+</p>
+<p>I High-dimensional representation: zero-order + centered and normalized
+first-order Baum-Welch statistics
+</p>
+<p>I Subsystem 1 - Linearized Eigenchannel GMM: channel matrix estimated
+only on data from target languages
+</p>
+<p>I Subsystem 2 - Generative iVector: total variability matrix estimated
+only on data from target languages
+</p>
+<p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>SLR system: acoustic subsystems
+</p>
+<p>I SLR system identical to that developed for NIST 2011 LRE,
+with very competitive performance
+</p>
+<p>I Fusion of 2 acoustic and 3 phonotactic subsystems
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>SLR system: acoustic subsystems
+</p>
+<p>I SLR system identical to that developed for NIST 2011 LRE,
+with very competitive performance
+</p>
+<p>I Fusion of 2 acoustic and 3 phonotactic subsystems
+</p>
+<p>I Acoustic subsystems
+I Acoustic features: MFCC-SDC (7-2-3-7)
+</p>
+<p>I UBM: gender-independent 1024-mixture GMM
+</p>
+<p>I High-dimensional representation: zero-order + centered and normalized
+first-order Baum-Welch statistics
+</p>
+<p>I Subsystem 1 - Linearized Eigenchannel GMM: channel matrix estimated
+only on data from target languages
+</p>
+<p>I Subsystem 2 - Generative iVector: total variability matrix estimated
+only on data from target languages
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Backend and Fusion
+I Parameters optimized on the development set of Albayzin 2010 LRE
+</p>
+<p>and then applied to both 2008 and 2010 evaluation sets
+I Gaussian backend applied only in the open-set condition
+I Fusion/Calibration parameters estimated by linear logistic regression
+</p>
+<p>under a multiclass paradigm
+I Minimum expected cost Bayes decisions based on the calibrated scores
+I FoCal toolkit by Niko Brümmer
+</p>
+<p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>SLR system: phonotactic subsystems + backend/fusion
+</p>
+<p>I Phonotactic subsystems
+I Phone-Lattice SVM approach
+</p>
+<p>I BUT TRAPs/NN phone decoders for Czech, Hungarian and Russian
+providing phone posteriors
+</p>
+<p>I Phone lattices built on posteriors by means of HTK (BUT recipe)
+</p>
+<p>I Expected counts of phone n-grams computed by means of SRILM
+(up to 3-grams, weighted counts)
+</p>
+<p>I L2-regularized L1-loss SVM classification by means of LIBLINEAR
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>SLR system: phonotactic subsystems + backend/fusion
+</p>
+<p>I Phonotactic subsystems
+I Phone-Lattice SVM approach
+</p>
+<p>I BUT TRAPs/NN phone decoders for Czech, Hungarian and Russian
+providing phone posteriors
+</p>
+<p>I Phone lattices built on posteriors by means of HTK (BUT recipe)
+</p>
+<p>I Expected counts of phone n-grams computed by means of SRILM
+(up to 3-grams, weighted counts)
+</p>
+<p>I L2-regularized L1-loss SVM classification by means of LIBLINEAR
+</p>
+<p>I Backend and Fusion
+I Parameters optimized on the development set of Albayzin 2010 LRE
+</p>
+<p>and then applied to both 2008 and 2010 evaluation sets
+I Gaussian backend applied only in the open-set condition
+I Fusion/Calibration parameters estimated by linear logistic regression
+</p>
+<p>under a multiclass paradigm
+I Minimum expected cost Bayes decisions based on the calibrated scores
+I FoCal toolkit by Niko Brümmer
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Closed-set Clean-speech (CC)
+Albayzin LRE datasets
+</p>
+<p>Open-set Clean-speech (OC)
+SLR system
+</p>
+<p>Noisy speech (Albayzin 2010 LRE)
+Performance analysis
+</p>
+<p>Conclusions and future work
+</p>
+<p>Performance analysis
+</p>
+<p>Outline
+</p>
+<p>I Clean speech (closed-set and open-set):
+- Comparison across Albayzin 2008 and 2010 LRE
+</p>
+<p>- Confusion of languages with each other
+</p>
+<p>I Noisy speech (only Albayzin 2010 LRE):
+- Degradation compared to clean speech
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Closed-set Clean-speech (CC)
+Albayzin LRE datasets
+</p>
+<p>Open-set Clean-speech (OC)
+SLR system
+</p>
+<p>Noisy speech (Albayzin 2010 LRE)
+Performance analysis
+</p>
+<p>Conclusions and future work
+</p>
+<p>Closed-set Clean-speech (CC): comparison across evaluations
+</p>
+<p>Performance on the 2008 LRE dataset much worse than on the
+2010 LRE dataset (red vs. blue) - see details here
+</p>
+<p>Albayzin LRE − closed clean 30s
+ 
+</p>
+<p>train2008 + eval2008
+  40  train2008 + eval2010 (4L)
+</p>
+<p>train2010 + eval2010 (4L) (1) Different amount of training data to
+train2010 + eval2010 estimate models (purple vs. green)
+</p>
+<p>  20  
+</p>
+<p>(2) Portuguese and English (2010 LRE)
+  10  less confused with the other languages
+</p>
+<p>  5   than the average (green vs. blue)
+</p>
+<p>  2   (3) Task intrinsically more difficult in 2008
+</p>
+<p>  1   than in 2010, probably due to higher
+ 0.5  acoustic variability related to background
+</p>
+<p>noise (red vs. purple)
+  0.2 
+</p>
+<p>  0.1  
+  0.1   0.2  0.5    1     2     5     10    20    40  
+</p>
+<p>False Alarm probability (in %)
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech
+</p>
+<p>Miss probability (in %)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Closed-set Clean-speech (CC)
+Albayzin LRE datasets
+</p>
+<p>Open-set Clean-speech (OC)
+SLR system
+</p>
+<p>Noisy speech (Albayzin 2010 LRE)
+Performance analysis
+</p>
+<p>Conclusions and future work
+</p>
+<p>Closed-set Clean-speech (CC): confusion of languages with each other
+</p>
+<p>Miss probabilities (diagonal) and false alarm (1) Romance languages in Spain
+probabilities (out of the diagonal) on the CC-3s feature high error rates,
+</p>
+<p>condition of the Albayzin 2010 LRE remarkably Spanish and
+Galician: many Galician
+</p>
+<p>Target speakers having Spanish as
+first (mother) language
+</p>
+<p>eu ca en gl pt es
+</p>
+<p>(2) Lowest error rates for English
+eu 0.054 0.046 0.015 0.139 0.000 0.162 and Portuguese (and then
+</p>
+<p>ca 0.107 0.060 0.013 0.181 0.107 0.195 Basque, which is confused
+mostly with Spanish)
+</p>
+<p>en 0.015 0.037 0.015 0.000 0.052 0.022
+</p>
+<p>(3) Low confusion rates for
+gl 0.099 0.198 0.033 0.207 0.083 0.397 Portuguese: comparatively
+</p>
+<p>pt 0.027 0.075 0.034 0.055 0.027 0.055 little contact with Romance
+languages in Spain (except for
+</p>
+<p>es 0.112 0.152 0.024 0.336 0.016 0.144 Galician, see (1))
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech
+</p>
+<p>Segment</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Closed-set Clean-speech (CC)
+Albayzin LRE datasets
+</p>
+<p>Open-set Clean-speech (OC)
+SLR system
+</p>
+<p>Noisy speech (Albayzin 2010 LRE)
+Performance analysis
+</p>
+<p>Conclusions and future work
+</p>
+<p>Open-set Clean-speech (OC): comparison across evaluations
+</p>
+<p>Again, performance on the 2008 LRE dataset much worse than
+on the 2010 LRE dataset (red dotted vs. blue dotted) - see details here
+</p>
+<p>Albayzin LRE − clean 30s
+ 
+</p>
+<p>Albayzin 2010 LRE − closed
+  40  Albayzin 2010 LRE − open
+</p>
+<p>Albayzin 2008 LRE − closed
+Albayzin 2008 LRE − open (1) Difference in performance for equivalent
+</p>
+<p>  20  tasks (clean-speech, 30s) in 2008 and 2010
+LRE: around 5 points in terms of EER
+</p>
+<p>  10  
+</p>
+<p>(2) Albayzin 2010 LRE: larger training dataset,
+  5   
+</p>
+<p>less confusable languages (on average)...
+</p>
+<p>  2   (3) Similar differences in performance between
+  1   open-set and closed-set for both datasets
+ 0.5  (dotted vs. continuous)
+  0.2 
+</p>
+<p>  0.1  
+  0.1   0.2  0.5    1     2     5     10    20    40  
+</p>
+<p>False Alarm probability (in %)
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech
+</p>
+<p>Miss probability (in %)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Closed-set Clean-speech (CC)
+Albayzin LRE datasets
+</p>
+<p>Open-set Clean-speech (OC)
+SLR system
+</p>
+<p>Noisy speech (Albayzin 2010 LRE)
+Performance analysis
+</p>
+<p>Conclusions and future work
+</p>
+<p>Open-set Clean-speech (OC): confusion of languages with each other
+</p>
+<p>Miss probabilities (diagonal) and false alarm
+probabilities (out of the diagonal) on the OC-3s
+condition of the Albayzin 2010 LRE (including (1) OOS segments had a strong
+OOS segments) impact on false alarm rates
+</p>
+<p>for all the target languages:
+</p>
+<p>Target
+I Strongest relative impact
+</p>
+<p>eu ca en gl pt es for Portuguese and English
+</p>
+<p>I
+eu 0.062 0.062 0.000 0.146 0.000 0.231 Strongest absolute impact
+</p>
+<p>for Catalan and Spanish
+ca 0.094 0.107 0.000 0.201 0.074 0.201
+</p>
+<p>en 0.000 0.007 0.052 0.000 0.007 0.000 (2) Overall, best performance
+for English and Portuguese
+</p>
+<p>gl 0.116 0.223 0.000 0.141 0.074 0.587
+</p>
+<p>pt 0.000 0.027 0.014 0.048 0.041 0.041 (3) Highest confusion (by far)
+between Galician and Spanish
+</p>
+<p>es 0.136 0.208 0.000 0.616 0.008 0.112
+</p>
+<p>OOS 0.149 0.304 0.123 0.113 0.159 0.210
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech
+</p>
+<p>Segment</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Closed-set Clean-speech (CC)
+Albayzin LRE datasets
+</p>
+<p>Open-set Clean-speech (OC)
+SLR system
+</p>
+<p>Noisy speech (Albayzin 2010 LRE)
+Performance analysis
+</p>
+<p>Conclusions and future work
+</p>
+<p>Performance on noisy speech (Albayzin 2010 LRE)
+</p>
+<p>(1) SLR system built on clean and noisy speech
+Albayzin 2010 LRE − 30s
+</p>
+<p> signals: not specially optimized to deal with
+  40  closed clean noisy speech
+</p>
+<p>closed noisy
+open clean
+open noisy (2) Performance on the noisy-speech condition
+</p>
+<p>far worse than on the clean-speech condition
+  20  
+</p>
+<p>(dotted vs. continuous) - see details here
+</p>
+<p>  10  (3) Moving from clean to noisy (continuous red to
+dotted red) produced higher degradation than
+</p>
+<p>  5   moving from closed-set to open-set (continuous
+red to continuous blue)
+</p>
+<p>  2   
+</p>
+<p>  1   (4) Performance on the Open-set Noisy-speech
+(ON) condition: between 2 and 6 times worse
+</p>
+<p> 0.5  
+</p>
+<p>than in the Closed-set Clean-speech (CC)
+  0.2 condition, depending on the nominal duration
+  0.1  
+</p>
+<p>  0.1   0.2  0.5    1     2     5     10    20    40  (the shorter the segments the smaller the
+False Alarm probability (in %)
+</p>
+<p>differences in performance)
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech
+</p>
+<p>Miss probability (in %)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Conclusions (I)
+</p>
+<p>I Tasks defined for Albayzin 2008 LRE more challenging than
+those defined for Albayzin 2010 LRE, due to:
+</p>
+<p>(1) Amount of training and development data
+</p>
+<p>(2) Average confusability of languages with each other
+</p>
+<p>(3) Intrinsic features of the evaluation datasets (acoustic variability)
+</p>
+<p>I Closely related languages (e.g. Romance languages in Spain)
+the most confused
+</p>
+<p>I OOS segments producing a strong impact on false alarm rates
+for all the target languages
+</p>
+<p>I Highest degradation found when dealing with noisy speech
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Conclusions (II)
+</p>
+<p>Most challenging conditions:
+</p>
+<p>I Background noise, conversations, etc. (outdoor environments)
+</p>
+<p>I Similarity of target languages (dialects)
+</p>
+<p>I Amount of speech available to make decisions (short segments)
+</p>
+<p>I Lack of training/development data (low-resource target languages)
+</p>
+<p>Three possible setups proposed for future evaluations:
+</p>
+<p>(1) Dialect recognition: intrinsically difficult, already addressed in NIST LRE
+</p>
+<p>(2) Large-scale European language recognition: many closely related
+languages, collaboration of research groups throughout Europe required for
+data collection
+</p>
+<p>(3) Language recognition in the wild: uncontrolled resources in the internet,
+small set of target languages, many/few/no training data
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Schedule:
+I July 16: registration deadline (training and development data released via web)
+I September 3: evaluation data released via web
+I September 24: deadline for submitting system results
+I October 15: keyfile and preliminary results released to participants
+I November 21-23: Evaluation Workshop, at IberSpeech 2012, Madrid (Spain)
+</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+</p>
+<p>You are all invited to participate !!!
+</p>
+<p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Future work (actually, current work)
+</p>
+<p>Albayzin 2012 Language Recognition Evaluation
+</p>
+<p>I New KALAKA-3 database
+I Includes all the materials of KALAKA-2 for training
+I Development and evaluation data: any kind of speech found in the Internet
+I Two tasks: Plenty-of-Training (Basque, Catalan, English, Galician,
+</p>
+<p>Portuguese, Spanish) and Empty-Training (French, German, Greek, Italian)
+I Many new OOS languages
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+</p>
+<p>You are all invited to participate !!!
+</p>
+<p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Future work (actually, current work)
+</p>
+<p>Albayzin 2012 Language Recognition Evaluation
+</p>
+<p>I New KALAKA-3 database
+I Includes all the materials of KALAKA-2 for training
+I Development and evaluation data: any kind of speech found in the Internet
+I Two tasks: Plenty-of-Training (Basque, Catalan, English, Galician,
+</p>
+<p>Portuguese, Spanish) and Empty-Training (French, German, Greek, Italian)
+I Many new OOS languages
+</p>
+<p>I Schedule:
+I July 16: registration deadline (training and development data released via web)
+I September 3: evaluation data released via web
+I September 24: deadline for submitting system results
+I October 15: keyfile and preliminary results released to participants
+I November 21-23: Evaluation Workshop, at IberSpeech 2012, Madrid (Spain)
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>You are all invited to participate !!!
+</p>
+<p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Future work (actually, current work)
+</p>
+<p>Albayzin 2012 Language Recognition Evaluation
+</p>
+<p>I New KALAKA-3 database
+I Includes all the materials of KALAKA-2 for training
+I Development and evaluation data: any kind of speech found in the Internet
+I Two tasks: Plenty-of-Training (Basque, Catalan, English, Galician,
+</p>
+<p>Portuguese, Spanish) and Empty-Training (French, German, Greek, Italian)
+I Many new OOS languages
+</p>
+<p>I Schedule:
+I July 16: registration deadline (training and development data released via web)
+I September 3: evaluation data released via web
+I September 24: deadline for submitting system results
+I October 15: keyfile and preliminary results released to participants
+I November 21-23: Evaluation Workshop, at IberSpeech 2012, Madrid (Spain)
+</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+An Overview of the Albayzin LREs
+</p>
+<p>Albayzin LRE datasets
+SLR system
+</p>
+<p>Performance analysis
+Conclusions and future work
+</p>
+<p>Future work (actually, current work)
+</p>
+<p>Albayzin 2012 Language Recognition Evaluation
+</p>
+<p>I New KALAKA-3 database
+I Includes all the materials of KALAKA-2 for training
+I Development and evaluation data: any kind of speech found in the Internet
+I Two tasks: Plenty-of-Training (Basque, Catalan, English, Galician,
+</p>
+<p>Portuguese, Spanish) and Empty-Training (French, German, Greek, Italian)
+I Many new OOS languages
+</p>
+<p>I Schedule:
+I July 16: registration deadline (training and development data released via web)
+I September 3: evaluation data released via web
+I September 24: deadline for submitting system results
+I October 15: keyfile and preliminary results released to participants
+I November 21-23: Evaluation Workshop, at IberSpeech 2012, Madrid (Spain)
+</p>
+<p>More info at http://iberspeech2012.ii.uam.es/ (under Albayzin Evaluations)
+</p>
+<p>You are all invited to participate !!!
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance (Cavg ) on the closed-set clean-speech condition
+Performance (Cavg ) on the open-set clean-speech condition
+</p>
+<p>Performance (Cavg ) on the noisy-speech condition (Albayzin 2010 LRE)
+</p>
+<p>Performance (Cavg ) on the closed-set clean-speech condition
+</p>
+<p>CC-30s CC-10s CC-3s
+train2008 + eval2008 0.0514 0.0761 0.1722
+train2008 + eval2010 (4L) 0.0275 0.0552 0.1535
+train2010 + eval2010 (4L) 0.0133 0.0506 0.1466
+train2010 + eval2010 0.0063 0.0263 0.0888
+</p>
+<p>Back to performance on CC-30s
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance (Cavg ) on the closed-set clean-speech condition
+Performance (Cavg ) on the open-set clean-speech condition
+</p>
+<p>Performance (Cavg ) on the noisy-speech condition (Albayzin 2010 LRE)
+</p>
+<p>Performance (Cavg ) on the open-set clean-speech condition
+</p>
+<p>OC-30s OC-10s OC-3s
+Albayzin 2008 LRE 0.0759 0.1211 0.2004
+Albayzin 2010 LRE 0.0171 0.0437 0.1094
+</p>
+<p>Back to performance on OC-30s
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance (Cavg ) on the closed-set clean-speech condition
+Performance (Cavg ) on the open-set clean-speech condition
+</p>
+<p>Performance (Cavg ) on the noisy-speech condition (Albayzin 2010 LRE)
+</p>
+<p>Performance (Cavg ) on the noisy-speech condition (Albayzin 2010 LRE)
+</p>
+<p>CN-30s CN-10s CN-3s
+0.0177 0.0599 0.1476
+</p>
+<p>Albayzin 2010 LRE
+ON-30s ON-10s ON-3s
+0.0390 0.0867 0.1740
+</p>
+<p>Back to performance on the noisy-speech 30s condition
+</p>
+<p>Odyssey 2012 Evaluation of SLR Technology Using Broadcast Speech</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

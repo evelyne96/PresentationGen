@@ -1,0 +1,1438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Beyond Equilibrium:
+Predicting Human Behavior in Normal-Form Games
+.=</p>
+<p>Kevin Leyton-Brown, University of British Columbia
+.=</p>
+<p>Based on joint work with James R. Wright
+.=</p>
+<p>OpLog Seminar, September 10, 2012
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Overview
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Models of Human Behavior in Simultaneous-Move Games
+.=</p>
+<p>3 Comparing our Models in Terms of Predictive Performance
+.=</p>
+<p>4 Digging Deeper: Bayesian Analysis of Model Parameters
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Context
+.=</p>
+<p>Motivation: Predict human behavior in strategic settings.
+.=</p>
+<p>Our focus: Unrepeated “initial play” in simultaneous-move,
+2-player games.
+.=</p>
+<p>Game theory: Studies idealized rational agents, not human
+agents.
+.=</p>
+<p>Behavioral game theory: Aims to extend game theory to
+modeling human agents.
+.=</p>
+<p>There are a wide range of BGT models in the literature.
+Historically, BGT has been most concerned with explaining
+behavior, often on particular games, rather than predicting it.
+No study compares a wide range of models, considers
+predictive performance, or looks at such a large, heterogeneous
+set of games.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Contribution
+.=</p>
+<p>Our contributions:
+.=</p>
+<p>Compared predictive performance of the most prominent
+solution concepts for our setting:
+.=</p>
+<p>Nash equilibrium, plus
+Four models from behavioral game theory
+.=</p>
+<p>. . . using nine experimental datasets from the literature
+.=</p>
+<p>Bayesian sensitivity analysis:
+.=</p>
+<p>Yields new insight into existing model (Poisson-CH)
+Argues for a novel simplification of an existing model
+(Quantal level-k)
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Overview
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Models of Human Behavior in Simultaneous-Move Games
+.=</p>
+<p>3 Comparing our Models in Terms of Predictive Performance
+.=</p>
+<p>4 Digging Deeper: Bayesian Analysis of Model Parameters
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 96− 298=+942 = 10099−1200= 97
+.=</p>
+<p>2 96 + 2 = 98 9998+−22= 19016100
+.=</p>
+<p>If they pick the same number, that is their payoff.
+.=</p>
+<p>If they pick different numbers:
+.=</p>
+<p>Lower player gets lower number, plus bonus of 2.
+Higher player gets lower number, minus penalty of 2.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Example: Traveler’s Dilemma
+.=</p>
+<p>. . .
+2 3 4 96 97 98 99 100
+.=</p>
+<p>Two players pick a number (2-100) simultaneously.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 96− 298=+942 = 10099−1200= 97
+.=</p>
+<p>2 96 + 2 = 98 9998+−22= 19016100
+.=</p>
+<p>If they pick different numbers:
+.=</p>
+<p>Lower player gets lower number, plus bonus of 2.
+Higher player gets lower number, minus penalty of 2.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Example: Traveler’s Dilemma
+.=</p>
+<p>100
+.=</p>
+<p>. . .
+2 3 4 96 97 98 99 100
+.=</p>
+<p>100
+.=</p>
+<p>Two players pick a number (2-100) simultaneously.
+.=</p>
+<p>If they pick the same number, that is their payoff.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 98 + 2 = 10099−1200= 97
+.=</p>
+<p>2 9998+−22= 19016100
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Example: Traveler’s Dilemma
+.=</p>
+<p>96− 2 = 94
+.=</p>
+<p>. . .
+2 3 4 96 97 98 99 100
+.=</p>
+<p>96 + 2 = 98
+.=</p>
+<p>Two players pick a number (2-100) simultaneously.
+.=</p>
+<p>If they pick the same number, that is their payoff.
+.=</p>
+<p>If they pick different numbers:
+.=</p>
+<p>Lower player gets lower number, plus bonus of 2.
+Higher player gets lower number, minus penalty of 2.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 96− 298=+942 = 10099−1200= 97
+.=</p>
+<p>2 96 + 2 = 98 9998+−22= 19016100
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Example: Traveler’s Dilemma
+.=</p>
+<p>. . .
+2 3 4 96 97 98 99 100
+.=</p>
+<p>Two players pick a number (2-100) simultaneously.
+.=</p>
+<p>If they pick the same number, that is their payoff.
+.=</p>
+<p>If they pick different numbers:
+.=</p>
+<p>Lower player gets lower number, plus bonus of 2.
+Higher player gets lower number, minus penalty of 2.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 96− 298=+942 = 10099−1200= 97
+.=</p>
+<p>2 96 + 2 = 98 9998+−22= 19016100
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Example: Traveler’s Dilemma
+.=</p>
+<p>100
+.=</p>
+<p>. . .
+2 3 4 96 97 98 99 100
+.=</p>
+<p>100
+.=</p>
+<p>Two players pick a number (2-100) simultaneously.
+.=</p>
+<p>If they pick the same number, that is their payoff.
+.=</p>
+<p>If they pick different numbers:
+.=</p>
+<p>Lower player gets lower number, plus bonus of 2.
+Higher player gets lower number, minus penalty of 2.
+.=</p>
+<p>Traveler’s Dilemma has a unique Nash equilibrium.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 96− 298=+942 = 100 100
+.=</p>
+<p>2 96 + 2 = 98 98− 2 = 91600
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Example: Traveler’s Dilemma
+.=</p>
+<p>99− 2 = 97
+.=</p>
+<p>. . .
+2 3 4 96 97 98 99 100
+.=</p>
+<p>99 + 2 = 101
+.=</p>
+<p>Two players pick a number (2-100) simultaneously.
+.=</p>
+<p>If they pick the same number, that is their payoff.
+.=</p>
+<p>If they pick different numbers:
+.=</p>
+<p>Lower player gets lower number, plus bonus of 2.
+Higher player gets lower number, minus penalty of 2.
+.=</p>
+<p>Traveler’s Dilemma has a unique Nash equilibrium.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 96− 2 = 94 99−1200= 97
+.=</p>
+<p>2 96 + 2 = 98 99 + 2 = 101100
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Example: Traveler’s Dilemma
+.=</p>
+<p>98 + 2 = 100
+.=</p>
+<p>. . .
+2 3 4 96 97 98 99 100
+.=</p>
+<p>98− 2 = 96
+.=</p>
+<p>Two players pick a number (2-100) simultaneously.
+.=</p>
+<p>If they pick the same number, that is their payoff.
+.=</p>
+<p>If they pick different numbers:
+.=</p>
+<p>Lower player gets lower number, plus bonus of 2.
+Higher player gets lower number, minus penalty of 2.
+.=</p>
+<p>Traveler’s Dilemma has a unique Nash equilibrium.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>96− 298=+942 = 10099−1200= 97
+.=</p>
+<p>96 + 2 = 98 9998+−22= 19016100
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Example: Traveler’s Dilemma
+.=</p>
+<p>2
+.=</p>
+<p>. . .
+2 3 4 96 97 98 99 100
+.=</p>
+<p>2
+.=</p>
+<p>Two players pick a number (2-100) simultaneously.
+.=</p>
+<p>If they pick the same number, that is their payoff.
+.=</p>
+<p>If they pick different numbers:
+.=</p>
+<p>Lower player gets lower number, plus bonus of 2.
+Higher player gets lower number, minus penalty of 2.
+.=</p>
+<p>Traveler’s Dilemma has a unique Nash equilibrium.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Clearly Nash equilibrium is not the whole story.
+.=</p>
+<p>Behavioral game theory proposes a number of models to
+better explain human behavior.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Nash equilibrium and human subjects
+.=</p>
+<p>Nash equilibrium often makes counterintuitive predictions.
+.=</p>
+<p>In Traveler’s Dilemma: The vast majority of human players
+choose 97–100. The Nash equilibrium is 2.
+.=</p>
+<p>Modifications to a game that don’t change Nash equilibrium
+predictions at all can cause large changes in how human
+subjects play the game [Goeree & Holt 2001].
+.=</p>
+<p>In Traveler’s Dilemma: When the penalty is large, people play
+much closer to Nash equilibrium.
+But the size of the penalty does not affect equilibrium.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Nash equilibrium and human subjects
+.=</p>
+<p>Nash equilibrium often makes counterintuitive predictions.
+.=</p>
+<p>In Traveler’s Dilemma: The vast majority of human players
+choose 97–100. The Nash equilibrium is 2.
+.=</p>
+<p>Modifications to a game that don’t change Nash equilibrium
+predictions at all can cause large changes in how human
+subjects play the game [Goeree & Holt 2001].
+.=</p>
+<p>In Traveler’s Dilemma: When the penalty is large, people play
+much closer to Nash equilibrium.
+But the size of the penalty does not affect equilibrium.
+.=</p>
+<p>Clearly Nash equilibrium is not the whole story.
+.=</p>
+<p>Behavioral game theory proposes a number of models to
+better explain human behavior.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>BGT model: Quantal response equilibrium (QRE)
+.=</p>
+<p>Cost-proportional errors: Agents are less likely to make high-cost
+mistakes than low-cost mistakes.
+.=</p>
+<p>QRE model [McKelvey & Palfrey 1995] parameter: (λ)
+.=</p>
+<p>Agents quantally best respond to each other.
+.=</p>
+<p>∑ eλui(ai,s−i)QBRi(s−i, λ)(ai) = λu (a′ ,s )
+a′ e
+.=</p>
+<p>i i −i
+i∈Ai
+.=</p>
+<p>Precision parameter λ ∈ [0,∞) indicates how sensitive agents
+are to utility differences.
+.=</p>
+<p>λ = 0 means agents choose actions uniformly at random.
+As λ→∞, QBR approaches best response.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Nice story—but is QRE a good model?
+.=</p>
+<p>Let’s say we pay a bunch of people to play games against each
+other, and gather some data. Now we’d like to know how good a
+job our QRE model does. How would we do that?
+.=</p>
+<p>Two issues:
+.=</p>
+<p>have to set the model’s parameter (λ) to use it at all;
+.=</p>
+<p>must ensure that we do this in a way that generalizes to new
+play by the same people.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Scoring a model’s performance
+.=</p>
+<p>We randomly partition our data into different sets:
+D = Dtrain ∪ Dtest
+We choose parameter value(s) that maximize the likelihood of
+the training data:
+.=</p>
+<p>#» #»
+.=</p>
+<p>θ ∗ = argmaxPr(Dtrain |M, θ ).
+#»
+θ
+.=</p>
+<p>a tricky non-convex optimization problem
+.=</p>
+<p>We score the performance of a model by the likelihood of the
+test data:
+.=</p>
+<p>Pr(D |M #»test , θ ∗).
+.=</p>
+<p>To reduce variance, we repeat this process multiple times with
+different random partitions and average the results
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>BGT models: Iterative strategic reasoning
+.=</p>
+<p>Level-0 agents choose actions non-strategically.
+.=</p>
+<p>In this work (and most others), uniformly at random
+.=</p>
+<p>Level-1 agents reason about level-0 agents.
+.=</p>
+<p>Level-2 agents reason about level-1 agents.
+.=</p>
+<p>There’s a probability distribution over levels.
+.=</p>
+<p>Higher-level agents are “smarter”; scarcer
+.=</p>
+<p>Predicting the distribution of play: weighted sum of the
+distributions for each level.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>BGT model: Lk
+.=</p>
+<p>Lk model [Costa-Gomes et al. 2001] parameters: (α1, α2, 1, 2)
+.=</p>
+<p>Each agent has one of 3 levels: level-0, level-1, or level-2.
+.=</p>
+<p>Distribution of level [2, 1, 0] agents is [α2, α1, (1− α1 − α2)]
+Each level-k agent makes a “mistake” with prob k, or best
+responds to level-(k − 1) opponent with prob 1− k.
+.=</p>
+<p>Level-k agents believe all opponents are level-(k − 1).
+Level-k agents aren’t aware that level-(k − 1) agents will make
+“mistakes”.
+.=</p>
+<p>IBRi,0 = Ai,
+.=</p>
+<p>IBRi,k = BRi(IBR−i,k−1),
+.=</p>
+<p>πLk −1i,0 (ai) = |{Ai| ,
+Lk (1− k)/|IBRi,k| if ai ∈ IBRi,k,πi,k (ai) =
+.=</p>
+<p>k/(|Ai| − |IBRi,k|) otherwise.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>BGT model: Cognitive hierarchy
+.=</p>
+<p>Cognitive hierarchy model [Camerer et al. 2004] parameter: (τ)
+.=</p>
+<p>An agent of level m best responds to the truncated, true
+distribution of levels from 0 to m− 1.
+Poisson-CH: Levels are assumed to have a Poisson distribution
+with mean τ .
+.=</p>
+<p>πPCH(a ) = |A∣ |−1i,0 i ∣i ,∣ ( )∣−1 ( ) BR πPCH ∣ PCHPCH i i,0:m−1 ∣ if ai ∈ BRi πi,0:m−1 ,πi,m (ai) = ∑0 otherwise.m
+πPCH
+.=</p>
+<p>`
+i,0:m−1 = ∑−1 πPCH=0 i,` Pr(Poisson(τ) = `)m−1
+.=</p>
+<p>`=0 Pr(Poisson(τ) = `)
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>BGT model: QLk
+.=</p>
+<p>QLk model [Stahl & Wilson 1994] parameters: (α1, α2, λ1, λ2, λ1(2))
+.=</p>
+<p>Distribution of level [2, 1, 0] agents is [α2, α1, (1− α1 − α2)]
+Each agent quantally responds to next-lower level.
+.=</p>
+<p>Each QLk agent level has its own precision (λk), and its own
+beliefs about lower-level agents’ precisions (λ`(k)).
+.=</p>
+<p>πQLk(a ) = |A |−1i,0 i i ,
+.=</p>
+<p>πQLki,1 = QBRi(π
+QLk
+−i,0 , λ1),
+.=</p>
+<p>πQLkj,1(2) = QBRj(π
+QLk
+−j,0 , λ1(2)),
+.=</p>
+<p>πQLki,2 = QBR
+QLk
+.=</p>
+<p>i(π−i,1(2), λ2).
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Overview
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Models of Human Behavior in Simultaneous-Move Games
+.=</p>
+<p>3 Comparing our Models in Terms of Predictive Performance
+.=</p>
+<p>4 Digging Deeper: Bayesian Analysis of Model Parameters
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Average NEE virtually always worse than every BGT model
+(only exception: SW95).
+.=</p>
+<p>All NEE significantly worse than best BGT model in most
+datasets.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Model comparisons: Nash equilibrium vs. BGT
+.=</p>
+<p>1060
+NEE
+.=</p>
+<p>Best BGT
+Worst BGT
+.=</p>
+<p>1050
+.=</p>
+<p>1040
+.=</p>
+<p>1030
+.=</p>
+<p>1020
+.=</p>
+<p>1010
+.=</p>
+<p>100
+COMBO9 SW94 SW95 CGCB98 GH01 HSW01 CVH03 HS07 SH08 RPC09
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over uniform distribution.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Model comparisons: Nash equilibrium vs. BGT
+.=</p>
+<p>1060
+NEE
+.=</p>
+<p>Best BGT
+Worst BGT
+.=</p>
+<p>1050
+.=</p>
+<p>1040
+.=</p>
+<p>1030
+.=</p>
+<p>1020
+.=</p>
+<p>1010
+.=</p>
+<p>100
+COMBO9 SW94 SW95 CGCB98 GH01 HSW01 CVH03 HS07 SH08 RPC09
+.=</p>
+<p>Average NEE virtually always worse than every BGT model
+(only exception: SW95).
+.=</p>
+<p>All NEE significantly worse than best BGT model in most
+datasets.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over uniform distribution.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>No consistent ordering between Lk/Poisson-CH and QRE.
+Iterative strategic reasoning and quantal response appear to
+capture distinct phenomena.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Model comparisons: Lk and CH vs. QRE
+.=</p>
+<p>1060
+Lk
+.=</p>
+<p>Poisson-CH
+.=</p>
+<p>1050
+.=</p>
+<p>1040
+.=</p>
+<p>1030
+.=</p>
+<p>1020
+.=</p>
+<p>1010
+.=</p>
+<p>100
+COMBO9 SW94 SW95 CGCB98 GH01 HSW01 CVH03 HS07 SH08 RPC09
+.=</p>
+<p>Lk and Poisson-CH performance was strikingly similar.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over uniform distribution.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Model comparisons: Lk and CH vs. QRE
+.=</p>
+<p>1060
+Lk
+.=</p>
+<p>Poisson-CH
+QRE
+.=</p>
+<p>1050
+.=</p>
+<p>1040
+.=</p>
+<p>1030
+.=</p>
+<p>1020
+.=</p>
+<p>1010
+.=</p>
+<p>100
+COMBO9 SW94 SW95 CGCB98 GH01 HSW01 CVH03 HS07 SH08 RPC09
+.=</p>
+<p>Lk and Poisson-CH performance was strikingly similar.
+No consistent ordering between Lk/Poisson-CH and QRE.
+.=</p>
+<p>Iterative strategic reasoning and quantal response appear to
+capture distinct phenomena.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over uniform distribution.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In fact, on every dataset, QLk is either the best predictive
+model or very similar to the best.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Model comparisons: QLk
+.=</p>
+<p>1060
+Lk
+.=</p>
+<p>Poisson-CH
+QRE
+.=</p>
+<p>1050
+.=</p>
+<p>1040
+.=</p>
+<p>1030
+.=</p>
+<p>1020
+.=</p>
+<p>1010
+.=</p>
+<p>100
+COMBO9 SW94 SW95 CGCB98 GH01 HSW01 CVH03 HS07 SH08 RPC09
+.=</p>
+<p>So perhaps a model with both iterative and quantal response
+components would perform best?
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over uniform distribution.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Model comparisons: QLk
+.=</p>
+<p>1060
+Lk
+.=</p>
+<p>Poisson-CH
+QRE
+.=</p>
+<p>1050 QLk
+.=</p>
+<p>1040
+.=</p>
+<p>1030
+.=</p>
+<p>1020
+.=</p>
+<p>1010
+.=</p>
+<p>100
+COMBO9 SW94 SW95 CGCB98 GH01 HSW01 CVH03 HS07 SH08 RPC09
+.=</p>
+<p>So perhaps a model with both iterative and quantal response
+components would perform best?
+In fact, on every dataset, QLk is either the best predictive
+model or very similar to the best.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over uniform distribution.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Overview
+.=</p>
+<p>1 Introduction
+.=</p>
+<p>2 Models of Human Behavior in Simultaneous-Move Games
+.=</p>
+<p>3 Comparing our Models in Terms of Predictive Performance
+.=</p>
+<p>4 Digging Deeper: Bayesian Analysis of Model Parameters
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Taking Stock of What We Have Done
+.=</p>
+<p>Take-home message so far
+.=</p>
+<p>QLk is the best of the models for prediction.
+.=</p>
+<p>Question
+.=</p>
+<p>How strongly does the data argue for particular parameter values?
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Posterior distributions
+.=</p>
+<p>A posterior distribution gives the probability of each possible
+combination of parameter values, given the data, e.g.:
+.=</p>
+<p>Pr(α1 = 0.1, α2 = 0.3, λ = 0.1 | D)
+.=</p>
+<p>Maximum likelihood only tells us the most likely parameter
+setting, given the data.
+.=</p>
+<p>The posterior distribution over parameter settings describes
+the relative probability of all possible parameter settings.
+.=</p>
+<p>Individual parameters can be analyzed by inspecting the
+marginal posterior d∫is∫tribution.
+Pr(α1 = 0.1 | D) = Pr(α1 = 0.1, α2 = α′2, λ = λ′ | D)dα′2dλ′
+.=</p>
+<p>Flat distributions indicate less important parameter values.
+Sharp distributions indicate a high degree of certainty.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Warm-up: Poisson-CH
+.=</p>
+<p>Regarding the single parameter (τ) for the Poisson-CH model:
+.=</p>
+<p>“Indeed, values of τ between 1 and 2 explain empirical
+results for nearly 100 games, suggesting that a τ value of
+1.5 could give reliable predictions for many other games
+as well.” [Camerer et al. 2004]
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Warm-up: Poisson-CH’s Posterior Distribution
+.=</p>
+<p> 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+.=</p>
+<p> 0.2
+.=</p>
+<p>τ
+ 0
+ 0.48  0.49  0.5  0.51  0.52  0.53  0.54  0.55  0.56  0.57  0.58  0.59  0.6  0.61  0.62
+.=</p>
+<p>Our analysis gives 99% posterior probability that the best value of
+τ is 0.59 or less.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Cumulative probability.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Refresher: QLk’s Parameters
+.=</p>
+<p>QLk has 5 different parameters:
+.=</p>
+<p>α1: Proportion of level-1 agents.
+.=</p>
+<p>α2: Proportion of level-2 agents.
+.=</p>
+<p>λ1: Precision of level-1 agents.
+.=</p>
+<p>λ2: Precision of level-2 agents.
+.=</p>
+<p>λ1(2): Level-2 agents’ belief about level-1 agents’ precision.
+.=</p>
+<p>πQLki,0 (ai) = |Ai|
+−1,
+.=</p>
+<p>πQLki,1 = QBR (π
+QLk
+.=</p>
+<p>i −i,0 , λ1),
+.=</p>
+<p>πQLk QLkj,1(2) = QBRj(π−j,0 , λ1(2)),
+.=</p>
+<p>πQLk = QBR (πQLki,2 i −i,1(2), λ2).
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Some surprises:
+.=</p>
+<p>1 α1, α2: Best fits predict more level-2 agents than level-1.
+.=</p>
+<p>2 λ1, λ2: Level-2 agents have lower precision than level-1 agents.
+.=</p>
+<p>3 λ1, λ1(2): Level-2 agents’ beliefs are very wrong.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Posterior distributions: QLk
+.=</p>
+<p>Level proportions
+.=</p>
+<p> 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+.=</p>
+<p> 0.2 α1
+α2
+.=</p>
+<p> 0
+ 0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Precisions
+ 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+λ
+.=</p>
+<p> 0.2 λ1
+λ 2
+.=</p>
+<p> 0 1(2)
+ 0  1  2  3  4  5  6
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Cumulative probability Cumulative probability.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 λ1, λ2: Level-2 agents have lower precision than level-1 agents.
+.=</p>
+<p>3 λ1, λ1(2): Level-2 agents’ beliefs are very wrong.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Posterior distributions: QLk
+.=</p>
+<p>Level proportions
+.=</p>
+<p> 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+.=</p>
+<p> 0.2 α1
+α2
+.=</p>
+<p> 0
+ 0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Precisions
+ 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+λ
+.=</p>
+<p> 0.2 λ1
+λ 2
+.=</p>
+<p> 0 1(2)
+ 0  1  2  3  4  5  6
+.=</p>
+<p>Some surprises:
+.=</p>
+<p>1 α1, α2: Best fits predict more level-2 agents than level-1.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Cumulative probability Cumulative probability.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Posterior distributions: QLk
+.=</p>
+<p>Level proportions
+.=</p>
+<p> 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+.=</p>
+<p> 0.2 α1
+α2
+.=</p>
+<p> 0
+ 0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Precisions
+ 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+λ
+.=</p>
+<p> 0.2 λ1
+λ 2
+.=</p>
+<p> 0 1(2)
+ 0  1  2  3  4  5  6
+.=</p>
+<p>Some surprises:
+.=</p>
+<p>1 α1, α2: Best fits predict more level-2 agents than level-1.
+.=</p>
+<p>2 λ1, λ2: Level-2 agents have lower precision than level-1 agents.
+.=</p>
+<p>3 λ1, λ1(2): Level-2 agents’ beliefs are very wrong.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Cumulative probability Cumulative probability.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Maybe QLk isn’t quite the right model
+.=</p>
+<p>We constructed a family of models by systematically varying QLk:
+1 Top level:
+.=</p>
+<p>1, 2, 3, 4, 5, 6, 7, Poisson
+.=</p>
+<p>2 Precisions: Homogeneous or inhomogeneous.
+.=</p>
+<p>3 Precision beliefs: Accurate or general.
+.=</p>
+<p>4 Population beliefs: Lk or CH.
+.=</p>
+<p>We evaluated all variations leading to ≤ 8 parameters.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Efficient frontier: best performance for # of parameters.
+.=</p>
+<p>QLk (gi-QLk2) is not on the efficient frontier.
+.=</p>
+<p>Best models all have accurate precision beliefs, homogeneous
+precision, cognitive hierarchy population beliefs.
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Model variations: Efficient frontier
+.=</p>
+<p>1031
+.=</p>
+<p>gh-QLk3
+ah-QCH5 gh-QCH3 gi-QLk3
+.=</p>
+<p>gi-QCH3
+1030 ah-QCH4 ah-QCH6 ah-QCH7
+.=</p>
+<p>ai-QCH3 ai-QLk4
+ah-QCH3 ai-QCH4
+.=</p>
+<p>ai-QLk3
+.=</p>
+<p>1029 gi-QLk2
+.=</p>
+<p>gh-QLk2
+.=</p>
+<p>1028 gi-QCH2
+ah-QCHp gh-QCH2
+.=</p>
+<p>ah-QLkp ah-QCH2 aaih-Q-QCLHk3227 ah-QLk410 ah-QLk5 ah-QLk6 ah-QLk7
+ai-QLk2
+.=</p>
+<p>Model performance
+1026 ah-QLk2
+.=</p>
+<p> 1  2  3  4  5  6  7  8  9  10  11
+Number of parameters
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over u.a.r..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Model variations: Efficient frontier
+.=</p>
+<p>1031
+.=</p>
+<p>gh-QLk3
+ah-QCH5 gh-QCH3 gi-QLk3
+.=</p>
+<p>1030 ah-QCH4 ah-QCH6 ah-QCH7
+gi-QCH3
+.=</p>
+<p>ai-QCH3 ai-QLk4
+ah-QCH3 ai-QCH4
+.=</p>
+<p>ai-QLk3
+.=</p>
+<p>1029 gi-QLk2
+.=</p>
+<p>gh-QLk2
+.=</p>
+<p>1028 gi-QCH2
+ah-QCHp gh-QCH2
+.=</p>
+<p>27 ah-QLkp
+ah-QCH2 aaih-Q-QCLHk32 ah-QLk410 ah-QLk5 ah-QLk6 ah-QLk7
+.=</p>
+<p>ai-QLk2
+Model performance
+.=</p>
+<p>Efficient frontier
+1026 ah-QLk2
+.=</p>
+<p> 1  2  3  4  5  6  7  8  9  10  11
+Number of parameters
+.=</p>
+<p>Efficient frontier: best performance for # of parameters.
+.=</p>
+<p>QLk (gi-QLk2) is not on the efficient frontier.
+.=</p>
+<p>Best models all have accurate precision beliefs, homogeneous
+precision, cognitive hierarchy population beliefs.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over u.a.r..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Thinking back to QLk
+.=</p>
+<p>Level proportions
+.=</p>
+<p> 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+.=</p>
+<p> 0.2 α1
+α2
+.=</p>
+<p> 0
+ 0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Precisions
+ 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+λ
+.=</p>
+<p> 0.2 λ1
+λ 2
+.=</p>
+<p> 0 1(2)
+ 0  1  2  3  4  5  6
+.=</p>
+<p>Recall...
+.=</p>
+<p>α1, α2: Best fits predict more level-2 agents than level-1.
+.=</p>
+<p>λ1, λ2: Level-2 agents have lower precision than level-1 agents.
+.=</p>
+<p>λ1, λ1(2): Level-2 agents’ beliefs are very wrong.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Cumulative probability Cumulative probability.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>ah-QCH3: Posterior distribution
+.=</p>
+<p>Level proportions
+.=</p>
+<p> 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4 α1
+ 0.2 α2
+.=</p>
+<p>α3
+ 0
+.=</p>
+<p> 0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Precisions
+ 1
+.=</p>
+<p> 0.8
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.4
+.=</p>
+<p> 0.2
+λ
+.=</p>
+<p> 0
+ 0  1  2  3  4  5  6
+.=</p>
+<p>More robust model: small parameter changes less likely to
+change prediction quality.
+.=</p>
+<p>Smooth, unimodal distributions for level proportions.
+.=</p>
+<p>Distribution for λ is unimodal, with narrow confidence region
+.=</p>
+<p>Still more agents of type 2 than 1.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Cumulative probability Cumulative probability.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>If L0 were treated specially, could Poisson match others?
+.=</p>
+<p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Marginal distributions comparison
+.=</p>
+<p>Proportion of L0 Proportion of L1
+ 1 ah-QCHp  1
+.=</p>
+<p> 0.8 ah-QCH3  0.8
+ 0.6 ah-QCH4  0.6 0.4
+ 0.2 ah-QCH5
+.=</p>
+<p> 0.4
+ 0.2
+.=</p>
+<p> 0  0
+ 0  0.1  0.2  0.3  0.4  0.5  0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Proportion of L2 Proportion of L3
+ 1  1
+.=</p>
+<p> 0.8  0.8
+ 0.6  0.6
+ 0.4  0.4
+ 0.2  0.2
+.=</p>
+<p> 0  0
+ 0  0.1  0.2  0.3  0.4  0.5  0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Proportion of L4 Proportion of L5
+ 1  1
+.=</p>
+<p> 0.8  0.8
+ 0.6  0.6
+ 0.4  0.4
+ 0.2  0.2
+.=</p>
+<p> 0  0
+ 0  0.1  0.2  0.3  0.4  0.5  0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Poisson QCH matches tabular L0 proportions very closely.
+To do so, forced to match most other proportions poorly.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Cumulative probability.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Marginal distributions comparison
+.=</p>
+<p>Proportion of L0 Proportion of L1
+ 1 ah-QCHp  1
+.=</p>
+<p> 0.8 ah-QCH3  0.8
+ 0.6
+ 0.4 ah-QCH4
+.=</p>
+<p> 0.6
+.=</p>
+<p> 0.2 ah-QCH5
+ 0.4
+ 0.2
+.=</p>
+<p> 0  0
+ 0  0.1  0.2  0.3  0.4  0.5  0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Proportion of L2 Proportion of L3
+ 1  1
+.=</p>
+<p> 0.8  0.8
+ 0.6  0.6
+ 0.4  0.4
+ 0.2  0.2
+.=</p>
+<p> 0  0
+ 0  0.1  0.2  0.3  0.4  0.5  0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Proportion of L4 Proportion of L5
+ 1  1
+.=</p>
+<p> 0.8  0.8
+ 0.6  0.6
+ 0.4  0.4
+ 0.2  0.2
+.=</p>
+<p> 0  0
+ 0  0.1  0.2  0.3  0.4  0.5  0  0.1  0.2  0.3  0.4  0.5
+.=</p>
+<p>Poisson QCH matches tabular L0 proportions very closely.
+To do so, forced to match most other proportions poorly.
+If L0 were treated specially, could Poisson match others?
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Cumulative probability.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Spike-Poisson model
+.=</p>
+<p>Spike-Poisson QCH model parameters: (τ, , λ)
+.=</p>
+<p>An ah-QCH model with precision λ.
+.=</p>
+<p>Proportion distribution f is a mixture of Poisson distribution
+and a “spike” di{stribution of L0 agents:
+.=</p>
+<p>+ (1− )Poisson(m; τ) if m = 0,
+f(m) =
+.=</p>
+<p>(1− )Poisson(m; τ) otherwise.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Spike-Poisson performance
+.=</p>
+<p>1031
+.=</p>
+<p>1030 ah-QCH5
+.=</p>
+<p>ah-QCH-sp ah-QCH4
+.=</p>
+<p>ah-QCH3
+.=</p>
+<p>1029 gi-QLk2 (QLk)
+.=</p>
+<p>1028
+.=</p>
+<p>ah-QCHp
+ah-QCH2 Model performance
+.=</p>
+<p>Efficient frontier
+1027
+.=</p>
+<p> 2  3  4  5  6
+Number of parameters
+.=</p>
+<p>Spike-Poisson QCH outperforms all other ah-QCH models
+except for ah-QCH5.
+.=</p>
+<p>Only three parameters, fewer even than ah-QCH3.
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown
+.=</p>
+<p>Likelihood improvement over u.a.r..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Summary
+.=</p>
+<p>Compared predictive performance of four BGT models.
+.=</p>
+<p>BGT models typically predict human behavior better than
+Nash equilibrium-based model.
+QLk has best performance of the four.
+.=</p>
+<p>Bayesian sensitivity analysis of parameters.
+.=</p>
+<p>Parameters for QLk are counterintuitive, hard to identify.
+Using CH beliefs and a single precision for all agents yields
+more identifiable parameter values, superior predictive
+performance.
+.=</p>
+<p>Even with fewer parameters!
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction Models Model Comparisons Bayesian Analysis
+.=</p>
+<p>Thank you!
+.=</p>
+<p>Compared predictive performance of four BGT models.
+.=</p>
+<p>BGT models typically predict human behavior better than
+Nash equilibrium-based model.
+QLk has best performance of the four.
+.=</p>
+<p>Bayesian sensitivity analysis of parameters.
+.=</p>
+<p>Parameters for QLk are counterintuitive, hard to identify.
+Using CH beliefs and a single precision for all agents yields
+more identifiable parameter values, superior predictive
+performance.
+.=</p>
+<p>Even with fewer parameters!
+.=</p>
+<p>September 10, 2012: OpLog Kevin Leyton-Brown.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

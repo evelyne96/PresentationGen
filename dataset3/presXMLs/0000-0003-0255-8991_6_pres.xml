@@ -1,0 +1,2100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>KALAKA: A TV Broadcast Speech Database for the
+Evaluation of Language Recognition Systems
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes, Mikel Penagarikano, Germán Bordel,
+Amparo Varona, Mireia Dı́ez
+.=</p>
+<p>Software Technologies Working Group (http://gtts.ehu.es)
+.=</p>
+<p>Department of Electricity and Electronics, University of the Basque Country
+.=</p>
+<p>Barrio Sarriena s/n, 48940 Leioa, Spain
+.=</p>
+<p>email: luisjavier.rodriguez@ehu.es
+.=</p>
+<p>LREC 2010, La Valletta, Malta
+May 20, 2010
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Contents
+.=</p>
+<p>1 Introduction
+Motivation
+Database features (in brief)
+.=</p>
+<p>2 Design issues
+.=</p>
+<p>3 Recording setup
+.=</p>
+<p>4 Creating the database
+Classification of recordings
+Selection of speech segments
+Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>5 Using the database
+The Albayzin 2008 LRE
+Developing language recognition technology
+.=</p>
+<p>6 Conclusions and future work
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>To solve the lack of a multilingual speech database specifically designed
+for language recognition applications featuring the official languages in
+Spain as target languages.
+.=</p>
+<p>To build a language recognition module for the backend of an audio
+indexing and retrieval system dealing with wide-band broadcast news
+in Spanish and Basque.
+.=</p>
+<p>To measure the accuracy that state-of-the-art language recognition
+systems can attain for the task of recognizing four target languages
+that have evolved (and continue evolving) in close contact each other.
+.=</p>
+<p>May this task be more challenging than expected?
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To support the Albayzin 2008 Language Recognition Evaluation,
+organized by the Spanish Network on Speech Technologies, from May
+to November 2008.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>To build a language recognition module for the backend of an audio
+indexing and retrieval system dealing with wide-band broadcast news
+in Spanish and Basque.
+.=</p>
+<p>To measure the accuracy that state-of-the-art language recognition
+systems can attain for the task of recognizing four target languages
+that have evolved (and continue evolving) in close contact each other.
+.=</p>
+<p>May this task be more challenging than expected?
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To support the Albayzin 2008 Language Recognition Evaluation,
+organized by the Spanish Network on Speech Technologies, from May
+to November 2008.
+.=</p>
+<p>To solve the lack of a multilingual speech database specifically designed
+for language recognition applications featuring the official languages in
+Spain as target languages.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>To measure the accuracy that state-of-the-art language recognition
+systems can attain for the task of recognizing four target languages
+that have evolved (and continue evolving) in close contact each other.
+.=</p>
+<p>May this task be more challenging than expected?
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To support the Albayzin 2008 Language Recognition Evaluation,
+organized by the Spanish Network on Speech Technologies, from May
+to November 2008.
+.=</p>
+<p>To solve the lack of a multilingual speech database specifically designed
+for language recognition applications featuring the official languages in
+Spain as target languages.
+.=</p>
+<p>To build a language recognition module for the backend of an audio
+indexing and retrieval system dealing with wide-band broadcast news
+in Spanish and Basque.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>May this task be more challenging than expected?
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To support the Albayzin 2008 Language Recognition Evaluation,
+organized by the Spanish Network on Speech Technologies, from May
+to November 2008.
+.=</p>
+<p>To solve the lack of a multilingual speech database specifically designed
+for language recognition applications featuring the official languages in
+Spain as target languages.
+.=</p>
+<p>To build a language recognition module for the backend of an audio
+indexing and retrieval system dealing with wide-band broadcast news
+in Spanish and Basque.
+.=</p>
+<p>To measure the accuracy that state-of-the-art language recognition
+systems can attain for the task of recognizing four target languages
+that have evolved (and continue evolving) in close contact each other.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To support the Albayzin 2008 Language Recognition Evaluation,
+organized by the Spanish Network on Speech Technologies, from May
+to November 2008.
+.=</p>
+<p>To solve the lack of a multilingual speech database specifically designed
+for language recognition applications featuring the official languages in
+Spain as target languages.
+.=</p>
+<p>To build a language recognition module for the backend of an audio
+indexing and retrieval system dealing with wide-band broadcast news
+in Spanish and Basque.
+.=</p>
+<p>To measure the accuracy that state-of-the-art language recognition
+systems can attain for the task of recognizing four target languages
+that have evolved (and continue evolving) in close contact each other.
+.=</p>
+<p>May this task be more challenging than expected?
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Other (european) languages (to allow open-set tests): French,
+Portuguese, German and English.
+.=</p>
+<p>Speech signals extracted from TV shows, including both planned and
+spontaneous speech in diverse environment conditions involving a
+varying number of speakers.
+.=</p>
+<p>Size: around 50 hours (3 DVD)
+.=</p>
+<p>Train dataset: 36 hours (9 hours per target language)
+.=</p>
+<p>Development dataset: 7,7 hours (90 minutes per target language + 90
+minutes of other languages all together)
+.=</p>
+<p>Evaluation dataset: 7,7 hours (90 minutes per target language + 90
+minutes of other languages all together)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Four target languages: Spanish, Catalan, Basque and Galician.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Speech signals extracted from TV shows, including both planned and
+spontaneous speech in diverse environment conditions involving a
+varying number of speakers.
+.=</p>
+<p>Size: around 50 hours (3 DVD)
+.=</p>
+<p>Train dataset: 36 hours (9 hours per target language)
+.=</p>
+<p>Development dataset: 7,7 hours (90 minutes per target language + 90
+minutes of other languages all together)
+.=</p>
+<p>Evaluation dataset: 7,7 hours (90 minutes per target language + 90
+minutes of other languages all together)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Four target languages: Spanish, Catalan, Basque and Galician.
+.=</p>
+<p>Other (european) languages (to allow open-set tests): French,
+Portuguese, German and English.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Size: around 50 hours (3 DVD)
+.=</p>
+<p>Train dataset: 36 hours (9 hours per target language)
+.=</p>
+<p>Development dataset: 7,7 hours (90 minutes per target language + 90
+minutes of other languages all together)
+.=</p>
+<p>Evaluation dataset: 7,7 hours (90 minutes per target language + 90
+minutes of other languages all together)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Four target languages: Spanish, Catalan, Basque and Galician.
+.=</p>
+<p>Other (european) languages (to allow open-set tests): French,
+Portuguese, German and English.
+.=</p>
+<p>Speech signals extracted from TV shows, including both planned and
+spontaneous speech in diverse environment conditions involving a
+varying number of speakers.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup Motivation
+Creating the database Database features (in brief)
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Database features (in brief)
+.=</p>
+<p>Four target languages: Spanish, Catalan, Basque and Galician.
+.=</p>
+<p>Other (european) languages (to allow open-set tests): French,
+Portuguese, German and English.
+.=</p>
+<p>Speech signals extracted from TV shows, including both planned and
+spontaneous speech in diverse environment conditions involving a
+varying number of speakers.
+.=</p>
+<p>Size: around 50 hours (3 DVD)
+.=</p>
+<p>Train dataset: 36 hours (9 hours per target language)
+.=</p>
+<p>Development dataset: 7,7 hours (90 minutes per target language + 90
+minutes of other languages all together)
+.=</p>
+<p>Evaluation dataset: 7,7 hours (90 minutes per target language + 90
+minutes of other languages all together)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Cable TV: easy access to audio in different languages
+.=</p>
+<p>Disjoint subsets of TV shows assigned to train, development and
+evaluation
+.=</p>
+<p>Regarding duration:
+.=</p>
+<p>Train dataset: no constraints
+.=</p>
+<p>Development and evaluation datasets: three subsets, containing
+segments of three nominal durations: 30, 10 and 3 seconds
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Design issues
+.=</p>
+<p>Basic design criteria:
+.=</p>
+<p>1 Regarding recording setup (devices, connectors, audio conversions, etc.):
+the same for all the languages
+.=</p>
+<p>2 Regarding other sources of variability (environment, speaker, etc.):
+as much diversity as possible
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Disjoint subsets of TV shows assigned to train, development and
+evaluation
+.=</p>
+<p>Regarding duration:
+.=</p>
+<p>Train dataset: no constraints
+.=</p>
+<p>Development and evaluation datasets: three subsets, containing
+segments of three nominal durations: 30, 10 and 3 seconds
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Design issues
+.=</p>
+<p>Basic design criteria:
+.=</p>
+<p>1 Regarding recording setup (devices, connectors, audio conversions, etc.):
+the same for all the languages
+.=</p>
+<p>2 Regarding other sources of variability (environment, speaker, etc.):
+as much diversity as possible
+.=</p>
+<p>Cable TV: easy access to audio in different languages
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Regarding duration:
+.=</p>
+<p>Train dataset: no constraints
+.=</p>
+<p>Development and evaluation datasets: three subsets, containing
+segments of three nominal durations: 30, 10 and 3 seconds
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Design issues
+.=</p>
+<p>Basic design criteria:
+.=</p>
+<p>1 Regarding recording setup (devices, connectors, audio conversions, etc.):
+the same for all the languages
+.=</p>
+<p>2 Regarding other sources of variability (environment, speaker, etc.):
+as much diversity as possible
+.=</p>
+<p>Cable TV: easy access to audio in different languages
+.=</p>
+<p>Disjoint subsets of TV shows assigned to train, development and
+evaluation
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Design issues
+.=</p>
+<p>Basic design criteria:
+.=</p>
+<p>1 Regarding recording setup (devices, connectors, audio conversions, etc.):
+the same for all the languages
+.=</p>
+<p>2 Regarding other sources of variability (environment, speaker, etc.):
+as much diversity as possible
+.=</p>
+<p>Cable TV: easy access to audio in different languages
+.=</p>
+<p>Disjoint subsets of TV shows assigned to train, development and
+evaluation
+.=</p>
+<p>Regarding duration:
+.=</p>
+<p>Train dataset: no constraints
+.=</p>
+<p>Development and evaluation datasets: three subsets, containing
+segments of three nominal durations: 30, 10 and 3 seconds
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CD quality (16 bit / 44.1 kHz / stereo) recordings
+.=</p>
+<p>Audio signals downsampled to 16 kHz, single channel, by means of SoX
+.=</p>
+<p>Recordings filtered to discard noisy segments
+.=</p>
+<p>Size of recorded materials (138 hours): 3 times the size of speech
+segments finally used in KALAKA
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Recording setup
+.=</p>
+<p>Roland Edirol R-09 ultra-light audio recorder
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Audio signals downsampled to 16 kHz, single channel, by means of SoX
+.=</p>
+<p>Recordings filtered to discard noisy segments
+.=</p>
+<p>Size of recorded materials (138 hours): 3 times the size of speech
+segments finally used in KALAKA
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Recording setup
+.=</p>
+<p>Roland Edirol R-09 ultra-light audio recorder
+.=</p>
+<p>CD quality (16 bit / 44.1 kHz / stereo) recordings
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Recordings filtered to discard noisy segments
+.=</p>
+<p>Size of recorded materials (138 hours): 3 times the size of speech
+segments finally used in KALAKA
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Recording setup
+.=</p>
+<p>Roland Edirol R-09 ultra-light audio recorder
+.=</p>
+<p>CD quality (16 bit / 44.1 kHz / stereo) recordings
+.=</p>
+<p>Audio signals downsampled to 16 kHz, single channel, by means of SoX
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Size of recorded materials (138 hours): 3 times the size of speech
+segments finally used in KALAKA
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Recording setup
+.=</p>
+<p>Roland Edirol R-09 ultra-light audio recorder
+.=</p>
+<p>CD quality (16 bit / 44.1 kHz / stereo) recordings
+.=</p>
+<p>Audio signals downsampled to 16 kHz, single channel, by means of SoX
+.=</p>
+<p>Recordings filtered to discard noisy segments
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Recording setup
+.=</p>
+<p>Roland Edirol R-09 ultra-light audio recorder
+.=</p>
+<p>CD quality (16 bit / 44.1 kHz / stereo) recordings
+.=</p>
+<p>Audio signals downsampled to 16 kHz, single channel, by means of SoX
+.=</p>
+<p>Recordings filtered to discard noisy segments
+.=</p>
+<p>Size of recorded materials (138 hours): 3 times the size of speech
+segments finally used in KALAKA
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Recording setup
+.=</p>
+<p>TV channels and recorded time (in minutes) for each language in KALAKA
+.=</p>
+<p>Language TV Channels Recorded time
+.=</p>
+<p>TVE1, La 2, La Sexta,
+Cuatro, Tele5, Antena3,
+.=</p>
+<p>Spanish ETB2, TV Canaria Sat, 1818
+AndalućıaTV,
+TeleMadrid
+.=</p>
+<p>Catalan TVCi 1777
+Basque ETB1 1905
+Galician TVG 1731
+German DWTV 275
+French TV5Monde Europe 320
+English DWTV, BBCWorld 257
+Portuguese RTPi 218
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Two basic criteria:
+.=</p>
+<p>independence: a given TV show is always posted to the same dataset
+.=</p>
+<p>diversity: similar proportions of show types in all datasets
+.=</p>
+<p>TV show types: (1) debates and interviews; (2) talk-shows; (3) news;
+(4) sports; (5) entertaining (contests, reality shows, etc.); and (6)
+documentaries
+.=</p>
+<p>Most debates and interviews posted to the train dataset
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: target languages
+.=</p>
+<p>Task: distribute TV shows into three datasets (train, development and
+evaluation)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>TV show types: (1) debates and interviews; (2) talk-shows; (3) news;
+(4) sports; (5) entertaining (contests, reality shows, etc.); and (6)
+documentaries
+.=</p>
+<p>Most debates and interviews posted to the train dataset
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: target languages
+.=</p>
+<p>Task: distribute TV shows into three datasets (train, development and
+evaluation)
+.=</p>
+<p>Two basic criteria:
+.=</p>
+<p>independence: a given TV show is always posted to the same dataset
+.=</p>
+<p>diversity: similar proportions of show types in all datasets
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Most debates and interviews posted to the train dataset
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: target languages
+.=</p>
+<p>Task: distribute TV shows into three datasets (train, development and
+evaluation)
+.=</p>
+<p>Two basic criteria:
+.=</p>
+<p>independence: a given TV show is always posted to the same dataset
+.=</p>
+<p>diversity: similar proportions of show types in all datasets
+.=</p>
+<p>TV show types: (1) debates and interviews; (2) talk-shows; (3) news;
+(4) sports; (5) entertaining (contests, reality shows, etc.); and (6)
+documentaries
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: target languages
+.=</p>
+<p>Task: distribute TV shows into three datasets (train, development and
+evaluation)
+.=</p>
+<p>Two basic criteria:
+.=</p>
+<p>independence: a given TV show is always posted to the same dataset
+.=</p>
+<p>diversity: similar proportions of show types in all datasets
+.=</p>
+<p>TV show types: (1) debates and interviews; (2) talk-shows; (3) news;
+(4) sports; (5) entertaining (contests, reality shows, etc.); and (6)
+documentaries
+.=</p>
+<p>Most debates and interviews posted to the train dataset
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: target languages
+.=</p>
+<p>Recorded time, absolute (minutes) and relative (%), of the six types of TV
+shows for the target languages.
+.=</p>
+<p>Spanish Catalan Basque Galician
+Debates 495 - 27.23 499 - 28.08 631 - 33.12 515 - 29.75
+Talk-shows 500 - 27.50 428 - 24.09 498 - 26.14 642 - 37.09
+News 353 - 19.42 336 - 18.91 341 - 17.90 405 - 23.40
+Sports 126 - 6.93 120 - 6.75 120 - 6.30 17 - 0.98
+Entertaining 230 - 12.65 249 - 14.01 153 - 8.03 83 - 4.79
+Documentaries 114 - 6.27 145 - 8.16 162 - 8.50 69 - 3.99
+.=</p>
+<p>Total 1818 - 100.00 1777 - 100.00 1905 - 100.00 1731 - 100.00
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proportions made deliberately different for development and
+evaluation, to avoid tuning systems to reject specific languages.
+.=</p>
+<p>Proportion of French and Portuguese twice the proportion of German
+and English.
+.=</p>
+<p>Planned distribution of data (%) for non-target languages
+.=</p>
+<p>Dev Eval Total
+German 0.00 16.67 16.67
+French 29.17 4.16 33.33
+English 16.67 0.00 16.67
+Portuguese 4.16 29.17 33.33
+Total 50.00 50.00 100.00
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: non-target languages
+.=</p>
+<p>TV shows corresponding to non-target languages posted to
+development and evaluation.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Proportion of French and Portuguese twice the proportion of German
+and English.
+.=</p>
+<p>Planned distribution of data (%) for non-target languages
+.=</p>
+<p>Dev Eval Total
+German 0.00 16.67 16.67
+French 29.17 4.16 33.33
+English 16.67 0.00 16.67
+Portuguese 4.16 29.17 33.33
+Total 50.00 50.00 100.00
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: non-target languages
+.=</p>
+<p>TV shows corresponding to non-target languages posted to
+development and evaluation.
+.=</p>
+<p>Proportions made deliberately different for development and
+evaluation, to avoid tuning systems to reject specific languages.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Planned distribution of data (%) for non-target languages
+.=</p>
+<p>Dev Eval Total
+German 0.00 16.67 16.67
+French 29.17 4.16 33.33
+English 16.67 0.00 16.67
+Portuguese 4.16 29.17 33.33
+Total 50.00 50.00 100.00
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: non-target languages
+.=</p>
+<p>TV shows corresponding to non-target languages posted to
+development and evaluation.
+.=</p>
+<p>Proportions made deliberately different for development and
+evaluation, to avoid tuning systems to reject specific languages.
+.=</p>
+<p>Proportion of French and Portuguese twice the proportion of German
+and English.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Classification of recordings: non-target languages
+.=</p>
+<p>TV shows corresponding to non-target languages posted to
+development and evaluation.
+.=</p>
+<p>Proportions made deliberately different for development and
+evaluation, to avoid tuning systems to reject specific languages.
+.=</p>
+<p>Proportion of French and Portuguese twice the proportion of German
+and English.
+.=</p>
+<p>Planned distribution of data (%) for non-target languages
+.=</p>
+<p>Dev Eval Total
+German 0.00 16.67 16.67
+French 29.17 4.16 33.33
+English 16.67 0.00 16.67
+Portuguese 4.16 29.17 33.33
+Total 50.00 50.00 100.00
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Criteria:
+high SNR (clean speech or low-level background noise)
+no speech overlaps
+single language
+.=</p>
+<p>Tools: Wavesurfer and CoolEdit
+.=</p>
+<p>Result: speech segments of indefinite length, spoken by one or more
+speakers in a single language
+.=</p>
+<p>No further processing applied to segments posted to the train dataset
+.=</p>
+<p>Segments posted to the train dataset in KALAKA.
+.=</p>
+<p>Spanish Catalan Basque Galician All
+# segments 282 278 342 401 1303
+Duration (min) 529 538 531 532 2130
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Selection of speech segments
+.=</p>
+<p>Task: to extract speech segments from recorded materials
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tools: Wavesurfer and CoolEdit
+.=</p>
+<p>Result: speech segments of indefinite length, spoken by one or more
+speakers in a single language
+.=</p>
+<p>No further processing applied to segments posted to the train dataset
+.=</p>
+<p>Segments posted to the train dataset in KALAKA.
+.=</p>
+<p>Spanish Catalan Basque Galician All
+# segments 282 278 342 401 1303
+Duration (min) 529 538 531 532 2130
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Selection of speech segments
+.=</p>
+<p>Task: to extract speech segments from recorded materials
+.=</p>
+<p>Criteria:
+high SNR (clean speech or low-level background noise)
+no speech overlaps
+single language
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Result: speech segments of indefinite length, spoken by one or more
+speakers in a single language
+.=</p>
+<p>No further processing applied to segments posted to the train dataset
+.=</p>
+<p>Segments posted to the train dataset in KALAKA.
+.=</p>
+<p>Spanish Catalan Basque Galician All
+# segments 282 278 342 401 1303
+Duration (min) 529 538 531 532 2130
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Selection of speech segments
+.=</p>
+<p>Task: to extract speech segments from recorded materials
+.=</p>
+<p>Criteria:
+high SNR (clean speech or low-level background noise)
+no speech overlaps
+single language
+.=</p>
+<p>Tools: Wavesurfer and CoolEdit
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>No further processing applied to segments posted to the train dataset
+.=</p>
+<p>Segments posted to the train dataset in KALAKA.
+.=</p>
+<p>Spanish Catalan Basque Galician All
+# segments 282 278 342 401 1303
+Duration (min) 529 538 531 532 2130
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Selection of speech segments
+.=</p>
+<p>Task: to extract speech segments from recorded materials
+.=</p>
+<p>Criteria:
+high SNR (clean speech or low-level background noise)
+no speech overlaps
+single language
+.=</p>
+<p>Tools: Wavesurfer and CoolEdit
+.=</p>
+<p>Result: speech segments of indefinite length, spoken by one or more
+speakers in a single language
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Segments posted to the train dataset in KALAKA.
+.=</p>
+<p>Spanish Catalan Basque Galician All
+# segments 282 278 342 401 1303
+Duration (min) 529 538 531 532 2130
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Selection of speech segments
+.=</p>
+<p>Task: to extract speech segments from recorded materials
+.=</p>
+<p>Criteria:
+high SNR (clean speech or low-level background noise)
+no speech overlaps
+single language
+.=</p>
+<p>Tools: Wavesurfer and CoolEdit
+.=</p>
+<p>Result: speech segments of indefinite length, spoken by one or more
+speakers in a single language
+.=</p>
+<p>No further processing applied to segments posted to the train dataset
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Selection of speech segments
+.=</p>
+<p>Task: to extract speech segments from recorded materials
+.=</p>
+<p>Criteria:
+high SNR (clean speech or low-level background noise)
+no speech overlaps
+single language
+.=</p>
+<p>Tools: Wavesurfer and CoolEdit
+.=</p>
+<p>Result: speech segments of indefinite length, spoken by one or more
+speakers in a single language
+.=</p>
+<p>No further processing applied to segments posted to the train dataset
+.=</p>
+<p>Segments posted to the train dataset in KALAKA.
+.=</p>
+<p>Spanish Catalan Basque Galician All
+# segments 282 278 342 401 1303
+Duration (min) 529 538 531 532 2130
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Criteria:
+1 Each segment enclosed by a certain amount of silence
+2 A 30-second segment is validated if and only if it contains a valid
+.=</p>
+<p>10-second segment. Similarly, a 10-second segment is validated if and
+only if it contains a 3-second segment
+.=</p>
+<p>3 Segments can be slightly longer than their nominal duration
+.=</p>
+<p>Performance differences measured on these subsets due (we expect) to
+the varying amount of available speech
+.=</p>
+<p>Single-pass greedy algorithm, retrieving 65% of the input speech
+.=</p>
+<p>Result (development and evaluation):
+Total: 1800 segments
+600 segments per duration
+120 segments per target language and duration
+120 segments of non-target languages all together per duration (different
+distributions for development and evaluation)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>Speech segments posted to development and evaluation, taken as source
+to extract segments of fixed nominal duration: 30, 10 and 3 seconds
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2 A 30-second segment is validated if and only if it contains a valid
+10-second segment. Similarly, a 10-second segment is validated if and
+only if it contains a 3-second segment
+.=</p>
+<p>3 Segments can be slightly longer than their nominal duration
+.=</p>
+<p>Performance differences measured on these subsets due (we expect) to
+the varying amount of available speech
+.=</p>
+<p>Single-pass greedy algorithm, retrieving 65% of the input speech
+.=</p>
+<p>Result (development and evaluation):
+Total: 1800 segments
+600 segments per duration
+120 segments per target language and duration
+120 segments of non-target languages all together per duration (different
+distributions for development and evaluation)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>Speech segments posted to development and evaluation, taken as source
+to extract segments of fixed nominal duration: 30, 10 and 3 seconds
+.=</p>
+<p>Criteria:
+1 Each segment enclosed by a certain amount of silence
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3 Segments can be slightly longer than their nominal duration
+.=</p>
+<p>Performance differences measured on these subsets due (we expect) to
+the varying amount of available speech
+.=</p>
+<p>Single-pass greedy algorithm, retrieving 65% of the input speech
+.=</p>
+<p>Result (development and evaluation):
+Total: 1800 segments
+600 segments per duration
+120 segments per target language and duration
+120 segments of non-target languages all together per duration (different
+distributions for development and evaluation)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>Speech segments posted to development and evaluation, taken as source
+to extract segments of fixed nominal duration: 30, 10 and 3 seconds
+.=</p>
+<p>Criteria:
+1 Each segment enclosed by a certain amount of silence
+2 A 30-second segment is validated if and only if it contains a valid
+.=</p>
+<p>10-second segment. Similarly, a 10-second segment is validated if and
+only if it contains a 3-second segment
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance differences measured on these subsets due (we expect) to
+the varying amount of available speech
+.=</p>
+<p>Single-pass greedy algorithm, retrieving 65% of the input speech
+.=</p>
+<p>Result (development and evaluation):
+Total: 1800 segments
+600 segments per duration
+120 segments per target language and duration
+120 segments of non-target languages all together per duration (different
+distributions for development and evaluation)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>Speech segments posted to development and evaluation, taken as source
+to extract segments of fixed nominal duration: 30, 10 and 3 seconds
+.=</p>
+<p>Criteria:
+1 Each segment enclosed by a certain amount of silence
+2 A 30-second segment is validated if and only if it contains a valid
+.=</p>
+<p>10-second segment. Similarly, a 10-second segment is validated if and
+only if it contains a 3-second segment
+.=</p>
+<p>3 Segments can be slightly longer than their nominal duration
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Single-pass greedy algorithm, retrieving 65% of the input speech
+.=</p>
+<p>Result (development and evaluation):
+Total: 1800 segments
+600 segments per duration
+120 segments per target language and duration
+120 segments of non-target languages all together per duration (different
+distributions for development and evaluation)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>Speech segments posted to development and evaluation, taken as source
+to extract segments of fixed nominal duration: 30, 10 and 3 seconds
+.=</p>
+<p>Criteria:
+1 Each segment enclosed by a certain amount of silence
+2 A 30-second segment is validated if and only if it contains a valid
+.=</p>
+<p>10-second segment. Similarly, a 10-second segment is validated if and
+only if it contains a 3-second segment
+.=</p>
+<p>3 Segments can be slightly longer than their nominal duration
+.=</p>
+<p>Performance differences measured on these subsets due (we expect) to
+the varying amount of available speech
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Result (development and evaluation):
+Total: 1800 segments
+600 segments per duration
+120 segments per target language and duration
+120 segments of non-target languages all together per duration (different
+distributions for development and evaluation)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>Speech segments posted to development and evaluation, taken as source
+to extract segments of fixed nominal duration: 30, 10 and 3 seconds
+.=</p>
+<p>Criteria:
+1 Each segment enclosed by a certain amount of silence
+2 A 30-second segment is validated if and only if it contains a valid
+.=</p>
+<p>10-second segment. Similarly, a 10-second segment is validated if and
+only if it contains a 3-second segment
+.=</p>
+<p>3 Segments can be slightly longer than their nominal duration
+.=</p>
+<p>Performance differences measured on these subsets due (we expect) to
+the varying amount of available speech
+.=</p>
+<p>Single-pass greedy algorithm, retrieving 65% of the input speech
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Classification of recordings
+Recording setup
+.=</p>
+<p>Selection of speech segments
+Creating the database
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+Using the database
+.=</p>
+<p>Conclusions and future work
+.=</p>
+<p>Automatic extraction of 30-, 10- and 3-second segments
+.=</p>
+<p>Speech segments posted to development and evaluation, taken as source
+to extract segments of fixed nominal duration: 30, 10 and 3 seconds
+.=</p>
+<p>Criteria:
+1 Each segment enclosed by a certain amount of silence
+2 A 30-second segment is validated if and only if it contains a valid
+.=</p>
+<p>10-second segment. Similarly, a 10-second segment is validated if and
+only if it contains a 3-second segment
+.=</p>
+<p>3 Segments can be slightly longer than their nominal duration
+.=</p>
+<p>Performance differences measured on these subsets due (we expect) to
+the varying amount of available speech
+.=</p>
+<p>Single-pass greedy algorithm, retrieving 65% of the input speech
+.=</p>
+<p>Result (development and evaluation):
+Total: 1800 segments
+600 segments per duration
+120 segments per target language and duration
+120 segments of non-target languages all together per duration (different
+distributions for development and evaluation)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Test conditions:
+30-, 10- and 3-second test segments
+Restricted vs. free system development
+Closed-set vs. open-set evaluation
+.=</p>
+<p>Award: system yielding the least cost in the restricted-development
+closed-set test condition on the subset of 30-second speech segments
+.=</p>
+<p>Average performance
+Two sites applying state-of-the-art language recognition systems
+Free-development, closed-set, 30-second segments: 5% EER
+Free-development, open-set, 30-second segments: 9% EER
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2008 LRE
+.=</p>
+<p>Task: independent language verification trials for a set of 4 target
+languages: Basque, Catalan, Galician and Spanish
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Award: system yielding the least cost in the restricted-development
+closed-set test condition on the subset of 30-second speech segments
+.=</p>
+<p>Average performance
+Two sites applying state-of-the-art language recognition systems
+Free-development, closed-set, 30-second segments: 5% EER
+Free-development, open-set, 30-second segments: 9% EER
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2008 LRE
+.=</p>
+<p>Task: independent language verification trials for a set of 4 target
+languages: Basque, Catalan, Galician and Spanish
+.=</p>
+<p>Test conditions:
+30-, 10- and 3-second test segments
+Restricted vs. free system development
+Closed-set vs. open-set evaluation
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Average performance
+Two sites applying state-of-the-art language recognition systems
+Free-development, closed-set, 30-second segments: 5% EER
+Free-development, open-set, 30-second segments: 9% EER
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2008 LRE
+.=</p>
+<p>Task: independent language verification trials for a set of 4 target
+languages: Basque, Catalan, Galician and Spanish
+.=</p>
+<p>Test conditions:
+30-, 10- and 3-second test segments
+Restricted vs. free system development
+Closed-set vs. open-set evaluation
+.=</p>
+<p>Award: system yielding the least cost in the restricted-development
+closed-set test condition on the subset of 30-second speech segments
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Free-development, closed-set, 30-second segments: 5% EER
+Free-development, open-set, 30-second segments: 9% EER
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2008 LRE
+.=</p>
+<p>Task: independent language verification trials for a set of 4 target
+languages: Basque, Catalan, Galician and Spanish
+.=</p>
+<p>Test conditions:
+30-, 10- and 3-second test segments
+Restricted vs. free system development
+Closed-set vs. open-set evaluation
+.=</p>
+<p>Award: system yielding the least cost in the restricted-development
+closed-set test condition on the subset of 30-second speech segments
+.=</p>
+<p>Average performance
+Two sites applying state-of-the-art language recognition systems
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Free-development, open-set, 30-second segments: 9% EER
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2008 LRE
+.=</p>
+<p>Task: independent language verification trials for a set of 4 target
+languages: Basque, Catalan, Galician and Spanish
+.=</p>
+<p>Test conditions:
+30-, 10- and 3-second test segments
+Restricted vs. free system development
+Closed-set vs. open-set evaluation
+.=</p>
+<p>Award: system yielding the least cost in the restricted-development
+closed-set test condition on the subset of 30-second speech segments
+.=</p>
+<p>Average performance
+Two sites applying state-of-the-art language recognition systems
+Free-development, closed-set, 30-second segments: 5% EER
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2008 LRE
+.=</p>
+<p>Task: independent language verification trials for a set of 4 target
+languages: Basque, Catalan, Galician and Spanish
+.=</p>
+<p>Test conditions:
+30-, 10- and 3-second test segments
+Restricted vs. free system development
+Closed-set vs. open-set evaluation
+.=</p>
+<p>Award: system yielding the least cost in the restricted-development
+closed-set test condition on the subset of 30-second speech segments
+.=</p>
+<p>Average performance
+Two sites applying state-of-the-art language recognition systems
+Free-development, closed-set, 30-second segments: 5% EER
+Free-development, open-set, 30-second segments: 9% EER
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>The Albayzin 2008 LRE
+.=</p>
+<p>Pooled DET curves of systems in the restricted-development closed-set test
+condition on 30-second speech segments.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hierarchical fusion of one acoustic subsystem (GMM-SVM) and 6
+phonotactic subsytems (3 Phone-LM + 3 Phone-SVM)
+.=</p>
+<p>GMM-SVM: SVM classifier on the vector space defined by the means
+of a Gaussian Mixture Model
+.=</p>
+<p>Phonotactic subsystems:
+.=</p>
+<p>BUT TRAPS/NN phone decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Phone decodings computed on signals downsampled to 8 kHz
+.=</p>
+<p>Sequence modeling approaches:
+.=</p>
+<p>Phone-LM: 4-grams with Witten-Bell smoothing
+Phone-SVM: SVM (linear kernel) on bag-of-ngrams (up to 3-grams)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>Train and development materials: KALAKA
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GMM-SVM: SVM classifier on the vector space defined by the means
+of a Gaussian Mixture Model
+.=</p>
+<p>Phonotactic subsystems:
+.=</p>
+<p>BUT TRAPS/NN phone decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Phone decodings computed on signals downsampled to 8 kHz
+.=</p>
+<p>Sequence modeling approaches:
+.=</p>
+<p>Phone-LM: 4-grams with Witten-Bell smoothing
+Phone-SVM: SVM (linear kernel) on bag-of-ngrams (up to 3-grams)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>Train and development materials: KALAKA
+.=</p>
+<p>Hierarchical fusion of one acoustic subsystem (GMM-SVM) and 6
+phonotactic subsytems (3 Phone-LM + 3 Phone-SVM)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Phonotactic subsystems:
+.=</p>
+<p>BUT TRAPS/NN phone decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Phone decodings computed on signals downsampled to 8 kHz
+.=</p>
+<p>Sequence modeling approaches:
+.=</p>
+<p>Phone-LM: 4-grams with Witten-Bell smoothing
+Phone-SVM: SVM (linear kernel) on bag-of-ngrams (up to 3-grams)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>Train and development materials: KALAKA
+.=</p>
+<p>Hierarchical fusion of one acoustic subsystem (GMM-SVM) and 6
+phonotactic subsytems (3 Phone-LM + 3 Phone-SVM)
+.=</p>
+<p>GMM-SVM: SVM classifier on the vector space defined by the means
+of a Gaussian Mixture Model
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Phone decodings computed on signals downsampled to 8 kHz
+.=</p>
+<p>Sequence modeling approaches:
+.=</p>
+<p>Phone-LM: 4-grams with Witten-Bell smoothing
+Phone-SVM: SVM (linear kernel) on bag-of-ngrams (up to 3-grams)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>Train and development materials: KALAKA
+.=</p>
+<p>Hierarchical fusion of one acoustic subsystem (GMM-SVM) and 6
+phonotactic subsytems (3 Phone-LM + 3 Phone-SVM)
+.=</p>
+<p>GMM-SVM: SVM classifier on the vector space defined by the means
+of a Gaussian Mixture Model
+.=</p>
+<p>Phonotactic subsystems:
+.=</p>
+<p>BUT TRAPS/NN phone decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sequence modeling approaches:
+.=</p>
+<p>Phone-LM: 4-grams with Witten-Bell smoothing
+Phone-SVM: SVM (linear kernel) on bag-of-ngrams (up to 3-grams)
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>Train and development materials: KALAKA
+.=</p>
+<p>Hierarchical fusion of one acoustic subsystem (GMM-SVM) and 6
+phonotactic subsytems (3 Phone-LM + 3 Phone-SVM)
+.=</p>
+<p>GMM-SVM: SVM classifier on the vector space defined by the means
+of a Gaussian Mixture Model
+.=</p>
+<p>Phonotactic subsystems:
+.=</p>
+<p>BUT TRAPS/NN phone decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Phone decodings computed on signals downsampled to 8 kHz
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Features
+.=</p>
+<p>Train and development materials: KALAKA
+.=</p>
+<p>Hierarchical fusion of one acoustic subsystem (GMM-SVM) and 6
+phonotactic subsytems (3 Phone-LM + 3 Phone-SVM)
+.=</p>
+<p>GMM-SVM: SVM classifier on the vector space defined by the means
+of a Gaussian Mixture Model
+.=</p>
+<p>Phonotactic subsystems:
+.=</p>
+<p>BUT TRAPS/NN phone decoders for Czech, Hungarian and Russian
+.=</p>
+<p>Phone decodings computed on signals downsampled to 8 kHz
+.=</p>
+<p>Sequence modeling approaches:
+.=</p>
+<p>Phone-LM: 4-grams with Witten-Bell smoothing
+Phone-SVM: SVM (linear kernel) on bag-of-ngrams (up to 3-grams)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup The Albayzin 2008 LRE
+Creating the database Developing language recognition technology
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>GTTS Language Recognition System - Results
+.=</p>
+<p>KALAKA: closed-set test condition, 30-second speech segments.
+.=</p>
+<p>Left : Cavg of single and fused language recognition systems.
+.=</p>
+<p>Right : pooled DET curves of GMM-SVM (blue), fused Phone-LM (green), fused
+Phone-SVM (red) and the system fusing all of them (black).
+.=</p>
+<p>Cavg
+GMM-SVM 0.1611
+PHONE (CH) - LM 0.1545
+PHONE (HU) - LM 0.1427
+.=</p>
+<p>Single PHONE (RU) - LM 0.1305
+PHONE (CH) - SVM 0.0940
+PHONE (HU) - SVM 0.1017
+PHONE (RU) - SVM 0.1215
+PHONE - LM 0.0892
+.=</p>
+<p>Fused PHONE - SVM 0.0774
+PHONE 0.0691
+ALL 0.0576
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results using state-of-the-art technology provide evidence of the
+difficulty of various tasks defined on KALAKA.
+.=</p>
+<p>KALAKA can be challenging enough to support further
+developments in language recognition technology.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>KALAKA, a database containing speech from TV broadcasts,
+allows to develop language recognition systems for the official
+languages in Spain: Basque, Catalan, Galician and Spanish.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>KALAKA can be challenging enough to support further
+developments in language recognition technology.
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>KALAKA, a database containing speech from TV broadcasts,
+allows to develop language recognition systems for the official
+languages in Spain: Basque, Catalan, Galician and Spanish.
+.=</p>
+<p>Results using state-of-the-art technology provide evidence of the
+difficulty of various tasks defined on KALAKA.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>KALAKA, a database containing speech from TV broadcasts,
+allows to develop language recognition systems for the official
+languages in Spain: Basque, Catalan, Galician and Spanish.
+.=</p>
+<p>Results using state-of-the-art technology provide evidence of the
+difficulty of various tasks defined on KALAKA.
+.=</p>
+<p>KALAKA can be challenging enough to support further
+developments in language recognition technology.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An extended version of KALAKA, adding Portuguese and
+English as target languages, renewing the set of unknown
+languages and including a new test condition for noisy speech.
+.=</p>
+<p>Support for the Albayzin 2010 LRE: June to October 2010,
+results presented at FALA 2010, to be held in Vigo (Spain) in
+November 2010.
+.=</p>
+<p>Registration now open at http://fala2010.uvigo.es
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-2
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Support for the Albayzin 2010 LRE: June to October 2010,
+results presented at FALA 2010, to be held in Vigo (Spain) in
+November 2010.
+.=</p>
+<p>Registration now open at http://fala2010.uvigo.es
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-2
+.=</p>
+<p>An extended version of KALAKA, adding Portuguese and
+English as target languages, renewing the set of unknown
+languages and including a new test condition for noisy speech.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Registration now open at http://fala2010.uvigo.es
+.=</p>
+<p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-2
+.=</p>
+<p>An extended version of KALAKA, adding Portuguese and
+English as target languages, renewing the set of unknown
+languages and including a new test condition for noisy speech.
+.=</p>
+<p>Support for the Albayzin 2010 LRE: June to October 2010,
+results presented at FALA 2010, to be held in Vigo (Spain) in
+November 2010.
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+Design issues
+.=</p>
+<p>Recording setup
+Creating the database
+.=</p>
+<p>Using the database
+Conclusions and future work
+.=</p>
+<p>Future work
+.=</p>
+<p>Actually, current work: KALAKA-2
+.=</p>
+<p>An extended version of KALAKA, adding Portuguese and
+English as target languages, renewing the set of unknown
+languages and including a new test condition for noisy speech.
+.=</p>
+<p>Support for the Albayzin 2010 LRE: June to October 2010,
+results presented at FALA 2010, to be held in Vigo (Spain) in
+November 2010.
+.=</p>
+<p>Registration now open at http://fala2010.uvigo.es
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. KALAKA: A TV Broadcast Speech Database.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

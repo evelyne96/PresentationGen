@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CONSTRAINT PROGRAMMING FOR SCHEDULING
+PROBLEMS
+.=</p>
+<p>Sütő Evelyne 1
+.=</p>
+<p>1Babeş-Bolyai University, Computer Science, Cluj-Napoca.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>MOTIVATIONS TO US CONSTRAINT
+PROGRAMMING.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WHY FOCUS ON SCHEDULING PROBLEMS
+.=</p>
+<p>∙ Resources are very expensive (time or money measures) and we
+need optimal solutions for scheduling
+.=</p>
+<p>∙ Need for intelligent optimal systems
+∙ Similar solutions can be implemented for many problems such as
+personnel, machine , project scheduling etc
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WHY USE CONSTRAINT PROGRAMMING?
+.=</p>
+<p>∙ Scheduling problems naturally defined with their constraints in
+mind, thus it is easy to model with CSP
+.=</p>
+<p>∙ Depending on resources and needed constraints to satisfy it can
+become a combinatorial problem
+.=</p>
+<p>∙ Concentrates on the WHAT of the problem instead of the HOW
+∙ Many effective ways already implemented that can boost up the
+search for the solutions
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EXAMPLES
+.=</p>
+<p>∙ Generating university timetables [Zhang and Lau, 2005]
+.=</p>
+<p>∙ Project scheduling [Relich, 2013]
+.=</p>
+<p>5.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>UNIVERSITY TIMETABLES
+.=</p>
+<p>∙ NP complete problem, difficult to find optimal solution
+.=</p>
+<p>∙ Constraints based on time restrictions and resource sharing
+(class rooms, teachers)
+.=</p>
+<p>∙ Students attend one class at the same time, the room must be
+big enough for all the attending students, no core subject is
+scheduled at the same time, and only one class is scheduled in
+one room at any one timeslot.
+.=</p>
+<p>6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>UNIVERSITY TIMETABLES
+.=</p>
+<p>∙ Each timetable item is an activity and rooms are resources
+.=</p>
+<p>∙ Solution: Defined model in ILOG
+.=</p>
+<p>∙ ILOG is a constraint optimization software developed by IBM for
+CSP (mainly scheduling problems)
+.=</p>
+<p>∙ https://www.ibm.com/analytics/cplex-cp-optimizer
+.=</p>
+<p>7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>UNIVERSITY TIMETABLES
+.=</p>
+<p>∙ ILOG decompesses programs by separating the model from the
+search algorithm itself
+.=</p>
+<p>∙ Model built with ILOG scheduler
+.=</p>
+<p>∙ Resources represented in IloActivity
+.=</p>
+<p>∙ The ILOG Solver generates a goal and goes thorough the search
+space to find the solution
+.=</p>
+<p>8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>UNIVERSITY TIMETABLES
+.=</p>
+<p>∙ Results analyze the number of backtracked nodes (fails) and
+number of choice point (nr of visited nodes)
+.=</p>
+<p>9.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>UNIVERSITY TIMETABLES
+.=</p>
+<p>Figure 1: Results [Zhang and Lau, 2005]
+.=</p>
+<p>10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FUZZY PROJECT SCHEDULING
+.=</p>
+<p>∙ When developing multiple project at the same time sometimes
+we need to share some resources between then
+.=</p>
+<p>∙ Constraint: project/task dependencies, human resource
+management, financial resource management
+.=</p>
+<p>∙ Need for tools to help in scheduling the projects
+.=</p>
+<p>11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FUZZY PROJECT SCHEDULING
+.=</p>
+<p>∙ Estimating needed time and money for development is very
+challenging
+.=</p>
+<p>∙ Need to include imprecise estimation for time/money
+.=</p>
+<p>∙ Solution: consider 3 levels of risk management -> optimistic,
+pessimistic, intermediate by implementing α cuts
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FUZZY PROJECT SCHEDULING
+.=</p>
+<p>∙ Set of projects P = P1,P2, ...,PI, where the project P i consists of J
+activities: Pi = Ai,1, ...,Ai,j, ...,Ai,J
+.=</p>
+<p>∙ Each activity is defined by their start time and duration
+.=</p>
+<p>∙ The imprecise variables are defined by α cuts, where the α -cut is
+a crisp set consisting of elements of A which belong to the fuzzy
+set at least to a degree of α ( 0 < α <= 1 ). An α -cut is a method of
+defuzzifying a fuzzy set to a crisp set at desired α -levels that
+correspond to the perceived risk (α=1 meaning no risk, α=0+
+meaning the highest risk)
+.=</p>
+<p>13.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FUZZY PROJECT SCHEDULING
+.=</p>
+<p>∙ Cost for unit of time calculated by dividing the cost of every
+activity by its duration.
+.=</p>
+<p>∙ Financial cost allocating by taking into account all α-levels of a
+fuzzy number
+.=</p>
+<p>∙ minDα (best case scenerio, activity starts as soon as possible)
+∙ maxDα (activity starts at latest possible time).
+.=</p>
+<p>minDα = [α(ba) + a, α(ed) + d]
+.=</p>
+<p>maxDα = [α(bc) + c, α(ef) + f]
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FUZZY PROJECT SCHEDULING
+.=</p>
+<p>Figure 2: Example of activities and dependencies of project 1. Source:
+[Relich, 2013]
+.=</p>
+<p>15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FUZZY PROJECT SCHEDULING
+.=</p>
+<p>The aim of the Fuzzy scheduling is to create a fuzzy cash flow for
+different risk levels, which would help the project managers to
+determine which schedule would be the best option, by considering
+the different levels in terms of duration and cost efficiency
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>FUZZY PROJECT SCHEDULING
+.=</p>
+<p>Figure 3: Example of fuzzy project cash flow with 5 different levels. e.g. At µ
+=0.5, there is an optimistic scenario below and a pessimistic one above
+(dashed line). Source: [Relich, 2013]
+.=</p>
+<p>17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CONCLUSION
+.=</p>
+<p>∙ The interest in scheduling is big, because it allows good resource
+allocation and time optimization
+.=</p>
+<p>∙ Many other use cases other than the two mentioned in this
+paper: nurse scheduling, doctor scheduling, virual machine
+scheduling etc
+.=</p>
+<p>∙ Constraint programming is successfully applied to these
+problems by using well defined elements for consistency
+technique and constraint propagation
+.=</p>
+<p>19.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Relich, M. (2013).
+Fuzzy project scheduling using constraint programming.
+Applied Computer Science, 9(1).
+.=</p>
+<p>Zhang, L. and Lau, S. (2005).
+Constructing university timetable using constraint satisfaction
+programming approach.
+In International Conference on Computational Intelligence for
+Modelling, Control and Automation and International Conference
+on Intelligent Agents, Web Technologies and Internet Commerce
+(CIMCA-IAWTIC’06), volume 2, pages 55–60. IEEE.
+.=</p>
+<p>19.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

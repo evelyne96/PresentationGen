@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 1/26
+</p>
+<p>Empirically Evaluating Multiagent
+Reinforcement Learning
+</p>
+<p>Algorithms
+</p>
+<p>Asher Lipson – alipson@cs.ubc.ca
+</p>
+<p>MSc Thesis talk: 12 September 2005
+</p>
+<p>Supervised by Kevin Leyton-Brown and Nando de Freitas</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 2/26
+</p>
+<p>Road map
+</p>
+<p>• Introduction
+</p>
+<p>• Reinforcement Learning
+</p>
+<p>• Multiagent Learning Algorithms
+</p>
+<p>• Game Theory
+</p>
+<p>• Existing Experimental Methods
+</p>
+<p>• A Platform for Multiagent Reinforcement Learning
+</p>
+<p>• Empirical Test and Results
+</p>
+<p>• Questions</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 3/26
+</p>
+<p>Introduction
+</p>
+<p>• Interest in algorithms for game theoretic settings
+</p>
+<p>Focus: New Algorithms, eg. Littman [1994]; Claus and Boutilier
+</p>
+<p>[1997]; Singh et al. [2000]; Bowling and Veloso [2001]; Bowling [2004]
+</p>
+<p>Lack general understanding of strengths and weaknesses
+</p>
+<p>Different metrics used to judge performance
+</p>
+<p>• This research has two contributions:
+</p>
+<p>1. A platform for experiments on MARL algorithms
+</p>
+<p>2. Analysis of an empirical test run on the platform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 4/26
+</p>
+<p>Reinforcement Learning
+</p>
+<p>• Method to learn optimal actions in an environment
+</p>
+<p>• Algorithm receives information about the state,
+</p>
+<p>takes an action and then receives feedback/reward
+</p>
+<p>• Reward only dependent on agent’s action
+</p>
+<p>• Goal: Find optimal action in each state
+</p>
+<p>• Popular RL method: Q-learning [Watkins and Dayan, 1992]
+</p>
+<p>• Examples: Helicopter flying [Ng et al., 2004],
+</p>
+<p>Single agent environments [Sutton and Barto, 1999]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 5/26
+</p>
+<p>(a)
+</p>
+<p>(b)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 6/26
+</p>
+<p>Multiagent Learning
+</p>
+<p>• Multiple agents interacting in single environment
+</p>
+<p>• Repeatedly play actions
+</p>
+<p>• BUT
+</p>
+<p>Environment is no longer stationary
+</p>
+<p>Agent’s reward dependent on EVERYONE’s actions
+</p>
+<p>Notion of optimality from SARL does not exist</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 7/26
+</p>
+<p>Game Theory
+</p>
+<p>• Repeated games:
+</p>
+<p>Set of agents repeatedly play a normal form game (NFG)
+</p>
+<p>NFG: Matrix of payoffs indexed by agents’ actions
+</p>
+<p>• Nash equilibrium (NE):
+</p>
+<p>Every agent is best responding to every other agent
+</p>
+<p>No agent can obtain higher reward by changing strategy
+</p>
+<p>• Two most common paradigms:
+</p>
+<p>Reward obtained and Convergence to a NE</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 8/26
+</p>
+<p>MARL: Algorithms (some of them)
+</p>
+<p>• Fictitious play [Brown, 1951]
+</p>
+<p>Count-based estimate, play best response
+</p>
+<p>• Minimax-Q [Littman, 1994]
+</p>
+<p>Modify Q-learning; Assume the worst of the opponent
+</p>
+<p>• GIGA-WoLF [Bowling, 2004]
+</p>
+<p>Estimate, Gradient, WoLF (variable step size), regret
+</p>
+<p>• Global Stochastic Approximation (GSA) [Spall, 2003]
+</p>
+<p>Estimate, Annealing+Stochastic approximation, adds
+</p>
+<p>“jump”</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 9/26
+</p>
+<p>Existing Experimental Methods
+</p>
+<p>• Algorithms & their parameters
+</p>
+<p>• Games
+</p>
+<p>• Runs or trials
+</p>
+<p>• Iterations per trial
+</p>
+<p>• Settling vs. recording iterations</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 10/26
+</p>
+<p>A Platform for MARL: Details
+</p>
+<p>• Open, reusable platform
+</p>
+<p>• Now available on the web
+</p>
+<p>• Object-oriented Matlab
+</p>
+<p>• All interaction through GUIs
+</p>
+<p>• Currently 12 algorithms (including ones described earlier)
+</p>
+<p>• Games from GAMUT software [Nudelman et al., 2004]
+</p>
+<p>• Game properties solved by Gambit [McKelvey et al., 2004]</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 11/26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 12/26
+</p>
+<p>A Platform for MARL: Metrics
+</p>
+<p>• Reward-based Metrics (7)
+</p>
+<p>eg. Reward, regret, incentive to deviate, # wins
+</p>
+<p>• Nash Convergence-based Metrics (2) :
+</p>
+<p>eg. Joint ℓ1 distance to closest equilibrium
+</p>
+<p>• Estimating opponent’s strategy (4):
+</p>
+<p>ℓ1 distance between estimate and actual</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 13/26
+</p>
+<p>Visualisation
+</p>
+<p>• View 4D table (algorithms, games, iterations, runs)
+</p>
+<p>• User controlled in a step-by-step process
+</p>
+<p>• Can visualise specific subset of data cells in table
+</p>
+<p>and aggregate over the rest
+</p>
+<p>• eg: Average reward achieved by each agent overall;
+</p>
+<p>Box plot of a metric results for each algorithm pairing;
+</p>
+<p>Average distance to a NE in each game</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 14/26
+</p>
+<p>Empirical Test
+</p>
+<p>• Six Algorithms: GIGA-WoLF, GSA, Minimax-Q,
+</p>
+<p>Minimax-Q-IDR, Q-learning, Fictitious Play
+</p>
+<p>• Seven metrics
+</p>
+<p>• 1200 10x10 instances from 12 game generators
+</p>
+<p>• 1200 2x2 instances from TwoByTwo game generator
+</p>
+<p>• 100k iterations, 90k settle, 10k record
+</p>
+<p>• Kolmogorov-Smirnov Z test used to test statistical sim-
+</p>
+<p>ilarity</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 15/26
+</p>
+<p>High-level Observations
+</p>
+<p>• 9 High-level observations, including:
+</p>
+<p>1. No algorithm dominates
+</p>
+<p>2. Different generators are required for accurate per-
+</p>
+<p>formance
+</p>
+<p>3. No relationship between algorithm performance and
+</p>
+<p>the number of actions in the game
+</p>
+<p>4. Large experiments are easier to run on our platform</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 16/26
+</p>
+<p>Reducing the Size of the Space
+</p>
+<p>• 21 algorithm pairs, 24 game generators, 100 instances,
+</p>
+<p>10k iterations = 504 million cells in the 4D data table
+</p>
+<p>• Too big to consider the results in each cell ⇒
+</p>
+<p>1. Average over iterations
+</p>
+<p>2. Average over instances
+</p>
+<p>3. Generators split into 2x2 & 10x10 sets
+</p>
+<p>4. Algorithms kept separate
+</p>
+<p>• 19 total claims/hypotheses, subset described next</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 17/26
+</p>
+<p>Results: Reward-based
+</p>
+<p>• No algorithm obtains highest avg. reward in either 2x2
+</p>
+<p>or 10x10 sets of generators.
+</p>
+<p>⇒ Average reward is opponent dependent</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 18/26
+</p>
+<p>• Q-learning achieves highest mean and median reward
+</p>
+<p>in 2x2 set.
+</p>
+<p>⇒ Averaged over all opponents, games
+</p>
+<p>Q−learning
+</p>
+<p>minimax−Q−IDR
+</p>
+<p>minimax−Q
+</p>
+<p>GSA
+</p>
+<p>GIGA−WoLF
+</p>
+<p>Fictitious play
+</p>
+<p>−1 −0.8 −0.6 −0.4 −0.2 0 0.2 0.4 0.6 0.8 1
+Reward obtained (larger is better)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 19/26
+</p>
+<p>• Fictitious play obtains highest avg. mean and median
+</p>
+<p>reward in 10x10 set.
+</p>
+<p>Q−learning
+</p>
+<p>minimax−Q−IDR
+</p>
+<p>minimax−Q
+</p>
+<p>GSA
+</p>
+<p>GIGA−WoLF
+</p>
+<p>Fictitious play
+</p>
+<p>−1 −0.8 −0.6 −0.4 −0.2 0 0.2 0.4 0.6 0.8 1
+Reward obtained (larger is better)</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 20/26
+</p>
+<p>• Fictitious play obtains highest avg. mean and median
+</p>
+<p>reward in 10x10 set.
+</p>
+<p>• GIGA-WoLF achieves lower avg regret, sometimes neg-
+</p>
+<p>ative.
+</p>
+<p>⇒ Designed with this goal in mind</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 21/26
+</p>
+<p>Results: Nash Convergence-based
+</p>
+<p>• No relationship between obtaining reward & conver-
+</p>
+<p>ging to a NE.
+</p>
+<p>• Algorithms often converge, but often fail to converge.
+</p>
+<p>70
+2x2 set 10x10 set
+</p>
+<p>60
+</p>
+<p>50
+</p>
+<p>40
+</p>
+<p>30
+</p>
+<p>20
+</p>
+<p>10
+</p>
+<p>0
+Fictitious playminimax−Q−IDR Q−learning GIGA−WoLF minimax−Q GSA</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Percentage of l1 measure < 0.005
+</p>
+<p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 22/26
+</p>
+<p>Results: Nash Convergence-based
+</p>
+<p>• Algorithms often converge “close” (< 0.005) to a NE.
+</p>
+<p>⇒ 2x2: algorithms > 70%; 10x10: Fictitious play > 50%
+</p>
+<p>90
+2x2 set 10x10 set
+</p>
+<p>80
+</p>
+<p>70
+</p>
+<p>60
+</p>
+<p>50
+</p>
+<p>40
+</p>
+<p>30
+</p>
+<p>20
+</p>
+<p>10
+</p>
+<p>0
+Fictitious playminimax−Q−IDR Q−learning GIGA−WoLF minimax−Q GSA</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>% of repeated games with convergence to exact Nash equilibrium
+</p>
+<p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 23/26
+</p>
+<p>Results: Nash Convergence-based
+</p>
+<p>• Algorithms converge more often exactly in self play
+</p>
+<p>than non-self play.
+</p>
+<p>100
+Self play 2x2
+</p>
+<p>90 Non−self play 2x2
+Self play 10x10
+</p>
+<p>80 Non−self play 10x10
+</p>
+<p>70
+</p>
+<p>60
+</p>
+<p>50
+</p>
+<p>40
+</p>
+<p>30
+</p>
+<p>20
+</p>
+<p>10
+</p>
+<p>0
+Fictitious playGIGA−WoLF Q−learningminimax−Q−IDRminimax−Q GSA</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 24/26
+</p>
+<p>Conclusion
+</p>
+<p>• Final analysis: 9 observations, 19 claims
+</p>
+<p>• Platform proved to be extremely useful for this research
+</p>
+<p>Experiment ran for 2 CPU years on the cluster
+</p>
+<p>Survived several cluster outages
+</p>
+<p>• In analysis phase:
+</p>
+<p>GUI speeded up selection of interesting parameters
+</p>
+<p>Meant we probably ran more iterations of analysis
+</p>
+<p>• Configuration files made available for reproducibility</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 25/26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 26/26
+</p>
+<p>References
+M. Bowling and M. Veloso. Convergence of Gradient Dynamics with a Variable Learning Rate.
+</p>
+<p>In ICML 18, June 28 – July 1 2001.
+</p>
+<p>M. Bowling. Convergence and no-regret in multiagent learning. In NIPS 17, 2004.
+</p>
+<p>G. Brown. Iterative Solution of Games by Ficticious Play. In Activity Analysis of Production
+</p>
+<p>and Allocation, New York, 1951.
+</p>
+<p>C. Claus and C. Boutilier. The Dynamics of Reinforcement Learning in Cooperative Multiagent
+</p>
+<p>Systems. In AAAI 4, pages 746 – 752, July 28 1997.
+</p>
+<p>M. Littman. Markov Games as a Framework for Multi-agent Reinforcement Learning. In ICML
+</p>
+<p>11, pages 157 – 163, 1994.
+</p>
+<p>R.D. McKelvey, A.M. McLennan, and T.L. Turocy. Gambit: Software Tools for Game Theory.
+</p>
+<p>Version 0.97.0.6. http://econweb.tamu.edu/gambit, 2004.
+</p>
+<p>A.Y. Ng, A. Coates, M. Diel, V. Ganapathi, J. Schulte, B. Tse, E. Berger, and E. Liang. In-
+</p>
+<p>verted Autonomous Helicopter Flight via Reinforcement Learning. In Int. Symposium on
+</p>
+<p>Experimental Robototics, 2004.</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirically Evaluating Multiagent Reinforcement Learning Algorithms 27/26
+</p>
+<p>E. Nudelman, J. Wortman, K. Leyton-Brown, and Y. Shoham. Run the GAMUT: A Compre-
+</p>
+<p>hensive Approach to Evaluating Game-Theoretic Algorithms. In AAMAS 3, July 19 – 14
+</p>
+<p>2004.
+</p>
+<p>S. Singh, M. Kearns, and Y. Mansour. Nash Convergence of Gradient Dynamics in General-Sum
+</p>
+<p>Games. In UAI 16, 2000.
+</p>
+<p>J. C. Spall. Introduction to Stochastic Search and Optimization: Estimation, Simulation and
+</p>
+<p>Control. John Wiley & Sons, Hoboken, New Jersey, 2003.
+</p>
+<p>R.S. Sutton and A.G. Barto. Reinforcement Learning, An Introduction. The MIT Press, Cam-
+</p>
+<p>bridge, Massachusetts, 1999.
+</p>
+<p>C.H. Watkins and P. Dayan. Q–Learning: Technical Note. Machine Learning, 8:279–292, 1992.</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

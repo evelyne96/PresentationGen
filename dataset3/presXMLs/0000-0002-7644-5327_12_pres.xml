@@ -1,0 +1,1941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>An Experimental Investigation of
+Model-Based Parameter Optimization:
+.=</p>
+<p>SPO and Beyond
+.=</p>
+<p>Frank Hutter, Holger H. Hoos,
+Kevin Leyton-Brown, Kevin P. Murphy
+.=</p>
+<p>Department of Computer Science
+University of British Columbia
+.=</p>
+<p>Canada
+{hutter, hoos, kevinlb, murphyk}@cs.ubc.ca.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– Tedious to configure for a new domain
+I Population size
+I Mating scheme
+I Mutation rate
+I Search operators
+I Hybridizations, ...
+.=</p>
+<p>Automated parameter optimization can help
+.=</p>
+<p>I High-dimensional optimization problem
+.=</p>
+<p>I Automate  saves time & improves results
+.=</p>
+<p>Motivation for Parameter Optimization
+.=</p>
+<p>Genetic Algorithms & Evolutionary Strategies are
+.=</p>
+<p>+ Very flexible frameworks
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Automated parameter optimization can help
+.=</p>
+<p>I High-dimensional optimization problem
+.=</p>
+<p>I Automate  saves time & improves results
+.=</p>
+<p>Motivation for Parameter Optimization
+.=</p>
+<p>Genetic Algorithms & Evolutionary Strategies are
+.=</p>
+<p>+ Very flexible frameworks
+.=</p>
+<p>– Tedious to configure for a new domain
+I Population size
+I Mating scheme
+I Mutation rate
+I Search operators
+I Hybridizations, ...
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation for Parameter Optimization
+.=</p>
+<p>Genetic Algorithms & Evolutionary Strategies are
+.=</p>
+<p>+ Very flexible frameworks
+.=</p>
+<p>– Tedious to configure for a new domain
+I Population size
+I Mating scheme
+I Mutation rate
+I Search operators
+I Hybridizations, ...
+.=</p>
+<p>Automated parameter optimization can help
+.=</p>
+<p>I High-dimensional optimization problem
+.=</p>
+<p>I Automate  saves time & improves results
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Few categorical parameters: racing algorithms
+[Birattari, Stützle, Paquete & Varrentrapp, ’02]
+.=</p>
+<p>I Many categorical parameters
+.=</p>
+<p>– Genetic algorithms [Terashima-Maŕın, Ross & Valenzuela-Réndon, ’99]
+– Iterated Local Search
+.=</p>
+<p>[Hutter, Hoos, Leyton-Brown & Stützle, ’07-’09]
+.=</p>
+<p> Dozens of parameters (e.g., CPLEX with 63 parameters)
+ For many problems: SAT, MIP, time-tabling, protein folding,
+.=</p>
+<p>MPE, ...
+.=</p>
+<p>Parameter Optimization Methods
+.=</p>
+<p>I Numerical parameters
+.=</p>
+<p>– See Blackbox optimization workshop (this GECCO)
+– Algorithm parameters: CALIBRA [Adenso-Diaz & Laguna, ’06]
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Many categorical parameters
+.=</p>
+<p>– Genetic algorithms [Terashima-Maŕın, Ross & Valenzuela-Réndon, ’99]
+– Iterated Local Search
+.=</p>
+<p>[Hutter, Hoos, Leyton-Brown & Stützle, ’07-’09]
+.=</p>
+<p> Dozens of parameters (e.g., CPLEX with 63 parameters)
+ For many problems: SAT, MIP, time-tabling, protein folding,
+.=</p>
+<p>MPE, ...
+.=</p>
+<p>Parameter Optimization Methods
+.=</p>
+<p>I Numerical parameters
+.=</p>
+<p>– See Blackbox optimization workshop (this GECCO)
+– Algorithm parameters: CALIBRA [Adenso-Diaz & Laguna, ’06]
+.=</p>
+<p>I Few categorical parameters: racing algorithms
+[Birattari, Stützle, Paquete & Varrentrapp, ’02]
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– Iterated Local Search
+[Hutter, Hoos, Leyton-Brown & Stützle, ’07-’09]
+.=</p>
+<p> Dozens of parameters (e.g., CPLEX with 63 parameters)
+ For many problems: SAT, MIP, time-tabling, protein folding,
+.=</p>
+<p>MPE, ...
+.=</p>
+<p>Parameter Optimization Methods
+.=</p>
+<p>I Numerical parameters
+.=</p>
+<p>– See Blackbox optimization workshop (this GECCO)
+– Algorithm parameters: CALIBRA [Adenso-Diaz & Laguna, ’06]
+.=</p>
+<p>I Few categorical parameters: racing algorithms
+[Birattari, Stützle, Paquete & Varrentrapp, ’02]
+.=</p>
+<p>I Many categorical parameters
+.=</p>
+<p>– Genetic algorithms [Terashima-Maŕın, Ross & Valenzuela-Réndon, ’99]
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Parameter Optimization Methods
+.=</p>
+<p>I Numerical parameters
+.=</p>
+<p>– See Blackbox optimization workshop (this GECCO)
+– Algorithm parameters: CALIBRA [Adenso-Diaz & Laguna, ’06]
+.=</p>
+<p>I Few categorical parameters: racing algorithms
+[Birattari, Stützle, Paquete & Varrentrapp, ’02]
+.=</p>
+<p>I Many categorical parameters
+.=</p>
+<p>– Genetic algorithms [Terashima-Maŕın, Ross & Valenzuela-Réndon, ’99]
+– Iterated Local Search
+.=</p>
+<p>[Hutter, Hoos, Leyton-Brown & Stützle, ’07-’09]
+.=</p>
+<p> Dozens of parameters (e.g., CPLEX with 63 parameters)
+ For many problems: SAT, MIP, time-tabling, protein folding,
+.=</p>
+<p>MPE, ...
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Model-based Parameter Optimization
+.=</p>
+<p>I Methods
+.=</p>
+<p>– Fractional factorial designs [e.g., Ridge & Kudenko, ’07]
+– Sequential Parameter Optimization (SPO)
+.=</p>
+<p>[Bartz-Beielstein, Preuss, Lasarczyk, ’05-’09]
+.=</p>
+<p>I Can use model for more than optimization
+.=</p>
+<p>– Importance of each parameter
+– Interaction between parameters
+.=</p>
+<p>Parameter Optimization Methods
+.=</p>
+<p>Model-free Parameter Optimization
+.=</p>
+<p>I Numerical parameters: see BBOB workshop (this GECCO)
+.=</p>
+<p>I Few categorical parameters: racing algorithms
+[Birattari, Stützle, Paquete & Varrentrapp, ’02]
+.=</p>
+<p>I Many categorical parameters
+[e.g., Terashima-Maŕın, Ross & Valenzuela-Réndon, ’99, Hutter, Hoos,
+.=</p>
+<p>Leyton-Brown & Stützle, ’07-’09]
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Methods
+.=</p>
+<p>– Fractional factorial designs [e.g., Ridge & Kudenko, ’07]
+– Sequential Parameter Optimization (SPO)
+.=</p>
+<p>[Bartz-Beielstein, Preuss, Lasarczyk, ’05-’09]
+.=</p>
+<p>I Can use model for more than optimization
+.=</p>
+<p>– Importance of each parameter
+– Interaction between parameters
+.=</p>
+<p>Parameter Optimization Methods
+.=</p>
+<p>Model-free Parameter Optimization
+.=</p>
+<p>I Numerical parameters: see BBOB workshop (this GECCO)
+.=</p>
+<p>I Few categorical parameters: racing algorithms
+[Birattari, Stützle, Paquete & Varrentrapp, ’02]
+.=</p>
+<p>I Many categorical parameters
+[e.g., Terashima-Maŕın, Ross & Valenzuela-Réndon, ’99, Hutter, Hoos,
+.=</p>
+<p>Leyton-Brown & Stützle, ’07-’09]
+.=</p>
+<p>Model-based Parameter Optimization
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Can use model for more than optimization
+.=</p>
+<p>– Importance of each parameter
+– Interaction between parameters
+.=</p>
+<p>Parameter Optimization Methods
+.=</p>
+<p>Model-free Parameter Optimization
+.=</p>
+<p>I Numerical parameters: see BBOB workshop (this GECCO)
+.=</p>
+<p>I Few categorical parameters: racing algorithms
+[Birattari, Stützle, Paquete & Varrentrapp, ’02]
+.=</p>
+<p>I Many categorical parameters
+[e.g., Terashima-Maŕın, Ross & Valenzuela-Réndon, ’99, Hutter, Hoos,
+.=</p>
+<p>Leyton-Brown & Stützle, ’07-’09]
+.=</p>
+<p>Model-based Parameter Optimization
+.=</p>
+<p>I Methods
+.=</p>
+<p>– Fractional factorial designs [e.g., Ridge & Kudenko, ’07]
+– Sequential Parameter Optimization (SPO)
+.=</p>
+<p>[Bartz-Beielstein, Preuss, Lasarczyk, ’05-’09]
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Parameter Optimization Methods
+.=</p>
+<p>Model-free Parameter Optimization
+.=</p>
+<p>I Numerical parameters: see BBOB workshop (this GECCO)
+.=</p>
+<p>I Few categorical parameters: racing algorithms
+[Birattari, Stützle, Paquete & Varrentrapp, ’02]
+.=</p>
+<p>I Many categorical parameters
+[e.g., Terashima-Maŕın, Ross & Valenzuela-Réndon, ’99, Hutter, Hoos,
+.=</p>
+<p>Leyton-Brown & Stützle, ’07-’09]
+.=</p>
+<p>Model-based Parameter Optimization
+.=</p>
+<p>I Methods
+.=</p>
+<p>– Fractional factorial designs [e.g., Ridge & Kudenko, ’07]
+– Sequential Parameter Optimization (SPO)
+.=</p>
+<p>[Bartz-Beielstein, Preuss, Lasarczyk, ’05-’09]
+.=</p>
+<p>I Can use model for more than optimization
+.=</p>
+<p>– Importance of each parameter
+– Interaction between parameters
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Sequential Model-Based Optimization (SMBO): Introduction
+.=</p>
+<p>2. Comparing Two SMBO Methods: SPO vs SKO
+.=</p>
+<p>3. Components of SPO: Model Quality
+.=</p>
+<p>4. Components of SPO: Sequential Experimental Design
+.=</p>
+<p>5. Conclusions and Future Work
+.=</p>
+<p>5.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Sequential Model-Based Optimization (SMBO): Introduction
+.=</p>
+<p>2. Comparing Two SMBO Methods: SPO vs SKO
+.=</p>
+<p>3. Components of SPO: Model Quality
+.=</p>
+<p>4. Components of SPO: Sequential Experimental Design
+.=</p>
+<p>5. Conclusions and Future Work
+.=</p>
+<p>6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>1. Get response values at initial design points
+.=</p>
+<p>2. Fit a model to the data
+.=</p>
+<p>3. Use model to pick most promising next design point (based
+on expected improvement criterion)
+.=</p>
+<p>4. Repeat 2. and 3. until time is up
+.=</p>
+<p>SMBO: Introduction
+.=</p>
+<p>30  
+.=</p>
+<p>.
+.=</p>
+<p>.
+25 True function
+.=</p>
+<p>.
+.=</p>
+<p>.
+20
+.=</p>
+<p>15
+.=</p>
+<p>10
+.=</p>
+<p>5
+.=</p>
+<p>0
+.=</p>
+<p>−5  
+0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x
+.=</p>
+<p>First step of SMBO
+.=</p>
+<p>7
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2. Fit a model to the data
+.=</p>
+<p>3. Use model to pick most promising next design point (based
+on expected improvement criterion)
+.=</p>
+<p>4. Repeat 2. and 3. until time is up
+.=</p>
+<p>SMBO: Introduction
+.=</p>
+<p>1. Get response values at initial design points
+.=</p>
+<p>30  
+.=</p>
+<p>.
+.=</p>
+<p>25 True function
+.=</p>
+<p>Function evaluations
+.=</p>
+<p>.
+20
+.=</p>
+<p>15
+.=</p>
+<p>10
+.=</p>
+<p>5
+.=</p>
+<p>0
+.=</p>
+<p>−5  
+0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x
+.=</p>
+<p>First step of SMBO
+.=</p>
+<p>7
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2. Fit a model to the data
+.=</p>
+<p>3. Use model to pick most promising next design point (based
+on expected improvement criterion)
+.=</p>
+<p>4. Repeat 2. and 3. until time is up
+.=</p>
+<p>SMBO: Introduction
+.=</p>
+<p>1. Get response values at initial design points
+.=</p>
+<p>30  
+.=</p>
+<p>.
+.=</p>
+<p>.
+25 .
+.=</p>
+<p>Function evaluations
+.=</p>
+<p>.
+20
+.=</p>
+<p>15
+.=</p>
+<p>10
+.=</p>
+<p>5
+.=</p>
+<p>0
+.=</p>
+<p>−5  
+0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x
+.=</p>
+<p>First step of SMBO
+.=</p>
+<p>7
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>3. Use model to pick most promising next design point (based
+on expected improvement criterion)
+.=</p>
+<p>4. Repeat 2. and 3. until time is up
+.=</p>
+<p>SMBO: Introduction
+.=</p>
+<p>1. Get response values at initial design points
+.=</p>
+<p>2. Fit a model to the data
+.=</p>
+<p>30  
+.=</p>
+<p>DACE mean prediction
+.=</p>
+<p>DACE mean +/− 2*stddev
+25 .
+.=</p>
+<p>Function evaluations
+.=</p>
+<p>.
+20
+.=</p>
+<p>15
+.=</p>
+<p>10
+.=</p>
+<p>5
+.=</p>
+<p>0
+.=</p>
+<p>−5  
+0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x
+.=</p>
+<p>First step of SMBO
+.=</p>
+<p>7
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4. Repeat 2. and 3. until time is up
+.=</p>
+<p>SMBO: Introduction
+.=</p>
+<p>1. Get response values at initial design points
+.=</p>
+<p>2. Fit a model to the data
+.=</p>
+<p>3. Use model to pick most promising next design point (based
+on expected improvement criterion)
+.=</p>
+<p>30  
+.=</p>
+<p>DACE mean prediction
+.=</p>
+<p>DACE mean +/− 2*stddev
+25 .
+.=</p>
+<p>Function evaluations
+.=</p>
+<p>EI (scaled)
+20
+.=</p>
+<p>15
+.=</p>
+<p>10
+.=</p>
+<p>5
+.=</p>
+<p>0
+.=</p>
+<p>−5  
+0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x
+.=</p>
+<p>First step of SMBO
+.=</p>
+<p>7
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4. Repeat 2. and 3. until time is up
+.=</p>
+<p>SMBO: Introduction
+.=</p>
+<p>1. Get response values at initial design points
+.=</p>
+<p>2. Fit a model to the data
+.=</p>
+<p>3. Use model to pick most promising next design point (based
+on expected improvement criterion)
+.=</p>
+<p>30  
+.=</p>
+<p>DACE mean prediction
+.=</p>
+<p>DACE mean +/− 2*stddev
+25 True function
+.=</p>
+<p>Function evaluations
+.=</p>
+<p>EI (scaled)
+20
+.=</p>
+<p>15
+.=</p>
+<p>10
+.=</p>
+<p>5
+.=</p>
+<p>0
+.=</p>
+<p>−5  
+0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x
+.=</p>
+<p>First step of SMBO
+.=</p>
+<p>7
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SMBO: Introduction
+.=</p>
+<p>1. Get response values at initial design points
+.=</p>
+<p>2. Fit a model to the data
+.=</p>
+<p>3. Use model to pick most promising next design point (based
+on expected improvement criterion)
+.=</p>
+<p>4. Repeat 2. and 3. until time is up
+.=</p>
+<p>30  30  
+.=</p>
+<p>DACE mean prediction DACE mean prediction
+.=</p>
+<p>DACE mean +/− 2*stddev DACE mean +/− 2*stddev
+25 True function 25 True function
+.=</p>
+<p>Function evaluations Function evaluations
+.=</p>
+<p>EI (scaled) EI (scaled)
+20 20
+.=</p>
+<p>15 15
+.=</p>
+<p>10 10
+.=</p>
+<p>5 5
+.=</p>
+<p>0 0
+.=</p>
+<p>−5  −5  
+0 0.2 0.4 0.6 0.8 1 0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x parameter x
+.=</p>
+<p>First step of SMBO Second step of SMBO
+.=</p>
+<p>7
+.=</p>
+<p>response y
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Sequential Model-Based Optimization (SMBO): Introduction
+.=</p>
+<p>2. Comparing Two SMBO Methods: SPO vs SKO
+.=</p>
+<p>3. Components of SPO: Model Quality
+.=</p>
+<p>4. Components of SPO: Sequential Experimental Design
+.=</p>
+<p>5. Conclusions and Future Work
+.=</p>
+<p>8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Method II (used in SPO) [Bartz-Beielstein, Preuss, Lasarczyk, ’05-’09]
+– Compute statistic of empirical distribution of responses at each
+.=</p>
+<p>design point
+– Fit noise-free GP to that
+.=</p>
+<p>30  
+.=</p>
+<p>DACE mean prediction
+.=</p>
+<p>DACE mean +/− 2*stddev
+25 True function
+.=</p>
+<p>Function evaluations
+.=</p>
+<p>.
+20
+.=</p>
+<p>15
+.=</p>
+<p>10
+.=</p>
+<p>5
+.=</p>
+<p>0
+.=</p>
+<p>−5  
+0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x
+.=</p>
+<p>Method II: noise-free fit of cost statistic
+.=</p>
+<p>Dealing with Noise: SKO vs SPO
+.=</p>
+<p>I Method I (used in SKO) [Huang, Allen, Notz & Zeng, ’06.]
+– Fit standard GP assuming Gaussian observation noise
+– Can only fit the mean of the responses
+.=</p>
+<p>30  
+.=</p>
+<p>GP mean prediction
+.=</p>
+<p>GP mean +/− 2*stddev
+25 True function
+.=</p>
+<p>Function evaluations
+.=</p>
+<p>.
+20
+.=</p>
+<p>15
+.=</p>
+<p>10
+.=</p>
+<p>5
+.=</p>
+<p>0
+.=</p>
+<p>−5  
+0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x
+.=</p>
+<p>Method I: noisy fit of original response
+9
+.=</p>
+<p>response y
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dealing with Noise: SKO vs SPO
+.=</p>
+<p>I Method I (used in SKO) [Huang, Allen, Notz & Zeng, ’06.]
+– Fit standard GP assuming Gaussian observation noise
+– Can only fit the mean of the responses
+.=</p>
+<p>I Method II (used in SPO) [Bartz-Beielstein, Preuss, Lasarczyk, ’05-’09]
+– Compute statistic of empirical distribution of responses at each
+.=</p>
+<p>design point
+– Fit noise-free GP to that
+.=</p>
+<p>30  30  
+GP mean prediction DACE mean prediction
+GP mean +/− 2*stddev DACE mean +/− 2*stddev
+.=</p>
+<p>25 True function 25 True function
+Function evaluations Function evaluations
+. .
+.=</p>
+<p>20 20
+.=</p>
+<p>15 15
+.=</p>
+<p>10 10
+.=</p>
+<p>5 5
+.=</p>
+<p>0 0
+.=</p>
+<p>−5  −5  
+0 0.2 0.4 0.6 0.8 1 0 0.2 0.4 0.6 0.8 1
+.=</p>
+<p>parameter x parameter x
+.=</p>
+<p>Method I: noisy fit of original response Method II: noise-free fit of cost statistic
+9
+.=</p>
+<p>response y
+.=</p>
+<p>response y.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Tuning objective
+– Solution cost: best function value found in budget
+– Here: Sphere function
+– Minimize mean solution cost across many runs
+.=</p>
+<p> 
+.=</p>
+<p>SKO
+−3
+.=</p>
+<p>10 SPO 0.3
+.=</p>
+<p>SPO 0.4
+SPO+
+.=</p>
+<p>−4
+10
+.=</p>
+<p>−5
+10
+.=</p>
+<p>−6
+10
+.=</p>
+<p> 
+.=</p>
+<p>50 100 150 200
+.=</p>
+<p>number of target algorithm runs k
+.=</p>
+<p>Experiment: SPO vs SKO for Tuning CMA-ES
+.=</p>
+<p>I CMA-ES [Hansen et al., ’95-’09]
+– Evolutionary strategy for global optimization
+– State-of-the-art (see BBOB workshop this GECCO)
+– Parameters: population size, number of parents, learning rate,
+.=</p>
+<p>damping parameter
+.=</p>
+<p>10
+.=</p>
+<p>cost c
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p> 
+.=</p>
+<p>SKO
+−3
+.=</p>
+<p>10 SPO 0.3
+.=</p>
+<p>SPO 0.4
+SPO+
+.=</p>
+<p>−4
+10
+.=</p>
+<p>−5
+10
+.=</p>
+<p>−6
+10
+.=</p>
+<p> 
+.=</p>
+<p>50 100 150 200
+.=</p>
+<p>number of target algorithm runs k
+.=</p>
+<p>Experiment: SPO vs SKO for Tuning CMA-ES
+.=</p>
+<p>I CMA-ES [Hansen et al., ’95-’09]
+– Evolutionary strategy for global optimization
+– State-of-the-art (see BBOB workshop this GECCO)
+– Parameters: population size, number of parents, learning rate,
+.=</p>
+<p>damping parameter
+I Tuning objective
+.=</p>
+<p>– Solution cost: best function value found in budget
+– Here: Sphere function
+– Minimize mean solution cost across many runs
+.=</p>
+<p>10
+.=</p>
+<p>cost c
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiment: SPO vs SKO for Tuning CMA-ES
+.=</p>
+<p>I CMA-ES [Hansen et al., ’95-’09]
+– Evolutionary strategy for global optimization
+– State-of-the-art (see BBOB workshop this GECCO)
+– Parameters: population size, number of parents, learning rate,
+.=</p>
+<p>damping parameter
+I Tuning objective
+.=</p>
+<p>– Solution cost: best function value found in budget
+– Here: Sphere function
+– Minimize mean solution cost across many runs
+.=</p>
+<p> 
+.=</p>
+<p>SKO
+−3
+.=</p>
+<p>10 SPO 0.3
+.=</p>
+<p>SPO 0.4
+SPO+
+.=</p>
+<p>−4
+10
+.=</p>
+<p>−5
+10
+.=</p>
+<p>−6
+10
+.=</p>
+<p> 
+.=</p>
+<p>50 100 150 200
+.=</p>
+<p>number of target algorithm runs k
+.=</p>
+<p>10
+.=</p>
+<p>cost c
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Sequential Model-Based Optimization (SMBO): Introduction
+.=</p>
+<p>2. Comparing Two SMBO Methods: SPO vs SKO
+.=</p>
+<p>3. Components of SPO: Model Quality
+.=</p>
+<p>4. Components of SPO: Sequential Experimental Design
+.=</p>
+<p>5. Conclusions and Future Work
+.=</p>
+<p>11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>– Sampled uniformly at random
+– Random Latin Hypercube
+– Iterated Hypercube Sampling [Beachkofski & Grandhi, ’02]
+– SPO’s standard LHD
+.=</p>
+<p>I Result: no significant difference
+.=</p>
+<p>– Initial design not very important
+– Using cheap random LHD from here on
+.=</p>
+<p>Components of SPO: initial design
+.=</p>
+<p>I Fixed number of initial design points (250) and repeats (2)
+.=</p>
+<p>– Size of initial design studied before [Bartz-Beielstein & Preuss, ’06]
+.=</p>
+<p>I Here: studied which 250 design points to use
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Result: no significant difference
+.=</p>
+<p>– Initial design not very important
+– Using cheap random LHD from here on
+.=</p>
+<p>Components of SPO: initial design
+.=</p>
+<p>I Fixed number of initial design points (250) and repeats (2)
+.=</p>
+<p>– Size of initial design studied before [Bartz-Beielstein & Preuss, ’06]
+.=</p>
+<p>I Here: studied which 250 design points to use
+.=</p>
+<p>– Sampled uniformly at random
+– Random Latin Hypercube
+– Iterated Hypercube Sampling [Beachkofski & Grandhi, ’02]
+– SPO’s standard LHD
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Components of SPO: initial design
+.=</p>
+<p>I Fixed number of initial design points (250) and repeats (2)
+.=</p>
+<p>– Size of initial design studied before [Bartz-Beielstein & Preuss, ’06]
+.=</p>
+<p>I Here: studied which 250 design points to use
+.=</p>
+<p>– Sampled uniformly at random
+– Random Latin Hypercube
+– Iterated Hypercube Sampling [Beachkofski & Grandhi, ’02]
+– SPO’s standard LHD
+.=</p>
+<p>I Result: no significant difference
+.=</p>
+<p>– Initial design not very important
+– Using cheap random LHD from here on
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Data: solution cost of CMA-ES on sphere
+– Training: 250 · 2 data points as above
+– Test: 250 new points, sampled uniformly at random
+.=</p>
+<p>4
+4
+.=</p>
+<p>2
+2
+.=</p>
+<p>0 0
+.=</p>
+<p>−2 −2
+.=</p>
+<p>−4 −4
+.=</p>
+<p>−6 −6
+.=</p>
+<p>−6 −4 −2 0 2 4 −6 −4 −2 0 2 4
+.=</p>
+<p>log (true response) log (true response)
+10 10
+.=</p>
+<p>No transformation Log transformation
+.=</p>
+<p>Note: In newer experiments, SKO with log models was competitive
+.=</p>
+<p>Components of SPO: Transformations
+.=</p>
+<p>I Compute empirical cost statistics ĉ(θ) first
+I Then transform cost statistics: log(ĉ(θ))
+.=</p>
+<p>13
+.=</p>
+<p>log (predicted response)
+10
+.=</p>
+<p>log (predicted response)
+10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4
+4
+.=</p>
+<p>2
+2
+.=</p>
+<p>0 0
+.=</p>
+<p>−2 −2
+.=</p>
+<p>−4 −4
+.=</p>
+<p>−6 −6
+.=</p>
+<p>−6 −4 −2 0 2 4 −6 −4 −2 0 2 4
+.=</p>
+<p>log (true response) log (true response)
+10 10
+.=</p>
+<p>No transformation Log transformation
+.=</p>
+<p>Note: In newer experiments, SKO with log models was competitive
+.=</p>
+<p>Components of SPO: Transformations
+.=</p>
+<p>I Compute empirical cost statistics ĉ(θ) first
+I Then transform cost statistics: log(ĉ(θ))
+I Data: solution cost of CMA-ES on sphere
+.=</p>
+<p>– Training: 250 · 2 data points as above
+– Test: 250 new points, sampled uniformly at random
+.=</p>
+<p>13
+.=</p>
+<p>log (predicted response)
+10
+.=</p>
+<p>log (predicted response)
+10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4
+.=</p>
+<p>2
+.=</p>
+<p>0
+.=</p>
+<p>−2
+.=</p>
+<p>−4
+.=</p>
+<p>−6
+.=</p>
+<p>−6 −4 −2 0 2 4
+.=</p>
+<p>log (true response)
+10
+.=</p>
+<p>Log transformation
+.=</p>
+<p>Note: In newer experiments, SKO with log models was competitive
+.=</p>
+<p>Components of SPO: Transformations
+.=</p>
+<p>I Compute empirical cost statistics ĉ(θ) first
+I Then transform cost statistics: log(ĉ(θ))
+I Data: solution cost of CMA-ES on sphere
+.=</p>
+<p>– Training: 250 · 2 data points as above
+– Test: 250 new points, sampled uniformly at random
+.=</p>
+<p>4
+.=</p>
+<p>2
+.=</p>
+<p>0
+.=</p>
+<p>−2
+.=</p>
+<p>−4
+.=</p>
+<p>−6
+.=</p>
+<p>−6 −4 −2 0 2 4
+.=</p>
+<p>log (true response)
+10
+.=</p>
+<p>No transformation
+.=</p>
+<p>13
+.=</p>
+<p>log (predicted response)
+10
+.=</p>
+<p>log (predicted response)
+10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Note: In newer experiments, SKO with log models was competitive
+.=</p>
+<p>Components of SPO: Transformations
+.=</p>
+<p>I Compute empirical cost statistics ĉ(θ) first
+I Then transform cost statistics: log(ĉ(θ))
+I Data: solution cost of CMA-ES on sphere
+.=</p>
+<p>– Training: 250 · 2 data points as above
+– Test: 250 new points, sampled uniformly at random
+.=</p>
+<p>4
+4
+.=</p>
+<p>2
+2
+.=</p>
+<p>0 0
+.=</p>
+<p>−2 −2
+.=</p>
+<p>−4 −4
+.=</p>
+<p>−6 −6
+.=</p>
+<p>−6 −4 −2 0 2 4 −6 −4 −2 0 2 4
+.=</p>
+<p>log (true response) log (true response)
+10 10
+.=</p>
+<p>No transformation Log transformation
+.=</p>
+<p>13
+.=</p>
+<p>log (predicted response)
+10
+.=</p>
+<p>log (predicted response)
+10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Components of SPO: Transformations
+.=</p>
+<p>I Compute empirical cost statistics ĉ(θ) first
+I Then transform cost statistics: log(ĉ(θ))
+I Data: solution cost of CMA-ES on sphere
+.=</p>
+<p>– Training: 250 · 2 data points as above
+– Test: 250 new points, sampled uniformly at random
+.=</p>
+<p>4
+4
+.=</p>
+<p>2
+2
+.=</p>
+<p>0 0
+.=</p>
+<p>−2 −2
+.=</p>
+<p>−4 −4
+.=</p>
+<p>−6 −6
+.=</p>
+<p>−6 −4 −2 0 2 4 −6 −4 −2 0 2 4
+.=</p>
+<p>log (true response) log (true response)
+10 10
+.=</p>
+<p>No transformation Log transformation
+.=</p>
+<p>Note: In newer experiments, SKO with log models was competitive
+13
+.=</p>
+<p>log (predicted response)
+10
+.=</p>
+<p>log (predicted response)
+10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Sequential Model-Based Optimization (SMBO): Introduction
+.=</p>
+<p>2. Comparing Two SMBO Methods: SPO vs SKO
+.=</p>
+<p>3. Components of SPO: Model Quality
+.=</p>
+<p>4. Components of SPO: Sequential Experimental Design
+.=</p>
+<p>5. Conclusions and Future Work
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Fix for log-transform: new expected improvement criterion
+.=</p>
+<p>I Want to optimize Iexp(θ) = max{0, fmin − exp[f (θ)]}
+I There is a closed-form solution (see paper)
+.=</p>
+<p>I However: no significant improvement in our experiments
+.=</p>
+<p>Components of SPO:
+expected improvement criterion
+.=</p>
+<p>User wants to optimize some objective c
+.=</p>
+<p>I We transform c to improve the model
+.=</p>
+<p>I But that doesn’t change the user’s objective
+.=</p>
+<p> Have to adapt expected improvement criterion to handle
+un-transformed objective
+.=</p>
+<p>15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I However: no significant improvement in our experiments
+.=</p>
+<p>Components of SPO:
+expected improvement criterion
+.=</p>
+<p>User wants to optimize some objective c
+.=</p>
+<p>I We transform c to improve the model
+.=</p>
+<p>I But that doesn’t change the user’s objective
+.=</p>
+<p> Have to adapt expected improvement criterion to handle
+un-transformed objective
+.=</p>
+<p>Fix for log-transform: new expected improvement criterion
+.=</p>
+<p>I Want to optimize Iexp(θ) = max{0, fmin − exp[f (θ)]}
+I There is a closed-form solution (see paper)
+.=</p>
+<p>15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Components of SPO:
+expected improvement criterion
+.=</p>
+<p>User wants to optimize some objective c
+.=</p>
+<p>I We transform c to improve the model
+.=</p>
+<p>I But that doesn’t change the user’s objective
+.=</p>
+<p> Have to adapt expected improvement criterion to handle
+un-transformed objective
+.=</p>
+<p>Fix for log-transform: new expected improvement criterion
+.=</p>
+<p>I Want to optimize Iexp(θ) = max{0, fmin − exp[f (θ)]}
+I There is a closed-form solution (see paper)
+.=</p>
+<p>I However: no significant improvement in our experiments
+.=</p>
+<p>15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SPO’s mechanism in a nutshell
+.=</p>
+<p>I Compute cost statistic ĉ(θ) for each configuration θ
+.=</p>
+<p>I θinc ← configuration with lowest ĉ(θ)
+I Perform up to R runs for θinc to ensure it is good
+.=</p>
+<p>– Increase R over time
+.=</p>
+<p>I But what if it doesn’t perform well?
+.=</p>
+<p>– Then a different incumbent is picked in the next iteration
+– That might also turn out not to be good...
+.=</p>
+<p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+.=</p>
+<p>Some algorithm runs can be lucky
+.=</p>
+<p> need extra mechanism to ensure incumbent is really good
+.=</p>
+<p> SPO increases number of repeats over time
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I θinc ← configuration with lowest ĉ(θ)
+I Perform up to R runs for θinc to ensure it is good
+.=</p>
+<p>– Increase R over time
+.=</p>
+<p>I But what if it doesn’t perform well?
+.=</p>
+<p>– Then a different incumbent is picked in the next iteration
+– That might also turn out not to be good...
+.=</p>
+<p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+.=</p>
+<p>Some algorithm runs can be lucky
+.=</p>
+<p> need extra mechanism to ensure incumbent is really good
+.=</p>
+<p> SPO increases number of repeats over time
+.=</p>
+<p>SPO’s mechanism in a nutshell
+.=</p>
+<p>I Compute cost statistic ĉ(θ) for each configuration θ
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Perform up to R runs for θinc to ensure it is good
+.=</p>
+<p>– Increase R over time
+.=</p>
+<p>I But what if it doesn’t perform well?
+.=</p>
+<p>– Then a different incumbent is picked in the next iteration
+– That might also turn out not to be good...
+.=</p>
+<p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+.=</p>
+<p>Some algorithm runs can be lucky
+.=</p>
+<p> need extra mechanism to ensure incumbent is really good
+.=</p>
+<p> SPO increases number of repeats over time
+.=</p>
+<p>SPO’s mechanism in a nutshell
+.=</p>
+<p>I Compute cost statistic ĉ(θ) for each configuration θ
+.=</p>
+<p>I θinc ← configuration with lowest ĉ(θ)
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I But what if it doesn’t perform well?
+.=</p>
+<p>– Then a different incumbent is picked in the next iteration
+– That might also turn out not to be good...
+.=</p>
+<p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+.=</p>
+<p>Some algorithm runs can be lucky
+.=</p>
+<p> need extra mechanism to ensure incumbent is really good
+.=</p>
+<p> SPO increases number of repeats over time
+.=</p>
+<p>SPO’s mechanism in a nutshell
+.=</p>
+<p>I Compute cost statistic ĉ(θ) for each configuration θ
+.=</p>
+<p>I θinc ← configuration with lowest ĉ(θ)
+I Perform up to R runs for θinc to ensure it is good
+.=</p>
+<p>– Increase R over time
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+.=</p>
+<p>Some algorithm runs can be lucky
+.=</p>
+<p> need extra mechanism to ensure incumbent is really good
+.=</p>
+<p> SPO increases number of repeats over time
+.=</p>
+<p>SPO’s mechanism in a nutshell
+.=</p>
+<p>I Compute cost statistic ĉ(θ) for each configuration θ
+.=</p>
+<p>I θinc ← configuration with lowest ĉ(θ)
+I Perform up to R runs for θinc to ensure it is good
+.=</p>
+<p>– Increase R over time
+.=</p>
+<p>I But what if it doesn’t perform well?
+.=</p>
+<p>– Then a different incumbent is picked in the next iteration
+– That might also turn out not to be good...
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Substantially improves robustness → new SPO variant: SPO+
+.=</p>
+<p>0   
+10 SPO 0.3 SPO 0.3
+.=</p>
+<p>SPO 0.4 SPO 0.4
+SPO+ 3 SPO+
+.=</p>
+<p>−1 10
+10
+.=</p>
+<p>2
+−2
+.=</p>
+<p>10 10
+.=</p>
+<p>−3 1
+10 10
+.=</p>
+<p>  
+500 600 700 800 900 1000 500 600 700 800 900 1000
+.=</p>
+<p>number of algorithm runs k number of algorithm runs k
+.=</p>
+<p>Tuning CMA-ES on Griewangk Tuning CMA-ES on Rastrigin
+.=</p>
+<p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+Simple fix
+.=</p>
+<p>I Iteratively perform runs for single most promising θnew
+I Compare against current incumbent θinc
+I Once θnew has as many runs as θinc : make it new θinc
+.=</p>
+<p>I Maintain invariant: θinc has the most runs of all
+.=</p>
+<p>17
+.=</p>
+<p>performance p
+k
+.=</p>
+<p>performance p
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>0   
+10 SPO 0.3 SPO 0.3
+.=</p>
+<p>SPO 0.4 SPO 0.4
+SPO+ 3 SPO+
+.=</p>
+<p>−1 10
+10
+.=</p>
+<p>2
+−2
+.=</p>
+<p>10 10
+.=</p>
+<p>−3 1
+10 10
+.=</p>
+<p>  
+500 600 700 800 900 1000 500 600 700 800 900 1000
+.=</p>
+<p>number of algorithm runs k number of algorithm runs k
+.=</p>
+<p>Tuning CMA-ES on Griewangk Tuning CMA-ES on Rastrigin
+.=</p>
+<p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+Simple fix
+.=</p>
+<p>I Iteratively perform runs for single most promising θnew
+I Compare against current incumbent θinc
+I Once θnew has as many runs as θinc : make it new θinc
+.=</p>
+<p>I Maintain invariant: θinc has the most runs of all
+.=</p>
+<p>I Substantially improves robustness → new SPO variant: SPO+
+.=</p>
+<p>17
+.=</p>
+<p>performance p
+k
+.=</p>
+<p>performance p
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p> 
+.=</p>
+<p>SPO 0.3
+SPO 0.4
+.=</p>
+<p>3 SPO+
+10
+.=</p>
+<p>2
+10
+.=</p>
+<p>1
+10
+.=</p>
+<p> 
+500 600 700 800 900 1000
+.=</p>
+<p>number of algorithm runs k
+.=</p>
+<p>Tuning CMA-ES on Rastrigin
+.=</p>
+<p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+Simple fix
+.=</p>
+<p>I Iteratively perform runs for single most promising θnew
+I Compare against current incumbent θinc
+I Once θnew has as many runs as θinc : make it new θinc
+.=</p>
+<p>I Maintain invariant: θinc has the most runs of all
+.=</p>
+<p>I Substantially improves robustness → new SPO variant: SPO+
+.=</p>
+<p>0  
+10 SPO 0.3
+.=</p>
+<p>SPO 0.4
+SPO+
+.=</p>
+<p>−1
+10
+.=</p>
+<p>−2
+10
+.=</p>
+<p>−3
+10
+.=</p>
+<p> 
+500 600 700 800 900 1000
+.=</p>
+<p>number of algorithm runs k
+.=</p>
+<p>Tuning CMA-ES on Griewangk
+17
+.=</p>
+<p>performance p
+k
+.=</p>
+<p>performance p
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Components of SPO: choosing the incumbent
+parameter setting in presence of noise
+Simple fix
+.=</p>
+<p>I Iteratively perform runs for single most promising θnew
+I Compare against current incumbent θinc
+I Once θnew has as many runs as θinc : make it new θinc
+.=</p>
+<p>I Maintain invariant: θinc has the most runs of all
+.=</p>
+<p>I Substantially improves robustness → new SPO variant: SPO+
+.=</p>
+<p>0   
+10 SPO 0.3 SPO 0.3
+.=</p>
+<p>SPO 0.4 SPO 0.4
+SPO+ 3 SPO+
+.=</p>
+<p>−1 10
+10
+.=</p>
+<p>2
+−2
+.=</p>
+<p>10 10
+.=</p>
+<p>−3 1
+10 10
+.=</p>
+<p>  
+500 600 700 800 900 1000 500 600 700 800 900 1000
+.=</p>
+<p>number of algorithm runs k number of algorithm runs k
+.=</p>
+<p>Tuning CMA-ES on Griewangk Tuning CMA-ES on Rastrigin
+17
+.=</p>
+<p>performance p
+k
+.=</p>
+<p>performance p
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Sequential Experimental Design
+.=</p>
+<p>I Expected improvement criterion
+.=</p>
+<p> New one that’s better in theory but not in practice
+ Use original one in SPO+
+.=</p>
+<p>I New mechanism for increasing #runs & selecting incumbent
+.=</p>
+<p> substantially improves robustness
+ Use it in SPO+
+.=</p>
+<p>Summary of Study of SPO components &
+Definition of SPO+
+.=</p>
+<p>Model Quality
+.=</p>
+<p>I Initial design not very important
+.=</p>
+<p> use simple random LHD in SPO+
+.=</p>
+<p>I Log-transforms sometimes improve model quality a lot
+.=</p>
+<p> use them in SPO+ (for positive functions)
+.=</p>
+<p>18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Summary of Study of SPO components &
+Definition of SPO+
+.=</p>
+<p>Model Quality
+.=</p>
+<p>I Initial design not very important
+.=</p>
+<p> use simple random LHD in SPO+
+.=</p>
+<p>I Log-transforms sometimes improve model quality a lot
+.=</p>
+<p> use them in SPO+ (for positive functions)
+.=</p>
+<p>Sequential Experimental Design
+.=</p>
+<p>I Expected improvement criterion
+.=</p>
+<p> New one that’s better in theory but not in practice
+ Use original one in SPO+
+.=</p>
+<p>I New mechanism for increasing #runs & selecting incumbent
+.=</p>
+<p> substantially improves robustness
+ Use it in SPO+
+.=</p>
+<p>18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Results known for CALIBRA & ParamILS [Hutter et al, AAAI’07]
+.=</p>
+<p>4
+x 10
+.=</p>
+<p>3  
+SPO 0.3 Procedure SAPS median run-time/103
+SPO 0.4
+.=</p>
+<p>2.5 SPO+ SAPS default 85.5
+CALIBRA(100) 10.7± 1.1
+.=</p>
+<p>2
+BasicILS(100) 10.9± 0.6
+.=</p>
+<p>1.5 FocusedILS 10.6± 0.5
+SPO 0.3 18.3± 13.7
+.=</p>
+<p>1 SPO 0.4 10.4± 0.7
+SPO+ 10.0± 0.4
+.=</p>
+<p>0.5  
+3 4
+.=</p>
+<p>10 10
+number of algorithm runs k
+.=</p>
+<p>Comparison to SPO variants, With budget of 20000 runs of SAPS
+.=</p>
+<p>with varying budget
+.=</p>
+<p>Comparison to State of the Art
+for tuning SAPS
+.=</p>
+<p>I SAPS
+I Stochastic local search algorithm for SAT
+I 4 continuous parameters
+I Here: min. search steps for single problem instance
+.=</p>
+<p>19
+.=</p>
+<p>performance p
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>4
+x 10
+.=</p>
+<p>3  
+SPO 0.3 Procedure SAPS median run-time/103
+SPO 0.4
+.=</p>
+<p>2.5 SPO+ SAPS default 85.5
+CALIBRA(100) 10.7± 1.1
+.=</p>
+<p>2
+BasicILS(100) 10.9± 0.6
+.=</p>
+<p>1.5 FocusedILS 10.6± 0.5
+SPO 0.3 18.3± 13.7
+.=</p>
+<p>1 SPO 0.4 10.4± 0.7
+SPO+ 10.0± 0.4
+.=</p>
+<p>0.5  
+3 4
+.=</p>
+<p>10 10
+number of algorithm runs k
+.=</p>
+<p>Comparison to SPO variants, With budget of 20000 runs of SAPS
+.=</p>
+<p>with varying budget
+.=</p>
+<p>Comparison to State of the Art
+for tuning SAPS
+.=</p>
+<p>I SAPS
+I Stochastic local search algorithm for SAT
+I 4 continuous parameters
+I Here: min. search steps for single problem instance
+.=</p>
+<p>I Results known for CALIBRA & ParamILS [Hutter et al, AAAI’07]
+.=</p>
+<p>19
+.=</p>
+<p>performance p
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Procedure SAPS median run-time/103
+.=</p>
+<p>SAPS default 85.5
+CALIBRA(100) 10.7± 1.1
+BasicILS(100) 10.9± 0.6
+.=</p>
+<p>FocusedILS 10.6± 0.5
+SPO 0.3 18.3± 13.7
+SPO 0.4 10.4± 0.7
+.=</p>
+<p>SPO+ 10.0± 0.4
+.=</p>
+<p>With budget of 20000 runs of SAPS
+.=</p>
+<p>Comparison to State of the Art
+for tuning SAPS
+.=</p>
+<p>I SAPS
+I Stochastic local search algorithm for SAT
+I 4 continuous parameters
+I Here: min. search steps for single problem instance
+.=</p>
+<p>I Results known for CALIBRA & ParamILS [Hutter et al, AAAI’07]
+.=</p>
+<p>4
+x 10
+.=</p>
+<p>3  
+SPO 0.3
+SPO 0.4
+.=</p>
+<p>2.5 SPO+
+.=</p>
+<p>2
+.=</p>
+<p>1.5
+.=</p>
+<p>1
+.=</p>
+<p>0.5  
+3 4
+.=</p>
+<p>10 10
+number of algorithm runs k
+.=</p>
+<p>Comparison to SPO variants,
+with varying budget
+.=</p>
+<p>19
+.=</p>
+<p>performance p
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Comparison to State of the Art
+for tuning SAPS
+.=</p>
+<p>I SAPS
+I Stochastic local search algorithm for SAT
+I 4 continuous parameters
+I Here: min. search steps for single problem instance
+.=</p>
+<p>I Results known for CALIBRA & ParamILS [Hutter et al, AAAI’07]
+.=</p>
+<p>4
+x 10
+.=</p>
+<p>3  
+SPO 0.3 Procedure SAPS median run-time/103
+SPO 0.4
+.=</p>
+<p>2.5 SPO+ SAPS default 85.5
+CALIBRA(100) 10.7± 1.1
+.=</p>
+<p>2
+BasicILS(100) 10.9± 0.6
+.=</p>
+<p>1.5 FocusedILS 10.6± 0.5
+SPO 0.3 18.3± 13.7
+.=</p>
+<p>1 SPO 0.4 10.4± 0.7
+SPO+ 10.0± 0.4
+.=</p>
+<p>0.5  
+3 4
+.=</p>
+<p>10 10
+number of algorithm runs k
+.=</p>
+<p>Comparison to SPO variants, With budget of 20000 runs of SAPS
+.=</p>
+<p>with varying budget
+19
+.=</p>
+<p>performance p
+k.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1. Sequential Model-Based Optimization (SMBO): Introduction
+.=</p>
+<p>2. Comparing Two SMBO Methods: SPO vs SKO
+.=</p>
+<p>3. Components of SPO: Model Quality
+.=</p>
+<p>4. Components of SPO: Sequential Experimental Design
+.=</p>
+<p>5. Conclusions and Future Work
+.=</p>
+<p>20.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>I Our contribution
+I Insights: what makes a popular SMBO algorithm, SPO, work
+I Improved version, SPO+, often performs better than SPO
+.=</p>
+<p>Conclusions
+.=</p>
+<p>I SMBO can help design algorithms
+I More principled, saves development time
+I Can exploit full potential of flexible algorithms
+.=</p>
+<p>21.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p>I SMBO can help design algorithms
+I More principled, saves development time
+I Can exploit full potential of flexible algorithms
+.=</p>
+<p>I Our contribution
+I Insights: what makes a popular SMBO algorithm, SPO, work
+I Improved version, SPO+, often performs better than SPO
+.=</p>
+<p>21.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Use of models for scientific understanding
+.=</p>
+<p>I Interactions of instance features and parameter values
+.=</p>
+<p>I Can help understand and hopefully improve algorithms
+.=</p>
+<p>Ongoing & Future Work
+.=</p>
+<p>Ongoing Extensions of Model-Based Framework
+.=</p>
+<p>I Use of different models in SPO+ framework
+.=</p>
+<p>I Dealing with categorical parameters
+.=</p>
+<p>I Optimization for Sets/Distributions of Instances
+.=</p>
+<p>22.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Ongoing & Future Work
+.=</p>
+<p>Ongoing Extensions of Model-Based Framework
+.=</p>
+<p>I Use of different models in SPO+ framework
+.=</p>
+<p>I Dealing with categorical parameters
+.=</p>
+<p>I Optimization for Sets/Distributions of Instances
+.=</p>
+<p>Use of models for scientific understanding
+.=</p>
+<p>I Interactions of instance features and parameter values
+.=</p>
+<p>I Can help understand and hopefully improve algorithms
+.=</p>
+<p>22.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thanks to
+.=</p>
+<p>I Thomas Bartz-Beielstein
+.=</p>
+<p>– SPO implementation & CMA-ES wrapper
+.=</p>
+<p>I Theodore Allen
+.=</p>
+<p>– SKO implementation
+.=</p>
+<p>23.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

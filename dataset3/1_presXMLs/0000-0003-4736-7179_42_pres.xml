@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive Scheduling on Power-Aware 
+Managed Data-Centers using Machine 
+</p>
+<p>Learning
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres
+</p>
+<p>12th IEEE Intl. Conf. on GRID Computing 2011
+September 22-23 – Lyon (France)
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 1</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context: Energy, Autonomic Computing and Machine Learning
+</p>
+<p>• Keywords:
+– Autonomic Computing (AC): Automation of management
+– Machine Learning (ML): Learning patterns and predict them
+</p>
+<p>• Applying AC and ML to energy control:
+1. Self-management must include energy policies
+2. Optimization mechanisms are becoming more complex
+3. Decision makers can be improved through adaption
+</p>
+<p>• Modeling and prediction:
+– Obtain a model from the system
+– “Let the machine do it for you”
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+</p>
+<p>• Energy Saving in Cloud Self-management:
+– Apply the well-known consolidation strategy
+</p>
+<p>• Challenges:
+– Optimal place for a job/VM?
+– Required resources for the job/VM?
+– Resulting QoS in the new location?
+</p>
+<p>• Contributions:
+– Mathematic model of the cloud/data-center
+– Solve the model as Benefit-Cost optimization
+– Learning and predicting behaviors of jobs and QoS elements
+</p>
+<p>J.L.Berral, I.Goiri, R.Nou, F.Julià, J.Guitart, R.Gavaldà, J.Torres 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Dividing the problem into parts…
+</p>
+<p>• Model the data-center
+– Create a mathematic model to represent the Data-Center
+</p>
+<p>• Predict relations and goals
+– Relevant variables for decision making only available a posteriori
+– ML creates a model from past examples
+</p>
+<p>Tagged Training Dataset ML
+Elements (posteriori data)
+</p>
+<p>New Data to Predict Estimates Data for the 
+Element Model new Element
+</p>
+<p>• Solving the model
+– Complement the model with learned relations
+– Find appropriate algorithm to optimize the model
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Modeling the data-center
+</p>
+<p>• Mathematical Model
+– The goal: Profit = Benefits for running jobs/VMs – power costs
+– Outputs: Schedule optimizing profits
+– Constraints: maintaining the consistence of DC and operations
+– Parameters & variables: hosts, jobs/VMs and SLAs in DC
+</p>
+<p>• Find π: jobs → (hosts x resources) that maximizes
+∑j (price(j) – penalizations(j, π)) – ∑h power(h, π)
+</p>
+<p>• Subject to:
+– For all h, jobs that π allocates to h fit in h
+– For all h, power(h, π) = power consumed by host h under jobs j
+</p>
+<p>assigned to it by π
+– For all j, QoS(j, π) = QoS of job j given the set of jobs assigned to
+</p>
+<p>the h where π places j
+– For all j, penalizations(j, π) = SLAfunction(QoS(j, π))
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Modeling the data-center
+</p>
+<p>• Mathematical Model
+– The goal: Profit = Benefits for running jobs/VMs – power costs
+– Outputs: Schedule optimizing profits
+– Constraints: maintaining the consistence of DC and operations
+– Parameters & variables: hosts, jobs/VMs and SLAs in DC
+</p>
+<p>• Find π: jobs → (hosts x resources) that maximizes
+∑j (price(j) – penalizations(j, π)) – ∑h power(h, π) Machine 
+</p>
+<p>• Subject to: Learning
+– For all h, jobs that π allocates to h fit in h
+– For all h, power(h, π) = power consumed by host h under jobs j
+</p>
+<p>assigned to it by π
+– For all j, QoS(j, π) = QoS of job j given the set of jobs assigned to
+</p>
+<p>the h where π places j
+– For all j, penalizations(j, π) = SLAfunction(QoS(j, π))
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Learning relations
+</p>
+<p>• How much CPU will each job (web service in VM) demand?
+– Given the expected or known load (requests and clients)
+– M5P learning algorithm: decision tree + LinReg
+</p>
+<p>• Load vs Resources: <load~ CPU>
+• Non-linear function approximated by parts
+• Error: ~12% CPU MSE, Stdev 0,1 CPU
+</p>
+<p>– Use it to fill parameters in the model!
+</p>
+<p>• How good will the job (web service in VM) behave?
+– Given the resources assigned and host characteristics
+– Linear Regression algorithm
+</p>
+<p>• Context vs Response Time: <given CPU + CPU context ~ RT>
+• Approximation by linear function
+• Error: ~0.00003s MSE, Stdev 0.004s
+</p>
+<p>– Use it to adjust CPU assignation in solving time!
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Solving the model
+</p>
+<p>• Linear Functions
+– While all functions involved are written as linear: ILP
+– If solution found: we have an optimal solution
+– …
+– Solving is expensive in time/space!
+</p>
+<p>• Heuristic and approximate algorithms
+– Solving the model using first-fit / best-fit algorithms (or others!)
+– Lower bound on optimality assured
+– Solving time and space can be adjusted
+– We can adjust to non-linear functions
+– …
+– Optimal solution can be missed! (but how much missed?)
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments
+</p>
+<p>• Testing the model
+– Scenario:
+</p>
+<p>• Data-center with 40 VMs (web-service) and 10 Xeon 4core machines
+• Workload of real web-applications with variable load
+• ILP solver GUROBI 4.1
+</p>
+<p>– Different tests: change job revenues, power costs, SLA
+</p>
+<p>SLA function
+</p>
+<p>Response Time
+</p>
+<p>1
+</p>
+<p>0
+</p>
+<p>RT0 αRT0
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 9
+</p>
+<p>SLA fulfillment level</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments (II)
+</p>
+<p>• Heuristics vs ILP Solver
+– Time to solve: 4 seconds vs +4 hours of complete search
+– Desc. ordered best-fit is really close to complete search!
+</p>
+<p>Parameters Method Power KwH Migs Profit Avg QoS Used CPUs Used hosts
+</p>
+<p>First Fit 290.2 1421 177.290 0.519 3523 921
+</p>
+<p>0.09 €/Kwh λ-RR 358.9 520 241.048 0.716 3917 1237
+</p>
+<p>0.17 €/job Desc BF 203.4 1665 321.002 0.866 2230 660
+</p>
+<p>RT ≤  2 · RT0 ILP Solver 169.8 1963 326.935 0.878 1568 571
+</p>
+<p>First Fit 293.2 1491 69.871 0.515 3563 970
+</p>
+<p>0.45 €/Kwh λ-RR 230.7 519 132.610 0.604 3985 1161
+</p>
+<p>0.17 €/job Desc BF 139.8 1634 255.980 0.818 1504 456
+</p>
+<p>RT ≤ 2 · RT0 ILP Solver 151.3 1998 270.543 0.862 1483 503
+</p>
+<p>First Fit 189.8 1513 310.569 0.859 3529 919
+</p>
+<p>0.09 €/Kwh λ-RR 232.7 527 311.619 0.849 4077 1177
+</p>
+<p>0.17 €/job Desc BF 155.7 1404 350.892 0.932 1777 508
+</p>
+<p>RT ≤ 10 · RT0 ILP Solver 161.1 2007 354.891 0.852 1697 528
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experiments (III)
+</p>
+<p>• Adding a new policy
+– New SLA object: Migrations will penalize the profit
+</p>
+<p>• We want to reduce migrations, then!
+</p>
+<p>– Model reduces migrations depending on costs:
+</p>
+<p>Euro/Kwh Power (KwH) Migs Profit (€) AvgQoS Used CPUs Used Hosts
+0.00 365.585 195 353.559 0.883 4600 1150
+0.01 242.807 225 340.002 0.879 1798 846
+0.09 194.974 232 321.319 0.877 1702 662
+0.14 170.743 330 312.523 0.878 1619 571
+0.45 150.265 445 264.770 0.870 1492 498
+0.90 137.242 550 199.360 0.857 1380 455
+1.80 128.062 600 81.188 0.840 1327 422
+3.60 120.122 776 -136.816 0.815 1285 392
+7.20 115.384 889 -559.543 0.776 1274 374
+14.40 110.087 837 -134.466 0.737 1248 357
+28.80 110.451 913 -293.312 0.738 1251 356
+</p>
+<p>Method Power (KwH) Migs Profit (€) AvgQoS UsedCPU UsedHosts
+</p>
+<p>Desc BestFit 203.175 991 304.885 0.860 2250 658
+</p>
+<p>ILP Solver 194.974 232 321.319 0.877 1702 662
+</p>
+<p>* 0.09 €/Kwh 0.17 €/job RT ≤  2 · RT0 0.014 €/mig
+Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+</p>
+<p>• Modeled jobs and system behaviors
+– In an automatic manner through Machine Learning
+– Improving decision makers with estimation functions a priori
+</p>
+<p>• Presented a mathematical model for the “job×host” allocation
+problem
+</p>
+<p>• Tested the model against complete solvers and finding
+approximate algorithms
+</p>
+<p>• Future work:
+– Extend to multidimensional SLA
+– Extend to multidimensional resource (CPU, memory, disk, database,
+</p>
+<p>bandwidth....)
+– Extend to cloud (= many data centers)
+– Extend to more complex economic scenarios (= auctions)
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thank you for your attention
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres
+berral@ac.upc.edu
+</p>
+<p>(also jlberral@lsi.upc.edu)
+</p>
+<p>Josep Ll. Berral, Ricard Gavaldà, Jordi Torres 13</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

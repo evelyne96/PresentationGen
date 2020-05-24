@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Mining Adaptively Frequent Closed Unlabeled
+Rooted Trees in Data Streams
+.=</p>
+<p>Albert Bifet and Ricard Gavaldà
+.=</p>
+<p>Universitat Politècnica de Catalunya
+.=</p>
+<p>14th ACM SIGKDD International Conference on Knowledge
+Discovery and Data Mining (KDD’08)
+.=</p>
+<p>2008 Las Vegas, USA.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Tree Mining
+Mining frequent trees is
+becoming an important
+task
+Applications:
+.=</p>
+<p>chemical informatics
+computer vision
+text retrieval
+.=</p>
+<p>Data Streams bioinformatics
+Web analysis.
+.=</p>
+<p>Sequence is potentially
+infinite Many link-based
+.=</p>
+<p>structures may be
+High amount of data: studied formally by
+sublinear space means of unordered
+High speed of arrival: trees
+sublinear time per
+example.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction: Trees
+.=</p>
+<p>Our trees are: Our subtrees are:
+Rooted Induced
+Unlabeled
+Ordered and Unordered
+.=</p>
+<p>Two different ordered trees
+but the same unordered tree.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>What Is Tree Pattern Mining?
+.=</p>
+<p>Given a dataset of trees, find the complete set of frequent
+subtrees
+.=</p>
+<p>Frequent Tree Pattern (FS):
+.=</p>
+<p>Include all the trees whose support is no less than min_sup
+.=</p>
+<p>Closed Frequent Tree Pattern (CS):
+.=</p>
+<p>Include no tree which has a super-tree with the same
+support
+.=</p>
+<p>CS ⊆ FS
+Closed Frequent Tree Mining provides a compact
+representation of frequent trees without loss of information.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Unordered Subtree Mining
+.=</p>
+<p>A: B: X: Y:
+.=</p>
+<p>D = {A,B},min_sup = 2
+.=</p>
+<p># Closed Subtrees : 2
+# Frequent Subtrees: 9
+.=</p>
+<p>Closed Subtrees: X, Y
+.=</p>
+<p>Frequent Subtrees:.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction
+.=</p>
+<p>Problem
+Given a data stream D of rooted, unlabelled and unordered
+trees, find frequent closed trees.
+.=</p>
+<p>We provide three algorithms,
+of increasing power
+.=</p>
+<p>Incremental
+Sliding Window
+Adaptive
+.=</p>
+<p>D.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Relaxed Support
+.=</p>
+<p>Guojie Song, Dongqing Yang, Bin Cui, Baihua Zheng,
+Yunfeng Liu and Kunqing Xie.
+CLAIM: An Efficient Method for Relaxed Frequent Closed
+Itemsets Mining over Stream Data
+.=</p>
+<p>Linear Relaxed Interval:The support space of all
+subpatterns can be divided into n = d1/εre intervals, where
+εr is a user-specified relaxed factor, and each interval can
+be denoted by Ii = [li ,ui), where li = (n− i)∗ εr ≥ 0,
+ui = (n− i +1)∗ εr ≤ 1 and i ≤ n.
+Linear Relaxed closed subpattern t : if and only if there
+exists no proper superpattern t ′ of t such that their suports
+belong to the same interval Ii ..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Relaxed Support
+.=</p>
+<p>As the number of closed frequent patterns is not linear with
+respect support, we introduce a new relaxed support:
+.=</p>
+<p>Logarithmic Relaxed Interval:The support space of all
+subpatterns can be divided into n = d1/εre intervals, where
+εr is a user-specified relaxed factor, and each interval can
+be denoted by Ii = [li ,u ), where l = dc ii i e, ui = dc i+1−1e
+and i ≤ n.
+Logarithmic Relaxed closed subpattern t : if and only if
+there exists no proper superpattern t ′ of t such that their
+suports belong to the same interval Ii ..=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Galois Lattice of closed set of trees
+.=</p>
+<p>1 2 3
+.=</p>
+<p>D
+.=</p>
+<p>We need 12 13 23
+a Galois
+connection pair
+a closure operator
+.=</p>
+<p>123
+.=</p>
+<p>1 2 3
+.=</p>
+<p>12 13 23
+.=</p>
+<p>123.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithms
+.=</p>
+<p>Algorithms
+Incremental: INCTREENAT
+Sliding Window: WINTREENAT
+Adaptive: ADATREENAT Uses ADWIN to monitor change
+.=</p>
+<p>ADWIN
+.=</p>
+<p>An adaptive sliding window whose size is recomputed online
+according to the rate of change observed.
+.=</p>
+<p>ADWIN has rigorous guarantees (theorems)
+On ratio of false positives and negatives
+On the relation of the size of the current window and
+change rates.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation: TN1
+.=</p>
+<p>CMTreeMiner
+300
+.=</p>
+<p>Time 200
+(sec.)
+.=</p>
+<p>100 INCTREENAT
+.=</p>
+<p>2 4 6 8
+Size (Milions)
+.=</p>
+<p>Figure: Time on experiments on ordered trees on TN1 dataset.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental Validation
+.=</p>
+<p>45
+.=</p>
+<p>35
+.=</p>
+<p>25 AdaTreeInc 1
+.=</p>
+<p>AdaTreeInc 2
+.=</p>
+<p>15
+.=</p>
+<p>5
+.=</p>
+<p>0 21.460 42.920 64.380 85.840 107.300 128.760 150.220 171.680 193.140
+.=</p>
+<p>Number of Samples
+.=</p>
+<p>Figure: Number of closed trees maintaining the same number of
+closed datasets on input data
+.=</p>
+<p>Number of Closed Trees.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Summary
+.=</p>
+<p>Conclusions
+New logarithmic relaxed closed support
+Using Galois Latice Theory, we present methods for mining
+closed trees
+.=</p>
+<p>Incremental: INCTREENAT
+Sliding Window: WINTREENAT
+Adaptive: ADATREENAT using ADWIN to monitor change
+.=</p>
+<p>Future Work
+Labeled Trees and XML data..=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

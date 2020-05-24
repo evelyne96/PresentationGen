@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07: The Design and Analysis 
+of an Algorithm Portfolio for SAT
+.=</p>
+<p>Lin Xu, Frank Hutter,
+Holger H. Hoos and Kevin Leyton-Brown 
+.=</p>
+<p>University of British Columbia
+.=</p>
+<p>{xulin730, hutter, hoos, kevinlb}@cs.ubc.ca.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>Motivation
+.=</p>
+<p>History of SATzilla and related work
+.=</p>
+<p>SATzilla methodology
+.=</p>
+<p>Example Problem
+.=</p>
+<p>SATzilla for the SAT Competition
+.=</p>
+<p>Conclusions and ongoing research
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation
+.=</p>
+<p>Lots of high performance solvers, but  ….
+No single SAT solver  dominates all others on 
+all types of instances
+.=</p>
+<p>Question: How to select the best solver 
+for a given SAT instance?.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm Selection Problem [Rice, 1976]
+.=</p>
+<p>Reference:
+Select solvers based on previous experience or research 
+papers 
+.=</p>
+<p>“Winner-Take-All”:
+Test solvers on some samples from target distribution; 
+select the solver with best performance.
+.=</p>
+<p>SATzilla:
+Automatically based on instance characteristics’
+.=</p>
+<p>4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Related work:
+Portfolio of stochastic algorithm [Gomes & Selman,1997]
+.=</p>
+<p>Running multiple algorithms at the same time
+.=</p>
+<p>Reinforcement learning [Lagoudakis & Littman, 2001]
+Select branching rule at each decision point
+.=</p>
+<p>Branch & bound algorithm selection 
+[Lobjois & LemaÎter, 1998]
+.=</p>
+<p>Based on an estimation of search tree size.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>History of  SATzilla
+Old SATzilla  [Nudelman, Devkar, et. al, 2003 ]
+.=</p>
+<p>2nd Random
+2nd Handmade (SAT)
+3rd  Handmade
+.=</p>
+<p>SATzilla-07
+1st Handmade
+1st Handmade (UNSAT)
+1st Random
+2nd Handmade (SAT)
+3rd Random (UNSAT)
+.=</p>
+<p>6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 Methodology  (offline)
+Winner-
+.=</p>
+<p>Take-All
+.=</p>
+<p>Solvers
+Target 
+.=</p>
+<p>Distribution Collect Data Build Model
+.=</p>
+<p>Features
+.=</p>
+<p>Final solver 
+Pre-Solvers
+.=</p>
+<p>selection
+.=</p>
+<p>7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 Methodology  (online)
+.=</p>
+<p>Run Compute Predict 
+Run Best
+.=</p>
+<p>Pre-solver Features Runtime
+.=</p>
+<p>If error
+.=</p>
+<p>Run Winner- If error and 
+Take-All time left; run 
+.=</p>
+<p>second best
+.=</p>
+<p>8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Solvers Used  
+Eureka [Nadel, Gordon, Palti & Hanna, 2006]
+Kcnfs2006 [Dubois & Dequen, 2006]
+March_dl2004 [Heule & Maaren, 2006]
+Minisat2.0 [Eén & Sörensson, 2006]
+OKsolver [Kullmann, 2002]
+Rsat1.04 [Pipatsrisawat & Darwiche, 2006]
+Vallst [Vallstrom, 2005]
+Zchaff_Rand [Mahajan, Fu & Malik, 2005]
+.=</p>
+<p>9.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 Example
+.=</p>
+<p>Using quasi-group completion 
+Problems (QCP) to validate our 
+.=</p>
+<p>general approach.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 Example Problem
+Problem distribution
+.=</p>
+<p>QCP problems generated near phase transition 
+[Gomes & Selman, 1997]
+.=</p>
+<p>Solvers
+Eureka, OKsolver, Zchaff_Rand
+.=</p>
+<p>Features
+Same as in previous work [Nudelman, et al. 2004] 
+.=</p>
+<p>Collect Data
+Compute instances’ features and determine solvers’ runtime 
+.=</p>
+<p>Pre-Solver & “Winner take all”
+Build Models
+Final solver selection 11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical Hardness Model (EHM)
+The Core of SATzilla --- EHM
+.=</p>
+<p>Accurately predict algorithm’s runtime based on 
+cheaply computable features
+Linear basis function regression
+.=</p>
+<p>f Tw(Φ) = w Φ
+• 23.34
+.=</p>
+<p>• 7.21
+.=</p>
+<p>• …
+.=</p>
+<p>• …
+.=</p>
+<p>Features (Φ) Runtime (y)
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Improve EHM (deal with censoring)
+Heavy-tailed behavior and censoring
+.=</p>
+<p>Three ways for censored data
+Drop them
+Keep them as if finished at cutoff
+Censored sampling
+.=</p>
+<p>Schmee & Hahn ‘s approach [1979]
+REPEAT
+1. Estimate runtime conditional on EHM and real runtime 
+.=</p>
+<p>bigger than cutoff time
+2. Build new EHM with estimated runtime
+UNTIL no more changes in EHM
+.=</p>
+<p>13.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How to deal with censored data
+.=</p>
+<p>A: Drop them
+B: Finished at cutoff
+.=</p>
+<p>C: Censored sampling
+Censor point
+.=</p>
+<p>14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How to deal with censored data
+.=</p>
+<p>A: Drop them
+.=</p>
+<p>B: Finished at 
+cutoff
+.=</p>
+<p>Censor point Censor point
+C: Censored sampling
+.=</p>
+<p>15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How to deal with censored data
+.=</p>
+<p>A: Drop them
+.=</p>
+<p>B: Finished at cutoff
+.=</p>
+<p>C: Censored 
+sampling Censor point Censor point
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Improve EHM (using Hierarchal Hardness Models )
+EHM often more accurate, much simpler 
+when trained with SAT/UNSAT samples 
+only [Nudelman, et al. 2004]
+.=</p>
+<p>Building hierarchal hardness model by
+approximating a model selection oracle
+.=</p>
+<p>Mixture of experts problem with fixed  experts
+.=</p>
+<p>17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for QCP
+.=</p>
+<p>Average Runtime.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for QCP
+.=</p>
+<p>Empirical CDF.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>2007 SAT Competition
+.=</p>
+<p>Three submissions for 
+2007 SAT Competition
+.=</p>
+<p>BIG-MIX for all three categories (demo)
+RANDOM
+.=</p>
+<p>HANDMADE.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for SAT Competition
+Target Distribution
+.=</p>
+<p>Previous SAT competition and SAT Race
+.=</p>
+<p>Solver (with/without preprocessing, Hyper)
+Eureka, Kcnfs2006, March_dl2004, Minisat2.0 
+Vallsat, Rsat1.04, Zchaff_Rand
+.=</p>
+<p>Features
+Reduce probing time to 1 second
+Only cheap features, total about 3 seconds
+.=</p>
+<p>Pre-Solvers
+March_dl 5 seconds, SAPS 2 seconds
+.=</p>
+<p>21.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for SAT Competition
+“Winner-take-all” solver
+.=</p>
+<p>March_dl2004
+.=</p>
+<p>Final candidates
+BIG_MIX
+Eureka, Kcnfs2006, March_dl2004, Rsat
+RANDOM
+March_dl2004, Kcnfs2006, Minisat2.0+
+HANDMADE
+March_dl2004, Vallst, March_dl2004+, 
+Minisat2.0+, Zchaff_Random+
+.=</p>
+<p>22.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for BIG-MIX
+.=</p>
+<p>23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for BIG-MIX
+.=</p>
+<p>Feature time
+.=</p>
+<p>Pre-solvers
+.=</p>
+<p>24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for RANDOM
+.=</p>
+<p>25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for RANDOM
+.=</p>
+<p>Feature time
+.=</p>
+<p>Pre-solvers
+.=</p>
+<p>26.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for HANDMADE
+.=</p>
+<p>27.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla-07 for HANDMADE
+.=</p>
+<p>Feature time
+.=</p>
+<p>Pre-solvers
+.=</p>
+<p>28.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+Can combine algorithms into portfolios, 
+improving performance and robustness
+.=</p>
+<p>SATzilla approach has been proven to 
+be successful in real world competition
+.=</p>
+<p>With more training data and more 
+solvers, SATzilla can be even better
+.=</p>
+<p>30.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Ongoing research
+SATzilla for industrial category
+.=</p>
+<p>Use the same approach, SATzilla is 25% faster 
+and solves 5% more instances 
+.=</p>
+<p>Score function 
+Optimize objective function other than runtime
+.=</p>
+<p>Local search
+Improve SATzilla performance by using local 
+search solvers as component.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Special Thanks 
+Creators of solvers
+.=</p>
+<p>Alexander Nadel, Moran Gordon, Amit Palti and Ziyad
+Hanna (Eureka)
+Marijn Heule, Hans van Maaren (March_dl2004)
+Niklas Eén, Niklas Sörensson (Minisat2.0)
+Oliver Kullmann (OKsolver)
+Knot Pipatsrisawat and Adnan Darwiche (Rsat 1.04)
+Daniel Vallstrom (Vallst)
+Yogesh S. Mahajan, Zhaohui Fu and Sharad Malik
+(Zchaff_Rand)
+.=</p>
+<p>32.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla Pick for BIG_MIX.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla Pick for RANDOM.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>SATzilla Pick for HANDMADE.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

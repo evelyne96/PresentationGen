@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Universidad Euskal Herriko
+.=</p>
+<p>del País Vasco Unibertsitatea
+.=</p>
+<p>An Online 
+Grupo de Trabajo Speaker Tracking System 
+en Tecnologías
+de Software
+.=</p>
+<p>for Ambient Intelligence Environments
+.=</p>
+<p>Maider Zamalloa1,2, Mikel Peñagarikano1, Luis Javier Rodriguez-Fuentes1, 
+Germán Bordel1, Juan Pedro Uribe2
+.=</p>
+<p>1GTTS, Electricity and Electronics Department, University of the Basque Country, Spain
+2Ikerlan – Technological Research Centre, Spain.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p> Introduction
+.=</p>
+<p> The Ambient Intelligence vision
+.=</p>
+<p> Speaker Tracking
+.=</p>
+<p> Low-latency Online Speaker Tracking 
+.=</p>
+<p>System
+.=</p>
+<p> Experiments
+.=</p>
+<p> Conclusions
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction – The AmI vision
+.=</p>
+<p> Ubiquitous Computing
+ Envisages the integration of computing and telecommunication
+.=</p>
+<p>capabilities in daily objects
+.=</p>
+<p> A term defined by M. Weiser in 1991:
+.=</p>
+<p>… The most profound technologies are those that dissapear. They wave themselves into
+.=</p>
+<p>the fabric of everyday life until they are indistinguishable from it….
+.=</p>
+<p> The Ambient Intelligence (AmI) vision
+ Generalizes the Ubiquitous Computing term
+.=</p>
+<p> A vision oriented towards the usability of ubiquitous technologies and
+.=</p>
+<p>promoted by the group ISTAG of the European Commission
+.=</p>
+<p> It was defined in 2001 through a set of scenarios and
+.=</p>
+<p>recommendations
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction – The AmI vision
+.=</p>
+<p> The AmI paradigm is caracterized by systems that are:
+ Embedded: Integrated into the environment
+.=</p>
+<p> Context-aware: Recognize users and user situational context
+.=</p>
+<p> Personalized: Tailored to user needs
+.=</p>
+<p> Adaptive: Change in response to user
+.=</p>
+<p> Anticipatory: Anticipate to user needs
+.=</p>
+<p> Main objective: support people carrying out everyday life 
+.=</p>
+<p>activities in a natural way
+.=</p>
+<p> Transparency is critical      
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 4.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction – The AmI vision
+.=</p>
+<p> The AmI paradigm is caracterized by systems that are:
+ Embedded: Integrated into the environment
+.=</p>
+<p> Context-aware: Recognize users and user situational context
+.=</p>
+<p> Personalized: Tailored to user needs
+.=</p>
+<p> Adaptive: Change in response to user
+.=</p>
+<p> Anticipatory: Anticipate to user needs
+.=</p>
+<p> Main objective: support people carrying out everyday life 
+.=</p>
+<p>activities in a natural way
+.=</p>
+<p> Transparency is critical      
+.=</p>
+<p>Natural and Intelligent Interfaces are 
+.=</p>
+<p>needed
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 5.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction – Speaker Tracking
+.=</p>
+<p> Speech is a natural interface for human interaction
+.=</p>
+<p> It conveys many user related information:
+.=</p>
+<p> The message
+.=</p>
+<p> The language of the message
+.=</p>
+<p> The speaker location
+.=</p>
+<p> The speaker identity
+.=</p>
+<p> The emotional state of speaker
+.=</p>
+<p> etc.
+.=</p>
+<p> It is a very suitable means to support user interaction, 
+.=</p>
+<p>adaptation and monitorization
+.=</p>
+<p> Speaker tracking and speaker diarization technologies 
+.=</p>
+<p>may be used
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction – Speaker Tracking
+.=</p>
+<p> In Speech Technologies area, speaker diarization and 
+.=</p>
+<p>speaker tracking are well known tasks 
+.=</p>
+<p> Both answer the question: Who spokes when?
+.=</p>
+<p> But differ in:
+.=</p>
+<p> Speaker  Tracking aims to detect audio segments 
+.=</p>
+<p>correspondiing to a known set of target speakers
+.=</p>
+<p> Speaker Diarization consists of detecting speaker turns without 
+.=</p>
+<p>any prior knowledge about the target speakers
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 7.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction – Speaker Tracking
+.=</p>
+<p> Speaker tracking and diarization primary application 
+.=</p>
+<p>domains
+ Telephone conversations
+.=</p>
+<p> Broadcast news
+.=</p>
+<p> Meeting recordings
+.=</p>
+<p> Common approaches consists of two uncoupled steps:
+ Audio Segmentation
+.=</p>
+<p> Speaker detection
+.=</p>
+<p> In an AmI Environment speaker detection must be 
+.=</p>
+<p>continuous and real-time
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction – Speaker Tracking
+.=</p>
+<p>Speaker tracking and diarization primary application 
+.=</p>
+<p>domains
+ Telephone conversations Audio recording is 
+ Broadcast news fully available before 
+ Meeting recordings processing!!
+.=</p>
+<p> Common approaches consists of two uncoupled steps:
+ Audio Segmentation
+.=</p>
+<p> Speaker detection
+.=</p>
+<p> In an AmI Environment speaker detection must be 
+.=</p>
+<p>continuous and real-time
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 9.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Introduction – Speaker Tracking
+.=</p>
+<p>Speaker tracking and diarization primary application 
+.=</p>
+<p>domains
+ Telephone conversations Audio recording is 
+ Broadcast news fully available before 
+ Meeting recordings processing!!
+.=</p>
+<p>Common approaches consists of two uncoupled steps:
+ Audio Segmentation
+.=</p>
+<p> Speaker detection
+.=</p>
+<p> In an AmI Environment speaker detection must be 
+.=</p>
+<p>continuous and real-time
+.=</p>
+<p>State of the arte approaches are not suitable 
+.=</p>
+<p>for low-latency online speaker detection
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 10.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Low-latency Online 
+.=</p>
+<p>Speaker Tracking System
+.=</p>
+<p> System is designed for an intelligent home environment
+.=</p>
+<p> It tracks known speakers continuously 
+.=</p>
+<p> The expected number of targets is low (i.e. the members of a 
+.=</p>
+<p>family)
+.=</p>
+<p> The scenario requires almost instantaneous (low-latency) 
+.=</p>
+<p>speaker tracking decisions
+.=</p>
+<p> So, a very simple speaker tracking algorithm is 
+.=</p>
+<p>designed
+.=</p>
+<p> Joint speaker segmentation and speaker detection is performed
+.=</p>
+<p> Fixed-length audio segments are defined and processed
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Low-latency Online 
+.=</p>
+<p>Speaker Tracking System
+{as0, ..., asL}
+.=</p>
+<p>Acoustic Samples (fixed-length: 1sec)
+.=</p>
+<p>Parameterization 
+.=</p>
+<p>module
+.=</p>
+<p>X=(x0, ..., xN}
+.=</p>
+<p>Acoustic Vectors
+.=</p>
+<p>Speaker Models 
+.=</p>
+<p>{λ1, ..., λT} Speaker detection 
+Universal Background Model module
+.=</p>
+<p>λUBM
+{∆S (X), ..., ∆S (X)}1 T
+.=</p>
+<p>A detection score per target speaker
+.=</p>
+<p>Calibration
+.=</p>
+<p>module
+.=</p>
+<p>{C(∆S ), ..., C(∆S )}1 T
+A likelihood ratio per target speaker
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Low-latency Online 
+.=</p>
+<p>Speaker Tracking System
+{as0, ..., asL}
+.=</p>
+<p>Acoustic Samples (fixed-length: 1sec)
+.=</p>
+<p>Parameterization 
+.=</p>
+<p>module
+.=</p>
+<p>X=(x0, ..., xN}
+.=</p>
+<p>Acoustic Vectors Decision=
+.=</p>
+<p>Speaker Models 
+.=</p>
+<p>{λ1, ..., λT} Speaker detection 
+Universal Background Model module
+.=</p>
+<p>λUBM
+{∆S (X), ..., ∆1 S
+.=</p>
+<p>(X)}
+T
+.=</p>
+<p>A detection score per target speaker
+.=</p>
+<p>Calibration
+.=</p>
+<p>module
+.=</p>
+<p>{C(∆S ), ..., C(∆1 S
+)}
+.=</p>
+<p>T
+.=</p>
+<p>A likelihood ratio per target speaker
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 13.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Low-latency Online 
+.=</p>
+<p>Speaker Tracking System
+.=</p>
+<p> Parameterization Module
+ Channel Normalization: Dynamic Cepstral Mean Normalization
+.=</p>
+<p> Acoustic Vectors: 12 Mel Frequency Cepstral Coefficients (MFCC) and 
+.=</p>
+<p>deltas
+.=</p>
+<p> Parameterization is done by Sautrela Framework (Penagarikano, www.sautrela.org)
+.=</p>
+<p> Speaker Detection Module
+.=</p>
+<p> Acoustic Speaker Models
+.=</p>
+<p> A Gaussian Mixture Model (GMM) adapted from an universal model
+.=</p>
+<p> In adaptation, non-overlapped single-speakers segments are used
+.=</p>
+<p> Given      and the parameterized acoustic segment X, the speaker 
+.=</p>
+<p>detection score             is:
+.=</p>
+<p> where             is the log-likelihood of X given
+.=</p>
+<p>M. Penagarikano and G. Bordel, “SAUTRELA: A Highly Modular Open Source
+.=</p>
+<p>Speech Recognition Framework”, In Proceedings of the IEE Automatic
+.=</p>
+<p>Speech Recognition and Understanding Workshop (ASRU), 2005.
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Low-latency Online 
+.=</p>
+<p>Speaker Tracking System
+.=</p>
+<p> Calibration Module
+.=</p>
+<p> Maps detection scores to likelihood ratios by applying a linear 
+.=</p>
+<p>transform C:
+.=</p>
+<p>
+.=</p>
+<p> Scaling parameters are computed over a development corpus
+.=</p>
+<p> Optimization process is based on Maximizing Mutual Information
+.=</p>
+<p> Minimum expected cost based decision threshold is applied over 
+.=</p>
+<p>calibrated scores
+.=</p>
+<p>
+.=</p>
+<p>
+.=</p>
+<p> Calibration is done by FoCal toolkit (Brummer, sites.google.com/site/nikobrummer/focal)
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental setup
+.=</p>
+<p> AMI (Augmented Multipart Interaction) Corpus
+ Real-time human interaction in the context of smart meeting 
+.=</p>
+<p>rooms
+.=</p>
+<p> Audio & video data collected in 3 instrumented rooms (Edinburgh, 
+IDIAP, TNO)
+.=</p>
+<p> 4 english (mostly non-native) speakers per meeting; 4 meetings 
+per session; 30 minutes meetings
+.=</p>
+<p> Experiments are based on 15 Edinburgh sessions
+ 3 speakers act as target, the fourth one as impostor
+.=</p>
+<p> Two independent subsets are defined:
+ Development (Dev) : 8 sessions (32 meetings)
+.=</p>
+<p> Evaluation (Eval) : 7 sessions (28 meetings)
+.=</p>
+<p> Dev and Eval sets consist of:
+ Train dataset: 2 meetings per session (random selection)
+.=</p>
+<p> Test dataset: 2 meetings per session
+.=</p>
+<p> For time references AMI corpus manual annotations are used
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental setup
+.=</p>
+<p> Two online speaker tracking systems which differ in UBM 
+estimation data:
+ UBM-g uses15 gender-balanced meetings from all sites except 
+.=</p>
+<p>Edinburgh
+.=</p>
+<p> UMB-t uses only speech data from target speakers
+.=</p>
+<p> System performance is compared to an offline reference 
+system following a clasical two-stage approach
+ Audio segmentation is done by a similar approach to well known BIC
+.=</p>
+<p> Speaker detection is carried out by computing speaker model  
+likelihood ratios 
+.=</p>
+<p> Performance measure:
+.=</p>
+<p> ranges from 0 to 1, where:
+.=</p>
+<p> Precision (PRC) computes correctly detected target time from total target time
+.=</p>
+<p> Recall (RCL) estimates correctly detected target time from actual target time
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results – online vs offline
+.=</p>
+<p> The expected performance loss of the low-latency online 
+system is low:
+.=</p>
+<p>Dev
+.=</p>
+<p>PRC RCL Fmeasure
+.=</p>
+<p>online 0.66 0.92 0.77
+UBM-g
+.=</p>
+<p>ref 0.67 0.93 0.78
+.=</p>
+<p>online 0.67 0.91 0.77
+UBM-t
+.=</p>
+<p>ref 0.69 0.92 0.79
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results – online vs offline
+.=</p>
+<p> The expected performance loss of the low-latency online 
+system is low:
+.=</p>
+<p>Dev Eval
+.=</p>
+<p>PRC RCL Fmeasure PRC RCL Fmeasure
+.=</p>
+<p>online 0.66 0.92 0.77 0.69 0.92 0.78
+UBM-g
+.=</p>
+<p>ref 0.67 0.93 0.78 0.69 0.93 0.79
+.=</p>
+<p>online 0.67 0.91 0.77 0.71 0.91 0.8
+UBM-t
+.=</p>
+<p>ref 0.69 0.92 0.79 0.72 0.92 0.81
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 19.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results – online vs offline
+.=</p>
+<p> The expected performance loss of the low-latency online 
+system is low:
+.=</p>
+<p>Dev Eval
+.=</p>
+<p>PRC RCL Fmeasure PRC RCL Fmeasure
+.=</p>
+<p>online 0.66 0.92 0.77 0.69 0.92 0.78
+UBM-g
+.=</p>
+<p>ref 0.67 0.93 0.78 0.69 0.93 0.79
+.=</p>
+<p>online 0.67 0.91 0.77 0.71 0.91 0.8
+UBM-t
+.=</p>
+<p>ref 0.69 0.92 0.79 0.72 0.92 0.81
+.=</p>
+<p>With respecto to the classical offline system:
+UBM-g: 1.26% relative degradation
+.=</p>
+<p>UBM-t: 1.23% relative degradation
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 20.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results – UBM-g vs UBM-t
+.=</p>
+<p> UBM-t system slightly outperforms the performance of  
+UBM-g system:
+.=</p>
+<p>Dev Eval
+.=</p>
+<p>PRC RCL Fmeasure PRC RCL Fmeasure
+.=</p>
+<p>UBM-g 0.66 0.92 0.77 0.69 0.92 0.78
+online
+.=</p>
+<p>UBM-t 0.67 0.91 0.77 0.71 0.91 0.8
+.=</p>
+<p>UBM-g 0.67 0.93 0.78 0.69 0.93 0.79
+reference
+.=</p>
+<p>UBM-t 0.69 0.92 0.79 0.72 0.92 0.81
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 21.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results – UBM-t vs UBM-g
+.=</p>
+<p> UBM-t system slightly outperforms the performance of  
+UBM-g system:
+.=</p>
+<p>Dev Eval
+.=</p>
+<p>PRC RCL Fmeasure PRC RCL Fmeasure
+.=</p>
+<p>UBM-g 0.66 0.92 0.77 0.69 0.92 0.78
+online
+.=</p>
+<p>UBM-t 0.67 0.91 0.77 0.71 0.91 0.8
+.=</p>
+<p>UBM-g 0.67 0.93 0.78 0.69 0.93 0.79
+reference
+.=</p>
+<p>UBM-t 0.69 0.92 0.79 0.72 0.92 0.81
+.=</p>
+<p>Results support the use of a specific UBM for room and speaker set:
+.=</p>
+<p>There is a high consistency between the UBM and target speakers
+.=</p>
+<p> But a different UBM model must be estimated for each set of target speakers
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 22.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results – Calibration
+.=</p>
+<p> Calibration stage leads to a better performance in all cases:
+.=</p>
+<p>Uncalibrated Calibrated
+.=</p>
+<p>PRC RCL Fmeasure PRC RCL Fmeasure
+.=</p>
+<p>UBM-g 0.66 0.92 0.77 0.81 0.8 0.81
+Dev
+.=</p>
+<p>UBM-t 0.67 0.91 0.77 0.82 0.83 0.82
+.=</p>
+<p>UBM-g 0.69 0.92 0.78 0.78 0.85 0.8
+Eval
+.=</p>
+<p>UBM-t 0.71 0.91 0.8 0.81 0.85 0.83
+.=</p>
+<p>(Have a look at the paper for the results of the reference system)
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 23.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results – Calibration
+.=</p>
+<p> Calibration stage leads to a better performance in all cases:
+.=</p>
+<p>Uncalibrated Calibrated
+.=</p>
+<p>PRC RCL Fmeasure PRC RCL Fmeasure
+.=</p>
+<p>UBM-g 0.66 0.92 0.77 0.81 0.8 0.81
+Dev
+.=</p>
+<p>UBM-t 0.67 0.91 0.77 0.82 0.83 0.82
+.=</p>
+<p>UBM-g 0.69 0.92 0.78 0.78 0.85 0.8
+Eval
+.=</p>
+<p>UBM-t 0.71 0.91 0.8 0.81 0.85 0.83 2.56% relative 
+.=</p>
+<p>improvement
+(Have a look at the paper for the results of the reference system)
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 24.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results – Calibration
+.=</p>
+<p> Calibration stage leads to a better performance in all cases:
+.=</p>
+<p>Uncalibrated Calibrated
+.=</p>
+<p>PRC RCL Fmeasure PRC RCL Fmeasure
+.=</p>
+<p>UBM-g 0.66 0.92 0.77 0.81 0.8 0.81
+Dev
+.=</p>
+<p>UBM-t 0.67 0.91 0.77 0.82 0.83 0.82
+.=</p>
+<p>UBM-g 0.69 0.92 0.78 0.78 0.85 0.8
+Eval
+.=</p>
+<p>UBM-t 0.71 0.91 0.8 0.81 0.85 0.83
+.=</p>
+<p>(Have a look at the paper for the results of the reference system)
+.=</p>
+<p>3.75% relative 
+.=</p>
+<p>improvement
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+.=</p>
+<p> A online speaker tracking for an AmI scenario is 
+.=</p>
+<p>proposed
+ Processes continuous audio streams
+.=</p>
+<p> Outpus an identification decision for fixed-length segments
+.=</p>
+<p> The system performance is compared to a reference 
+.=</p>
+<p>system based on offline segmentation
+ Even if speaker tracking actually takes advantage from an offline 
+.=</p>
+<p>segmentation, online system presents little degradation
+.=</p>
+<p> Depending on the scenario and required latency, offline segmentation 
+.=</p>
+<p>may not be feasible
+.=</p>
+<p> Better results are attained when the UBM matches test 
+.=</p>
+<p>conditions (same room, same speakers)
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 26.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Thank you!
+.=</p>
+<p>Any questions?
+.=</p>
+<p>ICAART 2010 23 January 2010, Valencia 27.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Universidad Euskal Herriko
+.=</p>
+<p>del País Vasco Unibertsitatea
+.=</p>
+<p>An Online 
+Grupo de Trabajo Speaker Tracking System
+en Tecnologías
+de Software
+.=</p>
+<p>for Ambient Intelligence Environments
+.=</p>
+<p>Maider Zamalloa1,2, Mikel Peñagarikano1, Luis Javier Rodriguez-Fuentes1, 
+Germán Bordel1, Juan Pedro Uribe2
+.=</p>
+<p>1GTTS, Electricity and Electronics Department, University of the Basque Country, Spain
+2Ikerlan – Technological Research Centre, Spain.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

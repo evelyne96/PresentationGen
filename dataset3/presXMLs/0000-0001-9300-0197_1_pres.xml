@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>AUTOMATIC TEXT SUMMARIZATION
+.=</p>
+<p>Sütő Evelyne 1
+.=</p>
+<p>1Babeş-Bolyai University, Computer Science, Cluj-Napoca.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>INTRODUCTION
+.=</p>
+<p>∙ Purpose: Present a the different approaches and problems of
+summarization
+.=</p>
+<p>∙ Extractive summaries
+.=</p>
+<p>∙ Abstractive summaries
+.=</p>
+<p>∙ Why summary generation is important?
+.=</p>
+<p>∙ How can we evaluate summarization systems
+.=</p>
+<p>∙ Conclusions
+.=</p>
+<p>2.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EXTRACTIVE SUMMARIZATION
+.=</p>
+<p>In extractive summarization we are mainly focused on calculating
+the importance of each sentence in our document, while still
+considering the grammatical correctness of the overall summary
+while choosing the most important sentences to represent the
+overall meaning of the text.
+.=</p>
+<p>Figure 1: Summary in a nutshell Image source:
+https://blog.fastforwardlabs.com/2016/04/21/
+summarization-as-a-gateway-to-computable-language.html
+.=</p>
+<p>3.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WORD FREQUENCY AND STATISTI-
+CAL METHODS.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WORD FREQUENCY AND STATISTICAL METHODS
+.=</p>
+<p>∙ Frequency based [Luhn, 1958]
+Extraction based on:
+∙ Word frequency
+∙ Relative position of words in a sentence
+.=</p>
+<p>∙ Cue, Key, Title and Location [Edmundson, 1969]
+Where:
+∙ Cue word (derived from a dictionary) is considered to introduce
+important information
+.=</p>
+<p>∙ Key words are used to consist of topic based words
+∙ Title assumption words in title must descriptive of subject
+∙ Location relies on certain characteristics of document structures, e.g
+topic sentences appear very early in sections
+.=</p>
+<p>w1 ∗ C+ w2 ∗ K+ w3 ∗ T+ w4 ∗ L
+5.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WORD FREQUENCY AND STATISTICAL METHODS
+.=</p>
+<p>A more sophisticated measure for frequencies could be the tf-idf
+measure. The tf*idf weights of words are good indicators of
+importance, and they are easy and fast to compute.
+[Nenkova and McKeown, 2012]
+.=</p>
+<p>tf ∗ idf = c(t) ∗ log Dd(t)
+.=</p>
+<p>Where c(t) is the term frequency in the corpus, D is the number of
+documents and d(t) is number of document t occurred in.
+.=</p>
+<p>Can be easily used as input for a Naive Bayes classifier.
+.=</p>
+<p>6.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>TEXT CONNECTIVITY
+.=</p>
+<p>Lexical chains [Barzilay and Elhadad, 1999]
+.=</p>
+<p>∙ Intuition, for using lexical chains rather than frequency
+∙ Challenge in this area is to find a scoring system to select the most
+significant chain
+.=</p>
+<p>∙ After selecting the strongest chains, for each chain choose the
+sentence that contains the first appearance of a representative
+member of the chain in the text
+.=</p>
+<p>Score(Chain) = Length(Chain) ∗ Homogeneity
+.=</p>
+<p>8.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>TEXT CONNECTIVITY
+.=</p>
+<p>G-Flow system [Christensen et al., 2013]
+.=</p>
+<p>∙ Graph based system
+∙ A graph that approximates the discourse relations across
+sentences based on discourse cues, deverbal nouns, co-reference.
+.=</p>
+<p>∙ Nodes are sentences, and each edge represents a pairwise
+ordering constraint necessary for a coherent summary.
+.=</p>
+<p>∙ Using this graph we can estimate how coherent our extracted text
+is
+.=</p>
+<p>∙ The edges model: deverbal nouns, co-reference, lexical chains, cue
+words
+.=</p>
+<p>9.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GRAPHED BASED METHODS.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GRAPH BASED METHODS
+.=</p>
+<p>TextRank [Mihalcea and Tarau, 2004]
+.=</p>
+<p>A graph-based ranking algorithm is a way of deciding on the
+importance ofa vertex within a graph, by taking into account global
+information recursively computed fromthe entire graph, rather than
+relying only on local vertex-specific information.
+.=</p>
+<p>∙ Importance is computed recursively from the entire graph
+∙ Graph-based ranking model is based voting or recommendation
+∙ Each link equals a vote, the more vote an edge has the bigger its
+importance
+.=</p>
+<p>11.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>GRAPH BASED METHODS
+.=</p>
+<p>∑
+S(V 1i) = (1− d) + d ∗ |Out S(V )(Vj)| jj∈In(Vi)
+.=</p>
+<p>Where:
+.=</p>
+<p>∙ In(V) = set of vertices pointing to V
+∙ Out(V) = set of vertices to which V points to
+∙ d = damping factor, probability of jumping from a given vertex to
+another random vertex, usually set to 0.85
+.=</p>
+<p>The values of the vertices are assigned randomly at first and the
+algorithm runs until convergence is achieved.
+.=</p>
+<p>12.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ABSTRATIVE SUMMARIZATION.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ABSTRACTIVE SUMMARIZATION
+.=</p>
+<p>Abstractive summaries try to present a shorter version of the text
+input, based on deeper understanding of the conecpts being
+represented and it may contain newly added sentences,phrases as
+well to improve the generated abstract
+.=</p>
+<p>Figure 2: Image source:
+https://www.summarizebot.com/ 14.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ENCODER-DECODER
+.=</p>
+<p>Figure 3: Image source:
+https://medium.com/botsupply/generative-model-chatbots/
+.=</p>
+<p>15.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ENCODER-DECODER
+.=</p>
+<p>Encoder decoder summary generation [Nallapati et al., 2016]
+.=</p>
+<p>∙ Challenge: sequence lengths for the input and output is very
+different
+.=</p>
+<p>∙ Summarization is not simple mapping because we need
+concentrate the main ideas of the text with some loss
+.=</p>
+<p>16.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ENCODER-DECODER
+.=</p>
+<p>∙ Model: bi-directional RNN encoder with attention mechanism
+and a uni-directional RNN decoder
+.=</p>
+<p>∙ Large vocabulary trick (LVT), by restricting the decoder’s vocabulary
+.=</p>
+<p>∙ Capture additional tags: parts-of-speech tags, named-entity tags,
+and TF and IDF statistics
+.=</p>
+<p>∙ Look-up based embedding matrices for the vocabulary of each
+tag-type
+.=</p>
+<p>∙ Solution for rare words using a switching generator-pointer
+.=</p>
+<p>17.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ENCODER-DECODER
+.=</p>
+<p>Figure 4: Image source: [Nallapati et al., 2016]
+18.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EVALUATION METRICS
+.=</p>
+<p>Currently the ROUGE (Recall-Oriented Understudy for Gisty
+Evaluation) [Lin, 2004] metrics are the standard
+.=</p>
+<p>ROUGE-N is an n-gram recall between a candidate summary and a
+set ofreference summaries
+.=</p>
+<p>∑ ∑
+ROUGE− N ∑S∈{Reference summary} ∑n−gram∈S Countmatch(n− gram)=
+.=</p>
+<p>S∈{Reference summary} n−gram∈S Count(n− gram)
+.=</p>
+<p>20.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EVALUATION METRICS
+.=</p>
+<p>R LCS(X, Y)LCS = m
+.=</p>
+<p>P LCS(X, Y)LCS = n
+.=</p>
+<p>2
+ROUGE− L (1+ b )RLCSPLCS= RLCS + b2PLCS
+.=</p>
+<p>Given two sequences X and Y, the longest common subsequence
+(LCS) of X and Y ( X of length m and Y of length n) is a common
+subsequence with maximum length
+.=</p>
+<p>21.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>CONCLUSION
+.=</p>
+<p>∙ Summary generation problem is a very complex one.
+.=</p>
+<p>∙ Endless approaches have been researched such as graph based
+methods, statistical computational methods, text connectivity,
+deep learning.
+.=</p>
+<p>∙ People are looking for new approaches continously.
+.=</p>
+<p>∙ For example researchers are beginning to use different
+reinforcement learning methods for sentence selection and even
+multi agent systems.
+.=</p>
+<p>22.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Barzilay, R. and Elhadad, M. (1999).
+Using lexical chains for text summarization.
+Advances in automatic text summarization, pages 111–121.
+.=</p>
+<p>Christensen, J., Soderland, S., Etzioni, O., et al. (2013).
+Towards coherent multi-document summarization.
+In Proceedings of the 2013 conference of the North American
+chapter of the association for computational linguistics: Human
+language technologies, pages 1163–1173.
+.=</p>
+<p>Edmundson, H. P. (1969).
+New methods in automatic extracting.
+Journal of the ACM (JACM), 16(2):264–285.
+.=</p>
+<p>Lin, C.-Y. (2004).
+Rouge: A package for automatic evaluation of summaries.
+Text Summarization Branches Out.
+Luhn, H. P. (1958).
+The automatic creation of literature abstracts.
+IBM Journal of research and development, 2(2):159–165.
+.=</p>
+<p>22.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Mihalcea, R. and Tarau, P. (2004).
+Textrank: Bringing order into text.
+In Proceedings of the 2004 conference on empirical methods in
+natural language processing.
+.=</p>
+<p>Nallapati, R., Zhou, B., Gulcehre, C., Xiang, B., et al. (2016).
+Abstractive text summarization using sequence-to-sequence
+rnns and beyond.
+arXiv preprint arXiv:1602.06023.
+.=</p>
+<p>Nenkova, A. and McKeown, K. (2012).
+A survey of text summarization techniques.
+In Mining text data, pages 43–76. Springer.
+.=</p>
+<p>22.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

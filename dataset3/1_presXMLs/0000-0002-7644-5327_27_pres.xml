@@ -1,0 +1,699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance Prediction and
+Automated Tuning of 
+</p>
+<p>Randomized and Parametric Algorithms
+</p>
+<p>Frank Hutter1, Youssef Hamadi2, 
+Holger Hoos1, and Kevin Leyton-Brown1
+</p>
+<p>1University of British Columbia, Vancouver, Canada
+2Microsoft Research Cambridge, UK</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation: Performance Prediction
+• Useful for research in algorithms
+</p>
+<p>What makes problems hard?
+Constructing hard benchmarks
+Constructing algorithm portfolios (satzilla)
+Algorithm design
+</p>
+<p>• Newer applications
+Optimal restart strategies 
+(see previous talk by Gagliolo et al.)
+Automatic parameter tuning (this talk)
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 2</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Motivation: Automatic tuning
+• Tuning parameters is a pain
+</p>
+<p>Many parameters → combinatorially many configurations
+About 50% of development time can be spent tuning parameters
+</p>
+<p>• Examples of parameters
+Tree Search: variable/value heuristics, propagation, restarts, …
+Local Search: noise, tabu length, strength of escape moves, …
+CP: modelling parameters + algorithm choice + algo params
+</p>
+<p>• Idea: automate tuning with methods from AI
+More scientific approach
+More powerful: e.g. automatic per instance tuning
+Algorithm developers can focus on more interesting problems
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 3</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Related work
+• Performance Prediction
+</p>
+<p>[Lobjois and Lemaître, ’98, Horvitz et. al ’01, 
+Leyton-Brown, Nudelman et al. ’02 & ’04, Gagliolo & Schmidhuber ’06]
+</p>
+<p>• Automatic Tuning
+Best fixed parameter setting for instance set
+[Birattari et al. ’02, Hutter ’04, Adenso-Diaz & Laguna ’05]
+</p>
+<p>Best fixed setting for each instance
+[Patterson & Kautz ’02]
+</p>
+<p>Changing search strategy during the search
+[Battiti et al, ’05, Lagoudakis & Littman, ’01/’02, Carchrae & Beck ’05]
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 4</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview
+• Previous work on empirical hardness models
+</p>
+<p>[Leyton-Brown, Nudelman et al. ’02 & ’04]
+</p>
+<p>• EH models for randomized algorithms
+• EH models for parametric algorithms
+• Automatic tuning based on these
+• Ongoing Work and Conclusions
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 5</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical hardness models: basics
+• Training: Given a set of t instances inst1,...,instt
+</p>
+<p>For each instance insti
+- Compute instance features xi = (xi1,...,xim)
+- Run algorithm and record its runtime yi
+</p>
+<p>Learn function f: features → runtime, 
+such that yi ≈ f(xi) for i=1,…,t 
+</p>
+<p>• Test / Practical use: Given a new instance instt+1
+Compute features xt+1
+Predict runtime yt+1 = f(xt+1)
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 6</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Which instance features?
+• Features should be computable in polytime
+</p>
+<p>Basic properties, e.g. #vars, #clauses, ratio
+Graph-based characterics
+Local search and DPLL probes
+</p>
+<p>• Combine features to form more expressive
+basis functions φ = (φ1,...,φq) 
+</p>
+<p>Can be arbitrary combinations of the features x1,...,xm
+</p>
+<p>• Basis functions used for SAT in [Nudelman et al. ’04]
+91 original features: xi
+Pairwise products of features: xi * xj
+Feature selection to pick best basis functions
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 7</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>How to learn function f: features runtime?
+</p>
+<p>• Runtimes can vary by orders of magnitude
+Need to pick an appropriate model
+Log-transform the output 
+e.g. runtime is 103 sec yi = 3
+</p>
+<p>• Simple functions show good performance
+Linear in the basis functions: yi ≈ f(φi) = φi * wT
+- Learning: fit the weights w 
+</p>
+<p>(ridge regression: w = (λ + ΦT Φ)-1 ΦTy)
+Gaussian Processes didn’t improve accuracy
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 8</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview
+• Previous work on empirical hardness models
+</p>
+<p>[Leyton-Brown, Nudelman et al. ’02 & ’04]
+</p>
+<p>• EH models for randomized algorithms
+• EH models for parametric algorithms
+• Automatic tuning based on these
+• Ongoing Work and Conclusions
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 9</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EH models for randomized algorithms
+• We have incomplete, randomized local search algorithms
+</p>
+<p>Can this same approach still predict the run-time ? Yes!
+</p>
+<p>• Algorithms are incomplete (local search)
+Train and test on satisfiable instances only
+</p>
+<p>• Randomized
+Ultimately, want to predict entire run-time distribution (RTDs)
+For our algorithms, RTDs are typically exponential 
+Can be characterized by a single sufficient statistic (e.g. median 
+run-time)
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 10</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EH models: basics → sufficient stats for RTD
+</p>
+<p>• Training: Given a set of t instances inst1,..., instt
+For each instance insti
+</p>
+<p>- Compute instance features xi = (xi1,...,xim)
+- Compute basis functions φi = (φi1,..., φik)
+- Run algorithm and record its runtime yi
+</p>
+<p>Learn function f: basis functions → runtime, 
+such that yi ≈ f(φi) for i=1,…,t 
+</p>
+<p>• Test / Practical use: Given a new instance instt+1
+Compute features xt+1
+Compute basis functions φt+1 = (φt+1,1,..., φt+1,k) 
+Predict runtime yt+1 = f(φt+1)
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 11</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EH models: basics → sufficient stats for RTD
+</p>
+<p>• Training: Given a set of t instances inst1,..., instt
+For each instance insti
+</p>
+<p>- Compute instance features xi = (xi1,...,xim)
+- Compute basis functions φi = (φi1,..., φik)
+- Run algorithm multiple times and record its runtimes y 1i , …, y ki
+- Fit sufficient statistics si for distribution from y 1i , …, y ki
+</p>
+<p>Learn function f: basis functions → sufficient statistics, 
+such that si ≈ f(φi) for i=1,…,t 
+</p>
+<p>• Test / Practical use: Given a new instance instt+1
+Compute features xt+1
+Compute basis functions φt+1 = (φt+1,1,..., φt+1,k)
+Predict sufficient statistics st+1 = f(φt+1)
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 12</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Predicting median run-time
+</p>
+<p>Median runtime of Novelty+ on CV-var
+</p>
+<p>Prediction based on Prediction based on
+single runs 100 runs
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 13</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Structured instances
+</p>
+<p>Median runtime predictions based on 10 runs
+</p>
+<p>Novelty+ on SW-GCP SAPS on QWH
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 14</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Predicting run-time distributions
+</p>
+<p>RTD of SAPS on q0.75 RTD of SAPS on q0.25
+instance of QWH instance of QWH
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 15</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview
+• Previous work on empirical hardness models
+</p>
+<p>[Leyton-Brown, Nudelman et al. ’02 & ’04]
+</p>
+<p>• EH models for randomized algorithms
+• EH models for parametric algorithms
+• Automatic tuning based on these
+• Ongoing Work and Conclusions
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 16</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EH models: basics → parametric algos
+• Training: Given a set of t instances inst1,..., instt
+</p>
+<p>For each instance insti
+- Compute instance features xi = (xi1,...,xim)
+</p>
+<p>Compute basis functions φi = φ(xi)
+</p>
+<p>- Run algorithm and record its runtime yi
+Learn function f: basis functions → runtime, 
+such that yi ≈ f(φi) for i=1,…,t 
+</p>
+<p>• Test / Practical use: Given a new instance instt+1
+Compute features xt+1
+.
+Compute basis functions φt+1 = φ(xt+1)
+Predict runtime yt+1 = f(φt+1)
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 17</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>EH models: basics → parametric algos
+• Training: Given a set of t instances inst1,..., instt
+</p>
+<p>For each instance insti
+- Compute instance features xi = (xi1,...,xim)
+- For parameter settings p 1 ni ,...,pi i:
+</p>
+<p>Compute basis functions φ j= φ(x , p ji i i ) of features and parameter settings
+(quadratic expansion of params, multiplied by instance features)
+</p>
+<p>- Run algorithm with each setting p j i and record its runtime y ji
+Learn function f: basis functions → runtime, 
+such that y ji ≈ f(φ ji ) for i=1,…,t 
+</p>
+<p>• Test / Practical use: Given a new instance instt+1
+Compute features xt+1
+For each parameter setting pj of interest, 
+Compute basis functions φ jt+1 = φ(xt+1, pj) 
+Predict runtime y jt+1 = f(φ jt+1 )
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 18</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Predicting SAPS with different settings
+• Train and test with 30 
+</p>
+<p>different parameter 
+settings on QWH
+</p>
+<p>• Show 5 test instances, 
+each with different symbol
+</p>
+<p>Easiest
+25% quantile
+Median
+75% quantile
+Hardest
+</p>
+<p>• More variation in harder 
+instances
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 19</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>One instance in detail
+(blue diamonds in previous figure)
+</p>
+<p>• Note: this is a 
+projection from 40-
+dimensional joint 
+feature/parameter 
+space
+</p>
+<p>• Relative relationship 
+predicted well
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 20</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Automated parameter setting: results
+</p>
+<p>Algo Data Set Speedup over Speedup over best fixed 
+default params params for data set
+</p>
+<p>Nov+ unstructured 0.90 0.90
+Nov+ structured 257 0.94
+Nov+ mixed 15 10
+SAPS unstructuredNoa t the 2.9 1.05 u
+SAPS structured lgor bit etu h
+</p>
+<p>s
+m t 2.3n Do
+</p>
+<p> yo ?
+ one
+</p>
+<p>0.98
+SAPS mixed e ;-)  to 2.31 aveh 1
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 21</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results for Novelty+ on Mixed
+</p>
+<p>Compared to best fixed Compared to random
+parameters parameters
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 22</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Overview
+• Previous work on empirical hardness models
+</p>
+<p>[Leyton-Brown, Nudelman et al. ’02 & ’04]
+</p>
+<p>• EH models for randomized algorithms
+• EH models for parametric algorithms
+• Automatic tuning based on these
+• Ongoing Work and Conclusions
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 23</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Ongoing work
+• Uncertainty estimates
+</p>
+<p>• Bayesian linear regression 
+vs. Gaussian processes 
+</p>
+<p>• GPs are better in 
+predicting uncertainty
+</p>
+<p>• Active Learning
+For many problems, cannot try all parameter combinations
+Dynamically choose best parameter configurations to train on
+</p>
+<p>• Want to try more problem domains (do you have one?)
+Complete parametric SAT solvers
+Parametric solvers for other domains (need features)
+Optimization algorithms
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 24</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Conclusions
+• Performance Prediction
+</p>
+<p>Empirical hardness models can predict the run-times of 
+randomized, incomplete, parameterized, local search algorithms
+</p>
+<p>• Automated Tuning
+We automatically find parameter settings that are better than 
+defaults
+Sometimes better than the best possible fixed setting
+</p>
+<p>• There’s no free lunch
+Long initial training time
+Need domain knowledge to define features for a domain 
+(only once per domain)
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 25</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The End
+</p>
+<p>• Thanks to 
+Holger Hoos, Kevin Leyton-Brown,
+Youssef Hamadi
+Reviewers for helpful comments
+You for your attention☺
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 26</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Backup
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 27</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental setup: solvers
+• Two SAT solvers
+</p>
+<p>Novelty+ (WalkSAT variant)
+- Adaptive version won SAT04 random competition
+- Six values for noise between 0.1 and 0.6
+</p>
+<p>SAPS (Scaling and Probabilistic Smoothing)
+- Second in above competition
+- All 30 combinations of 
+</p>
+<p>3 values for α between 1.2 and 1.4
+10 values for ρ between 0 and 0.9
+</p>
+<p>• Runs cut off after 15 minutes
+Cutoff is interesting (previous talk), but orthogonal
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 28</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental setup: benchmarks
+• Unstructured distributions: 
+</p>
+<p>SAT04: two generators from SAT04 competition, random
+CV-fix: uf400 with c/v ratio 4.26 
+CV-var: uf400 with c/v ratio between 3.26 and 5.26 
+</p>
+<p>• Structured distributions:
+QWH: quasi groups with holes, 25% to 75% holes
+SW-GCP: graph colouring based on small world graphs
+QCP: quasi group completion , 25% to 75% holes
+</p>
+<p>• Mixed: union of QWH and SAT04
+• All data sets split 50:25:25 for train/valid/test
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 29</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Predicting median run-time
+</p>
+<p>Median runtime of SAPS on CV-fix
+</p>
+<p>Prediction based on Prediction based on
+single runs 100 runs
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 30</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Automatic tuning
+• Algorithm design: new algorithm/application 
+</p>
+<p>A lot of time is spent for parameter tuning
+</p>
+<p>• Algorithm analysis: comparability
+Is algorithm A faster than algorithm B because they 
+spent more time tuning it ? 
+</p>
+<p>• Algorithm use in practice
+Want to solve MY problems fast, not necessarily the 
+ones the developers used for parameter tuning
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 31</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Examples of parameters
+• Tree search
+</p>
+<p>Variable/value heuristic
+Propagation
+Whether and when to restart
+How much learning
+</p>
+<p>• Local search
+Noise parameter
+Tabu length in tabu search 
+Strength of penalty increase and decrease in DLS
+Pertubation, acceptance criterion, etc. in ILS
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 32</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Which features are most important?
+</p>
+<p>• Results consistent with those for deterministic tree-
+search algorithms
+</p>
+<p>Graph-based and DPLL-based features
+Local search probes are even more important here
+</p>
+<p>• Only very few features needed for good models
+Previously observed for all-sat data [Nudelman et al. ’04]
+A single quadratic basis function is often almost as good as 
+the best feature subset
+Strong correlation between features 
+Many choices yield comparable performance
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 33</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Algorithm selection based on EH models
+</p>
+<p>• Given portfolio of n different algorithms A1,...,An
+Pick best algorithm for each instance
+E.g. satzilla
+</p>
+<p>• Training:
+Learn n separate functions 
+fj: features runtime of algorithm j
+</p>
+<p>• Test (for each new instance st+1):
+Predict runtime yjt+1 = fj(φt+1) for each algorithm
+Choose algorithm Aj with minimal yjt+1
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 34</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental setup: solvers
+</p>
+<p>• Two SAT solvers
+Novelty+ (WalkSAT variant)
+- Default noise setting 0.5 (=50%) for unstructured 
+</p>
+<p>instances
+- Noise setting 0.1 used for structured instances
+</p>
+<p>SAPS (Scaling and Probabilistic Smoothing)
+- Default setting (alpha, rho) = (1.3, 0.8)
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 35</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results for Novelty+ on Mixed
+</p>
+<p>Best per
+instance
+settings
+</p>
+<p>Worst per
+instance
+settings
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 36</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Related work in automated parameter tuning
+</p>
+<p>• Best default parameter setting for instance set
+Racing algorithms [Birattari et al. ’02]
+Local search in parameter space [Hutter ’04]
+Fractional experimental design [Adenso-Daz & Laguna ’05]
+</p>
+<p>• Best parameter setting per instance: 
+algorithm selection/ algorithm configuration
+</p>
+<p>Estimate size of DPLL tree for some algos, pick smallest 
+[Lobjois and Lemaître, ’98]
+Previous work in empirical hardness models 
+[Leyton-Brown, Nudelman et al. ’02 & ’04]
+Auto-WalkSAT [Patterson & Kautz ’02]
+</p>
+<p>• Best sequence of operators / changing search strategy during the 
+search
+</p>
+<p>Reactive search [Battiti et al, ‘05] 
+Reinforcement learning [Lagoudakis & Littman, ’01 & ‘02] 
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 37</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Parameter setting based on runtime prediction
+</p>
+<p>• Learn a function that predicts runtime from 
+instance features and algorithm parameter settings
+(like before)
+</p>
+<p>• Given a new instance
+Compute the features (they are fix)
+Search for the parameter setting that minimizes 
+predicted runtime for these features
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 38</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Related work: best default parameters
+Find single parameter setting that minimizes 
+</p>
+<p>expected runtime for a whole class of problems
+• Generate special purpose code [Minton ’93] 
+• Minimize estimated error  [Kohavi & John ’95]
+• Racing algorithm [Birattari et al. ’02]
+• Local search [Hutter ’04]
+• Experimental design [Adenso-Daz & Laguna ’05]
+• Decision trees [Srivastava & Mediratta, ’05]
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 39</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Related work: per-instance selection
+Examine instance, choose algorithm that will work
+</p>
+<p>well for it
+• Estimate size of DPLL search tree for each 
+</p>
+<p>algorithm [Lobjois and Lemaître, ’98]
+• [Sillito ’00]
+• Predict runtime for each algorithm
+</p>
+<p>[Leyton-Brown, Nudelman et al. ’02 & ’04]
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 40</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Performance Prediction
+• Vision: situational awareness in algorithms
+</p>
+<p>When will the current algorithm be done ?
+How good a solution will it find ?
+</p>
+<p>• A first step: instance-aware algorithms
+Before you start: how long will the algorithm take ?
+- Randomized → whole run-time distribution
+</p>
+<p>For different parameter settings
+- Can pick the one with best predicted performance
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 41</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Automated parameter setting: results-
+old
+</p>
+<p>Algo Data Set Speedup over Speedup over best fixed 
+default params params for data set
+</p>
+<p>Nov+ unstructured 0.89 0.89
+Nov+ structured 177 0.91
+Nov+ mixed 13 10.72
+SAPS unstructuredNoa t the 2 1.07 u
+SAPS structured lgt o
+</p>
+<p>bes
+u rithm tn  
+</p>
+<p>2 Do 
+yo
+</p>
+<p> one
+? 0.93
+</p>
+<p>SAPS mixed e ;-)  to 1.91 aveh 0.93
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 42</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Results for Novelty+ on Mixed - old
+</p>
+<p>Compared to best fixed Compared to random
+parameters parameters
+</p>
+<p>Hutter, Hamadi, Hoos, Leyton-Brown:    Performance Prediction and Automated Tuning 43</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

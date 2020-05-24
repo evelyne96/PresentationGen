@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Characterizing Chronic Disease and Polymedication Prescription Patterns from Electronic Health Records *</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2015">2015, 19-21 October 2015</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Martí</forename><surname>Zamora</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya (UPC)</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Manel</forename><surname>Baradad</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya (UPC)</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Esther</forename><surname>Amado</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Institut Català de la Salut</orgName>
+								<address>
+									<addrLine>Barcelona 3 EAP Mataró-7</addrLine>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution">Institut Català de la Salut</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sílvia</forename><surname>Cordomí</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Institut Català de la Salut</orgName>
+								<address>
+									<addrLine>Barcelona 3 EAP Mataró-7</addrLine>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution">Institut Català de la Salut</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Esther</forename><surname>Limón</surname></persName>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Juliana</forename><surname>Ribera</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Institut Català de la Salut</orgName>
+								<address>
+									<addrLine>Barcelona 3 EAP Mataró-7</addrLine>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution">Institut Català de la Salut</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Marta</forename><surname>Arias</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya (UPC)</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ricard</forename><surname>Gavaldà</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Universitat Politècnica de Catalunya (UPC)</orgName>
+								<address>
+									<settlement>Barcelona</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Characterizing Chronic Disease and Polymedication Prescription Patterns from Electronic Health Records *</title>
+					</analytic>
+					<monogr>
+						<title level="j" type="main">IEEE DSAA</title>
+						<meeting> <address><addrLine>Paris</addrLine></address>
+						</meeting>
+						<imprint>
+							<biblScope unit="issue">1</biblScope>
+							<date type="published" when="2015">2015, 19-21 October 2015</date>
+						</imprint>
+					</monogr>
+					<note>* Contact author: R. Gavaldà, gavalda@cs.upc.edu. This paper was presented at the</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Population aging in developed countries brings an increased prevalence of chronic disease and of polymedication -patients with several prescribed types of medication. Attention to chronic, polymedicated patients is a priority for its high cost and the associated risks, and tools for analyzing, understanding, and managing this reality are becoming necessary.</p><p>We describe a prototype of a system for discovering, analyzing, and visualizing the co-occurrence of diagnostics, interventions, and medication prescriptions in a large patient database. The nal tool is intended to be used both by health managers and planners and for primary care clinicians in direct contact with patients (for example for detecting unusual disease patterns and incorrect or missing medication).</p><p>At the core of the analysis module there is a representation of diagnostics and medications as a hypergraph, and the most crucial functionalities rely on hypergraph transversal / variants of association rule discovery methods, with particular emphasis on discovering surprising or alarming combinations. The test database comes from the primary care system in the area of Barcelona for 2013, with over 1.6 million potential patients and almost 20 million diagnostics and prescriptions. 2</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Healthcare systems are one of the pillars of welfare state. They are also, together with education, one of the largest expenses for public administrations.</p><p>The fact that most healthcare data is digitalized today opens vast possibilities for improving people's lives and rationalize resource usage: increase our ability to predict and treat disease, select particularly vulnerable individuals for preventive actions, and reduce waste, redundancies, and mistakes.</p><p>Many developed countries are experiencing increasing population aging, which implies a large prevalence of chronic disease. Already today, in many western countries, 5% of the population uses up to 50% of the health system resources, uniformly across pharmacy, primary care, and hospitalary care.</p><p>This makes it even more necessary to optimize healthcare resources from the economic point of view, but also with respect to patient safety and quality of life. A particular concern is the phenomenon of polymedication, i.e. patients that are prescribed several drugs (5, 10, 15, . . . ), which creates high costs, secondary eects, patient confusion, and low adherence to treatments.</p><p>The Catalan Institute of Health (ICS, in short) manages the largest network of ambulatory centers in Catalonia, providing primary health care to about 7 million people, 85% of the Catalan population. One of its strategic lines is innovation in the management of information, including specic programs to exploit electronic health records to improve quality of patient care and sustainability. The vision is that the patient can benet from a better planning and personalized treatment, and the organization can reduce costs and minimize mistakes, delays, and duplicities.</p><p>In this paper we describe the goals and a rst prototype of a system designed to allow both health planners and clinicians to analyze, visualize, and put to use healthcare record data from patients, with emphasis on chronic patients and their medication prescription. Health planners could use the tool for understanding the patterns of diagnostics that actually occur in an aging, chronic, polymedicated population, the interaction among dierent diagnostics and associated medication, temporal trends and geographical and socioeconomic variations. Clinicians at the primary care centers could use the tool for making personalized decisions about their patients, for example by having the tool ag unusual combinations of diagnostics and/or medications (including possible prescription errors), searching for similar cases, or displaying medication suggestions.</p><p>The core of the analytical engine of the system is the representation of data as a hypergraph of diagnostics and medications, and hypergraph traversals (variants of itemset and association rule mining), with emphasis on detecting unexpected or alarming patterns. The situation has several peculiarities with respect to standard frequent itemset mining scenarios, among others the existence of two semantically very distinct types of items (diagnostics and medications), of a taxonomy or hierarchy among items, and the amount of unreliable data (most notably, diagnostics that are never deleted even though they are no longer present) that must be repaired somehow.</p><p>We developed the tool on the basis of a particular dataset, but hope that it is applicable to many, possibly larger, datasets. It consists of the healthcare annotations (demographics, diagnostics, clinical ndings, . . . ) and medication prescriptions for the area of Barcelona during 2013, including data from 1.6M patients and almost 20M annotations. We know only of a handful of studies on larger datasets for comparable analysis <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b11">12,</ref><ref type="bibr" target="#b13">14]</ref>, and either the goals were dierent or they used the much weaker graph (instead of hypergraph) representation to represent associations. Polymedication (or polypharmacy) is dened as the use of N or more medications by a patient, where N varies among sources with a minimum of 4. (For reference, patients with 8 and more prescribed medications are not rare in our dataset, and we found one with a staggering 30). It is a result, besides chronicity, of specialization: The cardiologist, the diabetologist, and the hematologist of a single patient will each prescribe their medications, without the time and expertise to study those prescribed by other specialists and investigate possible interactions of redundancies. In addition, the general practitioner does not feel comfortable deleting or modifying the prescription of the specialist. All in all, the consequence is the addition of new drugs to the previous ones, with no critical review of the global medication pattern. A rational, global examination of a patient's list of prescriptions usually leads to alternative lists that are not only cheaper but also safer for the patient.</p><p>Additionally, studies show that polymedication creates distress and confusion in patients and strongly reduces adherence (i.e., as patients are prescribed more medications, they are more likely to stop taking them). It is thus clear that polymedication puts the patient at risk, sometimes beyond the point of diminishing returns, for a high cost for the system.</p><p>The main goal of the project we describe is to build a software system that helps healthcare system managers build maps of diagnostics and prescribed medications in the context of chronic diseases and polypharmacy. This should help better understand a reality that is complex not only clinically but socially, geographically, and economically, and design policies and indicators of their eciency. Furthermore, some of the knowledge derived from the global panorama could be made available to the clinicians via a dedicated subtool to e.g. oer orientations or raise alerts on specic patients.</p><p>In this paper we consider as source of data the clinical history of the patient, which is becoming fully digital across Europe. We focus on structured and semi-structured information, ignoring for the time-being non-structured information such as medical images as it requires a totally dierent set of analytical techniques. At this stage of the work we are also not concerned with issues such as privacy, security, confederation and interoperability, etc., which will be crucial and blocking if such a tool is to be used in practice.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">The Dataset</head><p>The source of data used for the pilot phase of this project has been the electronic clinical history of primary care assistance in the city of Barcelona, and for the year 2013. It can be conceptually described as composed of three kinds of tables:</p><p>• A table of recorded diagnostics for patients. These include many recorded before 2013 but still considered active, most notably chronic diseases, and refer to diseases, conditions, and clinical ndings (such as the results of analytical tests).</p><p>• A table of pharmacy prescriptions, that is, medications prescribed by primary care doctors to patients during their visits to healthcare centers in 2013.</p><p>• Additionally, several small tables with basic demographic information on patients (age, sex, area of residence) and catalogs of diagnostics and pharmaceutical drugs.</p><p>We often refer to both diagnostics and pharmacy prescriptions as annotations.</p><p>Each patient is associated with a unique code to identify it across tables.</p><p>The code is an encrypted version of the true patient identier code used across the health system, created for anonymization before the data was made available to us. Diagnostics and medications are identied by standardized codes known respectively as ICD-10 1 and ATC codes 2 . We do not go into details of the code structure, but it is important to know that they are hierarchical. The data contained 1.6 million potential patients (roughly speaking, residents of Barcelona associated to ICS), 12.3 million diagnostics, and 7.7 million prescriptions. It used originally 8.5 Gb (560 Mb after compression).</p><p>About 0.5M of the potential patients actually had some associated annotation or prescription -meaning they had visited a primary care center during 2013. We removed approximately 15% of annotations corresponding to patients that did not appear in the main patient table, possibly transient visitors to the area. After processing, we obtained a single table with patient information. For each patient we kept sex, age, residence area, a list of diagnostics and a list of medication prescriptions.</p><p>Let us note some limitations of this dataset. First, it corresponds only to primary care at the public network, so it does not include hospital visits and private care centers. This clearly introduces a bias, as areas with dierent economic levels will rely more or less on private healthcare, and e.g. patients in dierent age ranges may visit hospitals with dierent frequency. Secondly, we have data for one year only, which makes it virtually impossible to perform temporal analyses such as evolution of patients or patient types over time;</p><p>ICS has reliably complete and sorted data since 2009, and we hope to obtain access to it in the near future. Finally, data is entered in the system by people, the health professionals, with procedures that are not completely mechanized and create inconsistencies.</p><p>A particular case of inconsistency that we will deal with is what we call open episodes. A patient visits his primary care center because of a health condition, which is recorded in the system; the condition disappears after a couple of visits and appropriate medication, so the patient stops going to the center. Yet, the condition remains recorded as one of his/her diagnostics.</p><p>Even if the patient visits again, perhaps for another reason, the doctor may not think of marking the previous condition as resolved. We have found patients with an arm broken for a year, and women that have been continuously pregnant for over two years. These open episodes are in fact very frequent, and need to be removed so that they do not distort statistics and analyses.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Project Goals</head><p>The long-term goals of the project described here are:</p><p>• Contribute to determine the groups of health factors and diagnostics that are most relevant in the population, where relevant depends on prevalence, on impact on patient quality of life, and on impact on the health system.</p><p>• Determine the therapeutic areas (treatments, prescriptions) that are most common for a given annotation, and determine their characteristics for better matching with care and attention processes.</p><p>• Dene and study new indicators of population health that reects the complexity of current scenarios.</p><p>• Dene and study new indicators of the impact of health-related plans and programs.</p><p>• Facilitate sustainability of health-related processes, optimizing resources and indicating unjustied duplicities.</p><p>• Revert the knowledge obtained back to individual patients in order to improve their safety and quality of life.</p><p>• Contribute to involving rst-line health professionals and patients in this latter goal, by making them more aware of their situation within the general population and of the potential eects of their personal actions.</p><p>The specic goal which concerns us is to develop a data analysis tool that basically helps ICS to map the territory before making decisions. In particular, we want to build a robust, exible, and friendly software system that supports the general goals with the following functionalities:</p><p>1. Verify the quality and consistency of the data in electronic clinical records.</p><p>2. Obtain maps of diagnostics, particularly of chronic diseases with high prevalence, and their relations to patterns of polymedication.</p><p>3. Proactively identify anomalous cases of patient medication and diagnostic so that they can be studied by specialists.</p><p>4. Find patients that are similar, with respect to the maps built, to a patient under study. 5. Perform dierential analyses according to dierent criteria, such as demographic or geographic. This should help expert analysis of best practices and comparative analyses of macro-and micro-management. <ref type="bibr" target="#b5">6</ref>. Identify outliers such as districts, health professionals, and centers that have in any sense atypical behaviors or results. In this paper we focus on functionalities 1, 2, and 3, as they are the ones which have already been implemented and (partially) validated.</p><p>Additionally, the software should satisfy these non-functional requirements:</p><p>1. Visually present all of the above interactively so that health professionals with little experience in big data tools can use it fruitfully and with little learning time. Users should be able to interactively experiment and select/lter data as they go.</p><p>2. Integrate smoothly with the tools that health professionals are already using.</p><p>3. Scale up to large volumes of data.</p><p>Visualization, integration, and an almost-at learning curve are completely crucial. Experience shows that many professionals will give a new software at best one opportunity. If, on a rst trial, they do not immediately nd it straightforward to use, consistent with the software they already use, and useful for their packed day-to-day practice, chances are that they will not give it a second chance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Related Work</head><p>There are of course many studies in knowledge extraction from electronic healthcare records (EHR). See e.g. <ref type="bibr" target="#b14">[15,</ref><ref type="bibr" target="#b19">19]</ref> for general discussions. We focus on those that resemble ours either because the goal is to understand interaction among diseases, or because there is some underlying graph representation.</p><p>Some generic studies aim at discovering patterns over the whole patient set without preconceived hypotheses, hoping to nd relevant ones that were unnoticed before and suggest other more focused studies. This is the case of <ref type="bibr" target="#b17">[18]</ref>, which nds new associations between diseases from the EHR of 667,000 patients. In essence, their system nd association rules among diseases and medications, like ours, but uses simple rule condence as a measure.</p><p>The study <ref type="bibr" target="#b9">[10]</ref> builds networks (graphs) of diseases from the EHR of 327,000 patients, then applies clustering to the networks in order to nd those diseases the often occur together in patients; a set of sophisticated heuristics is then applied to highlight the reliable and interesting associations.</p><p>The Human Disease Network <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b11">12]</ref> is the largest study resembling ours that we have found. Roughly speaking, it builds a network (graph) of about a few thousand diseases and genes from a database of over 30M patients. The strength of associations among these items is then studied from the weights of the edges, and the statistics of the network itself are studied with the usual parameters in complex networks studies. The main dierences of our work with this one are 1) we consider medication prescriptions instead of -omics, and 2) we use a hypergraph instead of graph, or in other words, explore relations beyond binary ones. Similarly, the large study <ref type="bibr" target="#b13">[14]</ref> used 15 years of registries from the Danish health system, with over 6M patients. Their emphasis is on obtaining temporal trajectories, e.g. evolution of patients and diseases over time (a direction we certainly want to follow in the future); we focus more on the description of associations, the relation to medications, and eventually helping with the denition and evaluation of healthcare policies and personalized patient care.</p><p>Many works mine Electronic Health Records with a specic purpose in mind -we mention but a few examples. The study <ref type="bibr" target="#b21">[21]</ref> analyzes EHR of 50,000 primary care patients to identify the documentation of the signs and symptoms of heart failure in the years preceding its diagnosis. Mani et al. <ref type="bibr" target="#b16">[17]</ref> aim at building a method that identies dementia better than methods existing at the time, using data from EHRs and data mining techniques.</p><p>Works such as <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b23">22]</ref> deal with the detection of adverse drug eects from EHR. Our system is intended to ease studies of the former category, namely, facilitate open-ended exploration of the data by healthcare professionals to gain understanding and intuition which may certainly, among others, suggest in-depth studies of specic questions using other tools. <ref type="bibr" target="#b2">3</ref> The Prototype: Structure and Functionalities This section describes the current prototype and typical usage workows.</p><p>More details on the most interesting functionalities are given in later sections.</p><p>At the core of the prototype there is the representation of a network of associations among diagnostics and prescriptions as a hypergraph. More precisely:</p><p>• There is a node for each diagnostic present in the database, and one for each drug; as mentioned before, there is a prior choice of the level of granularity in the hierarchies of diagnostics and drugs.</p><p>• An edge between two nodes is labeled by a weight computed from the strength of the association between the items at the two nodes.</p><p>• In fact, this is generalized from pairs of vertices to unordered sets of vertices, denoting the strength of the joint association between all the vertices in the set. This turns the structure from a graph with binary edges to a hypergraph with edges of arbitrary cardinality.</p><p>• Alternatively, we use the term itemset <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2]</ref> as synonym of hyperedge.</p><p>To be precise, only the itemsets corresponding to a certain minimum strength in the database (the frequent itemsets) are retained, for eciency.</p><p>The exact denition of weight and strength, and the computation of hyperedges or itemsets will be discussed in Section 4.</p><p>The workow of the prototype is summarized in <ref type="figure" target="#fig_1">Figure 1</ref>. Initially, all data (diagnostic, prescription, and auxiliary tables) are read from the database or from suitable text les. The frequent itemsets of diagnostics and prescriptions (equivalently, the hypergraph whose vertices are diagnostics and prescriptions) are computed, and the user enters the main menu. At every moment, the options in the main menu apply to a current population, for which the itemsets/hyperedges are already computed and which can restricted by successive application of lters. Thus, the current population is initially the whole population read from the DB.</p><p>The current options in the main menu of the application are:</p><p>• Display statistics on the current population (not shown in <ref type="figure" target="#fig_1">Figure 1</ref>).</p><p>These include age / sex descriptors and histograms, diagnostics frequencies and histograms, prescription frequencies and histograms, etc.</p><p>Many more can be added in the future.</p><p>• Filter current population: retain only those that satisfy a boolean query on the variables of interest (currently sex, age, geographical area, diagnostics, and prescriptions). Frequent itemsets (equivalently, the hypergraph) of the new population are computed after the lter.</p><p>• Compute, prune, and export rules of interest on the current population, from the itemsets already computed. Details are given in Section 4.</p><p>• Navigate the current hypergraph: The user can choose a diagnostic or prescription, a node in the hypergraph, visually inspect the graph around it, and navigate to neighboring nodes. Details are given in Section 5.</p><p>Additionally, at any moment the user can save the current population (implicitly, by the sequence of lters that dene it) and associated itemsets (hypegraph), or retrieve a previously saved population to continue working on it.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Hypergraph Representation of the Data and</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Rule Computation</head><p>As mentioned before, a rst approach to understanding the data is to build a network or graph where the nodes are annotations (diagnostics or drugs) and edges represent associations between their endpoints. Edges may be annotated with real-valued weights indicating the strength of the association. To make the graph sparse and understandable, only edges with weight above a certain threshold (indicating e.g. signicant enough association) are kept.</p><p>A rst denition for the strength of the association between nodes A and B as simply the joint prevalence of A and B relative to the population size. But that can be easily seen to be useless. Some medications such as pain-killers or the already mentioned gastric protector Omeprazol are prescribed very widely and for a large variety of conditions, so they would appear strongly associated to many diagnostics in a very non-specic way. We have Thus, if two items tend to appear together they will have high PMI, items that tend to appear separately will have low (negative) PMI, and items with no particular relation will have PMI close to 0. As an example, if their PMI is 2, we know that the probability of nding them together is 100 times higher than one could expect by chance. This logarithmic scale is useful as without it some values get very large; for example, medication for diabetes is obviously extremely highly associated with diabetes.</p><p>Exploring the graph above certainly provides useful information and insights, but also has clear limitations. For deeper analyses, we move from graphs to hypergraphs, where hyperedges are arbitrary subsets of items, and this distinguishes our work from many others that remain at the graph level. Note that the denition of PMI above makes perfect sense when A and B are sets of annotations and not single annotations.</p><p>To make the process feasible, we will only actually build the hyperedges or subsets that have a minimum support (joint prevalence, in the case of diagnostics) in the population. The problem of hypergraph traversal (or equivalently, nding frequent itemsets) is fortunately well studied and reasonably well solved algorithmically.</p><p>The functionalities implemented so far on this hypergraph are:</p><p>• Generating itemsets of frequently co-occurring diagnostics.</p><p>• Generating association rules mapping diagnostics to medications, and vice-versa.</p><p>• Detecting patients with unexplained medication patterns.</p><p>• Detecting open episodes, dened in Section 2.2.</p><p>For generating frequent itemsets, we used the well-known implementation by <ref type="bibr">Borgelt [5]</ref> of the Apriori algorithm <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b0">1]</ref>, which we found to be fast and convenient enough in our context. We did not use standard implementations that compute association rules from frequent itemsets, as we are only interested in particular types of rules. To start with, we want only rules whose antecedent contains only diagnostics and whose consequent is a drug, or else whose antecedent is a single drug and whose consequent is a single diagnostic. Additionally, for the rst type of rules clinicians indicated that in most cases the decision to prescribe a drug is made on the basis of a single diagnostic (or at most two), which greatly simplies the space of association rules to investigate. Note that we still have to compute frequent itemsets of any size for the rst functionality desired, nding sets of diagnostics that appear frequently together.</p><p>As is often the case, naively applied frequent itemset mining produces a large set of redundant rules. Standard measures of rule interest (support, condence, leverage, lift, etc.) can to some extend be used to quantify their interest. We ltered more aggressively the set of rules from diagnostics to medication using the following rules: • Discard a rule D → M that has condence σ 1 if there is a rule D → D (where D is also a diagnostic) with condence σ 2 and a rule D → M with condence σ 3 such that σ 1 σ 2 · σ 3 . The intuition is that this way we discard (only) rules that link an infrequent diagnostic with medications that are given for very frequent diagnostics such as diabetes. We have veried that this is the case empirically.</p><p>Surely, other heuristics for discarding uninteresting rules can be applied, and some will be suggested by the feedback from experts that examine the outcomes of our system. We are planning to use existing research on principled methods for obtaining non-redundant yet informative subsets of rules <ref type="bibr" target="#b2">[3,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b6">7,</ref><ref type="bibr" target="#b7">8,</ref><ref type="bibr" target="#b12">13</ref>].</p><p>Once we have this set of frequent associations between medications and diagnostics, we can look back at the patient database and look for unexplained   When the focus is on a node, the user may click on any other visible node to move the focus to it.</p><p>In order to investigate non-binary associations (i.e., visualize the hypergraph), we have implemented the ability to merge nodes. The user may click on an edge linking two nodes A and B and select to merge them. The nodes are removed and replaced with a new node A-B representing the joint occurrence of A and B. An edge from A-B to another node C has weight P M I({A, B}, C).</p><p>Note that this value cannot be deduced simply from the itemset frequencies for binary associations between A, B, and C that were already computed. A recomputation of frequent itemsets restricted to patients whose annotations contain {A, B} is required. This is currently implemented as a sequential scan of the current population to retrieve these patients (which takes 5-10 seconds on our current implementation and the full DB), then a new call to Apriori on this subpopulation (which takes less than 1 second).</p><p>In a future version we will investigate indices that help eciently retrieve the patients with {A, B} and improve the interactivity of the exploration of large populations. <ref type="figure" target="#fig_8">Figure 3</ref> shows the result of merging diagnostics K20 (Esophagitis) and</p><p>K29 (Gastritis and Duodenitis) into K20-K29, and <ref type="figure" target="#fig_9">Figure 4</ref> shows the result of further merging K20-K29 with Q40 (Other congenital malformations of the upper gastrointestinal tract) into a new node K20-K29-Q40. One can see on the right panel that new associated nodes may appear because of their PMI has increased, such as here D51 -Anemia due to B12 vitamin deciency.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Implementation</head><p>The prototype contains a server and a web client. The server contains the actual data and implements the functionalities described; it is implemented in Java. The client lets the user issue commands, including lters for data selection, and present results; it is implemented in Javascript, initially using the ngraph library <ref type="bibr" target="#b15">[16]</ref> for graph visualization and later using D3.js <ref type="bibr" target="#b5">[6]</ref>.</p><p>As mentioned, we used Borgelt's implementation <ref type="bibr" target="#b4">[5]</ref> of the Apriori algorithm for itemset mining <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b0">1]</ref>, which was fast enough for our case. Even on  the full data and relatively low supports (well below 1%) running time on a standard laptop was in the order of a few minutes. Thus, interactive analysis on subpopulations of interest may be within reach.</p><p>The system is designed in three layers: data, logic, and visualization. In approximately 10% of patients we obtained alerts for prescriptions without diagnostics that explain them from the mined rules. This is actually lower than expected, because the system from which the dataset was extracted does not require the clinician to link a prescription with a diagnostic.</p><p>Conversely, in about 16% of patients we found open episodes, health problems with no prescription among those that are strongly associated to them in the mined rules. As expected, these cases mostly correspond to trivial or non-specic health problems (u, sprained ankle) for which a shortduration prescription is issued; the patient does not return for retest so the diagnostic is not removed from the history.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.2">Clinical Signicance</head><p>The preliminary sets of rules obtained are currently being examined by expert clinicians as well as pharmacists. A rst observation is that the rules with largest support appear, as was to be expected, highly prevalent diagnostics such as hypertension, diabetes, and obesity. Those with largest condence relate e.g. diabetes with medication for diabetes, again as expected. Less expected ones link e.g. diabetes with statins (a widely used medication for reducing cholesterol).</p><p>A second observation is that, as usual in data mining, the association obtained can be informally grouped in three categories. We give one or two preliminary examples of each:</p><p>1. Well known, not surprising, but still reassuring that they were discovered by the program: the association between diabetes and retinopathy, or the fact that that gastric protectors (such as Omeprazol) are prescribed for basically every nontrivial health problem, not because of the health problem itself, but because of the medication prescribed due to it.</p><p>2. Unknown and believable (never thought of it, but it makes perfect sense): strong association between bedsores (pressure sores) and Alzheimer's disease. The health manager in our team immediately observed that there was no particular prevision for dealing with bedsores in Alzheimer's patients, and that of course there should be one.</p><p>3. Unknown and surprising (never thought of it, and can't think why it came out): the fact that retinopathy is more strongly associated with hypertension than with diabetes.</p><p>The above were obtained on the whole population, so no spectacular discovery can be expected. The hope is that specialists can reveal new and interesting knowledge by exploring subpopulations dened by specic diagnostics or features. Detailed analyses of the clinical ndings are out of the scope of this paper and will be published elsewhere. <ref type="bibr" target="#b7">8</ref> Conclusions and Future Work</p><p>Our system, even at this early stage, seems well able to identify the patterns of joint diagnostics and associated drugs. PMI seems like a valid measure for detecting interesting associations between annotations. A deeper validation and analysis of the results is the main work we require from our associated medical experts in the near future. Also, whether the heuristics for detecting suspicious patients (with mismatching medications and diagnostics) and open episodes are sucient or need further renement will have to be investigated.</p><p>The testing clinicians are satised with the tool for detecting inconsistencies. Not surprisingly, they request a friendlier interface, and more validation rules for ltering alerts.</p><p>Besides implementing the pending features, several avenues for further research have opened up during this phase of the project. Some include:</p><p>• Deal with taxonomies in diagnostics and medications. Taxonomies in frequent itemset mining has received some attention in the past.</p><p>• Study patient trajectories over time, i.e., how patients and their sets of diagnostics and medications tend to evolve over time <ref type="bibr" target="#b13">[14]</ref>. • In a perhaps distant future, when they become available, link these data with genetic data for improved analysis and prediction.</p><p>As a nal, non-technical, conclusion we remark the need for cross-disciplinary teams in this kind of transversal projects. Our team includes two computer science faculty members working on data mining, two computer science undergraduate students, a clinician (Ph.D.) working at a primary care center with daily contact with patients, a medical doctor specializing in healthcare information systems and project management, a pharmacist (Ph.D.) involved in planning and deployment of prescription policies, and an economist specialized in healthcare economics at ICS.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head></head><label></label><figDesc>intended for clinicians in direct contact with patients, while the others are more intended for health planners and managers.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 :</head><label>1</label><figDesc>User workow of the current prototype.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head></head><label></label><figDesc>considered three measures that are more informative of interesting associations: one based on odds ratios, one based on p-values, and Pointwise Mutual Information (PMI). The latter was nally chosen as it gave most intuitively appealing results. It is dened as: PMI(A, B) = log 10 Pr(A, B) Pr(A) Pr(B).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head></head><label></label><figDesc>For example, the joint prevalence of three diagnostics {A, B, C} cannot in general be deduced from the joint prevalence of the sets of diagnostics {A, B}, {A, C}, and {B, C}.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>•</head><label></label><figDesc>Discard a rule D → M if Pr[D, M ] Pr[D] · Pr[M ] (equivalently, if lift is close to 1 or PMI is close to 0). The reason is that when this condition holds there is insucient evidence that doctors prescribe medication M because the patient has diagnostic D.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head></head><label></label><figDesc>diagnostics and prescriptions. If a patient's record contains a diagnostic but none of the medications associated to it, this may indicate either an omission on the clinician's part (a rare, but alarming event) or else that the patient does not have the condition any more, although it remains in his/her record (what we called an open episode). Unfortunately, if applied so naively, this method produces a large number of false positives, cases where the doctor correctly did not prescribe the standard medication. This happens often for chronic conditions such as hypertension, for which doctors may not prescribe the usual medication in moderate cases. Having access to longer historical records from the patient may help in distinguishing between these cases and true open episodes, namely, checking whether some time in the past the patient was actually medicated for the unexplained diagnostic.Conversely, a drug prescription that is not the consequent of any rule where the antecedent is a set of diagnostics recorded for the patient may indicate either an omission to record a diagnostic or an incorrectly prescribed medication. Both should be agged as surprising or suspicious when the patient is being prescribed.<ref type="bibr" target="#b4">5</ref> Visualizing the Hypergraph From the main menu, the user can also visualize and navigate in the hypergraph of annotations. S/he chooses a node on which to focus (selecting the desired diagnostic or drug), a minimum weight and a depth, and the graph of neighbors of the chosen node up to that depth or distance and with at least that association weight are shown.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 2</head><label>2</label><figDesc>shows an example screenshot with the focus on K20, Esophagitis(diagnostic and drug names show in Catalan), with depth 3 and minimum weight 1.3. Edges from the focus to their immediate neighbors are shown in black, and other edges are lighter so as not to obscure the view. The panel on the right lists immediate neighbor nodes in decreasing PMI order. For</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 2 :</head><label>2</label><figDesc>Example screenshot: Graph around the Esophagitis diagnostic. example, one can see that in the current population Esophagitis is most associated to Other congenital malformations of upper gastrointestinal tract (PMI 2.463), Diaphragmatic hernia (PMI 2.232), etc.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 3 :</head><label>3</label><figDesc>Example screenshot: Result after merging K20 (Esophagitis) and K29 (Gastritis and Duodenitis).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 4 :</head><label>4</label><figDesc>Example screenshot: Result after merging K20-K29 with Q40 (Other congenital malformations of the upper gastrointestinal tract).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>•</head><label></label><figDesc>Study the graph of associations from the point of view of network analysis: investigate powerlaw distributions, small-world phenomena, measures of centrality and inuence (betweenness, pagerank), clustering coecients and transitivity, community structures, etc. • Incorporate viewpoints for clinicians: Display statistics on patients similar to the current one; display courses of actions taken by other clinicians on similar patients; predict possible evolutions of the patients (probability of recovery and of complications), using predictive models learned from past data.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>approximately 7 million people. Like in many other European regions, population aging and the increased prevalence of chronic diseases are the largest challenges it faces in the long term. Consequently, one of its priorities is the application of measures for improving chronic patient care, and rationalizing medication for polymedicated patients, favoring the participation of all health professionals and patients themselves in the process.Chronic diseases are not homogeneously distributed in the population; factors such as geographical area, demographic and socioeconomic structure, country of origin and ethnicity, and the structure of healthcare system itself make it dicult to give uniformly useful indicators. While the volume of available data is already quite large, ICS must be prepared for an immediate future where information collected in real-time and valuation of current scenarios takes precedence over studies of information aggregated in the past months or decades, including subtle trends and cause-eect relations that may escape even the best-trained human experts. It will be necessary to develop powerful and scalable analytical engines that go beyond traditional statistics and can interact with the intuitions and expertise of health profes-</figDesc><table>2 
+Context and Project Overview 
+
+2.1 Aging, Chronic Disease, and Polymedication 
+
+The Catalan Institute of Health (ICS) is responsible for planning and pro-
+
+viding healthcare assistance to a large majority of residents of Catalonia, 
+
+sionals. 
+
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head></head><label></label><figDesc>A50 to A64, so the classication must be entered manually; for the moment, we have removed digits after the dot, i.e., have considered categories only.</figDesc><table>For example, gastric protector Omeprazol has ATC code A02BC01; code 
+
+A02BC corresponds to proton pump inhibitors which includes other four ac-
+
+tive ingredients. In turn, subcodes of A2BC01 might indicate commercial 
+
+names for the medications containing that active ingredient. ICD-10 codes 
+
+have formats such as A79.1, where A79 indicates a diagnostic category and 
+
+.1 a subcategory. They are harder to aggregate than ATC codes because the 
+
+distinction between category and subcategory is somewhat fuzzy, and what 
+
+some professionals consider a single disease with variants may go e.g. from 
+
+1 http://en.wikipedia.org/wiki/ICD-10 
+2 http://en.wikipedia.org/wiki/Anatomical_Therapeutic_Chemical_ 
+Classification_System 
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2" validated="false"><head></head><label></label><figDesc>Two implementations of the data layer are provided now: In one, the data is kept in RAM; in a standard PC, RAM was barely sucient to hold the current dataset, but would not scale e.g. to a larger population or larger time frame. The other uses the Sparksee graph-oriented database<ref type="bibr" target="#b20">[20]</ref>; the graph maintains nodes representing patients, diagnostics, and medications, and edges their relations. Note that the hypergraph we build using Apriori does not contain patient nodes, but the external database does, because the transactions on which Apriori has to be applied are the patients. Observe that patients are the bulk of information of the database; the hypergraph of (only) diagnostics and drugs is likely to be small enough to t in RAM even for large databases.We mostly worked with a support of 0.05%, corresponding to a minimum of 800 cases in the general population. This leads to a graph with 918 dierent diagnostics and 268 dierent medications. Fixing minimum support to 0.05% and minimum condence to 10% and after pruning with the heuristics discussed, we get 4051 diagnostic-to-medication rules involving 537 diagnostics and 101 medications, and 2253 medication-to-diagnostic rules involving 201 medications and 115 diagnostics.</figDesc><table>7 
+Preliminary Results 
+
+7.1 Execution on the Dataset 
+
+</table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>Research at UPC was partially funded by SGR2014-890 (MACDA) project of the Generalitat de Catalunya, MINECO project APCOM (TIN2014-57226-P), and the support of Fundació Barcelona Media to project SESAAME. We are grateful to José Luis del Val at ICS for the extraction and anonymization of data, Sebastià Santaeugènia for insightful comments on the future of the system, and Sparsity Technologies for providing a free research license of Sparksee.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Hannu Toivonen, and A. Inkeri Verkamo. Fast discovery of association rules</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Rakesh</forename><surname>Agrawal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Heikki</forename><surname>Mannila</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ramakrishnan</forename><surname>Srikant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Knowledge Discovery and Data Mining</title>
+		<imprint>
+			<biblScope unit="page">307328</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Fast algorithms for mining association rules in large databases</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Rakesh</forename><surname>Agrawal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ramakrishnan</forename><surname>Srikant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">VLDB&apos;94, Proc. 20th Intl. Conf. on Very Large Data Bases</title>
+		<imprint>
+			<date type="published" when="1994" />
+			<biblScope unit="page">487499</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Redundant association rules reduction techniques</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><surname>Mafruz Zaman Ashra</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kate</forename><surname>Taniar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">AI 2005: Advances in Articial Intelligence</title>
+		<editor>Shichao Zhang and Ray Jarvis</editor>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2005" />
+			<biblScope unit="volume">3809</biblScope>
+			<biblScope unit="page">254263</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Redundancy, deduction schemes, and minimum-size bases for association rules</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>José</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Balcázar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Logical Methods in Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Sofware for frequent pattern mining</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Christian</forename><surname>Borgelt</surname></persName>
+		</author>
+		<ptr target="http://www.borgelt.net/software.html.Lastaccess" />
+		<imprint>
+			<biblScope unit="page" from="2015" to="2023" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Mike</forename><surname>Bostock</surname></persName>
+		</author>
+		<ptr target="http://d3js.org//.Lastaccess" />
+		<title level="m">D3.js: Data-driven documents</title>
+		<imprint>
+			<biblScope unit="page" from="2015" to="2023" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Freesets: A condensed representation of boolean data for the approximation of frequency queries</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jean-François</forename><surname>Boulicaut</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Artur</forename><surname>Bykowski</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Christophe</forename><surname>Rigotti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Data Min. Knowl. Discov</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">522</biblScope>
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Interestingness measures for data mining: A survey</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Liqiang</forename><surname>Geng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Howard</forename><forename type="middle">J</forename><surname>Hamilton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Comput. Surv</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The human disease network. Proceedings of the National Academy of</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kwang-Il</forename><surname>Goh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Michael</forename><forename type="middle">E</forename><surname>Cusick</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><surname>Valle</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Barton</forename><surname>Childs</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Marc</forename><surname>Vidal</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Albert-László</forename><surname>Barabási</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sciences</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="issue">21</biblScope>
+			<biblScope unit="page">86858690</biblScope>
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Exploring clinical associations using &apos;-omics&apos; based enrichment analyses</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><forename type="middle">A</forename><surname>Hanauer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Daniel</forename><forename type="middle">R</forename><surname>Rhodes</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Arul</forename><forename type="middle">M</forename><surname>Chinnaiyan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PloS one</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">5203</biblScope>
+			<date type="published" when="2009-04" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Mining electronic health records for adverse drug eects using regression based methods</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Rave</forename><surname>Harpaz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Krystl</forename><surname>Haerian</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Herbert</forename><forename type="middle">S</forename><surname>Chase</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Carol</forename><surname>Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 1st ACM International Health Informatics Symposium, IHI&apos;10</title>
+		<meeting>the 1st ACM International Health Informatics Symposium, IHI&apos;10</meeting>
+		<imprint>
+			<date type="published" when="2010" />
+			<biblScope unit="page">100107</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">A dynamic network approach for the study of human phenotypes</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>César</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Nicholas</forename><surname>Hidalgo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Blumm</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Albert-László</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Nicholas</forename><forename type="middle">A</forename><surname>Barabási</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Christakis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS computational biology</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">1000353</biblScope>
+			<date type="published" when="2009-04" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Pruning redundant association rules using maximum entropy principle</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Szymon</forename><surname>Jaroszewicz</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Dan</forename><forename type="middle">A</forename><surname>Simovici</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 6th Pacic-Asia Conference on Advances in Knowledge Discovery and Data Mining</title>
+		<meeting>the 6th Pacic-Asia Conference on Advances in Knowledge Discovery and Data Mining</meeting>
+		<imprint>
+			<date type="published" when="2002" />
+			<biblScope unit="page">135147</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Temporal disease trajectories condensed from population-wide registry data covering 6.2 million patients</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anders</forename><surname>Boeck Jensen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><surname>Pope</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Tudor</forename><forename type="middle">I</forename><surname>Moseley</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sabrina</forename><forename type="middle">Gade</forename><surname>Oprea</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Robert</forename><surname>Ellesøe</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Henriette</forename><surname>Eriksson</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Schmock</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Lars</forename><forename type="middle">Juhl</forename><surname>Peter Bjødstrup Jensen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Søren</forename><surname>Jensen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Brunak</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Communications</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<date type="published" when="2014" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Mining electronic health records: towards better research applications and clinical care</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">B</forename><surname>Jensen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">J</forename><surname>Jensen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Brunak</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Reviews Genetics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">395405</biblScope>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+		<title level="m" type="main">ngraph, a graph drawing library</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Andrei</forename><surname>Kashcha</surname></persName>
+		</author>
+		<ptr target="https://github.com/anvaka/ngraph/.Lastaccess" />
+		<imprint>
+			<biblScope unit="page" from="2015" to="2023" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Dierential diagnosis of dementia: A knowledge discovery and data mining (KDD) approach</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Subramani</forename><surname>Mani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">William</forename><forename type="middle">Rodman</forename><surname>Shankle</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Michael</forename><forename type="middle">J</forename><surname>Pazzani</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Padhraic</forename><surname>Smyth</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Malcolm</forename><forename type="middle">B</forename><surname>Dick</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Annual Symposium of the American Medical Informatics Association</title>
+		<imprint>
+			<date type="published" when="1997" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Irene</forename><forename type="middle">M</forename><surname>Mullins</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Mir</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jason</forename><forename type="middle">A</forename><surname>Siadaty</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ken</forename><surname>Lyman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Carleton</forename><forename type="middle">T</forename><surname>Scully</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">Greg</forename><surname>Garrett</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Rudy</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Muller</surname></persName>
+		</author>
+		<imprint>
+			<pubPlace>Barry Robson, Chid</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Data mining and clinical data repositories: Insights from a 667, 000 patient data set</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sholom</forename><forename type="middle">M</forename><surname>Apté</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Isidore</forename><surname>Weiss</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Daniel</forename><forename type="middle">E</forename><surname>Rigoutsos</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Simona</forename><surname>Platt</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">William</forename><forename type="middle">A</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Knaus</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comp. in Bio. and Med</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page">13511377</biblScope>
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Mining electronic health records</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Naren</forename><surname>Ramakrishnan</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">David</forename><forename type="middle">A</forename><surname>Hanauer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Benjamin</forename><forename type="middle">J</forename><surname>Keller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Computer</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page">7781</biblScope>
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<monogr>
+		<title level="m" type="main">The Sparksee graph database (formerly known as DEX)</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Sparsity</forename><surname>Technologies</surname></persName>
+		</author>
+		<ptr target="http://www.sparsity-technologies.com/.Lastaccess" />
+		<imprint>
+			<biblScope unit="page" from="2015" to="2023" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<monogr>
+		<title/>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Steven</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Kenney</forename><surname>Steinhubl</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jimeng</forename><surname>Ng</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Roy</forename><forename type="middle">J</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Zahra</forename><surname>Byrd</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Brent</forename><forename type="middle">A</forename><surname>Daar</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Christopher</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Shahram</forename><surname>Defilippi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Ebadollahi</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Prevalence of heart failure signs and symptoms in a large primary care population identied through the use of text and data mining of the electronic health record</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Walter</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Stewart</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Cardiac Failure</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page">459464</biblScope>
+			<date type="published" when="2014" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Data mining on electronic health record databases for signal detection in pharmacovigilance: which events to monitor?</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Gianluca</forename><surname>Trirò</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Antoine</forename><surname>Pariente</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Preciosa</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Coloma</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Giovanni</forename><surname>Kors</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Ghada</forename><surname>Polimeni</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Maria</forename><forename type="middle">Antonietta</forename><surname>Miremont-Salamé</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Francesco</forename><surname>Catania</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Anaelle</forename><surname>Salvo</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Nicholas</forename><surname>David</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><surname>Moore</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pharmacoepidemiology and drug safety</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page">11761184</biblScope>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

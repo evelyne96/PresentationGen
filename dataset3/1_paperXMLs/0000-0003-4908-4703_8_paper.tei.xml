@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Improved enumeration of simple topological graphs *</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2014-03-12">12 Mar 2014</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author role="corresp">
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Jan</forename><surname>Kynčl</surname></persName>
+							<email>kyncl@kam.mff.cuni.cz</email>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Applied Mathematics and Institute for Theoretical Computer Science</orgName>
+								<orgName type="department" key="dep2">Faculty of Mathematics and Physics</orgName>
+								<orgName type="institution">Charles University</orgName>
+								<address>
+									<addrLine>Malostranské nám. 25</addrLine>
+									<postCode>118 00</postCode>
+									<settlement>Praha 1</settlement>
+									<country key="CZ">Czech Republic</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Improved enumeration of simple topological graphs *</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2014-03-12">12 Mar 2014</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:33+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A simple topological graph T = (V (T ), E(T )) is a drawing of a graph in the plane where every two edges have at most one common point (an endpoint or a crossing) and no three edges pass through a single crossing. Topological graphs G and H are isomorphic if H can be obtained from G by a homeomorphism of the sphere, and weakly isomorphic if G and H have the same set of pairs of crossing edges.</p><p>We generalize results of Pach and Tóth and the author's previous results on counting different drawings of a graph under both notions of isomorphism. We prove that for every graph G with n vertices, m edges and no isolated vertices the number of weak isomorphism classes of simple topological graphs that realize G is at most 2 O(n 2 log(m/n)) , and at most 2 O(mn 1/2 log n) if m ≤ n 3/2 . As a consequence we obtain a new upper bound 2 O(n 3/2 log n) on the number of intersection graphs of n pseudosegments. We improve the upper bound on the number of weak isomorphism classes of simple complete topological graphs with n vertices to 2 n 2 ·α(n) O(1) , using an upper bound on the size of a set of permutations with bounded VC-dimension recently proved by Cibulka and the author. We show that the number of isomorphism classes of simple topological graphs that realize G is at most 2 m 2 +O(mn) and at least 2 Ω(m 2 ) for graphs with m &gt; (6 + ε)n.</p><p>T w (G) ≥ 2 Ω(max(m,n log n)) .</p><p>We also improve the upper bound from Theorem 1.</p><p>Theorem 3. We have T w (K n ) ≤ 2 n 2 ·α(n) O(1) .</p><p>Here α(n) is the inverse of the Ackermann function. It is an extremely slowly growing function, which can be defined in the following way <ref type="bibr" target="#b26">[27]</ref>. α(m) := min{k : α k (m) ≤ 3} where α d (m) is the dth function in the inverse Ackermann hierarchy. That is, α 1 (m) = ⌈m/2⌉, α d (1) = 0 for d ≥ 2 and α d (m) = 1 + α d (α d−1 (m)) for m, d ≥ 2. The constant in the O(1) notation in the exponent is huge (roughly 4 30 4 ), due to a Ramsey-type argument used in the proof.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>A topological graph T = (V (T ), E(T )) is a drawing of a graph G in the plane with the following properties. The vertices of G are represented by a set V (T ) of distinct points in the plane and the edges of G are represented by a set E(T ) of simple curves connecting the corresponding pairs of points. We call the elements of V (T ) and E(T ) the vertices and the edges of T . The drawing has to satisfy the following general position conditions: (1) the edges pass through no vertices except their endpoints, (2) every two edges have only a finite number of intersection points, (3) every intersection point of two edges is either a common endpoint or a proper crossing ("touching" of the edges is not allowed), and (4) no three edges pass through the same crossing. A topological graph is simple if every two edges have at most one common point, which is either a common endpoint or a crossing. A topological graph is complete if it is a drawing of a complete graph.</p><p>We use two different notions of isomorphism to enumerate topological graphs. Topological graphs G and H are weakly isomorphic if there exists an incidence preserving one-to-one correspondence between V (G), E(G) and V (H), E(H) such that two edges of G cross if and only if the corresponding two edges of H do.</p><p>Note that every topological graph G drawn in the plane induces a drawing G S 2 on the sphere, which is obtained by a standard one-point compactification of the plane. Topological graphs G and H are isomorphic if there exists a homeomorphism of the sphere which transforms G S 2 into H S 2 . In Section 5 we give an equivalent combinatorial definition.</p><p>Unlike isomorphism, weak isomorphism can change the faces of the topological graphs involved, the order of crossings along the edges and also the cyclic orders of edges around vertices.</p><p>For counting (weak) isomorphism classes, we consider all graphs labeled. That is, each vertex is assigned a unique label from the set {1, 2, . . . , n}, and we require the (weak) isomorphism to preserve the labels. Mostly it makes no significant difference in the results as we operate with quantities asymptotically larger than n!.</p><p>For a graph G, let T w (G) be the number of weak isomorphism classes of simple topological graphs that realize G. Pach and Tóth <ref type="bibr" target="#b29">[30]</ref> and the author <ref type="bibr" target="#b18">[19]</ref> proved the following lower and upper bounds on T w (K n ). Theorem 1. <ref type="bibr" target="#b18">[19,</ref><ref type="bibr" target="#b29">30]</ref> For the number of weak isomorphism classes of simple drawings of K n , we have</p><p>2 Ω(n 2 ) ≤ T w (K n ) ≤ ((n − 2)!) n = 2 O(n 2 log n) .</p><p>We prove generalized upper and lower bounds on T w (G) for all graphs G.</p><p>Theorem 2. Let G be a graph with n vertices and m edges. Then T w (G) ≤ 2 O(n 2 log(m/n)) .</p><p>If m &lt; n 3/2 , then T w (G) ≤ 2 O(mn 1/2 log n) .</p><p>Let ε &gt; 0. If G is a graph with no isolated vertices and at least one of the conditions m &gt; (1 + ε)n or ∆(G) &lt; (1 − ε)n is satisfied, then Theorem 3 is proved in Section 3. In the proof of Theorem 3 we use the fact that for simple complete topological graphs, the weak isomorphism class is determined by the rotation system <ref type="bibr" target="#b19">[20,</ref><ref type="bibr" target="#b29">30]</ref> (see <ref type="bibr">Proposition 6)</ref>. This is combined with a recent combinatorial result, an upper bound on the size of a set of permutations with bounded VC-dimension <ref type="bibr" target="#b7">[8]</ref> (Theorem 7). The method in the proof of Theorem 2 is more topological, gives a slightly weaker upper bound, but can be generalized to all graphs.</p><p>In Subsection 3.5, we generalize Theorem 3 by removing almost all topological aspects of the proof. The resulting Theorem 15 is a purely combinatorial statement.</p><p>In Subsection 3.6, we consider the class of simple complete topological graphs with maximum number of crossings and suggest an alternative method for obtaining an upper bound on the number of weak isomorphism classes of such graphs.</p><p>An arrangement of pseudosegments (or also 1-strings) is a set of simple curves in the plane such that any two of the curves cross at most once. An intersection graph of pseudosegments (also called a string graph of rank 1) is a graph G such that there exists an arrangement of pseudosegments with one pseudosegment for each vertex of G and a pair of pseudosegments crossing if and only if the corresponding pair of vertices forms an edge in G. Using tools from extremal graph theory, Pach and Tóth <ref type="bibr" target="#b29">[30]</ref> proved that the number of intersection graphs of n pseudosegments is 2 o(n 2 ) . As a special case of Theorem 2 we obtain the following upper bound.</p><p>Theorem 4. There are at most 2 O(n 3/2 log n) intersection graphs of n pseudosegments.</p><p>The best known lower bound for the number of (unlabeled) intersection graphs of n pseudosegments is 2 Ω(n log n) . This follows by a simple construction or from the the fact that there are 2 Θ(n log n) nonisomorphic permutation graphs with n vertices <ref type="bibr" target="#b3">[4]</ref>.</p><p>Let T (G) be the number of isomorphism classes of simple topological graphs that realize G. A sequence G 1 , G 2 , . . . of graphs where G n has n vertices and m = m(n) edges has superlinear number of edges if m(n) &gt; ω(n), that is, if for every constant c, we have m(n) &lt; cn for sufficiently large n. The following theorem generalizes the result T (K n ) = 2 Θ(n 4 ) from <ref type="bibr" target="#b19">[20]</ref>.</p><p>Theorem 5. Let G be a graph with n vertices, m edges and no isolated vertices. Then T (G) ≤ 2 m 2 +O(mn) . More precisely, 1) T (G) ≤ 2 m 2 +11.51mn+O(n log n) and T (G) ≤ 2 23.118m 2 + o(1), 2) T (G) ≤ 2 m 2 +2mn(log(1+ m 4n )+3.443)+O(n log n) and T (G) ≤ 2 11.265m 2 + o(1).</p><p>Let ε &gt; 0. For graphs G with m &gt; (6 + ε)n we have</p><formula xml:id="formula_0">T (G) ≥ 2 Ω(m 2 ) .</formula><p>For a sequence of graphs G n with superlinear number of edges we have</p><formula xml:id="formula_1">T (G n ) ≥ 2 m 2 /60 − o(1).</formula><p>The two upper bounds on T (G) come from two essentially different approaches. The first one gives better asymptotic results for dense graphs, whereas the second one is better for sparse graphs (roughly, with at most 17n edges). For such very sparse graphs (for example, matchings), however, better upper bounds can be deduced more directly from other known results; see the discussion in Subsection 5.5.</p><p>The proof in <ref type="bibr" target="#b19">[20]</ref> implies the upper bound T (K n ) ≤ 2 (1/12+o(1))(n 4 ) , although it is not explicitly stated in the paper. However, the key Proposition 7 in <ref type="bibr" target="#b19">[20]</ref> is incorrect. We prove a correct version in Section 5.</p><p>In Section 7 we briefly discuss the special case of geometric graphs. All the logarithms used in this paper are binary, unless indicated otherwise.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Preliminaries</head><p>The weak isomorphism classes of topological graphs can be represented in a combinatorial way by abstract topological graphs. An abstract topological graph (or briefly an AT-graph) is a pair (G, R) where G is a graph and R ⊆ E(G) 2 is a set of pairs of its edges. For a topological graph T that is a drawing of G we define the AT-graph of T as (G, R T ) where R T is the set of pairs of edges having at least one common crossing. A (simple) topological graph T is called a (simple) realization of (G, R) if R T = R. Clearly, two topological graphs are weakly isomorphic if and only if they are realizations of the same AT-graph.</p><p>The rotation of a vertex v in a topological graph T is the clockwise cyclic order of the edges incident with v. The rotation ρ(v) of a vertex v is represented by a cyclic sequence of the vertices adjacent to v. The rotation system of T is the set of rotations of all its vertices.</p><p>We use the following property of simple complete topological graphs, which directly implies the upper bound on T w (K n ) in Theorem 1.</p><p>Proposition 6. <ref type="bibr" target="#b19">[20,</ref><ref type="bibr" target="#b29">30]</ref> The rotation system of a simple complete topological graph G uniquely determines which pairs of edges of G cross. That is, two simple complete topological graphs with the same rotation system are weakly isomorphic.</p><p>This property can be shown to be satisfied by a broader class of "sufficiently dense" graphs. For example, this property is satisfied by the wheel graph W 4 = K 5 − 2K 2 = K 1,2,2 , and consequently by all graphs G such that every pair of nonadjacent edges belongs to a subgraph of G isomorphic to W 4 . This includes, for example, the complete 3-partite graph K 1,n,n with n ≥ 2. But already for complete bipartite graphs, many weakly nonisomorphic drawings can share the same rotation system. For example, there are at least 2 n/2 weakly nonisomorphic simple drawings of K 2,n with the same rotation system. To see this, let n be an even positive integer and let v, w, u 1 , u 2 , . . . , u n be the vertices of K 2,n with v, w forming the 2-element independent set of the bipartition. Let (u 1 , u 2 , . . . , u n ) be the rotation of v and (u n−1 , u n , . . . , u 3 , u 4 , u 1 , u 2 ) the rotation of w. For every i = 1, 2, . . . , n/2, there are two ways of drawing the four edges vu 2i , vu 2i−1 , wu 2i , wu 2i−1 (either vu 2i−1 crosses wu 2i or wu 2i−1 crosses vu 2i ), and these choices can be done independently. See <ref type="figure">Figure 1</ref>. Note that by cloning the vertex v into n − 1 copies we obtain 2 n/2 weakly nonisomorphic drawings of K n,n with the same rotation system.</p><p>We note that the converse of Proposition 6 is also true: the rotation systems of two weakly isomorphic simple complete topological graphs are either the same or inverse <ref type="bibr" target="#b11">[12,</ref><ref type="bibr" target="#b19">20]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Simple complete topological graphs</head><p>In this section we prove Theorem 3.</p><p>The upper bound T w (K n ) ≤ 2 O(n 2 log n) in Theorem 1 follows directly from Proposition 6, since there are at most (n − 2)! possible rotations for each vertex, thus at most ((n − 2)!) n = v w u 1 u 2 u n−1 u n <ref type="figure">Figure 1</ref>: Every 4-cycle vu 2i−1 wu 2i in K 2,n can be drawn in one of two ways, while keeping the rotation system fixed.</p><p>2 O(n 2 log n) possible rotation systems of K n . However, not every set of rotations is realizable as a rotation system of a simple complete topological graph. For example, the rotation of each vertex in a simple complete topological graph is uniquely determined by the set of rotations of the other n − 1 vertices. This is easily seen by investigating the drawings of K 4 <ref type="bibr" target="#b18">[19,</ref><ref type="bibr" target="#b29">30]</ref> (see <ref type="bibr">Observation 14)</ref> and using the fact that a cyclic permutation of n elements is determined by cyclic subpermutations of all triples.</p><p>The smallest forbidden patterns in the rotation system are the 4-tuples of cyclic subpermutations of 3 elements that cannot be realized as rotation systems of a simple drawing of K 4 . In fact, in Section 3.5 we show that it is possible to prove Theorem 3 by combinatorial arguments, using only these simple forbidden patterns.</p><p>However, we first show a proof relying more on the topological structure of the drawings, which gives a better upper bound on T w (K n ), and also provides an intuition for the purely combinatorial proof.</p><p>The core idea in both versions of the proof is to reduce the problem of bounding T w (K n ) to counting single permutations with forbidden subpermutations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Permutations with bounded VC-dimension</head><p>Let S n be the set of all n-permutations, that is, permutations of the set {1, 2, . . . , n}. The restriction of π ∈ S n to the k-tuple (a 1 , a 2 , . . . , a k ) of positions, where 1 ≤ a 1 &lt; a 2 &lt; · · · &lt; a k ≤ n, is the k-permutation π ′ satisfying ∀i, j : π ′ (i) &lt; π ′ (j) ⇔ π(a i ) &lt; π(a j ). Let P ⊆ S n . The k-tuple of positions (a 1 , . . . , a k ) is shattered by P if each k-permutation appears as a restriction of some π ∈ P to (a 1 , . . . , a k ). The VC-dimension of P is the size of the largest set of positions shattered by P. In other words, the VC-dimension of P is at most k if for every k + 1 positions a 1 , . . . , a k+1 there is some forbidden (k + 1)-permutation that does not appear as a restriction of any π ∈ P to (a 1 , . . . , a k+1 ). Raz <ref type="bibr" target="#b30">[31]</ref> proved that a set of n-permutations of VC-dimension 2 has size at most 2 O(n) . The following result proved by Cibulka and the author <ref type="bibr" target="#b7">[8]</ref> is the key ingredient in the proof of Theorem 3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 7. [8]</head><p>For every t ≥ 2, the size of a set of n-permutations with VC-dimension 2t + 2 is at most 2 n·((2/t!)α(n) t +O(α(n) t−1 )) .</p><p>The upper bound in Theorem 7 is asymptotically almost tight, since there are sets of permutations with VC-dimension 2t + 2 of size 2 n·((1/t!)α(n) t −O(α(n) t−1 ) <ref type="bibr" target="#b7">[8]</ref>.</p><p>If the forbidden (k + 1)-permutation is the same for all (k + 1)-tuples of positions, we get a better, exponential upper bound on the size of P. This was conjectured by Stanley and Wilf</p><formula xml:id="formula_2">C 5 T 6 v 1 v 2 v 3 v 4 v 5 v 6 Figure 2:</formula><p>The convex graph C 5 and the twisted graph and proved by Marcus and Tardos <ref type="bibr" target="#b22">[23]</ref>, using Klazar's earlier result <ref type="bibr" target="#b16">[17]</ref>. Later Cibulka <ref type="bibr" target="#b6">[7]</ref> improved Klazar's reduction and obtained the upper bound 2 O(k log k)n on the size of P.</p><formula xml:id="formula_3">T 6 . v 1 v 2 v 3 v 4 v 5 v 6 v 1 v 2 v 3 v 4 v 5 v 6</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Unavoidable topological subgraphs</head><p>A complete convex geometric graph (shortly a convex graph) is a topological graph whose vertices are in convex position and the edges are drawn as straight-line segments; see <ref type="figure">Figure 2</ref>, left. We denote by C m any complete convex geometric graph with m vertices, as all such graphs belong to the same weak isomorphism class. A simple complete topological graph with m vertices is called twisted and denoted by T m if there exists a canonical ordering of its vertices v 1 , v 2 , . . . , v m such that for every i &lt; j and k &lt; l two edges v i v j , v k v l cross if and only if i &lt; k &lt; l &lt; j or k &lt; i &lt; j &lt; l; see <ref type="figure">Figure 2</ref>, right. <ref type="figure" target="#fig_0">Figure 3</ref> shows an equivalent drawing of T m on the cylindrical surface.</p><p>Let G and H be topological graphs. We say that G contains H if G has a topological subgraph weakly isomorphic to H.</p><p>We use the following asymmetric form of the Ramsey-type result by Pach, Solymosi and Tóth <ref type="bibr" target="#b28">[29]</ref>, which generalizes the Erdős-Szekeres theorem for planar point sets. The graphs C m and T m are special cases of simple complete topological graphs with m vertices and m 4 crossings, which is the maximum number of crossings possible <ref type="bibr" target="#b13">[14]</ref>. The existence of a complete subgraph with m vertices and m 4 crossings in a sufficiently large simple complete topological graph G follows directly from Ramsey's theorem and the nonplanarity of K 5 <ref type="bibr" target="#b14">[15]</ref>, but the bound on the size of G obtained is much larger than that from Theorem 8. For the special case m 1 = m 2 = 5, Harborth, Mengersen, and Schelp <ref type="bibr" target="#b14">[15]</ref> showed a much better upper bound than that following from Theorem 8.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 9.</head><p>[15] Every simple complete topological graph with 113 vertices contains C 5 or T 5 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Forbidden patterns in the rotation system</head><p>Let G be a simple complete topological graph and let v be a vertex of G. Our goal is to obtain an upper bound on the number of possible rotations of v in G when the complete subgraph G − v is fixed. To this end, we need to identify some forbidden permutations in the rotation of v.</p><p>Lemma 10. Let G be a simple complete topological graph with vertices 1, 2, 3, 4. Suppose that the counter-clockwise order of the vertices of the topological triangle 123 is 1, 2, 3. If (a) the vertex 4 is outside the triangle 123 and its rotation is (1, 2, 3), or (b) the vertex 4 is inside the triangle 123 and its rotation is (1, 3, 2), then G has no crossings. Otherwise G has one crossing.</p><p>Proof. <ref type="figure">Figure 4</ref> shows representatives of all four isomorphism classes of simple complete topological graphs with vertices 1, 2, 3, 4. The notions of isomorphism and weak isomorphism for these graphs coincide, since in each of the four drawings different pairs of edges cross. Each of the drawings is chosen so that the vertices 1, 2, 3 appear in counter-clockwise order in the triangle 123 and the vertex 4 is outside the triangle 123. This still leaves some freedom in choosing the outer face of the drawing: we may always choose any of the three faces adjacent to the vertex 4, but the rotation system of the drawing stays the same. Since the rotation of the vertex 4 is (1, 2, 3) in H 1 , which is without crossings, and <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b1">2)</ref> in H 2 , H 3 and H 4 , which have one crossing, the case when the vertex 4 is in the outer face of 123 follows. The other case follows by the symmetry exchanging the outer and the inner face of the triangle 123.</p><p>Lemma 11. Let G be a simple complete topological graph with vertices 1, 2, . . . , 6. Suppose that G contains a convex graph C 5 induced by the vertices 1, 2, . . . , 5, which appear in this counter-clockwise order on its outer face. Then the rotation of the vertex 6 is not (1, 4, 2, 5, 3). Proof. Let H be the induced convex graph G[{1, 2, 3, 4, 5}]. Suppose for contradiction that the rotation of the vertex 6 in G is <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b2">3)</ref>. We distinguish two cases according to the face of H in which the vertex 6 is contained. See <ref type="figure">Figure 5</ref>.</p><p>a) The vertex 6 is in one of the inner faces of H. By symmetry, we may assume that it is either in the inner pentagonal face or in the intersection of the triangles 234 and 134.   Proof. See <ref type="figure" target="#fig_3">Figure 6</ref>. Suppose for contradiction that the vertex 5 is inside the triangular face of H adjacent to the vertices 2 and 3 and its rotation in G is (1, 3, 2, 4). By Lemma 10 applied to the triangles 234 and 134, the edge 54 does not cross the edges 13, 23, 34 and 24. But portions of these edges form a closed curve separating the vertices 4 and 5, a contradiction.</p><p>Lemma 13. Let G be a simple complete topological graph with vertices 1, 2, . . . , 7. Suppose that G contains a twisted graph T 6 induced by the vertices 1, 2, . . . , 6, in this canonical order, and with the orientation where the rotation of the vertex 6 is (1, 2, 3, 4, 5). Then the rotation of the vertex 7 is not (3, 2, 1, 4, 5, 6). The two triangular faces adjacent to the vertices 3 and 4 in G 1 and G 2 cover the whole plane; see <ref type="figure" target="#fig_4">Figure 7</ref>. It follows that at least one of these two faces contains the vertex 7. The rotation of the vertex 7 is (1, 4, 3, 2) in G <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b6">7]</ref> and <ref type="bibr" target="#b2">(3,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b5">6)</ref> in G <ref type="bibr" target="#b2">[3,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b5">6,</ref><ref type="bibr" target="#b6">7]</ref>, which contradicts Lemma 12.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Proof of Theorem 3</head><p>Now we finish the proof of Theorem 3 by combining previous results from this section. Let g(n) be the number of different rotation systems of simple complete topological graphs with n vertices. By Proposition 6, we have T w (n) ≤ g(n). We show an upper bound on g(n) by induction. Let N = 4 <ref type="bibr">30 4</ref> . Assume that n ≥ 2N , otherwise g(n) ≤ g(2N ), which is a constant. We may also assume for simplicity that n = 2 k where k is a positive integer.</p><p>Let G be a simple complete topological graph with vertices v 1 , v 2 , . . . , v n . Let G 1 be the subgraph of G induced by the vertices v 1 , . . . , v n/2 and let G 2 be the subgraph of G induced by the vertices v n/2+1 , . . . , v n . Fix a rotation system R 1 for G 1 and R 2 for G 2 . Choose an arbitrary drawing of G 1 with the rotation system R 1 . Let v i be a vertex of G 2 . We show an upper bound on the number of possible rotations of v i in the subgraph G i</p><formula xml:id="formula_4">1 of G induced by V (G 1 ) ∪ {v i }.</formula><p>By Theorem 8, every simple complete topological graph with N vertices contains C 5 or T 6 . Therefore, every induced subgraph of G 1 with N vertices contains a subgraph H weakly isomorphic to C 5 or T 6 . By Lemma 11 or 13, one of the cyclic permutations of the vertices of H is forbidden in the rotation of v i . Note that Lemmas 11 and 13 can be applied regardless of the particular way how H is drawn. Consequently, for each N -tuple of vertices in G 1 , a non-empty subset of their cyclic permutations is forbidden in the rotation of v i .</p><p>Let R i 1 denote the set of all possible rotations of v i in G i 1 . To pass from cyclic permutations to linear permutations, we arbitrarily select a first element in each cyclic permutation from R i 1 and denote the resulting set of permutations as P i 1 . For each forbidden cyclic permutation ρ of N elements, the permutations from P i 1 avoid all N linear permutations obtained from ρ. In particular, the VC-dimension of the set {π −1 ; π ∈ P i 1 } is at most N − 1. Let f (m) be the maximum possible size of a set of m-permutations with VC-dimension N − 1. By Theorem 7,</p><formula xml:id="formula_5">|R i 1 | = |P i 1 | ≤ f (n/2) ≤ 2 (n/2)·((2/t!)α(n/2) t +O(α(n/2) t−1 )) ,</formula><p>where t = (N − 2)/2. For every i &gt; n/2, the rotation of v i in G is uniquely determined by the rotation π i of v i in G i 1 , the rotation π ′ i of v i in G 2 and by one of the (n/2)(n/2−1) n−1 n−1 n/2 ≤ n2 n ways of merging π i and π ′ i together. For i ≤ n/2, the situation is symmetric. It follows that the number of all possible rotation systems of G with R 1 and R 2 fixed is at most (f (n/2) · n2 n ) n ≤ n n · 2 n 2 · 2 (n 2 /2)·((2/t!)α(n/2) t +O(α(n/2) t−1 ))</p><formula xml:id="formula_6">≤ 2 c(n 2 /2)·α(n) t ,</formula><p>where c is an absolute constant. Since there are g(n/2) possibilities for each of the rotation systems R 1 and R 2 , we have g(n) ≤ (g(n/2)) 2 · 2 c(n 2 /2)·α(n) t ≤ g(2N ) n · 2 c(n 2 /2+2(n/2) 2 /2+4(n/4) 2 /2+··· )·α(n) t ≤ g(2N ) n · 2 c(n 2 )·α(n) t = 2 O(n 2 ·α(n) t ) .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5">Combinatorial generalization of Theorem 3</head><p>Here we generalize Theorem 3 to a purely combinatorial statement involving n-tuples of cyclic permutations. The aim is to estimate the number of possible rotation systems of a simple complete topological graph using as little topological information as possible. In particular, the only condition we need comes from drawings of complete graphs with 4 vertices.   <ref type="figure">Figure 4</ref>, where H R i denotes the mirror image of H i . Observation 14. <ref type="bibr" target="#b19">[20,</ref><ref type="bibr" target="#b29">30]</ref> The eight rotation systems listed in <ref type="table" target="#tab_1">Table 1</ref> are the only possible rotation systems of a simple complete topological graph with vertices 1, 2, 3, 4.</p><p>The eight rotation systems from Observation 14 can be characterized by the following parity condition. Let l ∈ {1, 2, 3, 4} and {i, j, k} = {1, 2, 3, 4} \ {l}, with i = min{i, j, k}. We call the rotation (i, j, k) at l positive if j &lt; k and negative if k &lt; j. A 4-tuple of rotations at vertices 1, 2, 3, 4 forms a rotation system of a simple complete topological graph with the vertices 1, 2, 3, 4 if and only if the number of negative rotations is even. Note that this characterization does not depend on the particular linear ordering of the vertices. An abstract rotation system R on a set V = {v 1 , . . . , v n } is an n-tuple of cyclic (n − 1)permutations π v 1 , . . . , π vn where the set of elements of</p><formula xml:id="formula_7">π v i is V \ {v i }. A subsystem of R induced by a subset W = {w 1 , . . . , w k } ⊂ V , denoted by R[W ]</formula><p>, is a |W |-tuple of cyclic permutations ρ w 1 , . . . , ρ w k where ρ w i is a restriction of π w i to the subset W \ {w i }. An abstract rotation system is realizable if it is a rotation system of a simple complete topological graph. Realizable rotation systems on a set W of size 4 are precisely those satisfying the parity condition for some linear ordering of W . An abstract rotation system R is good if every subsystem of R induced by a 4-element subset is realizable.</p><p>We prove the following theorem, generalizing Theorem 3.</p><p>Theorem 15. The number of good abstract rotation systems on an n-element set is at most</p><formula xml:id="formula_8">2 n 2 ·α(n) O(1) .</formula><p>We do not know whether the upper bound in Theorem 15 is asymptotically tight. The best lower bound 2 Ω(n 2 ) on the number of good abstract rotation systems comes from Theorem 1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Problem 1.</head><p>Is it true that the number of good abstract rotation systems on an n-element set is bounded by 2 O(n 2 ) ?</p><p>We note that the asymptotic number of abstract rotation systems may vary significantly if a different pattern of the same size is forbidden. There are 16 possible abstract rotation systems on every 4-element set. If the forbidden pattern consists of a different set of eight abstract rotation systems, we may obtain 2 Ω(n 2 log n) abstract rotation systems on n elements satisfying this restriction. For example, consider the set A of all abstract rotation systems on the set {1, 2, . . . , n} where in every induced subsystem on four elements i &lt; j &lt; k &lt; l, we forbid the eight abstract rotation systems with rotation (j, l, k) at i. The following construction shows that the size of A is 2 Ω(n 2 log n) . Consider an abstract rotation system R = (π 1 , π 2 , . . . , π n ) where π i (j) ∈ {1, . . . , i − 1} for j ≤ i − 1 and π i (j) = j + 1 for j ≥ i. Clearly, the rotation at i in every subsystem of R induced by four elements i &lt; j &lt; k &lt; l is (j, k, l). The number of such abstract rotation systems is n i=1 (i − 1)! = 2 Ω(n 2 log n) . Good abstract rotation systems do not characterize realizable abstract rotation systems completely. For example, the following two good abstract rotation systems on five elements are not realizable: It is straightforward to check that both R 5 1 and R 5 2 are good. Suppose that these systems are realizable. In both cases, in the subgraph H induced by the vertices 1, 2, 3, 4, the edges 13 and 24 cross. Fix a drawing of H as a convex graph with the vertices 1, 2, 3, 4 on the outer face in clockwise order; see <ref type="figure" target="#fig_7">Figure 8</ref>. In both cases, the orientations of triangles and the rotations of vertices imply, by Lemma 10, that the vertex 5 must lie inside the triangles 132 and 143. But this is impossible as the two triangles have disjoint interiors.</p><p>While it is likely that there is no finite characterization of realizable abstract rotation systems by a finite list of forbidden subsystems, it is known that realizable abstract rotation systems can be recognized in polynomial time <ref type="bibr" target="#b20">[21]</ref>.</p><p>To prove Theorem 15, we proceed in the same way as in the proof of Theorem 3, but we need to replace Theorem 8, Lemma 11 and Lemma 13 by combinatorial analogues. An abstract rotation system on n elements is called convex and denoted by C n if the elements can be ordered in a sequence v 1 , v 2 , . . . , v n so that the rotation at</p><formula xml:id="formula_9">v i is (v 1 , v 2 . . . , v i−1 , v 1+1 , v i+2 , . . . , v n )</formula><p>. An abstract rotation system on n elements is called twisted and denoted by T n if the elements can be ordered in a sequence v 1 , v 2 , . . . , v n so that the rotation at v i is</p><formula xml:id="formula_10">(v i−1 , . . . , v 2 , v 1 , v 1+1 , v i+2 . . . , v n )</formula><p>. Note that C n is a rotation system of the convex graph C n and T n is a rotation system of the twisted graph T n .</p><p>Two abstract rotation systems are isomorphic if they differ only by relabeling of their ground set. An abstract rotation system R contains an abstract rotation system S if R has an induced subsystem isomorphic to S.</p><p>The following theorem generalizes Theorem 8.</p><p>Theorem 16. For all positive integers m 1 , m 2 there is an M such that every good abstract rotation system on M elements contains C m 1 or T m 2 .</p><p>To keep the proof simple, we do not try to optimize the value of M , as a function of the parameters m 1 and m 2 . However, it is likely that the same bound as in Theorem 8 can be proved even in this generalized setting, by adapting the original topological proof <ref type="bibr" target="#b28">[29]</ref>. We also note that the assumption of being good is not necessary: Theorem 16 holds in general for all abstract rotation systems, only with larger values of M .</p><p>Proof. Let (π 1 , π 2 , . . . , π M ) be a good abstract rotation system on the set {1, 2, . . . , M }. Assume without loss of generality that π 1 = (2, 3, . . . , M ) and that π i (1) = 1 for i &gt; 1. For every three elements i, j, k with 1 &lt; i &lt; j &lt; k, consider the induced abstract rotation system</p><formula xml:id="formula_11">R[{1, i, j, k}]. For l ∈ {i, j, k}, let t i,j,k (l) = 1 if the rotation at l in R[{1, i, j, k}] is positive and t i,j,k (l) = 0 if the rotation at l in R[{1, i, j, k}] is negative. The type of the triple (i, j, k) is the sequence t i,j,k (i)t i,j,k (j)t i,j,k (k)</formula><p>. By the parity condition, we have the following four types of triples: 111, 100, 010 and 001. By Ramsey's theorem, if M is sufficiently large, there is a subset W ⊆ {2, 3, . . . , M } of size m = max(m 1 , m 2 ) such that all triples from W have the same type. Without loss of generality, assume that W = {2, 3, . . . , m + 1}. Let abc, with a, b, c ∈ {0, 1}, be the type shared by all the triples from W . If a = 1, then for each l ∈ W , the entries l + 1, l + 2, . . . , m + 1 form an increasing sequence in π l . If a = 0, the entries l + 1, l + 2, . . . , m + 1 form a decreasing sequence in π l . Similarly, the entries 2, 3, . . . , l − 1 form an increasing sequence in π l if c = 1 and a decreasing sequence if c = 0. If b = 1, then in π l , all entries smaller than l appear before all entries larger than l. If b = 0, then in π l , all entries smaller than l appear after all entries larger than l. Therefore, if abc = 111 or 010, then W induces an abstract rotation system isomorphic to C m , and if abc = 100 or 001, then W induces an abstract rotation system isomorphic to T m .</p><p>The following two lemmas generalize Lemma 11 and Lemma 13. Again, we do not try to optimize the sizes of the two abstract rotation systems C m 1 and T m 2 .</p><p>Lemma 17. Let R be a good abstract rotation system on the set {1, 2, . . . , 8}. Suppose that the subsystem of R induced by the vertices 1, 2, . . . , 7 is C 7 , with (v 1 , . . . , v 7 ) = (1, . . . , 7). Then the rotation at 8 is not (1, 3, 5, 7, 2, 4, 6).</p><p>Proof. Let R = (π 1 , π 2 , . . . , π 8 ) and suppose for contradiction that π 8 = (1, 3, 5, 7, 2, 4, 6). Let i, i + 1, i + 2 be three consecutive numbers in the cyclic sequence (1, 2, . . . , 7). The subsystem</p><formula xml:id="formula_12">R[{i, i + 1, i + 2, 8}] = (ρ i i , ρ i i+1 , ρ i i+2 , ρ i 8 ) has at least one negative triple among ρ i i , ρ i i+1 , ρ i i+2 . If ρ j j is negative, that is, ρ j j = (j + 1, 8, j + 2), we have π j = (1, 2, . . . , j − 1, j + 1, 8, j + 2, . . . , 7). Similarly, if ρ j−1 j is negative, then π j = (1, 2, . . . , j − 1, 8, j + 1, j + 2, . . . , 7). Finally, if ρ j−2 j is negative, then π j = (1, 2, . . . , j − 2, 8, j − 1, j + 1, j + 2, . . . , 7)</formula><p>. Therefore, a negative triple ρ i j precisely determines the position of the element 8 in the rotation π j , and each such rotation can arise from at most one negative triple ρ i j . It follows that in each of the rotations π j , j ∈ {1, 2, . . . , 7}, the element 8 appears in one of the three possible positions between the elements j − 2 and j + 2. But then the subsystem R[{1, 3, 5, 10}] = ((10, 3, 5), <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b9">10,</ref><ref type="bibr" target="#b4">5)</ref>, <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b9">10)</ref>, <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b4">5)</ref>) has exactly one negative triple, a contradiction.</p><p>Let R = (ρ 1 , ρ 2 , ρ 3 , ρ 4 ) be an abstract rotation system on a 4-element set. The signature of R is a sequence (ε 1 , ε 2 , ε 3 , ε 4 ) of four symbols, where ε i is '+' if ρ i is positive and '−' if ρ i is negative. Proof. Let R = (π 1 , π 2 , . . . , π m ) and suppose for contradiction that π m = (1, 3, . . . , m − 1, 2, 4, . . . , m − 2). Let k = 8,</p><formula xml:id="formula_13">W = {2k + 1, 2k + 2, . . . , m − 4} and m ′ = |W | = m − 2k − 4.</formula><p>For i ∈ W ∪ {m − 3, m − 2}, we say that a rotation π i is of the first type if the element m appears in π i within the subinterval (i − 2k, . . . , 1, i + 1), of the second type if m appears in π i within the subinterval (i + 2, . . . , m − 1, i − 1), of the third type if π i = (i − 1, . . . , 1, i + 1, m, i + 2, . . . , m−1), and of the fourth type if m appears in π i within the subinterval (i−1, . . . , i−2k).</p><formula xml:id="formula_14">Let W 1 (W 2 , W 3 ) be the set of those elements i ∈ W such that π i is of the first (second, third) type, respectively. Let W ′ 4 be the set of those elements i ∈ W ∪ {m − 3, m − 2} such that π i is of the fourth type. First we show that |W ′ 4 | ≤ 8k. If |W ′ 4 | ≥ 8k + 1, then at least 4k + 1 elements i 1 &lt; i 2 &lt; · · · &lt; i 4k+1 of W ′ 4</formula><p>are all odd or all even. In particular, the rotation ρ m in the subsystem</p><formula xml:id="formula_15">R[{i 1 , i 2k+1 , i 4k+1 , m}] = (ρ i 1 , ρ i 2k+1 , ρ i 4k+1 , ρ m ) is positive.</formula><p>Since the rotations π i 1 , π i 2k+1 and π i 4k+1 are of the fourth type, we observe that the signature of R[{i 1 , i 2k+1 , i 4k+1 , m}] is (+, +, −, +), which is a contradiction with the parity condition.</p><p>Next we show that</p><formula xml:id="formula_16">|W 3 | ≤ m ′ /2 + 3. Suppose for contradiction that |W 3 | ≥ m ′ /2 + 4. Let W E</formula><p>3 be the set of even elements of W 3 and let I be the smallest interval containing For each i ∈ W 1 and j ∈ {1, 2, . . . , k}, we consider the subsystem</p><formula xml:id="formula_17">W E 3 . Let W O 3 = W 3 \ W E 3 be the set of odd elements of W 3 . Since |W E 3 ∪ (W O 3 \ I)| ≤ m ′ /2 + 1, the interval I contains at least 3 odd elements o 1 &lt; o 2 &lt; o 3 of W 3 .</formula><formula xml:id="formula_18">R[{i − 2j + 1, i, i + 1, m}] = (ρ i,j i−2j+1 , ρ i,j i , ρ i,j i+1 , ρ i,j m ).</formula><p>Since the parity of i is opposite to the parity of i − 2j + 1 and i + 1, the rotation ρ i,j m is negative. Since the rotation π i is of the first type, we have</p><formula xml:id="formula_19">ρ i,j i = (i − 2j + 1, m, i + 1). It follows that the signature of R[{i − 2j + 1, i, i + 1, m}] is either (+, −, +, −) or (−, −, −, −). Moreover, there is a j(i) ∈ {0, 1, . . . , k} such that for j ≤ j(i) the signature of R[{i − 2j + 1, i, i + 1, m}] is (−, −, −, −) and for j &gt; j(i) the signature of R[{i − 2j + 1, i, i + 1, m}] is (+, −, +, −).</formula><p>Similarly for each i ∈ W 2 and j ∈ {1, 2, . . . , k}, we consider the subsystem</p><formula xml:id="formula_20">R[{i − 2j, i, i + 2, m}] = (σ i,j i−2j , σ i,j i , σ i,j i+1 , σ i,j m ). We have σ i,j m = (i − 2j, i, i + 2) and σ i,j i = (i − 2j, i + 2, m), thus R[{i − 2j, i, i + 2,</formula><p>m}] has signature either (+, +, +, +) or (−, +, −, +). Again, there is a j(i) ∈ {0, 1, . . . , k} such that the signature is (−, +, −, +) for j ≤ j(i) and (+, +, +, +) for j &gt; j(i).</p><p>Let</p><formula xml:id="formula_21">W + 1 = {i ∈ W 1 ; j(i) &lt; k}. For every i ∈ W + 1 , the signature of R[{i−2k+1, i, i+1, m}] is (+, −, +, −).</formula><p>In particular, the rotation π i+1 is of the fourth type. Therefore,</p><formula xml:id="formula_22">|W + 1 | ≤ |W ′ 4 | ≤ 8k. Similarly, let W + 2 = {i ∈ W 2 ; j(i) &lt; k}. For every i ∈ W + 1 , the signature of R[{i − 2k, i, i+2</formula><p>, m}] is (+, +, +, +). In particular, the rotation π i+2 is of the fourth type. Therefore,</p><formula xml:id="formula_23">|W + 2 | ≤ |W ′ 4 | ≤ 8k. Let W − 1 = W 1 \ W + 1 = {i ∈ W 1 ; j(i) = k}.</formula><p>For every i ∈ W + 2 and every j ∈ {1, 2, . . . , k},</p><formula xml:id="formula_24">the signature of R[{i − 2j + 1, i, i + 1, m}] is (−, −, −, −). In particular, π i−2j+1 = (i − 2j, . . . , 1, i − 2j + 2, . . . , i, m, i + 1, . . . , m − 1). Observe that for every l ∈ {2, . . . , m − 5}, there is at most one pair i, j such that i ∈ W − 1 , j, ∈ {1, 2, . . . , k} and l = i − 2j + 1. Thus we have |W − 1 | ≤ m−6 k . Let W − 2 = W 2 \ W + 2 = {i ∈ W 2 ; j(i) = k}.</formula><p>For every i ∈ W + 2 and every j ∈ {1, 2, . . . , k}, the signature of R[{i − 2j, i, i + 2, m}] is (−, +, −, +). In particular, the element m appears in π i−2j in one of the two positions in the subinterval (i, i + 1, i + 2). This implies that for every l ∈ {1, 2, . . . , m − 6}, there is at most one pair i, j such that i ∈ W − 2 , j, ∈ {1, 2, . . . , k} and l = i − 2j. Thus we have |W − 2 | ≤ m−6 k . Putting all the estimates together, we have</p><formula xml:id="formula_25">m ′ = |W | ≤ |W + 1 | + |W − 1 | + |W + 2 | + |W − 2 | + |W 3 | + |W ′ 4 | ≤ m ′ 2 + 3 + 2(m − 6) k + 24k</formula><p>and thus</p><formula xml:id="formula_26">k(m − 2k − 4) ≤ 6k + 4(m − 6) + 48k 2 , (k − 4)m ≤ 50k 2 + 10k − 24.</formula><p>By our choice m = 816 and k = 8, this gives 4·816 ≤ 3256 and we have a contradiction.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.6">Graphs with maximum number of crossings</head><p>Harborth and Mengersen <ref type="bibr" target="#b13">[14]</ref> investigated simple complete topological graphs on n vertices with maximum number of crossings, which is n 4 . They showed the lower bound e Ω( √ n) on the number T max w (n) of different weak isomorphism classes of such (unlabeled) graphs. Their construction actually gives a better lower bound T max w (n) ≥ 2 n(log n−O(1)) <ref type="bibr" target="#b19">[20]</ref>. We do not have any better upper bound on T max w (n) than that from Theorem 3, thus the problem of determining T max w (n) asymptotically seems to be wide open. However, the following observation could help with improving the upper bound to 2 O(n 2 ) .</p><p>Let G be a simple complete topological graph with vertex set V and with |V | 4 crossings. Let v ∈ V and let G ′ be a subgraph of G induced by V \ {v}. A face of G ′ is a connected region of the set obtained from the plane by removing all the edges of G ′ . Two faces F ′ 1 and F ′ 2 in two simple complete topological graphs G ′ 1 and G ′ 2 weakly isomorphic to G ′ are considered equivalent if every triangle T 1 in G ′ 1 and the corresponding triangle T 2 in G ′ 2 satisfy the following condition: the triangles T 1 and T 2 have the same orientation if and only if either</p><formula xml:id="formula_27">T 1 contains F ′ 1 and T 2 contains F ′ 2 , or F ′ 1 is outside T 1 and F ′ 2 is outside T 2 .</formula><p>By a combinatorial face we mean an equivalence class of faces, but also any particular face from the class. Lemma 10 implies that the combinatorial face of G ′ that contains v uniquely determines the rotation of v in G. Therefore, the number of possible rotations of v, with the weak isomorphism class of G ′ fixed, is bounded from above by the number f (G ′ ) of possible combinatorial faces in a simple topological graph weakly isomorphic to G ′ . The number f (G ′ ) may be exponential, for example when G ′ is the convex graph C n . This graph has n/2 pairwise crossing edges (main diagonals), which may be drawn through a common point x. Then each of the edges can be redrawn to go around x from the left or from the right. Each of these choices produces a different combinatorial face containing x. On the other hand, it can be shown that f (C n ) = 2 O(n) , since each of the bounded combinatorial faces of C n can be assigned to a unique subset of pairwise crossing diagonals, in the following way. Let C be the Hamiltonian cycle of C n bounding the outer face. To each diagonal e of C we assign the region r(e) bounded by e and by the shorter arc of C determined by the endpoints of e. (For the main diagonals, we choose the "shorter" arc arbitrarily.) Each face f is assigned to a set R(f ) of minimal regions r(e) containing f . The set R(f ) determines all triangles containing f , and all diagonals e such that r(e) ∈ R(f ) are pairwise crossing. A set of pairwise crossing diagonals in C n is uniquely determined by the set of their endpoints. Therefore, there are at most 2 n−1 possible sets R(f ). Accounting for two possible orientations of the drawing of C n , we get the upper bound f (C n ) ≤ 2 n + 2.</p><p>We do not know whether similar upper bound holds for all simple complete topological graphs.</p><p>Problem 2. Is it true that for every simple complete topological graph G with n vertices, the number of possible combinatorial faces in simple complete topological graphs weakly isomorphic</p><formula xml:id="formula_28">to G satisfies f (G) ≤ 2 O(n) ?</formula><p>A positive answer to Problem 2 would imply that T max w (n) = 2 O(n 2 ) , by the proof in Subsection 3.4.</p><p>A similar question can be asked in the combinatorial setting. In a simple complete topological graph with n vertices and n 4 crossings, every 4-tuple of vertices induces a crossing. Therefore, for every complete subgraph with 4 vertices there are 6 possible rotation systems, corresponding to the rotation systems of the graphs <ref type="table" target="#tab_1">Table 1</ref>. In addition to the parity condition, these rotation systems satisfy the following condition. There exists a pair i, j ∈ {1, 2, 3, 4} such that for {k, l} = {1, 2, 3, 4}\{i, j}, the rotation at k is (i, j, l) and the rotation at l is (i, j, k). In fact, there are always four such pairs i, j, corresponding to the four edges without crossing in the drawing.</p><formula xml:id="formula_29">H 2 , H 3 , H 4 , H R 2 , H R 3 , H R 4 in</formula><p>Problem 3. What is the number of abstract rotation systems on n elements, where every subsystem induced by 4 elements is realizable as a rotation system of a simple drawing of K 4 with one crossing?</p><p>We do not know better lower bound than that implied by the topological construction by Harborth and Mengersen <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b19">20]</ref>. The best upper bound comes from Theorem 15.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">The upper bound in Theorem 2</head><p>Let G = (V, E) be a graph with n vertices and m edges.</p><formula xml:id="formula_30">If v is an isolated vertex in G, then T w (G) = T w (G − v)</formula><p>. Thus, we may assume that G has no isolated vertices. The upper bound on T w (G) for other graphs G then directly follows.</p><p>Let G be a simple topological graph realizing G. A topological component of G is a maximal connected subset of the plane that is a union of vertices and edges of G. Note that a topological component of G is a union of components of G. A topological graph G is topologically connected if it has only one topological component.</p><p>First we extend G by adding edges connecting the topological components of G as follows. Let C 1 and C 2 be two topological components of G. We redraw C 2 so that it has a vertex v 2 on the boundary of its outer face, and place this drawing inside a face of C 1 containing a vertex v 1 on its boundary. Then we may add the edge v 1 v 2 as a curve without crossings. We repeat this process until there is only one topological component. Since the graph G had no isolated vertices, we added at most n/2 ≤ m new edges, so the new graph has n vertices and Θ(m) edges. In this way, we might have created at most <ref type="figure">Figure 9</ref>: Left: A simple drawing of P 3 + P 3 which cannot be extended by an edge uv. Right: A topologically connected drawing of a graph with four components, with every spanning forest topologically disconnected.</p><formula xml:id="formula_31">n n ≤ 2 O(n log n) ≤ 2 O(m log n) different u v</formula><p>graphs. Thus, for proving the upper bound on T w (G), we may assume that G is topologically connected.</p><p>Ideally, we would like to extend the graph G to a connected graph, but it is not clear that it is always possible to connect two components of G that form a single topological component in the drawing by an edge so that the resulting drawing is still a simple topological graph. For example, there are simple topological graphs where some pairs of vertices from different components cannot be connected by an edge, so that the resulting drawing is still simple; see <ref type="figure">Figure 9</ref>, left.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">A construction of a topological spanning tree</head><p>Next we construct a topological spanning tree T of G; see <ref type="figure" target="#fig_11">Figure 10</ref>, left. A topological spanning tree T of G is a simply connected subset of the single topological component of G containing all vertices of G and satisfying the property that the only nonseparating points of T are the vertices of G. Our goal is to find such a tree consisting of O(n) connected portions of edges of G. If G is a complete graph, we may take as T the star consisting of all edges incident with one vertex of G <ref type="bibr" target="#b19">[20]</ref>, since such edges are internally disjoint. If G is connected, we may start with a drawing of an arbitrary spanning tree of G, but as some edges of the tree may cross, we may need to remove portions of some edges to break cycles. If G has multiple components, the construction is a bit more involved. For example, it is not enough to take a union of spanning trees of the individual components, as some of the spanning trees may be topologically disjoint, even if G is topologically connected; see <ref type="figure">Figure 9</ref>, right. Also we may need to include in T multiple disjoint portions of the same edge.</p><p>Let C 1 , . . . , C k be the connected components of G. We choose their order in such a way that for every i ∈ {1, 2, . . . , k}, the drawing of C 1 ∪· · ·∪C i is topologically connected. Then for every i ∈ {2, 3, . . . , k}, there is an edge e i in C i that crosses some edge f i ∈ C 1 ∪· · ·∪C i−1 . Let T 1 be a spanning tree of C 1 and let e 1 be an edge of T 1 . For every i ∈ {2, 3, . . . , k}, let T i be a spanning tree of C i containing e i . For every i ∈ {1, 2, . . . , k}, let e i,1 = e i and let e i,2 , . . . , e i,m i be the remaining edges of T i ordered in such a way that for every j ∈ {1, 2, . . . , m i }, the subgraph of T i formed by the edges e i,1 , e i,2 , . . . , e i,j is connected.</p><p>In the rest of this section we often identify the vertices, edges and subgraphs of G with the corresponding vertices, edges and subgraphs of G.</p><p>The construction of T proceeds in k phases. In the first phase, we construct a topological spanning tree T 1 of C 1 , in the following way. We start with the tree T 1,1 consisting of the single edge e 1 . Let j ∈ {2, 3, . . . , m 1 } and suppose that the tree T 1,j−1 has been defined. Let v 1,j be the vertex of e i,j that is not contained in the edges e 1 , . . . , e j−1 . If e i,j crosses none of the edges e 1,1 , . . . , e 1,j−1 , then let T 1,j = T 1,j−1 ∪ e 1,j . Otherwise, among the crossings of e 1,j with the edges e 1,1 , . . . , e 1,j−1 , let x i,j be the crossing closest to v 1,j . The tree T 1,j is now obtained from T 1,j−1 by attaching the portion of e 1,j between x 1,j and v 1,j . Finally, we put</p><formula xml:id="formula_32">T 1 = T 1,m 1 .</formula><p>Let i ∈ {2, 3, . . . , k} and suppose that the tree T i−1 has been defined. In the ith phase, we construct the tree T i in the following way. Let e i = w i w ′ i and let x i be the crossing of e i with f i−1 . If e i crosses T i−1 in at least one point, then let x i,1 and x ′ i,1 be the crossings of e i with T i−1 closest to w i and w ′ i , respectively. The tree T i,1 is then obtained from T i−1 by attaching the portion of e i between w i and x i,1 and the portion of e i between w ′ i and x ′ i,1 . If e i is disjoint with T i−1 , then we construct T i,1 from T i−1 by adding the whole edge e i and joining e i with T i−1 by the shortest portion of f i−1 connecting x i with a point of T i−1 , which may be an endpoint of f i−1 or a crossing. The rest of the i-th phase is similar to the construction of T 1 . In j-th step, we construct T i,j from T i,j−1 by attaching the portion of e i,j connecting the vertex of e i,j not contained in T i,j−1 with the closest point of T i,j−1 along e i,j . Finally, we put T i = T i,m i and T = T k .</p><p>It follows from the construction that the tree T has n ′ ≤ 2n vertices, which are either vertices or crossings of G, and hence at most 2n edges, which are portions of edges of G.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">A construction of a T -representation</head><p>Now we construct the T -representation of G, which generalizes the star-cut representation defined in <ref type="bibr" target="#b19">[20]</ref>. Consider G drawn on the sphere S 2 and cut the sphere along the edges of T . The resulting open set S 2 \ T can be mapped by an orientation preserving homeomorphism Φ to an open regular (2n ′ − 2)-gon D, in such a way that the inverse map Φ −1 can be continuously extended to the closure of D so that the vertices and edges of D are mapped to the vertices and edges of T . Note that every edge of T corresponds to two edges of D, and a vertex of degree d in T corresponds to d vertices of D. See <ref type="figure" target="#fig_11">Figure 10</ref>, right. During the cutting operation, every edge e of G can be cut into at most n ′ pieces by the edges of T . Each such piece becomes a pseudochord of D. That is, a simple curve in D with endpoints on the boundary of D, and with the property that every two such curves cross in at most one point. Moreover, two pseudochords sharing an endpoint are internally disjoint, as they correspond to portions of edges with a common vertex. To separate the endpoints of the pseudochords, we cut a small disc around each vertex w of D, draw a part of its boundary inside D as an arc g w and shorten the pseudochords incident with w so that their endpoints are on g w . For an edge e of D, let O e be the counter-clockwise order of the endpoints of the pseudochords along e. Similarly, for each vertex w of D, let O w be the counter-clockwise order of the endpoints of the pseudochords along g w . The orders O e and O w are given as sequences of labels of the pseudochords. The collection of the orders O e and O w , which together form a cyclic sequence of endpoints of the pseudochords along the boundary of D, is called the perimetric order .</p><p>The T -representation of G is given by (1) the topological spanning tree T and (2) the perimetric order O D . The tree T is given as an abstract graph with a rotation system, which determines its combinatorial planar embedding.</p><p>Note that the perimetric order determines which pairs of pseudochords cross and how the pseudochords connect to the edges. Thus the T -representation of G determines the weak isomorphism class of G. However, topological graphs weakly isomorphic to G may have several different T -representations, which differ by the orders of crossings along the edges of T . We say that two T -representations are weakly isomorphic if they are representations of weakly isomorphic topological graphs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Counting topological spanning trees</head><p>The upper bound on T w (G) will follow from an upper bound on the number of weak isomorphism classes of T -representations of simple drawings of G. First we estimate the number of different topological spanning trees.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4">Counting T -representations</head><p>It remains to estimate for each topological spanning tree T , the maximum number of weak isomorphism classes of T -representations. This will be the dominant term in the estimate of T w (G). Every edge of G corresponds to at most 2n pseudochords in the T -representation.</p><p>Hence the T -representation has at most 2mn pseudochords, with at most 4mn 8n (4mn)! ≤ 2 O(mn log n) different perimetric orders. This gives a trivial 2 O(mn log n) upper bound on the number of weak isomorphism classes of T -representations.</p><p>To determine the weak isomorphism class, we do not need the whole information given by the perimetric order. In fact, we only need to know the number of pseudochords corresponding to each edge of G and the type of each pseudochord <ref type="bibr" target="#b20">[21]</ref>, which we define in the next paragraph. There are at most (2n) m ≤ 2 O(m log n) choices of the numbers of pseudochords corresponding to the edges of G in the T -representation. This upper bound is asymptotically dominated by the upper bounds in Theorem 2, hence we consider these numbers fixed in the rest of this section.</p><p>The type t(p) of a pseudochord p is the pair (X, Y ) where each of X, Y is either an edge of the polygon D containing the endpoint of p or an endpoint of p on the arc g w for some vertex w of D. For each vertex w of D representing a vertex v of G, we consider deg(v) points on g w as possible values of X and Y . For each triple of vertices w 1 , w 2 , w 3 of D representing a crossing x of G, we have exactly one possible endpoint as a possible value of X and Y , on exactly one of the arcs g w 1 , g w 2 , g w 3 . This follows from the fact that T contains exactly three portions of edges incident with x and only the fourth portion becomes a pseudochord.</p><p>Let p and p ′ be pseudochords with types (X, Y ) and (X ′ , Y ′ ), respectively. We say that the types (X, Y ) and (X ′ , Y ′ ) are crossing if the elements X, X ′ , Y, Y ′ are pairwise distinct and their cyclic order around the boundary of D is (X,</p><formula xml:id="formula_33">X ′ , Y, Y ′ ) or (X, Y ′ , Y, X ′ ),</formula><p>avoiding if they are not crossing and all the elements X, X ′ , Y, Y ′ are pairwise distinct,</p><formula xml:id="formula_34">parallel if (X, Y ) = (X ′ , Y ′ ) or (X, Y ) = (Y ′ , X ′ ), and</formula><p>adjacent otherwise, that is, if exactly one of the following four equalities holds:</p><formula xml:id="formula_35">X = X ′ , X = Y ′ , Y = X ′ or Y = Y ′ .</formula><p>See <ref type="figure" target="#fig_13">Figure 11</ref> for examples. If the elements X, Y, X ′ , Y ′ are pairwise distinct, we can directly determine whether p and p ′ cross: crossing types imply crossing pseudochords and avoiding types imply disjoint pseudochords. If, for example, X = X ′ (in which case X is an edge of D), we cannot determine whether p and p ′ cross, since this depends on the relative position of the endpoints of p and p ′ on X. The pairs of pseudochords with parallel and adjacent types can be arranged into maximal sequences, called ladders, formed by portions of two edges of G, for which we can determine whether they cross or not. See <ref type="bibr" target="#b20">[21]</ref> for details.</p><p>A pseudochord is called external if it represents the initial or the terminal portion of an edge of G. Thus, at least one of the endpoints of an external pseudochord lies on one of the arcs g w where w is a vertex of D representing a vertex of G. . This can be improved by considering the fact that the pseudochords representing a common edge of G do not cross. Also note that for two pseudochords p, p ′ representing a common edge e, their types are always avoiding. It follows that the set of types of the pseudochords representing e can be represented as a noncrossing matching of size at most 2n on a set of at most 8n points in convex position, where each point corresponds to an edge or a vertex of D. Observe that the order of the pseudochords along e can be reconstructed from this matching, thus this representation is injective. The number of such matchings is bounded from above by 2 O(n) . Together, this gives the upper bound f (E) ≤ 2 O(nm) . This estimate can be improved even further. In a simple topological graph, edges incident to a common vertex v do not cross. Therefore, all the internal pseudochords representing edges incident with v are pairwise disjoint. Let P (v) be the set of these pseudochords. Note that two pseudochords from P (v) representing different edges may have avoiding, parallel or adjacent types. Let d be the degree of v. Similarly as before, we can represent the set of types of the pseudochords from P (v) as a noncrossing matching M on a set of at most 8dn points in convex position, where each vertex of D is represented by a point and each edge of D is represented by d consecutive points. Again, from the matching M and from the types of the external pseudochords representing the edges incident with v we can uniquely determine which edge each pseudochords represents and how the pseudochords connect together to form the (portions of) edges incident with v. A straightforward upper bound f (P (v)) ≤ 2 O(dn) follows. To get a better upper bound, we observe that many of these pseudochords share the same type. More precisely, we have up to 2dn pseudochords in P (v), but only O(n) different types, since no two of the types are crossing. There are 2 O(n) ways of choosing the set of pairwise noncrossing types for internal pseudochords. For a fixed set S of O(n) types, we assign to each type t ∈ S its weight, that is, a positive integer n(t) denoting the number of pseudochords from P (v) with type t. The set {n(t), t ∈ S} satisfying the property t∈S n(t) = |P (v)| is called the weight vector of S. From the set S and its weight vector, we can reconstruct the matching M and determine the type of each pseudochord and how the pseudochords connect to edges. This idea is similar to encoding curves on a surface using normal coordinates <ref type="bibr" target="#b35">[36,</ref><ref type="bibr" target="#b36">37]</ref>. The previous method gives a good upper bound on T w (G) for dense graphs. For graphs with o(n 2 ) edges, the method is useful if the graph has very irregular degree sequence; more precisely, if it has a small number of vertices covering almost all the edges. For graphs with o(n 3/2 ) edges and with most of the vertices of degree Θ(m/n), we get better results by considering larger subsets of edges. We just need to balance the number of edges in the subset to keep the number of their crossings small enough.</p><p>Lemma 20. Let F ⊆ E be a set of k edges. Then</p><formula xml:id="formula_36">f (F ) ≤ O(m + k 2 ) O(k 2 ) · 2 O(k 2 log k) · 2 O(n+k 2 ) · kn O(n + k 2 )</formula><p>.</p><p>In particular, for k = ⌊ √ n⌋ we have</p><formula xml:id="formula_37">f (F ) ≤ 2 O(n log n) .</formula><p>Proof. Let P (F ) be the set of (both external and internal) pseudochords representing the edges of F . Since every two edges cross at most once, there are at most k 2 crossings among the pseudochords from P (F ). In particular, at most k 2 pseudochords from P (F ) cross other pseudochord from P (F ). Let P 1 (F ) ⊆ P (F ) be the set of pseudochords crossing at least one pseudochord from P (F ). Let P 0 (F ) be the set of internal pseudochords from P (F ) \ P 1 (F ). We estimate the number of perimetric orders of |P 0 (F ) ∪ P 1 (F )| pseudochords in D inducing at most k 2 crossings. Each such perimetric order, together with the set of types of the external pseudochords from P (F ), determine the types of all pseudochords from P (F ), since no member of P (F ) \ P 1 (F ) crosses a member of P 0 (F ) ∪ P 1 (F ).</p><p>For the pseudochords from P 1 (F ), we have at most O(m+k 2 ) 2k 2 ways of choosing the set of their endpoints on the boundary of D, and at most (k 2 )! ≤ 2 O(k 2 log k) ways of matching them together. Here we do not need to optimize for matchings inducing O(k 2 ) crossings. However, Proposition 22 in the next section implies the upper bound 2 O(k 2 ) .</p><p>The pseudochords from P 0 (F ) form a noncrossing matching in the regions of D\( P 1 (F )). To determine the positions of the pseudochords from P 0 (F ), we need to refine their types into subtypes by splitting the edges of D by the endpoints of the pseudochords from P 1 (F ). See <ref type="figure">Figure 12</ref>. There are at most O(n + k 2 ) portions of edges of D after this splitting, hence at most 2 O(n+k 2 ) choices for the set of pairwise noncrossing subtypes of the pseudochords from P 0 (F ). Finally, there are at most kn O(n+k 2 ) ways of assigning a vector of positive integers with total sum at most kn to the chosen set of subtypes. This is sufficient to determine the perimetric order of the pseudochords from P (F ) and the lemma follows.</p><p>The second upper bound in Theorem 2 is proved as follows. By Lemma 19, we may fix a topological spanning tree. Then we partition the edge set of G into O(m/ √ n) subsets of size at most √ n and apply Lemma 20 to each of the subsets. Theorem 4 is a special case of Theorem 2, where the graph G is a matching. p q r s <ref type="figure">Figure 12</ref>: Illustration for the proof of Lemma 20. The dotted lines represent pseudochords from P 1 (F ). The pseudochords p, q, r, s all have the same type, r and s also have the same subtype, but p, q and r have pairwise different subtypes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">The upper bound in Theorem 5</head><p>We start with some additional definitions and a combinatorial definition of the isomorphism of topological graphs. Then we show that we need to consider only topologically connected topological graphs. Finally, we reduce the problem to counting isomorphism classes of arrangements of pseudochords and present two different solutions to this problem. In the first solution we split the problem into two parts: enumerating chord diagrams and enumerating arrangements with fixed boundary, using encoding by binary vectors. The second approach is based on enumerating the dual graphs of the arrangements, which form a subclass of quadrangulations of a disc.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">A combinatorial definition of isomorphism</head><p>A rotation of a crossing c in a topological graph is the clockwise cyclic order in which the four portions of the two edges crossing at c leave the point c. Note that each crossing has exactly two possible rotations. An extended rotation system of a simple topological graph is the set of rotations of all its vertices and crossings. Assuming that T and T ′ are drawings of the same abstract graph, we say that their (extended) rotation systems are inverse if for each vertex v ∈ V (T ) (and each crossing c in T ) the rotation of v and the rotation of the corresponding vertex v ′ ∈ V (T ′ ) are inverse cyclic permutations (and so are the rotation of c and the rotation of the corresponding crossing c ′ in T ′ ). For example, if T ′ is a mirror image of T , then T and T ′ have inverse (extended) rotation systems. Topologically connected topological graphs G and H are isomorphic if (1) G and H are weakly isomorphic, (2) for each edge e of G the order of crossings with the other edges of G is the same as the order of crossings on the corresponding edge e ′ in H, and (3) the extended rotation systems of G and H are either the same or inverse. This induces a one-toone correspondence between the faces of G and H such that the crossings and the vertices incident with a face f of G appear along the boundary of f in the same (or inverse) cyclic order as the corresponding crossings and vertices in H appear along the boundary of the face f ′ corresponding to f . It follows from Jordan-Schönflies theorem that this definition is equivalent to the previous one in Section 1.</p><p>Let G be a topological graph with more than one topological component. The face structure of G is a collection of face boundaries, represented as oriented facial walks in the underlying abstract graph, of all noncontractible faces of G, that is, faces with more than one boundary component. The orientations are chosen in such a way that either for each noncontractible face the facial walk of the outer boundary component is oriented clockwise and the facial walks of all inner boundary components are oriented counter-clockwise, or vice versa. Both choices are regarded as giving the same face structure. By this condition, the orientations of the facial walks in the face structure encode relative orientations of the topological components. Note that the rotation system of G is not sufficient to determine the orientation of topological components that are simple cycles.</p><p>Topological graphs G and H with more than one topological component are isomorphic if there is a one-to-one mapping between the vertices and edges of G and H satisfying the conditions (1)- <ref type="bibr" target="#b2">(3)</ref> and, in addition, (4) the face structures of G and H are the same.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Reduction to topologically connected graphs</head><p>Let G be a graph with no isolated vertices. Let G be a topological graph realizing G. If G has more than one topological component, we want to extend it to a topologically connected graph by adding edges connecting the topological components, in the same way as in the previous section. However, for this extension to be possible we may need to rearrange the topological components of G, which changes the face structure of G. While preserving the isomorphism classes of the k topological components of G, there are 2 k ways of choosing their orientation and at most O(n 4 ) 2k possible face structures of topological graphs built from these components. Thus there are at most 2 O(n log n) rearrangements of topological components of G. Hence, by the same argument as in the previous section, we may further assume that G is topologically connected.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Arrangements of pseudochords</head><p>An essential part of the structure of a particular isomorphism class of simple topological graphs is captured by the following combinatorial object, which slightly generalizes arrangements of pseudolines.</p><p>An arrangement of pseudochords is a finite set M of simple curves in the plane with endpoints on a common simple closed curve C M , such that all the curves from M lie in the region bounded by C M and every two curves in M have at most one common point, which is a proper crossing. The elements of M are called pseudochords. The arrangement M is simple if no three pseudochords from M share a common crossing. The perimetric order of M is the counter-clockwise cyclic order of the endpoints of the pseudochords of M on C M . The perimetric order of M determines which pairs of pseudochords cross and which do not, but it does not determine the orders of crossings on the pseudochords. Two (labeled) arrangements of pseudochords are isomorphic if they have the same perimetric order and the same orders of crossings on the corresponding pseudochords. Equivalently, one arrangement can be obtained from the other one by an orientation preserving homeomorphism. Note that a T -representation of a simple topological graph can be regarded as a simple arrangement of pseudochords.</p><p>The following proposition is inspired by Felsner's <ref type="bibr" target="#b9">[10]</ref> enumeration of simple wiring diagrams. Originally it appeared in <ref type="bibr" target="#b19">[20]</ref> as Proposition 7, but in an incorrect, stronger form.  Proof. Let M = {p 1 , p 2 , . . . , p n } be a simple arrangement of pseudochords with endpoints on a circle C M and with a given perimetric order. Cut the circle at an arbitrary point and unfold it by a homeomorphism to a horizontal line l, while keeping all the pseudochords above l. Orient each pseudochord p i from its left endpoint a i to its right endpoint b i . Let k i be the number of crossings on p i and let c i 1 , c i 2 , . . . , c i k i be the crossings of p i ordered from a i to b i . Let p r(i,j) be the pseudochord that crosses p i at c i j . For two crossing pseudochords p i and p j we say that p i is to the left of p j if a i is to the left of a j . This is equivalent with the rotation of their common crossing being (a i , b j , a j , b i ).</p><p>To each p i we assign a vector</p><formula xml:id="formula_38">α i = (α i 1 , α i 2 , . . . , α i k i ) ∈ {0, 1} k i where α i j = 0 if p r(i,j)</formula><p>is to the left of p i and α i j = 1 if p i is to the left of p r(i,j) . The sum of the lengths of the vectors α i is equal to n i=1 k i = 2k. Hence, there are at most 2 2k different sequences (α 1 , α 2 , . . . , α n ) encoding an arrangement with the given perimetric order and the chosen orientation of pseudochords.</p><p>It remains to show that we can uniquely reconstruct the isomorphism class of M from the vectors α 1 , α 2 , . . . , α n by identifying the pseudochords p r(i,j) . We proceed by induction on k and n. For arrangements without crossings there is only one isomorphism class with a fixed perimetric order. Now, suppose that we can reconstruct the isomorphism class for arrangements with at most k − 1 crossings and take a sequence α = (α 1 , α 2 , . . . , α n ) encoding an arrangement M with k crossings.</p><p>If some of the vectors α i is empty, the corresponding pseudochord p i is empty (has no crossing). We may then draw p i as an arbitrary curve γ i from a i to b i in the upper half-plane of l. Then we split the arrangement into two parts: the inner part consisting of pseudochords with endpoints between a i and b i , and the outer part with endpoints to the left of a i or to the right of b i . We draw both parts separately by induction. Finally, by applying a suitable homeomorphism we place the inner part inside the region bounded by γ i and l and the outer part outside that region.</p><p>Further we assume that M has no empty pseudochords. Without loss of generality we may assume that the left endpoints are ordered along l as a 1 , a 2 , . . . , a n from left to right. Clearly, α 1 = <ref type="figure">(1, 1, . . . , 1) and α n = (0, 0, . . . , 0)</ref>. It follows that there exists s ∈ {1, . . . , n − 1} such that α s 1 = 1 and α s+1</p><formula xml:id="formula_39">1 = 0.</formula><p>Claim. The first crossing on the pseudochords p s and p s+1 is their common crossing. That is, r(s, 1) = s + 1 and r(s + 1, 1) = s.</p><p>Proof of claim. Refer to <ref type="figure" target="#fig_0">Figure 13</ref>. For contradiction, suppose that r(s, 1) = s ′ ≥ s + 2 (the case when r(s + 1, 1) ≤ s − 1 is symmetric). Then r(s + 1, 1) / ∈ {s, s ′ }. Hence, r(s + 1, 1) = s ′′ for some s ′′ &lt; s and the crossing of p s+1 with p s ′′ occurs within the triangle a s a s+1 c s 1 . This forces the pseudochords p s ′ and p s ′′ to cross twice, a contradiction.</p><formula xml:id="formula_40">Let c = c s 1 = c s+1 1</formula><p>be the first crossing on p s and p s+1 . Since the two arcs a s c and a s+1 c are free of crossings, there is no endpoint between a s and a s+1 on l. For the induction step, we swap the endpoints a s and a s+1 in the perimetric order of M and delete the first value from the vectors α s and α s+1 . In this way we obtain an encoding α ′ of an arrangement M ′ with k − 1 crossings, which is obtained <ref type="figure">from M by deleting the arcs a s c and a s+1 c,</ref> including a small open neighborhood of c. By the induction hypothesis, the isomorphism class of M ′ can be uniquely reconstructed from α ′ . By attaching to M ′ two crossing arcs starting at a s and a s+1 and thus extending the two pseudochords p s and p s+1 , we obtain an arrangement isomorphic to M .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4">Counting isomorphism classes of topologically connected topological graphs</head><p>Let G be a graph with n vertices, m edges and no isolated vertices. Let G be a topologically connected simple topological graph that realizes G. The isomorphism class of G is determined by the isomorphism class of a T -representation of G. To determine the isomorphism class of a T -representation, we need to determine (1) the topological spanning tree T , (2) the perimetric order of the T -representation, and (3) the isomorphism type of the induced arrangement of pseudochords.</p><p>(1) By <ref type="bibr">Lemma 19</ref>, there are at most 2 O(n log n) choices for the topological spanning tree T of G, up to a homeomorphism of the plane. For the rest of the section, we fix one topological spanning tree T of G.</p><p>(2) With T fixed, a T -representation can have at most 2 O(mn log n) diferent perimetric orders, as we have seen in Subsection 4.4.</p><p>This estimate is good enough when G has m = ω(n log n) edges, but we need a better upper bound for sparser graphs. This can be achieved by counting only perimetric orders that induce at most m 2 crossings. There are at most 4mn 8n ≤ 2 O(n log n) ways of choosing the set of endpoints of the pseudochords along the boundary of the disc D in the T -representation. To determine the perimetric order, we need, in addition, to determine a perfect matching of the endpoints inducing at most m 2 crossings.</p><p>Such matchings can be also regarded as representations of circle graphs with a given number of vertices and edges. In the literature, these structures are called chord diagrams <ref type="bibr" target="#b15">[16,</ref><ref type="bibr" target="#b31">32]</ref>. See <ref type="figure">Figure 14</ref>, left. Following the notation in <ref type="bibr" target="#b31">[32]</ref>, let C(n, k) denote the number of diagrams of n chords with k crossings. It is well known that C(n, 0), which is the number of noncrossing perfect matchings of 2n points on the circle, is equal to the nth Catalan number. Precise enumeration results for C(n, k) in the form of generating functions were obtained by Touchard <ref type="bibr" target="#b37">[38]</ref> and Riordan <ref type="bibr" target="#b34">[35]</ref>, but explicit formulas for C(n, k) were computed only for k ≤ 6 <ref type="bibr" target="#b37">[38]</ref>. The following asymptotic upper bound is implicit in Read's paper <ref type="bibr" target="#b31">[32]</ref>. where C(n) is the nth Catalan number. <ref type="figure">Figure 14</ref>: A chord diagram with seven chords and six crossings and a corresponding sawtooth diagram with κ = (1, 2, 1, 0, 2, 0, 0).</p><formula xml:id="formula_41">a 1 a 2 b 1 b 2 b 3 a 3 b 4 b 5 b 6 b 7 a 4 a 5 a 6 a 7 a 1 a 2 b 7 b 6 b 5 b 4 a 4 a 6 a 7 b 3 b 2 a 5 a 3 b 1</formula><p>Proof. Like in the proof of Proposition 21, the key "trick" is breaking the symmetry of the circle by cutting it at one point and unfolding onto a horizontal line l. The chords then become arcs in the upper half-plane with endpoints on l. Each such arc has a distinguished left endpoint and a right endpoint. Instead of arbitrary arcs, Read <ref type="bibr" target="#b31">[32]</ref> constructs triangular "teeth" consisting of a diagonal segment from the left endpoint followed by a vertical segment to the right endpoint and calls the resulting drawing the sawtooth diagram associated to the original chord diagram. See <ref type="figure">Figure 14</ref>, right.</p><p>Let L be the set of all the left endpoints of the chords on l, and R the set of all the right endpoints. For every point x on l, there are at least as many left endpoints than right endpoints to the left of x. Therefore the sets L and R correspond to the sets of n left and n right parentheses that are correctly matched. There are exactly C(n) such partitions (L, R) of the 2n points on l.</p><p>One partition (L, R) can be shared by more sawtooth diagrams, if crossings are allowed. To determine the sawtooth diagram (and the corresponding chord diagram) uniquely, we encode the intersection graph of the chords as follows. Let b 1 , b 2 , . . . , b n be the points of R ordered from left to right. For i = 1, 2, . . . , n, let c i be the chord with right endpoint b i , let a i be the left endpoint of c i and let k i be the number of chords with left endpoint to the right of a i that cross c i . We claim that the vector κ = (k 1 , k 2 , . . . , k n ), together with the partition (L, R), uniquely determines the sawtooth diagram. This can be seen by drawing the diagram from left to right. All the crossings of the chord c i with chords with left endpoint to the right of a i occur on the vertical segment of c i with endpoint b i . Therefore, every time we reach the x-coordinate of some b i , we take the (k i + 1)th diagonal segment from the bottom and connect its right endpoint by a vertical line to b i . All the other diagonal segments are extended further to the right.</p><p>Since n i=1 k i ≤ k, for every partition (L, R) there are at most n+k k possible vectors κ and the proposition follows. ≤ 2 2mn(log(1+ m 4n )+2+log 2 e)+O(n log n) .</p><p>(3) By Proposition 21, there are less than 2 m 2 isomorphism classes of simple arrangements of pseudochords induced by the T -representation with a given perimetric order. Together with Proposition 22 and previous discussion, this implies that</p><formula xml:id="formula_42">T (G) ≤ 2 m 2 +2mn(log(1+ m 4n )+3.443)+O(n log n) .</formula><p>For graphs with m = O(n) the second term in the exponent becomes more significant. Since m ≥ n/2, the exponent can be also bounded by m 2 · (1 + 8 + 4 log 2 (9/8) + 1/2 · log 2 9) + o(m 2 ) ≤ 11.265m 2 + o(1), using the entropy bound for the binomial coefficient 4m 2 +m 2 /2 4m 2 . This proves the second upper bound in Theorem 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4.1">Arrangements and quadrangulations</head><p>Here we show an alternative approach to enumerating simple arrangements of pseudochords.</p><p>A quadrangulation of the disc D is a 2-connected plane graph embedded in D such that its outer face coincides with the boundary of D and every inner face is bounded by a 4cycle. A quadrangulation is called simple if it has no separating 4-cycle. The vertices of the quadrangulation lying on the boundary of D are called external, all the other vertices are internal.</p><p>Mullin and Schellenberg <ref type="bibr" target="#b24">[25]</ref> proved that there are</p><formula xml:id="formula_43">(3M + 3)!(2N + M − 1)! (M − 1)!(2M + 3)!N !(N + M + 1)! ≤ 3M + 3 M 2N + M − 1 N</formula><p>isomorphism classes of rooted simple quadrangulations of the disc with N internal and 2M +4 external vertices.</p><p>The dual graph of a simple arrangement of pseudochords is constructed as follows. Place one vertex inside each 2-dimensional cell and one vertex in the interior of every boundary edge. Then join all pairs of vertices that correspond to adjacent 2-cells or to a boundary edge and its adjacent 2-cell. See <ref type="figure" target="#fig_21">Figure 15</ref>.</p><p>Observe that the dual graph of a simple arrangement of n pseudochords with k crossings is a simple quadrangulation with 2n external and n + k + 1 internal vertices. From the quadrangulation the original arrangement can be uniquely reconstructed up to isomorphism. However, not all simple quadrangulations can be obtained in this way: the graph of the 3-dimensional cube is such an example.</p><p>By plugging M = n − 2 and N = n + i + 1 into Mullin's and Schellenberg's formula and summing over i = 0, 1, . . . , k we obtain the following upper bound.  Substituting n ≤ 2m, the exponent can be also bounded by m 2 · 4 log 2 3 + 8 log 2 3 2 + 17 2 · log 2 26 17</p><formula xml:id="formula_44">+ 9 2 · log 2 26 9 + o(m 2 ) ≤ 23.118m 2 + o(1),</formula><p>using the entropy bound for the binomial coefficients 12m 2 4m 2 and 13m 2 9m 2 /2 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.5">Upper bounds for very sparse graphs</head><p>The upper bound T (G) ≤ 2 O(m 2 ) is trivially obtained from the upper bound on the number of unlabeled plane graphs (or planar maps). Indeed, every drawing G of G can be transformed into a plane graph H by subdividing the edges of G by its crossings and regarding the crossings of G as new 4-valent vertices in H. The graph H has thus at most n + m 2 vertices, at most m + 2 m 2 = m 2 edges, no loops and no multiple edges. A rooted connected planar map is an unlabeled connected plane multigraph with a distinguished vertex, the root. In particular, multiple edges and loops are allowed. Tutte <ref type="bibr" target="#b38">[39]</ref> showed that there are 2(2M )!3 M M !(M + 2)! = 2 (log 2 (12)+o(1))M rooted connected planar maps with M edges (see also <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b5">6,</ref><ref type="bibr" target="#b8">9]</ref>). Walsh and Lehman <ref type="bibr" target="#b39">[40]</ref> showed that the number of rooted connected planar loopless maps with M edges is</p><formula xml:id="formula_45">6(4M + 1)! M !(3M + 3)! = 2 (log 2 (256/27)+o(1))M .</formula><p>This implies the upper bound T (G) ≤ 2 (log 2 (256/27)+o(1))m 2 . Somewhat better estimates could be obtained by reducing the problem to counting 4-regular connected planar maps <ref type="bibr" target="#b32">[33,</ref><ref type="bibr" target="#b33">34]</ref>, since typically almost all vertices in H are the 4-valent vertices obtained from the crossings of G. But such a reduction would be less straightforward and the resulting upper bound 2 ( 1 2 log 2 (196/27)+o(1))m 2 would not improve our upper bound 2 m 2 +O(mn) for dense graphs (for graphs with more than 27n edges the first upper bound from Theorem 5 is better).</p><p>Note that by the reduction to counting planar maps, for every fixed constant k, we also obtain the upper bound 2 O(km 2 ) on the number of isomorphism classes of connected topological graphs with m edges where all pairs of edges are allowed to cross k times.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">The lower bounds</head><p>In this section we present constructions of many pairwise different simple drawings of a given graph G, proving the lower bounds in Theorem 5 and 2. Since we are dealing with arbitrary graphs, we use the following tool to find large subgraphs with more "regular" structure.</p><p>Let G be a graph and let A, B be disjoint subsets of its vertices. By G[A, B] we denote the bipartite graph <ref type="figure">(A ∪ B, E G (A, B)</ref>) consisting of all edges with one endpoint in A and the other endpoint in B.</p><p>Lemma 24. Let q, r be positive integers with q ≥ 3 and 1 ≤ r ≤ q 2 . Let H be a graph with vertex set {1, 2, . . . , q} and with r edges. Let G = (V, E) be a graph with n vertices and m edges. There is a partition of the vertex set V into q clusters V 1 , . . . , V q such that for every edge {i, j} of H the number of edges in the bipartite graph G[V i , V j ] is at least</p><formula xml:id="formula_46">2m q 2 1 − r(q − 2) 2 · n m − O m n 3 .</formula><p>This is a variant of the result by Kühn and Osthus <ref type="bibr" target="#b17">[18,</ref><ref type="bibr">Theorem 3]</ref>, who consider the case of r = q 2 and assume that G has maximum degree bounded by a constant fraction of n. The proof of Lemma 24 is similar to that of Theorem 3 in <ref type="bibr" target="#b17">[18]</ref>. The main idea is to use the second order method to analyze the random partition.</p><p>During the analysis we need to bound the number of pairs of adjacent edges in a graph G, which we denote by p(G). Let G(n, m) be the class of all graphs with n vertices and m edges and let f (n, m) be the maximum of p(G) over all G ∈ G(n, m). Ahlswede and Katona <ref type="bibr" target="#b2">[3]</ref> proved that the maximum of p(G) is always attained for at least one of two special graphs in G(n, m), a quasi-star or a quasi-clique.Ábrego et al. <ref type="bibr" target="#b0">[1]</ref> completely characterized all graphs G ∈ G(n, m) for which p(G) = f (n, m). The problem of computing f (n, m) has been studied and partially solved by many researches; see <ref type="bibr" target="#b0">[1]</ref> or <ref type="bibr" target="#b25">[26]</ref> for an overview of previous results. Although all the values of f (n, m) have been computed, the behavior of the function depends on certain nontrivial number-theoretic properties of the parameters m, n <ref type="bibr" target="#b0">[1]</ref>. Nikiforov <ref type="bibr" target="#b25">[26]</ref> proved tight asymptotic upper bounds on f (n, m), which may be stated in a simplified form as follows. </p><formula xml:id="formula_47">f (n, m) ≤ 1 2 (n 2 − 2m) 3/2 − n 3 + 2nm if m &lt; n 2 /4.</formula><p>We use a weaker, even more simplified asymptotic upper bound, which is easier to apply. For our purposes, we need the bound to be tight only for small values of m.</p><p>Corollary 26. For all n and m,</p><formula xml:id="formula_48">f (n, m) ≤ 1 2 nm + O m 2 n .</formula><p>Proof. If m ≥ n 2 /4, then by Lemma 25 we have</p><formula xml:id="formula_49">f (n, m) ≤ √ 2m 3/2 · 2m 1/2 n ≤ 2 √ 2m 2 n .</formula><p>If m &lt; n 2 /4, then by Lemma 25, the desired upper bound is equivalent to the inequality</p><formula xml:id="formula_50">3mn − n 3 + (n 2 − 2m) 3/2 ≤ O(m 2 /n).</formula><p>Using the inequality</p><formula xml:id="formula_51">√ 1 − x ≤ 1 − x/2, which holds for x ≤ 1, we have 3mn − n 3 + (n 2 − 2m) 3/2 = 3mn + n 3 ((1 − 2m/n 2 ) 3/2 − 1) ≤ 3mn + n 3 1 − m n 2 3 − 1 = 3m 2 n − m 3 n 3 .</formula><p>Proof of Lemma 24. Let V 1 , V 2 , . . . , V q be a random partition of the vertex set V , where each vertex is assigned independently to cluster V i with probability 1/q. For {i, j} ∈ E(H), let X i,j be a random variable counting the number of edges in the bipartite graph G[V i , V j ]. Clearly, we have EX i,j = 2m/q 2 . Let σ 2 = σ 2 i,j = VARX i,j . By Chebyshev's inequality, we have</p><formula xml:id="formula_52">P X i,j &lt; 2m q 2 − √ rσ &lt; 1 r .</formula><p>It follows that there is a partition V 1 , V 2 , . . . , V q such that for every edge {i, j} of H, the graph G[V i , V j ] has at least 2m q 2 − √ rσ edges.</p><p>To complete the proof, we need to estimate σ from above. Let X = X i,j for some {i, j} ∈ E(H). We have</p><formula xml:id="formula_53">σ 2 = EX 2 − (EX) 2 = EX 2 − 4m 2 q 4 .</formula><p>For every edge e of G, let X e be the indicator variable of the event that e has one endpoint in V i and the other endpoint in V j . Clearly, X = e∈E X e . Recall that p(G) denotes the number of pairs of adjacent edges in G. We have</p><formula xml:id="formula_54">EX 2 = e∈E EX 2 e + 2 ·</formula><p>e,e ′ ∈E; e =e ′ EX e X e ′ = 2m</p><formula xml:id="formula_55">q 2 + 2 · 2 q 3 · p(G) + 2 · 4 q 4 m 2 − p(G) = 2m q 2 + 8 q 4 m 2 + 4 q 3 − 8 q 4 p(G).</formula><p>By Corollary 26, p(G) ≤ 1 2 nm + O m 2 n . Hence,</p><formula xml:id="formula_56">σ 2 ≤ 2m q 2 + 4m 2 q 4 + 4q − 8 q 4 · 1 2 nm + O m 2 n − 4m 2 q 4 ≤ 2q − 4 q 4 · nm + O m 2 n ≤ √ 2q − 4 q 2 · √ nm + O m 3/2 n 3/2 2</formula><p>and the lemma follows.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">The lower bound in Theorem 5</head><p>The construction giving the first lower bound in Theorem 5 generalizes the construction from <ref type="bibr" target="#b19">[20]</ref>. Let ε &gt; 0 and let G = (V, E) be a graph with n vertices and m edges. We apply Lemma 24 with q = 6, r = 3 and E(H) = {{1, 4}, {2, 5}, {3, 6}}. If m &gt; (6 + ε) · n, then Lemma 24 implies that there is a partition of V into six clusters V 1 , V 2 , . . . , V 6 such that each of the three</p><formula xml:id="formula_57">subgraphs G[V 1 , V 4 ], G[V 2 , V 5 ], G[V 3 , V 6 ]</formula><p>has Ω(m) edges. We may assume that G[V 3 , V 6 ] has the least number of edges of these three graphs.</p><p>Like in <ref type="bibr" target="#b19">[20]</ref>, we construct 2 Ω(m 2 ) drawings of G that are all weakly isomorphic to the same geometric graph with vertices in convex position. For each k = 1, 2, . . . , 6, we place the vertices of the set V k on the unit circle, inside a small neighborhood of the point (cos( kπ 3 ), sin( kπ 3 )); see <ref type="figure" target="#fig_3">Figure 16</ref>, left. For every pair of vertices u ∈ V k and v ∈ V l such that |k − l| = 3, we draw the edge uv as a straight-line segment. For k ∈ {1, 2, 3}, the edges between the sets V k and V k+3 are drawn inside a narrow rectangle R k such that all the crossings among this group of edges occur outside the region R = R 1 ∩ R 2 ∩ R 3 , and for k, l ∈ {1, 2, 3}, k = l, all the crossings between the edges of G[V k , V k+3 ] and G[V l , V l+3 ] lie inside R. In the region R, the edges connecting V 2 with V 5 form Ω(m) parallel curves. Together with the edges connecting V 1 with V 4 , they form an Ω(m) × Ω(m) grid inside R.</p><p>We partition the crossings of this grid into Ω(m) parallel diagonals forming horizontal rows. Each (horizontal) edge e connecting V 3 with V 6 is drawn along one of the diagonal d i . Each edge is assigned to a different diagonal. In the neighborhood of each crossing c in d i we can decide whether the edge e passes above or below c; see <ref type="figure" target="#fig_3">Figure 16</ref>, right. These two possibilities give us two nonisomorphic topological graphs, and the choices can be made independently at each crossing of the grid. Since we make the choice at Ω(m 2 ) crossings, we obtain 2 Ω(m 2 ) pairwise nonisomorphic drawings of G.</p><p>For graphs with superlinear number of edges, Lemma 24 gives a partition where each of the graphs G[V i , V j ] has c = 2m/q 2 − o(m) edges. In the previous construction, this gives a grid with c 2 = 4m 2 /q 4 − o(m 2 ) crossings and hence 2 3m 2 /q 4 −o(m 2 ) pairwise nonisomorphic drawings of G, since 3/4 of the crossings can be covered by c parallel diagonals. For q = 6, this gives the lower bound T (G) ≥ 2 m 2 /432−o(m 2 ) .</p><p>The constant 1/432 can be easily improved. Previous construction used as a "template" a convex geometric drawing of K 6 . This topological graph has one free triangle, that is, a triangular face bounded by three pairwise crossing edges. A free triangle may be switched by <ref type="figure" target="#fig_3">Figure 16</ref>: A construction of 2 Ω(m 2 ) pairwise nonisomorphic drawings of a given graph.</p><formula xml:id="formula_58">V 6 V 1 V 2 V 3 V 4 V 5 R 3 R 1 R 2</formula><p>moving a portion of one of the boundary edges over the crossing of the other two edges. This feature is then amplified by replacing the free triangle by the grid construction. A set of k free triangles is independent if no two of the triangles share a vertex. Equivalently, every two triangles share at most one boundary edge. This guarantees that each of the 2 k combinations of switched triangles is possible. There are simple drawings of K 6 with two independent free triangles <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b12">13]</ref>. If we use one of them as a template, we get 2 m 2 /216−o(m 2 ) pairwise nonisomorphic drawings of G.</p><p>Using larger simple complete topological graphs as templates, much better lower bounds can be obtained. Instead of free triangles, we may consider, in general, free k-tuples, which consist of k pairwise crossing edges with all k 2 crossings close to each other, forming locally an arrangement of k pseudolines. A system of free k-tuples is independent if no two k-tuples share a crossing.</p><p>When replacing a free 4-tuple by the grid construction, we use both horizontal and vertical diagonals of the grid. After drawing the horizontal and vertical edges along the diagonals, half of the crossings in the grid become free 4-tuples and the other half free triangles. Every free 4-tuple can be drawn in 8 different ways. Therefore, by replacing each of the original four edges by c parallel edges, we obtain 2 (1/2+3·1/2)c 2 = 2 2c 2 pairwise nonisomorphic drawings. That is, every free 4-tuple in the template with q vertices contributes 8m 2 /q 4 to the exponent in the lower bound on T (G).</p><p>For example, the regular convex drawing of K 10 on <ref type="figure" target="#fig_4">Figure 17</ref> has, after small perturbation, one free 5-tuple, 5 free 4-tuples and 25 free triangles, all independent. Using this drawing as a template, we obtain the lower bound T (G) ≥ 2 m 2 ·123/10 4 −o(m 2 ) &gt; 2 m 2 /82 − o(1) (for simplicity, we estimate the contribution of the free 5-tuple by the contribution of a free 4-tuple).</p><p>Further improvement can be obtained using all possible partial arrangements of three pairwise crossing systems of parallel pseudolines, in place of the grid construction, which produces only a subset of all such arrangements. Felsner and Valtr <ref type="bibr" target="#b10">[11]</ref> proved that there are 2 (4.5 log 2 3−6−o(1))n 2 &gt; 2 1.132·n 2 − o(1) partial arrangements of 3n pseudolines that form three pairwise crossing subsets of n parallel pseudolines. They observed that these partial arrangements are dual to rhombic tilings of a regular hexagon and used MacMahon's formula enumerating these tilings. This also implies the rough lower bound 2 2.264·n 2 − o(1) on the number of partial arrangements of 4n pseudolines that form four pairwise crossing subsets of n parallel pseudolines. Using these estimates with the template from <ref type="figure" target="#fig_4">Figure 17</ref>, we obtain This lower bound on T (G) is very likely far from being optimal. However, it is probably hard to close the gap between the lower and upper bound on T (G), given that even for pseudoline arrangements, the best known lower and upper bounds on their number differ significantly <ref type="bibr" target="#b10">[11]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">The lower bound in Theorem 2</head><p>Fix ε &gt; 0 and let G be a graph with n vertices and m edges, with no isolated vertices, and satisfying at least one of the conditions m &gt; (1 + ε)n or ∆(G) &lt; (1 − ε)n.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2.1">The first construction</head><p>First we show that T w (G) ≥ 2 Ω(m) for graphs with m &gt; (4 + ε)n, generalizing a construction by Pach and Tóth <ref type="bibr" target="#b29">[30]</ref>.</p><p>Without loss of generality assume that n is odd. Let W be a random subset of (n + 1)/2 vertices of G. The expected number of edges in the induced graph G[W ] is Let W 0 be a subset of (n + 1)/2 vertices inducing at least (1/4 + 1/(4n))m edges. Every graph with m edges has a bipartite subgraph with at least m/2 edges. Let W 0 = W 1 ∪ W 2 be a bipartition such that the bipartite graph G[W 1 , W 2 ] has at least (1/8 + 1/(8n))m edges. We place the vertices of V on three parallel vertical lines as follows. The vertices of W ′ = V \ W 0 are placed on the y-axis to the points (0, i/2), i = 0, 1, . . . , (n − 3)/2, the vertices of W 1 to the points (−1, i), i = 0, 1, . . . , |W 1 | − 1, and the vertices of W 2 to the points (1, i), i = 1, 2, . . . , |W 2 | − 1. Observe that the midpoint of every straight-line segment with one endpoint in W 1 and the other endpoint in W 2 lies in W ′ . The idea of obtaining exponentially many pairwise different drawings of G is now similar as in the grid construction in the previous subsection. The edges of G[W ′ ] are drawn as arcs close to the y-axis. Every edge e = w 1 w 2 of G[W 1 , W 2 ] is drawn as an arc along the straight-line segment w 1 w 2 , in one of two possible ways: either close above or close below the segment. See <ref type="figure" target="#fig_7">Figure 18</ref>. Let w ′ be the midpoint of w 1 w 2 . If w ′ is adjacent to a vertex u ∈ V \ {w 1 , w 2 }, then in one of the two drawings the edges w 1 w 2 and w ′ u cross and in the other one they are disjoint. Since the minimum degree in G is at least 1, for every w ′ ∈ W ′ , there is at most one pair of vertices w 1 ∈ W 1 and w 2 ∈ W 2 such that w ′ is a midpoint of the segment w 1 w 2 and w ′ is not adjacent to V \ {w 1 , w 2 }. This implies that for at least (1/8 + 1/(8n))m − (n − 1)/2 &gt; ((1/8 + 1/(8n) − 1/(8 + 2ε))m = Ω(m) edges of G[W 1 , W 2 ], the two choices produce two weakly nonisomorphic drawings. Since the choices for all the edges are independent, this gives 2 Ω(m) pairwise weakly nonisomorphic drawings of G in total.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2.2">The second construction</head><p>The lower bound on T w (G) can be improved for sparse graphs with minimum degree at least 1 that have at least (1 + ε)n edges or maximum degree at most (1 − ε)n. Such assumptions are needed to guarantee a nontrivial number of pairs of independent edges, to avoid graphs like stars, which can only be drawn without crossings. For every such graph G we show the lower bound T w (G) ≥ 2 Ω(n log n) . Moreover, all the drawings in this construction are geometric graphs; that is, the edges are drawn as straight-line segments.</p><p>Lemma 27. Let G be a graph with n vertices, m edges, no isolated vertices and satisfying m &gt; (1 + ε)n or ∆(G) &lt; (1 − ε)n. Then the vertex set of G can be partitioned into three parts V 1 , V 2 , V 3 such that |V 1 | ≥ n/4, every vertex from V 1 has a neighbor in V 2 and the induced graph G[V 3 ] has at least ⌊ε/2 · n⌋ edges.</p><p>Proof. We distinguish two cases.</p><p>Case 1: G has a spanning forest F with no isolated vertices such that its components can be partitioned into two subforests F 1 and F 2 , each with at least ⌊εn⌋ vertices. Assume that |V (F 1 )| ≥ |V (F 2 )|. We set V 3 = V (F 2 ). Now V 1 and V 2 are defined as the color classes of a proper 2-coloring of F 1 , with |V 1 | ≥ |V 2 |.</p><p>Case 2: No spanning forest as in Case 1 exists. Let F be a spanning forest with no isolated vertices and maximum possible number of components. If some of the components <ref type="figure" target="#fig_12">Figure 19</ref>: An illustration of the second construction for the lower bound in Theorem 2.</p><formula xml:id="formula_59">S H t 1 t 2 V 2 V 1</formula><p>has a path of length three as a subgraph, then by removing the middle edge of the path, the tree splits into two smaller nontrivial components, contradicting the choice of F . It follows that every component of F is a star, that is, a graph isomorphic to K 1,k for some k ≥ 1. Let T 0 be the largest component in F . By the assumption, T 0 is a star with more than ⌈(1 − ε)n⌉ vertices. In particular, ∆(G) ≥ ∆(T 0 ) ≥ (1 − ε)n. Hence we have m &gt; (1 + ε)n. This means that G has more than εn edges that do not belong to T 0 . Let V 3 be the set of vertices spanned by ⌊ε/2 · n⌋ such edges, together with all vertices that do not belong to T 0 . Finally, we set V 2 to be the one-element set containing the central vertex of T 0 and</p><formula xml:id="formula_60">V 1 = V (T 0 ) \ (V 2 ∪ V 3 ).</formula><p>Let V 1 , V 2 , V 3 be the partition from Lemma 27. Let H be a bipartite subgraph of G[V 3 ] with at least ⌊ε/4 · n⌋ edges. Split the set V 3 into two parts according to the bipartition of H and place all vertices from one part in a small disc with center (0, 0) and radius r &lt; 1/3 and all vertices from the second part in a small disc with center (1, 0) and radius r, so that the vertices are in general position. Draw all edges of G[V 3 ] as straight-line segments. See <ref type="figure" target="#fig_12">Figure 19</ref>. There are two lines t 1 , t 2 parallel to the y-axis going through points (x 1 , 0) and (x 2 , 0), respectively, such that r &lt; x 1 &lt; x 2 &lt; 1 − r and no two edges of G[V 3 ] cross between t 1 and t 2 . In particular, the edges of G[V 3 ] split the vertical strip S between t 1 and t 2 into at least ⌊ε/4 · n⌋ + 1 regions. Place all vertices of V 2 inside S above the horizontal line with y-coordinate r, and each of the vertices of V 1 in one of the ⌊ε/4 · n⌋ + 1 regions of S, so that all vertices are in general position. Draw all the remaining edges as straight-line segments. The choice of the region for each vertex v of V 1 determines how many edges from H an edge connecting v with V 2 crosses. In total, this gives (|E(H)| + 1) |V 1 | ≥ (ε/4 · n) n/4 ≥ 2 Ω(n log n) pairwise weakly nonisomorphic geometric drawings of G.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Geometric graphs</head><p>A geometric graph is a topological graph where edges are drawn as straight-line segments. It is also usually assumed that the vertices are in general position, that is, no three of them lie on a line.</p><p>For geometric graphs, asymptotically matching lower and upper bounds on both the number of isomorphism and weak isomorphism classes can be easily derived from known results. It is easy to see that there are at least 2 Ω(n log n) weak isomorphism classes of complete geometric graphs with n vertices, even when we drop the labels of vertices: place a set A of n/2 points in convex position, draw the complete geometric graph on A and distribute the remaining n/2 points in the Θ(n 4 ) bounded faces of A. The number of edges here is not crucial: the same asymptotic lower bound is known for matchings on n vertices (see the remark after Theorem 4 in the Introduction).</p><p>For every given abstract graph G with n vertices, there are at most 2 O(n log n) isomorphism classes of geometric graphs realizing G. This follows from the upper bound on the number of sign patterns <ref type="bibr" target="#b40">[41]</ref>; see also <ref type="bibr" target="#b23">[24,</ref><ref type="bibr">Theorem 6.2.1]</ref>. The reduction proceeds as follows. We define 2n variables as the 2n coordinates of the n vertices. Every condition of the form "segments xy and uv cross", "point x is to the left of the ray uv", "the crossing of xy with uv is closer to x than the crossing of xy with wz", or "vertices x, y, z are seen from u in clockwise order", is then expressed in a straightforward way by inequalities of quadratic polynomials in the 2n variables. Then the theorem on the number of sign patterns is applied.</p><p>By the combinatorial definition of isomorphism in Subsection 5.1, this proves the upper bound for topologically connected geometric graphs. By the reduction in Subsection 5.2, the upper bound holds also for general geometric graphs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">Concluding remarks and open problems</head><p>The problem of counting the asymptotic number of "nonequivalent" simple drawings of a graph in the plane has been answered only partially. Many open questions remain.</p><p>The gap between the lower and upper bounds on T w (G) proved in Theorem 2 is wide open, especially for graphs with low density. For graphs with cn 2 edges, the lower and upper bounds on log T w (G) differ by a logarithmic factor. We conjecture that the correct answer is closer to the lower bound.</p><p>We do not even know whether T w (G) is a monotone function with respect to the subgraph relation, since there are simple topological graphs that cannot be extended to simple complete topological graphs. See <ref type="figure">Figure 9</ref>, left, for an example. Due to somewhat "rigid" properties of simple complete topological graphs, we have a much better upper bound for the complete graph than, say, for the complete bipartite graph on the same number of vertices. Problem 4. Does the complete graph K n maximize the value T w (G) among the graphs G with n vertices? More generally, is it true that T w (H) ≤ T w (G) if H ⊆ G?</p><p>Our methods for proving upper bounds on the number of weak isomorphism classes of simple topological graphs do not generalize to the case of topological graphs with two crossings per pair of edges allowed.</p><p>Problem 5. What is the number of weak isomorphism classes of drawings of a graph G where every two independent edges are allowed to cross at most twice and every two adjacent edges at most once?</p><p>For the complete graph with n vertices, Pach and Tóth <ref type="bibr" target="#b29">[30]</ref> proved the lower bound 2 Ω(n 2 log n) and the upper bound 2 o(n 4 ) .</p><p>A nontrivial lower bound can be proved also in the case when G is a matching. Ackerman et al. <ref type="bibr" target="#b1">[2]</ref> constructed a system of n x-monotone curves where every pair of curves intersect in at most one point where they either cross or touch, with Ω(n 4/3 ) pairs of touching curves. Eyal Ackerman (personal communication) noted that this also follows from an earlier result by Pach and Sharir <ref type="bibr" target="#b27">[28]</ref>, who constructed an arrangement of n segments with Ω(n 4/3 ) vertically visible pairs of disjoint segments. By changing the drawing in the neighborhood of every touching point, we obtain 2 Ω(n 4/3 ) different intersection graphs of 2-intersecting curves, also called string graphs of rank 2 <ref type="bibr" target="#b29">[30]</ref>. This improves the trivial lower bound observed by Pach and Tóth <ref type="bibr" target="#b29">[30]</ref>.</p><p>In section 3, we proved that certain patterns are forbidden in the rotation systems of simple complete topological graphs, or more generally, in good abstract rotation systems. The problem of counting topological graphs was thus reduced to a combinatorial problem of counting permutations with forbidden patterns, by the recursion in Subsection 3.4. A general problem of this type can be formulated as follows. Given a constant N and a collection F = {F 1 , F 2 , . . . , F m } of sets of N -element permutation patterns, we say that a set P of permutations on n elements is F-restricted if for each N -tuple X = (x 1 , x 2 , . . . , x N ) of positions, there is an i ∈ {1, 2, . . . , m} such that for every permutation π ∈ P, all permutations from F i are forbidden as restrictions of π at X. What is the maximum size of an F-restricted set P of permutations on n elements?</p><p>For example, in the special case of the Stanley-Wilf conjecture, the collection F consists of a single one-element set. A set of permutations with VC-dimension at most k is an Frestricted set where the collection F consists of (k + 1)! one-element sets, each containing a different permutation of {1, 2, . . . , k + 1}.</p><p>In Subsection 3.4, we reduced the upper bound in Theorem 3 to the upper bound on the size of an F-restricted set where F consists of the following 2 N 5 + 2 N 6 sets. For every set A ⊂ {1, 2, . . . , N } of five positions, the collection F contains a set F A of all permutations of N elements whose restriction to A is (1, 4, 2, 5, 3) or some of its four cyclic shifts, and a set F ′ A of all permutations of N elements whose restriction to A is (1, 3, 5, 2, 4) or some of its four cyclic shifts. Similarly, for every set B ⊂ {1, 2, . . . , N } of six positions, the collection F contains a set F B of all permutations of N elements whose restriction to B is (1, 2, 3, 6, 5, 4) or some of its five cyclic shifts, and a set F ′ B of all permutations of N elements whose restriction to B is (1, 4, 5, 6, 3, 2) or some of its five cyclic shifts. This follows from <ref type="bibr">Lemma 11,</ref><ref type="bibr" target="#b12">13</ref> and from the proof of Theorem 8, where the canonical linear ordering of the vertices of the unavoidable convex or twisted graphs is consistent with the linear ordering of the vertices of the given simple complete topological graph. Such F-restricted sets of permutations are a special case of sets with VC-dimension smaller than N , which can have superexponential size <ref type="bibr" target="#b7">[8]</ref>, and generalize the sets with a single forbidden permutation pattern, for which a single exponential upper bound on their size is known <ref type="bibr" target="#b16">[17,</ref><ref type="bibr" target="#b22">23]</ref>. Therefore one might ask for which collections F it is true that F-restricted sets of permutations have only exponential size.</p><p>A positive answer to the following problem would improve the upper bound in Theorem 3 to T w (K n ) ≤ 2 O(n 2 ) , which would be asymptotically optimal. Problem 6. Let N &gt; 6 be a constant positive integer. Let P be a set of permutations of n elements such that for every N -tuple X of positions, there is either a 5-tuple A ⊂ X such that the pattern (1, 3, 5, 2, 4) and all its cyclic shifts are forbidden as restrictions at A, or a 5-tuple A ′ ⊂ X such that the pattern (1, 4, 2, 5, 3) and all its cyclic shifts are forbidden as restrictions at A ′ , or a 6-tuple B ⊂ X such that (1, 2, 3, 6, 5, 4) and all its cyclic shifts are forbidden as restrictions at B, or a 6-tuple B ′ ⊂ X such that <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b5">6,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b1">2)</ref> and all its cyclic shifts are forbidden as restrictions at B ′ . Is it true that |P| ≤ 2 O(n) ?</p><p>For N = 4 and F = {{(1, 2, 3, 4)}, {(3, 4, 1, 2)}}, a construction in <ref type="bibr" target="#b7">[8]</ref> shows an F-restricted set of permutations of superexponential size. Such a construction does not necessarily satisfy the conditions in Problem 6 since, for example, the pattern (3, 4, 1, 2) is a restriction of just one cyclic shift of (1, 2, 3, 6, 5, 4), one cyclic shift of (1, 4, 5, 6, 3, 2) and of no cyclic shift of either (1, 3, 5, 2, 4) or <ref type="figure" target="#fig_0">(1, 4, 2, 5, 3)</ref>. On the other hand, this construction does give a superexponential lower bound on the size of sets of permutations satisfying the restrictions implied by Lemma 17 and Lemma 18, which appear in the proof of the combinatorial Theorem 15. This follows from the fact that every cyclic shift of the inverse of (1, 3, . . . , 815, 2, 4, . . . , 814) contains both patterns <ref type="bibr" target="#b0">(1,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b2">3,</ref><ref type="bibr" target="#b3">4)</ref> and <ref type="bibr" target="#b2">(3,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b0">1,</ref><ref type="bibr" target="#b1">2)</ref>. Therefore, a positive solution to Problem 1 will require a different approach.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 3 :</head><label>3</label><figDesc>A drawing of the twisted graph T 6 on the cylindrical surface.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head></head><label></label><figDesc>complete topological graph with n vertices contains C m 1 or T m 2 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 4 :Figure 5 :</head><label>45</label><figDesc>Four nonisomorphic simple drawings of K 4 . Impossibility of adding a vertex with rotation (1, 4, 2, 5, 3). The thick edges cannot be crossed by the edge 61.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 6 :</head><label>6</label><figDesc>Impossibility of adding a vertex with rotation (1, 3, 2, 4) to the triangular face adjacent to the vertices 2 and 3. The thick edges cannot be crossed by the edge 54.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 7 :</head><label>7</label><figDesc>Impossibility of adding a vertex with rotation (3, 2, 1, 4, 5, 6) to the twisted graph T 6 . The grey area represents the triangular face adjacent to the vertices 3 and 4 in the subgraphs induced by the vertices 1, 2, 3, 4 (left) and 3, 4, 5, 6 (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head></head><label></label><figDesc>Proof. Suppose for contradiction that the rotation of the vertex 7 is (3, 2, 1, 4, 5, 6). The subgraphs G 1 = G[{1, 2, 3, 4}] and G 2 = G[{3, 4, 5, 6}] are both isomorphic to the convex graph C 4 . The 4-cycles corresponding to the outer face of C 4 are 1243 and 3465, respectively.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 8 :</head><label>8</label><figDesc>Partial realizations of the good abstract rotation systems R 5 1 and R 5 2 . Thick segments represent the portions of the edges incident with the vertex 5.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Lemma 18 .</head><label>18</label><figDesc>Let m = 816. Let R be a good abstract rotation system on the set {1, 2, . . . , m}. Suppose that the subsystem of R induced by the vertices 1, 2, . . . , m − 1 is T m−1 , with (v 1 , . . . , v m−1 ) = (1, . . . , m−1). Then the rotation at m is not(1, 3, . . . , m−1, 2, 4, . . . , m−2).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head></head><label></label><figDesc>In particular, for e 1 = min I and e 3 = max I, we have e 1 , e 3 ∈ W E 3 , o 2 ≥ e 1 + 3 and e 3 ≥ o 2 + 3. It follows that R[{e 1 , o 2 , e 3 , m}] = ((m, o 2 , e 3 ), (e 1 , m, e 3 ), (o 2 , e 1 , m), (o 2 , e 1 , e 3 )). But this subsystem has signature (+, −, −, −), a contradiction.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 10 :</head><label>10</label><figDesc>A topological spanning tree T of a simple topological graph with two components (left) and the corresponding T -representation (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Lemma 19 .</head><label>19</label><figDesc>Let G be a graph with n vertices, m edges and no isolated vertices. Topologically connected simple realizations of G have at most 2 O(n log n) different topological spanning trees, up to a homeomorphism of the plane.Proof. Let k be the number of connected components of G. A component with n i vertices has at most n n i −2 i spanning trees, hence G has at most 2 O(n log n) spanning forests. Let T 1 ∪ T 2 ∪ · · · ∪ T k be a fixed spanning forest of G. The inductive construction of the topological spanning tree T consists of n − k steps. In each step, an edge of some spanning tree T i is added to the construction. Consider the step where a portion of the edge e i,j is added to the tree T i,j−1 . The new edge is attached either to a vertex of T i,j−1 or to an interior point of some edge of T i,j−1 . There are two ways how to attach a new edge to an edge of T i,j−1 , and d ways how to attach a new edge to a vertex of degree d inT i,j−1 . Together, there are 4(n i,j − 1) ≤ 4n ′ − 4 ≤ 8n different ways how to attach a new edge, where n i,j is the number of vertices of T i,j−1 , and there are at most m choices for the edge e i,j . Now consider the step where portions of the edge e i are added to the tree T i−1 . If e i crosses T i−1 , then two portions of e i are added and this step is equivalent to two previous steps. If e i does not cross T i−1 , then the whole edge e i and a portion of f i−1 are added. There are at most m choices for e i , m choices for f i−1 , two ways how to attach the portion of f i−1 to e i and at most 8n different ways how to attach the portion of f i−1 to T i−1 . Altogether, we have at most (8nm) n−1 ≤ 2 O(n log n) ways how to construct T .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 11 :</head><label>11</label><figDesc>Four categories of pairs of types of pseudochords.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head></head><label></label><figDesc>All the other pseudochords are called internal. Every external pseudochord can have one of O((n + m) 2 ) possible types. Every internal pseudochord, representing an internal portion of an edge of G, can have only O(n 2 ) different types, since for the variables X, Y , we are considering only edges of D and points on the arcs g w , where w is a vertex of D representing a crossing of G. Altogether, there are at most (O(n + m) 4m ) ≤ 2 O(m log n) combinations of types of the external pseudochords. This is again asymptotically dominated by the upper bounds in Theorem 2. In the rest of this section, we consider only internal pseudochords. For a subset F ⊆ E of edges of G, let f (F ) be the number of possible combinations of types of the internal pseudochords corresponding to the edges from F . Similarly, for a set S of internal pseudochords, let f (S) be the number of possible combinations of types of pseudochords from S. Our goal is to obtain a good upper bound on f (E). A trivial estimate gives the upper bound f (E) ≤ O(n 2 ) mn = 2 O(mn log n)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head></head><label></label><figDesc>For a fixed S, there are O(dn) O(n) = d O(n) = 2 O(n log d) different weight vectors. This gives the upper bound f (P (v)) ≤ 2 O(n log d) . By Jensen's inequality, f (E) ≤ 2 O(n 2 log(m/n)) . Together with Lemma 19, this gives the first upper bound in Theorem 2.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Proposition 21 .</head><label>21</label><figDesc>[20,  a correct form of Proposition 7] The number of isomorphism classes of simple arrangements of n pseudochords with fixed perimetric order inducing k crossings is at most 2 2k .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 13 :</head><label>13</label><figDesc>p s ′ cannot be the first pseudochord crossing p s .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>Proposition 22 .</head><label>22</label><figDesc><ref type="bibr" target="#b31">[32]</ref> For the number of diagrams of n chords with at most k crossings, we have the upper bound k i=0 C(n, i) ≤ C(n) n + k n</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head>By</head><label></label><figDesc>Proposition 22, by the entropy bound for binomial coefficients and by the inequality log e (1 + x) ≤ x, the number of possible perimetric orders of the T -representation is at most 2 O(n log n)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_20"><head>Proposition 23 .</head><label>23</label><figDesc>There are at most 3n − 3 n − 2 3n + 2k n + k + 1 isomorphism classes of simple arrangements of n pseudochords with at most k crossings.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_21"><head>Figure 15 :</head><label>15</label><figDesc>A simple arrangement of 7 pseudochords with 9 crossings and its dual quadrangulation. Instead of using Proposition 22 and 21, we may directly apply Proposition 23 with n := 2mn and k := m 2 . This gives the first upper bound in Theorem 5: 2 O(n log n) ≤ 2 m 2 +2mn(1+3 log 2 3)+O(n log n) ≤ 2 m 2 +11.51mn+O(n log n) .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_22"><head>Lemma 25 .</head><label>25</label><figDesc>[26, Theorem 2] For all n and m, f (n, m) ≤ √ 2m 3/2 if m ≥ n 2 /4, and</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_23"><head>Figure 17 :</head><label>17</label><figDesc>A complete convex geometric graph with 10 vertices and an independent system of 25 free triangles (light grey), 5 free 4-tuples (dark grey) and one free 5-tuple.the lower bound T (G) ≥ 2 m 2 ·167.585/10 4 −o(m 2 ) &gt; 2 m 2 /60 − o(1).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_25"><head>Figure 18 :</head><label>18</label><figDesc>Two ways of drawing the edge w 1 w 2 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0" validated="false"><head></head><label></label><figDesc>The vertex 6 is in the outer face of H. By Lemma 10 applied to the triangle 125, the edge 61 cannot cross the edge 25. Consequently, the edge 61 crosses no edge of H. Similarly, no other edge adjacent to 6 can cross an edge of H. This contradicts the conclusion of Lemma 10 applied to the triangle 134.</figDesc><table>The rotation of the vertex 6 in G[{1, 3, 4, 6}] is (1, 4, 3). By Lemma 10 applied to the 
+triangle 134, the edge 61 lies completely inside the triangle 134. The vertex 6 is also 
+outside the triangle 125 and the rotation of 6 in G[{1, 2, 5, 6}] is (1, 2, 5). By Lemma 10, 
+the edges 61 and 25 do not cross. But this is a contradiction as the vertices 6 and 1 
+are separated by a closed curve formed by portions of the edges 25, 14, 43, 31, which the 
+edge 16 cannot cross. 
+
+b) Lemma 12. Let G be a simple complete topological graph with vertices 1, 2, . . . , 5. Suppose 
+that G contains a convex graph H induced by the vertices 1, 2, 3, 4, which appear in this 
+counter-clockwise order on its outer face. If the vertex 5 is inside the triangular face of H 
+adjacent to the vertices 2 and 3, then its rotation is not (1, 3, 2, 4). 
+</table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1" validated="false"><head>Table 1 :</head><label>1</label><figDesc></figDesc><table>The eight possible rotation systems of a simple complete topological graph with 4 
+vertices. The labels refer to the drawings in </table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>The author thanks Josef Cibulka for discussions about enumerating various combinatorial objects.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Sum of squares of degrees in a graph</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">B</forename><forename type="middle">M</forename><surname>Ábrego</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Fernández-Merchant</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><forename type="middle">G</forename><surname>Neubauer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><surname>Watkins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">JIPAM. Journal of Inequalities in Pure and Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">pp</biblScope>
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b1">
+	<analytic>
+		<title level="a" type="main">On touching curves, Bernoulli Reunion Conference on Discrete and Computational Geometry</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Ackerman</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Pinchasi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Zerbib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">EPFL</title>
+		<imprint>
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Graphs with maximal number of adjacent pairs of edges</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Ahlswede</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><forename type="middle">O H</forename><surname>Katona</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Acta Mathematica Academiae Scientiarum Hungaricae</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="97" to="120" />
+			<date type="published" when="1978" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Localized and compact data-structure for comparability graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">F</forename><surname>Bazzaro</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">C</forename><surname>Gavoille</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">309</biblScope>
+			<biblScope unit="page" from="3465" to="3484" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A survey of the asymptotic behaviour of maps</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><forename type="middle">A</forename><surname>Bender</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">L</forename><forename type="middle">B</forename><surname>Richmond</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series B</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="297" to="329" />
+			<date type="published" when="1986" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The number of loopless planar maps</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><forename type="middle">A</forename><surname>Bender</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">N</forename><forename type="middle">C</forename><surname>Wormald</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="235" to="237" />
+			<date type="published" when="1985" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b6">
+	<analytic>
+		<title level="a" type="main">On constants in the Füredi-Hajnal and the Stanley-Wilf conjecture</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Cibulka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series A</title>
+		<imprint>
+			<biblScope unit="volume">116</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="290" to="302" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Tight bounds on the maximum size of a set of permutations with bounded VC-dimension</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Cibulka</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Kynčl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series A</title>
+		<imprint>
+			<biblScope unit="volume">119</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1461" to="1478" />
+			<date type="published" when="2012" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Universal exponents and tail estimates in the enumeration of planar maps</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Drmota</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Noy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Notes in Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="309" to="317" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b9">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Felsner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">On the number of arrangements of pseudolines, ACM Symposium on Computational Geometry</title>
+		<meeting><address><addrLine>Philadelphia, PA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1996" />
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="257" to="267" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Coding and Counting Arrangements of Pseudolines</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">S</forename><surname>Felsner</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><surname>Valtr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete and Computational Geometry</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="405" to="416" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Complete graph drawings up to triangle mutations, Graph-theoretic concepts in computer science</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Gioan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">3787</biblScope>
+			<biblScope unit="page" from="139" to="150" />
+			<date type="published" when="2005" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Edges without crossings in drawings of complete graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Harborth</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Mengersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series B</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="299" to="311" />
+			<date type="published" when="1974" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Drawings of the complete graph with maximum number of crossings</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Harborth</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Mengersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Twenty-third Southeastern International Conference on Combinatorics, Graph Theory, and Computing</title>
+		<meeting>the Twenty-third Southeastern International Conference on Combinatorics, Graph Theory, and Computing<address><addrLine>Boca Raton, FL</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1992" />
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="225" to="228" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b14">
+	<analytic>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Harborth</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">I</forename><surname>Mengersen</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Schelp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The drawing Ramsey number Dr(K n )</title>
+		<imprint>
+			<date type="published" when="1995" />
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="151" to="156" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b15">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Khruzin</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:math/0008209v1</idno>
+		<title level="m">Enumeration of chord diagrams</title>
+		<imprint>
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b16">
+	<monogr>
+				<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Klazar</surname></persName>
+		</author>
+		<title level="m">The Füredi-Hajnal Conjecture Implies the Stanley-Wilf Conjecture, Formal Power Series and Algebraic Combinatorics</title>
+		<meeting><address><addrLine>Moscow</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2000" />
+			<biblScope unit="page" from="250" to="255" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Maximizing several cuts simultaneously</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Kühn</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Osthus</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Combinatorics, Probability and Computing</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="277" to="283" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Crossings in topological graphs, master thesis</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006" />
+			<pubPlace>Prague</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Charles University</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Enumeration of simple complete topological graphs</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1676" to="1685" />
+			<date type="published" when="2009" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Simple realizability of complete abstract topological graphs in P</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete and Computational Geometry</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="383" to="399" />
+			<date type="published" when="2011" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Combinatorial problems in geometry, doctoral thesis</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013" />
+			<pubPlace>Prague</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Charles University</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Excluded permutation matrices and the Stanley-Wilf conjecture</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><surname>Marcus</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tardos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series A</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="153" to="160" />
+			<date type="published" when="2004" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Lectures on discrete geometry</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Matoušek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Graduate Texts in Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">212</biblScope>
+			<biblScope unit="page" from="0" to="387" />
+			<date type="published" when="2002" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b24">
+	<analytic>
+		<title level="a" type="main">The enumeration of c-nets via quadrangulations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">C</forename><surname>Mullin</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">P</forename><forename type="middle">J</forename><surname>Schellenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="259" to="276" />
+			<date type="published" when="1968" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b25">
+	<analytic>
+		<title level="a" type="main">The sum of the squares of degrees: Sharp asymptotics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">V</forename><surname>Nikiforov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">307</biblScope>
+			<biblScope unit="issue">24</biblScope>
+			<biblScope unit="page" from="3187" to="3193" />
+			<date type="published" when="2007" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Improved bounds and new techniques for Davenport-Schinzel sequences and their generalizations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Nivasch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1" to="44" />
+			<date type="published" when="2010" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b27">
+	<analytic>
+		<title level="a" type="main">On vertical visibility in arrangements of segments and the queue size in the Bentley-Ottmann line sweeping algorithm</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Sharir</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Computing</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="460" to="470" />
+			<date type="published" when="1991" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Unavoidable configurations in complete topological graphs, Discrete and Computational Geometry</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Solymosi</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003" />
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="311" to="320" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b29">
+	<analytic>
+		<title level="a" type="main">How many ways can one draw a graph?</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Pach</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">G</forename><surname>Tóth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Combinatorica</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="559" to="576" />
+			<date type="published" when="2006" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b30">
+	<analytic>
+		<title level="a" type="main">VC-Dimension of Sets of Permutations</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><surname>Raz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Combinatorica</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="241" to="255" />
+			<date type="published" when="2000" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The chord intersection problem</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">R</forename><forename type="middle">C</forename><surname>Read</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the New York Academy of Sciences</title>
+		<imprint>
+			<biblScope unit="volume">319</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="444" to="454" />
+			<date type="published" when="1979" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Enumerating near-4-regular maps on the sphere and the torus</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Ren</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Discrete Applied Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">110</biblScope>
+			<biblScope unit="issue">2-3</biblScope>
+			<biblScope unit="page" from="273" to="288" />
+			<date type="published" when="2001" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Enumeration of 2-connected Loopless 4-regular maps on the plane</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><surname>Ren</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Combinatorics</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="93" to="111" />
+			<date type="published" when="2002" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b34">
+	<analytic>
+		<title level="a" type="main">The distribution of crossings of chords joining pairs of 2n points on a circle</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Riordan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematics of Computation</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">129</biblScope>
+			<biblScope unit="page" from="215" to="222" />
+			<date type="published" when="1975" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Algorithms for normal curves and surfaces, Computing and combinatorics</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Sedgwick</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Lecture Notes in Computer Science</title>
+		<imprint>
+			<biblScope unit="volume">2387</biblScope>
+			<biblScope unit="page" from="370" to="380" />
+			<date type="published" when="2002" />
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Recognizing string graphs in NP</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">M</forename><surname>Schaefer</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">E</forename><surname>Sedgwick</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">D</forename><surname>Štefankovič</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computer and System Sciences</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="page" from="365" to="380" />
+			<date type="published" when="2003" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Contribution a l&apos;étude du probleme des timbres poste</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">J</forename><surname>Touchard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Journal of Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="385" to="398" />
+			<date type="published" when="1950" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b38">
+	<analytic>
+		<title level="a" type="main">A census of planar maps</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">W</forename><forename type="middle">T</forename><surname>Tutte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Journal of Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="249" to="271" />
+			<date type="published" when="1963" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Counting rooted maps by genus III: Nonseparable maps</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">T</forename><forename type="middle">R S</forename><surname>Walsh</surname></persName>
+		</author>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">A</forename><forename type="middle">B</forename><surname>Lehman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Combinatorial Theory, Series B</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="222" to="259" />
+			<date type="published" when="1975" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Lower bounds for approximation by nonlinear manifolds</title>
+		<author>
+			<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">H</forename><forename type="middle">E</forename><surname>Warren</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions of the American Mathematical Society</title>
+		<imprint>
+			<biblScope unit="volume">133</biblScope>
+			<biblScope unit="page" from="167" to="178" />
+			<date type="published" when="1968" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

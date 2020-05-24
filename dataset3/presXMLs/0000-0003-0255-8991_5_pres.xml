@@ -1,0 +1,1144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>The Albayzin 2008 Language Recognition Evaluation
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes, Mikel Penagarikano, Germán Bordel, Amparo Varona
+.=</p>
+<p>Software Technologies Working Group (http://gtts.ehu.es)
+.=</p>
+<p>Department of Electricity and Electronics, University of the Basque Country
+.=</p>
+<p>Barrio Sarriena s/n, 48940 Leioa, Spain
+.=</p>
+<p>email: luisjavier.rodriguez@ehu.es
+.=</p>
+<p>Odyssey 2010, Brno, Czech Republic
+June 30, 2010
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Outline
+.=</p>
+<p>1 Context and motivation
+.=</p>
+<p>2 The language detection task
+.=</p>
+<p>3 Test conditions
+.=</p>
+<p>4 Data
+.=</p>
+<p>5 Organization
+.=</p>
+<p>6 Results
+CR-30 (mandatory condition)
+CF-30
+OF-30
+Performance per target language
+Segment length
+Development conditions
+.=</p>
+<p>7 Conclusions and current work
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Context
+.=</p>
+<p>Spanish Thematic Network on Speech Technology
+(http://lorien.die.upm.es/ lapiz/rtth/)
+.=</p>
+<p>5th Biennial Workshop on Speech Technology (Bilbao, November 2008)
+.=</p>
+<p>Albayzin system evaluations, on three topics: speech translation,
+speech synthesis and language recognition
+.=</p>
+<p>Software Technology Working Group (http://gtts.ehu.es): research
+interest on language recognition for spoken document retrieval
+applications
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Motivation
+.=</p>
+<p>To promote collaboration between research groups from Spain and
+Portugal interested in language recognition
+.=</p>
+<p>To provide a speech database specifically designed for language
+recognition applications featuring the official languages in Spain as
+target languages
+.=</p>
+<p>To measure the accuracy that state-of-the-art systems can attain for
+the task of recognizing four target languages that have been in close
+contact from long time ago: will this task be more challenging than
+expected?
+.=</p>
+<p>To measure the performance of systems developed on a limited amount
+of data
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>The language detection task
+.=</p>
+<p>As for NIST LRE: given a segment of speech and a language of interest
+(target language), determine whether or not that language is spoken in
+the segment, based on an automated analysis of the data contained in
+the segment.
+.=</p>
+<p>Trial: audio segment + target language + set of non-target languages
+.=</p>
+<p>System output: hard decision + score (maybe LLR)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Test conditions
+.=</p>
+<p>System development
+Free (F): any available materials
+Restricted (R): only those materials provided in Albayzin 2008 LRE,
+external data allowed neither directly nor indirectly (e.g. acoustic
+models in phone decoders)
+.=</p>
+<p>Set of trials
+Closed-set tests (C): only trials corresponding to audio segments
+containing target languages
+Open-set tests (O): all the trials
+.=</p>
+<p>Nominal duration of audio segments: 30, 10 and 3 seconds
+.=</p>
+<p>Performance measures (as defined in NIST LRE, using NIST
+software, see paper for details):
+.=</p>
+<p>Cavg (Ptarget = 0.5, Cmiss = Cfa = 1)
+.=</p>
+<p>CLLR
+.=</p>
+<p>DET curves
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Database features
+.=</p>
+<p>Name: KALAKA (see paper at LREC 2010 for details)
+.=</p>
+<p>Four target languages: Spanish, Catalan, Basque and Galician
+.=</p>
+<p>Other languages (just to allow open-set tests): French, Portuguese,
+German and English
+.=</p>
+<p>Audio files: 16 kHz, single channel, 16 bits/sample, uncompressed
+PCM (WAV)
+.=</p>
+<p>Speech signals extracted from TV shows, including both planned and
+spontaneous speech in diverse environment conditions involving a
+varying number of speakers.
+.=</p>
+<p>Disjoint subsets of TV shows assigned to train, development and
+evaluation
+.=</p>
+<p>Size: around 50 hours (distributed in 3 DVD)
+Train dataset: 36 hours (9 hours per target language)
+Development dataset: 7,7 hours
+Evaluation dataset: 7,7 hours
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Database design issues (I)
+.=</p>
+<p>Only high SNR speech: fragments containing medium-high level noise,
+music, speech overlaps, etc. filtered out
+.=</p>
+<p>Segments for training had no length restrictions
+.=</p>
+<p>Segments for development and evaluation:
+.=</p>
+<p>enclosed by a certain amount of low-energy frames
+.=</p>
+<p>3-second subset ⊂ 10-second subset ⊂ 30-second subset
+length tolerance: 3-5, 10-12 and 30-33 seconds
+.=</p>
+<p>Development dataset (same structure for evaluation):
+.=</p>
+<p>Total: 1800 segments
+.=</p>
+<p>600 segments per duration
+.=</p>
+<p>120 segments per target language and duration
+.=</p>
+<p>120 segments of unknown languages per duration
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Database design issues (II)
+.=</p>
+<p>Proportions of unknown languages made deliberately different for
+development and evaluation, to avoid tuning systems to reject specific
+languages
+.=</p>
+<p>Proportion of French and Portuguese twice the proportion of German
+and English
+.=</p>
+<p>Distribution of unknown languages in development and evaluation
+.=</p>
+<p># segments
+French Portuguese English German
+.=</p>
+<p>Devel 70 10 40 0
+Eval 10 70 0 40
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Evaluation rules (in brief)
+.=</p>
+<p>4 test conditions (OF, OR, CF, CR) × 3 durations: 12 tracks
+For each test condition: single primary + any number of contrastive
+systems
+.=</p>
+<p>Results in NIST LRE format (text file with one line per trial and 6
+fields per line)
+.=</p>
+<p>Participants committed to specify whether or not their scores may be
+interpreted as log-likelihood ratios
+.=</p>
+<p>Participants committed to send descriptions of their systems and
+present them at the Albayzin 2008 LRE workshop
+.=</p>
+<p>Systems ranked in each track according to Cavg
+.=</p>
+<p>Award: system yielding the least Cavg in the CR-30 condition
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Schedule (as finally executed)
+.=</p>
+<p>Database production
+.=</p>
+<p>April-June 2008
+.=</p>
+<p>September 2008 (for additional evaluation data)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results
+.=</p>
+<p>Participation: 4 teams, 13 systems
+.=</p>
+<p>Two teams (T1: 6 systems and T2: 4 systems) applying state-of-the-art
+language recognition technology
+.=</p>
+<p>Average performance in the four test conditions (OF, OR, CF and CR) on
+the subset of 30-second segments
+.=</p>
+<p>Cavg
+OF-30 OR-30 CF-30 CR-30
+.=</p>
+<p>pri pri con pri pri con
+.=</p>
+<p>T1 0,0946 0,1313 0,1110 0,0552 0,0778 0,0656
+.=</p>
+<p>T2 0,1204 0,2787 0,0556 0,2420
+.=</p>
+<p>T3 0,2597 0,5389
+.=</p>
+<p>T4 0,5035
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results: CR-30 (mandatory condition)
+.=</p>
+<p>Pooled DET curves of systems in the CR-30 test condition
+.=</p>
+<p>Albayzin 2008 LRE   CR−30
+.=</p>
+<p>40 
+.=</p>
+<p>20 
+.=</p>
+<p>Best primary (award winner):
+10 
+.=</p>
+<p>T1, Cavg = 0, 0778
+ 5 
+.=</p>
+<p>Best of all: T1-contrastive,
+ 2 Cavg = 0, 0656
+ 1 
+.=</p>
+<p>Team4
+0.5 Team3
+.=</p>
+<p>Team2
+.=</p>
+<p>Team1
+0.2
+.=</p>
+<p>Team1 alt
+.=</p>
+<p>0.2 0.5  1  2  5 10 20 40 
+.=</p>
+<p>False Alarm probability (in %)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ)
+.=</p>
+<p>Miss probability (in %).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results: CF-30
+.=</p>
+<p>Best performance in CF-30: Cavg = 0, 0552, meaning around 5% EER
+.=</p>
+<p>5.45% EER obtained in independent experiments carried out with our
+own state-of-the-art system. The same system yielded below 3% EER
+in the general language recognition task defined in NIST 2007 LRE.
+.=</p>
+<p>Performance worse for this task than for the general task defined in
+NIST 2007 LRE
+.=</p>
+<p>Possible issues...
+Not the same task, not the same data (are results comparable?)
+Statistical significance (few errors, not many trials)
+.=</p>
+<p>...and possible explanations:
+Acoustic variability (speakers, channel, background noise)?
+Phonetic and lexical similarity among target languages?
+.=</p>
+<p>In any case, the task seems to be challenging enough to allow further
+research in language recognition technology
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results: OF-30
+.=</p>
+<p>Best performance in OF-30: Cavg = 0, 0946, meaning around 9% EER
+.=</p>
+<p>Almost two times the EER in CF-30: impostor trials corresponding to
+unknown languages introduce a sizeable number of false alarms
+.=</p>
+<p>Some unknown languages are being confused with target languages,
+maybe Portuguese and French?
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results: performance per target language
+.=</p>
+<p>DET curves for target languages (best systems in CF-30 and OF-30)
+.=</p>
+<p>Albayzin 2008 LRE  −  Performance per target language Albayzin 2008 LRE  −  Performance per target language
+Closed Set − Free Development (Best System)          Open Set − Free Development (Best System)
+.=</p>
+<p>Catalan Catalan
+.=</p>
+<p>Galician Galician
+.=</p>
+<p>40 Spanish 40 Spanish
+.=</p>
+<p>Basque Basque
+.=</p>
+<p>20 20 
+.=</p>
+<p>10 10 
+.=</p>
+<p> 5  5 
+.=</p>
+<p> 2  2 
+.=</p>
+<p> 1  1 
+.=</p>
+<p>0.5 0.5
+.=</p>
+<p>0.2 0.2
+.=</p>
+<p>0.2 0.5  1  2  5 10 20 40 0.2 0.5  1  2  5 10 20 40 
+.=</p>
+<p>False Alarm probability (in %) False Alarm probability (in %)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ)
+.=</p>
+<p>Miss probability (in %)
+.=</p>
+<p>Miss probability (in %).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results: performance per target language
+.=</p>
+<p>Error rates: Pmiss(i) in the diagonal, Pfa(i, j) outside the diagonal (best
+system in CF-30)
+.=</p>
+<p>Target
+.=</p>
+<p>Spanish Catalan Basque Galician
+.=</p>
+<p>Spanish 0.0750 0.0167 0.1250 0.0833
+.=</p>
+<p>Catalan 0.0083 0.1167 0.0083 0.0000
+.=</p>
+<p>Basque 0.0083 0.0000 0.0083 0.0000
+.=</p>
+<p>Galician 0.1167 0.0500 0.0083 0.1000
+.=</p>
+<p>Note. In the paper, error rates were mistaken as costs. An updated version can be
+.=</p>
+<p>downloaded from http://gtts.ehu.es (go to research and then to publications).
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ)
+.=</p>
+<p>Segment.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results: performance per target language
+.=</p>
+<p>Error rates: Pmiss(i) in the diagonal, Pfa(i, j) outside the diagonal (best
+system in OF-30)
+.=</p>
+<p>Target
+.=</p>
+<p>Spanish Catalan Basque Galician
+.=</p>
+<p>Spanish 0.0833 0.0083 0.0667 0.0083
+.=</p>
+<p>Catalan 0.0083 0.1750 0.0000 0.0000
+.=</p>
+<p>Basque 0.0083 0.0000 0.0250 0.0000
+.=</p>
+<p>Galician 0.1083 0.0417 0.0000 0.1083
+.=</p>
+<p>Unknown 0.0667 0.4333 0.1083 0.1417
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ)
+.=</p>
+<p>Segment.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results: segment length
+.=</p>
+<p>Pooled DET curves in the OF-30, OF-10 and OF-3 test conditions (best system)
+.=</p>
+<p>Albayzin 2008 LRE         
+Best System at OF−30,10,3
+.=</p>
+<p>40 
+.=</p>
+<p>as expected, worse
+performance for shorter
+.=</p>
+<p>20 
+.=</p>
+<p>segments
+10 
+.=</p>
+<p>EER in OF-3 (around 20%)
+ 5 
+.=</p>
+<p>two times the EER in OF-30
+ 2 (around 10%)
+ 1 
+.=</p>
+<p>0.5 similar results for other
+.=</p>
+<p>0.2 systems and conditions
+0.2 0.5  1  2  5 10 20 40 
+.=</p>
+<p>False Alarm probability (in %)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ)
+.=</p>
+<p>Miss probability (in %).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+CR-30 (mandatory condition)
+.=</p>
+<p>The language detection task
+CF-30
+.=</p>
+<p>Test conditions
+OF-30
+.=</p>
+<p>Data
+Performance per target language
+.=</p>
+<p>Organization
+Segment length
+.=</p>
+<p>Results
+Development conditions
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Results: development conditions
+.=</p>
+<p>Pooled DET curves in the CF-30 and CR-30 test conditions for T1 and T2 systems
+.=</p>
+<p>Albayzin 2008 LRE   Closed−Set, 30sec
+.=</p>
+<p>Better performance in
+40 
+.=</p>
+<p>free-development conditions
+.=</p>
+<p>20 Performance of T1 (blue)
+and T2 (red) systems not
+.=</p>
+<p>10 
+.=</p>
+<p>significantly different in
+ 5 CF-30, but...
+ 2 T1 restricted system yields
+ 1 
+.=</p>
+<p>40% worse Cavg
+0.5 Team2 − Restricted
+.=</p>
+<p>Team2 − Free
+.=</p>
+<p>Team1 − Restricted
+0.2 T2 restricted system yields
+.=</p>
+<p>Team1 − Free
+.=</p>
+<p>0.2 0.5  1  2  5 10 20 40 400% worse C
+False Alarm probability (in %) avg
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ)
+.=</p>
+<p>Miss probability (in %).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Conclusions
+.=</p>
+<p>LR Evaluation involving the official languages in Spain (Basque,
+Catalan, Galician and Spanish), using 16kHz speech signals taken from
+TV broadcasts
+.=</p>
+<p>Best system (applying state-of-the-art technology): around 5% EER
+.=</p>
+<p>We think that the defined tasks may support further developments in
+language recognition technology
+.=</p>
+<p>Sensitivity to development restrictions depending on the system: 40%
+vs. 400% increase in cost (interesting for NIST evaluations?)
+.=</p>
+<p>Not the same performance among target languages:
+.=</p>
+<p>Basque: high performance and low confusion with unknown languages,
+maybe due to its different origins
+.=</p>
+<p>Catalan (and, at a lower degree, also Galician): high confusion with
+unknown languages
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+September 27: evaluation data released
+October 11: deadline for the submission of system results
+October 30: keyfile and results released
+November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Register at http://fala2010.uvigo.es ...and participate !!!
+.=</p>
+<p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+September 27: evaluation data released
+October 11: deadline for the submission of system results
+October 30: keyfile and results released
+November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Register at http://fala2010.uvigo.es ...and participate !!!
+.=</p>
+<p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>September 27: evaluation data released
+October 11: deadline for the submission of system results
+October 30: keyfile and results released
+November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Register at http://fala2010.uvigo.es ...and participate !!!
+.=</p>
+<p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>October 11: deadline for the submission of system results
+October 30: keyfile and results released
+November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Register at http://fala2010.uvigo.es ...and participate !!!
+.=</p>
+<p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+September 27: evaluation data released
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>October 30: keyfile and results released
+November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Register at http://fala2010.uvigo.es ...and participate !!!
+.=</p>
+<p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+September 27: evaluation data released
+October 11: deadline for the submission of system results
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Register at http://fala2010.uvigo.es ...and participate !!!
+.=</p>
+<p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+September 27: evaluation data released
+October 11: deadline for the submission of system results
+October 30: keyfile and results released
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Register at http://fala2010.uvigo.es ...and participate !!!
+.=</p>
+<p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+September 27: evaluation data released
+October 11: deadline for the submission of system results
+October 30: keyfile and results released
+November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>...and participate !!!
+.=</p>
+<p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+September 27: evaluation data released
+October 11: deadline for the submission of system results
+October 30: keyfile and results released
+November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Register at http://fala2010.uvigo.es
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Context and motivation
+The language detection task
+.=</p>
+<p>Test conditions
+Data
+.=</p>
+<p>Organization
+Results
+.=</p>
+<p>Conclusions and current work
+.=</p>
+<p>Current work
+.=</p>
+<p>ALBAYZIN 2010 Language Recognition Evaluation
+.=</p>
+<p>Database: KALAKA-2, an extended version of KALAKA, adding
+Portuguese and English as target languages, renewing the set of
+unknown languages and including a new test condition for noisy speech
+.=</p>
+<p>Schedule:
+July 15: registration deadline (development data submitted via courier)
+September 27: evaluation data released
+October 11: deadline for the submission of system results
+October 30: keyfile and results released
+November 10-12: Workshop at FALA 2010 (Vigo, Spain)
+.=</p>
+<p>Register at http://fala2010.uvigo.es ...and participate !!!
+.=</p>
+<p>Luis J. Rodŕıguez-Fuentes et al. The Albayzin 2008 LRE (Odyssey 2010, Brno, CZ).=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

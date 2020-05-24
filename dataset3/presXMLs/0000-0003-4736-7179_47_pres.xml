@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 /mnt/sda1/Dissertation/grobid/grobid-0.5.6/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multi-agent reinforcement learning</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+				<date type="published" when="2019-12-22">December 22, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct>
+					<analytic>
+						<author>
+							<persName xmlns="http://www.tei-c.org/ns/1.0"><forename type="first">Schnebli</forename><surname>Zoltan</surname></persName>
+						</author>
+						<title level="a" type="main">Multi-agent reinforcement learning</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-12-22">December 22, 2019</date>
+						</imprint>
+					</monogr>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+
+		<encodingDesc>
+			<appInfo>
+				<application version="0.5.6" ident="GROBID" when="2019-12-24T15:31+0000">
+					<ref target="https://github.com/kermitt2/grobid">GROBID - A machine learning software for extracting information from scholarly documents</ref>
+				</application>
+			</appInfo>
+		</encodingDesc>		<profileDesc>
+			<abstract/>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>New ensemble methods for evolving data streams
+.=</p>
+<p>A. Bifet, G. Holmes, B. Pfahringer, R. Kirkby, and R. Gavaldà
+.=</p>
+<p>Laboratory for Relational Algorithmics, Complexity and Learning LARCA
+UPC-Barcelona Tech, Catalonia
+.=</p>
+<p>University of Waikato
+Hamilton, New Zealand
+.=</p>
+<p>Paris, 29 June 2009
+15th ACM SIGKDD International Conference on
+.=</p>
+<p>Knowledge Discovery and Data Mining 2009.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>New Ensemble Methods For Evolving Data Streams
+.=</p>
+<p>Outline
+a new experimental data stream framework for studying
+concept drift
+two new variants of Bagging:
+.=</p>
+<p>ADWIN Bagging
+Adaptive-Size Hoeffding Tree (ASHT) Bagging.
+.=</p>
+<p>an evaluation study on synthetic and real-world datasets
+.=</p>
+<p>2 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1 MOA: Massive Online Analysis
+.=</p>
+<p>2 Concept Drift Framework
+.=</p>
+<p>3 New Ensemble Methods
+.=</p>
+<p>4 Empirical evaluation
+.=</p>
+<p>3 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>What is MOA?
+.=</p>
+<p>{M}assive {O}nline {A}nalysis is a framework for online learning
+from data streams.
+.=</p>
+<p>It is closely related to WEKA
+It includes a collection of offline and online as well as tools
+for evaluation:
+.=</p>
+<p>boosting and bagging
+Hoeffding Trees
+.=</p>
+<p>with and without Naïve Bayes classifiers at the leaves.
+.=</p>
+<p>4 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WEKA
+.=</p>
+<p>Waikato Environment for Knowledge Analysis
+Collection of state-of-the-art machine learning algorithms
+and data processing tools implemented in Java
+.=</p>
+<p>Released under the GPL
+Support for the whole process of experimental data mining
+.=</p>
+<p>Preparation of input data
+Statistical evaluation of learning schemes
+Visualization of input data and the result of learning
+.=</p>
+<p>Used for education, research and applications
+Complements “Data Mining” by Witten & Frank
+.=</p>
+<p>5 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>WEKA: the bird
+.=</p>
+<p>6 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>MOA: the bird
+.=</p>
+<p>The Moa (another native NZ bird) is not only flightless, like the
+Weka, but also extinct.
+.=</p>
+<p>7 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Data stream classification cycle
+.=</p>
+<p>1 Process an example at a time,
+and inspect it only once (at
+most)
+.=</p>
+<p>2 Use a limited amount of
+memory
+.=</p>
+<p>3 Work in a limited amount of
+time
+.=</p>
+<p>4 Be ready to predict at any
+point
+.=</p>
+<p>8 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental setting
+.=</p>
+<p>Evaluation procedures for Data
+Streams
+.=</p>
+<p>Holdout
+Interleaved Test-Then-Train
+.=</p>
+<p>Environments
+Sensor Network: 100Kb
+Handheld Computer: 32 Mb
+Server: 400 Mb
+.=</p>
+<p>9 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental setting
+.=</p>
+<p>Data Sources
+Random Tree Generator
+Random RBF Generator
+LED Generator
+Waveform Generator
+Function Generator
+.=</p>
+<p>9 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Experimental setting
+.=</p>
+<p>Classifiers
+Naive Bayes
+Decision stumps
+Hoeffding Tree
+Hoeffding Option Tree
+Bagging and Boosting
+.=</p>
+<p>Prediction strategies
+Majority class
+Naive Bayes Leaves
+Adaptive Hybrid
+.=</p>
+<p>9 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Hoeffding Option Tree
+Hoeffding Option Trees
+Regular Hoeffding tree containing additional option nodes that
+allow several tests to be applied, leading to multiple Hoeffding
+trees as separate paths.
+.=</p>
+<p>10 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Design of a MOA classifier
+.=</p>
+<p>void resetLearningImpl ()
+.=</p>
+<p>void trainOnInstanceImpl (Instance inst)
+.=</p>
+<p>double[] getVotesForInstance (Instance i)
+.=</p>
+<p>void getModelDescription (StringBuilder
+out, int indent)
+.=</p>
+<p>11 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1 MOA: Massive Online Analysis
+.=</p>
+<p>2 Concept Drift Framework
+.=</p>
+<p>3 New Ensemble Methods
+.=</p>
+<p>4 Empirical evaluation
+.=</p>
+<p>12 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Extension to Evolving Data Streams
+.=</p>
+<p>New Evolving Data Stream Extensions
+.=</p>
+<p>New Stream Generators
+New UNION of Streams
+New Classifiers
+.=</p>
+<p>13 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Extension to Evolving Data Streams
+.=</p>
+<p>New Evolving Data Stream Generators
+.=</p>
+<p>Random RBF with Drift Hyperplane
+LED with Drift SEA Generator
+Waveform with Drift STAGGER Generator
+.=</p>
+<p>13 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Concept Drift Framework
+f (t) f (t)
+.=</p>
+<p>1
+.=</p>
+<p>α
+0.5
+.=</p>
+<p>α
+.=</p>
+<p>t t0
+W
+.=</p>
+<p>Definition
+Given two data streams a, b, we define c = a⊕Wt b as the data0
+stream built joining the two data streams a and b
+.=</p>
+<p>Pr[c(t) = b(t)] = 1/(1+ e−4(t−t0)/W ).
+Pr[c(t) = a(t)] = 1−Pr[c(t) = b(t)]
+.=</p>
+<p>14 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Concept Drift Framework
+f (t) f (t)
+.=</p>
+<p>1
+.=</p>
+<p>α
+0.5
+.=</p>
+<p>α
+.=</p>
+<p>t t0
+W
+.=</p>
+<p>Example
+.=</p>
+<p>(((a⊕W0 b)⊕W1 c)⊕W2t0 t1 t d) . . .2
+(((SEA ⊕W9 t SEA W W0 8)⊕2t SEA7)⊕0 3t SEA0 9.5)
+.=</p>
+<p>CovPokElec = (CoverType⊕5,000 Poker)⊕5,000581,012 1,000,000 ELEC2
+.=</p>
+<p>14 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Extension to Evolving Data Streams
+.=</p>
+<p>New Evolving Data Stream Classifiers
+.=</p>
+<p>Adaptive Hoeffding Option Tree OCBoost
+DDM Hoeffding Tree FLBoost
+EDDM Hoeffding Tree
+.=</p>
+<p>15 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1 MOA: Massive Online Analysis
+.=</p>
+<p>2 Concept Drift Framework
+.=</p>
+<p>3 New Ensemble Methods
+.=</p>
+<p>4 Empirical evaluation
+.=</p>
+<p>16 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Ensemble Methods
+.=</p>
+<p>New ensemble methods:
+Adaptive-Size Hoeffding Tree bagging:
+.=</p>
+<p>each tree has a maximum size
+after one node splits, it deletes some nodes to reduce its
+size if the size of the tree is higher than the maximum value
+.=</p>
+<p>ADWIN bagging:
+When a change is detected, the worst classifier is removed
+and a new classifier is added.
+.=</p>
+<p>17 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive-Size Hoeffding Tree
+.=</p>
+<p>T1 T2 T3 T4
+.=</p>
+<p>Ensemble of trees of different size
+smaller trees adapt more quickly to changes,
+larger trees do better during periods with little change
+diversity
+.=</p>
+<p>18 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adaptive-Size Hoeffding Tree
+.=</p>
+<p>0,3 0,28
+.=</p>
+<p>0,29
+.=</p>
+<p>0,275
+0,28
+.=</p>
+<p>0,27
+0,27
+.=</p>
+<p>0,26
+.=</p>
+<p>0,25 0,265
+.=</p>
+<p>0,24
+.=</p>
+<p>0,26
+0,23
+.=</p>
+<p>0,22
+0,255
+.=</p>
+<p>0,21
+.=</p>
+<p>0,2 0,25
+.=</p>
+<p>0 0,1 0,2 0,3 0,4 0,5 0,6 0,1 0,12 0,14 0,16 0,18 0,2 0,22 0,24 0,26 0,28 0,3
+.=</p>
+<p>Kappa Kappa
+.=</p>
+<p>Figure: Kappa-Error diagrams for ASHT bagging (left) and bagging
+(right) on dataset RandomRBF with drift, plotting 90 pairs of
+classifiers.
+.=</p>
+<p>19 / 25
+.=</p>
+<p>Error
+.=</p>
+<p>Error.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>ADWIN Bagging
+.=</p>
+<p>ADWIN
+.=</p>
+<p>An adaptive sliding window whose size is recomputed online
+according to the rate of change observed.
+.=</p>
+<p>ADWIN has rigorous guarantees (theorems)
+On ratio of false positives and negatives
+On the relation of the size of the current window and
+change rates
+.=</p>
+<p>ADWIN Bagging
+When a change is detected, the worst classifier is removed and
+a new classifier is added.
+.=</p>
+<p>20 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Outline
+.=</p>
+<p>1 MOA: Massive Online Analysis
+.=</p>
+<p>2 Concept Drift Framework
+.=</p>
+<p>3 New Ensemble Methods
+.=</p>
+<p>4 Empirical evaluation
+.=</p>
+<p>21 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical evaluation
+.=</p>
+<p>Figure: Accuracy and size on dataset LED with three concept drifts.
+.=</p>
+<p>22 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical evaluation
+.=</p>
+<p>SEA
+W = 50
+.=</p>
+<p>Time Acc. Mem.
+NaiveBayes 5.32 83.87 0.00
+HT 6.96 84.89 0.34
+HT DDM 8.30 88.27 0.17
+HT EDDM 8.56 87.97 0.18
+HOT5 11.46 84.92 0.38
+HOT50 22.54 85.20 0.84
+AdaHOT5 11.46 84.94 0.38
+AdaHOT50 22.70 85.35 0.86
+Bag10 HT 31.06 85.45 3.38
+BagADWIN 10 HT 54.51 88.58 1.90
+Bag10 ASHT W+R 33.20 88.89 0.84
+Bag5 ASHT W+R 19.78 88.55 0.01
+OzaBoost 39.40 86.28 4.03
+OCBoost 59.12 87.21 2.41
+.=</p>
+<p>23 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Empirical evaluation
+.=</p>
+<p>SEA
+W = 50000
+.=</p>
+<p>Time Acc. Mem.
+NaiveBayes 5.52 83.87 0.00
+HT 7.20 84.87 0.33
+HT DDM 7.88 88.07 0.16
+HT EDDM 8.52 87.64 0.06
+HOT5 12.46 84.91 0.37
+HOT50 22.78 85.18 0.83
+AdaHOT5 12.48 84.94 0.38
+AdaHOT50 22.80 85.30 0.84
+Bag10 HT 30.88 85.34 3.36
+BagADWIN 10 HT 53.15 88.53 0.88
+Bag10 ASHT W+R 33.56 88.30 0.84
+Bag5 ASHT W+R 20.00 87.99 0.05
+OzaBoost 39.97 86.17 4.00
+OCBoost 60.33 86.97 2.44
+.=</p>
+<p>24 / 25.=</p>
+</div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Summary
+.=</p>
+<p>http://www.cs.waikato.ac.nz/∼abifet/MOA/
+.=</p>
+<p>Conclusions
+Extension of MOA to evolving data streams
+MOA is easy to use and extend
+New ensemble bagging methods:
+.=</p>
+<p>Adaptive-Size Hoeffding Tree bagging
+ADWIN bagging
+.=</p>
+<p>Future Work
+Extend MOA to more data mining and learning methods.
+.=</p>
+<p>25 / 25.=</p>
+</div>
+</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
