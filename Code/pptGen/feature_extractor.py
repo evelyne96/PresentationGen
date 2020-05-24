@@ -5,7 +5,12 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.data import find
 from bllipparser import RerankingParser
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics.pairwise import linear_kernel
+
+from numpy import array
+
+import pickle
 
 
 def tokenize(text):
@@ -34,6 +39,9 @@ class FeatureExtractor:
                                     analyzer='word')
 
         train_features = vectorizer.fit_transform(data)
+
+        pickle.dump(vectorizer, open('vectorizer.pkl', 'wb'))
+
         return train_features, vectorizer
 
     def secSentencePos(self, section: Section):
@@ -94,9 +102,10 @@ class FeatureExtractor:
     def secSimilarityWithTitle(self, section: Section, transformed_title: [float]):
         transformed_sent = self.vectorizer.transform(section.sec_sent_tokenized)
         # https://intellipaat.com/community/1103/python-tf-idf-cosine-to-find-document-similarity
-        cosine_sims = linear_kernel(transformed_title, transformed_sent).flatten()
+        # cosine_sims = linear_kernel(transformed_title, transformed_sent).flatten()
+        cosine_sims = linear_kernel(transformed_title, transformed_sent)
 
-        return cosine_sims.tolist()
+        return cosine_sims
 
     def similarityWithTitle(self, paper: TeiText):
         if paper.title != None:
@@ -105,8 +114,20 @@ class FeatureExtractor:
             transformed_title = self.vectorizer.transform(['the'])
         sims = []
         for s in paper.sections:
-            sims = sims + self.secSimilarityWithTitle(s, transformed_title)
+            if len(s.sec_sent_tokenized) > 0:
+                ss = self.secSimilarityWithTitle(s, transformed_title)
+                ss = ss.flatten().tolist()
+                sims = sims + ss
         return sims
+
+    def secSimilarityWithTile(self, s: Section, transformed_title):
+        sims = []
+        if len(s.sec_sent_tokenized) > 0:
+                ss = self.secSimilarityWithTitle(s, transformed_title)
+                ss = ss.flatten().tolist()
+                sims = sims + ss
+        return sims
+
 
     # TODO: do I need to check with every section's title or only the section in which the sentence is
     def similarityWithSecTitle(self, paper: TeiText):
@@ -116,15 +137,42 @@ class FeatureExtractor:
                 transformed_title = self.vectorizer.transform([s.secTitle])
             else:
                 transformed_title = self.vectorizer.transform(['the'])
-            
-            sims = sims + self.secSimilarityWithTitle(s, transformed_title)
+            if len(s.sec_sent_tokenized) > 0:
+                ss = self.secSimilarityWithTitle(s, transformed_title)
+                ss = ss.flatten().tolist()
+                sims = sims + ss
 
         return sims
+    
+    def secSimilarityWithSecTitles(self, s: Section):
+        sims = []
+
+        if s.secTitle != None:
+            transformed_title = self.vectorizer.transform([s.secTitle])
+        else:
+            transformed_title = self.vectorizer.transform(['the'])
+        if len(s.sec_sent_tokenized) > 0:
+            ss = self.secSimilarityWithTitle(s, transformed_title)
+            ss = ss.flatten().tolist()
+            sims = sims + ss
+        
+        return sims
+
 
     def wordOverlapWithTitles(self, paper: TeiText):
         w_overlap = []
         for s in paper.sections:
             for stemmed_sent in s.sec_sent_stem_tokenized:
+                nr = 0
+                for w in stemmed_sent:
+                    if w in paper.titles:
+                        nr += 1
+                w_overlap.append(nr)
+        return w_overlap
+    
+    def sectionWordOverlapWithTitles(self, s: Section, paper: TeiText):
+        w_overlap = []
+        for stemmed_sent in s.sec_sent_stem_tokenized:
                 nr = 0
                 for w in stemmed_sent:
                     if w in paper.titles:
@@ -141,7 +189,11 @@ class FeatureExtractor:
 
         for s in paper.sections:
             for sent in s.sec_sent_tokenized:
-                parsed_sent = self.parser.parse(sent).get_parser_best().ptb_parse
+                # print(sent)
+                best_parser = self.parser.parse(sent).get_parser_best()
+                if sent == None or best_parser == None: 
+                    break
+                parsed_sent = best_parser.ptb_parse
                 labels = [t.label for t in parsed_sent.all_subtrees() if not t.is_preterminal()]
 
                 nrNoun = 0
@@ -157,18 +209,173 @@ class FeatureExtractor:
                 
         return (nounPhrases, verbPhrases, nrSubtrees)
 
+    def parseSectionTreeFeatures(self, s: Section):
+        nounPhrases = []
+        verbPhrases = []
+        nrSubtrees = []
+
+        for sent in s.sec_sent_tokenized:
+                best_parser = self.parser.parse(sent).get_parser_best()
+                if sent == None or best_parser == None: 
+                    break
+                parsed_sent = best_parser.ptb_parse
+                labels = [t.label for t in parsed_sent.all_subtrees() if not t.is_preterminal()]
+
+                nrNoun = 0
+                nrVerb = 0
+                for l in labels:
+                    if (l == 'NP' or l == 'NNP'):
+                        nrNoun += 1
+                    elif (l == 'VP'):
+                        nrVerb += 1
+                nounPhrases.append(nrNoun)
+                verbPhrases.append(nrVerb)
+                nrSubtrees.append(len(labels))
+
+        return (nounPhrases, verbPhrases, nrSubtrees)
+ 
+        
+
+    def extractPaperFeatures(self, paper: TeiText):
+        f1, f2, f3 ,f4, f5 ,f6, f7, f8, f9, f10 = [], [], [], [], [], [], [], [], [], []
+
+        if paper.title != None:
+            transformed_title = self.vectorizer.transform([paper.title])
+        else:
+            transformed_title = self.vectorizer.transform(['the'])
+
+        for s in paper.sections:
+            f1 = f1 + self.secSentencePos(s)
+            f2 = f2 + self.secStopWorPercentange(s)
+            f3 = f3 + self.secNonStorWordNumber(s)
+            f4 = f4 + self.secWordNumber(s)
+            f5 = f5 + self.secSimilarityWithTile(s, transformed_title)
+            f6 = f6 + self.secSimilarityWithSecTitles(s)
+            (np, vp, st) = self.parseSectionTreeFeatures(s)
+            f7 = f7 + np
+            f8 = f8 + vp
+            f9 = f9 + st
+            f10 = f10 + self.sectionWordOverlapWithTitles(s, paper)
+
+        scaler = MinMaxScaler()
+
+        f1 = array(f1)
+        f2 = array(f2)
+
+        f_scale = array(f3).reshape(-1, 1)
+        scaler.fit(f_scale)
+        f3 = scaler.transform(f_scale).reshape(len(f3),)
+        
+        f_scale = array(f4).reshape(-1, 1)
+        scaler.fit(f_scale)
+        f4 = scaler.transform(f_scale).reshape(len(f4),)
+
+        f5 = array(f5)
+
+        f_scale = array(f6).reshape(-1, 1)
+        scaler.fit(f_scale)
+        f6 = scaler.transform(f_scale).reshape(len(f6),)
+
+        f_scale = array(f7).reshape(-1, 1)
+        scaler.fit(f_scale)
+        f7 = scaler.transform(f_scale).reshape(len(f7),)
+
+        f_scale = array(f8).reshape(-1, 1)
+        scaler.fit(f_scale)
+        f8 = scaler.transform(f_scale).reshape(len(f8),)
+
+        f_scale = array(f9).reshape(-1, 1)
+        scaler.fit(f_scale)
+        f9 = scaler.transform(f_scale).reshape(len(f9),)
+
+        f_scale = array(f10).reshape(-1, 1)
+        scaler.fit(f_scale)
+        f10 = scaler.transform(f_scale).reshape(len(f10),)
+
+        features = [list(a) for a in zip(f1, f2, f3, f4, f5, f6, f7, f8, f9, f10)]
+
+        print(features)
+
+        return features
+
+        
+
+    def extractPFeatures(self, paper: TeiText):
+        feature1 = self.sentencePos(paper)
+
+        feature2 = self.stopWorPercentange(paper)
+
+        feature3 = self.nonStopWordNumber(paper)
+        #length
+        feature4 = self.wordNumber(paper)
+
+
+        feature5 = self.similarityWithTitle(paper)
+        
+        feature6 = self.similarityWithSecTitle(paper)
+
+
+        feature7, feature8, feature9 = self.parseTreeFeatures(paper)
+    
+        feature10 = self.wordOverlapWithTitles (paper)   
+        
+        # features = []
+        # print(len(feature1))
+        # print(len(feature2))
+        # print(len(feature3))
+        # print(len(feature4))
+        # print(len(feature5))
+        # print(len(feature6))
+        # print(len(feature7))
+        # print(len(feature8))
+        # print(len(feature9))
+        # print(len(feature10))
+        features = [list(a) for a in zip(feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8, feature9, feature10)]
+        # print(features)
+        scaler = MinMaxScaler()
+        scaler.fit(features)
+        features = scaler.transform(features)
+
+        return features
 
     def extractFeatures(self):
-        feature1 = self.sentencePos(self.papers[0])
-        feature2 = self.stopWorPercentange(self.papers[0])
-        feature3 = self.nonStopWordNumber(self.papers[0])
-        #length
-        feature4 = self.wordNumber(self.papers[0])
-        feature5 = self.similarityWithTitle(self.papers[0])
-        feature6 = self.similarityWithSecTitle(self.papers[0])
-        feature7, feature8, feature9 = self.parseTreeFeatures(self.papers[0])
-        feature10 = self.wordOverlapWithTitles (self.papers[0])   
+        paperFeatures = []
+        for paper in self.papers:
+            if len(paper.sections) > 0:
+                print(paper.id)
+                features = self.extractPaperFeatures(paper)
+                paperFeatures.append(features)   
+        
+        return paperFeatures
 
-        features = [list(a) for a in zip(feature1, feature2, feature3, feature4, feature5, feature6, feature7, feature8, feature9, feature10)]
-        print(features)
-        return features
+    
+    def secSimilarityWithPres(self, section: Section, transformed_pres: [float]):
+        transformed_sent = self.vectorizer.transform(section.sec_sent_tokenized)
+        # https://intellipaat.com/community/1103/python-tf-idf-cosine-to-find-document-similarity
+        # cosine_sims = linear_kernel(transformed_title, transformed_sent).flatten()
+        cosine_sims = linear_kernel(transformed_sent, transformed_pres)
+
+        return cosine_sims
+
+    def extractImportanceFeature(self, paper, presentation):
+        imp = []
+        featurepap = self.sentencePos(paper)
+        featurepres = self.sentencePos(presentation)
+
+        transformed_pres_sec = [self.vectorizer.transform(sec.sec_sent_tokenized) for sec in presentation.sections if len(sec.sec_sent_tokenized) > 0]
+        for paperSec in paper.sections:
+            if len(paperSec.sec_sent_tokenized) > 0:
+                sims = []
+                for transformed_sec in transformed_pres_sec:
+                    sims = self.secSimilarityWithPres(paperSec, transformed_sec)
+
+                l = [max(z) for z in sims]
+                imp = imp + l
+            
+        return imp
+
+    def getImportanceMetrics(self):
+        return [self.extractImportanceFeature(self.papers[i], self.presentations[i])  for i in range(0, len(self.papers))]
+
+    def getSentenceLengths(self):
+        return [self.wordNumber(self.papers[i]) for i in range(0, len(self.papers))] 
