@@ -13,11 +13,20 @@ frame_end = r"\end{frame}" + "\n"
 def gen_titleElem(p: TeiText):
     return r"\title{"+p.title+"}" + "\n"
 
+def gen_pres_titleElem(title: str):
+    return r"\title{"+title+"}" + "\n"
+
 def gen_authorElem(p: TeiText):
     return r"\author{"+p.author+"}" + "\n"
 
+def gen_pres_authorElem(author: str):
+    return r"\author{"+author+"}" + "\n"
+
 def gen_institute(p: TeiText):
     return "\institute{ShareLaTeX}" + "\n"
+
+def gen_pres_institute(institute: str):
+    return r"\institute{"+institute+"}" + "\n"
 
 def gen_frame(title, elements):
     frame_title = r"\frametitle{"+title+"}"
@@ -36,16 +45,51 @@ def gen_beamertex(p: TeiText):
 
     return beamer
 
-def write_beamer_to_file(p: TeiText, beamer: str):
-    f= open(bemaer_path + p.id + ".tex","w+")
+def gen_pres_frame(title, content):
+    frame_title = r"\frametitle{"+title+"}"
+    frame = frame_start + frame_title 
+    for (firstP, secondP) in content:
+        if firstP == None:
+            for e in secondP:
+                frame = frame + " \n " + r"\begin{itemize} " + "\n"
+                frame = frame + r"\item " + e +"\n"
+                frame = frame + r"\end{itemize}" + "\n" 
+        else:
+            frame = frame + " \n " + r"\begin{itemize} " + "\n"
+            frame = frame + r"\item " + firstP +"\n"
+            for e in secondP:
+                frame = frame + " \n " + r"\begin{itemize} " + "\n"
+                frame = frame + r"\item " + e +"\n"
+                frame = frame + r"\end{itemize}" + "\n" 
+            frame = frame + r"\end{itemize}" + "\n" 
+    frame = frame + frame_end
+
+    return frame
+
+
+def gen_pres_beamertex(title: str, author: str, institute: str, frames):
+    beamer = beamer_start + gen_pres_titleElem(title) + gen_pres_authorElem(author) + gen_pres_institute(institute) + doc_start
+    for (title, content) in frames:
+        beamer = beamer + gen_pres_frame(title, content)
+    beamer = beamer + doc_end
+
+    return beamer
+
+def write_beamer_to_file(fileName: str, beamer: str):
+    f= open(bemaer_path + fileName + ".tex","w+")
     f.write(beamer)
     f.close()
 
 
-p = readPData('0000-0000-0000_0_paper.tei.xml')
-beamer = gen_beamertex(p)
-write_beamer_to_file(p, beamer)
+# p = readPData('0000-0000-0000_0_paper.tei.xml')
+# beamer = gen_beamertex(p)
+# write_beamer_to_file(p.id, beamer)
 
+beamer = gen_pres_beamertex("Machine Learning", "Will Black", "Institute of Science", 
+[ ("First Frame",  [("title",["ONE", "TWO", "THREe"]), (None, ["First", "Second"])])
+])
+
+write_beamer_to_file("test", beamer)
 
 
 

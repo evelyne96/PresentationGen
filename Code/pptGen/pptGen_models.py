@@ -8,12 +8,16 @@ import re, os, time, string
 
 
 import nltk
-nltk.download('stopwords')
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import SnowballStemmer
 
-datasetPath = '../../dataset3/1_paperXMLs/'
+# datasetPath = '../../dataset3/1_paperXMLs/'
+# presDatasetPath = '../../dataset3/presXMLs/'
+
+datasetPath = '../../dataset3/all_paperXMLs/'
+presDatasetPath = '../../dataset3/all_presXMLs/'
+
 stemmer = SnowballStemmer("english")
 
 stop_words = set(stopwords.words('english')) 
@@ -90,10 +94,11 @@ class TeiText:
         nr = 0
         i = 0 
         sentences = []
-        for s in self.sections:
+        for k in range(len(self.sections)):
+            s = self.sections[k]
             nrOfSent = len(s.sec_sent_tokenized)
             while (i < len(indices) and indices[i] - nr < nrOfSent):
-                sentences.append(s.sec_sent_tokenized[indices[i]-nr])
+                sentences.append((k,s.sec_sent_tokenized[indices[i]-nr]))
                 i = i + 1
             
             nr = nr + nrOfSent
@@ -119,11 +124,32 @@ class GrobidXMLParser:
         return title
 
     def getAuthor(self, root):
-        pers = root.find(self.createId('teiHeader')).find(self.createId('fileDesc')).find(self.createId('sourceDesc')).find(self.createId('biblStruct')).find(self.createId('analytic')).find(self.createId('author')).find(self.createId('persName'))
-        forename = pers.find(self.createId('forename')).text
-        surname = pers.find(self.createId('surname')).text
+        auth = root.find(self.createId('teiHeader')).find(self.createId('fileDesc')).find(self.createId('sourceDesc')).find(self.createId('biblStruct')).find(self.createId('analytic')).find(self.createId('author'))
+
+        if auth != None:
+            pers = auth.find(self.createId('persName'))
+            forename = pers.find(self.createId('forename')).text
+            surname = pers.find(self.createId('surname')).text
+        else:
+            forename = "Unknown"
+            surname = "Unknown"
 
         return forename + " " + surname
+
+    def all_texts(self, root):
+        text = ""
+        if root.text is not None:
+            text += root.text
+        for child in root:
+            if 'ref' in child.tag:
+                if 'type' in child.attrib and child.attrib['type'] != "bibr":
+                    text += ("ref_"+ child.attrib['type'] + " " + child.text)
+            elif child.text is not None:
+                text += child.text
+            elif child.tail is not None:
+                text += child.tail
+        
+        return text
 
     def getSections(self, root):
         body = root.find(self.createId('text')).find(self.createId('body'))
@@ -134,8 +160,13 @@ class GrobidXMLParser:
                 sectionTitle = sec.find(self.createId('head'))
                 if sectionTitle != None:
                     sectionTitle = sectionTitle.text.lower()
-                
-                paragraphs = [p.text.lower() for p in sec.findall(self.createId('p'))]
+
+                paragraphs = []
+                for p in sec.findall(self.createId('p')):
+                    paragraphs.append(self.all_texts(p))
+                    
+                # print(paragraphs, len(paragraphs))
+                # print(references, len(references))
                 
                 sectionList.append(Section(sectionTitle, paragraphs))
 
@@ -175,16 +206,19 @@ def readData():
 
     return (papers, persentations)
 
-def readPData(paper_name):
-    xmlHelper = GrobidXMLParser()
-    fullPath = datasetPath + paper_name
+def readPData(paper_name, isPaper = True):
+    if isPaper:
+        dPath = datasetPath
+    else:
+        dPath = presDatasetPath
+
+    fullPath = dPath + paper_name
     paper = None
 
     if os.path.isfile(fullPath):
-        # print('FILE')
+        xmlHelper = GrobidXMLParser()
         tree = ET.parse(fullPath)
         root = tree.getroot()
-        # print(fullPath)
         title = xmlHelper.getTitle(root)
         sections = xmlHelper.getSections(root)
         author = xmlHelper.getAuthor(root)
@@ -193,7 +227,6 @@ def readPData(paper_name):
 
     return paper
 
-
 def readData2():
     xmlHelper = GrobidXMLParser()
     papers = []
@@ -201,14 +234,17 @@ def readData2():
     lastPaper = None
     lastPres = None
 
-    papers_path = '../../dataset3/1_paperXMLs/'
-    pres_path = '../../dataset3/presXMLs/'
+    papers_path = datasetPath
+    pres_path = presDatasetPath
 
     for x in os.listdir(papers_path):
         paper_fullPath = papers_path + x
         pres_fullPath = pres_path + x.split('paper')[0]+'pres.xml'
+
+        # print(paper_fullPath)
         
         if os.path.isfile(paper_fullPath) and os.path.isfile(pres_fullPath):
+            print(paper_fullPath)
             tree = ET.parse(paper_fullPath)
             root = tree.getroot()
 
@@ -219,7 +255,7 @@ def readData2():
             if len(sections) > 0:
                 lastPaper = TeiText(x, title, sections, author)
 
-            # print(pres_fullPath)
+            print(pres_fullPath)
             tree = ET.parse(pres_fullPath)
             root = tree.getroot()
 
@@ -238,3 +274,8 @@ def readData2():
                 lastPres = None
 
     return (papers, persentations)
+
+
+
+
+    

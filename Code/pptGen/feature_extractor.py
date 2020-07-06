@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import linear_kernel
 
 from numpy import array
 
-import pickle
+import pickle, re
 
 
 def tokenize(text):
@@ -36,11 +36,11 @@ class FeatureExtractor:
         data = [p.text for p in papers] + [p.text for p in presentations]
         vectorizer = TfidfVectorizer(norm='l2',min_df=0, use_idf=True, smooth_idf=True,
                                     sublinear_tf=True, stop_words=stop_words, tokenizer=tokenize,
-                                    analyzer='word')
+                                    analyzer='word', lowercase=True)
 
         train_features = vectorizer.fit_transform(data)
 
-        pickle.dump(vectorizer, open('vectorizer.pkl', 'wb'))
+        pickle.dump(vectorizer, open('./pickles/vectorizer.pkl', 'wb'))
 
         return train_features, vectorizer
 
@@ -97,6 +97,10 @@ class FeatureExtractor:
             wordNr = wordNr + self.secWordNumber(s)
             
         return wordNr
+
+    def secRefNumber(self, section: Section):
+        pattern = 'ref_'
+        return [ (len(re.findall(pattern, s)) + 1) for (index, s) in enumerate(section.sec_sent_tokenized)]
 
     # https://towardsdatascience.com/overview-of-text-similarity-metrics-3397c4601f50
     def secSimilarityWithTitle(self, section: Section, transformed_title: [float]):
@@ -237,7 +241,7 @@ class FeatureExtractor:
         
 
     def extractPaperFeatures(self, paper: TeiText):
-        f1, f2, f3 ,f4, f5 ,f6, f7, f8, f9, f10 = [], [], [], [], [], [], [], [], [], []
+        f1, f2, f3 ,f4, f5 ,f6, f7, f8, f9, f10, f11 = [], [], [], [], [], [], [], [], [], [], []
 
         if paper.title != None:
             transformed_title = self.vectorizer.transform([paper.title])
@@ -256,6 +260,7 @@ class FeatureExtractor:
             f8 = f8 + vp
             f9 = f9 + st
             f10 = f10 + self.sectionWordOverlapWithTitles(s, paper)
+            f11 = f11 + self.secRefNumber(s)
 
         scaler = MinMaxScaler()
 
@@ -292,7 +297,11 @@ class FeatureExtractor:
         scaler.fit(f_scale)
         f10 = scaler.transform(f_scale).reshape(len(f10),)
 
-        features = [list(a) for a in zip(f1, f2, f3, f4, f5, f6, f7, f8, f9, f10)]
+        f_scale = array(f11).reshape(-1, 1)
+        scaler.fit(f_scale)
+        f11 = scaler.transform(f_scale).reshape(len(f11),)
+
+        features = [list(a) for a in zip(f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11)]
 
         print(features)
 
